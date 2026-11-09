@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Claude local configuration
+.claude/
+
+# IDE configuration
+.vscode/
+.idea/
+
+docs/
+# Local AI instructions and plans
+CLAUDE.md
+WORKPLAN.md
