@@ -15,3 +15,10 @@ Question: `.gitignore` excludes `WORKPLAN.md`, `CLAUDE.md` and `docs/`, and the 
 Options: (a) Keep them local. The agent commits only code, and the Owner shares the logs separately for review. (b) Make the repository private, then remove those ignore lines so everything is pushed. (c) Keep the repository public and track only progress files, moving them out of `docs/`.
 Agent's recommendation: (b), if the contract and plan documents are not meant to be public. The agent has made no change and will not publish these documents without a decision.
 Owner decision: ______
+
+## D-3 (2026-11-09) — Planned dataset download is larger than the approval text says        status: OPEN
+Task: T-07 finding, for T-17   Blocking: nothing now; needed before the WORKPLAN section 0 download approval
+Question: Section 0 describes the download as about 1.5 GB. SDG-Warehouse publishes only tar shards of about 5 GB each, so the smallest whole-shard sample with annotations is about 4.6 GiB. The SmartSpaces 2026 edition is about 50 GB without depth maps. What download limit does the Owner approve?
+Options: (a) One SDG near-miss artifacts shard, plus selected SmartSpaces synthetic scenes, with a total cap set by the Owner. (b) Keep about 1.5 GB, which would require reading individual files from inside remote shards; this route is untested.
+Agent's recommendation: (a), with a 20 GB cap. Real-world scenes `Warehouse_026` and `Warehouse_027` would be excluded in either case.
+Owner decision: ______
