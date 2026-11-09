@@ -26,3 +26,14 @@ docs/
 # Local AI instructions and plans
 CLAUDE.md
 WORKPLAN.md
+
+# Generated outputs and data (never committed; CLAUDE.md)
+out/
+data/
+datasets/
+.hypothesis/
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.parquet
