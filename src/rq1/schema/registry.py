@@ -1,19 +1,23 @@
 """Registry and generators: Arrow schemas, JSON Schemas and row scaffolds from tables.py."""
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from typing import Any
 
 import pyarrow as pa
 
+from .canonical import canonical_json
 from .tables import DEFINITIONS, ENUMS
 from .types import Field, KeyPart, Table, Type, parse_type, with_reasons
 
 REASON = Type("enum", values=ENUMS["null_reason"])
 ID = Type("id")
-# Section 5.7: forbidden quantities (VR-E-041), as normalized column-name fragments.
+# Section 5.7 and Appendix T VR-E-041, as normalized column-name fragments.
 FORBIDDEN_FRAGMENTS = ("potential_energy", "fall_probability", "impact_energy", "falling_object_trajectory",
-                       "trajectory", "severity", "risk_score")
+                       "severity", "risk_score", "safety_score", "indicator_weight", "rate_per_establishment",
+                       "establishment", "osha", "naics")
+FORBIDDEN_EXEMPT = {("stage_error", "severity")}  # section 5.10 error severity, not a harm quantity (AR-11)
 
 
 def _parse_field(line: str) -> Field:
@@ -51,8 +55,6 @@ def _build(definition: tuple) -> Table:
     expanded: list[Field] = []
     if prefix:
         expanded.append(Field(f"{prefix}_id", ID, derived=True))
-    elif cls in ("human", "configuration") and not any(f.name.endswith("status_id") for f in parsed):
-        expanded.append(Field(f"{name}_id", ID, derived=True, provisional=True))
     for field in parsed:
         expanded.append(field)
         derived = _derived_for(field)
@@ -98,7 +100,9 @@ def arrow_schema(table: str) -> pa.Schema:
 def _json_type(t: Type) -> dict[str, Any]:
     if t.kind == "id":
         return {"type": "string", "pattern": r"^[a-z0-9]{2,4}_([a-z0-9]{26}|[0-9a-f-]{36})$"}
-    if t.kind in ("str", "nk"):
+    if t.kind == "nk":
+        return {"type": "array"}
+    if t.kind == "str":
         return {"type": "string"}
     if t.kind in ("i32", "i64"):
         return {"type": "integer"}
@@ -154,7 +158,11 @@ def json_schema(table: str) -> dict[str, Any]:
 
 
 def forbidden_field_names(table: str) -> list[str]:
-    return [f.name for f in TABLES[table].fields if any(x in f.name.lower() for x in FORBIDDEN_FRAGMENTS)]
+    return [f.name for f in TABLES[table].fields if is_forbidden(table, f.name)]
+
+
+def is_forbidden(table: str, column: str) -> bool:
+    return (table, column) not in FORBIDDEN_EXEMPT and any(x in column.lower() for x in FORBIDDEN_FRAGMENTS)
 
 
 def _minimal(f: Field) -> Any:
@@ -166,7 +174,9 @@ def _minimal(f: Field) -> Any:
 def _minimal_type(t: Type, constraints: frozenset[str] = frozenset()) -> Any:
     if t.kind == "id":
         return "abc_" + "a" * 26
-    if t.kind in ("str", "nk"):
+    if t.kind == "nk":
+        return ["x"]
+    if t.kind == "str":
         return "x"
     if t.kind in ("i32", "i64", "tri"):
         return 0
@@ -205,10 +215,46 @@ def minimal_row(table: str) -> dict[str, Any]:
 
 
 def to_arrow(table: str, rows: list[dict[str, Any]]) -> pa.Table:
-    """Load rows, encoding enums as dictionary columns (section 1.1)."""
+    """Load rows, encoding enums as dictionary columns (section 1.1) and `nk` values as JCS text (AR-4)."""
     schema = arrow_schema(table)
     plain = pa.schema([pa.field(f.name, _undictionary(f.type), f.nullable) for f in schema])
-    return pa.Table.from_pylist(rows, schema=plain).cast(schema)
+    fields = TABLES[table].fields
+    encoded = [{f.name: _encode(f.type, row.get(f.name)) for f in fields} for row in rows]
+    return pa.Table.from_pylist(encoded, schema=plain).cast(schema)
+
+
+def _encode(t: Type, value: Any) -> Any:
+    if value is None:
+        return None
+    if t.kind == "nk":
+        return canonical_json(value).decode("utf-8")
+    if t.kind == "list":
+        return [_encode(t.item, v) for v in value]
+    if t.kind == "map":
+        return [(k, _encode(t.item, v)) for k, v in value.items()]
+    if t.kind == "struct":
+        return {f.name: _encode(f.type, value.get(f.name)) for f in t.fields}
+    return value
+
+
+def decode_rows(table: str, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Inverse of the encoding in to_arrow, applied to Arrow `to_pylist` output."""
+    fields = TABLES[table].fields
+    return [{f.name: _decode(f.type, row[f.name]) for f in fields if f.name in row} for row in rows]
+
+
+def _decode(t: Type, value: Any) -> Any:
+    if value is None:
+        return None
+    if t.kind == "nk":
+        return json.loads(value)
+    if t.kind == "list":
+        return [_decode(t.item, v) for v in value]
+    if t.kind == "map":
+        return {k: _decode(t.item, v) for k, v in value}
+    if t.kind == "struct":
+        return {f.name: _decode(f.type, value.get(f.name)) for f in t.fields}
+    return value
 
 
 def _undictionary(t: pa.DataType) -> pa.DataType:

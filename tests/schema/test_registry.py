@@ -28,6 +28,7 @@ EXPECTED_TABLES = {
     "split_manifest", "leakage_audit", "match_record", "error_attribution",
     "completeness_record", "metric_result", "acceptance_criterion", "measurement_fitness",
     "track_identity_assoc", "track_identity_summary",
+    "decode_config", "geometry_config", "sampling_plan_config",  # F.1 A1.2, fields per AR-5
     "execution", "evidence_clip", "retention_policy", "access_log", "stage_error",
 }
 
@@ -139,9 +140,42 @@ def test_contact_state_has_no_observed_contact_value():
     assert values == ("none_observed", "undetermined", "suspected", "not_assessable")
 
 
-def test_no_forbidden_field_in_e2_tables():
-    for table in ["load_state", "e2_occupancy_series", "e2_occupancy_profile"]:
-        assert registry.forbidden_field_names(table) == []
+def test_no_forbidden_field_in_any_table():
+    # Appendix T VR-E-041. stage_error.severity is the section 5.10 error severity (AR-11).
+    for table in registry.TABLES:
+        assert registry.forbidden_field_names(table) == [], table
+
+
+def test_nk_is_json_array_in_json_schema_and_text_in_arrow():
+    # AR-4: Appendix T T5 gives ["rec_a",1] in the payload; Parquet stores its JCS text.
+    assert registry.json_schema("track_point")["properties"]["track_nk"] == {"type": "array"}
+    assert registry.arrow_schema("track_point").field("track_nk").type == pa.utf8()
+
+
+# AR-3: prefixes assigned where the contract gives none.
+AR3_PREFIX = {
+    "footprint_prior": "fpp", "substrate_config": "sbc", "clearance_band_scheme": "bsc", "rule_configuration": "rcf",
+    "decode_config": "dcf", "geometry_config": "gcf", "sampling_plan_config": "spc",
+    "ref_object_presence": "rop", "ref_interaction": "rin", "ref_geometry": "rgm", "ref_coverage_label": "rcl",
+    "track_identity_assoc": "tia", "track_identity_summary": "tis",
+    "annotator": "anr", "annotation_record": "anc", "reviewer_assessment": "rva", "adjudication": "adj",
+    "retention_policy": "rtp", "access_log": "alg", "evidence_clip": "ecl", "stage_error": "ser",
+}
+
+
+@pytest.mark.parametrize("table,prefix", sorted(AR3_PREFIX.items()))
+def test_ar3_prefixes(table, prefix):
+    assert registry.TABLES[table].prefix == prefix
+    assert registry.TABLES[table].fields[0].name == f"{prefix}_id"
+
+
+def test_ar1_version_columns_are_strings():
+    for table in ("clock_alignment", "calibration"):
+        assert {f.name: f.type.kind for f in registry.TABLES[table].fields}["version"] == "str"
+
+
+def test_ar9_ref_geometry_has_label_source():
+    assert "label_source" in {f.name for f in registry.TABLES["ref_geometry"].fields}
 
 
 def test_site_has_no_establishment_identifier():

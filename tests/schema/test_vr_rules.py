@@ -24,19 +24,42 @@ def test_failing_fixture_is_rejected_by_the_cited_rule(case):
 
 
 def test_coverage_lists_every_active_rule_exactly_once():
+    # Appendix T T1. VR-E-019 is a numbering gap (AR-10); 033 and 063 are superseded.
     report = coverage.vr_status()
-    expected = {f"VR-E-{n:03d}" for n in [*range(1, 6), *range(10, 22), 30, 31, 32, 34, 40, 41,
+    expected = {f"VR-E-{n:03d}" for n in [*range(1, 6), *range(10, 19), 20, 21, 30, 31, 32, 34, 40, 41,
                                          *range(50, 56), *range(60, 63), 70, 71]}
     assert set(report) == expected
-    assert "VR-E-033" not in report and "VR-E-063" not in report  # superseded, section 12.1
+    assert len(report) == 33
 
 
-def test_each_implemented_rule_has_a_failing_fixture_and_others_are_marked():
+def test_every_active_rule_has_a_failing_fixture():
     report = coverage.vr_status()
-    with_cases = {c.rule for c in CASES}
-    assert {r for r, s in report.items() if s.status == "implemented"} == with_cases
-    assert {r for r, s in report.items() if s.status == "blocked_no_text"} == {
-        f"VR-E-{n:03d}" for n in [1, 4, 5, *range(11, 22), 30, 31, 32, 34, 50, 51, 53, 54, 60, 61, 62, 71]}
+    assert {r for r, s in report.items() if s.status == "implemented"} == {c.rule for c in CASES}
+    assert {s.status for s in report.values()} == {"implemented"}
+
+
+def test_site_approvals_still_required_for_real_origins():
+    # Section 5.1 keeps this requirement; Appendix T moved the VR-E-070 ID to source_file and clips.
+    row = registry.minimal_row("site")
+    row.update(data_origin="real_staged", approvals_ref=None, approvals_ref_null_reason="not_supplied")
+    assert "SITE-APPROVALS" in {i.rule for i in validate.validate_row("site", row)}
+
+
+@pytest.mark.parametrize("column,value,bad", [
+    ("frame_index", -1, True), ("n_gaps", -1, True), ("span_s", -1.0, True), ("speed_mps", -1.0, True),
+    ("x_m", -1.0, False), ("offset_s", -1.0, False), ("image_gap_px", -1.0, False),
+])
+def test_ar8_sentinel_applies_only_to_non_negative_columns(column, value, bad):
+    assert validate.is_sentinel(column, value) is bad
+
+
+def test_ar15_time_keys_use_exact_half_even_microseconds():
+    from rq1.ids.core import to_us
+    assert to_us(0.1) == 100000
+    # Hand calculation from Decimal(x) * 10**6:
+    assert to_us(1.5e-6) == 2  # 1.500000000000000038... rounds up
+    assert to_us(2.5e-6) == 3  # 2.500000000000000204... rounds up
+    assert to_us(5e-7) == 0  # 0.499999999999999977... rounds down
 
 
 def test_unknown_enum_is_fatal_err_unknown_enum():

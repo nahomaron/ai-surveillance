@@ -173,7 +173,7 @@ prov_class prov_class
 """)
 
 # Section 5.2 configuration records (configuration class, F.1 A1.2).
-_t("footprint_prior", None, "Config", "-", "configuration", "", """
+_t("footprint_prior", "fpp", "Config", "-", "configuration", "", """
 class object_class
 label str
 shape enum{disc,oriented_rect}
@@ -186,7 +186,7 @@ sigma_length_m f64
 sigma_width_m f64
 version_label? str ~
 """)
-_t("substrate_config", None, "Config", "-", "configuration", "", """
+_t("substrate_config", "sbc", "Config", "-", "configuration", "", """
 g_max i32 ~
 pair_classes list<enum{forklift,pallet_truck}> ~
 v_min f64 ~
@@ -194,12 +194,12 @@ k_sup f64 ~
 motion_models list<str> ~
 version_label? str ~
 """)
-_t("clearance_band_scheme", None, "Config", "-", "configuration", "", """
+_t("clearance_band_scheme", "bsc", "Config", "-", "configuration", "", """
 edges_m list<f64>
 bands list<struct{lower_m?:f64,upper_m?:f64}>
 version_label? str ~
 """)
-_t("rule_configuration", None, "Config", "-", "configuration", "", """
+_t("rule_configuration", "rcf", "Config", "-", "configuration", "", """
 experiment enum{E1}
 providers list<struct{provider_id:enum{R1,R2,R3,R4,R5,R6},enabled:bool,params:map<str,f64>}>
 lifecycle struct{m_gap_frames:i32,t_min_s:f64,w_post_s:f64}
@@ -208,6 +208,29 @@ motion_models list<str> ~
 substrate_config_id id
 band_scheme_id id
 preregistration_ref? str
+version_label? str ~
+""")
+
+_t("decode_config", "dcf", "Config", "-", "configuration", "", """
+k_sup f64 ~
+f_untimed f64 ~
+f_sub f64 ~
+rules_version str ~
+version_label? str ~
+""")
+_t("geometry_config", "gcf", "Config", "-", "configuration", "", """
+w_v_s f64 ~
+motion_models list<str> ~
+footprint_prior_ids list<id> ~
+version_label? str ~
+""")
+_t("sampling_plan_config", "spc", "Config", "-", "configuration", "", """
+sample_type sample_type ~
+w_ref_s f64 ~
+w_guard_s f64 ~
+tiling_origin_tl_s f64 ~
+strata list<struct{stratum_id:str,definition:str,n_h:i64}> ~
+seed i64 ~
 version_label? str ~
 """)
 
@@ -592,13 +615,13 @@ split_version_id id
 partition_at_sampling str
 leakage_group_id str
 """, True)
-_t("annotator", None, "Val", "V1", "human", "", """
+_t("annotator", "anr", "Val", "V1", "human", "", """
 role enum{a_layer,b_layer,c_layer_reviewer,adjudicator,study_participant}
 qualification_ref str
 independence_attestation bool
 pseudonym str
 """, True)
-_t("annotation_record", None, "Val", "V1", "human", "", """
+_t("annotation_record", "anc", "Val", "V1", "human", "", """
 annotator_id id
 window_id id
 layer enum{A,B}
@@ -614,7 +637,7 @@ tool str
 submitted_utc ts
 blind_to_system bool
 """, True)
-_t("ref_object_presence", None, "Val", "CV-SIM", "observation", "window_id camera_id physical_identity_id", """
+_t("ref_object_presence", "rop", "Val", "CV-SIM", "observation", "window_id camera_id physical_identity_id", """
 window_id id
 camera_id id
 class object_class
@@ -628,7 +651,7 @@ prov_class enum{human_observed,simulator_truth}
 label_source label_source
 reference_class reference_class
 """, True)
-_t("ref_interaction", None, "Val", "CV-SIM", "observation", "window_id person_identity_id forklift_identity_id t_onset_us=t_onset_tl_s", """
+_t("ref_interaction", "rin", "Val", "CV-SIM", "observation", "window_id person_identity_id forklift_identity_id t_onset_us=t_onset_tl_s", """
 window_id id
 person_identity_id str
 forklift_identity_id str
@@ -646,7 +669,7 @@ prov_class prov_class
 label_source label_source
 reference_class reference_class
 """, True)
-_t("ref_geometry", None, "Val", "CV-SIM", "observation", "window_id physical_identity_id camera_id frame_index", """
+_t("ref_geometry", "rgm", "Val", "CV-SIM", "observation", "window_id physical_identity_id camera_id frame_index", """
 window_id id
 physical_identity_id str
 camera_id id
@@ -662,7 +685,7 @@ interp_method str
 label_source label_source ~
 reference_class reference_class
 """, True)
-_t("ref_coverage_label", None, "Val", "CV-SIM", "observation", "window_id camera_id t_start_us=t_start_tl_s", """
+_t("ref_coverage_label", "rcl", "Val", "CV-SIM", "observation", "window_id camera_id t_start_us=t_start_tl_s", """
 window_id id
 camera_id id
 timeline_id id
@@ -677,7 +700,7 @@ prov_class prov_class
 label_source label_source
 reference_class reference_class
 """)
-_t("reviewer_assessment", None, "Val", "V3", "human", "", """
+_t("reviewer_assessment", "rva", "Val", "V3", "human", "", """
 annotator_id id
 namespace namespace
 target_type enum{ref_event,system_episode,system_event}
@@ -689,7 +712,7 @@ blind bool
 shown_system_output bool
 submitted_utc ts
 """, True)
-_t("adjudication", None, "Val", "V4", "human", "", """
+_t("adjudication", "adj", "Val", "V4", "human", "", """
 target_type enum{ref_event,system_episode,system_event}
 target_id id
 namespace namespace
@@ -832,7 +855,7 @@ interpretation_note str
 """, True)
 
 # F.1 A5.2.
-_t("track_identity_assoc", None, "Eval", "S8", "observation", "window_id camera_id frame_index track_id physical_identity_id", """
+_t("track_identity_assoc", "tia", "Eval", "S8", "observation", "window_id camera_id frame_index track_id physical_identity_id", """
 window_id id
 camera_id id
 frame_index i64
@@ -840,7 +863,7 @@ track_id? id
 physical_identity_id? str
 status enum{matched,ambiguous,unmatched_system,missed_reference}
 """, True)
-_t("track_identity_summary", None, "Eval", "S8", "observation", "window_id track_id", """
+_t("track_identity_summary", "tis", "Eval", "S8", "observation", "window_id track_id", """
 window_id id
 track_id id
 dominant_identity_id? str
@@ -865,7 +888,7 @@ compared_to_artifact_id? str
 tolerance_report_ref? str
 logs_ref str
 """, True)
-_t("evidence_clip", None, "Gov", "S6", "observation", "recording_id start_frame end_frame_excl purpose", """
+_t("evidence_clip", "ecl", "Gov", "S6", "observation", "recording_id start_frame end_frame_excl purpose", """
 recording_id id
 start_frame i64
 end_frame_excl i64
@@ -877,21 +900,21 @@ access_class enum{restricted_research,team_internal,publishable_synthetic_only}
 retention_policy_id id
 expires_utc? ts
 """, True)
-_t("retention_policy", None, "Gov", "-", "human", "", """
+_t("retention_policy", "rtp", "Gov", "-", "human", "", """
 label str
 applies_to str
 retain_days? i64
 deletion_method str
 legal_basis_ref? str
 """, True)
-_t("access_log", None, "Gov", "-", "human", "", """
+_t("access_log", "alg", "Gov", "-", "human", "", """
 actor str
 action enum{read,export,delete,policy_change}
 target str
 purpose str
 time ts
 """, True)
-_t("stage_error", None, "Gov", "-", "execution", "run_id error_index", """
+_t("stage_error", "ser", "Gov", "-", "execution", "run_id error_index", """
 run_id id
 error_index i64
 code str

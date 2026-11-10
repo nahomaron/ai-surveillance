@@ -14,8 +14,22 @@ from .types import Field, Type
 _ID = re.compile(r"^[a-z0-9]{2,4}_([a-z0-9]{26}|[0-9a-f-]{36})$")
 _REFERENCE_SOURCES = {"simulator_truth", "human_manual"}  # section 5.8
 _REAL_ORIGINS = {"real_natural", "real_staged"}
-_E2_TABLES = {"load_state", "e2_occupancy_series", "e2_occupancy_profile"}
 _REF_TABLES = {"ref_object_presence", "ref_interaction", "ref_geometry", "ref_coverage_label"}
+
+
+# AR-8: columns that cannot legitimately be negative, where a negative value can only be a sentinel.
+_NON_NEGATIVE = re.compile(
+    r"(^|\.)(frame_index|decode_seq|det_index|window_index|error_index|seq|audit_seq|track_local_id|.*_frame|.*_frame_excl"
+    r"|minclr_frame|n_.*|.*_frames|click_count|size_bytes|span_s|support_s|eligible_support_s|t_.*_support_s"
+    r"|t_(detected|inferred|insufficient|clearance_unknown|motion_unknown|moving_detected|moving_inferred"
+    r"|stationary_detected|stationary_inferred|joint_visible|coobserved|occupied_detected|occupied_inferred"
+    r"|not_occupied|occupancy_unknown)_s|duration_.*_s|.*sigma.*|.*speed.*_mps|score|delta_nom_s|mount_height_m)$"
+)
+
+
+def is_sentinel(column: str, value: float) -> bool:
+    """AR-8: VR-E-003 forbids sentinels such as -1; only non-negative columns can be checked."""
+    return value < 0 and bool(_NON_NEGATIVE.search(column))
 
 
 @dataclass(frozen=True)
@@ -35,7 +49,10 @@ def _check_value(table: str, path: str, t: Type, value: Any, constraints: frozen
     if kind == "id":
         if not (isinstance(value, str) and _ID.match(value)):
             bad(f"not an id: {value!r}")
-    elif kind in ("str", "nk"):
+    elif kind == "nk":
+        if not isinstance(value, list):
+            bad(f"natural key must be a JSON array: {value!r}")
+    elif kind == "str":
         if not isinstance(value, str):
             bad(f"not a string: {value!r}")
     elif kind in ("i32", "i64"):
@@ -43,11 +60,15 @@ def _check_value(table: str, path: str, t: Type, value: Any, constraints: frozen
             bad(f"not an integer: {value!r}")
         elif not -(2 ** (31 if kind == "i32" else 63)) <= value < 2 ** (31 if kind == "i32" else 63):
             bad(f"out of range: {value!r}")
+        elif is_sentinel(path, value):
+            bad(f"negative sentinel in a non-negative column: {value}", "VR-E-003")
     elif kind == "f64":
         if isinstance(value, bool) or not isinstance(value, (int, float)):
             bad(f"not a number: {value!r}")
         elif not math.isfinite(value):
             bad("NaN or infinity is forbidden", "VR-E-003")
+        elif is_sentinel(path, value):
+            bad(f"negative sentinel in a non-negative column: {value}", "VR-E-003")
         elif "ge0" in constraints and value < 0:
             bad(f"must be >= 0: {value}")
         elif ("01" in constraints or path.endswith("_frac")) and not 0 <= value <= 1:
@@ -119,12 +140,11 @@ def _check_fields(table: str, prefix: str, fields, row: dict[str, Any], issues: 
 def validate_row(table: str, row: dict[str, Any]) -> list[Issue]:
     issues: list[Issue] = []
     _check_fields(table, "", registry.TABLES[table].fields, row, issues)
-    if table in _E2_TABLES:
-        for name in row:
-            if any(x in name.lower() for x in registry.FORBIDDEN_FRAGMENTS):
-                issues.append(Issue("VR-E-041", "ERR-FORBIDDEN-FIELD", table, name, "forbidden E2 quantity"))
+    for name in row:
+        if registry.is_forbidden(table, name):
+            issues.append(Issue("VR-E-041", "ERR-FORBIDDEN-FIELD", table, name, "forbidden quantity"))
     if table == "site" and row.get("data_origin") in _REAL_ORIGINS and row.get("approvals_ref") is None:
-        issues.append(Issue("VR-E-070", None, table, "approvals_ref", "required for real data origins"))
+        issues.append(Issue("SITE-APPROVALS", None, table, "approvals_ref", "required for real data origins (section 5.1)"))
     if table in _REF_TABLES and row.get("label_source") not in _REFERENCE_SOURCES:
         issues.append(Issue("VR-E-055", "ERR-NAMESPACE", table, "label_source", "not a permitted reference source"))
     if table == "annotation_record" and row.get("namespace") == "reference" and row.get("label_source") not in _REFERENCE_SOURCES:
@@ -138,34 +158,4 @@ def validate_rows(table: str, rows: list[dict[str, Any]], raise_fatal: bool = Fa
         for issue in issues:
             if issue.code and ERROR_CODES[issue.code] == "fatal":
                 raise ContractError(issue.code, f"{table}.{issue.field}: {issue.message}")
-    return issues
-
-
-def check_frames(frames: list[dict[str, Any]]) -> list[Issue]:
-    """VR-E-010: resolved timestamps strictly increasing over eligible frames (section 12.1)."""
-    issues: list[Issue] = []
-    by_recording: dict[str, list[dict[str, Any]]] = {}
-    for frame in frames:
-        if frame["eligible"]:
-            by_recording.setdefault(frame["recording_id"], []).append(frame)
-    for recording, rows in by_recording.items():
-        rows.sort(key=lambda r: r["frame_index"])
-        for a, b in zip(rows, rows[1:]):
-            if not a["t_resolved_s"] < b["t_resolved_s"]:
-                issues.append(Issue("VR-E-010", None, "frame", "t_resolved_s",
-                                    f"{recording}: not strictly increasing at frame {b['frame_index']}"))
-    return issues
-
-
-def check_ref_coverage(span: dict[str, Any], window: dict[str, Any]) -> list[Issue]:
-    """VR-E-052 as amended by F.1 A3 RC-03."""
-    if span["ref_activity_state"] != "reference_verified_absent":
-        return []
-    issues = []
-    if not window["exhaustive"]:
-        issues.append(Issue("VR-E-052", None, "ref_coverage_label", "ref_activity_state", "window is not exhaustive"))
-    if span["eligible_support_s"] <= 0:
-        issues.append(Issue("VR-E-052", None, "ref_coverage_label", "eligible_support_s", "no eligible support"))
-    if span["label_source"] not in _REFERENCE_SOURCES:
-        issues.append(Issue("VR-E-052", None, "ref_coverage_label", "label_source", "source not permitted"))
     return issues
