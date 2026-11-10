@@ -1,0 +1,54 @@
+{
+ "id": "FX-B3",
+ "record": {
+  "R_cam_from_world": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   -1.0,
+   0.0,
+   1.0,
+   0.0
+  ],
+  "calibration_id": "cal_f1",
+  "calibration_tier": "full_camera",
+  "camera_id": "cam_01",
+  "distortion_coeffs": [],
+  "distortion_model": "none",
+  "fixture": "FX-B3-valid-full-camera",
+  "height_reference_ids": [],
+  "heldout_ground_error_m_rmse": null,
+  "heldout_ground_error_m_rmse_null_reason": "not_computed_by_config",
+  "homography_assumes_undistorted": false,
+  "homography_img_to_floor": null,
+  "homography_img_to_floor_null_reason": "not_computed_by_config",
+  "intrinsics_K": [
+   1000.0,
+   0.0,
+   960.0,
+   0.0,
+   1000.0,
+   540.0,
+   0.0,
+   0.0,
+   1.0
+  ],
+  "method": "dataset_supplied",
+  "quality_state": "supplied_unvalidated",
+  "reproj_error_px_rmse": null,
+  "reproj_error_px_rmse_null_reason": "not_supplied",
+  "t_cam_from_world_m": [
+   0.0,
+   3.0,
+   8.0
+  ],
+  "valid_from_us": 0,
+  "valid_to_us": null,
+  "valid_to_us_null_reason": "not_applicable",
+  "world_frame_id": "wf_1"
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

@@ -1,0 +1,20 @@
+{
+ "expected": {
+  "CM-02_numerator": 0,
+  "ai_activity_state": "observed_no_detection",
+  "ref_activity_state": "objects_present_no_interaction"
+ },
+ "hand_calculation": "Copied from F.1 A3.",
+ "id": "FX-RC-4",
+ "inputs": {
+  "fps": 10,
+  "simulator": "forklift present",
+  "system_detections": 0,
+  "t_guard_end_tl_s": 35.0,
+  "timeline_kind": "aligned_session",
+  "window_t_end_tl_s": 30.0,
+  "window_t_start_tl_s": 0.0
+ },
+ "source": "F.1 A3 FX-RC-4",
+ "version_label": "TEST-ONLY"
+}

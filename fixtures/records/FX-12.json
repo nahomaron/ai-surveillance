@@ -1,0 +1,19 @@
+{
+ "expected": {
+  "elevation_state": "elevated",
+  "episodes": [],
+  "height_m": 2.4,
+  "height_sigma_m": 0.3,
+  "load_mass_kg": null,
+  "load_mass_kg_null_reason": "not_supplied",
+  "n_e2_occupancy_profiles": 1
+ },
+ "hand_calculation": "Copied from Appendix T. E2 is measurement only: no episode exists.",
+ "id": "FX-12",
+ "inputs": {
+  "conditions": "CB-03",
+  "person_in_projected_footprint": true
+ },
+ "source": "Appendix T FX-12 (amended)",
+ "version_label": "TEST-ONLY"
+}

@@ -1,0 +1,30 @@
+{
+ "expected": {
+  "K": 1,
+  "contact_state": "suspected",
+  "labels": [
+   "H",
+   "CT"
+  ],
+  "review_route": true,
+  "summary_label": "CT"
+ },
+ "hand_calculation": "summary_label applies section 6 precedence CT > UD > NM > PC > H > O; review_route applies the section 6 routing rule.",
+ "id": "N1-T7",
+ "inputs": {
+  "C_any": "0×20",
+  "E": "0×20",
+  "M": "1×20",
+  "P": "1×20",
+  "Q": "1×20",
+  "ca_frame": null,
+  "contact_cue": "yes",
+  "fps": 10,
+  "minclr_m": -0.1,
+  "minclr_sigma_m": 0.05,
+  "n_frames": 20,
+  "overlap_at_ca": "yes"
+ },
+ "source": "Appendix N1 row T7",
+ "version_label": "TEST-ONLY"
+}

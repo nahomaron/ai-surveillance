@@ -1,0 +1,13 @@
+{
+ "id": "FX-A3",
+ "record": {
+  "clock_alignment_id": null,
+  "clock_alignment_id_null_reason": "not_applicable",
+  "fixture": "FX-A3-valid-local",
+  "recording_id": "rec_b7",
+  "timeline_id": "tl_b7",
+  "timeline_kind": "recording_local"
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

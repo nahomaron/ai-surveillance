@@ -1,0 +1,17 @@
+{
+ "id": "FX-C1",
+ "record": {
+  "e2_profile_id": "e2p_1",
+  "fixture": "FX-C1-valid-e2-profile",
+  "load_track_id": "trk_load_4",
+  "method": "image_overlap_baseline",
+  "person_track_id": "trk_p2",
+  "t_coobserved_s": 6.0,
+  "t_not_occupied_s": 3.9,
+  "t_occupancy_unknown_s": 0.6,
+  "t_occupied_detected_s": 1.2,
+  "t_occupied_inferred_s": 0.3
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

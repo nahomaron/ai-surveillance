@@ -1,0 +1,72 @@
+{
+ "expected": {
+  "CM-01": {
+   "p1": 0.9
+  },
+  "missed_reference_frames": {
+   "p1": [
+    20,
+    25
+   ]
+  },
+  "tracks": {
+   "A": {
+    "status": "fragment"
+   },
+   "B": {
+    "status": "fragment"
+   }
+  }
+ },
+ "hand_calculation": "Matched 45 frames x 0.1 s = 4.5 s; visible 5.0 s; 4.5/5.0 = 0.9.",
+ "id": "FX-ID-3",
+ "inputs": {
+  "eps_amb": 0.02,
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 20,
+    "object": "A",
+    "side": "system",
+    "start": 0
+   },
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "B",
+    "side": "system",
+    "start": 25
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-3",
+ "version_label": "TEST-ONLY"
+}

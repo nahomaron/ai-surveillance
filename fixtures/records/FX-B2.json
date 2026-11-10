@@ -1,0 +1,16 @@
+{
+ "id": "FX-B2",
+ "record": {
+  "calibration_id": "cal_h1",
+  "elevation_state": "elevated",
+  "expected_error": "CB-03: height requires full_camera calibration with height reference, multi-view, or simulator truth",
+  "fixture": "FX-B2-invalid-height-from-homography",
+  "frame_index": 880,
+  "height_m": 2.4,
+  "height_sigma_m": 0.3,
+  "method": "height_reference_plane",
+  "track_id": "trk_load_4"
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

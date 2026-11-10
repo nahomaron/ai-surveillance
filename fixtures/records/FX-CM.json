@@ -1,0 +1,17 @@
+{
+ "expected": {
+  "CM-01": 0.6,
+  "CM-03": 0.6
+ },
+ "hand_calculation": "6.0 s / 10.0 s = 0.600.",
+ "id": "FX-CM",
+ "inputs": {
+  "forklift_matched": "all",
+  "fps": 10,
+  "matched_frames": 60,
+  "missing_frames": 40,
+  "reference_person_visible_frames": 100
+ },
+ "source": "Appendix N6 FX-CM (D1-AC-04)",
+ "version_label": "TEST-ONLY"
+}

@@ -1,0 +1,49 @@
+{
+ "expected": {
+  "tracks": {
+   "A": {
+    "dominant_share": 1.0,
+    "matched_frames": 50,
+    "status": "one_to_one"
+   }
+  }
+ },
+ "hand_calculation": "Box coordinates are a fixture design choice; the expected values come from F.1 A5.2.",
+ "id": "FX-ID-1",
+ "inputs": {
+  "eps_amb": 0.02,
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "A",
+    "side": "system",
+    "start": 0
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-1",
+ "version_label": "TEST-ONLY"
+}

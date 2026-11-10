@@ -1,0 +1,117 @@
+{
+ "expected": {
+  "ambiguous_frames": [
+   10,
+   15
+  ],
+  "matched_frames": {
+   "A": 45
+  },
+  "unmatched_frames": {
+   "A": 0
+  }
+ },
+ "hand_calculation": "Track box area 10000. p1 is [0,0,60,100]: intersection 6000, union 10000, IoU 0.60. p2 is [0,0,100,59]: intersection 5900, union 10000, IoU 0.59. The difference 0.01 is within eps_amb 0.02.",
+ "id": "FX-ID-6",
+ "inputs": {
+  "eps_amb": 0.02,
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 10,
+    "object": "p1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     60.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "p1",
+    "side": "reference",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p1",
+    "side": "reference",
+    "start": 15
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     59.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "p2",
+    "side": "reference",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 10,
+    "object": "A",
+    "side": "system",
+    "start": 0
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "A",
+    "side": "system",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "A",
+    "side": "system",
+    "start": 15
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-6",
+ "version_label": "TEST-ONLY"
+}

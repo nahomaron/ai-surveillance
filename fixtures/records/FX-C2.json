@@ -1,0 +1,12 @@
+{
+ "id": "FX-C2",
+ "record": {
+  "classification_contract": "E1_v1",
+  "episode_id": "ep_x",
+  "expected_error": "CC-01: experiment E2 not allowed in schema v1.1",
+  "experiment": "E2",
+  "fixture": "FX-C2-invalid-e2-episode"
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

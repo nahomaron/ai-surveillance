@@ -1,0 +1,15 @@
+{
+ "id": "FX-D1",
+ "record": {
+  "activity_segment_id": "act_1",
+  "ai_activity_state": "not_evaluated",
+  "camera_id": "cam_02",
+  "coverage_state": "unusable",
+  "fixture": "FX-D1-valid",
+  "session_id": "ses_1",
+  "t_end_session_s": 20.0,
+  "t_start_session_s": 0.0
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

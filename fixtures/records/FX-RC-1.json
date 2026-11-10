@@ -1,0 +1,27 @@
+{
+ "expected": {
+  "unobservable_spans": [
+   {
+    "excluded_support_s": 1.5,
+    "reason": "unusable_footage",
+    "t_end_tl_s": 11.5,
+    "t_start_tl_s": 10.0
+   }
+  ]
+ },
+ "hand_calculation": "15 frames x 0.1 s = 1.5 s.",
+ "id": "FX-RC-1",
+ "inputs": {
+  "corrupt_frames": [
+   100,
+   115
+  ],
+  "fps": 10,
+  "t_guard_end_tl_s": 35.0,
+  "timeline_kind": "aligned_session",
+  "window_t_end_tl_s": 30.0,
+  "window_t_start_tl_s": 0.0
+ },
+ "source": "F.1 A3 FX-RC-1",
+ "version_label": "TEST-ONLY"
+}

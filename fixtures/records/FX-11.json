@@ -1,0 +1,44 @@
+{
+ "expected": {
+  "segments": [
+   {
+    "ai_activity_state": "not_evaluated",
+    "coverage_state": "unusable",
+    "ref_activity_state": "unobservable",
+    "t": [
+     0.0,
+     20.0
+    ],
+    "unobservable_reason": "unusable_footage"
+   },
+   {
+    "ai_activity_state": "observed_no_detection",
+    "coverage_state": "usable",
+    "ref_activity_state": "objects_present_no_interaction",
+    "t": [
+     20.0,
+     40.0
+    ]
+   },
+   {
+    "ai_activity_state": "observed_no_detection",
+    "coverage_state": "usable",
+    "ref_activity_state": "reference_verified_absent",
+    "t": [
+     40.0,
+     60.0
+    ]
+   }
+  ]
+ },
+ "hand_calculation": "Copied from Appendix T.",
+ "id": "FX-11",
+ "inputs": {
+  "camera_extent": [
+   0.0,
+   60.0
+  ]
+ },
+ "source": "Appendix T FX-11 (amended)",
+ "version_label": "TEST-ONLY"
+}
