@@ -17,6 +17,7 @@ _REAL_ORIGINS = {"real_natural", "real_staged"}
 _REF_TABLES = {"ref_object_presence", "ref_interaction", "ref_geometry", "ref_coverage_label"}
 
 
+_I_JSON_MAX = 2**53 - 1
 # AR-8: columns that cannot legitimately be negative, where a negative value can only be a sentinel.
 _NON_NEGATIVE = re.compile(
     r"(^|\.)(frame_index|decode_seq|det_index|window_index|error_index|seq|audit_seq|track_local_id|.*_frame|.*_frame_excl"
@@ -60,6 +61,8 @@ def _check_value(table: str, path: str, t: Type, value: Any, constraints: frozen
             bad(f"not an integer: {value!r}")
         elif not -(2 ** (31 if kind == "i32" else 63)) <= value < 2 ** (31 if kind == "i32" else 63):
             bad(f"out of range: {value!r}")
+        elif abs(value) > _I_JSON_MAX:
+            bad(f"outside the I-JSON integer range that RFC 8785 can hash (AR-18): {value!r}")
         elif is_sentinel(path, value):
             bad(f"negative sentinel in a non-negative column: {value}", "VR-E-003")
     elif kind == "f64":

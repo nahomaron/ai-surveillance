@@ -17,6 +17,7 @@ from rq1.schema import files, registry
 from rq1.schema import validate as schema_validate
 from rq1.schema.canonical import canonical_json, sort_set
 from rq1.schema.errors import ContractError
+from rq1.schema import vr_rules
 from rq1.schema.vr_rules import natural_key
 
 from . import core
@@ -238,16 +239,38 @@ def write_artifact(built: Artifact, directory: str | Path, data_origin: str, clo
     os.replace(temporary, target / "manifest.json")
     record = _execution_record(built.artifact_spec_id, built.artifact_id, stage, started, clock(), host, "complete")
     (target / "execution.json").write_bytes(canonical_json(record))
-    if register:
-        with open(register, "ab") as handle:
-            handle.write(canonical_json(record) + b"\n")
+    _append_register(register, record)
     return target
 
 
 def _execution_record(asp: str, art: str | None, stage: str, started: datetime, ended: datetime, host: str | None, status: str) -> Row:
+    """Section 2.5, in the shape of the `execution` table."""
     return {"run_id": f"run_{uuid.uuid7()}", "artifact_spec_id": asp, "artifact_id": art,
             "artifact_id_null_reason": None if art else "upstream_failure", "stage": stage, "started_utc": started, "ended_utc": ended,
-            "host": host or socket.gethostname(), "platform": {"cpu": py_platform.machine()}, "status": status, "logs_ref": ""}
+            "host": host or socket.gethostname(),
+            "platform": {"cpu": py_platform.machine(), "gpu": None, "gpu_null_reason": "not_supplied", "driver": None, "driver_null_reason": "not_supplied"},
+            "status": status, "compared_to_artifact_id": None, "compared_to_artifact_id_null_reason": "not_applicable",
+            "tolerance_report_ref": None, "tolerance_report_ref_null_reason": "not_applicable", "logs_ref": ""}
+
+
+def _append_register(register: str | Path | None, record: Row) -> None:
+    if register:
+        with open(register, "ab") as handle:
+            handle.write(canonical_json(record) + b"\n")
+
+
+def record_failed_run(directory: str | Path, spec: Spec, clock: Callable[[], datetime] | None = None, host: str | None = None,
+                      register: str | Path | None = None) -> Path:
+    """Section 2.5 and 10.3: a failed run leaves `execution.json` and no complete artifact."""
+    clock = clock or (lambda: datetime.now(timezone.utc))
+    started = clock()
+    record = _execution_record(spec_id(spec), None, spec.stage, started, clock(), host, "failed")
+    target = Path(directory)
+    target.mkdir(parents=True, exist_ok=True)
+    path = target / "execution.json"
+    path.write_bytes(canonical_json(record))
+    _append_register(register, record)
+    return path
 
 
 def verify(directory: str | Path, check_file_hashes: bool = True) -> str:
@@ -267,6 +290,18 @@ def verify(directory: str | Path, check_file_hashes: bool = True) -> str:
     if rebuilt.payload_sha256 != manifest["payload_sha256"] or rebuilt.artifact_id != manifest["artifact_id"]:
         raise ContractError("ERR-INVARIANT", "reconstruction does not match the stored payload hash")
     return rebuilt.artifact_id
+
+
+def validate_artifact(directory: str | Path) -> list[schema_validate.Issue]:
+    """CT-E-01 on a produced artifact: VR-E-001 to 005 for every file, using the manifest's `art_`."""
+    target = Path(directory)
+    manifest = json.loads((target / "manifest.json").read_text(encoding="utf-8"))
+    issues: list[schema_validate.Issue] = []
+    for item in manifest["files"]:
+        table = item["path"].removesuffix(".parquet")
+        issues += files.validate_file(target / item["path"], table, SCHEMA_VERSION)
+        issues += vr_rules.check_ids(table, files.read_table(target / item["path"], table, SCHEMA_VERSION), manifest["artifact_id"])
+    return issues
 
 
 def duplicate_ids(artifacts: list[Artifact]) -> list[str]:
