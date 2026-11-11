@@ -22,10 +22,6 @@ venv/
 .vscode/
 .idea/
 
-# Local AI instructions and plans
-CLAUDE.md
-WORKPLAN.md
-
 # Generated outputs and data (never committed; CLAUDE.md)
 out/
 data/
