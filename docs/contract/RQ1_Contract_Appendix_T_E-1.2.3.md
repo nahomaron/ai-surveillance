@@ -507,3 +507,48 @@ track_point\t{"frame_index":11,"state":"tracked","track_nk":["rec_a",2]}
 | Version | Change |
 |---|---|
 | E-1.2.3 | Appendix T added (CR-001 / D-1). VR-E-001/004/010–014/016/030/031/060/070, CT-E-09/26–29, CT-T-05/07, CT-S-02, CT-I-06, ID-02/03, TI-01/06/07, FX-11/12 reconciled with E.1, the Errata, the Clarification and F.1. FX-B3 added. Identity test vector made complete, with a byte-wise ordering rule. No change to definitions, units, sampling or reporting semantics |
+
+## T7. Nominal frame interval and substituted timing (E-1.2.4; CR-003, D-4)
+
+δ_nom (per recording), in order of precedence:
+1. Declared: if the decode configuration declares `delta_nom_s` for the
+   recording (from dataset documentation with an evidence reference, or
+   from the fixture specification), use it.
+   `delta_nom_source = declared_config`.
+2. Adjacent-pair median: otherwise, take the median of Δ over pairs of
+   consecutive timed, eligible frames that are adjacent in decode order,
+   with no untimed, duplicate or undecodable frame between them (≥ 1 pair).
+   For an even count, use the mean of the two middle values.
+   `delta_nom_source = median_adjacent_pairs`.
+3. All-timed median: if no such pair exists, take the median over all
+   consecutive timed intervals.
+   `delta_nom_source = median_all_timed`.
+4. Fewer than 2 timed frames: ERR-TIMESTAMPS.
+
+`decode_summary` gains:
+- `delta_nom_source`;
+- `delta_nom_declared_s?` (null `not_supplied` when undeclared);
+- `delta_nom_median_s?` (the adjacent-pair median when computable).
+Both values are stored for audit. No threshold compares them.
+
+Fixtures declare δ_nom = 0.033 s; all Appendix N3 values are unchanged.
+
+Substituted timing (f_sub):
+- `substituted_support_frac` = support of eligible frames with ts_source in
+  {best_effort, dts_derived} ÷ total eligible support of the recording.
+- At or below f_sub: no coverage change; the fraction is reported.
+- Above f_sub: the support intervals of substituted frames become
+  `usable_degraded` coverage with reason `timing_substituted`. All other
+  frames are unaffected, and coverage tiling splits at those boundaries.
+- `usable_degraded` remains usable for activity states and every duration.
+
+Tests:
+- CT-T-21: FX-CLIP-A–D with declared δ_nom 0.033 s reproduce
+  0.100 / 0.067 / 0.033 / 0.133 s exactly.
+- CT-T-22: FX-CLIP-B without a declaration gives δ_nom = 0.034 s
+  (`median_adjacent_pairs`, the single pair f2→f3), detected support
+  0.068 s, and an unchanged uncertainty region [0, 0.066) s.
+- CT-T-23: a recording with substituted share at or below f_sub has no
+  degraded coverage. Above f_sub, exactly the substituted frames' support
+  intervals become `usable_degraded / timing_substituted`, and total usable
+  support is unchanged.

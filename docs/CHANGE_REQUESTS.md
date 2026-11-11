@@ -157,7 +157,7 @@ Made under the "Agent authority to close contract gaps" section of CLAUDE.md. Al
 - **Gap:** Appendix T FX-B1 and FX-B3 omit fields needed to build a row (`version`, and `valid_from_us` in FX-B1), and FX-B3 states that "field presence and nullability are what the test checks". **Options:** (a) add these in the test adapter, (b) amend the fixture. **Choice:** (a). The committed fixture stays verbatim.
 - **No meaning effect:** key fields of a test record only. **Files/tests:** `tests/registry/test_registrar.py` (`_calibration`). **Reverse:** edit the adapter.
 
-## CR-003 (2026-11-10) — How δ_nom is obtained, and what *f_sub* does   status: OPEN
+## CR-003 (2026-11-10) — How δ_nom is obtained, and what *f_sub* does   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-06, and everything that depends on it (T-08 to T-16).
 **Contract sections:** E-1.2.1 §3.3, §5.3, §14; Appendix N3; Appendix T TI-02, CT-T-04, CT-T-06, CT-T-17; Package F §3.
@@ -181,4 +181,4 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 2. *f_sub*: adopt the Errata rule. Apply it only to segments containing substituted frames, so that good footage in the same recording is not downgraded.
 
 **Affected tests:** CT-T-04, 06, 14–20, FX-CLIP-A–D, FX-10.
-**Decision:** ______   **Approver:** ______   **Resulting contract version:** ______
+**Decision:** Approved (D-4). δ_nom: declared, else adjacent-pair median, else all-timed median. *f_sub*: only substituted frames' support becomes `usable_degraded`. Normative text: Appendix T section T7.   **Approver:** Research Owner, 11 Nov 2026.   **Resulting contract version:** E-1.2.4
