@@ -1,0 +1,509 @@
+# RQ1 Contract Appendix T — Rule, Test and Fixture Texts (E-1.2.3)
+
+**Date:** 9 November 2026
+**Status:** **Normative.** Together with E-1.2.1 (FROZEN), F.1 Part A and Appendix N, this forms contract **E-1.2.3**.
+**Responds to:** CR-001 and decision D-1, raised by the implementation agent at T-01.
+**Defect:** E-1.2.1 cited many rule, test and fixture IDs whose text lived only in the source packages (E, E.1, the E.1 Errata and the Clarification). The agent was right not to consult those packages.
+
+## T0. How to use this appendix
+
+- **Text:** this appendix supplies the normative text for every validation rule, invariant, contract test and record fixture ID cited by E-1.2.1 and F.1. It was extracted mechanically from the source packages, then reconciled with later corrections.
+- **Status column:**
+  - **active:** the text applies as written.
+  - **amended:** the replacement text in this table applies.
+  - **superseded:** do not implement.
+  - **milestone Mx:** implement in that milestone, not earlier.
+  - **note:** where the content now lives.
+- **Precedence:** F.1 Part A and Appendix N > this appendix > E-1.2.1 body. This appendix only supplies text. If it contradicts a definition in F.1 or E-1.2.1, raise a CR.
+- **Old names:** text from Package E uses some older names. Read them as:
+
+| Old name | Current name |
+|---|---|
+| `video`, `video_id` | `source_file` / `recording` (`src_`, `rec_`) |
+| `t_video_s` | `t_resolved_s` (per frame) and `t_*_tl_s` (intervals) |
+| session time | timeline time |
+| `duration_s` | `span_s` (extent) and support-based duration fields |
+| `dt_s` | `support_s` |
+| E-xx table numbers | the table names of E-1.2.1 §5 |
+| "Section 5.0" | E-1.2.1 §2.5 |
+
+- **Defined inside invariant rows:** tests CT-ID-01–07, CT-S-07–10, CT-T-09–13 and CT-F-09/10 are defined in the "Normative text" cells of the ID, SP, TI and FT invariants. The cell contains the invariant, then "—", then the test.
+- **CL-INV-01–11:** the classification invariants are in E-1.2.1 §6.
+- **New in F.1:** CT-NK, CT-X, CT-RC and CT-ID-A tests and FX-ID/FX-RC fixtures are in F.1 Part A. Appendix N fixtures are in F.1 Appendix N.
+
+## T1. Rules, invariants, tests and fixtures
+
+### Validation rules (VR-E)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| VR-E-001 | Every Parquet file carries the key-value metadata of E-1.2.1 §2.5 and no execution-specific key; its `schema_version` major is supported by the reader | E | amended |
+| VR-E-002 | Every nullable field that is null has a valid `*_null_reason`; non-null fields have no reason | E | active |
+| VR-E-003 | No NaN or ±Inf in any float column; no sentinel values (e.g., −1 for unknown) | E | active |
+| VR-E-004 | Every ID is recomputable according to its identity class (F.1 A1): anchor, configuration, observation (from `art_` and natural key), human (UUIDv7), execution (UUIDv7) | E | amended |
+| VR-E-005 | A file has exactly one `data_origin`; real and synthetic rows never share a file or an aggregate | E | active |
+| VR-E-010 | Over **eligible** frames, `t_resolved_s` is strictly increasing and `frame_index` is contiguous 0…n_eligible−1; every frame has `support_s ≥ 0` (§3.2–3.3) | E | amended: Replaces the `pts`/`dt_s` form |
+| VR-E-011 | All intervals satisfy start < end (half-open). `frame_index` fields lie in [0, n_frames_eligible]; timeline intervals lie inside their timeline's extent | E | amended |
+| VR-E-012 | Coverage segments tile each (timeline, camera) extent exactly once (= TI-01) | E | amended: Was per-video frame tiling |
+| VR-E-013 | Activity segments tile the same extent as coverage; `not_evaluated` exactly where coverage ∈ {not_recorded, gap_unobserved, unusable} (= CD-01/CD-02) | E | amended |
+| VR-E-014 | World-frame quantities are non-null only if `geometry_method` ∈ {ground_plane_homography, full_camera, multi_view, simulator_truth}, the calibration is not `failed`, and the calibration tier permits the computation (§4.2) | E | amended |
+| VR-E-015 | `clearance_m` null iff `clearance_state ≠ measured`; `footprint_overlap = 1` iff `clearance_m ≤ 0` when measured | E | active |
+| VR-E-016 | Exposure-profile sums of E-1.2.1 §5.5 hold: Σ detected bands + Σ inferred bands + `t_clearance_unknown_s` + `t_insufficient_s` = `t_total_support_s`; the five motion fields + `t_insufficient_s` = `t_total_support_s`; tolerance 1 µs | E | amended: Field names and tolerance updated (Appendix N) |
+| VR-E-017 | Every POW has exactly one exposure profile per band scheme | E | active |
+| VR-E-018 | `sigma_status = calibrated` only with a GV-05 evidence reference for the stratum | E | active |
+| VR-E-020 | No geometry from calibrations with `quality_state = failed` | E | active |
+| VR-E-021 | Units: fields with `_m`, `_s`, `_mps`, `_rad`, `_kg` hold values in those units; dataset values converted at S0/S4 with `unit_status` recorded | E | active |
+| VR-E-030 | E1 episode and candidate-event labels satisfy CL-INV-01–11 (contract §6; Appendix N1) | E | amended |
+| VR-E-031 | Edge `L` (`linked_calibrated`) requires: both cameras calibrated to the same world frame with `quality_state ≠ failed`; both recordings on the same `aligned_session` timeline with non-null clock σ; √(σa² + σb²) ≤ *τ_sync*; median Mahalanobis ≤ *χ²_link* (§7) | E | amended: `assumed_zero` no longer exists |
+| VR-E-032 | Candidate-event labels recomputed from event flags (never unioned) | E | active |
+| VR-E-033 | ~~Superseded ("bound" removed) — E.1 §5~~ | E.1 | superseded: By LK-07 (wording is always `scenario_count`) |
+| VR-E-034 | No string "observed contact" or equivalent value in any Observation-store field | E | active |
+| VR-E-040 | The Observation store and OBX exports contain no `reference_verified_absent`; `observed_no_detection` never maps to zero exposure | E | active |
+| VR-E-041 | Forbidden E2/RQ2 fields absent (potential energy, fall probability, impact energy, severity, safety score, indicator weight, rate per establishment, OSHA/NAICS/establishment identifiers) | E | active |
+| VR-E-050 | RES sampling plans use only pre-system stratifiers; V0 run manifest shows no Observation inputs other than coverage | E | active |
+| VR-E-051 | Headline metrics (EV-M1, M2, M7) and all frequency/duration/per-hour aggregates use RES windows only | E | active |
+| VR-E-052 | Reference coverage spans tile each annotated camera's part of a window; `reference_verified_absent` only in exhaustive, assessable windows | E | active |
+| VR-E-053 | `reference` namespace records are blind (`blind_to_system = true`, `shown_system_output = false`) | E | active |
+| VR-E-054 | Reference windows locked before the first S8 run on their partition (lock time < run start) | E | active |
+| VR-E-060 | Split check per tier (§8): T1 no leakage group crosses partitions; T2a as T1 plus test camera placements absent from training; T2b only declared shared sessions may cross and `shared_scene_content = true`; T3 no test-site recording in any training, tuning or selection manifest | E | amended |
+| VR-E-061 | `attribution_status = verified_*` only for synthetic data with oracle runs referenced | E | active |
+| VR-E-062 | Conditional metrics carry a coverage companion | E | active |
+| VR-E-063 | ~~Superseded — E.1 §6.4~~ | E.1 | superseded: By FT-01–FT-11 and F.1 A4 scoped statuses |
+| VR-E-070 | Every real-origin `source_file` has a retention policy and every derived clip an access class | E | amended: Table renamed |
+| VR-E-071 | Real-origin clips cannot carry `publishable_synthetic_only` | E | active |
+
+### Contract tests from Package E (CT-E)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-E-01 | Schema conformance of every produced file — all — VR-E-001–005 | E | active |
+| CT-E-02 | ~~Deterministic IDs and hash-equal re-runs for exact stages — FX-01 — Identical IDs and file hashes~~ | E | superseded: By CT-ID-02 / CT-FK-04 |
+| CT-E-03 | ~~Timebase from PTS — FX-10 — Durations equal PTS sums; gap visible as larger `dt_s`; no fps arithmetic~~ | E | superseded: By CT-T-01–08 |
+| CT-E-04 | Coverage independent of detector — FX-10, FX-11 — Coverage identical with detector disabled (D1-AC-03) | E | active |
+| CT-E-05 | Null semantics — FX-07 — All world fields null with `uncalibrated`; no sentinel values | E | active |
+| CT-E-06 | Signed clearance and overlap — FX-04 — `clearance_m ≤ 0` rows have `footprint_overlap = 1` | E | active |
+| CT-E-07 | Exposure sums — FX-01–FX-06 — VR-E-016 | E | active |
+| CT-E-08 | Exposure present regardless of labels — FX-02, FX-06 — Profiles and episode exposure fields populated | E | active |
+| CT-E-09 | Classification truth table: labels, contact states and K exactly as Appendix N1 T1–T13 | E | amended |
+| CT-E-10 | Invariant property test — random flag sequences — CL-INV-01–11 hold | E | active |
+| CT-E-11 | Activity-state separation — FX-11 — Obs store has no `reference_verified_absent`; export shows `observed_no_detection` with completeness companion, not zero | E | active |
+| CT-E-12 | Substrate immutability — FX-01 + second config — Substrate bytes unchanged (C1-AC-01) | E | active |
+| CT-E-13 | Providers vs configuration — FX-01 with R3+R4 — One episode, two provider flags (C1-AC-02) | E | active |
+| CT-E-14 | Early trigger — FX-03 — Episode opens before any `P` frame (C1-AC-03) | E | active |
+| CT-E-15 | Cross-camera linkage — FX-08 — S_VIEW = 2, S_LINK = 1 | E | milestone M2 |
+| CT-E-16 | Counting-scenario wording — FX-09 — Wording `scenario_count`; A2 `unverified` | E | milestone M2: Expected wording is `scenario_count`, never `bound` |
+| CT-E-17 | Event-level relabelling — FX-08 with O in one view, H in other — Event labels H only (CL-INV-01 at event level) | E | milestone M2 |
+| CT-E-18 | Sampler isolation — V0 run — Manifest inputs exclude S2–S5 artifacts (C1-AC-08) | E | active |
+| CT-E-19 | Weighting and ECS exclusion — FX-15 + RES windows — ECS absent from headline and frequency metrics; weights = 1/π | E | active |
+| CT-E-20 | Matching determinism — permuted inputs — Identical `match_record` set (C1-AC-09) | E | active |
+| CT-E-21 | Abstention counts as miss — synthetic abstention increase — Headline recall decreases (C1-AC-10) | E | active |
+| CT-E-22 | Attribution — FX-16 — `verified_oracle_joint`, one primary stage | E | active |
+| CT-E-23 | Leakage — FX-14 — ERR-LEAKAGE | E | active |
+| CT-E-24 | Validation separation — any confirmed episode — Episode labels unchanged after status entries; status log hash chain verifies | E | active |
+| CT-E-25 | Namespace guard — candidate-review label offered as reference — ERR-NAMESPACE | E | active |
+| CT-E-26 | E2 forbidden fields and nullable metadata — FX-12 — No forbidden fields; mass null `not_supplied`; pipeline completes | E | amended: Revised FX-12: E2 has **no episodes**; the test checks `load_state` and `e2_occupancy_profile` records, nullable mass (`not_supplied`), and absence of forbidden fields |
+| CT-E-27 | Export forbidden content — OBX from FX-01–FX-12 — ERR-FORBIDDEN-FIELD not raised; scan finds no forbidden names or values | E | amended: Applies to `export_class = research`; fixture exports follow CT-X-01–05 (F.1 A2) |
+| CT-E-28 | Lineage: every metric row is traceable through `art_` IDs to `source_file.sha256` (`src_`) | E | amended |
+| CT-E-29 | Fitness guard: synthetic-only evidence marked `technically_validated` is rejected (FT-01, FT-03) | E | amended |
+| CT-E-30 | Schema evolution — minor-version reader with added column — Reads, ignores unknown column; major mismatch fails | E | active |
+
+### Time tests (CT-T)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-T-01 | VFR — 10 s clip, frame interval alternating 33/50 ms — Durations equal support sums; no fps arithmetic | E.1 | active |
+| CT-T-02 | Reordered decode — Stream with B-frames (decode order ≠ presentation) — `frame_index` follows PTS; `ts_status = reordered` where applicable; track geometry unchanged versus a re-muxed all-I-frame copy | E.1 | active |
+| CT-T-03 | Duplicate PTS — Two frames share a PTS — Second has `support_s = 0`; no double-counted time | E.1 | active |
+| CT-T-04 | Internal gap — 4 s dropout inside a file — One `gap_unobserved` segment of 4 s − `δ_nom`; POW across it split; exposure excludes it | E.1 | active |
+| CT-T-05 | 15 undecodable frames: indexed, ineligible, `decode_ok = false`; each **timed** corrupt frame keeps its own support (`excluded_own_support`), which becomes `unusable` coverage; no detections on them | E.1 | amended: ST-1 (Clarification) replaces 'zero support' |
+| CT-T-06 | Final frame — Any clip — One `final_assumed` frame; sensitivity variant changes totals by exactly `δ_nom` | E.1 | active |
+| CT-T-07 | Two files from one camera, 60 s apart, **on an `aligned_session` timeline with a declared extent**: one `not_recorded` segment of 60 s; no frame indices assigned to it. Without alignment evidence the files get two `recording_local` timelines and no gap segment (CT-T-11) | E.1 | amended: TI-11 |
+| CT-T-08 | Untimed stream — > *f_untimed* frames without timestamps — `ERR-TIMESTAMPS`; no artifact marked complete | E.1 | active |
+| CT-T-14 | Case A clip, person and forklift detected in all eligible frames — Coverage has an `unusable` segment [33,66); POW `t_detected_s` = 0.100; `t_insufficient_s` = 0.033; reference-observable time = 0.100 | Clar | active |
+| CT-T-15 | Case B clip — `timing_uncertain` region [0,66); POW detected = 0.067; nothing in [0,66) counted as detected or inferred | Clar | active |
+| CT-T-16 | Case C clip (B-frames, DTS-only frame) — Frame treated as untimed; detected = 0.033 | Clar | active |
+| CT-T-17 | Case D clip — Frame accepted; `substituted` share = 0.033 s reported; detected = 0.133 | Clar | active |
+| CT-T-18 | Case A with the person missed on f2 (eligible, undetected) inside a POW — f2 support counted `inferred` (bridged); f1 support stays `insufficient` (ST-6) | Clar | active |
+| CT-T-19 | Exposure profile on cases A–D — Detected and inferred band times contain no support from `unusable` or `timing_uncertain` intervals; Σ classes = total support | Clar | active |
+| CT-T-20 | Property test: 500 random clips with random corruption, missing timestamps, duplicates and reordering — For every clip: (a) no support interval overlaps another; (b) every `unusable`/`timing_uncertain` interval is disjoint from all detected and inferred support; (c) detected support ≤ support of eligible frames; (d) system and reference observable time agree on the same frame eligibility | Clar | active |
+
+### Split and sampling tests (CT-S)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-S-01 | Clean run — Three SDG runs, disjoint — v1 frozen; audit finds nothing; no revision | E.1 | active |
+| CT-S-02 | Two recordings, metadata-unrelated, in train and test; annotation links one interaction across them. Audit violation with `discovery_basis = sampled_annotation`; v2 moves the group to train (PR-01); affected test strata get `requires_resample` (R-3); any earlier S8 result on the affected partition (validation runs only — R-2 forbids test runs before the audit) is `invalidated_leakage` | E.1 | amended: Reconciled with SP-08/R-2 |
+| CT-S-03 | Monotone test — Group spanning validation and test — Moves to validation; test windows from it leave the test domain | E.1 | active |
+| CT-S-04 | Revision without violation — Attempted manual revision — Rejected | E.1 | active |
+| CT-S-05 | T2b declared share — Same sessions, different cameras, declared — Audit passes, `shared_scene_content = true` required | E.1 | active |
+| CT-S-06 | T2b undeclared share — Extra shared session — Violation | E.1 | active |
+
+### Identity tests from E.1 (CT-I)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-I-01 | Exact re-run — Same `art_`, identical observation IDs, different `run_` | E.1 | active |
+| CT-I-02 | Tolerance re-run (simulated with a seeded score perturbation) — New `art_`, same `asp_`, comparison report present | E.1 | milestone M1: Tolerance-class re-run (S2) |
+| CT-I-03 | *g_max* change — All POW IDs differ; no collisions with the prior artifact | E.1 | active |
+| CT-I-04 | Recalibration — All object_state, pair_series and POW IDs change | E.1 | active |
+| CT-I-05 | Same file, two cameras — Two `rec_`, one `src_` | E.1 | active |
+| CT-I-06 | Within one S0 artifact, a duplicate natural key ⇒ `ERR-NATURAL-KEY`. Across S0 artifacts, an identical anchor payload is the same entity (allowed; CT-NK-04); a different payload under the same anchor ID ⇒ `ERR-ANCHOR-CONFLICT` (CT-NK-05) | E.1 | amended: Reconciled with F.1 A1 ANC-1 |
+| CT-I-07 | Rule change — Substrate `art_` unchanged; S5 IDs new | E.1 | active |
+| CT-I-08 | Lineage — Any metric row traces through `art_` IDs to `src_` | E.1 | active |
+
+### Same-artifact reference tests (CT-FK)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-FK-01 | Payload needs no own IDs — Build steps 1–5 with the ID-derivation function stubbed to raise if called — `art_` produced; stub never called | Clar | active |
+| CT-FK-02 | Deterministic resolution — Build the S3, S4 and S5 fixture artifacts twice with rows shuffled — All derived ID columns identical | Clar | active |
+| CT-FK-03 | FK integrity — For every derived FK column, check membership in the referenced table's ID set; inject a dangling `_nk` — Full membership; injected case `ERR-FK`, no artifact marked complete | Clar | active |
+| CT-FK-04 | Exact re-run — Re-execute an exact-class stage on the same inputs — Same `payload_sha256`, `art_` and every record and FK ID | Clar | active |
+| CT-FK-05 | Reconstruction — Read serialized files, drop derived columns, canonicalize — Equals stored `payload_sha256`; also after re-writing Parquet with different row groups | Clar | active |
+| CT-FK-06 | Nested keys (S5) — Fixture with two episodes, one `event_link`, one two-member `candidate_event` — Link and event FKs resolve to the two episode IDs; event ID unchanged when member order is permuted | Clar | active |
+| CT-FK-07 | Key uniqueness — Duplicate natural key in one table — `ERR-NATURAL-KEY` | Clar | active |
+
+### Evidence and fitness tests (CT-F)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-F-01 | Bridged gap — POW with 1 s bridged gap: 1 s in `t_inferred_s`, not in detected | E.1 | active |
+| CT-F-02 | Class sums — EC-01/EC-02 on all fixtures | E.1 | active |
+| CT-F-03 | CM-09 — Fixture where half the inferred time has a present reference object yields 0.5 | E.1 | active |
+| CT-F-04 | Synthetic-only — All criteria met on synthetic data → `experimental` | E.1 | active |
+| CT-F-05 | Straddling interval — → `inconclusive` → `experimental` | E.1 | active |
+| CT-F-06 | No evidence — → `not_yet_assessable` | E.1 | active |
+| CT-F-07 | Late criterion — Criterion frozen after test evaluation → rejected | E.1 | active |
+| CT-F-08 | CV2 without expert result — Rejected | E.1 | active |
+
+### Linkage tests, milestone M2 (CT-L)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CT-L-01 | FX-17 — Groups and counts as tabulated; ambiguity recorded | E.1 | active |
+| CT-L-02 | FX-18 — Groups as tabulated; conflict flag on p1–q2 | E.1 | active |
+| CT-L-03 | FX-17/18 permuted — Identical output | E.1 | active |
+| CT-L-04 | Two calibrated cameras, one interaction (E FX-08) — S_LINK 1, S_VIEW 2 | E.1 | active |
+| CT-L-05 | Episode with only `U` edges — Counted alone; `n_unresolved_identity_episodes` incremented | E.1 | active |
+| CT-L-06 | Report scan — No "bound" or "confidence interval" attached to scenario counts | E.1 | active |
+
+### Time invariants (TI)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| TI-01 | Per (timeline, camera), coverage segments tile the timeline extent exactly once | E.1 | amended: Errata wording |
+| TI-02 | Σ `support_s` of frames in usable/usable_degraded segments = Σ `support_s` of those segments | E.1 | active |
+| TI-03 | `gap_unobserved` and `not_recorded` segments have `support_s = 0` and no frames | E.1 | active |
+| TI-04 | No duration in tracks, POWs, exposure profiles or episodes includes time from `gap_unobserved`, `not_recorded` or `unusable` coverage | E.1 | active |
+| TI-05 | For every interval record, Σ support by evidence class ≤ `span_s` | E.1 | active |
+| TI-06 | `frame_index` order is non-decreasing in `t_resolved_s` over eligible frames; duplicates have zero support | E.1 | amended |
+| TI-07 | Exactly one timed frame per recording carries `final_assumed` | E.1 | amended |
+| TI-08 | No POW spans a frame-less gap | E.1 | active |
+| TI-09 | For any tiling of a timeline, Σ clipped support over tiles = total support — CT-T-09: a frame whose support straddles a window boundary splits proportionally; the sum over both windows equals `s_k` | Errata | active |
+| TI-10 | No interval receives support from outside its bounds — CT-T-10: episode ending mid-support counts only up to its end | Errata | active |
+| TI-11 | `not_recorded` only on `aligned_session` timelines within the declared extent — CT-T-11: two unaligned files ⇒ two local timelines, no gap segment | Errata | active |
+| TI-12 | Linkage edges `L`/`P` only between episodes on the same `aligned_session` timeline; otherwise `U` — CT-T-12: same scene, unaligned cameras ⇒ `U` edges, S_LINK = S_VIEW | Errata | active |
+| TI-13 | Camera groups and reference windows lie on one timeline — CT-T-13: attempted cross-timeline window ⇒ rejected | Errata | active |
+
+### Split/sampling invariants (SP)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| SP-01 | Split v1 has no Validation-store inputs (manifest check) | E.1 | active |
+| SP-02 | Every reference window references the split version current at sampling time | E.1 | active |
+| SP-03 | A revision exists only with a triggering audit containing at least one violation | E.1 | active |
+| SP-04 | Revisions never move a recording into test | E.1 | active |
+| SP-05 | Reports use only `valid` metric results on the latest split version | E.1 | active |
+| SP-06 | T2b audits accept only declared shared sessions | E.1 | active |
+| SP-07 | Partition changes are never computed from metrics or labels (revision function signature has no such inputs) | E.1 | active |
+| SP-08 | No S8 run on test before the latest audit has `audit_complete` — CT-S-07: attempted early run ⇒ blocked | Errata | active |
+| SP-09 | Headline metrics only from a plan whose population was not altered by `sampled_annotation` discoveries after drawing — CT-S-08: counterexample fixture A3.1 ⇒ old-plan headline metrics refused; `requires_resample` set | Errata | active |
+| SP-10 | `conditional_on_selection` results carry no frequency/per-hour aggregates — CT-S-09 | Errata | active |
+| SP-11 | Metadata-screened leakage (R-1) leaves `design_valid` — CT-S-10: actor-roster leak found pre-split ⇒ no resample needed | Errata | active |
+
+### Calibration invariants (CB)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CB-01 | Tier-required fields present; tier-excluded fields null with `not_applicable` | E.1 | active |
+| CB-02 | `homography_img_to_floor` is invertible (non-zero determinant) | E.1 | active |
+| CB-03 | `load_state.height_m` non-null only with a `full_camera` calibration and a height reference or multi-view, or with `simulator_truth` | E.1 | active |
+| CB-04 | `e2_occupancy_series.method = projected_footprint` requires CB-03 conditions | E.1 | active |
+| CB-05 | `object_state.geometry_method = ground_plane_homography` allowed with either tier | E.1 | active |
+
+### Experiment-contract invariants (CC)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CC-01 | Every episode has `experiment = E1` and `classification_contract = E1_v1` | E.1 | active |
+| CC-02 | No Observation-store table contains E2 outcome labels | E.1 | active |
+| CC-03 | `e2_occupancy_profile` time sums equal the pair's co-observation support | E.1 | active |
+| CC-04 | E2 forbidden-field list (E VR-E-041) unchanged | E.1 | active |
+
+### Activity invariants (CD)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CD-01 | Activity segments tile `[session_start, session_end)` per camera | E.1 | active |
+| CD-02 | Each activity segment lies inside one coverage segment and obeys the table above | E.1 | active |
+| CD-03 | `not_evaluated` time is never reported or exported as zero activity or zero exposure | E.1 | active |
+
+### Identity invariants (ID) — also define CT-ID-01–07
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| ID-01 | One `src_` per distinct byte content | E.1 | active |
+| ID-02 | Duplicate natural key within one artifact is rejected; across artifacts the anchor rule ANC-1 applies (F.1 A1) | E.1 | amended |
+| ID-03 | `art_` is recomputable from `asp_` and `payload_sha256` (§2.3), never from file hashes | E.1 | amended: Errata A1 |
+| ID-04 | Every observation ID is recomputable from table, `art_`, natural key | E.1 | active |
+| ID-05 | No two records in the store share an ID (global uniqueness check) | E.1 | active |
+| ID-06 | Changing any config in a spec changes `asp_` and all downstream observation IDs | E.1 | active |
+| ID-07 | S5 config changes leave S4 `art_` unchanged | E.1 | active |
+| ID-08 | No observation ID contains a `run_` ID | E.1 | active |
+| ID-09 | Steps 1–4 never read an artifact-derived ID — CT-ID-01: run the builder with the ID library disabled through step 4; it must produce `art_` | Errata | active |
+| ID-10 | Exact re-run ⇒ identical `payload_sha256`, `art_`, record IDs — CT-ID-02: run twice; compare | Errata | active |
+| ID-11 | Changing `run_`, clock time or host changes no hash except `execution.json` — CT-ID-03: re-run with a faked clock and a different host name; identity block identical | Errata | active |
+| ID-12 | Different payloads ⇒ different `art_` — CT-ID-04: perturb one value in one row (e.g., a score by 1e-9); `art_` differs; record IDs differ | Errata | active |
+| ID-13 | Same payload under a different `asp_` ⇒ different `art_` — CT-ID-05: same rows, different config ID; `art_` differs | Errata | active |
+| ID-14 | Natural keys unique per table — CT-ID-06: duplicate key ⇒ `ERR-NATURAL-KEY` | Errata | active |
+| ID-15 | Parquet re-serialization changes `file_sha256` only — CT-ID-07: rewrite with different row-group size; `art_` unchanged | Errata | active |
+
+### Linkage invariants (LK)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| LK-01 | No group contains two episodes joined by `D` | E.1 | active |
+| LK-02 | Every pair inside an S_LINK group has an `L` edge; inside S_POSS, `L` or `P` | E.1 | active |
+| LK-03 | Grouping is identical under any permutation of input order (the algorithm sorts) | E.1 | active |
+| LK-04 | S_VIEW ≥ S_LINK ≥ S_POSS | E.1 | active |
+| LK-05 | Every original episode appears in exactly one group per scenario and is never modified | E.1 | active |
+| LK-06 | Any `L` or `P` edge between different groups sets `link_conflict` on that edge record | E.1 | active |
+| LK-07 | `wording = scenario_count` everywhere | E.1 | active |
+| LK-08 | Event labels are recomputed from member flags (E VR-E-032) | E.1 | active |
+
+### Evidence-class invariants (EC)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| EC-01 | For every track, POW and episode: detected + inferred + insufficient = total support | E.1 | active |
+| EC-02 | Exposure band times split by class sum to the unsplit totals | E.1 | active |
+| EC-03 | Inferred frames never carry `prov_class = model_estimated` for positions; they are `geometry_estimated` with `inferred = true` | E.1 | active |
+| EC-04 | Episode labels are computed on all frames (unchanged logic); `support_detected_frac` is reported with them | E.1 | active |
+| EC-05 | OBX exports carry both primary and secondary durations | E.1 | active |
+
+### Fitness invariants (FT) — also define CT-F-09/10
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| FT-01 | `technically_validated` only if the decision rule returns it from stored results | E.1 | active |
+| FT-02 | Every criterion used was frozen before its first test-partition evaluation | E.1 | active |
+| FT-03 | `unsuitable` requires a recorded `not_met` result | E.1 | active |
+| FT-04 | Missing evidence yields `not_assessable`, never `unsuitable` | E.1 | active |
+| FT-05 | CV1 requires both definition and source references; CV2 requires an expert-alignment result | E.1 | active |
+| FT-06 | No status above CV2 can be stored | E.1 | active |
+| FT-07 | Results from `invalidated_leakage` evaluations are ignored | E.1 | active |
+| FT-08 | Overrides only downgrade | E.1 | active |
+| FT-09 | Every status record has a complete scope key — CT-F-09 | Errata | active |
+| FT-10 | A `not_met` in scope X leaves scope Y unchanged — CT-F-10: clearance fails on uncalibrated-viewpoint scope; calibrated scope remains `experimental` | Errata | active |
+| FT-11 | No unscoped `unsuitable` value exists — Schema check | Errata | active |
+
+### Superseded clock invariants (CA)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| CA-01 | ~~`method = assumed_zero` ⇔ `sigma_s` null with `not_observable`~~ | E.1 | superseded: By TI-11–TI-13 (Errata A2.C; `assumed_zero` removed) |
+| CA-02 | ~~`sigma_s ≥ 0` when present~~ | E.1 | superseded: By TI-11–TI-13 |
+| CA-03 | ~~As above~~ | E.1 | superseded: By TI-12 and VR-E-031 (amended) |
+
+### Record fixtures from Package E (FX)
+
+| ID | Normative text | Source | Status |
+|---|---|---|---|
+| FX-01 | Synthetic pair, moving forklift, dodge (T5) — E1 positive | E | note: Record content is now the normative Appendix N1 row T5 (and N2 for geometry) |
+| FX-02 | Parked forklift, walk-by (T1) — Hard negative | E | note: = Appendix N1 T1 / N2 G1 |
+| FX-03 | Distant fast approach, crossing paths (T3) — PC before proximity | E | note: = Appendix N1 T3 / N2 G3 |
+| FX-04 | Moving forklift, footprint overlap, no cue (T6) — UD | E | note: = Appendix N1 T6 |
+| FX-05 | Stationary forklift overlap, no cue (T8) — O + review routing | E | note: = Appendix N1 T8 |
+| FX-06 | Occluded closest approach (T10, T11) — IE, `K` unknown | E | note: = Appendix N1 T10, T11 |
+| FX-07 | Uncalibrated camera — Null reasons, image-only path | E | active |
+| FX-08 | One interaction, two calibrated cameras — `linked_calibrated`, S_LINK = 1 | E | milestone M2 |
+| FX-09 | Two concurrent interactions, two uncalibrated overlapping cameras — S_POSS assumptions flagged | E | milestone M2 |
+| FX-10 | VFR video with a 0.5 s PTS gap and one corrupt frame — Timebase, coverage | E | active |
+| FX-11 | Three activity states over one minute on one camera: 0–20 s coverage `unusable` / AI `not_evaluated` / reference `unobservable` (unusable_footage); 20–40 s `usable` / `observed_no_detection` / `objects_present_no_interaction` (a forklift the detector missed); 40–60 s `usable` / `observed_no_detection` / `reference_verified_absent` | E | amended |
+| FX-12 | E2 elevated load, person in projected footprint, no mass — Conditional E2, forbidden fields | E | amended: E2 measurement only: `load_state` (elevated, height 2.4 ± 0.3 m only under CB-03 conditions, mass null `not_supplied`) and one `e2_occupancy_profile`; no episode |
+| FX-13 | Two reviewers disagree — Tier 2 adjudication | E | active |
+| FX-14 | Two cameras of one interaction placed in train and test — Leakage rejection | E | active |
+| FX-15 | ECS window — Exclusion from headline and frequency metrics | E | active |
+| FX-16 | Injected perception + geometry error resolved only jointly — Attribution | E | active |
+
+## T2. Linkage fixtures (milestone M2)
+
+**FX-17 (non-transitive A–B–C).**
+- Three cameras on one `aligned_session` timeline, uncalibrated, with declared overlapping fields of view.
+- Edges: A–B `P`; B–C `P`; A–C `D` (time-disjoint). Order A, B, C.
+- Expected:
+  - S_VIEW: {A}, {B}, {C}, count 3.
+  - S_LINK: {A}, {B}, {C}, count 3.
+  - S_POSS: {A, B}, {C}, count 2, with `ambiguous = true` on {A, B} (B could also join {C}).
+
+**FX-18 (conflicting multi-camera interaction).**
+- Two workers p and q, one forklift, two calibrated cameras on one aligned timeline.
+- Episodes: cam1 p1, q1; cam2 p2, q2.
+- Edges: p1–p2 `L`; q1–q2 `L`; a spurious p1–q2 `L`; same-camera pairs `D`. Order p1, p2, q1, q2.
+- Steps:
+  - p1 starts G1.
+  - p2 joins G1.
+  - q1 is `D` to p1, so it starts G2.
+  - q2 cannot join G1 (p2–q2 is `D`), so it joins G2.
+- Expected: S_VIEW 4, S_LINK 2, S_POSS 2; `link_conflict = true` on the p1–q2 edge; no alternative group for q2.
+
+## T3. Leakage counterexample fixture FX-A3.1 (CT-S-08)
+
+**Setup:**
+- Test frame: recordings A–D, each tiled into 10 windows. RES samples 2 windows per recording (π = 0.2, seed from config).
+- A and B share one interaction with a training recording in 3 of their 10 windows. That link is **not** in the metadata.
+- The link is discovered only if a sampled window contains the shared interaction. The annotation of that window then adds a `same_physical_interaction` edge with `discovery_basis = sampled_annotation`.
+
+**Expected:**
+- PR-01 moves the affected group to train.
+- The affected test strata become `requires_resample`.
+- Headline metrics from the original plan are refused (SP-09).
+- A new plan drawn on the revised eligible population yields `design_valid` results.
+
+## T4. Calibration, experiment, activity and timeline record fixtures
+
+Verbatim from E.1 and the Errata. FX-A1 and FX-A2 are superseded and omitted.
+
+```json
+{"fixture": "FX-B1-valid-homography", "calibration_id": "cal_h1", "camera_id": "cam_03", "world_frame_id": "wf_1",
+ "calibration_tier": "ground_plane_homography",
+ "intrinsics_K": null, "intrinsics_K_null_reason": "not_applicable",
+ "R_cam_from_world": null, "R_cam_from_world_null_reason": "not_applicable",
+ "t_cam_from_world_m": null, "t_cam_from_world_m_null_reason": "not_applicable",
+ "distortion_model": null, "distortion_model_null_reason": "not_supplied",
+ "homography_assumes_undistorted": true,
+ "homography_img_to_floor": [0.012, 0.001, -4.1, 0.0, 0.019, -6.2, 0.0, 0.0004, 1.0],
+ "reproj_error_px_rmse": null, "reproj_error_px_rmse_null_reason": "not_applicable",
+ "quality_state": "supplied_unvalidated", "method": "survey_points_pnp_ground_only",
+ "height_reference_ids": []}
+```
+
+```json
+{"fixture": "FX-B2-invalid-height-from-homography", "track_id": "trk_load_4", "frame_index": 880,
+ "method": "height_reference_plane", "calibration_id": "cal_h1",
+ "elevation_state": "elevated", "height_m": 2.4, "height_sigma_m": 0.3,
+ "expected_error": "CB-03: height requires full_camera calibration with height reference, multi-view, or simulator truth"}
+```
+
+```json
+{"fixture": "FX-C1-valid-e2-profile", "e2_profile_id": "e2p_1", "person_track_id": "trk_p2", "load_track_id": "trk_load_4",
+ "method": "image_overlap_baseline", "t_coobserved_s": 6.0,
+ "t_occupied_detected_s": 1.2, "t_occupied_inferred_s": 0.3,
+ "t_not_occupied_s": 3.9, "t_occupancy_unknown_s": 0.6}
+```
+
+```json
+{"fixture": "FX-C2-invalid-e2-episode", "episode_id": "ep_x", "experiment": "E2",
+ "classification_contract": "E1_v1",
+ "expected_error": "CC-01: experiment E2 not allowed in schema v1.1"}
+```
+
+```json
+{"fixture": "FX-D1-valid", "activity_segment_id": "act_1", "camera_id": "cam_02", "session_id": "ses_1",
+ "t_start_session_s": 0.0, "t_end_session_s": 20.0, "coverage_state": "unusable",
+ "ai_activity_state": "not_evaluated"}
+```
+
+```json
+{"fixture": "FX-D2-invalid", "activity_segment_id": "act_2", "camera_id": "cam_02", "session_id": "ses_1",
+ "t_start_session_s": 0.0, "t_end_session_s": 20.0, "coverage_state": "unusable",
+ "ai_activity_state": "observed_no_detection",
+ "expected_error": "CD-02: unusable coverage requires not_evaluated"}
+```
+
+```json
+{"fixture": "FX-A3-valid-local", "recording_id": "rec_b7", "timeline_id": "tl_b7", "timeline_kind": "recording_local",
+ "clock_alignment_id": null, "clock_alignment_id_null_reason": "not_applicable"}
+```
+
+```json
+{"fixture": "FX-A4-invalid-gap-without-alignment", "timeline_id": "tl_b7", "timeline_kind": "recording_local",
+ "coverage_state": "not_recorded", "t_start_s": 120.0, "t_end_s": 180.0,
+ "expected_error": "TI-11: not_recorded segments only on aligned_session timelines within a declared session extent"}
+```
+**FX-B3 (valid full-camera record, new).** Values are illustrative; field presence and nullability are what the test checks.
+
+```json
+{"fixture": "FX-B3-valid-full-camera", "calibration_id": "cal_f1", "camera_id": "cam_01", "world_frame_id": "wf_1",
+ "calibration_tier": "full_camera", "method": "dataset_supplied", "valid_from_us": 0,
+ "valid_to_us": null, "valid_to_us_null_reason": "not_applicable",
+ "intrinsics_K": [1000.0, 0.0, 960.0, 0.0, 1000.0, 540.0, 0.0, 0.0, 1.0],
+ "R_cam_from_world": [1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0],
+ "t_cam_from_world_m": [0.0, 3.0, 8.0],
+ "distortion_model": "none", "distortion_coeffs": [],
+ "homography_assumes_undistorted": false,
+ "homography_img_to_floor": null, "homography_img_to_floor_null_reason": "not_computed_by_config",
+ "reproj_error_px_rmse": null, "reproj_error_px_rmse_null_reason": "not_supplied",
+ "heldout_ground_error_m_rmse": null, "heldout_ground_error_m_rmse_null_reason": "not_computed_by_config",
+ "quality_state": "supplied_unvalidated", "height_reference_ids": []}
+```
+
+## T5. Identity test vector (CT-FK, CT-ID; reference values of E-1.2.1 §2.3)
+
+**Spec ID:** the literal string `asp_s3example0000000000000`, used as given. This vector is exempt from ID-pattern validation; `rec_a` is likewise a literal.
+
+**Payload, 2 tables, 7 rows (payload columns only):**
+
+| table | row |
+|---|---|
+| track | `{"recording_id":"rec_a","track_local_id":1,"class":"person","start_frame":10,"end_frame_excl":13}` |
+| track | `{"recording_id":"rec_a","track_local_id":2,"class":"forklift","start_frame":10,"end_frame_excl":12}` |
+| track_point | `{"track_nk":["rec_a",1],"frame_index":10,"state":"tracked"}` |
+| track_point | `{"track_nk":["rec_a",1],"frame_index":11,"state":"predicted"}` |
+| track_point | `{"track_nk":["rec_a",1],"frame_index":12,"state":"tracked"}` |
+| track_point | `{"track_nk":["rec_a",2],"frame_index":10,"state":"tracked"}` |
+| track_point | `{"track_nk":["rec_a",2],"frame_index":11,"state":"tracked"}` |
+
+**Natural keys:**
+- track: `[recording_id, track_local_id]`
+- track_point: `[track_nk, frame_index]`
+
+**Ordering rule (clarified):**
+- Tables go in byte-wise name order.
+- Rows are sorted by the **byte-wise (UTF-8) lexicographic order of `JCS(natural_key)`**, not numeric order. For example, `[["rec_a",1],10]` sorts before `[["rec_a",1],9]`.
+
+**Canonical stream** (`\t` is a tab; each line ends with `\n`, including the last):
+
+```
+track\t{"class":"person","end_frame_excl":13,"recording_id":"rec_a","start_frame":10,"track_local_id":1}
+track\t{"class":"forklift","end_frame_excl":12,"recording_id":"rec_a","start_frame":10,"track_local_id":2}
+track_point\t{"frame_index":10,"state":"tracked","track_nk":["rec_a",1]}
+track_point\t{"frame_index":11,"state":"predicted","track_nk":["rec_a",1]}
+track_point\t{"frame_index":12,"state":"tracked","track_nk":["rec_a",1]}
+track_point\t{"frame_index":10,"state":"tracked","track_nk":["rec_a",2]}
+track_point\t{"frame_index":11,"state":"tracked","track_nk":["rec_a",2]}
+```
+
+**Expected values:**
+
+| Quantity | Value |
+|---|---|
+| `payload_sha256` = SHA-256(stream, UTF-8) | `2b38d32502f58662b39c32bd796a2d24e4dfc3ecd87140f1dcc9ff9568fff068` |
+| `art_` = `"art_" + b32(SHA-256(JCS([asp, payload_sha256])))` | `art_pmpcesnhpbbgtw2f3fhb6zkqxk` |
+| track 1 ID = `"trk_" + b32(SHA-256(JCS(["track", art, ["rec_a",1]])))` | `trk_zr3hb5b6y2jjuw7ab7aml6ymtf` |
+| track 2 ID | `trk_kwwpqd3ie7pk73ai5tvu2mevrq` |
+| track_point (["rec_a",1], 10) = `"tpt_" + b32(SHA-256(JCS(["track_point", art, [["rec_a",1],10]])))` | `tpt_f3lfwb6nyvogr3qwgwiv3gl6zn` |
+| track_point (["rec_a",1], 11) | `tpt_zclgpfkf4k7j52hftbgoilotyu` |
+| track_point (["rec_a",1], 12) | `tpt_46omowvb74tg5fe4u7zwsdj6or` |
+| track_point (["rec_a",2], 10) | `tpt_mzpwebvgdvlqaxls3rwuf2ddp7` |
+| track_point (["rec_a",2], 11) | `tpt_dbqp2kun3bv562njoyaz72zoy2` |
+| Derived FK `track_point.track_id` | track 1 ID for the three `["rec_a",1]` points; track 2 ID for the two `["rec_a",2]` points |
+
+- `b32(d)` = lowercase RFC 4648 base32 of the 32-byte digest, padding removed, first 26 characters.
+- JCS for these values equals sorted-key, compact JSON (`separators=(",",":")`, UTF-8, no ASCII escaping). For floats a real RFC 8785 implementation is still required.
+
+## T6. Change log
+
+| Version | Change |
+|---|---|
+| E-1.2.3 | Appendix T added (CR-001 / D-1). VR-E-001/004/010–014/016/030/031/060/070, CT-E-09/26–29, CT-T-05/07, CT-S-02, CT-I-06, ID-02/03, TI-01/06/07, FX-11/12 reconciled with E.1, the Errata, the Clarification and F.1. FX-B3 added. Identity test vector made complete, with a byte-wise ordering rule. No change to definitions, units, sampling or reporting semantics |

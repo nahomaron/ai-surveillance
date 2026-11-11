@@ -22,7 +22,6 @@ venv/
 .vscode/
 .idea/
 
-docs/
 # Local AI instructions and plans
 CLAUDE.md
 WORKPLAN.md
