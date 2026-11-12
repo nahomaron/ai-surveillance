@@ -438,3 +438,7 @@ _(the agent appends entries here)_
 - Tests: 1651/1651 (full suite), determinism re-run: identical (1651/1651; S5 artifact IDs G1 art_jzci6rz3ipltxf3uhbpz2bzg7j, G2 art_dminksfz6xnn522tniwk4aj732, G3 art_hxo7uxntshvq2l23y223pger6f in both runs; they differ from the pre-T12 IDs because the rule_configuration changed (T12.1) and the test S4 now uses the real substrate_config ID)
 - Problems / CRs: AR-45. CR-017 / D-18 (CM-10 basis), non-blocking.
 - Next: T-15.
+
+### 2026-11-12 — T-15 in progress (part A: OBX export)
+- Did: `export/obx.py`. Export-class guard EXP-1 to EXP-3 (ERR-EXPORT-CLASS both ways; preregistration_ref for test-partition metrics); one serializer for both classes (JCS files with metadata, sorted rows, data dictionary = JSON Schema per table, manifest with SHA-256 per file); shared validators (schema, forbidden names and values, VR-E-034, VR-E-040 including the zero-exposure clause carried from T-01); fixture exports written under `fixture/`. Episodes carry continuation_of_nk into OBX (AR-40 item 4 ruling). Lineage check for CT-E-28.
+- Contract tests: CT-X-01, CT-X-02, CT-X-03, CT-X-05, CT-E-26 (FX-12 E2 records), CT-E-27 (content scan), VR-E-040.
