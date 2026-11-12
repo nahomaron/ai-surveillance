@@ -51,3 +51,10 @@ Question: The contract tiles each timeline with windows of length w_ref, but nev
 Options: (a) Complete windows only, with the remainder outside the frame. (b) A final, shorter window whose length is recorded, with the guard clipped at the end. (c) Require w_ref to divide every timeline length.
 Agent's recommendation: (b). Details are in CR-006.
 Owner decision (12 Nov 2026): DECIDED (b). The last window of a timeline may be shorter. window_length_s is recorded on reference_window; the guard is clipped at the timeline end; weights stay 1/π.
+
+## D-8 (2026-11-12) — Where the forklift footprint sits relative to the tracked point        status: OPEN
+Task: T-08 (not blocking M0)   Blocking: the camera-based detector path (T-22, T-23, M1b)
+Question: Footprint priors declare an anchor (box_bottom_centre, rear_axle or centre), but the contract does not say how a camera-derived floor point maps to the footprint centre for the first two. This shifts clearance. M0 uses oracle centre positions, so it is unaffected.
+Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre, and rear_axle uses a declared rear overhang along yaw. (b) The Architect supplies another rule.
+Agent's recommendation: (a). Details are in CR-007.
+Owner decision: ______

@@ -105,13 +105,16 @@ def test_ar5_config_table_columns():
     # E-1.2.4 T7 adds the delta_nom declaration; AR-24 names it and the final-frame variant field.
     assert _columns("decode_config") == {"k_sup": "f64", "f_untimed": "f64", "f_sub": "f64", "rules_version": "str", "version_label": "str",
                                          "delta_nom_declarations": "list", "final_frame_support": "enum"}
-    assert _columns("geometry_config") == {"w_v_s": "f64", "motion_models": "list", "footprint_prior_ids": "list", "version_label": "str"}
+    # E-1.2.6 T8.6 adds v_part (AR-35 places it in geometry_config).
+    assert _columns("geometry_config") == {"w_v_s": "f64", "v_part": "f64", "motion_models": "list", "footprint_prior_ids": "list", "version_label": "str"}
     assert _columns("sampling_plan_config") == {"sample_type": "enum", "w_ref_s": "f64", "w_guard_s": "f64", "tiling_origin_tl_s": "f64",
                                                 "strata": "list", "seed": "i64", "version_label": "str"}
 
 
 def test_ar6_named_configuration_fields():
-    assert _columns("substrate_config") == {"g_max": "i32", "pair_classes": "list", "v_min": "f64", "k_sup": "f64", "motion_models": "list", "version_label": "str"}
+    # AR-35 adds the T8.3 prediction horizon.
+    assert _columns("substrate_config") == {"g_max": "i32", "pair_classes": "list", "v_min": "f64", "k_sup": "f64", "motion_models": "list",
+                                            "prediction_horizon_s": "f64", "version_label": "str"}
     for table in ("footprint_prior", "clearance_band_scheme", "rule_configuration"):
         assert "version_label" in _columns(table)
 

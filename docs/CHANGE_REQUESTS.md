@@ -286,3 +286,24 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 - **Gap:** under T2b, "only the declared shared sessions may span" (§8), and CT-S-05 expects an audit to pass when the same interaction is seen by cameras of a declared shared session in different partitions. The audit record has no field to mark such an edge as expected. **Options:** (a) the audit leaves edges inside one declared shared session out of `edges_added` and out of violation detection, (b) record them with a new edge type. **Choice:** (a). Leakage groups for T2b are built without same-session edges for declared sessions, and undeclared spanning sessions raise `ERR-LEAKAGE` at freeze (SP-06, CT-S-06).
 - **No meaning effect:** implements SP-06 and CT-S-05 as written. **Review flag:** R-4 asks that revisions record their edges; expected T2b edges are not recorded because they trigger no revision. **Files/tests:** `splits/builder.py`; `test_ct_s_05_t2b_declared_share`, `test_ct_s_06_t2b_undeclared_share`. **Reverse:** add an edge type.
 - **Architect review (12 Nov 2026): ACCEPTED WITH CHANGE.** Edges inside a declared T2b shared session are recorded in `leakage_audit.edges_added` but not listed as violations. **Applied:** see the T-10 follow-up commit; `revise` receives the recordings' metadata so that it applies the same exclusion (SP-07 still holds: metadata only, no metrics or labels).
+
+## AR-35 — Schema and labelling details needed to implement T8
+- **Gaps and choices** (all representation; T8 values are unchanged):
+  1. `pair_series.image_gap_px` and `image_gap_norm` become nullable (null `not_observable`), because R1's P is unknown "when either box missing" (§6.0) and T8.1 gap frames can lack a box.
+  2. `pair_series.predicted[].sigma_m` becomes nullable (null `not_computed_by_config`), because no rule defines the uncertainty of a predicted minimum.
+  3. T8.2 gives the pair-frame a `footprint_orientation_unknown` borderline flag, but `pair_series` has no flag field. It gains `borderline_flags`, and the episode `borderline_flags` enum gains the same value so S5 can carry it.
+  4. The T8.3 horizon τ is stored as `substrate_config.prediction_horizon_s`, because S4 computes the prediction and S5 may not write substrate. T8.6's *v_part* is stored in `geometry_config.v_part`.
+  5. With a null covariance, `clearance_sigma_m` is null with reason `not_supplied`. `not_estimated` is a `sigma_status` value, not a null reason.
+  6. T8.7 lists occlusion reasons for predicted objects. A lost or missing object is also reported as `person_occluded` or `forklift_occluded`; `q_state` itself follows T8.7 exactly.
+  7. Oracle positions: `geometry_method = simulator_truth`, `calibration_id` null `not_applicable`, `world_frame_id` null `not_supplied`. The exposure profile's `calibration_tier` is `calibrated_unvalidated`, the conservative choice.
+- **No meaning effect:** nullability, field placement and labels only. **Review flag:** items 6 and 7. **Files/tests:** `schema/tables.py`, `substrate/*`; `tests/substrate/test_part_b.py`, `test_ar5_config_table_columns`, `test_ar6_named_configuration_fields` (updated for the new fields). **Reverse:** edit the definitions.
+
+## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-08 (not blocking M0); blocks the detector path (T-22, T-23, M1b).
+**Contract sections:** E-1.2.1 §5.2 `footprint_prior.anchor` · enum{box_bottom_centre, rear_axle, centre}; §5.5.
+**Meaning-affecting:** yes. It shifts the forklift footprint, and so clearance.
+
+**Problem.** A calibrated camera gives the floor point under the box's bottom centre (`foot_point_px`). The contract does not say how that point relates to the footprint rectangle for `box_bottom_centre` or `rear_axle` anchors, for example how far behind or below the centre it lies, and along which axis given yaw. Oracle positions are footprint centres, so the M0 fixtures are unaffected. The builder currently treats the projected point as the footprint centre, which is correct only for `anchor = centre`.
+**Proposed resolution:** for `box_bottom_centre`, use the projected point as the footprint centre (the bottom-centre of a ground-contact box approximates the footprint's image centre). For `rear_axle`, place the centre at `length/2 − rear_overhang` ahead along yaw, with `rear_overhang` added to the prior. If yaw is unknown, use the circumscribed disc as in T8.2.
+**Decision:** ______   **Approver:** ______

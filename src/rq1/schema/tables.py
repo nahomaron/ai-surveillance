@@ -193,6 +193,7 @@ pair_classes list<enum{forklift,pallet_truck}> ~
 v_min f64 ~
 k_sup f64 ~
 motion_models list<str> ~
+prediction_horizon_s f64 ~
 version_label? str ~
 """)
 _t("clearance_band_scheme", "bsc", "Config", "-", "configuration", "", """
@@ -223,6 +224,7 @@ version_label? str ~
 """)
 _t("geometry_config", "gcf", "Config", "-", "configuration", "", """
 w_v_s f64 ~
+v_part f64 ~
 motion_models list<str> ~
 footprint_prior_ids list<id> ~
 version_label? str ~
@@ -374,14 +376,15 @@ clearance_sigma_m? f64
 sigma_status sigma_status
 clearance_state enum{measured,unmeasurable_uncalibrated,unmeasurable_occluded,unmeasurable_geometry_failure}
 footprint_overlap tri
-image_gap_px f64
-image_gap_norm f64
+image_gap_px? f64 ~
+image_gap_norm? f64 ~
 closing_rate_mps? f64
 ttca_s? f64
-predicted list<struct{motion_model_id:str,horizon_s:f64,pred_min_clearance_m:f64,sigma_m:f64,t_at_min_s:f64}>
+predicted list<struct{motion_model_id:str,horizon_s:f64,pred_min_clearance_m:f64,sigma_m?:f64,t_at_min_s:f64}> ~
 q_state enum{sufficient,insufficient}
 q_reasons list<q_reason>
 evidence_class evidence_class
+borderline_flags list<enum{footprint_orientation_unknown}> ~
 """)
 _t("exposure_profile", "exp", "Obs", "S4", "observation", "subject_type subject_nk band_scheme_id", """
 subject_type enum{pow,gpw}
@@ -476,7 +479,7 @@ lbl_CT bool
 lbl_IE bool
 summary_label summary_label
 review_route bool
-borderline_flags list<enum{clearance_within_k_sigma,speed_near_v_min,onset_sensitive}>
+borderline_flags list<enum{clearance_within_k_sigma,speed_near_v_min,onset_sensitive,footprint_orientation_unknown}>
 label_stability_frac? f64
 exp_t_in_band_detected_s list<f64>
 exp_t_in_band_inferred_s list<f64>
