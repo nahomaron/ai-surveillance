@@ -17,6 +17,7 @@ def person_rows(built):
 
 
 # CT-T10-02 (T10.2): at 10 fps with w_v = 0.5 s, 4 frames span 0.3 s >= 0.25 s and give a velocity; 3 frames span 0.2 s and give null.
+@pytest.mark.determinism
 def test_ct_t10_02_four_frames_give_velocity_three_do_not():
     assert kinematics.window_ok([0.0, 0.1, 0.2, 0.3], 0.5) and not kinematics.window_ok([0.0, 0.1, 0.2], 0.5)
     # Person lost on frame 4: run 0-3 has 4 frames (whole run used, T9.1), so every frame of it has speed 0.
@@ -30,12 +31,14 @@ def test_ct_t10_02_four_frames_give_velocity_three_do_not():
 
 
 # CT-T10-03 (T10.3(a)): closing rate with the T9.1 window.
+@pytest.mark.determinism
 def test_ct_t10_03_g3_closing_rate_on_every_frame():
     built, _ = build_s4(synthetic_s1.build(10), tracks(10), n2_positions("N2-G3", 10))
     rows = by_frame(built)
     assert [rows[i]["closing_rate_mps"] for i in range(10)] == pytest.approx([1.5] * 10, abs=TOL)  # T10.3 check
 
 
+@pytest.mark.determinism
 def test_ct_t10_03_unmeasured_frame_gets_a_rate_when_the_window_has_three_measured_frames():
     # Person lost on frame 5 only (bridged). Frame 5's clearance is not measured, but its window [0.25, 0.75] holds frames
     # 3-7, of which 3, 4, 6, 7 are measured (span 0.4 s >= 0.25 s): rate = -slope of 3.70 - 1.5 t = 1.5.
@@ -44,6 +47,7 @@ def test_ct_t10_03_unmeasured_frame_gets_a_rate_when_the_window_has_three_measur
     assert row["clearance_state"] != "measured" and row["closing_rate_mps"] == pytest.approx(1.5, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t10_03_null_with_fewer_than_three_measured_frames():
     # Person lost on frames 4-6. Frame 5's window [0.25, 0.75] holds frames 3-7; only 3 and 7 are measured -> null.
     # Frame 0's shifted window [0, 0.5] holds frames 0-5; measured 0-3 (4 frames, 0.3 s) -> 1.5.
@@ -53,6 +57,7 @@ def test_ct_t10_03_null_with_fewer_than_three_measured_frames():
     assert rows[0]["closing_rate_mps"] == pytest.approx(1.5, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t10_03_zero_is_stored_as_positive_zero():
     # G1: person and forklift static, identical clearance on every frame, so the slope is exactly zero and -0.0 would arise.
     built, _ = build_s4(synthetic_s1.build(20), tracks(20), n2_positions("N2-G1", 20))
@@ -61,6 +66,7 @@ def test_ct_t10_03_zero_is_stored_as_positive_zero():
 
 
 # CT-T10-10 (T10.9): q_reasons for lost objects.
+@pytest.mark.determinism
 def test_ct_t10_10_lost_objects_are_reported_as_lost():
     assert evidence.q_state("insufficient", "lost", "visible", "measured") == ("insufficient", ["person_lost"])
     assert evidence.q_state("insufficient", "visible", "lost", "measured") == ("insufficient", ["forklift_lost"])

@@ -18,10 +18,12 @@ def _write(tmp_path, table="detection", rows=None, meta=META):
     return path
 
 
+@pytest.mark.determinism
 def test_ct_e_01_produced_file_conforms(tmp_path):
     assert files.validate_file(_write(tmp_path), "detection", "E-1.2.3") == []
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table", sorted(registry.TABLES))
 def test_every_table_round_trips_through_parquet(tmp_path, table):
     row = registry.minimal_row(table)
@@ -29,6 +31,7 @@ def test_every_table_round_trips_through_parquet(tmp_path, table):
     assert files.read_table(path, table, "E-1.2.3") == [row]
 
 
+@pytest.mark.determinism
 def test_nested_values_round_trip(tmp_path):
     row = registry.minimal_row("flag_series")
     row["C_by_provider"] = {"R3": 1, "R4": 2}
@@ -40,11 +43,13 @@ def test_nested_values_round_trip(tmp_path):
     assert files.read_table(path, "track_point", "E-1.2.3")[0]["track_nk"] == ["rec_a", 1]
 
 
+@pytest.mark.determinism
 def test_ct_e_01_rejects_execution_key_in_metadata(tmp_path):
     path = _write(tmp_path, meta={**META, "run_id": "run_x"})
     assert "VR-E-001" in {i.rule for i in files.validate_file(path, "detection", "E-1.2.3")}
 
 
+@pytest.mark.determinism
 def test_ct_e_30_minor_reader_ignores_added_column(tmp_path):
     path = _write(tmp_path)
     table = pq.read_table(path)
@@ -53,6 +58,7 @@ def test_ct_e_30_minor_reader_ignores_added_column(tmp_path):
     assert files.read_table(path, "detection", "E-1.2.9") == [registry.minimal_row("detection")]
 
 
+@pytest.mark.determinism
 def test_ct_e_30_major_mismatch_fails(tmp_path):
     path = _write(tmp_path, meta={**META, "schema_version": "E-1.3.0"})
     with pytest.raises(ContractError) as exc:
@@ -83,6 +89,7 @@ def test_ct_e_05_sentinel_world_value_is_rejected():
     assert "VR-E-014" in {i.rule for i in vr_rules.check_object_states([row], {})}
 
 
+@pytest.mark.determinism
 def test_ar7_timestamps_round_trip_in_rfc3339_jcs_form():
     # AR-7 as revised by the Architect (11 Nov 2026): exactly YYYY-MM-DDTHH:MM:SS.ffffffZ.
     from rq1.schema.canonical import canonical_json

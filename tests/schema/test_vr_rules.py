@@ -10,11 +10,13 @@ from rq1.schema import coverage, registry, validate
 from rq1.schema.errors import ContractError, check_schema_major
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("case", CASES, ids=lambda c: c.rule)
 def test_passing_fixture_has_no_issues(case):
     assert case.run(case.good()) == []
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("case", CASES, ids=lambda c: c.rule)
 def test_failing_fixture_is_rejected_by_the_cited_rule(case):
     issues = case.run(case.bad())
@@ -23,6 +25,7 @@ def test_failing_fixture_is_rejected_by_the_cited_rule(case):
         assert case.code in {i.code for i in issues if i.rule == case.rule}
 
 
+@pytest.mark.determinism
 def test_coverage_lists_every_active_rule_exactly_once():
     # Appendix T T1. VR-E-019 is a numbering gap (AR-10); 033 and 063 are superseded.
     report = coverage.vr_status()
@@ -32,12 +35,14 @@ def test_coverage_lists_every_active_rule_exactly_once():
     assert len(report) == 33
 
 
+@pytest.mark.determinism
 def test_every_active_rule_has_a_failing_fixture():
     report = coverage.vr_status()
     assert {r for r, s in report.items() if s.status == "implemented"} == {c.rule for c in CASES}
     assert {s.status for s in report.values()} == {"implemented"}
 
 
+@pytest.mark.determinism
 def test_site_approvals_still_required_for_real_origins():
     # Section 5.1 keeps this requirement; Appendix T moved the VR-E-070 ID to source_file and clips.
     row = registry.minimal_row("site")
@@ -53,6 +58,7 @@ def test_ar8_sentinel_applies_only_to_non_negative_columns(column, value, bad):
     assert validate.is_sentinel(column, value) is bad
 
 
+@pytest.mark.determinism
 def test_ar15_time_keys_use_exact_half_even_microseconds():
     from rq1.ids.core import to_us
     assert to_us(0.1) == 100000
@@ -78,6 +84,7 @@ def test_tri_only_accepts_0_1_2(value):
     assert validate.validate_row("flag_series", row)
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("value", ["trk_abc", "TRK_zr3hb5b6y2jjuw7ab7aml6ymtf", "toolong_zr3hb5b6y2jjuw7ab7aml6ymtf"])
 def test_bad_id_format_rejected(value):
     row = registry.minimal_row("track")
@@ -85,6 +92,7 @@ def test_bad_id_format_rejected(value):
     assert validate.validate_row("track", row)
 
 
+@pytest.mark.determinism
 def test_id_accepts_derived_and_uuid_forms():
     row = registry.minimal_row("track")
     row["recording_id"] = "rec_zr3hb5b6y2jjuw7ab7aml6ymtf"
@@ -99,6 +107,7 @@ def test_unknown_column_rejected():
     assert validate.validate_row("track", row)
 
 
+@pytest.mark.determinism
 def test_nullable_nested_struct_requires_reason():
     row = registry.minimal_row("session")
     row["lineage"]["seed"] = None
@@ -118,6 +127,7 @@ def test_bbox_requires_x1_lt_x2_section_4_1():
     assert validate.validate_row("detection", row)
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table", sorted(registry.TABLES))
 def test_minimal_row_is_valid_and_loads_into_arrow(table):
     row = registry.minimal_row(table)

@@ -52,6 +52,7 @@ def frames_with(rows, **match):
 
 # --- CT-ID-A1: FX-ID-1 to FX-ID-8 ------------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_fx_id_1_one_to_one():
     expected, rows, tracks, missed = run("FX-ID-1")
     a = tracks["A"]
@@ -60,6 +61,7 @@ def test_fx_id_1_one_to_one():
     assert missed == []
 
 
+@pytest.mark.determinism
 def test_fx_id_2_identity_switch():
     expected, rows, tracks, _ = run("FX-ID-2")
     a, want = tracks["A"], expected["tracks"]["A"]
@@ -67,6 +69,7 @@ def test_fx_id_2_identity_switch():
     assert a["dominant_share"] == pytest.approx(want["dominant_share"], abs=1e-12)  # tie 2.5 s each -> lower ID p1
 
 
+@pytest.mark.determinism
 def test_fx_id_3_fragments_and_missed_frames():
     expected, rows, tracks, _ = run("FX-ID-3")
     assert {t: s["status"] for t, s in tracks.items()} == {k: v["status"] for k, v in expected["tracks"].items()}
@@ -76,6 +79,7 @@ def test_fx_id_3_fragments_and_missed_frames():
     assert assoc.matched_support(rows, SUPPORT)["p1"] == pytest.approx(4.5, abs=1e-9)
 
 
+@pytest.mark.determinism
 def test_fx_id_4_never_detected():
     expected, rows, tracks, missed = run("FX-ID-4")
     lo, hi = expected["missed_reference_frames"]["p2"]
@@ -83,12 +87,14 @@ def test_fx_id_4_never_detected():
     assert missed == ["p2"] and assoc.matched_support(rows, SUPPORT).get("p2", 0.0) == expected["CM-01"]["p2"] * 5.0
 
 
+@pytest.mark.determinism
 def test_fx_id_5_unmatched_system():
     expected, rows, tracks, _ = run("FX-ID-5")
     assert tracks["A"]["status"] == expected["tracks"]["A"]["status"]
     assert tracks["A"]["dominant_identity_id"] is None and len(frames_with(rows, track_id="A", status="unmatched_system")) == 50
 
 
+@pytest.mark.determinism
 def test_fx_id_6_ambiguous_frames_excluded():
     expected, rows, tracks, _ = run("FX-ID-6")
     lo, hi = expected["ambiguous_frames"]
@@ -98,6 +104,7 @@ def test_fx_id_6_ambiguous_frames_excluded():
     assert frames_with(rows, physical_identity_id="p2", status="missed_reference") == []  # the rival is ambiguous, not missed (AR-39 item 1)
 
 
+@pytest.mark.determinism
 def test_fx_id_7_pair_via_dominant_identity():
     expected, rows, tracks, _ = run("FX-ID-7")
     event = fx("FX-ID-7")["inputs"]["event"]
@@ -105,6 +112,7 @@ def test_fx_id_7_pair_via_dominant_identity():
     assert list(pair) == expected["event_pair"] and via == expected["resolved_via"]
 
 
+@pytest.mark.determinism
 def test_fx_id_8_unknown_pair_is_a_false_alert():
     expected, rows, tracks, _ = run("FX-ID-8")
     event = fx("FX-ID-8")["inputs"]["event"]
@@ -116,6 +124,7 @@ def test_fx_id_8_unknown_pair_is_a_false_alert():
     # primary_stage = perception is error attribution (Appendix N9), implemented in T-14.
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", [f"FX-ID-{i}" for i in range(1, 9)])
 @pytest.mark.parametrize("seed", range(5))
 def test_ct_id_a2_permutation_invariance(name, seed):
@@ -147,6 +156,7 @@ def by_type(records):
     return sorted((r["match_type"], r["ref_event_id"], r["system_event_id"]) for r in records)
 
 
+@pytest.mark.determinism
 def test_fx_tie():
     inputs, expected = fx("FX-TIE")["inputs"], fx("FX-TIE")["expected"]
     refs = [ref(k, *v) for k, v in inputs["references"].items()]
@@ -157,6 +167,7 @@ def test_fx_tie():
     assert [r["ref_event_id"] for r in records if r["match_type"] == "miss"] == expected["misses"]
 
 
+@pytest.mark.determinism
 def test_composite_weight_prefers_higher_iou_then_lower_system_key():
     # r1 [0, 1); s0 [0, 1) IoU 1.0 and s1 [0.2, 1.0) IoU 0.8: higher IoU wins; s1 overlaps the matched r1 -> duplicate_alert.
     records = mw([ref("r1", 0.0, 1.0)], [sev(1, 0.2, 1.0), sev(0, 0.0, 1.0)], "G1", 0.3, "rule_conformance")
@@ -166,6 +177,7 @@ def test_composite_weight_prefers_higher_iou_then_lower_system_key():
     assert by_type(records) == [("duplicate_alert", None, "s1"), ("matched", "r1", "s0")]
 
 
+@pytest.mark.determinism
 def test_match_classes():
     refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0, assessable=False)]
     events = [sev(0, 0.0, 1.0), sev(1, 20.0, 21.0), sev(2, 5.0, 6.0, pair=("p2", "f1")), sev(3, 10.0, 11.0)]
@@ -178,12 +190,14 @@ def test_match_classes():
     assert {r["reference_class"] for r in records} == {"rule_conformance"}
 
 
+@pytest.mark.determinism
 def test_iou_m_threshold():
     # r1 [0, 1), s0 [0.71, 1.71): IoU 0.29/1.71 = 0.1696 < 0.3, no match; s0 overlaps no matched reference -> false alert.
     records = mw([ref("r1", 0.0, 1.0)], [sev(0, 0.71, 1.71)], "G1", 0.3, "rule_conformance")
     assert by_type(records) == [("false_alert", None, "s0"), ("miss", "r1", None)]
 
 
+@pytest.mark.determinism
 def test_label_groups_and_abstention():
     # G2 run: s0 carries UD (decides); s1 carries H and IE only (abstains in G2); s2 carries H only (no G2 decision, no record).
     refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0), ref("r4", 20.0, 21.0)]
@@ -195,6 +209,7 @@ def test_label_groups_and_abstention():
     assert [t for t, _, _ in by_type(g1)].count("matched") == 3 and ("miss", "r4", None) in by_type(g1)  # IE events still decide in G1
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("seed", range(20))
 def test_ct_e_20_matching_determinism(seed):
     rng = random.Random(seed)
@@ -211,6 +226,7 @@ def test_ct_e_20_matching_determinism(seed):
             assert canon(mw(r2, e2, group, 0.3, "rule_conformance")) == base
 
 
+@pytest.mark.determinism
 def test_ct_e_21_abstention_counts_as_miss():
     refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0)]
     decide = [sev(0, 0.0, 1.0, labels=("H", "UD")), sev(1, 5.0, 6.0, labels=("H", "UD")), sev(2, 10.0, 11.0, labels=("H", "UD"))]
@@ -239,6 +255,7 @@ def test_headline_metrics_hand_calculation():
     assert em.headline([em.WindowCounts(0, 0, 0, 0, 0, 0, 0, 0, 0.0)])["EV-M1"] is None  # denominator 0 -> not_applicable
 
 
+@pytest.mark.determinism
 def test_ev_m1_reproduces_fx_w():
     # Appendix N5 FX-W through the EV-M1 estimator: weighted 0.71875, unweighted 0.70.
     inputs, expected = fx("FX-W")["inputs"], fx("FX-W")["expected"]
@@ -271,6 +288,7 @@ def test_ev_m3_abstention_rate():
     assert got == {"episodes": 0.5, "support": pytest.approx(0.15)}  # 2/4; (1.0 + 0.5)/10
 
 
+@pytest.mark.determinism
 def test_ar_39_item_3_label_groups_are_an_input_mapping():
     # Architect ruling on AR-39 item 3: a reference without a label-group entry is refused, never silently dropped.
     from rq1.schema.errors import ContractError

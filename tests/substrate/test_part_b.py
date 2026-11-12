@@ -64,6 +64,7 @@ def by_frame(built, table="pair_series"):
 
 # T8.2 check, and T9.1 check "G2 speed is still 1.000000 m/s": with the shifted window (Appendix T T9.1, E-1.2.7)
 # every frame has a velocity, including the track ends.
+@pytest.mark.determinism
 def test_t8_2_g2_speed_heading_sigma():
     built, _ = build_s4(synthetic_s1.build(50), tracks(50), n2_positions("N2-G2", 50))
     fork = [r for r in built.tables["object_state"] if r["track_id"] == builder.track_ids(built)[2]]
@@ -88,6 +89,7 @@ def test_t9_1_runs_split_at_unusable_frames_and_coverage_breaks():
     assert runs[0] == [0, 1, 2] and runs[4] == [4, 5] and runs[7] == [6, 7] and 3 not in runs
 
 
+@pytest.mark.determinism
 def test_t9_1_lost_frame_ends_the_run_and_the_velocity_window():
     # Person lost on frame 5 of 10: frames 0-4 and 6-9 are separate runs, so frame 4's window is [0, 0.4], never across frame 5.
     built, _ = build_s4(synthetic_s1.build(10), tracks(10, person_states={5: "lost"}), n2_positions("N2-G3", 10))
@@ -96,6 +98,7 @@ def test_t9_1_lost_frame_ends_the_run_and_the_velocity_window():
     assert person[6]["speed_mps"] == pytest.approx(0.0, abs=TOL)  # run 6-9: 4 frames spanning 0.3 s >= w_v/2
 
 
+@pytest.mark.determinism
 def test_t9_1_keeps_the_t8_2_span_requirement():
     # A run of 3 frames spans 0.2 s < w_v/2: T9.1 uses the whole run, and T8.2's span rule (unchanged by T9.1) makes speed null. CR-009 item 1.
     built, _ = build_s4(synthetic_s1.build(10), tracks(10, person_states={3: "lost", 7: "lost"}), n2_positions("N2-G3", 10))
@@ -115,6 +118,7 @@ def test_t8_2_ols_standard_errors():
     assert fit.speed_sigma == pytest.approx(math.sqrt((fit.vx * fit.sigma_vx) ** 2) / abs(fit.vx), abs=1e-12)
 
 
+@pytest.mark.determinism
 def test_t8_2_heading_null_below_v_min_and_g1_static_forklift():
     built, _ = build_s4(synthetic_s1.build(50), tracks(50), n2_positions("N2-G1", 50))
     fork = {r["frame_index"]: r for r in built.tables["object_state"] if r["track_id"] == builder.track_ids(built)[2]}
@@ -128,6 +132,7 @@ def test_t8_2_yaw_rules():
     assert kinematics.fill_yaw([None, None], [0.0, 0.1], [None, None], v_min=0.3) == [None, None]
 
 
+@pytest.mark.determinism
 def test_t8_2_unknown_yaw_uses_circumscribed_disc_and_flags():
     positions = n2_positions("N2-G1", 20)
     for k in list(positions):
@@ -140,6 +145,7 @@ def test_t8_2_unknown_yaw_uses_circumscribed_disc_and_flags():
 
 
 # T8.3 check: G3 at t = 0 has its predicted minimum at tau, so ttca is null not_observable
+@pytest.mark.determinism
 def test_t8_3_g3_ttca_and_closing_rate():
     # T8.3 check at t = 0 with the exact G3 velocities (N2: speeds are exact): the minimum is at tau, so not_observable.
     _, t_min = geometry.predict_min_clearance((5.0, 0.0), (0.0, 0.0), 0.30, (0.0, 0.0), (1.5, 0.0), 0.0, 2.0, 1.0, horizon_s=2.0)
@@ -152,6 +158,7 @@ def test_t8_3_g3_ttca_and_closing_rate():
     assert rows[5]["closing_rate_mps"] == pytest.approx(1.5, abs=TOL)  # clearance 3.70 - 1.5 t, so -slope = 1.5
 
 
+@pytest.mark.determinism
 def test_t8_3_static_pair_ttca_not_applicable():
     built, _ = build_s4(synthetic_s1.build(20), tracks(20), n2_positions("N2-G1", 20))
     row = by_frame(built)[10]
@@ -159,6 +166,7 @@ def test_t8_3_static_pair_ttca_not_applicable():
 
 
 # T8.4 check: G1 with diag(0.05^2) for both objects and zero dimension sigma gives 0.0707107 m
+@pytest.mark.determinism
 def test_t8_4_g1_clearance_sigma():
     built, _ = build_s4(synthetic_s1.build(50), tracks(50), n2_positions("N2-G1", 50))
     row = by_frame(built)[25]
@@ -211,6 +219,7 @@ def joint_states(n, gap, kind="missing"):
     return {i: kind for i in gap}
 
 
+@pytest.mark.determinism
 def test_t8_1_short_gap_is_bridged_and_insufficient():
     s1 = synthetic_s1.build(30)
     built, _ = build_s4(s1, tracks(30, person_states=joint_states(30, range(10, 14))), n2_positions("N2-G1", 30))
@@ -221,6 +230,7 @@ def test_t8_1_short_gap_is_bridged_and_insufficient():
     assert by_frame(built)[11]["evidence_class"] == "insufficient"
 
 
+@pytest.mark.determinism
 def test_t8_1_long_gap_splits_with_continuation():
     built, _ = build_s4(synthetic_s1.build(40), tracks(40, person_states=joint_states(40, range(10, 26))), n2_positions("N2-G1", 40), cfg=config(g_max=15))
     first, second = sorted(built.tables["pow"], key=lambda p: p["start_frame"])
@@ -229,12 +239,14 @@ def test_t8_1_long_gap_splits_with_continuation():
     assert second["continuation_of_id"] == first["pow_id"]
 
 
+@pytest.mark.determinism
 def test_t8_1_coverage_break_inside_gap_ends_pow():
     s1 = synthetic_s1.build(30, excluded=frozenset({12}))
     built, _ = build_s4(s1, tracks(29, person_states=joint_states(29, range(10, 13))), n2_positions("N2-G1", 29))
     assert sorted((p["start_frame"], p["end_frame_excl"], p["end_reason"]) for p in built.tables["pow"])[0] == (0, 10, "coverage_gap")
 
 
+@pytest.mark.determinism
 def test_ti_08_frameless_gap_between_joint_frames_splits():
     s1 = synthetic_s1.build(20, dropouts={9: 4.0})
     built, _ = build_s4(s1, tracks(20), n2_positions("N2-G1", 20))
@@ -242,6 +254,7 @@ def test_ti_08_frameless_gap_between_joint_frames_splits():
     assert [(p["start_frame"], p["end_frame_excl"], p["end_reason"]) for p in pows_] == [(0, 10, "coverage_gap"), (10, 20, "recording_end")]
 
 
+@pytest.mark.determinism
 def test_t8_1_track_end_reasons():
     built, _ = build_s4(synthetic_s1.build(30), tracks(30, fork_frames=range(0, 20)), n2_positions("N2-G1", 30))
     assert built.tables["pow"][0]["end_reason"] == "track_end_forklift"
@@ -264,6 +277,7 @@ def static_positions(n):
     return {**{(1, i): {"xy": [0.0, 1.9], "cov": COV} for i in range(n)}, **{(2, i): {"xy": [0.0, 0.0], "cov": COV, "yaw": 0.0} for i in range(n)}}
 
 
+@pytest.mark.determinism
 def test_ct_t_18_person_missed_on_f2_is_inferred(clip_dir):
     s1 = clip_s1(clip_dir, "fx_clip_a")
     built, _ = build_s4(s1, tracks(3, person_states={1: "predicted"}), static_positions(3))
@@ -272,12 +286,14 @@ def test_ct_t_18_person_missed_on_f2_is_inferred(clip_dir):
     assert (p["t_detected_s"], p["t_inferred_s"], p["t_insufficient_s"]) == pytest.approx((0.066, 0.034, 0.033), abs=1e-9)
 
 
+@pytest.mark.determinism
 def test_ct_f_01_one_second_bridged_by_prediction():
     built, _ = build_s4(synthetic_s1.build(40), tracks(40, person_states={i: "predicted" for i in range(10, 20)}), static_positions(40))
     p = built.tables["pow"][0]
     assert p["t_inferred_s"] == pytest.approx(1.0, abs=TOL) and p["t_detected_s"] == pytest.approx(3.0, abs=TOL)
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name,f_untimed", [("fx_clip_a", 0.05), ("fx_clip_b", 0.5), ("fx_clip_c", 0.5), ("fx_clip_d", 0.05)])
 def test_ct_t_19_exposure_excludes_unusable_and_uncertain(clip_dir, name, f_untimed):
     s1 = clip_s1(clip_dir, name, f_untimed)
@@ -290,6 +306,7 @@ def test_ct_t_19_exposure_excludes_unusable_and_uncertain(clip_dir, name, f_unti
     assert vr_rules.check_exposure_sums([profile]) == []
 
 
+@pytest.mark.determinism
 def test_ct_e_07_ct_e_08_profiles_and_sums():
     built, _ = build_s4(synthetic_s1.build(50), tracks(50, person_states={i: "predicted" for i in range(20, 25)}), n2_positions("N2-G2", 50))
     pow_keys = [[p["person_track_id"], p["forklift_track_id"], p["start_frame"]] for p in built.tables["pow"]]
@@ -303,11 +320,13 @@ def test_ct_e_07_ct_e_08_profiles_and_sums():
     assert profile["t_joint_visible_s"] == pytest.approx(4.5, abs=TOL)  # detected frames with both objects visible
 
 
+@pytest.mark.determinism
 def test_ct_e_06_and_vr_e_015_on_built_series():
     built, _ = build_s4(synthetic_s1.build(10), tracks(10), n2_positions("N2-G3", 10))
     assert vr_rules.check_pair_series(built.tables["pair_series"]) == []
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G2", "N2-G3"])
 def test_n2_through_the_substrate(name):
     fixture = json.loads((FIX / f"{name}.json").read_text())["expected"]
@@ -320,6 +339,7 @@ def test_n2_through_the_substrate(name):
     assert len(built.tables["pow"]) == 1 and built.tables["pow"][0]["t_detected_s"] == pytest.approx(n / 10, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_e_05_fx_07_uncalibrated_camera():
     built, _ = build_s4(synthetic_s1.build(10), tracks(10), positions={})
     state = built.tables["object_state"][0]
@@ -331,6 +351,7 @@ def test_ct_e_05_fx_07_uncalibrated_camera():
     assert vr_rules.check_object_states(built.tables["object_state"], {}) == []
 
 
+@pytest.mark.determinism
 def test_ground_plane_homography_and_full_camera_positions():
     b1 = json.loads((FIX / "FX-B1.json").read_text())["record"]
     x, y = geometry.homography_to_floor(b1["homography_img_to_floor"], (120.0, 200.0))
@@ -345,6 +366,7 @@ def test_ground_plane_homography_and_full_camera_positions():
     assert pixel.ravel() == pytest.approx([900.0, 700.0], abs=1e-6)  # round trip through the floor point
 
 
+@pytest.mark.determinism
 def test_ct_i_03_and_ct_i_04_identity_changes():
     s1 = synthetic_s1.build(20)
     a, s3 = build_s4(s1, tracks(20), static_positions(20))
@@ -357,6 +379,7 @@ def test_ct_i_03_and_ct_i_04_identity_changes():
         assert not {r[f"{prefix}_id"] for r in a.tables[table]} & {r[f"{prefix}_id"] for r in c.tables[table]}
 
 
+@pytest.mark.determinism
 def test_s4_is_deterministic_and_ids_recompute():
     s1 = synthetic_s1.build(20)
     a, _ = build_s4(s1, tracks(20), n2_positions("N2-G2", 20))
@@ -366,6 +389,7 @@ def test_s4_is_deterministic_and_ids_recompute():
         assert vr_rules.check_ids(table, rows, a.artifact_id) == [], table
 
 
+@pytest.mark.determinism
 def test_activity_segments_in_s4():
     built, s3 = build_s4(synthetic_s1.build(10), tracks(10, person_states={5: "predicted"}), static_positions(10))
     states = [r["ai_activity_state"] for r in sorted(built.tables["activity_segment"], key=lambda r: r["t_start_tl_s"])]

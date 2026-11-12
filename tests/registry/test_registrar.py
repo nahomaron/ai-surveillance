@@ -42,6 +42,7 @@ def registration(alignment=None, extent=None, origin="synthetic_rendered"):
 ALIGN = {"method": "dataset_supplied_sync", "version": "1", "offset_s": 0.0, "drift_ppm": 0.0, "sigma_s": 0.001, "evidence_ref": "doc", "prov_class": "dataset_supplied"}
 
 
+@pytest.mark.determinism
 def test_recordings_use_anchor_parent_ids():
     built = Registrar().register(registration(), SPEC)
     site = built.tables["site"][0]
@@ -52,6 +53,7 @@ def test_recordings_use_anchor_parent_ids():
     assert recording["src_id"] == core.source_id(SHA_A) and recording["camera_id"] == cameras["c1"]
 
 
+@pytest.mark.determinism
 def test_unaligned_recordings_get_local_timelines_fx_a3_ct_t_11():
     built = Registrar().register(registration(), SPEC)
     timelines = built.tables["timeline"]
@@ -62,6 +64,7 @@ def test_unaligned_recordings_get_local_timelines_fx_a3_ct_t_11():
     assert fixture["timeline_kind"] == "recording_local" and fixture["clock_alignment_id"] is None
 
 
+@pytest.mark.determinism
 def test_aligned_recordings_share_one_session_timeline():
     built = Registrar().register(registration(ALIGN, [0.0, 120.0]), SPEC)
     timelines = built.tables["timeline"]
@@ -71,18 +74,21 @@ def test_aligned_recordings_share_one_session_timeline():
     assert {r["timeline_id"] for r in built.tables["recording"]} == {timelines[0]["tl_id"]}
 
 
+@pytest.mark.determinism
 def test_alignment_without_declared_extent_is_rejected():
     with pytest.raises(ContractError) as exc:
         Registrar().register(registration(ALIGN, None), SPEC)
     assert exc.value.code == "ERR-INVARIANT"
 
 
+@pytest.mark.determinism
 def test_assumed_zero_clock_method_does_not_exist():
     with pytest.raises(ContractError) as exc:
         Registrar().register(registration({**ALIGN, "method": "assumed_zero"}, [0.0, 10.0]), SPEC)
     assert exc.value.code == "ERR-UNKNOWN-ENUM"
 
 
+@pytest.mark.determinism
 def test_ar22_one_whole_session_camera_group_per_timeline():
     local = Registrar().register(registration(), SPEC).tables["camera_group"]
     assert len(local) == 2 and all(len(g["camera_ids"]) == 1 and g["grouping_basis"] == "whole_session" for g in local)
@@ -90,6 +96,7 @@ def test_ar22_one_whole_session_camera_group_per_timeline():
     assert len(aligned) == 1 and len(aligned[0]["camera_ids"]) == 2
 
 
+@pytest.mark.determinism
 def test_fx_a4_not_recorded_on_local_timeline_is_rejected():
     fixture = record("FX-A4")
     timeline = {"kind": fixture["timeline_kind"], "extent_start_tl_s": None, "extent_end_tl_s": None}
@@ -97,6 +104,7 @@ def test_fx_a4_not_recorded_on_local_timeline_is_rejected():
     assert [i.rule for i in check_not_recorded(segment, timeline)] == ["TI-11"]
 
 
+@pytest.mark.determinism
 def test_ti_11_not_recorded_allowed_only_inside_declared_extent():
     aligned = {"kind": "aligned_session", "extent_start_tl_s": 0.0, "extent_end_tl_s": 100.0}
     assert check_not_recorded({"coverage_state": "not_recorded", "t_start_tl_s": 10.0, "t_end_tl_s": 20.0}, aligned) == []
@@ -110,11 +118,13 @@ def _calibration(name):
     return data
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["FX-B1", "FX-B3"])
 def test_fx_b_valid_calibrations(name):
     assert check_calibration(_calibration(name)) == []
 
 
+@pytest.mark.determinism
 def test_calibration_is_registered_with_tier_fields():
     data = registration()
     data["datasets"][0]["sites"][0]["world_frames"] = [{"label": "w", "version": "1", "origin_description": "o", "unit_status": "verified", "prov_class": "simulator_truth"}]
@@ -123,6 +133,7 @@ def test_calibration_is_registered_with_tier_fields():
     assert row["calibration_tier"] == "ground_plane_homography" and row["intrinsics_K"] is None and row["intrinsics_K_null_reason"] == "not_applicable"
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("change", [
     {"intrinsics_K": [1.0] * 9, "intrinsics_K_null_reason": None},  # tier-excluded field present
     {"homography_img_to_floor": None, "homography_img_to_floor_null_reason": "not_supplied"},  # tier-required field absent
@@ -133,16 +144,19 @@ def test_cb_01_ground_plane_tier_fields(change):
     assert issues and issues[0].rule == "CB-01" and issues[0].code == "ERR-CALIB-TIER"
 
 
+@pytest.mark.determinism
 def test_cb_01_full_camera_requires_intrinsics():
     issues = check_calibration({**_calibration("FX-B3"), "intrinsics_K": None, "intrinsics_K_null_reason": "not_supplied"})
     assert issues and issues[0].rule == "CB-01"
 
 
+@pytest.mark.determinism
 def test_cb_02_singular_homography_rejected():
     issues = check_calibration({**_calibration("FX-B1"), "homography_img_to_floor": [1.0, 2.0, 3.0, 2.0, 4.0, 6.0, 0.0, 0.0, 1.0]})
     assert [i.rule for i in issues] == ["CB-02"]
 
 
+@pytest.mark.determinism
 def test_fx_b2_height_from_homography_rejected():
     fixture = record("FX-B2")
     calibration = {"calibration_tier": "ground_plane_homography", "height_reference_ids": []}
@@ -161,10 +175,12 @@ def test_cb_03_conditions(state, calibration, multi_view, ok):
     assert (check_load_state(state, calibration, multi_view=multi_view) == []) is ok
 
 
+@pytest.mark.determinism
 def test_failed_calibration_cannot_be_registered_as_valid_tier_mismatch():
     assert check_calibration({**_calibration("FX-B3"), "homography_assumes_undistorted": True})[0].rule == "CB-01"
 
 
+@pytest.mark.determinism
 def test_ct_i_05_same_file_two_cameras():
     data = registration()
     data["recordings"][1]["sha256"] = SHA_A
@@ -173,6 +189,7 @@ def test_ct_i_05_same_file_two_cameras():
     assert len(built.tables["source_file"]) == 1 and len({r["rec_id"] for r in built.tables["recording"]}) == 2
 
 
+@pytest.mark.determinism
 def test_ct_i_06_duplicate_registration_rejected():
     data = registration()
     data["recordings"].append(copy.deepcopy(data["recordings"][0]))
@@ -181,6 +198,7 @@ def test_ct_i_06_duplicate_registration_rejected():
     assert exc.value.code == "ERR-NATURAL-KEY"
 
 
+@pytest.mark.determinism
 def test_ct_nk_04_anchors_stable_across_s0_artifacts():
     registrar = Registrar()
     first = registrar.register(registration(), SPEC)
@@ -195,6 +213,7 @@ def test_ct_nk_04_anchors_stable_across_s0_artifacts():
     assert first.artifact_id != second.artifact_id
 
 
+@pytest.mark.determinism
 def test_ct_nk_05_anchor_conflict_on_changed_payload():
     registrar = Registrar()
     registrar.register(registration(), SPEC)
@@ -205,16 +224,19 @@ def test_ct_nk_05_anchor_conflict_on_changed_payload():
     assert exc.value.code == "ERR-ANCHOR-CONFLICT"
 
 
+@pytest.mark.determinism
 def test_real_origin_site_needs_approvals():
     with pytest.raises(ContractError) as exc:
         Registrar().register(registration(origin="real_staged"), SPEC)
     assert exc.value.code == "ERR-INVARIANT"
 
 
+@pytest.mark.determinism
 def test_registration_is_deterministic():
     assert Registrar().register(registration(), SPEC).artifact_id == Registrar().register(registration(), SPEC).artifact_id
 
 
+@pytest.mark.determinism
 def test_artifact_ids_recompute_vr_e_004():
     from rq1.schema import vr_rules
     built = Registrar().register(registration(ALIGN, [0.0, 120.0]), SPEC)

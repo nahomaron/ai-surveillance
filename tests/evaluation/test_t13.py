@@ -18,6 +18,7 @@ def fx_w():
     return weights, inputs["windows"], d["expected"]
 
 
+@pytest.mark.determinism
 def test_fx_w_weighted_and_unweighted_recall_and_n_eff():
     weights, windows, expected = fx_w()
     m, a = [w["m"] for w in windows], [w["a"] for w in windows]
@@ -27,6 +28,7 @@ def test_fx_w_weighted_and_unweighted_recall_and_n_eff():
     assert est.ht_total(weights, a) == 5 * 3 + 5 * 1 + 2 * 2 + 2 * 4  # 32 assessable references in the frame
 
 
+@pytest.mark.determinism
 def test_target_a_bootstrap_is_seeded_and_brackets_the_estimate():
     weights, windows, _ = fx_w()
     sample = {"h1": [(3, 2), (1, 1)], "h2": [(2, 2), (4, 2)]}
@@ -36,6 +38,7 @@ def test_target_a_bootstrap_is_seeded_and_brackets_the_estimate():
     assert first[0] <= 0.71875 <= first[1]
 
 
+@pytest.mark.determinism
 def test_target_b_cluster_bootstrap():
     # Two origins, groups g1-g3 (synthetic) and g4 (staged). Same seed: identical interval.
     windows = [("synthetic", "g1", 5.0, 3, 2), ("synthetic", "g1", 5.0, 1, 1), ("synthetic", "g2", 2.0, 2, 2), ("synthetic", "g3", 2.0, 4, 2),
@@ -48,6 +51,7 @@ def test_target_b_cluster_bootstrap():
     assert est.cluster_bootstrap_ratio(one, B=50, seed=1) == pytest.approx((0.7, 0.7), abs=1e-12)
 
 
+@pytest.mark.determinism
 def test_paired_bootstrap_difference():
     sample = {"h1": [(3, 2, 3, 2), (1, 1, 1, 1)], "h2": [(2, 2, 2, 2), (4, 2, 4, 2)]}
     assert est.paired_stratified_bootstrap_difference(sample, {"h1": 5.0, "h2": 2.0}, B=100, seed=3) == (0.0, 0.0)  # identical configs

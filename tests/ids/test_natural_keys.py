@@ -20,12 +20,14 @@ def _build(table, table_rows):
     return [r[registry.TABLES[table].prefix + "_id"] for r in built.tables[table]]
 
 
+@pytest.mark.determinism
 def test_ct_nk_01_completeness_both_support_bases():
     a = rows.row("completeness_record", window_id=WIN, metric_id="CM-01", support_basis="detected")
     b = rows.row("completeness_record", window_id=WIN, metric_id="CM-01", support_basis="detected_plus_inferred")
     assert len(set(_build("completeness_record", [a, b]))) == 2
 
 
+@pytest.mark.determinism
 def test_ct_nk_02_match_records_across_config_scenario_label_group():
     records = []
     for config in (C1, C2):
@@ -36,6 +38,7 @@ def test_ct_nk_02_match_records_across_config_scenario_label_group():
     assert len(set(_build("match_record", records))) == 8
 
 
+@pytest.mark.determinism
 def test_ct_nk_03_weighted_and_estimand_results_distinct():
     records = [rows.row("metric_result", metric_id="EV-M1", definition_version="1", weighted=w, estimand=e)
                for w in (True, False) for e in ("frame_description", "new_session_performance")]
@@ -46,6 +49,7 @@ def _dataset(name):
     return rows.row("dataset_source", name=name, version="1")
 
 
+@pytest.mark.determinism
 def test_ct_nk_04_anchor_ids_stable_when_another_dataset_is_registered():
     spec = Spec("S0", "E-1.2.3", "f", "f", (), (), {})
     one = artifact.build_artifact(spec, {"dataset_source": [_dataset("A")]})
@@ -56,6 +60,7 @@ def test_ct_nk_04_anchor_ids_stable_when_another_dataset_is_registered():
     assert one.artifact_id != two.artifact_id
 
 
+@pytest.mark.determinism
 def test_ct_nk_05_anchor_conflict():
     spec = Spec("S0", "E-1.2.3", "f", "f", (), (), {})
     first = artifact.build_artifact(spec, {"dataset_source": [_dataset("A")]})
@@ -70,6 +75,7 @@ def test_ct_nk_05_anchor_conflict():
     assert exc.value.code == "ERR-ANCHOR-CONFLICT"
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("stage,configs,inputs", [
     ("S5", (C1, C2), ()), ("S5", (), ()), ("S4", ("gcf_" + "a" * 26,), ()), ("S3", (), ()), ("S2", ("mdl_" + "a" * 26,), ()), ("S8", (EVC,), ()),
 ])
@@ -79,11 +85,13 @@ def test_ct_nk_06_art_iso(stage, configs, inputs):
     assert exc.value.code == "ERR-SPEC"
 
 
+@pytest.mark.determinism
 def test_art_iso_allows_several_band_schemes():
     configs = ("gcf_" + "a" * 26, "sbc_" + "a" * 26, "bsc_" + "a" * 26, "bsc_" + "b" * 26)
     assert artifact.spec_id(Spec("S4", "E-1.2.3", "f", "f", configs, (), {})).startswith("asp_")
 
 
+@pytest.mark.determinism
 @settings(max_examples=60, deadline=None)
 @given(st.lists(st.tuples(st.integers(0, 3), st.integers(0, 3), st.floats(0, 1)), min_size=1, max_size=12))
 def test_ct_nk_07_uniqueness_holds_iff_key_fields_differ(items):
@@ -101,6 +109,7 @@ def test_ct_nk_07_uniqueness_holds_iff_key_fields_differ(items):
         assert exc.value.code == "ERR-NATURAL-KEY"
 
 
+@pytest.mark.determinism
 def test_ct_nk_08_references_resolve_across_identity_classes():
     recording = core.anchor_id("rec", "recording", ["x"])
     band = core.make_id("bsc", {"edges_m": [0.0]})

@@ -45,6 +45,7 @@ def ids_of(built):
     return {t: sorted(r[registry.TABLES[t].prefix + "_id"] for r in rs) for t, rs in built.tables.items() if registry.TABLES[t].prefix}
 
 
+@pytest.mark.determinism
 def test_ct_id_01_builds_with_id_library_disabled(monkeypatch):
     def boom(*_a, **_k):
         raise AssertionError("ID derivation called before step 5 finished")
@@ -53,6 +54,7 @@ def test_ct_id_01_builds_with_id_library_disabled(monkeypatch):
     assert identity.artifact_id.startswith("art_")
 
 
+@pytest.mark.determinism
 def test_ct_fk_01_same_as_ct_id_01_for_payload_without_own_ids():
     tables = s3_tables()
     for name, table_rows in tables.items():
@@ -62,11 +64,13 @@ def test_ct_fk_01_same_as_ct_id_01_for_payload_without_own_ids():
     assert artifact.compute_identity(spec(), tables).artifact_id == artifact.compute_identity(spec(), s3_tables()).artifact_id
 
 
+@pytest.mark.determinism
 def test_ct_id_02_ct_fk_04_exact_rerun():
     a, b = artifact.build_artifact(spec(), s3_tables()), artifact.build_artifact(spec(), s3_tables())
     assert (a.payload_sha256, a.artifact_id, ids_of(a)) == (b.payload_sha256, b.artifact_id, ids_of(b))
 
 
+@pytest.mark.determinism
 def test_ct_id_03_clock_and_host_only_affect_execution(tmp_path):
     built = artifact.build_artifact(spec(), s3_tables())
     d1 = artifact.write_artifact(built, tmp_path / "a", "synthetic_rendered", clock=lambda: datetime(2026, 1, 1, tzinfo=timezone.utc), host="h1")
@@ -75,6 +79,7 @@ def test_ct_id_03_clock_and_host_only_affect_execution(tmp_path):
     assert (d1 / "execution.json").read_bytes() != (d2 / "execution.json").read_bytes()
 
 
+@pytest.mark.determinism
 def test_ct_id_04_perturbed_value_changes_artifact_and_records():
     tables = {"detection": [rows.row("detection", recording_id=rows.REC, frame_index=0, det_index=0, score=0.5)]}
     changed = {"detection": [rows.row("detection", recording_id=rows.REC, frame_index=0, det_index=0, score=0.5 + 1e-9)]}
@@ -83,11 +88,13 @@ def test_ct_id_04_perturbed_value_changes_artifact_and_records():
     assert a.artifact_id != b.artifact_id and ids_of(a) != ids_of(b)
 
 
+@pytest.mark.determinism
 def test_ct_id_05_same_rows_different_config():
     a = artifact.build_artifact(spec(configs=("trc_" + "b" * 26,)), s3_tables())
     assert a.artifact_id != artifact.build_artifact(spec(), s3_tables()).artifact_id
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table", ["track"])
 def test_ct_id_06_ct_fk_07_duplicate_key(table):
     tables = s3_tables()
@@ -97,6 +104,7 @@ def test_ct_id_06_ct_fk_07_duplicate_key(table):
     assert exc.value.code == "ERR-NATURAL-KEY"
 
 
+@pytest.mark.determinism
 def test_ct_id_07_ct_fk_05_reconstruction_after_rewriting_row_groups(tmp_path):
     built = artifact.build_artifact(spec(), s3_tables())
     directory = artifact.write_artifact(built, tmp_path / "x", "synthetic_rendered")
@@ -111,6 +119,7 @@ def test_ct_id_07_ct_fk_05_reconstruction_after_rewriting_row_groups(tmp_path):
     assert manifest["artifact_id"] == built.artifact_id
 
 
+@pytest.mark.determinism
 def test_ct_fk_02_shuffled_rows_give_identical_ids():
     for make, make_spec in ((s3_tables, spec), (s5_tables, s5_spec)):
         tables = make()
@@ -118,6 +127,7 @@ def test_ct_fk_02_shuffled_rows_give_identical_ids():
         assert ids_of(artifact.build_artifact(make_spec(), tables)) == ids_of(artifact.build_artifact(make_spec(), shuffled))
 
 
+@pytest.mark.determinism
 def test_ct_fk_03_foreign_keys_resolve_and_dangling_rejected(tmp_path):
     built = artifact.build_artifact(spec(), s3_tables())
     track_ids = {r["trk_id"] for r in built.tables["track"]}
@@ -130,6 +140,7 @@ def test_ct_fk_03_foreign_keys_resolve_and_dangling_rejected(tmp_path):
     assert not (tmp_path / "manifest.json").exists()
 
 
+@pytest.mark.determinism
 def test_ct_fk_06_nested_keys():
     built = artifact.build_artifact(s5_spec(), s5_tables())
     ep_ids = {tuple([r["pow_id"], r["start_frame"]]): r["ep_id"] for r in built.tables["episode"]}
@@ -142,12 +153,14 @@ def test_ct_fk_06_nested_keys():
     assert artifact.build_artifact(s5_spec(), permuted).tables["candidate_event"][0]["evt_id"] == event["evt_id"]
 
 
+@pytest.mark.determinism
 def test_ct_i_01_exact_rerun_different_run_id(tmp_path):
     built = artifact.build_artifact(spec(), s3_tables())
     runs = [json.loads((artifact.write_artifact(built, tmp_path / n, "synthetic_rendered") / "execution.json").read_text())["run_id"] for n in "ab"]
     assert runs[0] != runs[1] and all(r.startswith("run_") for r in runs)
 
 
+@pytest.mark.determinism
 def test_ct_i_03_g_max_change_changes_all_pow_ids():
     tables = {"pow": [rows.pow_row(0), rows.pow_row(10)]}
     gcf, a, b = "gcf_" + "a" * 26, "sbc_" + "a" * 26, "sbc_" + "b" * 26
@@ -156,6 +169,7 @@ def test_ct_i_03_g_max_change_changes_all_pow_ids():
     assert not set(one) & set(two)
 
 
+@pytest.mark.determinism
 def test_ct_i_04_recalibration_changes_substrate_ids():
     tables = {"pow": [rows.pow_row(0)], "pair_series": [rows.pair(0, 0)],
               "object_state": [rows.row("object_state", track_id=rows.PERSON, frame_index=0)]}
@@ -166,6 +180,7 @@ def test_ct_i_04_recalibration_changes_substrate_ids():
         assert not set(values) & set(ids_of(two)[table]), table
 
 
+@pytest.mark.determinism
 def test_ct_i_05_same_file_two_cameras():
     src = core.source_id("ab" * 32)
     session = "ses_" + "a" * 26
@@ -174,6 +189,7 @@ def test_ct_i_05_same_file_two_cameras():
     assert a != b and core.source_id("ab" * 32) == src
 
 
+@pytest.mark.determinism
 def test_ct_i_06_duplicate_natural_key_in_s0():
     row = rows.row("license_component", component="x", version="1")
     with pytest.raises(ContractError) as exc:
@@ -181,6 +197,7 @@ def test_ct_i_06_duplicate_natural_key_in_s0():
     assert exc.value.code == "ERR-NATURAL-KEY"
 
 
+@pytest.mark.determinism
 def test_ct_i_07_id_07_rule_change_leaves_substrate_unchanged():
     subs = {"pow": [rows.pow_row(0)]}
     cfg = ("gcf_" + "a" * 26, "sbc_" + "a" * 26)
@@ -192,6 +209,7 @@ def test_ct_i_07_id_07_rule_change_leaves_substrate_unchanged():
     assert one.artifact_id != two.artifact_id and not set(ids_of(one)["episode"]) & set(ids_of(two)["episode"])
 
 
+@pytest.mark.determinism
 def test_ct_i_08_lineage_reaches_source():
     sha = "cd" * 32
     src = rows.row("source_file", sha256=sha)
@@ -202,6 +220,7 @@ def test_ct_i_08_lineage_reaches_source():
     assert lineage.trace_sources(s5.artifact_id, store) == {core.source_id(sha)}
 
 
+@pytest.mark.determinism
 def test_id_05_global_uniqueness_and_id_08():
     built = artifact.build_artifact(spec(), s3_tables())
     assert artifact.duplicate_ids([built]) == []
@@ -209,12 +228,14 @@ def test_id_05_global_uniqueness_and_id_08():
     assert "run_id" not in vars(spec())
 
 
+@pytest.mark.determinism
 def test_vr_e_004_ids_recompute_from_artifact():
     built = artifact.build_artifact(spec(), s3_tables())
     for table, table_rows in built.tables.items():
         assert vr_rules.check_ids(table, table_rows, built.artifact_id) == []
 
 
+@pytest.mark.determinism
 def test_write_is_refused_when_rows_are_invalid():
     tables = s3_tables()
     tables["track"][0]["class"] = "bicycle"
@@ -223,6 +244,7 @@ def test_write_is_refused_when_rows_are_invalid():
     assert exc.value.code == "ERR-UNKNOWN-ENUM"
 
 
+@pytest.mark.determinism
 def test_manifest_fields_section_2_5(tmp_path):
     built = artifact.build_artifact(spec(), s3_tables())
     directory = artifact.write_artifact(built, tmp_path / "x", "synthetic_rendered")
@@ -232,6 +254,7 @@ def test_manifest_fields_section_2_5(tmp_path):
     assert {f["path"] for f in manifest["files"]} == {"track.parquet", "track_point.parquet"}
 
 
+@pytest.mark.determinism
 def test_ar16_schema_violation_uses_err_invariant():
     tables = s3_tables()
     tables["track"][0]["span_s"] = float("nan")

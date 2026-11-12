@@ -39,6 +39,7 @@ def rows(n, speed, heading=lambda t: 0.0, usable=None):
     return out
 
 
+@pytest.mark.determinism
 def test_t9_2_forklift_deceleration_with_shifted_window():
     # Forklift speed 4 - 2.5 t. At t = 1.0 the window is [0.5, 1.5]: a = frame 5 (2.75), b = frame 15 (0.25), decel 2.5/1.0 = 2.5.
     # At t = 0 the window shifts to [0, 1.0]: 4.0 -> 1.5, also 2.5 m/s^2.
@@ -49,11 +50,13 @@ def test_t9_2_forklift_deceleration_with_shifted_window():
     assert engine.evasive_ratio(rates[10], V["e_turn"], V["e_acc"], V["e_dec"]) == pytest.approx(1.25, abs=1e-9)  # 2.5 / 2.0
 
 
+@pytest.mark.determinism
 def test_t9_2_accelerating_forklift_has_zero_deceleration():
     rates = providers.r5_rates(rows(20, lambda t: 1.0), rows(20, lambda t: 1 + 2 * t), frames_10fps(20), [], w_e=1.0, v_min=0.3)
     assert rates[10].forklift_decel == 0.0
 
 
+@pytest.mark.determinism
 def test_t9_2_person_turn_rate_and_speed_change():
     # Person speed 0.5 + 1.2 t, heading 2 t: at t = 1.0, a = 0.5 s, b = 1.5 s: speed change 1.2/1.0, turn 2.0/1.0.
     rates = providers.r5_rates(rows(20, lambda t: 0.5 + 1.2 * t, lambda t: 2 * t), rows(20, lambda t: 0.0), frames_10fps(20), [], w_e=1.0, v_min=0.3)
@@ -61,6 +64,7 @@ def test_t9_2_person_turn_rate_and_speed_change():
     assert engine.criteria(rates[10], V["e_turn"], V["e_acc"], V["e_dec"]) == (1, 1, 0)  # 2.0 > 1.5, 1.2 > 1.0, decel 0
 
 
+@pytest.mark.determinism
 def test_t9_2_heading_difference_is_wrapped():
     assert providers.wrap(-6.0) == pytest.approx(2 * math.pi - 6.0, abs=1e-12)
     assert providers.wrap(math.pi) == pytest.approx(math.pi) and providers.wrap(-math.pi) == pytest.approx(math.pi)  # (-pi, pi]
@@ -69,6 +73,7 @@ def test_t9_2_heading_difference_is_wrapped():
     assert rates[10].person_turn_rate == pytest.approx(2 * math.pi - 6.0, abs=1e-9)
 
 
+@pytest.mark.determinism
 def test_t9_2_turn_is_false_without_motion():
     # Person stops: speed 1.0 at a, 0.1 < v_min at b. The turn criterion is FALSE; the stop is captured by speed change 0.9/1.0.
     rates = providers.r5_rates(rows(20, lambda t: 1.0 if t < 1.2 else 0.1, lambda t: 0.0), rows(20, lambda t: 0.0), frames_10fps(20), [], w_e=1.0, v_min=0.3)
@@ -77,6 +82,7 @@ def test_t9_2_turn_is_false_without_motion():
     assert engine.criteria(rates[10], V["e_turn"], V["e_acc"], V["e_dec"]) == (0, 0, 0)
 
 
+@pytest.mark.determinism
 def test_t9_2_unknown_when_ends_span_less_than_half_window():
     # Person usable on frames 0-3 only (span 0.3 s < w_e/2 = 0.5 s): its criteria are unknown; the forklift's are not.
     rates = providers.r5_rates(rows(20, lambda t: 1.0, usable=set(range(4))), rows(20, lambda t: 1.0), frames_10fps(20), [], w_e=1.0, v_min=0.3)
@@ -86,6 +92,7 @@ def test_t9_2_unknown_when_ends_span_less_than_half_window():
     assert engine.evasive(rates[2], V["e_turn"], V["e_acc"], V["e_dec"]) == 2
 
 
+@pytest.mark.determinism
 def test_t9_2_frame_outside_the_run_is_unknown():
     # CR-009 item 2 (provisional): the person is lost on frame 10, so frame 10 has no run and no window.
     usable = set(range(20)) - {10}
@@ -93,6 +100,7 @@ def test_t9_2_frame_outside_the_run_is_unknown():
     assert rates[10].person_speed_change is None and rates[9].person_speed_change == pytest.approx(0.0, abs=1e-12)
 
 
+@pytest.mark.determinism
 def test_t9_2_window_does_not_cross_a_coverage_break():
     # A not_recorded segment between frames 9 and 10 splits the forklift run: at frame 9 the window is [0, 0.9] and the
     # speed jump at frame 10 is never seen. Forklift speed 2.0 before, 0.0 after.
@@ -161,6 +169,7 @@ def test_t9_4_r5_disabled():
     assert (ep["E_ep"], ep["e_assessed"], ep["K"]) == (2, True, 2)
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("r5", [False, True])
 def test_t9_4_check_g2_gives_h(r5):
     expected, s4, _, s1 = s4_for("N2-G2")
@@ -172,6 +181,7 @@ def test_t9_4_check_g2_gives_h(r5):
 
 # --- N2 end to end through S4 and S5 ---------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G2", "N2-G3"])
 def test_n2_episodes_end_to_end(name):
     expected, s4, _, s1 = s4_for(name)
@@ -240,6 +250,7 @@ def test_t9_5_no_boxes_gives_null_ca_and_not_assessable():
 
 # --- T9.6 usable frames around CA and contact-state order ------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_t9_6_n1_t10_and_t11():
     # Appendix N1 rows as corrected by T9.9: W_CA = frames 10-19 (|t - 1.5| <= 0.5 s within the 20-frame POW).
     for row, contact in (("T10", "undetermined"), ("T11", "not_assessable")):
@@ -281,6 +292,7 @@ def lifecycle(pattern):
     return [(e["start_frame"], e["end_frame_excl"]) for e in engine.run_pow(frames, PARAMS)[0]]
 
 
+@pytest.mark.determinism
 def test_t9_7_unknown_runs():
     assert lifecycle([1] * 3 + [2] * 10 + [1] * 3) == [(0, 16)]  # 10 unknown frames: > m_gap 5 but <= g_max 15, no 0
     assert lifecycle([1] * 3 + [2] * 16 + [1] * 3) == [(0, 3), (19, 22)]  # 16 > g_max
@@ -291,6 +303,7 @@ def test_t9_7_unknown_runs():
 
 # --- T9.8 onset_sensitive --------------------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_t9_8_onset_sensitive():
     # T9.8 with T10.4: onset uses the frame's P/M/C borderline; the clearance flag is set only from frames of I.
     def run(borderline_at):
@@ -312,6 +325,7 @@ def test_section_6_0_borderline_frames_from_providers():
 
 # --- CL-INV over the full T9 engine ----------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("seed", range(200))
 def test_cl_inv_property_with_t9_inputs(seed):
     rng = random.Random(seed)
@@ -337,6 +351,7 @@ def _episodes_for(name):
     return [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26, "recording_id": "rec_x", "timeline_id": "tl_x"} for ep in episodes]
 
 
+@pytest.mark.determinism
 def test_single_camera_events_are_singletons_in_every_scenario():
     from rq1.events import candidates
     eps = _episodes_for("N2-G3")
@@ -355,6 +370,7 @@ def test_single_camera_events_are_singletons_in_every_scenario():
     assert all(c["wording"] == "scenario_count" and [a["status"] for a in c["assumptions"]] == ["unverified"] * 3 for c in counts)  # LK-07
 
 
+@pytest.mark.determinism
 def test_single_camera_counts_satisfy_lk_04():
     from rq1.events import candidates
     frames = [frame(i, P=1 if (i < 3 or 13 <= i) else 0, M=1) for i in range(20)]  # Appendix N1 T12 pattern: two episodes
@@ -363,6 +379,7 @@ def test_single_camera_counts_satisfy_lk_04():
     assert counts == {"S_VIEW": 2, "S_LINK": 2, "S_POSS": 2}  # S_VIEW >= S_LINK >= S_POSS, equal on one camera
 
 
+@pytest.mark.determinism
 def test_s5_rows_match_the_schema():
     from rq1.events import candidates
     from rq1.schema import validate

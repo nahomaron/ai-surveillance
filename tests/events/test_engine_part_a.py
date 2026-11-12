@@ -54,6 +54,7 @@ def run_n1(row):
     return engine.run_pow(frames, PARAMS, ca_inputs=ca), fixture["expected"]
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("row", [f"T{i}" for i in range(1, 12)])
 def test_ct_e_09_n1_truth_table(row):
     (episodes, discarded), expected = run_n1(row)
@@ -65,12 +66,14 @@ def test_ct_e_09_n1_truth_table(row):
     assert vr_rules.check_episode_labels(ep) == []  # CL-INV-01 to 11
 
 
+@pytest.mark.determinism
 def test_ct_e_09_n1_t12_two_episodes():
     (episodes, discarded), expected = run_n1("T12")
     got = [(e["start_frame"], e["end_frame_excl"], round(e["span_s"], 9), [n for n in ("O", "H", "PC") if e[f"lbl_{n}"]]) for e in episodes]
     assert got == [(x["start_frame"], x["end_frame_excl"], x["span_s"], x["labels"]) for x in expected["episodes"]] and discarded == []
 
 
+@pytest.mark.determinism
 def test_ct_e_09_n1_t13_discarded():
     (episodes, discarded), expected = run_n1("T13")
     assert episodes == []
@@ -94,6 +97,7 @@ def test_providers_section_6_0():
     assert providers.q("sufficient") == 1 and providers.q("insufficient") == 0
 
 
+@pytest.mark.determinism
 def test_lifecycle_w_post_extends_attributes_only():
     frames = [engine.FrameFlags(i, i / 10, 0.1, P=1 if i < 5 else 0, M=0, C_by={"R3": 0}, E=1 if i == 12 else 0, Q=1, clearance=1.0, sigma=0.05) for i in range(30)]
     (episodes, _), = [engine.run_pow(frames, PARAMS)]
@@ -102,6 +106,7 @@ def test_lifecycle_w_post_extends_attributes_only():
     assert ep["E_ep"] == 1  # the evasive frame 12 lies in I+, outside I
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("seed", range(300))
 def test_ct_e_10_cl_inv_property(seed):
     rng = random.Random(seed)
@@ -115,6 +120,7 @@ def test_ct_e_10_cl_inv_property(seed):
         assert vr_rules.check_episode_labels(ep) == [], ep
 
 
+@pytest.mark.determinism
 def test_ct_e_13_one_episode_two_provider_columns():
     inputs = n1("T5")["inputs"]
     frames = n1_frames(inputs)
@@ -151,6 +157,7 @@ RULES = providers.RuleParams(p_provider="R2", k_img=V["k_img"], d_p=V["d_p"], v_
 R1_RULES = dataclasses.replace(RULES, p_provider="R1")
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G2", "N2-G3"])
 def test_n2_flags_every_frame(name):
     # Appendix T T9.1 (E-1.2.7): with the shifted velocity window, N2 holds as written on every frame, ends included.
@@ -161,6 +168,7 @@ def test_n2_flags_every_frame(name):
         assert got == expected[key], (name, key)
 
 
+@pytest.mark.determinism
 def test_ct_e_14_early_trigger_g3():
     _, s4, _, s1 = s4_for("N2-G3")
     flags = providers.flag_frames(s4.tables, RULES, s1["frame"], s1["coverage_segment"])
@@ -170,6 +178,7 @@ def test_ct_e_14_early_trigger_g3():
     assert (episodes[0]["start_frame"], episodes[0]["end_frame_excl"], episodes[0]["minclr_m"]) == (0, 10, pytest.approx(2.35, abs=1e-6))
 
 
+@pytest.mark.determinism
 def test_ct_e_12_substrate_unchanged_by_events():
     _, s4, _, s1 = s4_for("N2-G2")
     before = copy.deepcopy(s4.tables)
@@ -181,6 +190,7 @@ def test_ct_e_12_substrate_unchanged_by_events():
         assert vr_rules.check_ids(table, rows, s4.artifact_id) == []
 
 
+@pytest.mark.determinism
 def test_r1_only_configuration_never_has_motion():
     _, s4, _, s1 = s4_for("N2-G2")
     flags = providers.flag_frames(s4.tables, dataclasses.replace(R1_RULES, conflict=()), s1["frame"], s1["coverage_segment"])

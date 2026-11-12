@@ -34,6 +34,7 @@ def all_detected(frames):
 
 
 # CT-T-14 to 17, duration assertions: person and forklift detected on every eligible frame.
+@pytest.mark.determinism
 @pytest.mark.parametrize("name,f_untimed,detected,insufficient", [
     ("fx_clip_a", 0.05, 0.100, 0.033), ("fx_clip_b", 0.5, 0.067, 0.033), ("fx_clip_c", 0.5, 0.033, 0.067), ("fx_clip_d", 0.05, 0.133, 0.0)])
 def test_ct_t_14_to_17_pair_durations(clip_dir, name, f_untimed, detected, insufficient):
@@ -49,6 +50,7 @@ def test_ct_t_14_to_17_pair_durations(clip_dir, name, f_untimed, detected, insuf
     assert result["detected"] + result["inferred"] + result["insufficient"] == pytest.approx(result["total"], abs=TOL)  # EC-01
 
 
+@pytest.mark.determinism
 def test_ct_t_15_nothing_in_uncertainty_region_counts(clip_dir):
     frames = s1(clip_dir, "fx_clip_b", 0.5).tables["frame"]
     states = all_detected(frames)
@@ -63,6 +65,7 @@ def test_section_3_4_pair_class_rules():
     assert [durations.object_class(s) for s in ("tracked", "predicted", "lost", None)] == ["detected", "inferred", "insufficient", "insufficient"]
 
 
+@pytest.mark.determinism
 def test_ti_10_interval_ending_mid_support(clip_dir):
     frames = s1(clip_dir, "fx_clip_d").tables["frame"]
     states = all_detected(frames)
@@ -86,6 +89,7 @@ def frame_sets(draw):
     return frames, states
 
 
+@pytest.mark.determinism
 @settings(max_examples=300, deadline=None)
 @given(frame_sets(), st.floats(0, 0.5), st.floats(0, 2.0))
 def test_ct_t_20_c_d_and_ec_01_property(data, a, length):
@@ -102,6 +106,7 @@ def test_ct_t_20_c_d_and_ec_01_property(data, a, length):
 
 
 # Oracle S3 source
+@pytest.mark.determinism
 def test_oracle_s3_tracks_and_evidence_classes(clip_dir):
     s1_art = s1(clip_dir, "fx_clip_a")
     frames = s1_art.tables["frame"]
@@ -122,6 +127,7 @@ def test_oracle_s3_tracks_and_evidence_classes(clip_dir):
 
 
 # Activity segments (section 3.5, CD-01 to 03, FX-D1/D2, CT-E-11)
+@pytest.mark.determinism
 def test_activity_segments_tile_coverage(clip_dir):
     s1_art = s1(clip_dir, "fx_clip_a")
     frames, coverage = s1_art.tables["frame"], s1_art.tables["coverage_segment"]
@@ -136,6 +142,7 @@ def test_activity_segments_tile_coverage(clip_dir):
     assert vr_rules.check_no_reference_states("activity_segment", rows) == []  # CT-E-11, store part
 
 
+@pytest.mark.determinism
 def test_fx_d1_and_d2():
     d1 = json.loads((FIX / "FX-D1.json").read_text())["record"]
     d2 = json.loads((FIX / "FX-D2.json").read_text())["record"]
@@ -156,6 +163,7 @@ def _forklift_x(name, t):
     return {"N2-G1": 0.0, "N2-G2": -2.5 + 1.0 * t, "N2-G3": 1.5 * t}[name]
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G2", "N2-G3"])
 def test_n2_clearances(name):
     fixture = n2(name)
@@ -165,6 +173,7 @@ def test_n2_clearances(name):
         assert got == pytest.approx(expected, abs=1e-6), (name, k)
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G3"])
 def test_n2_constant_velocity_predicted_minimum(name):
     fixture = n2(name)
@@ -182,6 +191,7 @@ def test_n2_g2_predicted_minimum_never_below_d_pc():
         assert got >= 1.0 - 1e-9  # N2 G2: C_by_R3 = 0 with d_pc = 1.0
 
 
+@pytest.mark.determinism
 @settings(max_examples=300, deadline=None)
 @given(st.floats(-4, 4), st.floats(-4, 4), st.floats(-math.pi, math.pi))
 def test_ct_e_06_overlap_iff_clearance_not_positive(x, y, yaw):

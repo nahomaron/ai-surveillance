@@ -65,6 +65,7 @@ def build_s5(s1, s4, cfg=None):
 
 # --- CT-T10-01: contact-state order (T10.1) ------------------------------------------------------------------------
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("row", [f"T{i}" for i in range(1, 12)])
 def test_ct_t10_01_n1_contact_states(row):
     # T10.1 checks: T6, T8 undetermined; T7, T9 suspected; T10 undetermined; T11 not_assessable; T1-T5 none_observed.
@@ -87,6 +88,7 @@ def test_ct_t10_01_order():
 
 # --- CT-T10-04: E on insufficient frames (T10.3(b)) ------------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_ct_t10_04_e_unknown_on_a_lost_frame():
     s1, s4 = s4_of("N2-G2", person_states={10: "lost"})
     flags = providers.flag_frames(s4.tables, RULES, s1["frame"], s1["coverage_segment"])
@@ -106,6 +108,7 @@ def test_ct_t10_04_e_ep_true_if_any_true_frame_in_i_plus():
 
 # --- CT-T10-05: the cue when R5 is disabled (T10.3(c)) ---------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_ct_t10_05_cue_computed_with_r5_disabled():
     frames = [frame(i, clearance=-0.10, overlap=1, rates=Rates(0.0, 3.5, None, True)) for i in range(10)]
     (ep,), _ = engine.run_pow(frames, OFF)
@@ -154,22 +157,26 @@ R1 = dataclasses.replace(RULES, p_provider="R1")
 CLR = "clearance_within_k_sigma"
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_baseline_has_no_flag():
     assert flags_for() == [] and flags_for(rules=R1) == []
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("rules", [RULES, R1])
 def test_ct_t10_06_clearance_against_d_p(rules):
     # Frame 5 clearance 1.95: |1.95 - 2.0| = 0.05 <= 2 x 0.05. Applies to every frame of I with measured clearance, whatever the P provider.
     assert flags_for(pair={5: {"clearance_m": 1.95}}, rules=rules) == [CLR]
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_r1_image_gap_equality():
     # Frame 5 gap 0.05 = k_img: |0.05 - 0.05| <= 0. R1 configurations only; an R2 configuration ignores the image gap.
     assert flags_for(pair={5: {"image_gap_norm": 0.05}}, rules=R1) == [CLR]
     assert flags_for(pair={5: {"image_gap_norm": 0.05}}, rules=RULES) == []
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_prediction_against_d_pc():
     pred = lambda v, s: {"predicted": [{"motion_model_id": "constant_velocity", "horizon_s": 2.0, "pred_min_clearance_m": v, "sigma_m": s}]}
     assert flags_for(pair={5: pred(1.0, None)}) == [CLR]  # |1.0 - 1.0| <= 0 (sigma null uses 0)
@@ -177,31 +184,37 @@ def test_ct_t10_06_prediction_against_d_pc():
     assert flags_for(pair={5: pred(1.2, 0.05)}) == []  # 0.20 > 0.10
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_minclr_against_d_nm():
     # Frame 5 clearance 0.55 is the minimum: |0.55 - 0.5| = 0.05 <= 2 x 0.05. Nothing else is near: |0.55| at CA > 0.10.
     assert flags_for(pair={5: {"clearance_m": 0.55}}) == [CLR]
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_clearance_at_ca():
     # Frame 5 clearance 0.08 is CA: |0.08| <= 2 x 0.05. minclr 0.08 vs d_nm: |0.08 - 0.5| = 0.42 > 0.10.
     assert flags_for(pair={5: {"clearance_m": 0.08}}) == [CLR]
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("rules", [RULES, R1])
 def test_ct_t10_06_speed_near_v_min(rules):
     # Frame 5 forklift speed 0.35, sigma 0.05: |0.35 - 0.3| = 0.05 <= 0.10.
     assert flags_for(fork={5: (0.35, 0.05)}, rules=rules) == ["speed_near_v_min"]
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_footprint_orientation_unknown():
     assert flags_for(pair={5: {"borderline_flags": ["footprint_orientation_unknown"]}}) == ["footprint_orientation_unknown"]
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_onset_sensitive():
     # Opening frame 0 has clearance 1.95: borderline for P (R2), so onset_sensitive as well (T9.8).
     assert flags_for(pair={0: {"clearance_m": 1.95}}) == [CLR, "onset_sensitive"]
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_borderline_in_i_plus_outside_i_sets_no_flag():
     # Frames 10-19 have clearance 2.5 (P = 0; prediction 1.5 >= d_pc, so C = 0): I = [0, 10), I+ = [0, 20).
     # Frame 11 clearance 2.05 (|2.05 - 2.0| <= 0.10) and frame 12 speed 0.35 (sigma 0.05) are borderline but outside I.
@@ -212,6 +225,7 @@ def test_ct_t10_06_borderline_in_i_plus_outside_i_sets_no_flag():
     assert (ep["end_frame_excl"], ep["attr_end_frame_excl"], ep["borderline_flags"]) == (10, 20, [])
 
 
+@pytest.mark.determinism
 def test_ct_t10_06_borderline_flags_never_change_labels():
     s4, frames, coverage = synthetic_s4()
     base = engine.run_pow(providers.flag_frames(s4, RULES, frames, coverage), PARAMS)[0][0]
@@ -228,6 +242,7 @@ def episodes_of(name, **kw):
     return build_s5(s1, s4).tables["episode"]
 
 
+@pytest.mark.determinism
 def test_ct_t10_07_g1():
     (ep,) = episodes_of("N2-G1")
     assert ep["support_detected_frac"] == pytest.approx(1.0, abs=TOL)
@@ -239,6 +254,7 @@ def test_ct_t10_07_g1():
     assert ep["exp_t_clearance_unknown_s"] == 0.0 and ep["exp_visible_frac"] == pytest.approx(1.0, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t10_07_g2():
     (ep,) = episodes_of("N2-G2")
     assert ep["exp_speed_at_ca_mps"] == pytest.approx(1.0, abs=TOL)  # CA = the earliest frame of minimum clearance
@@ -246,12 +262,14 @@ def test_ct_t10_07_g2():
     assert ep["exp_t_in_band_detected_s"] == pytest.approx([0.0, 0.0, 0.0, 5.0, 0.0, 0.0], abs=US)  # 1.10 to 1.7518, all in [1, 2)
 
 
+@pytest.mark.determinism
 def test_ct_t10_07_g3():
     (ep,) = episodes_of("N2-G3")
     assert ep["exp_closing_rate_max_mps"] == pytest.approx(1.5, abs=TOL)
     assert ep["exp_t_in_band_detected_s"] == pytest.approx([0.0, 0.0, 0.0, 0.0, 1.0, 0.0], abs=US)  # 2.35 to 3.70, all in [2, 4)
 
 
+@pytest.mark.determinism
 def test_ct_t10_07_mixed_evidence_classes():
     # G2 with person predicted on frames 20-24 (inferred, positions given), lost on frame 30 (insufficient) and without a
     # position on frame 35 (detected, clearance not measured). Hand: inferred 0.5 s, insufficient 0.1 s,
@@ -271,6 +289,7 @@ CONSISTENCY_CASES = [("N2-G1", {}), ("N2-G2", {}), ("N2-G3", {}),
                      ("N2-G1", {"person_states": {i: "predicted" for i in range(5, 12)}, "no_person_position": (40, 41)})]
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("name,kw", CONSISTENCY_CASES)
 def test_ct_t10_07_consistency_sum(name, kw):
     # T10.5: sum(in band, detected) + detected clearance-unknown support = detected support of I (1 us), likewise inferred.
@@ -290,6 +309,7 @@ def test_ct_t10_07_consistency_sum(name, kw):
 
 # --- CT-T10-08: event counts (T10.6) ---------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_ct_t10_08_g1_counts():
     s1, s4 = s4_of("N2-G1")
     counts = build_s5(s1, s4).tables["event_count_summary"]
@@ -301,6 +321,7 @@ def test_ct_t10_08_g1_counts():
     assert all(c["n_ambiguous_groups"] == 0 and c["n_unresolved_identity_episodes"] == 0 for c in counts)
 
 
+@pytest.mark.determinism
 def test_ct_t10_08_overlapping_labels():
     # Appendix N1 T5 gives one episode labelled H and NM: counted under all, H and NM; the counts overlap.
     (episodes, _), expected = run_n1("T5")
@@ -313,6 +334,7 @@ def test_ct_t10_08_overlapping_labels():
 
 # --- S5 artifact ------------------------------------------------------------------------------------------------------
 
+@pytest.mark.determinism
 def test_s5_artifact_tables_and_rule_configuration():
     s1, s4 = s4_of("N2-G3")
     built = build_s5(s1, s4)
@@ -325,6 +347,7 @@ def test_s5_artifact_tables_and_rule_configuration():
     assert vr_rules.check_episode_labels(ep) == [] and all(vr_rules.check_event_labels(e) == [] for e in built.tables["candidate_event"])
 
 
+@pytest.mark.determinism
 def test_s5_discarded_episode_and_continuation():
     # Person missing on frames 10-25 (16 > g_max 15): two POWs, the second with continuation_of (T8.1). G1 has P = 1
     # throughout, so the first episode runs to the end of POW 1 and the second starts at POW 2: they are linked (step 6).
@@ -337,6 +360,7 @@ def test_s5_discarded_episode_and_continuation():
     assert eps[1]["continuation_of_nk"] == [pows[0]["pow_id"], 0] and eps[1]["continuation_of_id"] == eps[0]["ep_id"]
 
 
+@pytest.mark.determinism
 def test_s5_discarded_rows():
     # Clearance 1.5 (P = 1) on frame 0 only, 2.5 (P = 0) afterwards: the episode [0, 1) spans 0.1 s < t_min 0.2 s (N1 T13 pattern).
     s4, frames, coverage = synthetic_s4(pair={i: {"clearance_m": 2.5} for i in range(1, 20)})
@@ -344,12 +368,14 @@ def test_s5_discarded_rows():
     assert episodes == [] and discarded == [{"start_frame": 0, "end_frame_excl": 1, "span_s": pytest.approx(0.1), "discard_reason": "shorter_than_t_min"}]
 
 
+@pytest.mark.determinism
 def test_ct_fk_04_exact_rerun():
     s1, s4 = s4_of("N2-G2")
     a, b = build_s5(s1, s4), build_s5(s1, s4)
     assert (a.artifact_id, a.payload_sha256) == (b.artifact_id, b.payload_sha256) and a.tables == b.tables
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("seed", range(3))
 def test_ct_fk_02_shuffled_inputs_give_identical_ids(seed):
     rng = random.Random(seed)
@@ -362,6 +388,7 @@ def test_ct_fk_02_shuffled_inputs_give_identical_ids(seed):
     assert again.artifact_id == base.artifact_id and again.tables == base.tables  # every derived ID column identical
 
 
+@pytest.mark.determinism
 def test_ct_i_07_rule_change():
     s1, s4 = s4_of("N2-G2")
     _, s4_again = s4_of("N2-G2")
@@ -373,6 +400,7 @@ def test_ct_i_07_rule_change():
     assert not {e["ep_id"] for e in a.tables["episode"]} & {e["ep_id"] for e in b.tables["episode"]}  # S5 IDs new
 
 
+@pytest.mark.determinism
 def test_ar_40_item_3_configuration_id_covers_parameters_of_disabled_providers():
     # An R1-only configuration still reads d_p, v_min and d_pc for T10.4 flags, so they must change the configuration ID.
     r1 = dataclasses.replace(RULES, p_provider="R1")

@@ -41,10 +41,12 @@ def states(directory, name):
     return rows, frames
 
 
+@pytest.mark.determinism
 def test_catalogue_is_complete():
     assert set(clips.CLIPS) == EXPECTED_CLIPS
 
 
+@pytest.mark.determinism
 def test_deterministic_bytes(tmp_path, built):
     clips.build_all(tmp_path)
     for name in EXPECTED_CLIPS:
@@ -52,6 +54,7 @@ def test_deterministic_bytes(tmp_path, built):
             assert (tmp_path / f"{name}{suffix}").read_bytes() == (built / f"{name}{suffix}").read_bytes(), name
 
 
+@pytest.mark.determinism
 def test_committed_manifest_matches_this_decoder_build(built):
     manifest = json.loads((ROOT / "fixtures" / "clips_manifest.json").read_text())
     assert manifest["pyav"] == av.__version__
@@ -62,18 +65,21 @@ def test_committed_manifest_matches_this_decoder_build(built):
         assert entry["source"].strip()
 
 
+@pytest.mark.determinism
 def test_case_a_corrupt_but_timed(built):
     rows, frames = states(built, "fx_clip_a")
     assert rows == [(0, 0, True), (33, 33, False), (66, 66, True), (100, 100, True)]
     assert frames == [(0, 0), (66, 66), (100, 100)]
 
 
+@pytest.mark.determinism
 def test_case_b_untimed_depth_zero(built):
     rows, frames = states(built, "fx_clip_b")
     assert rows == [(0, 0, True), (None, None, True), (66, 66, True), (100, 100, True)]
     assert frames[1] == (None, None)
 
 
+@pytest.mark.determinism
 def test_case_c_dts_only_with_b_frames_depth_2(built):
     rows, frames = states(built, "fx_clip_c")
     assert [r[0] for r in rows] == [0, 100, None, 66]  # decode order I0 P100 B33 B66, f1 PTS stripped
@@ -84,12 +90,14 @@ def test_case_c_dts_only_with_b_frames_depth_2(built):
     assert (None, 33) in frames
 
 
+@pytest.mark.determinism
 def test_case_d_dts_only_depth_zero(built):
     rows, frames = states(built, "fx_clip_d")
     assert rows == [(0, 0, True), (None, 33, True), (66, 66, True), (100, 100, True)]
     assert frames[1] == (None, 33)
 
 
+@pytest.mark.determinism
 def test_ct_t_01_vfr_alternates_33_and_50_ms(built):
     rows, _ = states(built, "ct_t_01_vfr")
     deltas = [b[0] - a[0] for a, b in zip(rows, rows[1:])]
@@ -97,6 +105,7 @@ def test_ct_t_01_vfr_alternates_33_and_50_ms(built):
     assert rows[-1][0] < 10000 <= rows[-1][0] + 50
 
 
+@pytest.mark.determinism
 def test_ct_t_02_b_frames_reorder_and_all_intra_copy_has_same_times(built):
     b_rows, _ = states(built, "ct_t_02_bframes")
     i_rows, _ = states(built, "ct_t_02_all_intra")
@@ -104,24 +113,28 @@ def test_ct_t_02_b_frames_reorder_and_all_intra_copy_has_same_times(built):
     assert sorted(r[0] for r in b_rows) == [r[0] for r in i_rows]
 
 
+@pytest.mark.determinism
 def test_ct_t_03_two_frames_share_a_pts(built):
     rows, _ = states(built, "ct_t_03_dup_pts")
     pts = [r[0] for r in rows]
     assert pts[9] == pts[10] and len(pts) - len(set(pts)) == 1
 
 
+@pytest.mark.determinism
 def test_ct_t_04_four_second_dropout(built):
     rows, _ = states(built, "ct_t_04_dropout")
     deltas = [b[0] - a[0] for a, b in zip(rows, rows[1:])]
     assert deltas.count(4000) == 1 and set(deltas) == {33, 4000}
 
 
+@pytest.mark.determinism
 def test_ct_t_05_fifteen_undecodable_frames(built):
     rows, _ = states(built, "ct_t_05_corrupt")
     assert [i for i, r in enumerate(rows) if not r[2]] == list(range(20, 35))
     assert all(r[0] is not None for r in rows)
 
 
+@pytest.mark.determinism
 def test_ct_t_07_two_files(built):
     a, _ = states(built, "ct_t_07_file_a")
     b, _ = states(built, "ct_t_07_file_b")
@@ -129,11 +142,13 @@ def test_ct_t_07_two_files(built):
     assert (built / "ct_t_07_file_a.mkv").read_bytes() != (built / "ct_t_07_file_b.mkv").read_bytes()
 
 
+@pytest.mark.determinism
 def test_ct_t_08_untimed_stream(built):
     rows, _ = states(built, "ct_t_08_untimed")
     assert len(rows) == 20 and all(r[0] is None and r[1] is None for r in rows)
 
 
+@pytest.mark.determinism
 def test_fx_10_vfr_gap_and_one_corrupt_frame(built):
     rows, _ = states(built, "fx_10")
     assert sum(1 for r in rows if not r[2]) == 1
@@ -141,6 +156,7 @@ def test_fx_10_vfr_gap_and_one_corrupt_frame(built):
     assert deltas.count(500) == 1 and {33, 50} < set(deltas)
 
 
+@pytest.mark.determinism
 def test_no_video_is_tracked_by_git():
     import subprocess
     tracked = subprocess.run(["git", "ls-files", "*.mkv", "*.mp4"], cwd=ROOT, capture_output=True, text=True).stdout

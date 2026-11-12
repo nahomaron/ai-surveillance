@@ -65,6 +65,7 @@ def frames(built):
 
 
 # CT-T-14 to 17 (frame and coverage parts) and CT-T-21: Appendix N3 values with declared delta_nom.
+@pytest.mark.determinism
 def test_case_a(clip_dir):
     built = run(clip_dir, "fx_clip_a")
     assert segments(built) == [(0.0, 0.033, "usable", []), (0.033, 0.066, "unusable", ["decode_error", "excluded_frame"]), (0.066, 0.133, "usable", [])]
@@ -74,6 +75,7 @@ def test_case_a(clip_dir):
     assert f1["support_s"] == pytest.approx(0.033, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_case_b(clip_dir):
     built = run(clip_dir, "fx_clip_b")
     assert segments(built) == [(0.0, 0.066, "unusable", ["untimed_frame"]), (0.066, 0.133, "usable", [])]
@@ -82,6 +84,7 @@ def test_case_b(clip_dir):
     assert states[0] == ("ok", "timing_uncertain") and states[1] == ("untimed", "zero_untimed")
 
 
+@pytest.mark.determinism
 def test_case_c(clip_dir):
     built = run(clip_dir, "fx_clip_c")
     assert summary(built)["reorder_depth"] == 2
@@ -89,6 +92,7 @@ def test_case_c(clip_dir):
     assert usable(built) == pytest.approx(0.033, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_case_d(clip_dir):
     built = run(clip_dir, "fx_clip_d")
     assert segments(built) == [(0.0, 0.033, "usable", []), (0.033, 0.066, "usable_degraded", ["timing_substituted"]), (0.066, 0.133, "usable", [])]
@@ -98,12 +102,14 @@ def test_case_d(clip_dir):
     assert (f1["ts_source"], f1["ts_status"], f1["support_status"]) == ("dts_derived", "substituted", "substituted")
 
 
+@pytest.mark.determinism
 def test_ct_t_21_declared_source_recorded(clip_dir):
     s = summary(run(clip_dir, "fx_clip_a"))
     assert (s["delta_nom_s"], s["delta_nom_source"], s["delta_nom_declared_s"]) == (0.033, "declared_config", 0.033)
     assert s["delta_nom_median_s"] == pytest.approx(0.033, abs=TOL)  # T7.1 check value for Case A
 
 
+@pytest.mark.determinism
 def test_ct_t_22_case_b_without_declaration(clip_dir):
     built = run(clip_dir, "fx_clip_b", declared=None)
     s = summary(built)
@@ -160,6 +166,7 @@ def test_t7_fewer_than_two_timed_frames():
     assert exc.value.code == "ERR-TIMESTAMPS"
 
 
+@pytest.mark.determinism
 def test_ct_t_01_vfr_durations_are_support_sums(clip_dir):
     built = run(clip_dir, "ct_t_01_vfr")
     times = [f["t_resolved_s"] for f in frames(built)]
@@ -177,6 +184,7 @@ def test_ct_t_01_vfr_durations_are_support_sums(clip_dir):
     assert summary(built)["vfr_detected"] is True
 
 
+@pytest.mark.determinism
 def test_ct_t_02_b_frames_follow_pts(clip_dir):
     b, i = run(clip_dir, "ct_t_02_bframes"), run(clip_dir, "ct_t_02_all_intra")
     by_index = lambda built: [(f["frame_index"], f["t_resolved_s"], f["support_s"]) for f in sorted(frames(built), key=lambda f: f["frame_index"])]
@@ -185,6 +193,7 @@ def test_ct_t_02_b_frames_follow_pts(clip_dir):
     assert segments(b) == segments(i)
 
 
+@pytest.mark.determinism
 def test_ct_t_03_duplicate_pts(clip_dir):
     built = run(clip_dir, "ct_t_03_dup_pts")
     dup = [f for f in frames(built) if f["ts_status"] == "duplicate"]
@@ -195,6 +204,7 @@ def test_ct_t_03_duplicate_pts(clip_dir):
     assert sum(f["support_s"] for f in frames(built)) == pytest.approx(0.957, abs=1e-9)
 
 
+@pytest.mark.determinism
 def test_ct_t_04_dropout_gap(clip_dir):
     built = run(clip_dir, "ct_t_04_dropout")
     gaps = [s for s in built.tables["coverage_segment"] if s["coverage_state"] == "gap_unobserved"]
@@ -204,6 +214,7 @@ def test_ct_t_04_dropout_gap(clip_dir):
     assert gaps[0]["support_s"] == 0.0 and gaps[0]["start_frame"] is None
 
 
+@pytest.mark.determinism
 def test_ct_t_05_fifteen_undecodable_frames(clip_dir):
     built = run(clip_dir, "ct_t_05_corrupt")
     bad = [f for f in frames(built) if not f["decode_ok"]]
@@ -213,6 +224,7 @@ def test_ct_t_05_fifteen_undecodable_frames(clip_dir):
     assert unusable == [(0.66, 1.155, "unusable", ["decode_error", "excluded_frame"])]
 
 
+@pytest.mark.determinism
 def test_ct_t_06_final_frame_sensitivity(clip_dir):
     base = run(clip_dir, "ct_t_07_file_a")
     zero = run(clip_dir, "ct_t_07_file_a", final="zero")
@@ -221,6 +233,7 @@ def test_ct_t_06_final_frame_sensitivity(clip_dir):
     assert total(base) - total(zero) == pytest.approx(0.033, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t_07_two_files_on_aligned_timeline(clip_dir):
     tl = {"tl_id": core.anchor_id("tl", "timeline", ["aligned_session", "s"]), "kind": "aligned_session", "extent_start_tl_s": 0.0, "extent_end_tl_s": 63.96}
     a, b = rec("a"), rec("b")
@@ -233,6 +246,7 @@ def test_ct_t_07_two_files_on_aligned_timeline(clip_dir):
     assert gap["recording_id"] is None and gap["start_frame"] is None and gap["t_end_tl_s"] - gap["t_start_tl_s"] == pytest.approx(60.0, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t_08_untimed_stream_rejected_and_nothing_written(clip_dir, tmp_path):
     with pytest.raises(ContractError) as exc:
         run(clip_dir, "ct_t_08_untimed")
@@ -248,6 +262,7 @@ def test_ct_t_10_interval_ending_mid_support():
     assert timeline_rules.clip_support(0.0, 0.033, 0.0, 0.025) == pytest.approx(0.025, abs=TOL)
 
 
+@pytest.mark.determinism
 def test_ct_t_11_unaligned_files_have_no_gap_segment(clip_dir):
     for name in ("ct_t_07_file_a", "ct_t_07_file_b"):
         assert {s[2] for s in segments(run(clip_dir, name))} == {"usable"}
@@ -267,6 +282,7 @@ def test_ct_t_13_cross_timeline_window_rejected():
     assert timeline_rules.check_window_timeline("tl_a", "tl_a") == []
 
 
+@pytest.mark.determinism
 def test_vr_and_ti_invariants_on_every_clip(clip_dir):
     for name in ("fx_clip_a", "fx_clip_b", "fx_clip_c", "fx_clip_d", "ct_t_01_vfr", "ct_t_03_dup_pts", "ct_t_04_dropout", "ct_t_05_corrupt", "fx_10"):
         built = run(clip_dir, name)
@@ -278,6 +294,7 @@ def test_vr_and_ti_invariants_on_every_clip(clip_dir):
         assert sum(1 for f in built.tables["frame"] if f["support_status"] == "final_assumed") == 1, name  # TI-07
 
 
+@pytest.mark.determinism
 def test_ct_e_04_coverage_needs_no_detector_and_is_deterministic(clip_dir):
     import rq1.decode.stage as module
     source = open(module.__file__).read() + open(timestamps.__file__).read()
@@ -285,6 +302,7 @@ def test_ct_e_04_coverage_needs_no_detector_and_is_deterministic(clip_dir):
     assert run(clip_dir, "fx_10").artifact_id == run(clip_dir, "fx_10").artifact_id
 
 
+@pytest.mark.determinism
 def test_s1_artifact_ids_recompute(clip_dir):
     built = run(clip_dir, "fx_clip_d")
     for table, rows in built.tables.items():
@@ -315,6 +333,7 @@ def packet_lists(draw):
     return packets
 
 
+@pytest.mark.determinism
 @settings(max_examples=500, deadline=None)
 @given(packet_lists())
 def test_ct_t_20_a_b_property(packets):
@@ -338,6 +357,7 @@ def test_ct_t_20_a_b_property(packets):
     assert all(a.end == b.start for a, b in zip(pieces, pieces[1:]))  # pieces tile the recording extent
 
 
+@pytest.mark.determinism
 def test_ar28_case_b_is_rejected_at_the_ct_t_08_value(clip_dir):
     with pytest.raises(ContractError) as exc:
         run(clip_dir, "fx_clip_b", f_untimed=0.05)
@@ -345,6 +365,7 @@ def test_ar28_case_b_is_rejected_at_the_ct_t_08_value(clip_dir):
 
 
 # Appendix T T7.1 (E-1.2.5)
+@pytest.mark.determinism
 def test_t7_1_decode_seq_is_demux_order(clip_dir):
     built = run(clip_dir, "fx_clip_c")
     by_seq = {f["decode_seq"]: f for f in built.tables["frame"]}
@@ -352,17 +373,20 @@ def test_t7_1_decode_seq_is_demux_order(clip_dir):
     assert summary(built)["reorder_depth"] == 2
 
 
+@pytest.mark.determinism
 def test_t7_1_check_value_case_a_undeclared(clip_dir):
     s = summary(run(clip_dir, "fx_clip_a", declared=None))
     assert (s["delta_nom_s"], s["delta_nom_source"]) == (pytest.approx(0.033, abs=TOL), "median_adjacent_pairs")
 
 
+@pytest.mark.determinism
 def test_t7_1_check_value_case_c_falls_back_to_step_3(clip_dir):
     s = summary(run(clip_dir, "fx_clip_c", declared=None))
     assert s["delta_nom_source"] == "median_all_timed" and s["delta_nom_median_s"] is None
     assert s["delta_nom_s"] == pytest.approx(0.050, abs=TOL)  # hand calculation: median of 0.066 and 0.034
 
 
+@pytest.mark.determinism
 def test_t7_1_b_frame_clip_uses_presentation_order_pairs(clip_dir):
     s = summary(run(clip_dir, "ct_t_02_bframes", declared=None))
     assert s["reorder_depth"] > 0

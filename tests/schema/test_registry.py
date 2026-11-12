@@ -83,16 +83,19 @@ def test_every_contract_table_is_registered():
     assert set(registry.TABLES) == EXPECTED_TABLES
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table,prefix", sorted(EXPECTED_PREFIX.items()))
 def test_prefix(table, prefix):
     assert registry.TABLES[table].prefix == prefix
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table,key", sorted(EXPECTED_KEYS.items()))
 def test_revised_natural_keys(table, key):
     assert registry.TABLES[table].key_names() == key
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table", sorted(ANCHOR_TABLES))
 def test_anchor_tables_have_no_same_artifact_nk(table):
     """F.1 A1.2: references inside anchor keys use the parent's anchor ID."""
@@ -100,6 +103,7 @@ def test_anchor_tables_have_no_same_artifact_nk(table):
     assert registry.TABLES[table].identity_class == "anchor"
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table", sorted(EXPECTED_TABLES))
 def test_generates_valid_arrow_and_json_schema(table):
     assert isinstance(registry.arrow_schema(table), pa.Schema)
@@ -114,6 +118,7 @@ def test_nullable_fields_have_reason_sibling(table):
             assert names[f"{field.name}_null_reason"].nullable
 
 
+@pytest.mark.determinism
 def test_arrow_type_mapping_section_1_1():
     schema = registry.arrow_schema("flag_series")
     assert schema.field("P").type == pa.int8()
@@ -126,6 +131,7 @@ def test_arrow_type_mapping_section_1_1():
     assert registry.arrow_schema("dataset_source").field("retrieved_utc").type == pa.timestamp("us", tz="UTC")
 
 
+@pytest.mark.determinism
 def test_f1_field_additions():
     fields = lambda t: {f.name for f in registry.TABLES[t].fields}
     assert "dataset_kind" in fields("dataset_source")
@@ -146,6 +152,7 @@ def test_no_forbidden_field_in_any_table():
         assert registry.forbidden_field_names(table) == [], table
 
 
+@pytest.mark.determinism
 def test_nk_is_json_array_in_json_schema_and_text_in_arrow():
     # AR-4: Appendix T T5 gives ["rec_a",1] in the payload; Parquet stores its JCS text.
     assert registry.json_schema("track_point")["properties"]["track_nk"] == {"type": "array"}
@@ -163,6 +170,7 @@ AR3_PREFIX = {
 }
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("table,prefix", sorted(AR3_PREFIX.items()))
 def test_ar3_prefixes(table, prefix):
     assert registry.TABLES[table].prefix == prefix
@@ -223,6 +231,7 @@ def test_json_schema_rejects_unknown_enum_and_extra_column():
     assert list(_json_validator("detection").iter_errors(row))
 
 
+@pytest.mark.determinism
 def test_enum_columns_are_stored_as_dictionary_in_arrow_table():
     table = registry.to_arrow("detection", [registry.minimal_row("detection")])
     assert table.schema.field("class").type == pa.dictionary(pa.int32(), pa.utf8())

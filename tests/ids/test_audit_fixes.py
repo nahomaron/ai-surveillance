@@ -29,10 +29,12 @@ def _load_execution(path):
     return record
 
 
+@pytest.mark.determinism
 def test_execution_json_conforms_to_its_schema(tmp_path):
     assert validate.validate_row("execution", _load_execution(_written(tmp_path) / "execution.json")) == []
 
 
+@pytest.mark.determinism
 def test_failed_run_record_section_2_5(tmp_path):
     path = artifact.record_failed_run(tmp_path, SPEC, clock=lambda: T0, host="h")
     record = _load_execution(path)
@@ -42,6 +44,7 @@ def test_failed_run_record_section_2_5(tmp_path):
     assert not (tmp_path / "manifest.json").exists()
 
 
+@pytest.mark.determinism
 def test_run_register_is_append_only_jsonl(tmp_path):
     built = artifact.build_artifact(SPEC, _tables())
     register = tmp_path / "runs.jsonl"
@@ -50,10 +53,12 @@ def test_run_register_is_append_only_jsonl(tmp_path):
     assert len(register.read_text().splitlines()) == 2
 
 
+@pytest.mark.determinism
 def test_ct_e_01_covers_vr_e_004_on_produced_artifact(tmp_path):
     assert artifact.validate_artifact(_written(tmp_path)) == []
 
 
+@pytest.mark.determinism
 def test_ct_e_01_detects_wrong_id_in_produced_file(tmp_path):
     directory = _written(tmp_path)
     path = directory / "track.parquet"
@@ -65,6 +70,7 @@ def test_ct_e_01_detects_wrong_id_in_produced_file(tmp_path):
     assert "VR-E-004" in {i.rule for i in artifact.validate_artifact(directory)}
 
 
+@pytest.mark.determinism
 def test_incomplete_artifact_is_refused(tmp_path):
     directory = _written(tmp_path)
     manifest = json.loads((directory / "manifest.json").read_text())
@@ -73,6 +79,7 @@ def test_incomplete_artifact_is_refused(tmp_path):
         artifact.verify(directory)
 
 
+@pytest.mark.determinism
 def test_ct_id_07_rewrite_changes_file_hash_only(tmp_path):
     directory = _written(tmp_path)
     path = directory / "track_point.parquet"
@@ -83,6 +90,7 @@ def test_ct_id_07_rewrite_changes_file_hash_only(tmp_path):
     assert artifact._sha256(path) != before
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("value,bad", [(2**53 - 1, False), (-(2**53 - 1), False), (2**53, True), (2**60, True)])
 def test_ar18_integers_outside_i_json_range_are_rejected(value, bad):
     row = rows.row("session")
@@ -90,6 +98,7 @@ def test_ar18_integers_outside_i_json_range_are_rejected(value, bad):
     assert bool(validate.validate_row("session", row)) is bad
 
 
+@pytest.mark.determinism
 def test_ar18_is_a_contract_error_not_a_serializer_crash():
     tables = {"track": [rows.track(2**60)]}
     with pytest.raises(ContractError) as exc:
@@ -101,6 +110,7 @@ def _columns(table):
     return {f.name: f.type.kind for f in registry.TABLES[table].fields if not f.derived and not f.name.endswith("_null_reason")}
 
 
+@pytest.mark.determinism
 def test_ar5_config_table_columns():
     # E-1.2.4 T7 adds the delta_nom declaration; AR-24 names it and the final-frame variant field.
     assert _columns("decode_config") == {"k_sup": "f64", "f_untimed": "f64", "f_sub": "f64", "rules_version": "str", "version_label": "str",
@@ -111,6 +121,7 @@ def test_ar5_config_table_columns():
                                                 "strata": "list", "seed": "i64", "version_label": "str"}
 
 
+@pytest.mark.determinism
 def test_ar6_named_configuration_fields():
     # AR-35 adds the T8.3 prediction horizon.
     assert _columns("substrate_config") == {"g_max": "i32", "pair_classes": "list", "v_min": "f64", "k_sup": "f64", "motion_models": "list",
@@ -119,6 +130,7 @@ def test_ar6_named_configuration_fields():
         assert "version_label" in _columns(table)
 
 
+@pytest.mark.determinism
 def test_ar2_representative_inferred_types():
     assert _columns("metric_result")["n_units"] == "i64" and _columns("metric_result")["eff_n"] == "f64"
     assert _columns("reference_window")["weight"] == "f64" and _columns("reference_window")["window_index"] == "i64"

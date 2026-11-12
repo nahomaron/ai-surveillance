@@ -8,3 +8,6 @@ requires-python = ">=3.11"
 pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers"
+markers = [
+    "determinism: builds, hashes or serializes an artifact, reads fixtures, or is seeded; re-run twice by the work loop (CLAUDE.md step 4)",
+]

@@ -20,10 +20,12 @@ def load(fixture_id):
     return json.loads((ROOT / "records" / f"{fixture_id}.json").read_text(encoding="utf-8"))
 
 
+@pytest.mark.determinism
 def test_every_required_fixture_exists():
     assert {p.stem for p in (ROOT / "records").glob("*.json")} == REQUIRED_IDS
 
 
+@pytest.mark.determinism
 def test_generator_output_matches_committed_files(tmp_path):
     records.build_all(tmp_path)
     for path in sorted((ROOT / "records").glob("*.json")):
@@ -31,6 +33,7 @@ def test_generator_output_matches_committed_files(tmp_path):
     assert (tmp_path / "manifest.json").read_bytes() == (ROOT / "manifest.json").read_bytes()
 
 
+@pytest.mark.determinism
 def test_manifest_hashes_match_files():
     manifest = json.loads((ROOT / "manifest.json").read_text())
     assert set(manifest["fixtures"]) == {f"records/{i}.json" for i in REQUIRED_IDS}
@@ -38,6 +41,7 @@ def test_manifest_hashes_match_files():
         assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("fixture_id", sorted(REQUIRED_IDS))
 def test_each_fixture_cites_its_source_and_is_test_only(fixture_id):
     fixture = load(fixture_id)
@@ -54,6 +58,7 @@ N1 = {
 }
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("row", sorted(N1))
 def test_n1_expected_values(row):
     expected = load(f"N1-{row}")["expected"]
@@ -61,10 +66,12 @@ def test_n1_expected_values(row):
     assert (expected["contact_state"], expected["K"], expected["labels"], expected["summary_label"]) == (contact, k, labels, summary)
 
 
+@pytest.mark.determinism
 def test_n1_t8_routes_to_review():
     assert load("N1-T8")["expected"]["review_route"] is True
 
 
+@pytest.mark.determinism
 def test_n1_t12_two_episodes_and_t13_discard():
     t12 = load("N1-T12")["expected"]["episodes"]
     assert [(e["start_frame"], e["end_frame_excl"], e["span_s"], e["labels"]) for e in t12] == [(0, 3, 0.3, ["H"]), (13, 20, 0.7, ["H"])]
@@ -72,6 +79,7 @@ def test_n1_t12_two_episodes_and_t13_discard():
     assert load("N1-T13")["expected"]["episodes"] == []
 
 
+@pytest.mark.determinism
 def test_run_length_expansion():
     assert records.expand("1×3,0×2") == [1, 1, 1, 0, 0]
     t5 = load("N1-T5")["inputs"]
@@ -79,6 +87,7 @@ def test_run_length_expansion():
     assert len(records.expand(load("N1-T12")["inputs"]["P"])) == 20
 
 
+@pytest.mark.determinism
 def test_n2_g2_values():
     expected = load("N2-G2")["expected"]
     assert len(expected["clearance_m"]) == 50
@@ -88,12 +97,14 @@ def test_n2_g2_values():
     assert set(expected["P"]) == {1} and set(expected["M"]) == {1} and set(expected["C_by_R3"]) == {0}
 
 
+@pytest.mark.determinism
 def test_n2_g1_values():
     expected = load("N2-G1")["expected"]
     assert set(expected["clearance_m"]) == {1.1} and set(expected["M"]) == {0}
     assert expected["episodes"][0]["duration_detected_s"] == 5.0 and expected["episodes"][0]["labels"] == ["O"]
 
 
+@pytest.mark.determinism
 def test_n2_g3_values():
     expected = load("N2-G3")["expected"]
     assert expected["clearance_m"][-1] == pytest.approx(2.35, abs=1e-9)
@@ -103,21 +114,25 @@ def test_n2_g3_values():
     assert expected["episodes"] == [{"start_frame": 0, "end_frame_excl": 10, "labels": ["PC"], "minclr_m": 2.35}]
 
 
+@pytest.mark.determinism
 def test_fx_tie():
     fixture = load("FX-TIE")
     assert fixture["expected"]["matches"] == [["s1", "r1"]] and fixture["expected"]["misses"] == ["r2"]
 
 
+@pytest.mark.determinism
 def test_fx_w():
     expected = load("FX-W")["expected"]
     assert expected["weighted_recall"] == 0.71875 and expected["unweighted_recall"] == 0.70
     assert expected["n_eff"] == pytest.approx(3.3793103448, abs=1e-9)
 
 
+@pytest.mark.determinism
 def test_fx_cm():
     assert load("FX-CM")["expected"] == {"CM-01": 0.6, "CM-03": 0.6}
 
 
+@pytest.mark.determinism
 def test_fx_id_expectations():
     assert load("FX-ID-1")["expected"]["tracks"]["A"] == {"status": "one_to_one", "matched_frames": 50, "dominant_share": 1.0}
     a = load("FX-ID-2")["expected"]["tracks"]["A"]
@@ -133,6 +148,7 @@ def test_fx_id_expectations():
     assert (eight["event_pair"], eight["match_type"], eight["primary_stage"]) == (None, "false_alert", "perception")
 
 
+@pytest.mark.determinism
 def test_fx_id_6_box_iou_hand_calculation():
     fixture = load("FX-ID-6")["inputs"]
     box = {s["object"]: s["box"] for s in fixture["segments"] if s["start"] == 10}
@@ -142,6 +158,7 @@ def test_fx_id_6_box_iou_hand_calculation():
     assert iou(box["A"], box["p1"]) == pytest.approx(0.60) and iou(box["A"], box["p2"]) == pytest.approx(0.59)
 
 
+@pytest.mark.determinism
 def test_fx_rc_expected_spans():
     assert load("FX-RC-1")["expected"]["unobservable_spans"] == [{"t_start_tl_s": 10.0, "t_end_tl_s": 11.5, "reason": "unusable_footage", "excluded_support_s": 1.5}]
     two = load("FX-RC-2")["expected"]["unobservable_spans"][0]
@@ -153,6 +170,7 @@ def test_fx_rc_expected_spans():
     assert load("FX-RC-6")["expected"]["rejected_by"] == ["RC-02", "RC-03"]
 
 
+@pytest.mark.determinism
 @pytest.mark.parametrize("fixture_id,key,value", [
     ("FX-B2", "expected_error", "CB-03: height requires full_camera calibration with height reference, multi-view, or simulator truth"),
     ("FX-C2", "expected_error", "CC-01: experiment E2 not allowed in schema v1.1"),
@@ -163,23 +181,27 @@ def test_appendix_t4_verbatim_errors(fixture_id, key, value):
     assert load(fixture_id)["record"][key] == value
 
 
+@pytest.mark.determinism
 def test_fx_c1_times_sum_to_coobserved():
     r = load("FX-C1")["record"]
     assert math.isclose(r["t_occupied_detected_s"] + r["t_occupied_inferred_s"] + r["t_not_occupied_s"] + r["t_occupancy_unknown_s"], r["t_coobserved_s"])
 
 
+@pytest.mark.determinism
 def test_fx_a3_1_setup():
     fixture = load("FX-A3.1")
     assert fixture["inputs"]["windows_per_recording"] == 10 and fixture["inputs"]["pi"] == 0.2
     assert fixture["expected"]["headline_from_original_plan"] == "refused"
 
 
+@pytest.mark.determinism
 def test_fx_12_is_measurement_only():
     expected = load("FX-12")["expected"]
     assert expected["episodes"] == [] and expected["load_mass_kg_null_reason"] == "not_supplied"
     assert expected["height_m"] == 2.4 and expected["height_sigma_m"] == 0.3
 
 
+@pytest.mark.determinism
 def test_test_only_values():
     v = load("TEST-ONLY-PARAMETERS")["parameters"]
     assert (v["k_sup"], v["d_p"], v["k_img"], v["m_gap"], v["t_min"], v["w_post"], v["d_nm"], v["k_sigma"], v["iou_cm"], v["eps_amb"]) == (1.5, 2.0, 0.05, 5, 0.2, 1.0, 0.5, 2.0, 0.5, 0.02)
@@ -187,6 +209,7 @@ def test_test_only_values():
     assert v["k_c_turn"] == 3.0  # Appendix T T9.3 (E-1.2.7)
 
 
+@pytest.mark.determinism
 def test_n1_t10_inputs_follow_t9_9():
     # Appendix T T9.9 (E-1.2.7, Architect amendment) corrects the T10 inputs; the expected values are unchanged.
     t10, t11 = load("N1-T10"), load("N1-T11")
@@ -195,6 +218,7 @@ def test_n1_t10_inputs_follow_t9_9():
     assert "T9.9" in t10["source"]
 
 
+@pytest.mark.determinism
 def test_generator_refuses_inconsistent_expected_labels():
     fixture = copy.deepcopy(records.FIXTURES["N1-T5"])
     fixture["expected"]["labels"] = ["H", "UD"]
@@ -203,6 +227,7 @@ def test_generator_refuses_inconsistent_expected_labels():
     assert exc.value.code == "ERR-INVARIANT"
 
 
+@pytest.mark.determinism
 def test_generator_refuses_wrong_k():
     fixture = copy.deepcopy(records.FIXTURES["N1-T5"])
     fixture["expected"]["K"] = 0
@@ -210,6 +235,7 @@ def test_generator_refuses_wrong_k():
         records.check_fixture(fixture)
 
 
+@pytest.mark.determinism
 def test_generator_refuses_wrong_weighted_arithmetic():
     fixture = copy.deepcopy(records.FIXTURES["FX-W"])
     fixture["expected"]["weighted_recall"] = 0.75

@@ -43,6 +43,7 @@ def convert(s1, truth, win=None):
 
 
 # CT-RC-01: FX-RC-1 to 5 produce exactly the listed spans and durations
+@pytest.mark.determinism
 def test_fx_rc_1_corrupt_frames():
     expected = fx("FX-RC-1")["expected"]["unobservable_spans"][0]
     s1 = synthetic_s1.build(350, excluded=frozenset(range(100, 115)))
@@ -53,6 +54,7 @@ def test_fx_rc_1_corrupt_frames():
     assert present == pytest.approx(35.0 - expected["excluded_support_s"], abs=1e-9)  # RC-04: the 1.5 s is in no reference duration
 
 
+@pytest.mark.determinism
 def test_fx_rc_2_dropout():
     expected = fx("FX-RC-2")["expected"]["unobservable_spans"][0]
     s1 = synthetic_s1.build(321, dropouts={200: 2.9})  # frame 201 starts at 23.0 s
@@ -61,6 +63,7 @@ def test_fx_rc_2_dropout():
                                     "eligible_support_s": 0.0, "frames": expected["frame_bounds"]}]
 
 
+@pytest.mark.determinism
 def test_fx_rc_3_not_recording():
     expected = fx("FX-RC-3")["expected"]["unobservable_spans"][0]
     s1 = synthetic_s1.build(250)
@@ -70,6 +73,7 @@ def test_fx_rc_3_not_recording():
     assert unobservable(spans) == [{"t_start_tl_s": 25.0, "t_end_tl_s": 35.0, "reason": expected["reason"], "eligible_support_s": 0.0, "frames": expected["frame_bounds"]}]
 
 
+@pytest.mark.determinism
 def test_fx_rc_4_forklift_present_system_detects_nothing():
     expected = fx("FX-RC-4")["expected"]
     s1 = synthetic_s1.build(350)
@@ -77,6 +81,7 @@ def test_fx_rc_4_forklift_present_system_detects_nothing():
     assert {s["ref_activity_state"] for s in spans} == {expected["ref_activity_state"]}
 
 
+@pytest.mark.determinism
 def test_fx_rc_5_verified_absent_only_from_validation_store():
     expected = fx("FX-RC-5")["expected"]
     s1 = synthetic_s1.build(350)
@@ -88,12 +93,14 @@ def test_fx_rc_5_verified_absent_only_from_validation_store():
     assert coverage_rules.check(spans, window(), s1["coverage_segment"], s1["frame"]) == []
 
 
+@pytest.mark.determinism
 def test_not_exhaustive_window_never_verified_absent():
     spans = convert(synthetic_s1.build(350), {"objects": [], "interactions": []}, window(exhaustive=False))["ref_coverage_label"]
     assert "reference_verified_absent" not in {s["ref_activity_state"] for s in spans}
 
 
 # CT-RC-02: FX-RC-6 rejected
+@pytest.mark.determinism
 def test_fx_rc_6_rejected():
     expected = fx("FX-RC-6")["expected"]["rejected_by"]
     s1 = synthetic_s1.build(321, dropouts={200: 2.9})
@@ -104,6 +111,7 @@ def test_fx_rc_6_rejected():
 
 
 # CT-RC-03: random coverage timelines
+@pytest.mark.determinism
 @pytest.mark.parametrize("seed", range(40))
 def test_ct_rc_03_property(seed):
     rng = random.Random(seed)
@@ -124,6 +132,7 @@ def test_rc_05_and_vr_e_040_no_reference_state_in_observation_store():
     assert [i.rule for i in coverage_rules.check_rc_05("activity_segment", [{"ai_activity_state": "reference_verified_absent"}])] == ["RC-05"]
 
 
+@pytest.mark.determinism
 def test_reference_tables_build_as_cv_sim_artifact_and_validate():
     s1 = synthetic_s1.build(350)
     tables = convert(s1, forklift_everywhere(350))
@@ -138,6 +147,7 @@ def test_reference_tables_build_as_cv_sim_artifact_and_validate():
     assert len(built.tables["ref_geometry"]) == 350
 
 
+@pytest.mark.determinism
 def test_rv_01_interaction_references_are_rule_conformance():
     s1 = synthetic_s1.build(350)
     truth = forklift_everywhere(350)
@@ -172,6 +182,7 @@ def test_vr_e_053_reference_records_are_blind():
 
 
 # CT-E-24: status log hash chain; episode labels unchanged
+@pytest.mark.determinism
 def test_ct_e_24_status_log(tmp_path):
     episode_rows = {"episode": [__import__("rq1.fixtures.identity_rows", fromlist=["x"]).episode("pow_" + "a" * 26, 0)]}
     built = build_artifact(Spec("S5", "E-1.2.6", "f", "f", ("rcf_" + "a" * 26,), (), {}), episode_rows)
@@ -196,6 +207,7 @@ def test_ct_e_24_status_log(tmp_path):
     assert [i.rule for i in log.verify()] == ["CT-E-24"]
 
 
+@pytest.mark.determinism
 def test_status_log_is_append_only(tmp_path):
     log = status_log.StatusLog(tmp_path / "s.jsonl")
     log.append(target_type="system_episode", target_id="ep_" + "a" * 26, config_id="rcf_" + "a" * 26, status="unreviewed", layer="C",
