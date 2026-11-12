@@ -20,12 +20,14 @@ def evidence_state(point: dict[str, Any] | None, image_size: tuple[int, int], vi
 
 def q_state(pair_class: str, person: str, forklift: str, support_status: str, coverage: str | None = None) -> tuple[str, list[str]]:
     """Sufficient iff the pair class is detected, neither object is truncated and the support is not timing-uncertain.
-    `usable_degraded` coverage alone never makes Q insufficient. A lost or missing object is reported as occluded (AR-35)."""
+    `usable_degraded` coverage alone never makes Q insufficient. T10.9: a lost or missing object is `*_lost`; `*_occluded`
+    is listed only for state = predicted. The reasons are descriptive and never change q_state."""
     reasons = []
-    if person in ("occluded_predicted", "lost"):
-        reasons.append("person_occluded")
-    if forklift in ("occluded_predicted", "lost"):
-        reasons.append("forklift_occluded")
+    for role, state in (("person", person), ("forklift", forklift)):
+        if state == "occluded_predicted":
+            reasons.append(f"{role}_occluded")
+        elif state == "lost":
+            reasons.append(f"{role}_lost")
     if person == forklift == "occluded_predicted":
         reasons.append("predicted_only")
     if "truncated" in (person, forklift):

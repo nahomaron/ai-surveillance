@@ -7,6 +7,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 from rq1.schema.canonical import canonical_json
+from rq1.schema.errors import ContractError
 
 MICRO = 1_000_000
 GROUP_LABELS = {"G1": ("O", "H", "PC"), "G2": ("NM", "UD", "CT"), "any": ("O", "H", "PC", "NM", "UD", "CT")}
@@ -18,7 +19,6 @@ class Reference:
     t_onset: float
     t_offset: float
     pair: tuple[str, str]
-    groups: frozenset  # label groups this reference belongs to; set by the reference producer (AR-39 item 3)
     assessable: bool = True
 
 
@@ -42,19 +42,30 @@ def in_group(event: SystemEvent, group: str) -> bool:
     return any(x in event.labels for x in GROUP_LABELS[group])
 
 
+def is_abstained(labels) -> bool:
+    """T10.7(a): lbl_IE and none of lbl_NM, lbl_UD, lbl_CT."""
+    return "IE" in labels and not any(x in labels for x in ("NM", "UD", "CT"))
+
+
 def abstained(event: SystemEvent, group: str) -> bool:
-    """N4 "abstained (IE-only)": IE and no label of the evaluated group (AR-39 item 2)."""
-    return "IE" in event.labels and not in_group(event, group)
+    """T10.7(a): abstention applies only to label group G2; nothing abstains in G1 or `any`."""
+    return group == "G2" and is_abstained(event.labels)
 
 
 def _onset_us(t: float) -> int:
     return int(round(t * MICRO))
 
 
-def match_window(references: list[Reference], events: list[SystemEvent], group: str, iou_m: float, reference_class: str) -> list[dict]:
+def match_window(references: list[Reference], events: list[SystemEvent], group: str, iou_m: float, reference_class: str,
+                 ref_groups: dict[str, frozenset]) -> list[dict]:
     """match_record content (without window, config and scenario keys) for one label group. `reference_class` is the
     class of the window's references (F.1 A5.1); it is recorded on every row, false alerts included (AR-39 item 5)."""
-    refs = sorted((r for r in references if group == "any" or group in r.groups), key=lambda r: (_onset_us(r.t_onset), r.ref_event_id))
+    # AR-39 item 3 (Architect ruling): label groups of references are a match-run input mapping ref_event_id -> groups,
+    # produced by the reference producer (the CV-SIM converter for simulator references); it belongs to the inputs hash.
+    missing = sorted(r.ref_event_id for r in references if r.ref_event_id not in ref_groups)
+    if missing:
+        raise ContractError("ERR-SPEC", f"no label-group entry for references {missing}")
+    refs = sorted((r for r in references if group == "any" or group in ref_groups[r.ref_event_id]), key=lambda r: (_onset_us(r.t_onset), r.ref_event_id))
     deciding = sorted((e for e in events if in_group(e, group)), key=lambda e: canonical_json(e.nk))
     abstaining = [e for e in events if abstained(e, group)]
     assessable = [r for r in refs if r.assessable]

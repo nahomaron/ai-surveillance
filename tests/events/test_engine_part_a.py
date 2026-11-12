@@ -16,7 +16,8 @@ from rq1.substrate import builder, oracle
 FIX = Path(__file__).resolve().parents[2] / "fixtures" / "records"
 V = json.loads((FIX / "TEST-ONLY-PARAMETERS.json").read_text())["parameters"]  # Package F section 3 TEST-ONLY values
 PARAMS = engine.Params(m_gap=V["m_gap"], t_min=V["t_min"], w_post=V["w_post"], d_nm=V["d_nm"], k_sigma=V["k_sigma"], o_max=V["o_max"], g_max=V["g_max"],
-                       w_e=V["w_e"], k_c=V["k_c"], k_c_turn=V["k_c_turn"], r5_enabled=True, e_turn=V["e_turn"], e_acc=V["e_acc"], e_dec=V["e_dec"])
+                       w_e=V["w_e"], k_c=V["k_c"], k_c_turn=V["k_c_turn"], r5_enabled=True, e_turn=V["e_turn"], e_acc=V["e_acc"], e_dec=V["e_dec"],
+                       bands=tuple(zip([None] + V["band_edges_m"], V["band_edges_m"] + [None])))  # (None,0), (0,0.5), ..., (4,None)
 
 
 def n1(row):

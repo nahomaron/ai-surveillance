@@ -292,13 +292,15 @@ def test_t9_7_unknown_runs():
 # --- T9.8 onset_sensitive --------------------------------------------------------------------------------------------
 
 def test_t9_8_onset_sensitive():
+    # T9.8 with T10.4: onset uses the frame's P/M/C borderline; the clearance flag is set only from frames of I.
     def run(borderline_at):
         frames = [frame(i, P=1 if 3 <= i < 10 else 0, M=0) for i in range(12)]
         frames[borderline_at].borderline = frozenset({"clearance_within_k_sigma"})
+        frames[borderline_at].onset = True
         (ep,), _ = engine.run_pow(frames, PARAMS)
         return ep["borderline_flags"]
     assert run(3) == ["clearance_within_k_sigma", "onset_sensitive"]  # opening frame
-    assert run(2) == ["onset_sensitive"]  # the frame before opening; it is outside I+, so it adds no other flag
+    assert run(2) == ["onset_sensitive"]  # the frame before opening is outside I, so it adds no other flag (T10.4)
     assert run(4) == ["clearance_within_k_sigma"]  # later frames are not onset
 
 
@@ -332,7 +334,7 @@ def _episodes_for(name):
     _, s4, _, s1 = s4_for(name)
     flags = providers.flag_frames(s4.tables, RULES, s1["frame"], s1["coverage_segment"])
     episodes, _ = engine.run_pow(flags, PARAMS)
-    return [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26} for ep in episodes]
+    return [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26, "recording_id": "rec_x", "timeline_id": "tl_x"} for ep in episodes]
 
 
 def test_single_camera_events_are_singletons_in_every_scenario():
@@ -344,18 +346,20 @@ def test_single_camera_events_are_singletons_in_every_scenario():
         assert ev["member_episode_nks"] == [["pow_" + "a" * 26, 0]] and ev["edges_used"] == [] and not ev["ambiguous"]
         assert (ev["lbl_PC"], ev["summary_label"], ev["K_ev"]) == (True, "PC", eps[0]["K"])
         assert vr_rules.check_event_labels(ev) == []  # VR-E-032: labels recomputed from event flags
-    counts = candidates.count_summaries(events, [("recording", "rec_x"), ("timeline", "tl_x")])
-    assert [(c["scope_type"], c["scenario"], c["label"], c["n_events"]) for c in counts] == [
-        ("recording", "S_VIEW", "all", 1), ("recording", "S_LINK", "all", 1), ("recording", "S_POSS", "all", 1),
-        ("timeline", "S_VIEW", "all", 1), ("timeline", "S_LINK", "all", 1), ("timeline", "S_POSS", "all", 1)]
+    counts = candidates.count_summaries(events, eps, [("recording", "rec_x"), ("timeline", "tl_x")])
+    # T10.6: 2 scopes x 3 scenarios x 8 labels; the G3 event carries PC only.
+    assert len(counts) == 48
+    got = {(c["scope_type"], c["scenario"], c["label"]): c["n_events"] for c in counts}
+    assert all(got[(t, sc, "all")] == 1 and got[(t, sc, "PC")] == 1 for t in ("recording", "timeline") for sc in candidates.SCENARIOS)
+    assert sum(got.values()) == 12  # every other label is 0
     assert all(c["wording"] == "scenario_count" and [a["status"] for a in c["assumptions"]] == ["unverified"] * 3 for c in counts)  # LK-07
 
 
 def test_single_camera_counts_satisfy_lk_04():
     from rq1.events import candidates
     frames = [frame(i, P=1 if (i < 3 or 13 <= i) else 0, M=1) for i in range(20)]  # Appendix N1 T12 pattern: two episodes
-    eps = [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26} for ep in engine.run_pow(frames, PARAMS)[0]]
-    counts = {c["scenario"]: c["n_events"] for c in candidates.count_summaries(candidates.candidate_events(eps), [("recording", "r")])}
+    eps = [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26, "recording_id": "r", "timeline_id": "t"} for ep in engine.run_pow(frames, PARAMS)[0]]
+    counts = {c["scenario"]: c["n_events"] for c in candidates.count_summaries(candidates.candidate_events(eps), eps, [("recording", "r")]) if c["label"] == "all"}
     assert counts == {"S_VIEW": 2, "S_LINK": 2, "S_POSS": 2}  # S_VIEW >= S_LINK >= S_POSS, equal on one camera
 
 
@@ -368,10 +372,10 @@ def test_s5_rows_match_the_schema():
     rows = engine.flag_series_rows("pow_" + "a" * 26, flags)
     assert len(rows) == 10 and validate.validate_rows("flag_series", rows) == []
     assert [r["T"] for r in rows] == [1] * 10 and all(r["T"] == 1 and r["C_any"] == 1 for r in rows)  # T = P or X or C_any
-    eps = [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26} for ep in episodes]
+    eps = [{**ep, "pow_id": "pow_" + "a" * 26, "camera_id": "cam_" + "a" * 26, "recording_id": "rec_x", "timeline_id": "tl_x"} for ep in episodes]
     events = candidates.candidate_events(eps)
     assert validate.validate_rows("candidate_event", events) == []
-    assert validate.validate_rows("event_count_summary", candidates.count_summaries(events, [("recording", "rec_x")])) == []
+    assert validate.validate_rows("event_count_summary", candidates.count_summaries(events, eps, [("recording", "rec_x")])) == []
 
 
 def test_t9_schema_fields():

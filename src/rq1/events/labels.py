@@ -16,19 +16,16 @@ class CaInputs:
 
 def contact_state(ca_exists: bool, usable_in_w_ca: bool, q_at_ca: bool, overlap: int, cue: int,
                   clearance: float | None, sigma: float | None, k_sigma: float) -> str:
-    """Appendix T T9.6 order. Overlap with a true cue is `suspected` before the other section 6 undetermined
-    conditions, as Appendix N1 T7 and T9 require (AR-38 item 2)."""
+    """Appendix T T10.1: evaluate in order, stop at the first match."""
     if not ca_exists or not usable_in_w_ca:
-        return "not_assessable"
+        return "not_assessable"  # 1 (T9.6 step 1)
     if not q_at_ca:
-        return "undetermined"  # closest approach not visible
+        return "undetermined"  # 2
     if overlap == 1 and cue == 1:
-        return "suspected"
-    if overlap in (1, 2):
-        return "undetermined"
-    if clearance is not None and clearance - k_sigma * (sigma or 0.0) <= 0:  # within k_sigma * sigma of 0; null sigma uses 0
-        return "undetermined"
-    return "none_observed"
+        return "suspected"  # 3
+    if overlap in (1, 2) or clearance is None or clearance - k_sigma * (sigma or 0.0) <= 0:
+        return "undetermined"  # 4: overlap 1 or unknown; within k_sigma*sigma of 0 (sigma 0 if null); clearance null
+    return "none_observed"  # 5
 
 
 def k_value(e_ep: int, minclr: float | None, d_nm: float) -> int:

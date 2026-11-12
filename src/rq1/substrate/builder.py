@@ -208,17 +208,20 @@ class SubstrateBuilder:
         return row
 
     def _closing(self, series: list[Row], frames: dict[int, Row], coverage: list[Row], cfg: SubstrateConfig) -> None:
-        """T8.3: closing rate = -(least-squares slope of clearance vs t) over the T8.2 window, at least 3 measured frames."""
-        measured = [r for r in series if r["clearance_state"] == "measured"]
+        """T8.3 as amended by T10.3(a): the T9.1 window (length w_v centred on t_k, shifted inside the POW's contiguous span,
+        never across a coverage break); its measured frames, at least 3 spanning >= w_v/2; defined on every pair frame."""
+        order = [r["frame_index"] for r in series]
+        runs = kinematics.contiguous_runs(order, set(order), lambda a, b: crosses_break(frames, coverage, a, b))
+        times = {i: frames[i]["t_resolved_s"] for i in order}
+        by_frame = {r["frame_index"]: r for r in series}
         for row in series:
-            t_k = frames[row["frame_index"]]["t_resolved_s"]
-            window = [r for r in measured if abs(frames[r["frame_index"]]["t_resolved_s"] - t_k) <= cfg.w_v / 2 + 1e-9
-                      and not crosses_break(frames, coverage, r["frame_index"], row["frame_index"])]
-            if len(window) >= 3:
-                rate = -kinematics.slope([frames[r["frame_index"]]["t_resolved_s"] for r in window], [r["clearance_m"] for r in window])
-                _null(row, "closing_rate_mps", rate, "not_observable")
-            else:
-                _null(row, "closing_rate_mps", None, "not_observable")
+            window = kinematics.shifted_window(runs[row["frame_index"]], times, times[row["frame_index"]], cfg.w_v)
+            measured = [i for i in window if by_frame[i]["clearance_state"] == "measured"]
+            rate = None
+            if kinematics.window_ok([times[i] for i in measured], cfg.w_v):
+                rate = -kinematics.slope([times[i] for i in measured], [by_frame[i]["clearance_m"] for i in measured])
+                rate = 0.0 if rate == 0 else rate  # T10.3(a): an exact zero is stored as +0.0
+            _null(row, "closing_rate_mps", rate, "not_observable")
 
     def _pow(self, key: list, window: pows.Pow, series: list[Row], frames: dict[int, Row], frames_all: list[Row], recording: str, timeline_id: str, camera_id: str) -> Row:
         a, b = durations.interval_extent(frames_all, window.start, window.end_excl)

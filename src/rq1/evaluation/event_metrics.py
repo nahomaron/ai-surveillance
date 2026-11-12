@@ -2,10 +2,12 @@
 EV-M9, EV-M10 and EV-M12 need A-layer and expert inputs and are computed with the evaluation store (T-13/T-14)."""
 from __future__ import annotations
 
-import statistics
 from dataclasses import dataclass
 
+import numpy as np
+
 from .estimators import ht_total
+from .matching import is_abstained
 
 
 @dataclass(frozen=True)
@@ -45,27 +47,29 @@ def headline(windows: list[WindowCounts], weights: list[float] | None = None) ->
             "EV-M11": _ratio(w, col("duplicate"), [x.m_s + x.duplicate for x in windows])}
 
 
-def localization(records: list[dict]) -> dict[str, float | None]:
-    """EV-M8 over matched pairs: median and P90 of |onset error| and |offset error|, and mean temporal IoU."""
+def localization(records: list[dict]) -> dict[str, float | int | None]:
+    """EV-M8 (T10.7(c,d)): unweighted, over matched pairs. Median and P90 of |onset error| and |offset error| by numpy
+    percentile, method "linear"; mean temporal IoU; n reported with the values. No matched pair: null (not_applicable)."""
     matched = [r for r in records if r["match_type"] == "matched"]
+    out: dict[str, float | int | None] = {"n": len(matched)}
     if not matched:
-        return {"onset_median_s": None, "onset_p90_s": None, "offset_median_s": None, "offset_p90_s": None, "mean_iou": None}
+        return {**out, "onset_median_s": None, "onset_p90_s": None, "offset_median_s": None, "offset_p90_s": None, "mean_iou": None}
     onset = [abs(r["onset_error_s"]) for r in matched]
     offset = [abs(r["offset_error_s"]) for r in matched]
-    return {"onset_median_s": statistics.median(onset), "onset_p90_s": p90(onset), "offset_median_s": statistics.median(offset),
-            "offset_p90_s": p90(offset), "mean_iou": sum(r["temporal_iou"] for r in matched) / len(matched)}
+    return {**out, "onset_median_s": percentile(onset, 50), "onset_p90_s": percentile(onset, 90), "offset_median_s": percentile(offset, 50),
+            "offset_p90_s": percentile(offset, 90), "mean_iou": sum(r["temporal_iou"] for r in matched) / len(matched)}
 
 
-def p90(values: list[float]) -> float:
-    """Linear interpolation between order statistics (numpy's default, Hyndman-Fan type 7). CR-010 item 3."""
-    xs = sorted(values)
-    h = (len(xs) - 1) * 0.9
-    lo = int(h)
-    return xs[lo] + (h - lo) * (xs[min(lo + 1, len(xs) - 1)] - xs[lo])
+def percentile(values: list[float], q: float) -> float:
+    return float(np.percentile(np.asarray(values, dtype=float), q, method="linear"))
 
 
-def abstention_rate(episodes: list[tuple[bool, float]], pow_support_s: float) -> dict[str, float | None]:
-    """EV-M3: abstained episodes / all episodes; abstained support / POW support. Input: (lbl_IE, episode support)."""
-    n = len(episodes)
-    return {"episodes": sum(1 for ie, _ in episodes if ie) / n if n else None,
-            "support": sum(s for ie, s in episodes if ie) / pow_support_s if pow_support_s > 0 else None}
+def abstention_rate(windows: list[tuple[list[tuple[frozenset, float]], float]], weights: list[float] | None = None) -> dict[str, float | None]:
+    """EV-M3 (T10.7(a,d)). Each window: ([(episode labels, episode support)], POW support), episodes by onset window.
+    Episodes form: sum w * abstained episodes / sum w * episodes. Support form: sum w * abstained support / sum w * POW support."""
+    w = weights if weights is not None else [1.0] * len(windows)
+    abst = [float(sum(1 for labels, _ in eps if is_abstained(labels))) for eps, _ in windows]
+    count = [float(len(eps)) for eps, _ in windows]
+    abst_support = [sum(s for labels, s in eps if is_abstained(labels)) for eps, _ in windows]
+    pow_support = [float(p) for _, p in windows]
+    return {"episodes": _ratio(w, abst, count), "support": _ratio(w, abst_support, pow_support)}

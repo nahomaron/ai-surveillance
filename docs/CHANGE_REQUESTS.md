@@ -411,3 +411,28 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 | 4 | Weighting of EV-M5 and EV-M11, which N4 writes without Σwᵢ | The same weighted-ratio form as the other metrics (w = 1 gives the printed formula) | Always unweighted counts |
 
 **Decision:** superseded by T10 (Appendix T, contract E-1.2.8; D-10 and D-11, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.8
+
+## AR-40 — Representation details of the S5 artifact under T10 (T-09)
+- **Gaps and choices:**
+  1. **Nullable fields.** `episode.support_detected_frac` and `episode.exp_visible_frac` become nullable, because T10.5 gives each a null case (`not_applicable` when the denominator is 0) and §5.6 had listed them as non-nullable.
+  2. **`label_stability_frac`** is null at S5 with reason `not_computed_by_config`. MR-08 (F.1) computes it at evaluation, across configurations.
+  3. **The `rule_configuration` record** lists R1, R2, R3 and R5, each with its `enabled` flag and parameters, whether enabled or not. Without this, an R1-only configuration's S5 output would depend on `d_p`, `v_min` and `d_pc` (read by T10.4) while its configuration ID did not. The ID is the content address of that record. `preregistration_ref` is null (`not_applicable`, exploratory), and `version_label` is null (`not_applicable`) when absent.
+  4. **`episode.continuation_of_nk`** (lifecycle step 6) links an episode that starts at the first frame of a POW whose `continuation_of` POW has an episode ending at that POW's last frame. Otherwise it is null (`not_applicable`).
+  5. **Null reasons.** `minclr_sigma_m` copies the null reason of `clearance_sigma_m` at the minimum frame. `minclr_m`, `minclr_frame` and `closest_approach_frame` are null with `not_observable`.
+  6. **T10.3(b)** tests the pair evidence class: it is `insufficient` exactly when an object is insufficient or the frame is timing-uncertain (§3.4), which is the T10.3(b) condition.
+  7. **The matcher** takes the label-group mapping `ref_event_id → groups` as an argument (Architect ruling on AR-39 item 3). A reference without an entry is refused with ERR-SPEC. The mapping enters the match-run inputs hash when the S8 artifact is assembled (T-14/T-16).
+  8. **Count scopes.** S5 writes the processed recording and its timeline. An event's scope is its member episode's recording and timeline (its onset, T10.6).
+  9. **Borderline comparisons.** The R1 image-gap equality (|gap − k_img| ≤ 0) uses the same 1e-9 numerical tolerance as the other borderline comparisons.
+- **No meaning effect:** items 1, 2, 3, 5, 6, 7 and 8 are representation, or restate T10. **Review flag:** items 4 and 9. **Files/tests:** `events/s5.py`, `events/engine.py`, `events/providers.py`, `evaluation/matching.py`, `schema/tables.py`; `tests/events/test_t10.py`, `tests/evaluation/test_t12.py::test_ar_39_item_3_label_groups_are_an_input_mapping`. **Reverse:** edit the named functions.
+
+## CR-011 (2026-11-12) — T10.4 bullets that read parameters of providers not enabled   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-09 (non-blocking: borderline flags never change a frame flag, a label or review_route).
+**Contract sections:** Appendix T T10.4; E-1.2.1 §5.2 (`rule_configuration.providers` params).
+**Meaning-affecting:** yes, for the reported `borderline_flags` only.
+
+**Problem.** T10.4 conditions only the image-gap bullet on the P provider ("for a configuration whose P provider is R1"). The clearance (`d_p`), speed (`v_min`) and prediction (`d_pc`) bullets carry no condition. But `d_p` and `v_min` are R2 parameters and `d_pc` is an R3 parameter. In an R1-only configuration (BL-2), or a configuration without R3, those thresholds belong to providers that are not enabled. There are two readings:
+(a) **Literal.** Apply every bullet in every configuration, using the configuration's values of `d_p`, `v_min` and `d_pc` even when their provider is disabled.
+(b) **Apply each bullet only when its provider is enabled:** the clearance and speed bullets with R2, the prediction bullet with R3.
+**Implemented meanwhile:** (a), the text as written, pinned by `test_ct_t10_06_clearance_against_d_p[R1]` and `test_ct_t10_06_speed_near_v_min[R1]`. AR-40 item 3 puts those parameters in the configuration ID under either reading.
+**Decision:** ______   **Approver:** ______

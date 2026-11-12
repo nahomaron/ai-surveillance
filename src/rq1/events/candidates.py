@@ -46,15 +46,26 @@ def candidate_events(episodes: list[Row]) -> list[Row]:
     return out
 
 
-def count_summaries(events: list[Row], scopes: list[tuple[str, str]]) -> list[Row]:
-    """`label = all` counts per scope and scenario. Per-label counts wait for CR-009 item 6 (summary label or label flags)."""
+COUNT_LABELS = ("all", "O", "H", "PC", "NM", "UD", "CT", "IE")
+SCOPE_FIELDS = {"recording": "recording_id", "timeline": "timeline_id"}
+
+
+def count_summaries(events: list[Row], episodes: list[Row], scopes: list[tuple[str, str]]) -> list[Row]:
+    """T10.6: one row per (scope, scenario, label), zero counts included. `all` counts every event; another label counts
+    events with lbl_<label> true, so labels overlap. An event belongs to the scope of its onset, which in a single-camera
+    run is its one member episode's recording and timeline. Discarded episodes are not events."""
+    member = {_jcs(episode_nk(ep)): ep for ep in episodes}
     out = []
     for scope_type, scope_id in scopes:
+        field = SCOPE_FIELDS[scope_type]
         for scenario in SCENARIOS:
-            members = [e for e in events if e["scenario"] == scenario]
-            out.append({"scope_type": scope_type, "scope_id": scope_id, "scenario": scenario, "label": "all", "n_events": len(members),
-                        "n_ambiguous_groups": sum(1 for e in members if e["ambiguous"]),
-                        "n_unresolved_identity_episodes": sum(len(e["unresolved_members"]) for e in members),
-                        "assumptions": [{"assumption": a, "status": "unverified", "evidence_ref": None, "evidence_ref_null_reason": "not_applicable"} for a in ("A1", "A2", "A3")],
-                        "wording": "scenario_count"})
+            members = [e for e in events if e["scenario"] == scenario and member[_jcs(e["member_episode_nks"][0])][field] == scope_id]
+            for label in COUNT_LABELS:
+                chosen = members if label == "all" else [e for e in members if e[f"lbl_{label}"]]
+                out.append({"scope_type": scope_type, "scope_id": scope_id, "scenario": scenario, "label": label, "n_events": len(chosen),
+                            "n_ambiguous_groups": sum(1 for e in chosen if e["ambiguous"]),
+                            "n_unresolved_identity_episodes": sum(len(e["unresolved_members"]) for e in chosen),
+                            "assumptions": [{"assumption": a, "status": "unverified", "evidence_ref": None, "evidence_ref_null_reason": "not_applicable"}
+                                            for a in ("A1", "A2", "A3")],
+                            "wording": "scenario_count"})
     return out

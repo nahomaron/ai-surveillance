@@ -136,30 +136,48 @@ def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], 
     cov = [c for c in coverage if own and c["timeline_id"] == own[0]["timeline_id"] and c["camera_id"] == own[0]["camera_id"]]
     person = [r for r in s4["object_state"] if r["track_id"] == pow_row["person_track_id"]]
     fork = [r for r in s4["object_state"] if r["track_id"] == pow_row["forklift_track_id"]]
+    person_by = {r["frame_index"]: r for r in person}
     fork_by = {r["frame_index"]: r for r in fork}
-    rates = r5_rates(person, fork, eligible, cov, rules.w_e, rules.v_min) if rules.r5 else {}
+    rates = r5_rates(person, fork, eligible, cov, rules.w_e, rules.v_min)  # T10.3(c): the cue needs them even when R5 is off
+    seen = lambda r: r is not None and r["evidence_state"] in ("visible", "partially_visible")
     out = []
     for row in sorted((r for r in s4["pair_series"] if r["pow_nk"] == key), key=lambda r: r["frame_index"]):
         i = row["frame_index"]
         fk = fork_by.get(i)
-        speed = fk["speed_mps"] if fk else None
-        if rules.p_provider == "R1":
-            p, m = r1_p(row["image_gap_norm"], rules.k_img), 2  # M is unknown in every R1-only configuration
-            near = {"clearance_within_k_sigma"} if borderline(row["image_gap_norm"], rules.k_img, None, rules.k_sigma) else set()  # AR-38 item 4
-        else:
-            p, m = r2_p(row["clearance_m"], rules.d_p), r2_m(speed, rules.v_min)
-            near = {"clearance_within_k_sigma"} if borderline(row["clearance_m"], rules.d_p, row["clearance_sigma_m"], rules.k_sigma) else set()
-            if borderline(speed, rules.v_min, fk["speed_sigma_mps"] if fk else None, rules.k_sigma):
-                near.add("speed_near_v_min")
+        speed, speed_sigma = (fk["speed_mps"], fk["speed_sigma_mps"]) if fk else (None, None)
         c_by = {name: r3_c(row["predicted"], rules.d_pc, rules.tau) for name in rules.conflict}
         cv = _cv(row["predicted"], rules.tau)
+        clear_near = borderline(row["clearance_m"], rules.d_p, row["clearance_sigma_m"], rules.k_sigma)
+        gap_near = borderline(row["image_gap_norm"], rules.k_img, None, rules.k_sigma)  # sigma 0: equality (T10.4)
+        speed_near = borderline(speed, rules.v_min, speed_sigma, rules.k_sigma)
+        if rules.p_provider == "R1":
+            p, m = r1_p(row["image_gap_norm"], rules.k_img), 2  # M is unknown in every R1-only configuration
+            onset = gap_near
+        else:
+            p, m = r2_p(row["clearance_m"], rules.d_p), r2_m(speed, rules.v_min)
+            onset = clear_near or speed_near
         if "R3" in rules.conflict and cv is not None and borderline(cv["pred_min_clearance_m"], rules.d_pc, cv["sigma_m"], rules.k_sigma):
-            near.add("clearance_within_k_sigma")
+            onset = True  # T9.8: borderline for P, M or an enabled C provider
+        # T10.4 frame bullets (the minclr and CA bullets are episode-level, in the engine).
+        flags = set()
+        if clear_near or (rules.p_provider == "R1" and gap_near):
+            flags.add("clearance_within_k_sigma")
+        if any(borderline(e["pred_min_clearance_m"], rules.d_pc, e["sigma_m"], rules.k_sigma) for e in row["predicted"]):
+            flags.add("clearance_within_k_sigma")
+        if speed_near:
+            flags.add("speed_near_v_min")
         frame_rates = rates.get(i)
-        e = evasive(frame_rates, rules.e_turn, rules.e_acc, rules.e_dec) if rules.r5 else 0  # T9.4 when R5 is off
+        if not rules.r5:
+            e = 0  # T9.4
+        elif row["evidence_class"] == "insufficient":
+            e = 2  # T10.3(b): an object is lost, ineligible or timing-uncertain at this frame
+        else:
+            e = evasive(frame_rates, rules.e_turn, rules.e_acc, rules.e_dec)
         out.append(FrameFlags(i, eligible[i]["t_tl_s"], eligible[i]["support_s"], P=p, M=m, C_by=c_by, E=e, Q=q(row["q_state"]),
                               clearance=row["clearance_m"], sigma=row["clearance_sigma_m"], G=g(row["clearance_state"]),
                               closing_rate=row["closing_rate_mps"], ttca=row["ttca_s"], image_gap_norm=row["image_gap_norm"],
                               overlap=row["footprint_overlap"], rates=frame_rates, evidence_class=row["evidence_class"],
-                              borderline=frozenset(near), extra_flags=frozenset(row.get("borderline_flags", []))))
+                              borderline=frozenset(flags), extra_flags=frozenset(row.get("borderline_flags", [])), onset=onset,
+                              speed=speed, sigma_reason=row["clearance_sigma_m_null_reason"], ttca_reason=row["ttca_s_null_reason"],
+                              visible=seen(person_by.get(i)) and seen(fk)))
     return out

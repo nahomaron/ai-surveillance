@@ -36,7 +36,7 @@ ENUMS: dict[str, tuple[str, ...]] = {
     "support_basis": ("detected", "detected_plus_inferred"),
     "consensus_method": ("agreement", "third_annotator", "adjudicated", "simulator"),
     "q_reason": ("person_occluded", "forklift_occluded", "truncated", "low_quality_frame", "predicted_only",
-                 "timing_uncertain"),
+                 "timing_uncertain", "person_lost", "forklift_lost"),  # T10.9 adds the *_lost values
     "quality_flag": ("frozen", "black", "overexposed", "blurred", "compression_damage", "decode_error"),
     "summary_label": ("CT", "UD", "NM", "PC", "H", "O"),
     "export_class": ("fixture_verification", "research"),
@@ -458,7 +458,7 @@ span_s f64
 duration_detected_s f64
 duration_inferred_s f64
 duration_insufficient_s f64
-support_detected_frac f64
+support_detected_frac? f64
 P_ep bool
 X_ep bool
 C_ep bool
@@ -490,7 +490,7 @@ exp_speed_at_ca_mps? f64
 exp_closing_rate_max_mps? f64
 exp_ttca_min_s? f64
 exp_evasive_score? f64
-exp_visible_frac f64
+exp_visible_frac? f64
 """)
 _t("discarded_episode", "dep", "Obs", "S5", "observation", "pow_id start_frame", """
 pow_id id

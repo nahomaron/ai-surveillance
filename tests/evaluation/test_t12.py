@@ -110,8 +110,8 @@ def test_fx_id_8_unknown_pair_is_a_false_alert():
     event = fx("FX-ID-8")["inputs"]["event"]
     pair, _ = assoc.event_pair(rows, list(tracks.values()), event["person_track"], event["forklift_track"], event["closest_approach_frame"])
     assert pair is expected["event_pair"] is None
-    ref = mt.Reference("r1", 1.0, 1.5, ("p1", "f1"), frozenset({"G1"}))
-    records = mt.match_window([ref], [mt.SystemEvent(["pow", 10], "s1", 1.0, 1.5, pair, frozenset({"H"}))], "G1", 0.3, "rule_conformance")
+    ref = mt.Reference("r1", 1.0, 1.5, ("p1", "f1"))
+    records = mw([ref], [mt.SystemEvent(["pow", 10], "s1", 1.0, 1.5, pair, frozenset({"H"}))], "G1", 0.3, "rule_conformance")
     assert {r["system_event_id"]: r["match_type"] for r in records if r["system_event_id"]} == {"s1": expected["match_type"]}
     # primary_stage = perception is error attribution (Appendix N9), implemented in T-14.
 
@@ -129,8 +129,14 @@ def test_ct_id_a2_permutation_invariance(name, seed):
 PAIR = ("p1", "f1")
 
 
-def ref(rid, a, b, pair=PAIR, groups=("G1", "G2"), assessable=True):
-    return mt.Reference(rid, a, b, pair, frozenset(groups), assessable)
+def ref(rid, a, b, pair=PAIR, assessable=True):
+    return mt.Reference(rid, a, b, pair, assessable)
+
+
+def mw(refs, events, group, iou_m, reference_class, groups=None):
+    """Label groups per reference are a match-run input mapping (AR-39 item 3 ruling); default G1 and G2."""
+    mapping = {r.ref_event_id: frozenset((groups or {}).get(r.ref_event_id, ("G1", "G2"))) for r in refs}
+    return mt.match_window(refs, events, group, iou_m, reference_class, mapping)
 
 
 def sev(key, a, b, pair=PAIR, labels=("H",)):
@@ -146,24 +152,24 @@ def test_fx_tie():
     refs = [ref(k, *v) for k, v in inputs["references"].items()]
     events = [mt.SystemEvent(["pow_x", 0], "s1", *inputs["system"]["s1"], PAIR, frozenset({"H"}))]
     assert mt.temporal_iou((0.0, 1.0), (0.5, 1.5)) == pytest.approx(expected["iou"]["s1,r1"], abs=1e-9)
-    records = mt.match_window(refs, events, "G1", 0.3, "rule_conformance")
+    records = mw(refs, events, "G1", 0.3, "rule_conformance")
     assert [[r["system_event_id"], r["ref_event_id"]] for r in records if r["match_type"] == "matched"] == expected["matches"]
     assert [r["ref_event_id"] for r in records if r["match_type"] == "miss"] == expected["misses"]
 
 
 def test_composite_weight_prefers_higher_iou_then_lower_system_key():
     # r1 [0, 1); s0 [0, 1) IoU 1.0 and s1 [0.2, 1.0) IoU 0.8: higher IoU wins; s1 overlaps the matched r1 -> duplicate_alert.
-    records = mt.match_window([ref("r1", 0.0, 1.0)], [sev(1, 0.2, 1.0), sev(0, 0.0, 1.0)], "G1", 0.3, "rule_conformance")
+    records = mw([ref("r1", 0.0, 1.0)], [sev(1, 0.2, 1.0), sev(0, 0.0, 1.0)], "G1", 0.3, "rule_conformance")
     assert by_type(records) == [("duplicate_alert", None, "s1"), ("matched", "r1", "s0")]
     # Equal IoU 0.5: s0 [0, 0.5) and s1 [0.5, 1.0) against r1 [0, 1): the lower system key s0 wins.
-    records = mt.match_window([ref("r1", 0.0, 1.0)], [sev(1, 0.5, 1.0), sev(0, 0.0, 0.5)], "G1", 0.3, "rule_conformance")
+    records = mw([ref("r1", 0.0, 1.0)], [sev(1, 0.5, 1.0), sev(0, 0.0, 0.5)], "G1", 0.3, "rule_conformance")
     assert by_type(records) == [("duplicate_alert", None, "s1"), ("matched", "r1", "s0")]
 
 
 def test_match_classes():
     refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0, assessable=False)]
     events = [sev(0, 0.0, 1.0), sev(1, 20.0, 21.0), sev(2, 5.0, 6.0, pair=("p2", "f1")), sev(3, 10.0, 11.0)]
-    records = mt.match_window(refs, events, "G1", 0.3, "rule_conformance")
+    records = mw(refs, events, "G1", 0.3, "rule_conformance")
     # s2 has another pair, so r2 is a miss and s2 a false alert; s3 lies on an unobservable reference and is a false alert (N4).
     assert by_type(records) == [("false_alert", None, "s1"), ("false_alert", None, "s2"), ("false_alert", None, "s3"),
                                 ("matched", "r1", "s0"), ("miss", "r2", None), ("unobservable_reference", "r3", None)]
@@ -174,17 +180,18 @@ def test_match_classes():
 
 def test_iou_m_threshold():
     # r1 [0, 1), s0 [0.71, 1.71): IoU 0.29/1.71 = 0.1696 < 0.3, no match; s0 overlaps no matched reference -> false alert.
-    records = mt.match_window([ref("r1", 0.0, 1.0)], [sev(0, 0.71, 1.71)], "G1", 0.3, "rule_conformance")
+    records = mw([ref("r1", 0.0, 1.0)], [sev(0, 0.71, 1.71)], "G1", 0.3, "rule_conformance")
     assert by_type(records) == [("false_alert", None, "s0"), ("miss", "r1", None)]
 
 
 def test_label_groups_and_abstention():
     # G2 run: s0 carries UD (decides); s1 carries H and IE only (abstains in G2); s2 carries H only (no G2 decision, no record).
-    refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0), ref("r4", 20.0, 21.0, groups=("G1",))]
+    refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0), ref("r4", 20.0, 21.0)]
     events = [sev(0, 0.0, 1.0, labels=("H", "UD")), sev(1, 5.0, 6.0, labels=("H", "IE")), sev(2, 10.0, 11.0, labels=("H",))]
-    records = mt.match_window(refs, events, "G2", 0.3, "rule_conformance")
+    only_g1 = {"r4": ("G1",)}
+    records = mw(refs, events, "G2", 0.3, "rule_conformance", only_g1)
     assert by_type(records) == [("abstained_miss", "r2", None), ("matched", "r1", "s0"), ("miss", "r3", None)]  # r4 not in G2
-    g1 = mt.match_window(refs, events, "G1", 0.3, "rule_conformance")
+    g1 = mw(refs, events, "G1", 0.3, "rule_conformance", only_g1)
     assert [t for t, _, _ in by_type(g1)].count("matched") == 3 and ("miss", "r4", None) in by_type(g1)  # IE events still decide in G1
 
 
@@ -196,20 +203,20 @@ def test_ct_e_20_matching_determinism(seed):
               for i, t in enumerate(rng.sample(range(0, 80), 10))]
     canon = lambda recs: sorted(canonical_json(r) for r in recs)
     for group in ("G1", "G2", "any"):
-        base = canon(mt.match_window(refs, events, group, 0.3, "rule_conformance"))
+        base = canon(mw(refs, events, group, 0.3, "rule_conformance"))
         for _ in range(5):
             r2, e2 = refs[:], events[:]
             rng.shuffle(r2)
             rng.shuffle(e2)
-            assert canon(mt.match_window(r2, e2, group, 0.3, "rule_conformance")) == base
+            assert canon(mw(r2, e2, group, 0.3, "rule_conformance")) == base
 
 
 def test_ct_e_21_abstention_counts_as_miss():
     refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0), ref("r3", 10.0, 11.0)]
     decide = [sev(0, 0.0, 1.0, labels=("H", "UD")), sev(1, 5.0, 6.0, labels=("H", "UD")), sev(2, 10.0, 11.0, labels=("H", "UD"))]
-    before = em.headline([em.window_counts(mt.match_window(refs, decide, "G2", 0.3, "rule_conformance"), 3600.0)])
+    before = em.headline([em.window_counts(mw(refs, decide, "G2", 0.3, "rule_conformance"), 3600.0)])
     abstain = decide[:2] + [sev(2, 10.0, 11.0, labels=("H", "IE"))]  # one more abstention
-    after = em.headline([em.window_counts(mt.match_window(refs, abstain, "G2", 0.3, "rule_conformance"), 3600.0)])
+    after = em.headline([em.window_counts(mw(refs, abstain, "G2", 0.3, "rule_conformance"), 3600.0)])
     assert (before["EV-M1"], after["EV-M1"]) == (1.0, pytest.approx(2 / 3))  # headline recall decreases
     assert after["EV-M5"] == pytest.approx(1 / 3) and after["EV-M4"] == pytest.approx(2 / 3) and after["EV-M6"] == 1.0
 
@@ -258,5 +265,16 @@ def test_ev_m8_localization():
 
 
 def test_ev_m3_abstention_rate():
-    got = em.abstention_rate([(True, 1.0), (False, 2.0), (False, 0.5), (True, 0.5)], pow_support_s=10.0)
-    assert got == {"episodes": 0.5, "support": pytest.approx(0.15)}
+    # T10.7(a): abstained = IE without NM/UD/CT. Episodes: {H, IE} 1.0 s abstains; {H} 2.0 s; {H, UD, IE} 0.5 s does not; {PC, IE} 0.5 s abstains.
+    eps = [(frozenset({"H", "IE"}), 1.0), (frozenset({"H"}), 2.0), (frozenset({"H", "UD", "IE"}), 0.5), (frozenset({"PC", "IE"}), 0.5)]
+    got = em.abstention_rate([(eps, 10.0)])
+    assert got == {"episodes": 0.5, "support": pytest.approx(0.15)}  # 2/4; (1.0 + 0.5)/10
+
+
+def test_ar_39_item_3_label_groups_are_an_input_mapping():
+    # Architect ruling on AR-39 item 3: a reference without a label-group entry is refused, never silently dropped.
+    from rq1.schema.errors import ContractError
+    with pytest.raises(ContractError) as exc:
+        mt.match_window([ref("r1", 0.0, 1.0)], [], "G1", 0.3, "rule_conformance", {})
+    assert exc.value.code == "ERR-SPEC"
+    assert by_type(mt.match_window([ref("r1", 0.0, 1.0)], [], "G2", 0.3, "rule_conformance", {"r1": frozenset({"G1"})})) == []  # not in G2
