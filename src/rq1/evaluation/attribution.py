@@ -2,7 +2,7 @@
 
 Diagnostic rule tests run in pipeline order; the first failing test is `primary_stage`, later failing tests are
 `secondary_factors`, and if no test fails the result is `unresolved`. The 2^3 oracle substitution runner reports which
-substitution sets resolve the error; the step from those outcomes to a `verified_*` status waits for CR-014."""
+substitution sets resolve the error, and `oracle_attribution` assigns the T12.3 status on synthetic data."""
 from __future__ import annotations
 
 from itertools import combinations
@@ -25,11 +25,50 @@ def diagnose(results: dict[str, bool | None]) -> dict:
     unknown = set(results) - set(STAGES)
     if unknown:
         raise ValueError(f"unknown stages {sorted(unknown)}")
+    results = prerequisites(results)
     failing = [s for s in STAGES if results.get(s) is True]
     record = {"rule_test_results": {s: ("fail" if results[s] else "pass") if results.get(s) is not None else "not_evaluated" for s in STAGES if s in results}}
     if not failing:  # "tests conflict" is not detected until CR-014 is decided
         return {**record, "primary_stage": "unresolved", "secondary_factors": [], "attribution_status": "unresolved"}
     return {**record, "primary_stage": failing[0], "secondary_factors": failing[1:], "attribution_status": "diagnostic_inferred"}
+
+
+def prerequisites(results: dict[str, bool | None]) -> dict[str, bool | None]:
+    """T12.3.5: rules 4 and 5 are not_evaluated when their prerequisite fails. N9 rule 4 needs "association is correct"
+    (rule 3 passes); rule 5 needs "correct flags" (rule 4 passes, and so rule 3)."""
+    out = dict(results)
+    if out.get("tracking") is True and "geometry" in out:
+        out["geometry"] = None
+    if (results.get("tracking") is True or out.get("geometry") is True) and "event_reasoning" in out:
+        out["event_reasoning"] = None
+    return out
+
+
+def oracle_attribution(results: dict[str, bool | None], resolved: set, run_ids: dict) -> tuple[dict, dict]:
+    """T12.3 on synthetic data with oracle runs. `resolved` holds the substitution sets C with Resolved(C) true (from the
+    oracle adapters; at M0 given as input); `run_ids` maps each set to its oracle run's artifact ID.
+    Returns the error_attribution content (without match_nk) and the milestone-report diagnostics of T12.3.4."""
+    if frozenset() in resolved:
+        raise ValueError("Resolved(empty set) is false by construction (T12.3.2)")
+    rule = diagnose(results)  # rule_test_results are always stored (T12.3.4)
+    base = {"rule_test_results": rule["rule_test_results"], "oracle_artifact_ids": []}
+    if prerequisites(results).get("evidence_unavailable") is True:  # T12.3.1: no factorial
+        return {**base, "primary_stage": "evidence_unavailable", "secondary_factors": [], "attribution_status": "diagnostic_inferred"}, {}
+    minimal = [c for c in resolved if not any(o < c for o in resolved)]
+    non_monotone = sorted((sorted(c) for c in resolved if any(c < o and o not in resolved for o in oracle_subsets())), key=str)
+    if not minimal:  # T12.3.3a
+        checked = prerequisites(results)
+        stage = next((s for s in ("event_reasoning", "reference_ambiguity") if checked.get(s) is True), None)
+        out = {**base, "primary_stage": stage or "unresolved", "secondary_factors": [], "attribution_status": "diagnostic_inferred" if stage else "unresolved"}
+    else:  # T12.3.3b
+        k = min(len(c) for c in minimal)
+        first = set().union(*(c for c in minimal if len(c) == k))
+        primary = next(s for s in ORACLE_STAGES if s in first)
+        involved = set().union(*minimal)
+        out = {**base, "primary_stage": primary, "secondary_factors": [s for s in ORACLE_STAGES if s in involved and s != primary],
+               "attribution_status": "verified_oracle_single" if k == 1 else "verified_oracle_joint",
+               "oracle_artifact_ids": sorted(run_ids[c] for c in minimal)}
+    return out, {"rule_primary": rule["primary_stage"], "disagrees": rule["primary_stage"] != out["primary_stage"], "non_monotone_sets": non_monotone}
 
 
 # --- N9 rule tests -------------------------------------------------------------------------------------------------

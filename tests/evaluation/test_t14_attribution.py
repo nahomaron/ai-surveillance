@@ -96,7 +96,10 @@ def test_oracle_runner_covers_the_2_cubed_sets():
     assert len(sets) == 8 and sets[0] == frozenset() and sets[-1] == frozenset(att.ORACLE_STAGES)
     outcomes = att.oracle_outcomes(lambda s: not {"perception", "geometry"} <= s)
     assert [s for s, resolved in outcomes.items() if resolved] == [frozenset({"perception", "geometry"}), frozenset(att.ORACLE_STAGES)]
-    # The verified_* status that FX-16 expects (CT-E-22) waits for CR-014 / D-15.
+    # T12.3 then assigns the status (CT-E-22, test_t12_oracle.py).
+    resolved = {s for s, ok in outcomes.items() if ok}
+    record, _ = att.oracle_attribution({}, resolved, {s: f"art_{i:026d}" for i, s in enumerate(sets)})
+    assert (record["primary_stage"], record["attribution_status"]) == ("perception", "verified_oracle_joint")
 
 
 def test_vr_e_061_verified_only_on_synthetic_with_oracle_runs():

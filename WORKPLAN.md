@@ -423,3 +423,6 @@ _(the agent appends entries here)_
 
 ### 2026-11-12 — T12.2 conformance: EV-M10
 - Did: `matching.unobservable_overlap` (events overlapping a not-assessable reference, matched to none, non-abstained or abstained per T10.7(a)); `event_metrics.ev_m10` (by decision and by label, RES-weighted and unweighted, with the T12.2 interpretation note); `sensitivity_excluding_unobservable_overlap` for EV-M2 and EV-M7. N4 classes unchanged; headline EV-M2 and EV-M7 unchanged. CT-T12-02 reproduces the T12.2 check (EV-M2 1/3, sensitivity 1/2, EV-M10 1 + 1).
+
+### 2026-11-12 — T12.3 conformance: oracle-factorial attribution
+- Did: `attribution.oracle_attribution` (T12.3 steps 1–5: evidence_unavailable first, minimal resolving sets, primary = earliest stage of the smallest sets, single or joint, oracle run IDs of M, rule-test results always stored, disagreement and non-monotone sets reported); `prerequisites` makes rules 4 and 5 not_evaluated when rule 3 (rule 4) fails. CT-E-22 (FX-16: perception, [geometry], verified_oracle_joint) and CT-T12-03 pass.
