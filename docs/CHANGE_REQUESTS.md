@@ -380,3 +380,29 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 
 **What proceeds meanwhile:** T9.1–T9.9 in full; flag_series rows; episodes, including durations over I and `exp_evasive_score`; discarded episodes; single-camera candidate events; `label = all` counts. T-12 does not use any item above.
 **Decision:** ______   **Approver:** ______
+
+## AR-39 — Association and matching details (T-12)
+- **Gaps and choices:**
+  1. **Ambiguous rivals (A5.2 step 4).** "Within ε_amb" is the absolute difference of the quantized IoUs, and the rival must itself have IoU ≥ *iou_cm*. An unassigned rival (FX-ID-6's p2) is recorded as `ambiguous` with the assigned counterpart, not as `missed_reference` or `unmatched_system`, because "ambiguous frames count in neither matched nor unmatched time".
+  2. **Frame-level solver.** The solver uses the quantized IoU on canonically sorted inputs, exactly as A5.2 states. N4's composite tie weight applies to event matching only. Sorting makes the frame assignment deterministic (CT-ID-A2).
+  3. **Label groups.** A system event belongs to G1 if it has O, H or PC, to G2 if it has NM, UD or CT, and to `any` always (EV-M12 defines G2 as NM/UD/CT). `ref_interaction` has no label field, so a reference's groups are an input set by the reference producer (CV-SIM or annotation). `any` includes every reference.
+  4. **Abstained events** produce no match record. Their effect is the `abstained_miss` class. "Overlap" for `duplicate_alert` and `abstained_miss` is temporal IoU > 0, with no pair condition, as N4 states.
+  5. **`reference_class`** on every match record, false alerts included, is the class of the window's references. The field is not nullable.
+  6. **References that are not assessable** get `unobservable_reference`. A system event on such a reference stays a `false_alert`, as N4 literally states. EV-M10 counts it separately (T-14).
+  7. **Out of scope here.** FX-ID-8's `primary_stage = perception` is error attribution (N9, T-14). CM-01 for FX-ID-3/4 is T-14; T-12 tests its numerator (the matched support).
+- **No meaning effect:** items 1, 2, 3 and 5 are representation or follow the A5.2/N4 text literally. Items 4 and 6 apply N4 literally. **Review flag:** items 3 and 6. **Files/tests:** `evaluation/association.py`, `evaluation/matching.py`; `tests/evaluation/test_t12.py`. **Reverse:** edit the named functions.
+
+## CR-010 (2026-11-12) — Abstention and coverage denominators in the event metrics (T-12)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-12 (no test in its "Done when" depends on these items).
+**Contract sections:** F.1 Appendix N4 (classes, cᵢ, EV-M3/M5/M8/M11); E-1.2.1 §9.2.
+**Meaning-affecting:** yes. Each item changes an EV-M value. The first reading is implemented provisionally and pinned by a test.
+
+| # | Question | Implemented reading | Other reading |
+|---|---|---|---|
+| 1 | What is an "abstained (IE-only)" system event? | IE and no label of the evaluated group. Every event has O, H or PC (CL-INV-02), so a literal "IE is its only label" never occurs. In G1 and `any` nothing abstains; in G2 an IE event without NM/UD/CT abstains | Any event with IE abstains in every group, as EV-M3 counts "abstained episodes" |
+| 2 | cᵢ, "assessable references receiving a non-abstained decision" | cᵢ = aᵢ − abstained_missᵢ. A plain miss is a decision ("nothing here"), so EV-M4 = 1 − EV-M5 | cᵢ = assessable references overlapped by a non-abstained system event |
+| 3 | P90 in EV-M8 | Linear interpolation between order statistics (Hyndman–Fan type 7, numpy's default) | Another quantile definition, for example nearest rank |
+| 4 | Weighting of EV-M5 and EV-M11, which N4 writes without Σwᵢ | The same weighted-ratio form as the other metrics (w = 1 gives the printed formula) | Always unweighted counts |
+
+**Decision:** ______   **Approver:** ______
