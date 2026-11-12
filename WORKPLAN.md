@@ -18,8 +18,9 @@ How to use this file:
 | Create `.venv` and `pip install` the packages named in S-01 into it | [-] |
 | After M0 is accepted: download one SDG-Warehouse near-miss shard and selected synthetic SmartSpaces scenes, **22 GB cap in total, outside git**, **after** recording source authenticity and licence terms in T-17. Real-world scenes (`Warehouse_026`, `Warehouse_027` and any other real footage) are excluded (Owner decision D-3, 9 Nov 2026) | [-] |
 | Install CPU-only PyTorch or ONNX Runtime for the detector benchmark (T-22), if available for this platform | [-] |
+| **Amendment D-21 (12 Nov 2026):** download cap raised to **30 GB in total**, outside git. Real-world footage is permitted **for testing only** (no training or fine-tuning), stored under `data/raw/real/`, after it is recorded in `qualification.md` Part 3 and the Owner approves the selection (D-24); no processing of real footage before G-FQ (D-25) | [-] |
 
-Never pre-approved: paid services, cloud upload of data, real worker footage, fine-tuning compute purchases, any contract change.
+Never pre-approved: paid services, cloud upload of data, real worker footage (except the D-21 testing-only exception above), fine-tuning compute purchases, any contract change.
 
 **Owner setup before the first session:**
 1. Update Claude Code (installed via MacPorts) and check `claude --version`.
@@ -60,6 +61,8 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | ✓ | ID | Task | Needs | Refs | Done when | Size |
 |---|---|---|---|---|---|---|
 | [x] | T-17 | **Dataset qualification (WP-12).** Record source URLs, versions, licence terms and authenticity evidence **before** downloading. Download only if pre-approved in §0; otherwise **STOP**. Reproduce the census facts (1 worker, 1 forklift, 300 frames, 10 views). Verify units. Extract lineage. Report the frame-interval distribution of every downloaded recording (min, median, P99, max, VFR flag) | G-M0 | Package F WP-12 | `research/datasets/qualification.md`; licence rows; data outside git | M |
+| [x] | T-17b | **Qualification Part 3 (D-20 to D-22).** Record SDG shard→run map and a seeded draw, SmartSpaces real scenes, Safe and Unsafe Behaviours, FieldWorkArena exclusion, real-data rules, budget ≤ 30 GB — **before** any download | T-17 | VR-E-070; D-21 | `qualification.md` Part 3; D-23, D-24, D-25 opened | S |
+| [S] | G-DL | **STOP — Owner approves the Part 3 selection (D-24)**, then download with SHA checks | T-17b | — | Owner decision in D-24 | — |
 | [ ] | T-18 | **Dataset adapters (WP-13).** SDG and SmartSpaces → S0, oracle tracks, simulator references; `reference_class` set correctly | T-17 | Package F WP-13; F.1 A5.1 | Truth round-trip within 1e-6 m; reprojection check | L |
 | [ ] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
 | [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7) | M |
@@ -483,3 +486,14 @@ _(the agent appends entries here)_
 - Problems / CRs: none. For T-18: forklift class `robot` (identify by prim name); SmartSpaces field names with spaces; SDG run-ID suffix join; AR-35 item 7 (world frame and calibration tier from the dataset's declared frame) and AR-36 item 4 (visibility) apply.
 - Next: T-18 (dataset adapters).
 - Correction (12 Nov 2026): `research/datasets/qualification.md` was never committed. The `.gitignore` pattern `datasets/` (meant for downloaded data) also matched `research/datasets/`. Commit 0776312 therefore contained only the Progress-log line, and the earlier statement that Part 1 was "pushed before download" was wrong. Part 1 was written in this repository before any download began, but it was not in git until now, so git cannot prove that order. Fix: data rules in `.gitignore` are anchored to the repository root (`/out/`, `/data/`, `/datasets/`); only `research/datasets/` became visible. The record (Parts 1 and 2) is committed in the next commit.
+
+### 2026-11-12 — Owner decisions D-20, D-21, D-22 recorded
+- D-20 (B): leakage "scene" = rendered scene instance (run, or scene plus re-renders); layout family → `shared_scene_content`, no edge; no split frozen until the Architect commits E-1.2.12. D-21: cap 30 GB; real footage for testing only (§0 amended; CLAUDE.md "Never" line left for the Owner to amend). D-22: pallet trucks present, not evaluated.
+
+### 2026-11-12 — T-17b done; STOP at G-DL (D-24)
+- Did: `qualification.md` Part 3, written before any Part 3 download. SDG: the run indexes name RGB shards only, so the agent fetched `manifest_nearmiss_artifacts.json` (3.3 MB, git-blob hash checked) and read the first tar header of each of the 547 artifacts shards. This gave a shard→run map, checked against the held shard 00538. All artifacts runs are multi-camera; 477 shards hold only 10-camera runs. Seeded draw (PCG64, seed 2026111203, 475 eligible): shards 00336 and 00243, 6 runs, 9.66 GB. SmartSpaces `Warehouse_026/027`: 15 files, 0.29 GB, videos + calibration + a VGGT reprojection report, no ground truth. The Croissant metadata states individual written consent, but also "evaluation-only" and "manual labeling … prohibited by the challenge rules" (raised in D-23 and D-24). Safe and Unsafe Behaviours: Mendeley v1 pinned (DOI 10.17632/xjmtb22pff.1, CC BY 4.0); consent statement recorded; faces visible, not blurred; both HF mirrors byte-identical to Mendeley (691/691 SHA-256); 4 classes, 371 files, 5.77 GB. FieldWorkArena excluded (gated, custom terms). Real-data rules and the VR-E-070 retention proposal recorded. Budget: 25.9 GB of 30 GB. Selection lists with every hash: `research/datasets/part3/`.
+- Correction: Part 2 multi-camera count 1,640/74 → 1,642/76 (corrected in place, with a note).
+- Opened: D-23 (real-data annotation), D-24 (STOP: selection approval), D-25 (G-FQ: proposed frame-quality rules version rv2, for Architect review).
+- Tests: 1704/1704 (full suite), determinism re-run: not applicable (no code change; research record only)
+- Problems / CRs: none. Deviation from "parquets only" recorded in Part 3 §3.1 and D-24.
+- Next: STOP for D-24. Independent of it: T-18 adapters on held synthetic data (SDG 00538, SmartSpaces 000/001), and T-19. No split freeze before E-1.2.12 (D-20).

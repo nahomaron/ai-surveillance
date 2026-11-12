@@ -72,7 +72,7 @@ Location: `data/raw/` (git-ignored). Extracted RGB copies of the 3 SDG runs for 
 | Frames | 300 per camera in every run (`object_detection.jsonl` lines; `meta.json` counts agree) | reproduced (10 s at 30 fps) |
 | Views | 10 per run (`ceiling_00`–`04`, `eye_00`–`04`) | reproduced |
 
-**Card discrepancy (release-level, from `runs.parquet`):** the card says near-miss runs have 10 cameras. The index says otherwise. Of 13,410 near-miss runs, 11,768 are `extras_single_view` (one clip, no source-run path), and 1,640 are `multi_camera_run`, of which 1,566 (95.5 %) have 10 cameras and 74 have between 1 and 9. The P0 census holds for the multi-camera runs; the single-view extras have no run lineage. M1a sampling must state which kind it draws from.
+**Card discrepancy (release-level, from `runs.parquet`):** the card says near-miss runs have 10 cameras. The index says otherwise. Of 13,410 near-miss runs, 11,768 are `extras_single_view` (one clip, no source-run path), and 1,642 are `multi_camera_run`, of which 1,566 (95.4 %) have 10 cameras and 76 have between 1 and 9. *(Corrected 12 Nov 2026 in Part 3: this line first read 1,640 and 74, an arithmetic slip; 11,768 + 1,642 = 13,410.)* The P0 census holds for the multi-camera runs; the single-view extras have no run lineage. M1a sampling must state which kind it draws from.
 
 SmartSpaces `Warehouse_000` (and its byte-identical ground truth in `Warehouse_001`): 9,000 frames (frame IDs 0–8,999, 300 s at 30 fps), 19 cameras (`Camera_0018` absent), 9 forklifts, 10 pallet trucks, 60 people (up to 58 people and 9 forklifts in one frame). It is a many-object scene, so the P0 census does not apply to it.
 
@@ -129,3 +129,122 @@ SmartSpaces: all 19 cameras of a scene have exactly 9,000 frames at a constant 3
 5. SmartSpaces: ground-truth field names contain spaces (`object type`, `3d location`, `2d bounding box visible`), not the underscores the card documents.
 
 None of these blocks T-18; each is an adapter rule to implement and test there.
+
+## Part 3 — extension under D-20, D-21, D-22 (12 Nov 2026), recorded before download
+
+**Authority:** Owner decisions of 12 Nov 2026. D-21 amends D-3: the cap is 30 GB in total, and real-world footage is permitted **for testing only** (no training or fine-tuning). D-22 excludes SmartSpaces pallet trucks from the E1 pair class (recorded as present, not evaluated). D-20 defines a leakage "scene" as the rendered scene instance (a run, or a scene plus its re-renders); a shared layout family is recorded as `shared_scene_content` with no edge; claims are limited to held-out runs of the same synthetic layout. No split is frozen until the Architect's E-1.2.12 text is committed.
+**Nothing listed in this Part has been downloaded.** The only file fetched while writing it is one SDG index file (3.1, deviation) and the dataset cards and licence pages needed for 3.2 to 3.4. Machine-readable selection lists with every file's size and SHA-256: `research/datasets/part3/selection_*.json`.
+
+### 3.1 SDG-Warehouse: multi-camera runs per near-miss artifacts shard
+
+**Deviation from the instruction "from runs.parquet / clips.parquet only".** Neither index names an artifacts shard: both map runs and clips to **RGB** shards (`rgb/…/nearmiss-rgb-*.tar`) only. Two steps were therefore added, both metadata only:
+1. `metadata/manifests/manifest_nearmiss_artifacts.json` (3,267,475 bytes; git blob `5902cb67…7716` verified, not an LFS file) was fetched into `data/raw/sdg/metadata/manifests/`. It lists the 1,642 runs that have an artifact folder. They are exactly the 1,642 `multi_camera_run` near-miss runs in `runs.parquet`. The 11,768 `extras_single_view` runs have no artifacts.
+2. The first 512-byte tar header of each of the 547 artifacts shards was read by HTTP range request (547 requests, about 280 kB). Each header names the shard's first run.
+
+Result: the first runs increase strictly with shard number in the sorted run list, so shard *k* holds the sorted runs from its own first run up to the next shard's first run. This was checked against the shard already held: 00538 contains exactly the predicted three runs (sorted positions 1,616 to 1,618). Map: `research/datasets/part3/sdg_artifacts_shard_map.json`; scripts `probe.py`, `map.py`, `draw.py` beside it.
+
+| Fact | Value |
+|---|---|
+| Artifacts shards | 547; 2,637 GB in total |
+| Runs per shard | 3 in 544 shards, 4 in 2, 2 in 1 |
+| Run kind | all 1,642 are `multi_camera_run` (every artifacts shard is multi-camera only) |
+| Cameras per run | 10 in 1,566 runs; 1 to 9 in 76 runs (1: 2, 2: 3, 3: 3, 4: 7, 5: 9, 6: 3, 7: 11, 8: 16, 9: 22) |
+| Shards in which every run has 10 cameras | 477 |
+| Shard size | min 2.78 GB, median 4.77 GB, max 79.18 GB (`00000`, 73.7 GiB) |
+| Byte share inside a shard (00538) | `instance_id_segmentation_mapping.jsonl` 61.2 %; `rgb.mp4` 10.0 %; other render passes (edges, shaded_seg, segmentation, depth, npz) 27.2 %; `object_detection.jsonl` 1.3 %; `camera_params.jsonl` 0.2 % |
+
+**Proposed draw (declared here; computed deterministically from the map):**
+- Eligible: shards in which every run is a 10-camera `multi_camera_run` (the P0 census), size ≤ 6 GiB (as in Part 1), excluding the held shard 00538: **475 shards**. (If "multi-camera" is read as ≥ 2 cameras, 543 shards are eligible; the 10-camera reading is proposed so that every run satisfies the census.)
+- Draw: numpy PCG64, seed **`2026111203`**, a permutation of the eligible shards sorted by name. Shards are taken in permutation order and the draw stops at the first shard that does not fit the SDG budget (3.6). Skipping to smaller shards is not allowed, so the size rule cannot bias the draw towards small shards.
+- Result at the 3.6 budget (13.26 GB): **2 shards, 6 runs, 9.66 GB**. Next in order, not taken: `00354` (4.88 GB).
+
+| Shard | Size (bytes) | LFS SHA-256 | Runs |
+|---|---|---|---|
+| `nearmiss-artifacts-00336.tar` | 4,854,691,840 | `86b916260f6c1a24410176023c038a191fef9036d9442e9532068fc2cb8ca763` | `9cb5e1621ee475146fcd_run_10_seed_1087475235`, `9cb8e8b90aac0e419ea4_run_29_seed_2071889816`, `9ceb0327c127ac4b2f93_run_1_seed_1315993226` |
+| `nearmiss-artifacts-00243.tar` | 4,807,434,240 | `a73ebbab6665be804629672e58e375d6d95a7c4a797f06567293e021f4d9c93b` | `72a9270c9daa123ace61_run_13_seed_851910160`, `72c2e190ff811e2fcd9d_run_42_seed_648376005`, `72cdf064afe3ed619660_run_14_seed_495532104` |
+
+With 00538, SDG would contribute 9 runs (9 leakage groups under D-20, all sharing one layout family → `shared_scene_content`).
+
+**Option for the Owner (not proposed by default).** About 88 % of each shard is render passes RQ1 does not use. Range-reading only `rgb.mp4`, `object_detection.jsonl`, `camera_params.jsonl` and `meta.json` would cost about 0.19 GB per run, so the same 13 GB would hold about 70 runs instead of 6. The cost: no published hash exists for individual members, only for whole shards, so the "SHA check" would become a weaker check (tar header checksums, member sizes, and decoding plus a frame count match). It needs a per-shard header walk (about 276 range requests per shard). Not proposed without the Owner's agreement, because the instruction requires SHA checks.
+
+### 3.2 PhysicalAI-SmartSpaces real-world scenes `Warehouse_026`, `Warehouse_027`
+
+Same repository and pinned revision as Part 1 (`d38193be…`); published `test` split.
+
+| Scene | Files | Bytes | Contents |
+|---|---|---|---|
+| `Warehouse_026` | 6 | 105,751,218 | `videos/Camera_0000–0003.mp4` (4), `calibration.json`, `vggt_reprojection_error.txt` |
+| `Warehouse_027` | 9 | 184,188,642 | `videos/Camera_0000–0006.mp4` (7), `calibration.json`, `vggt_reprojection_error.txt` |
+| **Total** | **15** | **289,939,860 (0.29 GB)** | every file has a Git-LFS SHA-256 (`selection_smartspaces_real.json`) |
+
+**"Videos + calibration only": confirmed, with one addition.** The card says "the first 60 s (1800 frames) per camera is provided — videos + calibration only". The folders also hold `vggt_reprojection_error.txt` (about 1 kB, a calibration-quality report added 2026-07-27, per the changelog). There is no ground truth, no depth map and no map image. So these scenes have **no reference annotation**; any evaluation needs D-23.
+
+**Card consent and privacy statements** (card `README.md` SHA-256 `cdba2b67…0ab`; `croissant.json` SHA-256 `fe6adeeb…bbdb`, both at the pinned revision):
+- The README has no consent or privacy statement. Its "Ethical Considerations" section is NVIDIA's generic Trustworthy-AI text.
+- `croissant.json`, `rai:personalSensitiveInformation`: "Every individual appearing in this real footage has provided a signed, written consent agreement authorizing the capture … no person appears in the real data without explicit individual consent on file with NVIDIA." It implicitly contains gender, age and location of capture.
+- **Conflict for the Owner.** The same field says: "The hidden target is treated as an evaluation-only resource: raw video is not publicly redistributed, access is mediated solely through the AI City Challenge online evaluation server, **manual labeling of the test set by participants is prohibited by the challenge rules**, and the target is excluded from training use." It also says the dataset "is not authorized for use in biometric, facial recognition, demographic profiling, or surveillance systems targeting real individuals". Yet the README changelog (2026-06-04) says these two scenes' videos are released, and they are in the public tree under CC BY 4.0. Possible reading: Croissant describes the hidden, labelled target, and the 60 s public videos are a released part of it. That reading is not certain. Consequences:
+  1. Training use is excluded by both the card and D-21. Consistent.
+  2. **Manual reference annotation of these scenes (D-23) may conflict with the challenge rule.** RQ1 is not a challenge participant, but the statement is the publisher's stated use condition. The Owner should decide whether to annotate them, use them unannotated (for example, frame-interval and decode checks only), or exclude them.
+  3. RQ1 measures pair exposure without identifying anyone. It is still a workplace-monitoring instrument, and the card lists "workplace and labor surveillance" as a misuse risk. Recorded for the ethics record (`approvals_ref`, 3.5).
+- Proposed labels (to be confirmed by the Owner): `data_origin = real_staged`. Evidence: capture "by NVIDIA in real smart-space environments" with signed individual consent, which points to staged capture rather than routine operations. `site_kind = staged_facility`, `privacy_state = contains_identifiable_persons`.
+- After download (only if approved): view the videos to check whether forklifts and people appear together. If they do not, report it and stop for this source. D-22: pallet trucks, if present, are recorded as present, not evaluated.
+
+### 3.3 Video Dataset for Safe and Unsafe Behaviours (Mendeley Data `xjmtb22pff`)
+
+| Item | Value |
+|---|---|
+| Pinned version | **v1**, DOI `10.17632/xjmtb22pff.1`, published 2024-06-11. The public API lists v1 as the only version |
+| Publisher | Mendeley Data; owner and contributors at Bilecik Şeyh Edebali University (ROR `00dzfx204`); related article Springer *Multimedia Tools and Applications*, doi 10.1007/s11042-024-19276-8 |
+| Licence | **CC BY 4.0** (Mendeley `data_licence`: "Creative Commons Attribution 4.0 International", `http://creativecommons.org/licenses/by/4.0`). Legal code is the same text pinned in Part 1 (SHA-256 `9ba9550a…429411`). Mendeley adds: "further permission may be required for any content within the dataset that is identified as belonging to a third party" |
+| Content | 691 MP4 clips (1–20 s each), 8 classes (4 safe, 4 unsafe), publisher's `train`/`test` folders. Two IP cameras (UNV IPC2122CR3-PF40-A), 1920 × 1080, 24 fps, H.264 (Mendeley "method" field) |
+| Integrity | Mendeley gives a SHA-256 for every file. Both HF mirrors (`Voxel51/Safe_and_Unsafe_Behaviours` @ `7369ff18…`, `yangyayaa/Safe_and_Unsafe_Behaviours` @ `672abfaf…`; identical cards, SHA-256 `5221b4c5…7730`) hold the same 691 MP4s, and **all 691 SHA-256 values equal Mendeley's**. Download from Mendeley; the mirrors corroborate. The mirrors add FiftyOne JSON and a GIF, which are not needed |
+| Consent statement | Mendeley description: collected from the security cameras of a production facility in an organised industrial zone in Eskişehir, Turkey, 5 Nov to 13 Dec 2022, "after obtaining the necessary permissions from company officials and employees". Mirror card: "Proper permissions were obtained from company officials and employees for the use of video recordings and images **in academic studies**. The permission documentation is maintained at the Department of Computer Engineering, Faculty of Engineering, Bilecik Şeyh Edebali University." The record names the company; it is not copied into RQ1 records (the `site` table has no establishment field; `site_label` is pseudonymous) |
+| Faces | **Not blurred.** Mirror card: "Workers' faces and bodies are visible in the footage." The Mendeley record makes no redaction claim. `privacy_state = contains_identifiable_persons`; `redaction_state = none` |
+| Use limits stated | permission for academic studies; mirror card lists "worker surveillance or performance monitoring without proper consent and ethical oversight" as out of scope |
+| Proposed labels | `data_origin = real_natural` (to be confirmed: the cards describe workers "performing normal production activities" filmed by fixed security cameras; clip selection by domain experts does not make it staged); `site_kind = operational_facility`; domain = **production facility, not a warehouse** (to be stated next to every result from this source) |
+
+**Selection: four classes only, both publisher folders** (the publisher's train/test split has no meaning for RQ1, which uses the data for testing only):
+
+| Class (folder) | Files (train + test) | Bytes |
+|---|---|---|
+| `0_safe_walkway_violation` | 178 + 32 = 210 | 3,500,705,686 |
+| `3_carrying_overload_with_forklift` | 48 + 8 = 56 | 959,641,943 |
+| `4_safe_walkway` | 50 + 25 = 75 | 1,182,485,682 |
+| `7_safe_carrying` | 22 + 8 = 30 | 132,062,224 |
+| **Total** | **371** | **5,774,895,535 (5.77 GB)** |
+
+The class labels are the publisher's behaviour labels. They are not RQ1 labels and are not used as a reference for E1 (a "violation" label is not an exposure, a candidate or a near miss). Whether a forklift and a person appear together in each clip is checked by viewing after download, as for SmartSpaces.
+
+### 3.4 FieldWorkArena: excluded
+
+`Fujitsu/FieldWorkArena_Dataset` (HF, revision `aa9199c8…`, card SHA-256 `499d7e37…6197`): gated (manual approval), `license: other`, `license_name: terms-of-use`, with the terms on a Fujitsu research-portal page. **Excluded** (Owner, 12 Nov 2026): a custom non-commercial, no-redistribution licence, restricted to Fujitsu services. The terms page itself was not re-read for this record; the exclusion rests on the Owner's reading and the card metadata above. Nothing was requested or downloaded.
+
+### 3.5 Real-data rules (D-21; VR-E-070)
+
+- Storage: `data/raw/real/<source>/…` (inside `/data/`, which is git-ignored). Derived files from real footage go under `data/derived/real/` only.
+- No frames, crops, thumbnails or faces from real footage in git, reports, exports, issues or chat. Reports carry numbers and file hashes only. `evidence_clip` rows for real footage carry `access_class = restricted_research` and `redaction_state = none` (no blurring is applied by RQ1 at this stage). OBX research exports exclude real-origin evidence clips.
+- Testing only: real-origin recordings are never assigned to a training role and never enter `training_manifest_hashes`.
+- VR-E-070 requires, for each real-origin `source_file`, a `retention_policy_id`, and, for each real-origin `site`, an `approvals_ref`. **Proposed retention policy** `rp_real_test_v1`: applies_to = real-origin source files and their derivatives; `retain_days` = **Owner to set** (agent suggestion: until the end of RQ1, at most 365 days); `deletion_method` = delete the files and their derived copies and record the action in `access_log`; `legal_basis_ref` = Owner to supply. **`approvals_ref` must be supplied by the Owner** (for example an ethics-office reference or a recorded Owner determination that public consented datasets need no further approval). The agent does not create these values.
+- Access log: every read, export and delete of real-origin files is appended to the `access_log` hash chain once adapters exist (T-18 onward).
+- No processing of real footage (decode, detection, quality flags) before G-FQ is approved. Viewing for the co-occurrence check (3.2, 3.3) is done by a person or by playing the video. Nothing is extracted or stored.
+
+### 3.6 Budget (30 GB = 30 × 10⁹ bytes in total)
+
+| Item | Bytes | Status |
+|---|---|---|
+| Held (Part 2 download, plus the 3.1 manifest) | 10,180,095,362 | downloaded |
+| SmartSpaces `Warehouse_026` + `027` (15 files) | 289,939,860 | proposed |
+| Safe and Unsafe Behaviours, 4 classes (371 files) | 5,774,895,535 | proposed |
+| Reserve (re-downloads after a failed hash, card or index refreshes) | 500,000,000 | held back |
+| SDG budget = the remainder | 13,255,069,243 | — |
+| SDG extra shards 00336 + 00243 (3.1) | 9,662,126,080 | proposed |
+| **Total if approved** | **25,907,056,837 (25.9 GB)** | 4.1 GB unused; the next drawn shard (4.88 GB) does not fit |
+
+Order of download after approval: real sources first (SmartSpaces, then Mendeley), then SDG. Each file is checked against the SHA-256 in `research/datasets/part3/selection_*.json`. A mismatch is re-fetched once, then reported and the file deleted.
+
+### 3.7 Open for the Owner (STOP: D-24 selection; D-23 annotation; D-25 G-FQ)
+
+1. Approve or amend the selection and the budget (3.1, 3.2, 3.3, 3.6), including the 10-camera eligibility reading and whether to allow the member-level SDG option.
+2. SmartSpaces real scenes: decide in light of the Croissant statement (3.2) whether they may be annotated, used unannotated, or excluded.
+3. Confirm `data_origin` and `site_kind` for both real sources.
+4. Supply `approvals_ref`, `retain_days` and `legal_basis_ref` (3.5).

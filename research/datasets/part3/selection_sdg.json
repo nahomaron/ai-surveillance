@@ -1,0 +1,29 @@
+{
+ "budget_bytes": 13255069243,
+ "eligibility": "every run multi_camera_run with n_cameras = 10; shard size <= 6 GiB; shard 00538 (held) excluded",
+ "n_eligible": 475,
+ "rng": "numpy PCG64 permutation over eligible shards sorted by name; take in permutation order; stop at the first shard that does not fit",
+ "seed": 2026111203,
+ "selected": [
+  {
+   "path": "artifacts/forklift_human_nearmiss/nearmiss-artifacts-00336.tar",
+   "runs": [
+    "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "9cb8e8b90aac0e419ea4_run_29_seed_2071889816",
+    "9ceb0327c127ac4b2f93_run_1_seed_1315993226"
+   ],
+   "sha256": "86b916260f6c1a24410176023c038a191fef9036d9442e9532068fc2cb8ca763",
+   "size": 4854691840
+  },
+  {
+   "path": "artifacts/forklift_human_nearmiss/nearmiss-artifacts-00243.tar",
+   "runs": [
+    "72a9270c9daa123ace61_run_13_seed_851910160",
+    "72c2e190ff811e2fcd9d_run_42_seed_648376005",
+    "72cdf064afe3ed619660_run_14_seed_495532104"
+   ],
+   "sha256": "a73ebbab6665be804629672e58e375d6d95a7c4a797f06567293e021f4d9c93b",
+   "size": 4807434240
+  }
+ ]
+}

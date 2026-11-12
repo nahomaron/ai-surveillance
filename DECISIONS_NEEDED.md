@@ -136,3 +136,57 @@ Evidence: reports/M0_report.md (test matrix, artifact-ID table and determinism r
 Options: (a) Write "M0 accepted" here. (b) Return items for rework.
 Agent's recommendation: an independent review by the Research Architect first, including the 27 ARs still pending review (AR-1 to AR-6, AR-8 to AR-21, AR-23, AR-24, AR-26, AR-29, AR-32, AR-33, AR-47).
 Owner decision (12 Nov 2026): M0 ACCEPTED. The Architect reviewed the milestone report and AR-1 to AR-47 as written and accepted all pending ARs. Conditions: (1) M0_report.md names e6072ef as the commit its artifact-ID table belongs to; (2) M1a reports tie each result to its code commit; (3) "reference visibility assumed" wording is kept wherever visibility truth is missing; (4) D-8 stays deferred to T-22.
+
+## D-20 (2026-11-12) — Leakage "same scene" for synthetic runs        status: CLOSED
+Owner decision (12 Nov 2026): DECIDED (B). A leakage "scene" is the rendered scene instance: a run, or a scene plus its re-renders. A shared layout family is recorded as `shared_scene_content`, with no leakage edge. Claims are limited to held-out runs of the same synthetic layout. The Architect will supply the Appendix T text (E-1.2.12). **No split is frozen until E-1.2.12 is committed.**
+
+## D-21 (2026-11-12) — Download cap and real-world footage (amends D-3)        status: CLOSED
+Owner decision (12 Nov 2026): DECIDED. Cap raised to 30 GB in total. Real-world footage is permitted **for testing only** (no training or fine-tuning). Recorded in WORKPLAN §0. Note for the Owner: CLAUDE.md "Never" still says "Use real worker footage" without the D-21 exception. The agent has not edited CLAUDE.md and asks the Owner to amend that line (see D-24 item 6). Until then the agent reads D-21 as the governing exception, limited to testing.
+
+## D-22 (2026-11-12) — SmartSpaces pallet trucks        status: CLOSED
+Owner decision (12 Nov 2026): DECIDED. Pallet trucks are excluded from the E1 pair class for now. They are recorded as present, not evaluated. Planned future extension.
+
+## D-23 (2026-11-12) — Reference annotation of real footage        status: OPEN
+Task: T-17 Part 3, T-18 onward   Blocking: every evaluation on real-origin data (no real-data evaluation until decided)
+Question: Who produces the reference annotation for real footage, who reviews it as the second reviewer, and with what tool?
+Facts: (1) Neither real source has E1 reference annotation. SmartSpaces `Warehouse_026/027` ship videos and calibration only. The Safe and Unsafe Behaviours labels are clip-level behaviour classes, not pair intervals or positions. (2) The SmartSpaces Croissant metadata says "manual labeling of the test set by participants is prohibited by the challenge rules" for the real-world target (qualification Part 3, 3.2). (3) Faces are visible in both sources, so annotators see identifiable people; the approvals (`approvals_ref`) must cover them. (4) Reference independence: annotators must not see system output (F.1 A5.1, `reference_class`).
+Options:
+- Who: (a) the Owner annotates and a second person independently annotates a declared subset (agreement reported with κ / ICC as in T-13); (b) two independent annotators on everything, with Owner adjudication; (c) no real annotation now: real footage is used only for decode, timing and frame-quality checks until resources exist.
+- Tool: (d) VGG Image Annotator (VIA 3, one offline HTML file; nothing leaves the computer; a small download that needs approval); (e) CVAT self-hosted (needs Docker, a system install, not pre-approved); (f) a minimal annotation exporter built in this repository (no install; more agent work).
+- SmartSpaces real scenes: (g) annotate despite the challenge statement (RQ1 is not a participant); (h) do not annotate them, and use them only for unannotated checks; (i) exclude them.
+Agent's recommendation: (a) + (d) + (h). Annotation needs a written protocol (E1 interval and pair definitions taken from the contract, nothing new) before anyone starts. The agent will draft the protocol when this is decided.
+Owner decision: ______
+
+## D-24 (2026-11-12) — STOP: approve the Part 3 download selection        status: OPEN
+Task: T-17 Part 3   Blocking: all Part 3 downloads; T-18 work on the new sources (T-18 on already-held data is independent)
+Question: Do you approve the selection in `research/datasets/qualification.md` Part 3, total 25.9 GB of the 30 GB cap?
+Selection: SmartSpaces `Warehouse_026` + `027` (15 files, 0.29 GB); Safe and Unsafe Behaviours v1, 4 classes (371 files, 5.77 GB, from Mendeley, SHA-256 checked); SDG artifacts shards `00336` + `00243` (6 runs, 9.66 GB; seeded draw, seed 2026111203, 10-camera runs only); 0.5 GB reserve.
+Items needing your answer:
+1. Approve the selection as listed, or amend it.
+2. SDG eligibility: every run has 10 cameras (proposed), or ≥ 2 cameras.
+3. SDG member-level option: range-read only RGB and annotations, about 70 runs instead of 6, but no published per-file hash (Part 3, 3.1). Default: no.
+4. SmartSpaces real scenes and the Croissant "evaluation-only, no manual labelling" statement: download for unannotated checks (proposed), or skip.
+5. Confirm the labels: SmartSpaces real `real_staged` / `staged_facility`; Safe and Unsafe Behaviours `real_natural` / `operational_facility`, production facility, not warehouse.
+6. VR-E-070 values: `approvals_ref`, `retain_days`, `legal_basis_ref` for `rp_real_test_v1` (Part 3, 3.5). Real footage is downloaded but **not processed** until these exist and G-FQ (D-25) is approved. Please also amend the CLAUDE.md "Never … real worker footage" line to state the D-21 testing-only exception.
+Deviation to note: the artifacts-shard mapping could not come from `runs.parquet` / `clips.parquet` alone (they index RGB shards only). The agent fetched `manifest_nearmiss_artifacts.json` (3.3 MB) and read one 512-byte header per shard (Part 3, 3.1).
+Correction to note: Part 2 said 1,640 multi-camera near-miss runs (74 with fewer than 10 cameras). The index says 1,642 (76). Corrected in place, with a note.
+Agent's recommendation: approve items 1 to 5 as proposed, with item 3 = no.
+Owner decision: ______
+
+## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: OPEN (Architect review, then Owner approval)
+Task: G-FQ (AR-27 review)   Blocking: any decoding or processing of real footage
+Question: Which frame-quality rules version applies to real footage? `rv1` excludes `decode_error` only (AR-27). It must not be used on real footage.
+Why it matters: an excluded frame becomes ineligible (E-1.2.1 §3.2 step 4). Its support then leaves every duration, and its coverage segment becomes `unusable`. The rules version therefore changes measured values, so it is the Architect's and the Owner's choice. Thresholds below are proposals.
+Proposed `rv2` (computed per decoded frame on the 8-bit luma plane, integer arithmetic, recorded in `frame.quality_flags`):
+| Flag | Proposed rule | Excluding in rv2 |
+|---|---|---|
+| `decode_error` | as rv1 | yes |
+| `black` | 99th percentile of luma ≤ 32 | yes |
+| `overexposed` | ≥ 50 % of pixels with luma ≥ 250 | yes |
+| `frozen` | luma byte-identical to the previous decoded frame, inside a run of identical frames lasting ≥ 0.5 s; every frame after the first in the run is flagged | yes |
+| `blurred` | not computed in rv2: no scene-independent threshold exists, and blur already acts through perception quality | — |
+| `compression_damage` | not computed in rv2 (undecodable frames are `decode_error`) | — |
+Before use: (1) run rv2 on all 68 held synthetic recordings and report flag counts per recording (expected 0; any flag is a false positive to explain); (2) on real footage, report flag counts per recording only. No frames are stored or shown. rv1 stays for the M0 fixtures, and their expected values are unchanged.
+Options: (a) approve rv2 as proposed; (b) approve with other thresholds; (c) add `blurred` with a stated threshold.
+Agent's recommendation: (a). The `frozen` rule needs the synthetic check first, because H.264 can produce byte-identical frames in static scenes. The 0.5 s run length is there to limit that.
+Architect review: ______   Owner decision: ______
