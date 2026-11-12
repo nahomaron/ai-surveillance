@@ -37,3 +37,10 @@ Question: The Architect review of AR-7 asks that changing a supplied `retrieved_
 Options: (a) Keep F.1 A1.2, which is current behaviour. (b) Amend F.1 so that `retrieved_utc` is part of the dataset natural key.
 Agent's recommendation: (a). Details are in CR-004.
 Owner decision: ______
+
+## D-6 (2026-11-11) — Seven substrate quantities have names but no definitions        status: OPEN
+Task: T-08   Blocking: T-08 (part B), T-09, T-12 to T-16
+Question: The contract names seven measurement quantities without saying how to compute them: POW gap bridging, smoothed speed and heading, closing rate and time to closest approach, clearance uncertainty, signed image box gap, the evidence-sufficiency flag Q, and evidence state. Each affects flags, durations or labels. Do you approve the definitions proposed in CR-005, or will you supply others?
+Options: (a) Approve the CR-005 proposals as an amendment, with item 4 as "σ not estimated until GV-05 evidence". (b) The Architect supplies definitions. (c) Approve some items and return others.
+Agent's recommendation: (a). The proposals follow the existing wording of Packages B and E.1 where any exists. Item 4's interim choice uses the contract's own null-σ rule rather than inventing a formula. Details are in CR-005.
+Owner decision: ______

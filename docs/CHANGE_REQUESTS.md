@@ -223,3 +223,25 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 **Options.** (a) Keep F.1 A1.2: re-retrieval is a new version, as now. (b) Add `retrieved_utc` to the `dataset_source` natural key, which needs an F.1 amendment.
 **Agent's recommendation:** (a). It keeps one anchor ID per dataset version and makes silent changes visible through ANC-1.
 **Decision:** ______   **Approver:** ______
+
+## CR-005 (2026-11-11) — Substrate quantities named but not defined (T-08)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-08, which blocks T-09 and later.
+**Contract sections:** E-1.2.1 §3.4, §5.5 (`object_state`, `pow`, `pair_series`, `exposure_profile`), §6.0 (R1, R2, M, Q, E); Appendix T CT-F-01, CT-T-18.
+**Meaning-affecting:** yes. Each item changes flags, durations or labels.
+
+E-1.2.5 names these quantities but gives no computable definition. The source documents were read as evidence only: Package E §E-22 to E-25, the E.1 Addendum, and Package B M-02 to M-06 and UNC-01 to UNC-03.
+
+| # | Quantity | What the contract says | Evidence elsewhere | Proposed definition |
+|---|---|---|---|---|
+| 1 | POW gap bridging (`bridged_gaps`, `gap_exceeded`) | *g_max* in frames; "bridging on eligible frames only" (Package F WP-05); ST-6 via CT-T-18 | E.1 Addendum l.101: "bridges a track gap ≤ *g_max* only across frames that exist (supported frames in which the object was not detected)" | A gap is a run of eligible frames inside the co-presence span on which either object has no `tracked` detection. If the run has ≤ *g_max* frames and no coverage gap inside it, it is bridged (frames classed by §3.4); otherwise the POW ends (`gap_exceeded`) and a new POW starts after it |
+| 2 | Speed, heading and `speed_sigma_mps` "smoothed over *w_v*" (R2 M flag, R5, motion split of exposure) | Name only | B M-03: "smoothed ground speed"; B §3: "smoothed derivative of ground position over window *w_v*" | Least-squares line fit of floor position against timeline time over frames in a centred window of width *w_v* (detected or inferred frames with measured positions). Speed and heading come from the slope; σ from the fit residuals. Null when fewer than 3 frames are in the window or the camera is uncalibrated |
+| 3 | `closing_rate_mps`, `ttca_s` | Names | B M-04: −dc/dt smoothed over *w_v*; Package E: positive = approaching; TTCA under constant velocity, null `not_applicable` if diverging | Closing rate = −slope of clearance by the item 2 fit. TTCA = `t_at_min_s` of the constant-velocity prediction; null `not_applicable` when clearance is not decreasing |
+| 4 | `clearance_sigma_m`, `pos_cov_m2`, `sigma_status` | Fields; N1 σ rule (null σ ⇒ margin uses 0 and `not_estimated`) | B UNC-02/03: "propagate", "combine", no formula | Until GV-05 evidence exists, `clearance_sigma_m` is null and `sigma_status = not_estimated`, so the N1 σ rule applies. A propagation formula would be approved later as a separate amendment. Alternatively, now: σ_c = √(σ_person² + σ_forklift² + σ_footprint²) along the separation direction |
+| 5 | `image_gap_px` (R1 P flag); non-nullable | "signed box gap"; ÷ person box height (CN-9) | E: "signed box-to-box gap in CF-IMG; ≤ 0 means box overlap" | Disjoint boxes: Euclidean distance between their nearest points. Overlapping boxes: minus the smaller of the x-overlap and y-overlap |
+| 6 | `q_state`, `q_reasons` (Q flag, IE label, contact `none_observed`); non-nullable | Enum values only | E: "B.1 `Q` definition"; B.1: "closest approach visible", qualitative | `insufficient` if either object's pair-frame class is not `detected` (`predicted_only` or occluded), a box touches the image border (`truncated`), the frame's support is `timing_uncertain`, or the frame has a quality flag (`low_quality_frame`); otherwise `sufficient` |
+| 7 | `evidence_state` (feeds `t_joint_visible_s`) | Enum values only | E: "both `visible` or `partially_visible`" | Oracle tracks supply it. On the detector path: `truncated` if the box touches the border, `occluded_predicted` if predicted, `lost` if lost, otherwise `visible`. `partially_visible` only when `visibility_frac` is computed |
+
+**Affected tests:** CT-T-18, CT-F-01, CT-E-06 to 08 (pair-series rows), N2 M flag (speed), and all S5 tests downstream.
+**What proceeds meanwhile (T-08 part A):** oracle S3 tracks and evidence classes, support-based durations and evidence-class sums, activity segments, signed footprint distance and constant-velocity predicted clearance. None of these depend on the items above.
+**Decision:** ______   **Approver:** ______   **Resulting contract version:** ______
