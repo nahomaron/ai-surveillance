@@ -449,3 +449,6 @@ _(the agent appends entries here)_
 - Tests: 1684/1684 (full suite), determinism re-run: identical (1684/1684)
 - Problems / CRs: AR-46.
 - Next: T-16 (M0 integration and self-audit).
+
+### 2026-11-12 — Process rule (Owner decision, no contract change)
+- CLAUDE.md work loop step 7 added: never commit or push in a command chain that does not stop on a failed test run; use `pytest ... && git commit ... && git push` or check the exit status; a push with a failing suite is recorded in the Progress log (as was done for 37be0c8).

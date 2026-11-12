@@ -79,6 +79,7 @@ Research Architect may reverse any of them.
 4. Run the full suite a second time. Exact-class outputs must be identical (same artifact IDs).
 5. Tick the task, append an entry to the Progress log in `WORKPLAN.md` (template in §6), commit, and **push**.
 6. At a **STOP** task, write the request in `DECISIONS_NEEDED.md`, push, and stop working on anything that depends on it. Continue only with tasks marked independent of it.
+7. Never commit or push in a command chain that does not stop on a failed test run. Use `pytest ... && git commit ... && git push`, or check the exit status explicitly. A push with a failing suite is recorded in the Progress log.
 
 ## Engineering conventions
 
