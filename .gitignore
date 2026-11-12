@@ -23,9 +23,9 @@ venv/
 .idea/
 
 # Generated outputs and data (never committed; CLAUDE.md)
-out/
-data/
-datasets/
+/out/
+/data/
+/datasets/
 .hypothesis/
 *.mp4
 *.mkv
