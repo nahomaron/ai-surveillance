@@ -231,7 +231,7 @@ _(the agent appends entries here)_
 
 ### 2026-11-11 — T-06 done
 - Did: Timestamp resolution, reorder depth, eligibility, δ_nom per T7 (declared, then adjacent-pair median, then all-timed median), support with capping, exclusion and uncertainty regions, f_sub degradation, coverage tiling per (timeline, camera), S1 artifact. FX-CLIP-A–D reproduce 0.100/0.067/0.033/0.133 s; CT-T-22 gives 0.034 s and 0.068 s.
-- Tests: 703/703 (full suite), determinism re-run: identical (S1 artifact IDs equal across runs)
+- Tests: 702/702 (full suite), determinism re-run: identical (S1 artifact IDs equal across runs)
 - Commit: 75b0705 (pushed)
 - Problems / CRs: AR-24 to AR-28. The AR-5 pinning test was updated because E-1.2.4 adds decode_config fields. Note: with the T7 fixture δ_nom of exactly 0.033 s, δ_max is 0.0495 s (Package F §3 quotes 50 ms), so the 50 ms intervals of the CT-T-01 VFR clip are capped with 17 ms gaps.
 - Not yet done here: duration assertions of CT-T-14–19 and CT-T-20 (c, d) belong to T-08.
