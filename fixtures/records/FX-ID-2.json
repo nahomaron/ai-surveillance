@@ -1,0 +1,77 @@
+{
+ "expected": {
+  "tracks": {
+   "A": {
+    "dominant_identity": "p1",
+    "dominant_share": 0.5,
+    "n_identities": 2,
+    "n_switches": 1,
+    "status": "id_switch"
+   }
+  }
+ },
+ "hand_calculation": "Support tie of 2.5 s each goes to the lower identity ID. Share = 2.5/5.0. Box coordinates are a fixture design choice; the expected values come from F.1 A5.2.",
+ "id": "FX-ID-2",
+ "inputs": {
+  "eps_amb": 0.02,
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 25,
+    "object": "p1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     400.0,
+     100.0,
+     500.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p2",
+    "side": "reference",
+    "start": 25
+   },
+   {
+    "box": [
+     100.0,
+     100.0,
+     200.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 25,
+    "object": "A",
+    "side": "system",
+    "start": 0
+   },
+   {
+    "box": [
+     400.0,
+     100.0,
+     500.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "A",
+    "side": "system",
+    "start": 25
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-2",
+ "version_label": "TEST-ONLY"
+}

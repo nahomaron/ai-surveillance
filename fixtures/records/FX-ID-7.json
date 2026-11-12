@@ -1,0 +1,146 @@
+{
+ "expected": {
+  "event_pair": [
+   "p1",
+   "f1"
+  ],
+  "resolved_via": {
+   "forklift": "frame_association",
+   "person": "dominant_identity"
+  }
+ },
+ "hand_calculation": "Frame 12 is ambiguous for A, so the dominant identity p1 is used.",
+ "id": "FX-ID-7",
+ "inputs": {
+  "eps_amb": 0.02,
+  "event": {
+   "closest_approach_frame": 12,
+   "forklift_track": "F",
+   "person_track": "A"
+  },
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 10,
+    "object": "p1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     60.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "p1",
+    "side": "reference",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p1",
+    "side": "reference",
+    "start": 15
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     59.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "p2",
+    "side": "reference",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 10,
+    "object": "A",
+    "side": "system",
+    "start": 0
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 15,
+    "object": "A",
+    "side": "system",
+    "start": 10
+   },
+   {
+    "box": [
+     0.0,
+     0.0,
+     100.0,
+     100.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "A",
+    "side": "system",
+    "start": 15
+   },
+   {
+    "box": [
+     600.0,
+     100.0,
+     900.0,
+     300.0
+    ],
+    "class": "forklift",
+    "end_excl": 50,
+    "object": "f1",
+    "side": "reference",
+    "start": 0
+   },
+   {
+    "box": [
+     600.0,
+     100.0,
+     900.0,
+     300.0
+    ],
+    "class": "forklift",
+    "end_excl": 50,
+    "object": "F",
+    "side": "system",
+    "start": 0
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-7 and event-matching rule",
+ "version_label": "TEST-ONLY"
+}

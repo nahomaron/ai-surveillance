@@ -1,0 +1,38 @@
+{
+ "expected": {
+  "CM-01": {
+   "p2": 0
+  },
+  "missed_reference_frames": {
+   "p2": [
+    0,
+    50
+   ]
+  }
+ },
+ "hand_calculation": "Box coordinates are a fixture design choice; the expected values come from F.1 A5.2.",
+ "id": "FX-ID-4",
+ "inputs": {
+  "eps_amb": 0.02,
+  "fps": 10,
+  "iou_cm": 0.5,
+  "n_frames": 50,
+  "segments": [
+   {
+    "box": [
+     400.0,
+     100.0,
+     500.0,
+     300.0
+    ],
+    "class": "person",
+    "end_excl": 50,
+    "object": "p2",
+    "side": "reference",
+    "start": 0
+   }
+  ]
+ },
+ "source": "F.1 A5.2 FX-ID-4",
+ "version_label": "TEST-ONLY"
+}

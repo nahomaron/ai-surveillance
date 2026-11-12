@@ -1,0 +1,26 @@
+{
+ "expected": {
+  "discarded": [
+   {
+    "discard_reason": "shorter_than_t_min",
+    "end_frame_excl": 1,
+    "span_s": 0.1,
+    "start_frame": 0
+   }
+  ],
+  "episodes": []
+ },
+ "hand_calculation": "Span 0.1 s is below t_min = 0.2 s.",
+ "id": "N1-T13",
+ "inputs": {
+  "C_any": "0×20",
+  "E": "0×20",
+  "M": "1×20",
+  "P": "1×1,0×19",
+  "Q": "1×20",
+  "fps": 10,
+  "n_frames": 20
+ },
+ "source": "Appendix N1 row T13",
+ "version_label": "TEST-ONLY"
+}

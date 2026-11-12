@@ -1,0 +1,14 @@
+{
+ "id": "FX-A4",
+ "record": {
+  "coverage_state": "not_recorded",
+  "expected_error": "TI-11: not_recorded segments only on aligned_session timelines within a declared session extent",
+  "fixture": "FX-A4-invalid-gap-without-alignment",
+  "t_end_s": 180.0,
+  "t_start_s": 120.0,
+  "timeline_id": "tl_b7",
+  "timeline_kind": "recording_local"
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

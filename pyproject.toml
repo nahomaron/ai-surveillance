@@ -1,0 +1,13 @@
+[project]
+name = "rq1"
+version = "0.0.0"
+description = "RQ1 measurement instrument (contract E-1.2.2)"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "determinism: builds, hashes or serializes an artifact, reads fixtures, or is seeded; re-run twice by the work loop (CLAUDE.md step 4)",
+]

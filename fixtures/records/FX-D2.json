@@ -1,0 +1,16 @@
+{
+ "id": "FX-D2",
+ "record": {
+  "activity_segment_id": "act_2",
+  "ai_activity_state": "observed_no_detection",
+  "camera_id": "cam_02",
+  "coverage_state": "unusable",
+  "expected_error": "CD-02: unusable coverage requires not_evaluated",
+  "fixture": "FX-D2-invalid",
+  "session_id": "ses_1",
+  "t_end_session_s": 20.0,
+  "t_start_session_s": 0.0
+ },
+ "source": "Appendix T section T4 (verbatim)",
+ "version_label": "TEST-ONLY"
+}

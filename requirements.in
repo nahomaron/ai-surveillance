@@ -1,0 +1,10 @@
+# Direct dependencies (WORKPLAN S-01). Exact versions are pinned in requirements.lock.
+numpy
+scipy
+pyarrow
+av
+opencv-python-headless
+jsonschema
+hypothesis
+pytest
+rfc8785

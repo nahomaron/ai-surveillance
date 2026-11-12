@@ -1,0 +1,30 @@
+{
+ "expected": {
+  "affected_test_strata": "requires_resample",
+  "headline_from_original_plan": "refused",
+  "moved_to": "train",
+  "new_plan_estimand_validity": "design_valid"
+ },
+ "hand_calculation": "pi = 2/10 = 0.2.",
+ "id": "FX-A3.1",
+ "inputs": {
+  "discovery_basis": "sampled_annotation",
+  "edge": "same_physical_interaction",
+  "pi": 0.2,
+  "recordings": [
+   "A",
+   "B",
+   "C",
+   "D"
+  ],
+  "res_windows_per_recording": 2,
+  "shared_recordings": [
+   "A",
+   "B"
+  ],
+  "shared_windows": 3,
+  "windows_per_recording": 10
+ },
+ "source": "Appendix T section T3 (CT-S-08)",
+ "version_label": "TEST-ONLY"
+}

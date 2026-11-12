@@ -1,0 +1,33 @@
+{
+ "expected": {
+  "K": 1,
+  "contact_state": "undetermined",
+  "labels": [
+   "O"
+  ],
+  "review_route": true,
+  "summary_label": "O"
+ },
+ "hand_calculation": "summary_label applies section 6 precedence CT > UD > NM > PC > H > O; review_route applies the section 6 routing rule.",
+ "id": "N1-T8",
+ "inputs": {
+  "C_any": "0×20",
+  "E": "0×20",
+  "M": "0×20",
+  "P": "1×20",
+  "Q": "1×20",
+  "ca_frame": null,
+  "clearance_frames": [
+   0,
+   20
+  ],
+  "contact_cue": "no",
+  "fps": 10,
+  "minclr_m": -0.05,
+  "minclr_sigma_m": 0.05,
+  "n_frames": 20,
+  "overlap_at_ca": "yes"
+ },
+ "source": "Appendix N1 row T8",
+ "version_label": "TEST-ONLY"
+}

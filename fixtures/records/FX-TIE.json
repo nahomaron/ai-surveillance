@@ -1,0 +1,39 @@
+{
+ "expected": {
+  "iou": {
+   "s1,r1": 0.3333333333333333,
+   "s1,r2": 0.3333333333333333
+  },
+  "matches": [
+   [
+    "s1",
+    "r1"
+   ]
+  ],
+  "misses": [
+   "r2"
+  ]
+ },
+ "hand_calculation": "Intersection 0.5, union 1.5, IoU 1/3 for each pair. The composite tie weight prefers the earlier reference.",
+ "id": "FX-TIE",
+ "inputs": {
+  "references": {
+   "r1": [
+    0.0,
+    1.0
+   ],
+   "r2": [
+    1.0,
+    2.0
+   ]
+  },
+  "system": {
+   "s1": [
+    0.5,
+    1.5
+   ]
+  }
+ },
+ "source": "Appendix N4 FX-TIE",
+ "version_label": "TEST-ONLY"
+}

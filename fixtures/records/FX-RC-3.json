@@ -1,0 +1,27 @@
+{
+ "expected": {
+  "unobservable_spans": [
+   {
+    "frame_bounds": null,
+    "reason": "not_recorded",
+    "t_end_tl_s": 35.0,
+    "t_start_tl_s": 25.0
+   }
+  ]
+ },
+ "hand_calculation": "Copied from F.1 A3.",
+ "id": "FX-RC-3",
+ "inputs": {
+  "fps": 10,
+  "not_recording": [
+   25.0,
+   35.0
+  ],
+  "t_guard_end_tl_s": 35.0,
+  "timeline_kind": "aligned_session",
+  "window_t_end_tl_s": 30.0,
+  "window_t_start_tl_s": 0.0
+ },
+ "source": "F.1 A3 FX-RC-3",
+ "version_label": "TEST-ONLY"
+}

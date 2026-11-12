@@ -1,0 +1,96 @@
+{
+ "clips": {
+  "ct_t_01_vfr": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 242,
+   "sha256": "c7af9a5b21b415f41d1fabd763ce8b62954d2eb442a61a7a6f200efc440c95b5",
+   "source": "Appendix T CT-T-01: 10 s, intervals alternating 33 and 50 ms"
+  },
+  "ct_t_02_all_intra": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 30,
+   "sha256": "03afed30a2881dc3ea4e6ce71c95fd659dfbf88716804328e91f3f1f8fdf5ade",
+   "source": "Appendix T CT-T-02: all-I copy of ct_t_02_bframes"
+  },
+  "ct_t_02_bframes": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 30,
+   "sha256": "15391bd864b47a7f2cb797c31f33f9b7bbadb079f330ddd3230b1f87aa723804",
+   "source": "Appendix T CT-T-02: B-frames"
+  },
+  "ct_t_03_dup_pts": {
+   "faults_sha256": "3db79f8c1d4e5025c04c1b7cf47c6b530c4f897dbcac7a8ca0aa910c61c9da41",
+   "n_frames": 30,
+   "sha256": "03afed30a2881dc3ea4e6ce71c95fd659dfbf88716804328e91f3f1f8fdf5ade",
+   "source": "Appendix T CT-T-03: two frames share a PTS"
+  },
+  "ct_t_04_dropout": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 180,
+   "sha256": "dbf5f3a31597c5390f7bca7ce015c75cae1c02a25502ebc701b706526d71dbc6",
+   "source": "Appendix T CT-T-04: 4 s dropout inside a file"
+  },
+  "ct_t_05_corrupt": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 60,
+   "sha256": "3f03366551660383c00992785e6725140aefce3deffe6c465bbeef749cc3406b",
+   "source": "Appendix T CT-T-05: 15 undecodable frames"
+  },
+  "ct_t_07_file_a": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 60,
+   "sha256": "39fd9f972a05fdff78c2da29c65c2ef6dbe5dc63d4c9812ac4cb8ec8b6736a2b",
+   "source": "Appendix T CT-T-07: first of two files from one camera"
+  },
+  "ct_t_07_file_b": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 60,
+   "sha256": "b6ec681d526455cebc6d6e92b418b6e2e22a0bbce80833ac0579ae272ab2d86b",
+   "source": "Appendix T CT-T-07: second of two files from one camera"
+  },
+  "ct_t_08_untimed": {
+   "faults_sha256": "6984bf0a62665f75b6aff9493186707e9426876be0460dd302f2f694ffc5030e",
+   "n_frames": 20,
+   "sha256": "9519dfb374076681a636082267ec1802658257edba004cc375a42ca2012ed372",
+   "source": "Appendix T CT-T-08: stream without timestamps"
+  },
+  "fx_10": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 110,
+   "sha256": "b4383684646c41f7efcee8ec9f46205df9a0835b055b95efa87a38db00ac6348",
+   "source": "Appendix T FX-10: VFR, one 0.5 s PTS gap, one corrupt frame"
+  },
+  "fx_clip_a": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 4,
+   "sha256": "1e9c3ef3b327eb958c27c03418d3f504397d8aa5a32e66b13a067b126a2a3c15",
+   "source": "Clarification 2.3 case A (AR-21); Appendix N3; CT-T-14"
+  },
+  "fx_clip_b": {
+   "faults_sha256": "2314a69be852d5c63d7f91c37aba95636fa7858120ed5e9147d8bd38b2f7c703",
+   "n_frames": 4,
+   "sha256": "cf3be871dfefbca7b1a205fcdb95e19d714ef1170ea1d64e168f29a3a81e599a",
+   "source": "Clarification 2.3 case B (AR-21); Appendix N3; CT-T-15"
+  },
+  "fx_clip_c": {
+   "faults_sha256": "f91e4e5e76562099cfd83136b0b4880335ef8958cf130b8c9d4a6ded3caf2f5b",
+   "n_frames": 4,
+   "sha256": "4f6fb479584703f4720010207d9d9f5f949c56455f6f71c84a5697dacf157220",
+   "source": "Clarification 2.3 case C (AR-21); Appendix N3; CT-T-16"
+  },
+  "fx_clip_d": {
+   "faults_sha256": "01db4ac67df90bd9f00bd2bac01ce566a9f90affa6070228bab06f87ad1a9806",
+   "n_frames": 4,
+   "sha256": "cf3be871dfefbca7b1a205fcdb95e19d714ef1170ea1d64e168f29a3a81e599a",
+   "source": "Clarification 2.3 case D (AR-21); Appendix N3; CT-T-17"
+  },
+  "fx_m0_pipeline": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 50,
+   "sha256": "11c652787d386ccd9353f4695f61c0383f38a2a3c0586440722a7379a929e024",
+   "source": "T-16 M0 integration: 50 frames at 100 ms (10 fps), carrying the Appendix N2 G2 scene (AR-47 item 1)"
+  }
+ },
+ "contract": "E-1.2.3",
+ "pyav": "19.0.2"
+}
