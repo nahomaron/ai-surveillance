@@ -95,6 +95,7 @@ Made under the "Agent authority to close contract gaps" section of CLAUDE.md. Al
 - **Architect review (11 Nov 2026): REVISED.** (1) Supplied provenance times (`retrieved_utc`, `verified_utc` and any other `*_utc` describing a source, given as input) stay payload columns, taken only from configuration or metadata. Event times (`frozen_utc`, `locked_utc` and any `*_utc` recording when a pipeline or human action happened) form a third column class, "event-time columns": stored, but outside the payload hash, the artifact ID and every record ID, and dropped by the reconstruction check. Their values come from the execution record or the human-entry record. (2) Every hashed or stored `*_utc` value uses exactly `YYYY-MM-DDTHH:MM:SS.ffffffZ`; any other format is a validation error. (3) VR-E-054, SP-01, SP-08 and FT-02 read the event-time columns. (4) Tests as listed in the review.
 - **Applied (11 Nov 2026):** event-time columns are `sampling_plan.frozen_utc`, `split_manifest.frozen_utc`, `acceptance_criterion.frozen_utc` and `reference_window.locked_utc` (with its null reason), marked `@event` in `schema/tables.py`. The builder validates and stores them but leaves them out of the payload; configuration IDs and VR-E-004 also exclude them. Strings must match the canonical format (rule `UTC-FORMAT`); datetimes serialize to it. VR-E-054 is tested on stored windows. SP-01, SP-08 and FT-02 do not exist yet; T-10 and T-14 must read the event-time columns. Human-entry tables (`submitted_utc`, `created_utc`) are not artifact tables and are unchanged. Tests: `tests/schema/test_event_time.py`, `test_ar7_timestamps_round_trip_in_rfc3339_jcs_form` (updated by Architect decision, not an edited expected value).
 - **Not applied as worded:** "changing a supplied `retrieved_utc` changes the `dataset_source` ID". Under F.1 A1.2, which takes precedence, the anchor ID is `id(prefix, [table, (name, version)])`, so it cannot change. The test instead pins that the payload hash and S0 artifact ID change and that ANC-1 raises `ERR-ANCHOR-CONFLICT`. See CR-004.
+- **Owner decision D-5 (12 Nov 2026):** the review test is replaced by "changing retrieved_utc leaves the dataset_source ID unchanged, changes the S0 payload hash, and registering both versions raises ERR-ANCHOR-CONFLICT". The Architect withdrew the earlier specification. `test_supplied_retrieved_utc_is_hashed` already asserts exactly this; only its citation changes.
 
 ## AR-8 — Which values count as sentinels (VR-E-003)
 - **Gap:** Appendix T says "no sentinel values (e.g., −1 for unknown)" and gives no list. −1 is legitimate in signed columns (`x_m`, `offset_s`, `image_gap_px`). **Options:** (a) reject negatives in columns that cannot be negative, (b) reject −1 everywhere. **Choice:** (a), as (b) would reject valid measurements.
@@ -211,7 +212,7 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 - **No meaning effect:** TEST-ONLY; rejection behaviour is unchanged. **Files/tests:** `tests/decode/test_s1.py` (`FIXTURE_F_UNTIMED`); `test_ar28_case_b_is_rejected_at_the_ct_t_08_value`. **Reverse:** remove the override.
 - **Architect review (11 Nov 2026): ACCEPTED** (fixture-specific TEST-ONLY *f_untimed* for the 4-frame clips).
 
-## CR-004 (2026-11-11) — Should a supplied provenance time change an anchor ID?   status: OPEN
+## CR-004 (2026-11-11) — Should a supplied provenance time change an anchor ID?   status: CLOSED
 
 **Raised by:** implementation agent, applying the Architect review of AR-7. **Contract sections:** F.1 A1.2 (anchor IDs, ANC-1), §2.4.
 **Meaning-affecting:** no measurement effect. It affects identity rules only, which are above the agent's authority because the review and F.1 A1.2 disagree.
@@ -222,9 +223,9 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 
 **Options.** (a) Keep F.1 A1.2: re-retrieval is a new version, as now. (b) Add `retrieved_utc` to the `dataset_source` natural key, which needs an F.1 amendment.
 **Agent's recommendation:** (a). It keeps one anchor ID per dataset version and makes silent changes visible through ANC-1.
-**Decision:** ______   **Approver:** ______
+**Decision:** D-5 (a), 12 Nov 2026: keep F.1 A1.2; re-retrieval with different provenance uses a new version label.   **Approver:** Research Owner
 
-## CR-005 (2026-11-11) — Substrate quantities named but not defined (T-08)   status: OPEN
+## CR-005 (2026-11-11) — Substrate quantities named but not defined (T-08)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-08, which blocks T-09 and later.
 **Contract sections:** E-1.2.1 §3.4, §5.5 (`object_state`, `pow`, `pair_series`, `exposure_profile`), §6.0 (R1, R2, M, Q, E); Appendix T CT-F-01, CT-T-18.
@@ -244,7 +245,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 
 **Affected tests:** CT-T-18, CT-F-01, CT-E-06 to 08 (pair-series rows), N2 M flag (speed), and all S5 tests downstream.
 **What proceeds meanwhile (T-08 part A):** oracle S3 tracks and evidence classes, support-based durations and evidence-class sums, activity segments, signed footprint distance and constant-velocity predicted clearance. None of these depend on the items above.
-**Decision:** ______   **Approver:** ______   **Resulting contract version:** ______
+**Decision:** superseded by T8 (Appendix T, contract E-1.2.6; D-6 (b), 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.6
 
 ## AR-29 — Oracle `tracked` points count as detected
 - **Gap:** §3.4 classes an object-frame as `detected` if `state = tracked` "with a detection". ORACLE-S3 (§10.1) produces tracks from simulator truth or fixtures, with no S2 detection. **Options:** (a) oracle `tracked` points are `detected`, with the truth standing in for the detection, (b) oracle frames are never detected. **Choice:** (a). Under (b), ORACLE-S3 could never produce detected time, which would defeat its purpose as the perception upper bound (Package F M1a).
@@ -253,8 +254,9 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-30 — Frame-level activity state
 - **Gap:** §3.5 and CD-01 to CD-03 define where `not_evaluated` applies but not how the three detection states are assigned. **Options:** (a) read the enum names: `pair_detected` when a person and a pair-class object are both `tracked` on the frame, `objects_detected_no_pair` when any object is `tracked`, otherwise `observed_no_detection`; (b) tie `pair_detected` to an open POW. **Choice:** (a). Predicted objects are not detections. Segments follow frame support inside each usable coverage segment and merge equal neighbours.
 - **No meaning effect expected:** a POW requires co-present tracks, so (a) and (b) differ only on frames inside a bridged POW gap, which CR-005 item 1 has yet to define. **Review flag:** if the Architect prefers (b), it can follow CR-005. **Files/tests:** `substrate/activity.py`; `test_activity_segments_tile_coverage`. **Reverse:** change `_state`.
+- **Architect review (12 Nov 2026): ACCEPTED.**
 
-## CR-006 (2026-11-11) — Windows that do not fill *w_ref* at the end of a timeline   status: OPEN
+## CR-006 (2026-11-11) — Windows that do not fill *w_ref* at the end of a timeline   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-10. **Contract sections:** E-1.2.1 §8 (sampling frame), §5.8 (`frame_definition`, `reference_window`).
 **Meaning-affecting:** yes. It changes the sampling frame (N_h, π and weights).
@@ -264,12 +266,13 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 **Options.** (a) Complete windows only, with the remainder outside the frame and reported. (b) A final, shorter window whose length is recorded. Its π is unchanged, but its duration enters every per-hour estimator. (c) Require *w_ref* to divide each timeline extent, and refuse otherwise.
 **Agent's recommendation:** (b), with the guard clipped at the extent end. Under (a), short synthetic sessions would disappear from the frame.
 **Interim behaviour (no invented rule):** the tiler raises `ERR-SPEC` when the extent is not a multiple of *w_ref*. All T-10 fixtures use exact multiples.
-**Decision:** ______   **Approver:** ______
+**Decision:** D-7 (b), 12 Nov 2026: the last window may be shorter; `window_length_s` recorded on `reference_window`; guard clipped at the timeline end; weights stay 1/π.   **Approver:** Research Owner
 
 ## AR-31 — Metadata leakage edges
 - **Gap:** §8 lists the edges as "same session, same physical interaction, same scene/run/render lineage, same scripted instance (roster + layout + script + day) and training use", but does not map them to fields. **Evidence:** D.1 §3.2 ("same source scene or run: SDG run's 10 views; SmartSpaces scene and its re-renders"); Package E E-45 edge enum (`same_session`, `same_physical_interaction`, `same_scene_or_run`, `same_scripted_instance`, `training_use`); E.1 Errata R-1 ("run, scene and render lineage, plus seeds").
 - **Choice:** `same_session` when `session_id` is equal. `same_scene_or_run` when, within one dataset, `scene_id`, `ext_run_id`, `render_parent` or `seed` is equal, or one recording's `render_parent` equals the other's `scene_id`. `same_scripted_instance` when roster, layout, script and collection day are all non-null and equal. `training_use` links every recording in a training manifest, and that group must be in `train`. `same_physical_interaction` comes only from the X0c audit. Null fields create no edge.
 - **No meaning effect beyond the contract:** implements the listed edges. **Review flag:** including `seed` and render parentage is the conservative reading. Extra edges only merge groups, so data moves to less evaluative partitions. **Files/tests:** `splits/leakage.py`; `tests/splits/test_splits.py`. **Reverse:** edit `metadata_edges`.
+- **Architect review (12 Nov 2026): ACCEPTED.**
 
 ## AR-32 — Initial partition assignment
 - **Gap:** `SplitBuilder.freeze(metadata)` must assign leakage groups to partitions, but no assignment method is given. A random split with target fractions would be a design choice. **Choice:** partitions are declared per recording in the split configuration, as researcher input. A group whose members carry different declarations is a T1 violation (VR-E-060) and raises `ERR-LEAKAGE` at freeze. PR-01 is not applied at freeze, because it is defined only for audit revisions.
@@ -282,3 +285,4 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-34 — T2b audits and declared shared sessions
 - **Gap:** under T2b, "only the declared shared sessions may span" (§8), and CT-S-05 expects an audit to pass when the same interaction is seen by cameras of a declared shared session in different partitions. The audit record has no field to mark such an edge as expected. **Options:** (a) the audit leaves edges inside one declared shared session out of `edges_added` and out of violation detection, (b) record them with a new edge type. **Choice:** (a). Leakage groups for T2b are built without same-session edges for declared sessions, and undeclared spanning sessions raise `ERR-LEAKAGE` at freeze (SP-06, CT-S-06).
 - **No meaning effect:** implements SP-06 and CT-S-05 as written. **Review flag:** R-4 asks that revisions record their edges; expected T2b edges are not recorded because they trigger no revision. **Files/tests:** `splits/builder.py`; `test_ct_s_05_t2b_declared_share`, `test_ct_s_06_t2b_undeclared_share`. **Reverse:** add an edge type.
+- **Architect review (12 Nov 2026): ACCEPTED WITH CHANGE.** Edges inside a declared T2b shared session are recorded in `leakage_audit.edges_added` but not listed as violations. **Applied:** see the T-10 follow-up commit; `revise` receives the recordings' metadata so that it applies the same exclusion (SP-07 still holds: metadata only, no metrics or labels).

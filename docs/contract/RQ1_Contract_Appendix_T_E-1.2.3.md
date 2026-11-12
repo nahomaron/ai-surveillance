@@ -572,3 +572,115 @@ Tests:
    - Case B gives 0.034 s (the pair f0→f2 overlaps U = [0, 0.066) and is
      excluded), so CT-T-22 is unchanged.
    - Case C has no valid pair, so step 3 applies.
+
+## T8. Substrate measurement definitions (E-1.2.6; CR-005, D-6)
+Notation: frames are eligible frames of one recording; t = t_resolved_s;
+positions are CF-W metres; boxes are CF-IMG [x1, y1, x2, y2].
+
+T8.1 POW gap bridging
+- A joint frame has track points for both the person track and the
+  forklift track with state ∈ {tracked, predicted}.
+- A POW starts at the first joint frame of the pair.
+- A gap is a run of eligible frames that are not joint frames (either
+  point missing or state = lost). The gap is bridged (POW continues) iff
+  ALL hold:
+  - the gap length in eligible frames ≤ g_max;
+  - both tracks have joint frames after the gap;
+  - no coverage segment of state not_recorded, gap_unobserved or unusable
+    lies between the last joint frame before the gap and the first joint
+    frame after it.
+- Otherwise the POW ends after its last joint frame, and a later joint
+  frame starts a new POW with continuation_of_nk set if the same two
+  tracks continue.
+- end_reason:
+  - coverage_gap if a coverage break caused the end;
+  - gap_exceeded if the gap was longer than g_max;
+  - otherwise track_end_person, track_end_forklift or recording_end.
+  id_switch is used only where the tracker flags one.
+- Gap frames inside a bridged gap belong to the POW. Their pair evidence
+  class follows E-1.2.1 §3.4 (insufficient where a point is missing or
+  lost) and is listed in bridged_gaps.
+
+T8.2 Smoothed velocity, speed, heading, yaw
+- Velocity at frame k: an ordinary least-squares linear fit of x(t) and
+  y(t) over the same track's frames j with |t_j − t_k| ≤ w_v/2, a non-null
+  position and evidence class ∈ {detected, inferred}. The window never
+  crosses a coverage break.
+- Requires ≥ 3 frames spanning ≥ w_v/2; otherwise speed and heading are
+  null (not_observable).
+- (v_x, v_y) = the fitted slopes. speed_mps = √(v_x² + v_y²).
+  heading_rad = atan2(v_y, v_x) ∈ (−π, π]. Heading is null
+  (not_applicable) when speed < v_min.
+- σ_vx and σ_vy are the slope standard errors (residual variance with
+  n − 2 degrees of freedom). speed_sigma_mps = √((v_x σ_vx)² +
+  (v_y σ_vy)²) / speed, or √((σ_vx² + σ_vy²)/2) when speed = 0.
+  sigma_status = uncalibrated_model.
+- Forklift yaw:
+  - simulator or oracle yaw when supplied;
+  - otherwise heading when speed ≥ v_min;
+  - otherwise carried forward from the last defined yaw in the track,
+    then backward-filled from the first.
+  - If never defined: yaw null (not_observable). The forklift footprint is
+    then the circumscribed disc of the prior rectangle
+    (radius = ½√(length² + width²)), and the pair-frame gets
+    borderline_flag footprint_orientation_unknown.
+- Check: G2 positions at 10 fps with w_v = 0.5 s give speed 1.000000 m/s,
+  heading 0, σ 0.
+
+T8.3 Closing rate and time to closest approach (M-04, M-06)
+- closing_rate_mps = −(the least-squares slope of clearance_m vs t) over
+  the T8.2 window, using frames with clearance_state = measured
+  (≥ 3 frames). Otherwise null (not_observable). Positive = approaching.
+- ttca_s = t_at_min of the constant-velocity prediction over [0, τ]:
+  - null (not_applicable) if the minimum is at 0 (diverging or static);
+  - null (not_observable) if the minimum is at τ (beyond the horizon);
+  - otherwise t_at_min.
+- Check: G3 at t = 0 has a predicted minimum at τ, so ttca_s is null
+  (not_observable).
+
+T8.4 Clearance uncertainty (first-order; sigma_status = uncalibrated_model
+until GV-05)
+- u = the unit gradient of the signed footprint distance at the pair's
+  closest points (from the forklift footprint toward the person; inside the
+  footprint, the normal of the nearest edge).
+- σ_c² = uᵀ(Σ_person + Σ_forklift)u + σ_dim², with
+  σ_dim = ½(|u·h| σ_length + |u·h⊥| σ_width), where h is the forklift yaw
+  unit vector. For a disc footprint, σ_dim = ½ max(σ_length, σ_width).
+- If either covariance is null: clearance_sigma_m is null (not_estimated),
+  and the contact rule uses σ = 0 (Appendix N1 note).
+- Check: G1 with Σ = diag(0.05², 0.05²) for both objects and σ_dims = 0
+  gives σ_c = 0.0707107 m.
+
+T8.5 Signed image box gap (M-02)
+- For person box p and forklift box f:
+  dx = max(f.x1 − p.x2, p.x1 − f.x2); dy = max(f.y1 − p.y2, p.y1 − f.y2).
+- If dx > 0 or dy > 0: image_gap_px = √(max(dx,0)² + max(dy,0)²).
+  Otherwise image_gap_px = max(dx, dy) (≤ 0, the smaller penetration).
+- image_gap_norm = image_gap_px ÷ (p.y2 − p.y1).
+- Checks, with p = [100,100,140,200]:
+  - f = [200,120,300,220] gives 60 px, 0.60;
+  - f = [170,240,270,300] gives 50 px, 0.50;
+  - f = [130,150,230,250] gives −10 px, −0.10.
+
+T8.6 Evidence state per object-frame (precedence top-down)
+- lost: no track point, or state = lost.
+- occluded_predicted: state = predicted.
+- truncated: the detection box is within 1 px of an image border.
+- partially_visible: visibility_frac is non-null and < v_part (new
+  parameter; TEST-ONLY value 0.5).
+- visible: otherwise.
+- t_joint_visible_s counts frames where both objects are visible or
+  partially_visible.
+
+T8.7 Evidence sufficiency Q per pair-frame
+- q_state = sufficient iff ALL hold:
+  - the pair evidence class is detected;
+  - neither object's evidence state is truncated;
+  - the frame's support is not timing_uncertain.
+- Otherwise insufficient, with q_reasons listing every failing cause:
+  person_occluded or forklift_occluded (predicted), truncated,
+  predicted_only, timing_uncertain.
+- usable_degraded coverage alone does not make Q insufficient.
+
+New parameter v_part goes in the E-1.2.1 §14 list. Every check value above
+becomes a test.
