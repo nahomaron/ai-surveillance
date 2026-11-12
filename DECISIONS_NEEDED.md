@@ -80,9 +80,9 @@ Options: (a) Approve the implemented readings in CR-010. (b) The Architect suppl
 Agent's recommendation: (a). Item 1 is the only reading under which "IE-only" can occur, given CL-INV-02. Details are in CR-010.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T10 (E-1.2.8).
 
-## D-12 (2026-11-12) — Borderline flags in configurations whose provider is not enabled        status: OPEN
+## D-12 (2026-11-12) — Borderline flags in configurations whose provider is not enabled        status: CLOSED
 Task: T-09   Blocking: nothing (borderline flags never change labels or review routing)
 Question: T10.4 sets `clearance_within_k_sigma` and `speed_near_v_min` from `d_p`, `v_min` and `d_pc` in every configuration, but those are parameters of R2 and R3. Should an R1-only configuration, or one without R3, still evaluate those bullets?
 Options: (a) Yes, literally as T10.4 is written (implemented). (b) Only when the provider that owns the threshold is enabled.
 Agent's recommendation: the Architect's call. Details are in CR-011.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T11 (E-1.2.9).

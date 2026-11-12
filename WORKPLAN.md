@@ -110,7 +110,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 ```
 ### <date> — <task-id> <status>
 - Did: …
-- Tests: <passed>/<total> (full suite), determinism re-run: identical | differs (explain)
+- Tests: <passed>/<total> (full suite once); determinism subset re-run: <n> tests, identical | differs (explain)
 - Commit: <hash> (pushed)
 - Problems / CRs: …
 - Next: <task-id>
@@ -358,3 +358,10 @@ _(the agent appends entries here)_
 - Commit: 2ef1c5d (pushed)
 - Problems / CRs: AR-41. One recorded hand value (Wilson upper bound) was corrected from 0.943315 to 0.9433178 before the first commit; it was my own arithmetic slip, not an Appendix value, and the corrected arithmetic is written in the test.
 - Next: T-14.
+
+### 2026-11-12 — Owner decision D-12 recorded (contract E-1.2.9)
+- D-12 decided: Appendix T section T11 appended verbatim, CLAUDE.md reads E-1.2.9, CR-011 closed as superseded by T11 (reading (b)). E-1.2.1 and Appendix N not edited.
+- Architect rulings recorded under AR-40 and AR-41. Future ARs use one labelling scheme.
+- Also committed here: the Owner's own edits to CLAUDE.md step 4 and the WORKPLAN §6 template (determinism subset, `pytest -m determinism`). The `determinism` marker is not yet defined or applied to any test.
+- NOT YET DONE (session stopped at the usage limit): T11.1 code change with CT-T11-01/02; T11.2 paired bootstrap with CT-T11-03; Wilson re-derivation with `decimal`; the `determinism` pytest marker; T-14. The code still implements T10.4 literally (reading (a)), which T11.1 replaces.
+- Next: STEP 2 of the D-12 prompt, then T-14.

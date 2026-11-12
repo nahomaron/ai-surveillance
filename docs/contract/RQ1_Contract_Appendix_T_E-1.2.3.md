@@ -845,3 +845,23 @@ CT-T10-10: q_reasons on a lost object contains person_lost or forklift_lost and 
 
 T10.9 Q reasons for lost objects (revises AR-35 item 6; descriptive enum addition, no effect on q_state)
 `pair_series.q_reasons` gains the values person_lost and forklift_lost. They are listed when the object has no track point or state = lost at the frame. person_occluded and forklift_occluded are listed only for state = predicted, as T8.7 states. q_state follows T8.7 unchanged.
+
+## T11. Borderline flags by provider; paired bootstrap scheme (E-1.2.9; CR-011, D-12)
+
+T11.1 Provider-conditional borderline flags (clarifies T10.4; no label, frame-flag or review_route effect)
+Each T10.4 bullet applies only under the stated condition:
+- |clearance_m − d_p| ≤ k_σ·σ_c: only if the configuration's P provider is R2.
+- |image_gap_norm − k_img| ≤ 0 (R1 bullet): only if the P provider is R1.
+- |pred_min_clearance_m − d_pc| ≤ k_σ·σ_pred: only if R3 is enabled.
+- |speed_mps − v_min| ≤ k_σ·speed_sigma_mps: only if R2 is enabled (the M provider, §6.0).
+- |minclr_m − d_nm| ≤ k_σ·minclr_sigma_m, and |clearance_at_CA| ≤ k_σ·σ at CA: whenever the quantity is non-null (d_nm and k_σ are classification parameters).
+- footprint_orientation_unknown and onset_sensitive: unchanged (T10.4, T9.8).
+Parameters of a disabled provider may be recorded in the rule_configuration record (AR-40 item c) but play no role in S5 output. Changing only a disabled provider's parameters changes the rule_configuration ID and the S5 artifact ID (through the specification) but not the S5 payload_sha256.
+
+T11.2 Paired bootstrap (clarifies N5, "Paired comparison")
+The paired comparison uses the interval scheme of the estimand of the compared metric: stratified window bootstrap (Target A) for estimand frame_description, and cluster bootstrap (Target B) for new_session_performance. Both configurations share each replicate's resampled units, and the interval is that of R̂_a − R̂_b. Metrics with estimand conditional_on_selection get no paired interval.
+
+T11.3 Tests
+CT-T11-01: borderline flags, one case per bullet of T11.1: a borderline value with the provider enabled sets the flag; the same value with the provider disabled sets none. Hand-calculated and recorded in the test.
+CT-T11-02: two rule configurations that differ only in a disabled provider's parameters give identical S5 payload_sha256 and different rule_configuration IDs.
+CT-T11-03: a paired comparison on a new_session_performance metric uses cluster resampling (interval is wider than the window-resampled interval on a hand-built fixture with two leakage groups), and a frame_description metric uses window resampling.

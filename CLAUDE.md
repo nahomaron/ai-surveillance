@@ -6,10 +6,10 @@ The Research Owner cannot watch you work. **`WORKPLAN.md` is your schedule.** Re
 
 ## Documents and precedence
 
-1. The normative contract **E-1.2.8** consists of three files:
+1. The normative contract **E-1.2.9** consists of three files:
    - `docs/contract/RQ1_Contract_Reference_E-1.2.1_FROZEN.md`;
    - `docs/contract/Package_F1_…md` **Part A and Appendix N**;
-   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and the amendments in sections T7 (E-1.2.4), T7.1 (E-1.2.5), T8 (E-1.2.6), T9 (E-1.2.7) and T10 (E-1.2.8).
+   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and the amendments in sections T7 (E-1.2.4), T7.1 (E-1.2.5), T8 (E-1.2.6), T9 (E-1.2.7), T10 (E-1.2.8) and T11 (E-1.2.9).
 
    Precedence: F.1 Part A and Appendix N > Appendix T > E-1.2.1 body.
 
@@ -32,7 +32,7 @@ of these hold:
   estimator, unit, coordinate frame, timebase, sampling or leakage rule,
   reference-independence rule, acceptance criterion, E2 rule or report
   wording.
-- It contradicts nothing in E-1.2.8.
+- It contradicts nothing in E-1.2.9.
 
 How to resolve:
 1. Write an "Agent Resolution" entry AR-<n> in docs/CHANGE_REQUESTS.md:
@@ -43,7 +43,7 @@ How to resolve:
 3. Mention the AR in the Progress log, and continue.
 
 As evidence when writing an AR, you may read Packages E, E.1, the E.1
-Errata and the Clarification (read-only). They never override E-1.2.8.
+Errata and the Clarification (read-only). They never override E-1.2.9.
 Cite the passage you relied on.
 
 Still raise a CR, mark the task BLOCKED, and continue with independent
@@ -76,7 +76,7 @@ Research Architect may reverse any of them.
 1. Read the task in `WORKPLAN.md` and every contract section it cites.
 2. **Write the tests first**, using expected values from Appendix N or a recorded hand calculation.
 3. Implement until the task's tests **and the full suite** pass.
-4. Run the full suite a second time. Exact-class outputs must be identical (same artifact IDs).
+4. Run the determinism subset a second time (`pytest -m determinism`). Exact-class outputs must be identical (same artifact IDs). The subset is every test that builds, hashes or serializes an artifact, every fixture test, and every seeded property test. When unsure whether a test belongs, mark it. At T-16 and any task whose "Done when" says so, run the full suite twice instead.
 5. Tick the task, append an entry to the Progress log in `WORKPLAN.md` (template in §6), commit, and **push**.
 6. At a **STOP** task, write the request in `DECISIONS_NEEDED.md`, push, and stop working on anything that depends on it. Continue only with tasks marked independent of it.
 

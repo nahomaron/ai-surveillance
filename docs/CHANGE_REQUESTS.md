@@ -424,8 +424,9 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   8. **Count scopes.** S5 writes the processed recording and its timeline. An event's scope is its member episode's recording and timeline (its onset, T10.6).
   9. **Borderline comparisons.** The R1 image-gap equality (|gap − k_img| ≤ 0) uses the same 1e-9 numerical tolerance as the other borderline comparisons.
 - **No meaning effect:** items 1, 2, 3, 5, 6, 7 and 8 are representation, or restate T10. **Review flag:** items 4 and 9. **Files/tests:** `events/s5.py`, `events/engine.py`, `events/providers.py`, `evaluation/matching.py`, `schema/tables.py`; `tests/events/test_t10.py`, `tests/evaluation/test_t12.py::test_ar_39_item_3_label_groups_are_an_input_mapping`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** ACCEPTED in full. Item 3 (the review's item c): ACCEPTED; the record shape follows §5.2, and S5 output must not depend on a disabled provider's parameters (T11.1, CT-T11-02). Item 4 (item d): ACCEPTED; T-15 must carry `continuation_of_nk` into the OBX export and must not describe one episode count as one physical interaction. Item 9 (item i): ACCEPTED. Future ARs use one labelling scheme and cite the same labels in review flags.
 
-## CR-011 (2026-11-12) — T10.4 bullets that read parameters of providers not enabled   status: OPEN
+## CR-011 (2026-11-12) — T10.4 bullets that read parameters of providers not enabled   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-09 (non-blocking: borderline flags never change a frame flag, a label or review_route).
 **Contract sections:** Appendix T T10.4; E-1.2.1 §5.2 (`rule_configuration.providers` params).
@@ -435,7 +436,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 (a) **Literal.** Apply every bullet in every configuration, using the configuration's values of `d_p`, `v_min` and `d_pc` even when their provider is disabled.
 (b) **Apply each bullet only when its provider is enabled:** the clearance and speed bullets with R2, the prediction bullet with R3.
 **Implemented meanwhile:** (a), the text as written, pinned by `test_ct_t10_06_clearance_against_d_p[R1]` and `test_ct_t10_06_speed_near_v_min[R1]`. AR-40 item 3 puts those parameters in the configuration ID under either reading.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T11 (Appendix T, contract E-1.2.9; D-12, 12 Nov 2026): reading (b), each bullet applies only when its provider is enabled.   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.9
 
 ## AR-41 — Mechanics of the Target B and paired bootstraps and the null cases of N5 estimators (T-13)
 - **Gaps and choices:**
@@ -444,3 +445,4 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   3. **Paired comparison** uses the Target A scheme. Both configurations share each replicate's resampled windows, and the interval is that of R̂_a − R̂_b.
   4. **Null cases** (returned as None, to be stored as null `not_applicable`): Wilson with n = 0; Bland–Altman with n < 2; Cohen's κ with p_e = 1; Krippendorff's α with zero expected disagreement. For α, units with fewer than two values are not pairable, as Krippendorff's standard definition states.
 - **No meaning effect:** each choice applies the N5 definition mechanically. Item 1 is the standard stratified cluster bootstrap. **Review flag:** item 1. **Files/tests:** `evaluation/estimators.py`; `tests/evaluation/test_t13.py`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1, 2 and 4 (the review's items a, b, d) ACCEPTED. Item 3 (item c): REVISED by T11.2; the paired comparison follows the estimand of the compared metric.
