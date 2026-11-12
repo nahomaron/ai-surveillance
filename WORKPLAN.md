@@ -411,3 +411,7 @@ _(the agent appends entries here)_
 ### 2026-11-12 — Process change (Owner decision): full-suite re-run restored
 - CLAUDE.md work-loop step 4 and the WORKPLAN §6 template again say: run the full suite a second time; exact-class outputs must be identical. Reason: the determinism subset gave no saving (full suite 27.5 s, subset 32.7 s).
 - Kept: the registered `determinism` marker and the marks on tests. Removed: the guard test `tests/test_determinism_guard.py` and its exception list.
+
+### 2026-11-12 — Owner decisions D-13 to D-17 recorded (contract E-1.2.10)
+- Appendix T section T12 appended verbatim; CLAUDE.md reads E-1.2.10; CR-012 to CR-016 closed as superseded by T12; D-13 to D-17 closed. E-1.2.1 and Appendix N not edited.
+- Architect rulings recorded under AR-42 (evc record to be defined), AR-43 and AR-44 (flip_rate_le revised).

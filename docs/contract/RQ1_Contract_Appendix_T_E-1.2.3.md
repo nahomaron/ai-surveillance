@@ -865,3 +865,56 @@ T11.3 Tests
 CT-T11-01: borderline flags, one case per bullet of T11.1: a borderline value with the provider enabled sets the flag; the same value with the provider disabled sets none. Hand-calculated and recorded in the test.
 CT-T11-02: two rule configurations that differ only in a disabled provider's parameters give identical S5 payload_sha256 and different rule_configuration IDs.
 CT-T11-03: a paired comparison on a new_session_performance metric uses cluster resampling (interval is wider than the window-resampled interval on a hand-built fixture with two leakage groups), and a frame_description metric uses window resampling.
+
+## T12. Shared parameters, EV-M10, oracle-factorial attribution, completeness definitions, fitness gaps (E-1.2.10; CR-012 to CR-016, D-13 to D-17)
+
+T12.1 Shared parameters (clarifies T11.1)
+The last paragraph of T11.1 applies only to parameters read exclusively by the disabled provider: R1: k_img; R2: d_p; R3: d_pc; R4: ttc_max, pet_max; R5: e_turn, e_acc, e_dec. Two parameters are shared and always apply:
+- v_min is a substrate parameter (substrate_config). It is read by S4 (heading, motion split), by R2's M flag and by R5's turn test. It has one source, substrate_config.v_min, and no copy in a provider's params.
+- w_e is a classification parameter, stored in the classification block of the rule configuration. It is read by T9.3 (contact cue), T9.6 (W_CA) and R5, whether or not R5 is enabled.
+A provider's params map holds only its exclusive parameters. This moves storage only: S5 payload values are unchanged, and the rule_configuration and S5 artifact IDs change.
+
+T12.2 Event on an unobservable reference (EV-M10; resolves CR-013)
+- N4 is kept literal, and match classes are unchanged. Reason: N4 has the highest precedence, and the Owner decided not to add or repurpose a class at M0. A reference that is not assessable keeps match_type unobservable_reference. A non-abstained system event that overlaps one (temporal IoU > 0, same window, no pair condition) and is matched to no reference stays a false_alert. EV-M2 and EV-M7 are unchanged headline values.
+- EV-M10 is a table of system events that overlap an unobservable reference and are matched to none, split by decision (non-abstained / abstained per T10.7a) and by label (lbl_*), RES-weighted with unweighted values alongside.
+- Reported with it, labelled "sensitivity_excluding_unobservable_overlap": EV-M2 and EV-M7 recomputed with those events removed from sᵢ and fᵢ. These never replace the headline values. This gives the effect your option (b) would have had, without changing N4.
+- Interpretation text: "These events are neither confirmed nor refuted by the reference."
+Check (w = 1): one window with s1 matched to an assessable reference, s2 overlapping an unobservable reference, s3 elsewhere with no reference, s4 abstained and overlapping the unobservable reference. EV-M2 = 1/3, sensitivity EV-M2 = 1/2, EV-M10 = 1 non-abstained and 1 abstained.
+
+T12.3 Oracle-factorial attribution (replaces the reference to D.1 §7.2 in N9; resolves CR-014)
+Applies to synthetic data with oracle runs (VR-E-061). On real data only the N9 rule tests apply and verified_* is forbidden.
+1. If N9 rule 1 (evidence_unavailable) fails: primary_stage = evidence_unavailable, attribution_status = diagnostic_inferred, no factorial.
+2. Stages are perception, tracking, geometry, in that order. For every subset C of the three stages (8 runs; the empty set is the system as run), substitute the oracle for the stages in C and re-run matching. Resolved(C) is:
+   - for a miss or abstained_miss: the reference's record becomes matched;
+   - for a false_alert or duplicate_alert: no false or duplicate alert has temporal IoU > 0 with the original event's interval.
+   Resolved(∅) is false by construction. The substitution semantics belong to the oracle adapters (T-18, T-21). At M0 the factorial runner takes the resolved sets as inputs.
+3. Let R = the sets with Resolved(C) true, and M = the minimal elements of R under inclusion. Monotonicity is not assumed.
+   a. M empty (no substitution resolves it): primary_stage = the first failing N9 rule among rule 5 (event_reasoning) and rule 7 (reference_ambiguity); status diagnostic_inferred. If neither fails: primary_stage = unresolved, status unresolved.
+   b. M non-empty: k = the smallest size in M. primary_stage = the earliest stage (pipeline order) in the union of the size-k sets of M, so ties between size-k sets go to the set containing the earliest stage. secondary_factors = the other stages appearing in any set of M, in pipeline order. attribution_status = verified_oracle_single if k = 1, else verified_oracle_joint. oracle_artifact_ids lists the runs of the sets in M.
+4. rule_test_results are always stored. Where the rule-test primary stage differs from the oracle primary stage, the milestone report counts the disagreement. Sets that resolve while a superset does not are counted in the same report.
+5. N9's "tests conflict" has no separate state: rules 4 and 5 are not_evaluated when their prerequisite fails (AR-42 item 4). The result is unresolved only when no test fails.
+Checks: FX-16 (R = all supersets of {perception, geometry}) gives primary perception, secondary [geometry], verified_oracle_joint (CT-E-22). {perception} alone gives perception, verified_oracle_single. {perception} and {geometry} each resolving give primary perception, secondary [geometry], verified_oracle_single. M empty with rule 5 failing gives event_reasoning, diagnostic_inferred. M empty with no failing rule gives unresolved.
+
+T12.4 Completeness definitions (resolves CR-015)
+All support is clipped eligible support within the window span [t_start, t_end) (not the guard), by basis as in AR-43 item 1.
+- Reference pair: a (person identity p, forklift identity f) with at least one eligible frame in the window on which both are reference co-visible. Co-visible: both present and evidence_state visible or partially_visible. Where the dataset supplies no visibility truth, presence alone counts and reports print "reference visibility assumed". A co-presence interval is a maximal run of consecutive eligible co-visible frames.
+- A POW frame is attributed to pair (p, f) when both its tracks have track_identity_assoc status matched, to p and f respectively, on that frame. A POW's dominant pair is (dominant_identity_id of its person track, dominant_identity_id of its forklift track).
+- CM-05: over POW frames of the basis, excluding frames where either track is ambiguous. Numerator: frames attributed to no co-visible reference pair. Denominator: all such frames. Ambiguous support is reported separately in the report's completeness table, not in the key. (Basis: the POW frames in the basis only, CR-015 item 1 reading (a).)
+- CM-06: for each reference pair and band of the configuration's band scheme, AI time in band is recomputed from pair_series frames clipped to the window, using frames attributed to the pair. Reference time in band is the clipped support of co-visible frames whose reference clearance falls in the band. Reference clearance uses ref_geometry with the same footprint prior, yaw rule (T8.2) and clearance function as S4. The per-pair value is Σ_b |AI_b − ref_b|. The Bland–Altman units are (pair, band) with d = AI_b − ref_b; bias and LoA (N5) are descriptive only, with n reported and no interval claim, because bands within a pair are not independent. Without ref_geometry the value is null with reason not_supplied.
+- CM-07 follows N6: for each reference co-presence interval, the number of POWs with at least one frame attributed to the pair inside it (an integer, 0 when uncovered). The report gives the counts of intervals with 0, 1 and 2 or more POWs. The "pair-window fidelity" of N10 is the share with exactly 1. F.1 A5.2's "CM-07 fragmentation" (tracks per identity) is not a CM-07 record, so that one metric ID does not carry two meanings: track-level fragmentation is carried by track_identity_summary.status = fragment and by the N10 fragmentation metric.
+- CM-08: numerator, POW frames of the basis whose clearance_state is not measured; denominator, POW frames of the basis. Stratified by calibration tier. No reference is needed.
+- CM-10: numerator, reference co-visible frames of a pair on which a POW whose dominant pair is (p, f) has a pair-frame with evidence class insufficient. Denominator, reference co-visible frames of the pair. Frames with no POW pair-frame at all are in neither CM-10's numerator nor CM-03's numerator (CR-015 item 4 reading (b)); CM-03 already counts them as uncovered.
+- Pooling: pooled CM-k = Σ over RES windows of wᵢ·numeratorᵢ ÷ Σ wᵢ·denominatorᵢ (a ratio of sums, not a mean of ratios), with unweighted values alongside and intervals per N5. Per-identity and per-pair rows stay in the stratum.
+Checks: FX-CM and FX-ID-3 keep their CM-01, CM-02 and CM-03 values. The other metrics use hand-built fixtures with values recorded in the test.
+
+T12.5 Fitness decision gaps (amends §9.6; resolves CR-016)
+- Residual status: experimental is the status for every combination that is not technically_validated, not unsuitable_under_tested_conditions (§9.6) and not not_yet_assessable. This includes a repeatability, robustness or comparability criterion that is not_met when no criterion is met or inconclusive. failing_interval records the first not_met criterion of any type, in criterion-ID order. Only accuracy and completeness not_met produce unsuitable.
+- Real data: data_origin real_natural and real_staged both count as real data for §9.6. A status is always scoped by data_origin (scope key) and never carries over from real_staged to real_natural. Synthetic data never reaches technically_validated (FT-01, CT-F-04).
+- Comparability characterized: at least one comparability criterion is registered and its decision is not not_assessable. It need not be met. Its decision is exported with the status.
+
+T12.6 Tests
+CT-T12-01: configurations differing only in R5-exclusive parameters with R5 disabled give the same S5 payload; a changed w_e or v_min changes the S5 output on a hand fixture where the cue, W_CA or the motion split depends on it.
+CT-T12-02: EV-M10 and the sensitivity values on the T12.2 check fixture.
+CT-T12-03: the factorial cases of T12.3 (FX-16, the {P}/{G} tie, empty M with and without a failing rule).
+CT-T12-04: CM-05 to CM-08 and CM-10, plus pooled CM-01 over two RES windows, on hand-built fixtures extending FX-CM and FX-ID-3.
+CT-T12-05: a repeatability not_met alone gives experimental with failing_interval; real_staged scope reaches technically_validated and the status stays scoped; a decided comparability criterion counts as characterized; a not_assessable one does not.

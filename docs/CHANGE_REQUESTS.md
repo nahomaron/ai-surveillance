@@ -447,7 +447,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 - **No meaning effect:** each choice applies the N5 definition mechanically. Item 1 is the standard stratified cluster bootstrap. **Review flag:** item 1. **Files/tests:** `evaluation/estimators.py`; `tests/evaluation/test_t13.py`. **Reverse:** edit the named functions.
 - **Architect review (12 Nov 2026):** items 1, 2 and 4 (the review's items a, b, d) ACCEPTED. Item 3 (item c): REVISED by T11.2; the paired comparison follows the estimand of the compared metric.
 
-## CR-012 (2026-11-12) — `v_min` and `w_e` are read outside the provider that owns them (T11.1)   status: OPEN
+## CR-012 (2026-11-12) — `v_min` and `w_e` are read outside the provider that owns them (T11.1)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-09 follow-up (T11 conformance). Non-blocking for M0 fixtures.
 **Contract sections:** Appendix T T11.1 ("Parameters of a disabled provider … play no role in S5 output"), T9.2, T9.6, T10.3(c); E-1.2.1 §6.0, §5.2; Package F §3.
@@ -464,9 +464,9 @@ The code reads the single values in `RuleParams` and `Params` (`providers.r5_rat
 (b) Each use gets its own parameter (for example an R5 `v_min_turn`, and a contact-window length separate from R5's `w_e`). This adds parameters to §14 and to the TEST-ONLY table.
 (c) Keep the record as it is, and amend T11.1 to name `v_min` and `w_e` as read outside their provider.
 **Agent's recommendation:** (a). Nothing changes in the code until a decision is made.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T12 (Appendix T, contract E-1.2.10; D-13 to D-17, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.10
 
-## CR-013 (2026-11-12) — How a system event on an unobservable reference is counted (EV-M10)   status: OPEN
+## CR-013 (2026-11-12) — How a system event on an unobservable reference is counted (EV-M10)   status: CLOSED
 
 **Raised by:** implementation agent, as the Architect's ruling on AR-39 item 6 requires. **Task:** T-14.
 **Contract sections:** F.1 Appendix N4 (classes; EV-M2, EV-M7, EV-M10); E-1.2.1 §9.2; `match_record.match_type`.
@@ -481,9 +481,9 @@ The code reads the single values in `RuleParams` and `Params` (`providers.r5_rat
 For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `duplicate_alert`) or IoU ≥ *iou_m*; and the same pair (A5.2) or any pair.
 **Agent's recommendation:** (b), reusing `unobservable_reference` with `system_event_id` set, "on" as IoU > 0 with the same pair. A decision on footage the reference cannot judge is not evidence of a false alarm.
 **What proceeds meanwhile:** nothing changes. EV-M10 is not computed until this is decided.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T12 (Appendix T, contract E-1.2.10; D-13 to D-17, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.10
 
-## CR-014 (2026-11-12) — Oracle-factorial decision rule and "tests conflict" in error attribution (T-14)   status: OPEN
+## CR-014 (2026-11-12) — Oracle-factorial decision rule and "tests conflict" in error attribution (T-14)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-14 (CT-E-22, FX-16).
 **Contract sections:** F.1 Appendix N9; E-1.2.1 §9.4; Appendix T CT-E-22, FX-16, VR-E-061; CLAUDE.md "Documents and precedence" item 4.
@@ -495,7 +495,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 **Options.** For 1: (a) the Architect confirms that N9's citation makes the quoted D.1 §7.2 rule normative, and states the two missing cases (no resolving set; tied smallest sets); or (b) the rule is restated in Appendix T. For 2: (c) define conflict, for example a later test failing while an earlier one could not be evaluated; or (d) delete the clause, so that only "no test fails" gives `unresolved`.
 **Agent's recommendation:** (a), with "no resolving set → `unresolved`" and "ties → the set whose earliest stage is earliest in pipeline order"; and (d).
 **What proceeds meanwhile:** the 2³ substitution runner (which combinations resolve the error), the N9 diagnostic tests in pipeline order with primary and secondary stages, and the VR-E-061 guard. The step from oracle outcomes to a `verified_*` status, and therefore CT-E-22, waits. Until then "tests conflict" is not detected: only "no test fails" gives `unresolved`.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T12 (Appendix T, contract E-1.2.10; D-13 to D-17, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.10
 
 ## AR-42 — Attribution rule inputs and the match-run inputs digest (T-14)
 - **Gaps and choices** (numbered items only, as the Architect asked):
@@ -505,8 +505,9 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   4. **Rule-test results.** `rule_test_results` maps each evaluated stage to `fail`, `pass` or `not_evaluated`. `not_evaluated` covers tests that cannot run, such as linkage before M2, or geometry without reference geometry. A stage that is not evaluated never becomes primary or secondary.
   5. **Rule 4 (geometry) and rule 5 (event reasoning)** take their comparisons as inputs: per frame, whether the decision differs, the clearance error, σ, and M from the system and from the reference; and whether each run triggers. The comparisons need reference geometry, which arrives with the M1a adapters (T-18, T-21).
 - **No meaning effect:** items 3, 4 and 5 are representation. Item 1 applies the F.1 FX-ID-8 text, and item 2 applies T7. **Review flag:** items 1 and 2. **Files/tests:** `evaluation/attribution.py`, `evaluation/matching.py`; `tests/evaluation/test_t14_attribution.py`, `tests/evaluation/test_t12.py::test_label_group_mapping_is_part_of_the_match_run_inputs_digest`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1, 2, 4 and 5 ACCEPTED. Item 3 ACCEPTED, with a storage rule: `evc` (prefix `evc`, AR-16) is defined as a content-addressed configuration record holding iou_m, iou_cm, ε_amb, n_miss, B, seed, reference_class and label_group_mapping_sha256, so a changed mapping changes the S8 specification. This is representation under the agent's AR authority.
 
-## CR-015 (2026-11-12) — Completeness metrics CM-05 to CM-08 and CM-10 are not fully determined (T-14)   status: OPEN
+## CR-015 (2026-11-12) — Completeness metrics CM-05 to CM-08 and CM-10 are not fully determined (T-14)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-14 (no test in "Done when" depends on these metrics).
 **Contract sections:** F.1 Appendix N6; F.1 A5.2 "Use downstream".
@@ -522,7 +523,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 
 **What proceeds meanwhile:** CM-01, CM-02 (with the moving-frame restriction as a stratum), CM-03, CM-04 and CM-09, per identity or pair and on both bases. FX-CM, FX-ID-3 and CT-F-03 pass.
 **Agent's recommendation:** 1(a), 2(a), 3(c), 4(a), 5 both.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T12 (Appendix T, contract E-1.2.10; D-13 to D-17, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.10
 
 ## AR-43 — Completeness record details (T-14)
 - **Gaps and choices** (numbered items only):
@@ -531,8 +532,9 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   3. **Units.** CM-09 counts track-frames, so two inferred tracks on one frame count twice. CM-01 and CM-02 are reported per reference identity, and CM-03 per pair, with the identity or pair in `stratum`. Pooled values wait for CR-015 item 5.
   4. **CM-02's "also restricted to reference moving frames"** is a second record with stratum `{"reference_motion": "moving"}`. Which frames count as moving is an input: reference motion per frame.
 - **No meaning effect:** items 2 and 4 are representation. Items 1 and 3 follow N6's text ("matched" by frame, support by basis). **Review flag:** items 1 and 3. **Files/tests:** `evaluation/completeness.py`; `tests/evaluation/test_t14_completeness.py`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1–4 ACCEPTED. Pooled values follow T12.4.
 
-## CR-016 (2026-11-12) — Gaps in the section 9.6 fitness status rule (T-14)   status: OPEN
+## CR-016 (2026-11-12) — Gaps in the section 9.6 fitness status rule (T-14)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-14 (no M0 fixture reaches these cases).
 **Contract sections:** E-1.2.1 §9.6; Appendix T FT-01 to FT-04.
@@ -544,7 +546,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 | 2 | `technically_validated` needs "real data": does `real_staged` count? | Only `real_natural` (the stricter reading) | `real_natural` and `real_staged` |
 | 3 | "comparability is characterized" | At least one comparability criterion whose decision is not `not_assessable` (stricter) | A comparability metric result exists, with or without a registered criterion |
 
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T12 (Appendix T, contract E-1.2.10; D-13 to D-17, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.10
 
 ## AR-44 — Fitness-engine representation details (T-14)
 - **Gaps and choices** (numbered items only):
@@ -554,3 +556,4 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   4. **Override ranking.** Ranks run not_yet_assessable < unsuitable_under_tested_conditions < experimental < technically_validated. A stored status different from the rule's needs an override with `downgrade_only` and a lower rank. A downgrade to unsuitable still needs a recorded not_met (FT-03).
   5. **`failing_interval`** is the interval of the first failing accuracy or completeness criterion, in criterion-ID order.
 - **No meaning effect:** items 1, 3 and 5 are representation. Item 2 restates §9.6's three outcomes for each rule enum. **Review flag:** items 2 and 4. **Files/tests:** `evaluation/fitness.py`; `tests/evaluation/test_t14_fitness.py`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1, 3, 4 and 5 ACCEPTED. Item 2 REVISED for `flip_rate_le`: without a stored interval the decision is not_assessable, except `exact_equal` and the full-enumeration metrics MR-01, MR-08, MR-09 and MR-12, which use the degenerate interval [v, v]. MR-10 needs an interval.

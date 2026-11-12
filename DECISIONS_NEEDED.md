@@ -87,37 +87,37 @@ Options: (a) Yes, literally as T10.4 is written (implemented). (b) Only when the
 Agent's recommendation: the Architect's call. Details are in CR-011.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T11 (E-1.2.9).
 
-## D-13 (2026-11-12) — Parameters used outside the provider that owns them        status: OPEN
+## D-13 (2026-11-12) — Parameters used outside the provider that owns them        status: CLOSED
 Task: T-09 (T11 conformance)   Blocking: nothing in M0 fixtures; the rule_configuration record shape before G-PR
 Question: T11.1 says a disabled provider's parameters play no role in S5 output. But `v_min` (R2) is also read by R5's turn criterion (T9.2), and `w_e` (R5) is also read by the contact cue and W_CA, which apply whether or not R5 is enabled (T9.6, T10.3(c)). Where do these two parameters belong?
 Options: (a) Shared classification parameters, recorded outside the provider entries. (b) Separate parameters per use. (c) Amend T11.1 to name the exception.
 Agent's recommendation: (a). Details are in CR-012.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
 
-## D-14 (2026-11-12) — System events on unobservable references (EV-M10)        status: OPEN
+## D-14 (2026-11-12) — System events on unobservable references (EV-M10)        status: CLOSED
 Task: T-14   Blocking: EV-M10; possibly EV-M2 and EV-M7 values
 Question: A system event that falls on a reference marked unobservable is currently a `false_alert` (N4 literal, per the AR-39 item 6 ruling). Should it count against precision and false-alert burden, or only in EV-M10? And what does "on" mean?
 Options: (a) Keep it a false alert and also count it in EV-M10. (b) Exclude it from EV-M2/EV-M7 and record it as `unobservable_reference` with the system event set. (c) A new match class (not to be added now).
 Agent's recommendation: (b), "on" = temporal IoU > 0 with the same pair. Details are in CR-013.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
 
-## D-15 (2026-11-12) — The oracle-factorial attribution rule lives only in a methodology document        status: OPEN
+## D-15 (2026-11-12) — The oracle-factorial attribution rule lives only in a methodology document        status: CLOSED
 Task: T-14   Blocking: CT-E-22 (FX-16) and every `verified_*` attribution
 Question: Appendix N9 says oracle substitution assigns `verified_*` "as specified in D.1 §7.2", but CLAUDE.md forbids implementing from docs/methodology. May the agent implement the quoted D.1 §7.2 rule, and what happens when nothing resolves the error or two smallest sets tie? Separately, N9's "tests conflict" is undefined.
 Options: (a) Confirm D.1 §7.2 as quoted in CR-014 is normative through N9, plus the two missing cases. (b) The Architect restates the rule in Appendix T. For "conflict": define it, or delete the clause.
 Agent's recommendation: (a), with no resolving set → unresolved and ties → earliest stage; delete "or tests conflict". Details are in CR-014.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
 
-## D-16 (2026-11-12) — Open details of completeness metrics CM-05 to CM-08 and CM-10        status: OPEN
+## D-16 (2026-11-12) — Open details of completeness metrics CM-05 to CM-08 and CM-10        status: CLOSED
 Task: T-14   Blocking: CM-05, CM-06, CM-07, CM-08, CM-10 (M1a reporting); not M0 "Done when"
 Question: N6 leaves the support basis of system-side denominators, the CM-06 unit, the CM-10 treatment of frames with no POW, and aggregation open. CM-07 is defined differently in F.1 A5.2 (tracks per identity) and N6 (POWs per pair).
 Options: see CR-015 (readings a/b per item).
 Agent's recommendation: 1(a), 2(a), 3(c) both as strata, 4(a), 5 both per-unit and pooled.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
 
-## D-17 (2026-11-12) — Gaps in the fitness status rule        status: OPEN
+## D-17 (2026-11-12) — Gaps in the fitness status rule        status: CLOSED
 Task: T-14   Blocking: nothing in M0; status decisions at M1a
 Question: Section 9.6 gives no status when the only not_met criteria are repeatability or robustness and nothing is met or inconclusive. It also does not say whether staged real footage counts as "real data", or what "comparability is characterized" requires.
 Options: see CR-016 (the stricter readings are implemented; case 1 is refused).
 Agent's recommendation: case 1 → experimental; real data = real_natural only; characterized = a comparability criterion with a decision other than not_assessable.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
