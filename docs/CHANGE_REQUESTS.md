@@ -557,3 +557,14 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   5. **`failing_interval`** is the interval of the first failing accuracy or completeness criterion, in criterion-ID order.
 - **No meaning effect:** items 1, 3 and 5 are representation. Item 2 restates §9.6's three outcomes for each rule enum. **Review flag:** items 2 and 4. **Files/tests:** `evaluation/fitness.py`; `tests/evaluation/test_t14_fitness.py`. **Reverse:** edit the named functions.
 - **Architect review (12 Nov 2026):** items 1, 3, 4 and 5 ACCEPTED. Item 2 REVISED for `flip_rate_le`: without a stored interval the decision is not_assessable, except `exact_equal` and the full-enumeration metrics MR-01, MR-08, MR-09 and MR-12, which use the degenerate interval [v, v]. MR-10 needs an interval.
+
+## CR-017 (2026-11-12) — Support basis of CM-10 (T12.4)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-14 (T12.4 conformance). Non-blocking.
+**Contract sections:** Appendix T T12.4 ("All support is … by basis as in AR-43 item 1"; CM-10); AR-43 item 1.
+**Meaning-affecting:** yes, for CM-10 on the `detected` and `detected_plus_inferred` bases.
+
+**Problem.** T12.4 applies the basis of AR-43 item 1 to all support: system evidence counts only if its class is in the basis. CM-10's numerator is the reference co-visible frames on which the pair's POW has an `insufficient` pair-frame. `insufficient` belongs to neither basis, so applying the basis to the numerator would make CM-10 zero on both bases, whatever the data.
+**Readings.** (a) The basis does not apply to CM-10, and its value is the same on both bases. (b) The basis filter applies literally, which makes CM-10 identically zero.
+**Implemented meanwhile:** (a), the only reading under which CM-10 measures anything. It is pinned by `test_cm_10[detected]` and `test_cm_10[detected_plus_inferred]`. Nothing else depends on it.
+**Decision:** ______   **Approver:** ______

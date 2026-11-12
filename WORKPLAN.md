@@ -426,3 +426,7 @@ _(the agent appends entries here)_
 
 ### 2026-11-12 — T12.3 conformance: oracle-factorial attribution
 - Did: `attribution.oracle_attribution` (T12.3 steps 1–5: evidence_unavailable first, minimal resolving sets, primary = earliest stage of the smallest sets, single or joint, oracle run IDs of M, rule-test results always stored, disagreement and non-monotone sets reported); `prerequisites` makes rules 4 and 5 not_evaluated when rule 3 (rule 4) fails. CT-E-22 (FX-16: perception, [geometry], verified_oracle_joint) and CT-T12-03 pass.
+
+### 2026-11-12 — T12.4 conformance: completeness
+- Did: reference pairs derived from co-visible frames; POW-frame attribution to pairs; CM-05 (ambiguous support reported separately), CM-06 (per-pair sum of band differences, descriptive Bland–Altman over (pair, band) units, null not_supplied without reference geometry), CM-07 (POWs per co-presence interval, 0/1/2+ summary, pair-window fidelity), CM-08 (per calibration tier), CM-10 (dominant-pair POWs), pooled ratio of sums with unweighted alongside; `visibility_assumed` flag for reports. CT-T12-04 on fixtures extending FX-CM and FX-ID-3; FX-CM and FX-ID-3 values unchanged.
+- Problems / CRs: CR-017 / D-18 (CM-10 basis; reading (a) implemented, non-blocking).
