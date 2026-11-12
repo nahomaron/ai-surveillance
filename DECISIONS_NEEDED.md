@@ -107,3 +107,10 @@ Question: Appendix N9 says oracle substitution assigns `verified_*` "as specifie
 Options: (a) Confirm D.1 §7.2 as quoted in CR-014 is normative through N9, plus the two missing cases. (b) The Architect restates the rule in Appendix T. For "conflict": define it, or delete the clause.
 Agent's recommendation: (a), with no resolving set → unresolved and ties → earliest stage; delete "or tests conflict". Details are in CR-014.
 Owner decision: ______
+
+## D-16 (2026-11-12) — Open details of completeness metrics CM-05 to CM-08 and CM-10        status: OPEN
+Task: T-14   Blocking: CM-05, CM-06, CM-07, CM-08, CM-10 (M1a reporting); not M0 "Done when"
+Question: N6 leaves the support basis of system-side denominators, the CM-06 unit, the CM-10 treatment of frames with no POW, and aggregation open. CM-07 is defined differently in F.1 A5.2 (tracks per identity) and N6 (POWs per pair).
+Options: see CR-015 (readings a/b per item).
+Agent's recommendation: 1(a), 2(a), 3(c) both as strata, 4(a), 5 both per-unit and pooled.
+Owner decision: ______

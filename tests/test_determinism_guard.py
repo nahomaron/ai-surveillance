@@ -11,6 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TRIGGERS = ("rq1.ids", "rq1.fixtures", "rq1.substrate.builder", "rq1.substrate.oracle", "rq1.decode.stage", "rq1.registry.registrar", "rq1.events.s5")
 EXCEPTIONS: dict[str, str] = {
+    "tests/evaluation/test_t14_completeness.py::test_ct_f_03_cm_09": "pure formula: CM ratio on hand-built frame tables; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_completeness.py::test_cm_bases_and_cm_02_moving_restriction": "pure formula: CM ratio on hand-built frame tables; no fixture file, artifact or seed",
     "tests/evaluation/test_t14_attribution.py::test_n9_pipeline_order_and_unresolved": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
     "tests/evaluation/test_t14_attribution.py::test_rule_1_evidence_unavailable": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
     "tests/evaluation/test_t14_attribution.py::test_rule_3_tracking": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",

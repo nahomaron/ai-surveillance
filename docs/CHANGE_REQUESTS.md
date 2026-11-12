@@ -505,3 +505,29 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   4. **Rule-test results.** `rule_test_results` maps each evaluated stage to `fail`, `pass` or `not_evaluated`. `not_evaluated` covers tests that cannot run, such as linkage before M2, or geometry without reference geometry. A stage that is not evaluated never becomes primary or secondary.
   5. **Rule 4 (geometry) and rule 5 (event reasoning)** take their comparisons as inputs: per frame, whether the decision differs, the clearance error, σ, and M from the system and from the reference; and whether each run triggers. The comparisons need reference geometry, which arrives with the M1a adapters (T-18, T-21).
 - **No meaning effect:** items 3, 4 and 5 are representation. Item 1 applies the F.1 FX-ID-8 text, and item 2 applies T7. **Review flag:** items 1 and 2. **Files/tests:** `evaluation/attribution.py`, `evaluation/matching.py`; `tests/evaluation/test_t14_attribution.py`, `tests/evaluation/test_t12.py::test_label_group_mapping_is_part_of_the_match_run_inputs_digest`. **Reverse:** edit the named functions.
+
+## CR-015 (2026-11-12) — Completeness metrics CM-05 to CM-08 and CM-10 are not fully determined (T-14)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-14 (no test in "Done when" depends on these metrics).
+**Contract sections:** F.1 Appendix N6; F.1 A5.2 "Use downstream".
+**Meaning-affecting:** yes. Each item changes a CM value.
+
+| # | Metric | Gap | Readings |
+|---|---|---|---|
+| 1 | CM-05, CM-08 (denominator s(POW frames)) | "Each metric is computed on both bases", but these denominators are system-side | (a) POW frames in the basis only (detected; or detected + inferred). (b) All POW frames on both bases, with the basis filtering only the numerator |
+| 2 | CM-06 | "Σ over bands \|AI − reference time-in-band\| per pair; report bias and LoA" names no interval or band scheme, and does not say whether the per-pair Σ is the Bland–Altman unit | (a) Per reference pair over the window, using the configuration's band scheme; Bland–Altman over pairs of the signed per-band differences. (b) The per-pair Σ of absolute differences as the only output |
+| 3 | CM-07 | A5.2 says "Number of **tracks** matched to an identity's co-presence interval"; N6 says "Number of **POWs** covering a reference pair's co-presence interval". Both are F.1, at the same precedence | (a) N6 (POWs per pair). (b) A5.2 (tracks per identity). (c) Both, as two strata |
+| 4 | CM-10 | On a reference co-presence frame with no system pair-frame (no POW covers it), is the pair-frame "insufficient"? | (a) Yes: missing evidence counts as insufficient. (b) No: only POW frames with pair evidence class `insufficient` count |
+| 5 | Aggregation | N6 gives no aggregation across identities or pairs; F.1 A5.2 FX-ID-3 states CM-01 per identity | Per identity or pair (implemented, `stratum`), and/or pooled Σnum ÷ Σden per window |
+
+**What proceeds meanwhile:** CM-01, CM-02 (with the moving-frame restriction as a stratum), CM-03, CM-04 and CM-09, per identity or pair and on both bases. FX-CM, FX-ID-3 and CT-F-03 pass.
+**Agent's recommendation:** 1(a), 2(a), 3(c), 4(a), 5 both.
+**Decision:** ______   **Approver:** ______
+
+## AR-43 — Completeness record details (T-14)
+- **Gaps and choices** (numbered items only):
+  1. **The basis applies to system evidence.** On the `detected` basis, a matched frame counts only if the matched track's point (CM-01/02/09) or the POW pair-frame (CM-03/04) is `detected`. Reference-side denominators are the same on both bases. CM-09 counts only inferred frames, so its `detected`-basis value is null with `not_applicable`.
+  2. **`completeness_record.config_id`** is null with `not_applicable` for track-level completeness, which no rule configuration produces.
+  3. **Units.** CM-09 counts track-frames, so two inferred tracks on one frame count twice. CM-01 and CM-02 are reported per reference identity, and CM-03 per pair, with the identity or pair in `stratum`. Pooled values wait for CR-015 item 5.
+  4. **CM-02's "also restricted to reference moving frames"** is a second record with stratum `{"reference_motion": "moving"}`. Which frames count as moving is an input: reference motion per frame.
+- **No meaning effect:** items 2 and 4 are representation. Items 1 and 3 follow N6's text ("matched" by frame, support by basis). **Review flag:** items 1 and 3. **Files/tests:** `evaluation/completeness.py`; `tests/evaluation/test_t14_completeness.py`. **Reverse:** edit the named functions.
