@@ -436,3 +436,11 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 (b) **Apply each bullet only when its provider is enabled:** the clearance and speed bullets with R2, the prediction bullet with R3.
 **Implemented meanwhile:** (a), the text as written, pinned by `test_ct_t10_06_clearance_against_d_p[R1]` and `test_ct_t10_06_speed_near_v_min[R1]`. AR-40 item 3 puts those parameters in the configuration ID under either reading.
 **Decision:** ______   **Approver:** ______
+
+## AR-41 — Mechanics of the Target B and paired bootstraps and the null cases of N5 estimators (T-13)
+- **Gaps and choices:**
+  1. **Target B.** "Stratified by data origin" is implemented as follows: in each origin, draw as many leakage groups as that origin has, with replacement. Every window of a drawn group enters with its own weight, once per draw. Origins and groups are sorted before the PCG64 draws, so input order cannot change the interval.
+  2. **Percentile intervals** (Targets A and B, paired) use numpy's default linear method, as T10.7(c) does for EV-M8.
+  3. **Paired comparison** uses the Target A scheme. Both configurations share each replicate's resampled windows, and the interval is that of R̂_a − R̂_b.
+  4. **Null cases** (returned as None, to be stored as null `not_applicable`): Wilson with n = 0; Bland–Altman with n < 2; Cohen's κ with p_e = 1; Krippendorff's α with zero expected disagreement. For α, units with fewer than two values are not pairable, as Krippendorff's standard definition states.
+- **No meaning effect:** each choice applies the N5 definition mechanically. Item 1 is the standard stratified cluster bootstrap. **Review flag:** item 1. **Files/tests:** `evaluation/estimators.py`; `tests/evaluation/test_t13.py`. **Reverse:** edit the named functions.
