@@ -531,3 +531,26 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   3. **Units.** CM-09 counts track-frames, so two inferred tracks on one frame count twice. CM-01 and CM-02 are reported per reference identity, and CM-03 per pair, with the identity or pair in `stratum`. Pooled values wait for CR-015 item 5.
   4. **CM-02's "also restricted to reference moving frames"** is a second record with stratum `{"reference_motion": "moving"}`. Which frames count as moving is an input: reference motion per frame.
 - **No meaning effect:** items 2 and 4 are representation. Items 1 and 3 follow N6's text ("matched" by frame, support by basis). **Review flag:** items 1 and 3. **Files/tests:** `evaluation/completeness.py`; `tests/evaluation/test_t14_completeness.py`. **Reverse:** edit the named functions.
+
+## CR-016 (2026-11-12) — Gaps in the section 9.6 fitness status rule (T-14)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-14 (no M0 fixture reaches these cases).
+**Contract sections:** E-1.2.1 §9.6; Appendix T FT-01 to FT-04.
+**Meaning-affecting:** yes. These decide `measurement_status`.
+
+| # | Gap | Implemented meanwhile | Other reading |
+|---|---|---|---|
+| 1 | No status covers this case: no criterion `met` or `inconclusive`, not all `not_assessable`, and every `not_met` is a repeatability or robustness criterion | Refused with ERR-SPEC; no status is stored | `experimental`; or `unsuitable_under_tested_conditions` for any not_met |
+| 2 | `technically_validated` needs "real data": does `real_staged` count? | Only `real_natural` (the stricter reading) | `real_natural` and `real_staged` |
+| 3 | "comparability is characterized" | At least one comparability criterion whose decision is not `not_assessable` (stricter) | A comparability metric result exists, with or without a registered criterion |
+
+**Decision:** ______   **Approver:** ______
+
+## AR-44 — Fitness-engine representation details (T-14)
+- **Gaps and choices** (numbered items only):
+  1. **Error code.** Violations of FT-02, FT-05, FT-06, FT-08 and FT-09/11 raise ERR-INVARIANT; §10.3 has no fitness-specific code.
+  2. **Rule semantics.** `ci_upper_le`: met if ci_high ≤ target, not_met if ci_low > target, else inconclusive. `ci_lower_ge`: the mirror. `abs_bias_ci_within`: the target is a half-width; met if the interval lies inside [−t, t], not_met if it lies wholly outside, else inconclusive. `exact_equal`: compares the stored value. `flip_rate_le`: uses the interval when stored, else the value. A rule that needs an interval when none is stored gives `not_assessable`.
+  3. **Partition and test time.** A metric result carries its partition as context, because `metric_result` has no partition field. The time of the first test-partition evaluation is supplied from the execution record, never the clock (AR-7 review), and a criterion must be frozen strictly before it.
+  4. **Override ranking.** Ranks run not_yet_assessable < unsuitable_under_tested_conditions < experimental < technically_validated. A stored status different from the rule's needs an override with `downgrade_only` and a lower rank. A downgrade to unsuitable still needs a recorded not_met (FT-03).
+  5. **`failing_interval`** is the interval of the first failing accuracy or completeness criterion, in criterion-ID order.
+- **No meaning effect:** items 1, 3 and 5 are representation. Item 2 restates §9.6's three outcomes for each rule enum. **Review flag:** items 2 and 4. **Files/tests:** `evaluation/fitness.py`; `tests/evaluation/test_t14_fitness.py`. **Reverse:** edit the named functions.

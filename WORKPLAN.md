@@ -48,7 +48,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [x] | T-11 | **Validation store (WP-08).** Reference tables with `reference_class`; timeline reference coverage; status log hash chain; namespace guards; simulator-reference converter | T-02, T-10 | E-1.2.1 §5.8; F.1 A3, A5.1 | CT-E-24/25, CT-RC-01–03, VR-E-052/053/055 | M |
 | [x] | T-12 | **Evaluation part 1 (WP-09a).** Identity association, matching with composite tie weights, match classes, EV-M metrics | T-09, T-11 | F.1 A5.2; Appendix N4 | CT-ID-A1/A2, CT-E-20/21, FX-TIE (s1→r1, r2 miss) | M |
 | [x] | T-13 | **Evaluation part 2 (WP-09b).** Weighted estimators, Kish n_eff, stratified and cluster bootstrap, Wilson, Bland–Altman, ICC(2,1), κ | T-12 | Appendix N5 | FX-W: 0.71875 weighted, 0.70 unweighted, n_eff 3.3793103448 | M |
-| [ ] | T-14 | **Evaluation part 3 (WP-09c).** Completeness CM-01–10, error attribution (rule tests and oracle factorial), acceptance criteria, scoped fitness engine | T-13 | Appendix N6, N9; E-1.2.1 §9.4–9.6 | FX-CM CM-01 = 0.600; FX-ID-3 CM-01 = 0.9; CT-E-22/29, CT-F-03–10, CT-ID-A3 | M |
+| [B] | T-14 | **Evaluation part 3 (WP-09c).** Completeness CM-01–10, error attribution (rule tests and oracle factorial), acceptance criteria, scoped fitness engine | T-13 | Appendix N6, N9; E-1.2.1 §9.4–9.6 | FX-CM CM-01 = 0.600; FX-ID-3 CM-01 = 0.9; CT-E-22/29, CT-F-03–10, CT-ID-A3 | M |
 | [ ] | T-15 | **Export and reports (WP-10).** Export classes, fixture banner, wording rules, status board | T-14 | F.1 A2; E-1.2.1 §11 | CT-X-01–05, CT-E-26/27/28 | S |
 | [ ] | T-16 | **M0 integration and self-audit (WP-11).** Run the whole fixture pipeline twice from a clean clone; full suite; complete the self-audit (§5); write `reports/M0_report.md` (§6 template); tag `m0-verified`; push | all above | Package F §12 | All M0 tests pass; identical artifact IDs across both runs | M |
 | [S] | G-M0 | **STOP — Owner reviews M0.** Recommended: share the repository with the Research Architect for an independent review before accepting | T-16 | — | Owner writes "M0 accepted" in `DECISIONS_NEEDED.md` | — |
@@ -399,3 +399,11 @@ _(the agent appends entries here)_
 ### 2026-11-12 — T-14 in progress (part B: completeness)
 - Did: CM-01, CM-02 (with the moving restriction), CM-03, CM-04 and CM-09 on both support bases, per identity or pair; completeness_record rows. FX-CM gives CM-01 = 0.600 and CM-03 = 0.600; FX-ID-3 gives CM-01 = 0.9; CT-F-03 gives CM-09 = 0.5.
 - Problems / CRs: AR-43. CR-015 / D-16: CM-05 to CM-08 and CM-10 are underdetermined (basis of system denominators, CM-06 unit, CM-07 defined two ways in F.1, CM-10 frames without a POW, aggregation).
+
+### 2026-11-12 — T-14 BLOCKED (parts A to C done; CT-E-22 waits for D-15)
+- Did (part C): scoped fitness engine. Criterion decisions by rule from stored results; section 9.6 status per scope; FT-02 reads acceptance_criterion.frozen_utc against the first test-partition evaluation time supplied from the execution record (never the clock); construct status CV0–CV2 with FT-05, FT-06 and RV-03; stored-status checks (FT-01, FT-03, FT-08); measurement_fitness rows with the fixed interpretation note.
+- Contract tests now covered: FX-CM (CM-01 = CM-03 = 0.600), FX-ID-3 (CM-01 = 0.9), CT-F-03 to CT-F-10, CT-E-29, FX-ID-8 (perception). CT-ID-A3: RV-01, RV-02 (T-11) and RV-03 enforced; RV-04 is report wording (T-15).
+- Why blocked: CT-E-22 (FX-16, verified_oracle_joint) needs the oracle-factorial status rule (CR-014 / D-15). Also open: CR-013 / D-14 (EV-M10), CR-015 / D-16 (CM-05 to CM-08, CM-10), CR-016 / D-17 (fitness gaps).
+- Tests: 1620/1620 (full suite once); determinism subset re-run: 1429 tests, identical (passed twice)
+- Problems / CRs: AR-44, CR-016.
+- Next: T-15 needs T-14. Its export classes, banner and wording do not depend on D-14 to D-17; starting it under the blocked parent needs the Owner's word.

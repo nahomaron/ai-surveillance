@@ -114,3 +114,10 @@ Question: N6 leaves the support basis of system-side denominators, the CM-06 uni
 Options: see CR-015 (readings a/b per item).
 Agent's recommendation: 1(a), 2(a), 3(c) both as strata, 4(a), 5 both per-unit and pooled.
 Owner decision: ______
+
+## D-17 (2026-11-12) — Gaps in the fitness status rule        status: OPEN
+Task: T-14   Blocking: nothing in M0; status decisions at M1a
+Question: Section 9.6 gives no status when the only not_met criteria are repeatability or robustness and nothing is met or inconclusive. It also does not say whether staged real footage counts as "real data", or what "comparability is characterized" requires.
+Options: see CR-016 (the stricter readings are implemented; case 1 is refused).
+Agent's recommendation: case 1 → experimental; real data = real_natural only; characterized = a comparability criterion with a decision other than not_assessable.
+Owner decision: ______
