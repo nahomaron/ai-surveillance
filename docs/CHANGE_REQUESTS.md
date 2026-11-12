@@ -297,6 +297,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   6. T8.7 lists occlusion reasons for predicted objects. A lost or missing object is also reported as `person_occluded` or `forklift_occluded`; `q_state` itself follows T8.7 exactly.
   7. Oracle positions: `geometry_method = simulator_truth`, `calibration_id` null `not_applicable`, `world_frame_id` null `not_supplied`. The exposure profile's `calibration_tier` is `calibrated_unvalidated`, the conservative choice.
 - **No meaning effect:** nullability, field placement and labels only. **Review flag:** items 6 and 7. **Files/tests:** `schema/tables.py`, `substrate/*`; `tests/substrate/test_part_b.py`, `test_ar5_config_table_columns`, `test_ar6_named_configuration_fields` (updated for the new fields). **Reverse:** edit the definitions.
+- **Architect review (12 Nov 2026):** items 1–5 ACCEPTED. Item 6 REVISED by T10.9: a lost or missing object is listed as `person_lost` / `forklift_lost`, not `*_occluded`; q_state is unchanged. Item 7 ACCEPTED for M0. At T-18, set `world_frame_id` and `calibration_tier` for oracle data from the dataset's declared frame and calibration, and raise a CR if the dataset supplies none. Oracle-path results are never pooled with detector-path results; exports carry `geometry_method`.
 
 ## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: DEFERRED (D-8, to T-22)
 
@@ -316,6 +317,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   4. Simulator geometry has `sigma_m = 0`, `interp_method = none` and a keyframe on every eligible frame, with `evidence_state = visible`. The simulator supplies no occlusion state; that is a T-18 adapter detail.
   5. CV-SIM `ref_interaction` rows take onset and offset from the simulator's interaction intervals, with `visible_contact = cant_tell`, because synthetic data cannot support contact claims (Package F WP-13 non-goals). Their `reference_class` is `rule_conformance` (RV-01). An interaction belongs to the window of its onset.
 - **No meaning effect:** representation and fixture conventions; reference semantics follow A3 and A5.1. **Review flag:** item 4 (visibility), for real use. **Files/tests:** `validation/*`; `tests/validation/test_store.py`. **Reverse:** edit the converter.
+- **Architect review (12 Nov 2026):** items 1–3 and 5 ACCEPTED. Item 4 ACCEPTED for M0 fixtures. At T-17, record whether each dataset supplies visibility or occlusion truth. At T-18 the adapter sets `evidence_state` from it when present. Where it is absent, every report that uses reference visible support (CM-01–03, CM-10) must state "reference visibility assumed". Raise a CR if that choice changes a CM denominator.
 
 ## CR-008 (2026-11-12) — Event-engine inputs that §6 names but does not define (T-09)   status: CLOSED
 
@@ -340,6 +342,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-37 — Reading Appendix N1 rows at flag level
 - **Gap:** N1 gives "contact inputs at the closest-approach (CA) frame" but names a CA frame only for T10 and T11. T11's `not_assessable` rests on its stated condition "(no usable frames within ±*w_e*/2 of CA)", which the flag columns cannot express (CR-008 item 5). **Choice:** where N1 gives no CA frame (T1–T9), CA is the first frame of minimum clearance; since clearance is constant in those rows, any frame gives the same result. T11's stated condition is passed as the "usable around CA" input; every other row has usable frames. In T10 and T11, clearance is measured on frames 0–9 only, as the rows state.
 - **No meaning effect:** test-harness reading of N1. The expected values are N1's, unchanged. **Files/tests:** `tests/events/test_engine_part_a.py` (`run_n1`, `n1_frames`). **Reverse:** edit the harness once CR-008 items 4 and 5 are decided.
+- **Architect review (12 Nov 2026):** ACCEPTED.
 
 ## AR-38 — Representation and reading choices for T9 (T-09)
 - **Gaps and choices:**
@@ -350,8 +353,9 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   5. **Single-camera events.** `grouping_algorithm_version = single_camera_v1`. `join_sequence` holds the JCS text of each member's natural key. Events are listed by scenario, then in the §7 order. A null `t_onset_tl_s`, `t_end_tl_s` or `minclr_ev_m` has reason `not_observable`. An `unverified` assumption has `evidence_ref` null with reason `not_applicable`.
   6. **Schema and interfaces.** `episode` gains `e_assessed` and `ca_observed` (bool, not nullable). `rule_configuration.classification` gains `k_c_turn` (f64). `flag_frames` takes the S1 coverage segments, so that R5 windows do not cross coverage breaks.
 - **No meaning effect:** items 1, 4, 5 and 6 are representation. Items 2 and 3 implement the contract text, using precedence where the two documents conflict. **Review flag:** items 2 and 3(a). **Files/tests:** `events/engine.py`, `events/labels.py`, `events/providers.py`, `events/candidates.py`, `schema/tables.py`; `tests/events/test_t9.py`, `tests/events/test_engine_part_a.py`, `tests/substrate/test_part_b.py::test_t9_1_keeps_the_t8_2_span_requirement`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1, 3(b)–(d), 4, 5 and 6 ACCEPTED. Item 2 ACCEPTED, superseded by T10.1. Item 3(a) ACCEPTED, made normative by T10.2.
 
-## CR-009 (2026-11-12) — T9 edge readings and episode exposure fields (T-09)   status: OPEN
+## CR-009 (2026-11-12) — T9 edge readings and episode exposure fields (T-09)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-09 (S5 artifact).
 **Contract sections:** E-1.2.1 §5.6 (episode "Exposure (always populated)", `support_detected_frac`, `event_count_summary.label`), §6 lifecycle step 4; Appendix T T8.3, T9.1–T9.4.
@@ -379,7 +383,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 | 6 | `event_count_summary.label` other than `all` | Count events whose `summary_label` equals the label, so counts partition `all`. The alternative is to count events with that `lbl_*` flag set, which overlaps and includes IE |
 
 **What proceeds meanwhile:** T9.1–T9.9 in full; flag_series rows; episodes, including durations over I and `exp_evasive_score`; discarded episodes; single-camera candidate events; `label = all` counts. T-12 does not use any item above.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T10 (Appendix T, contract E-1.2.8; D-10 and D-11, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.8
 
 ## AR-39 — Association and matching details (T-12)
 - **Gaps and choices:**
@@ -391,8 +395,9 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   6. **References that are not assessable** get `unobservable_reference`. A system event on such a reference stays a `false_alert`, as N4 literally states. EV-M10 counts it separately (T-14).
   7. **Out of scope here.** FX-ID-8's `primary_stage = perception` is error attribution (N9, T-14). CM-01 for FX-ID-3/4 is T-14; T-12 tests its numerator (the matched support).
 - **No meaning effect:** items 1, 2, 3 and 5 are representation or follow the A5.2/N4 text literally. Items 4 and 6 apply N4 literally. **Review flag:** items 3 and 6. **Files/tests:** `evaluation/association.py`, `evaluation/matching.py`; `tests/evaluation/test_t12.py`. **Reverse:** edit the named functions.
+- **Architect review (12 Nov 2026):** items 1, 2, 4 and 5 ACCEPTED. Item 3 ACCEPTED: the matcher takes a mapping ref_event_id → set of label groups as an input, not a schema field. The mapping is part of the match-run inputs hash; for simulator-converter references, the converter produces it. Item 6 ACCEPTED for M0: N4 is kept literal, so EV-M2 and EV-M7 are unchanged. No `unobservable_reference` classification is added beyond what exists. At T-14, when EV-M10 is built, raise a CR with the options.
 
-## CR-010 (2026-11-12) — Abstention and coverage denominators in the event metrics (T-12)   status: OPEN
+## CR-010 (2026-11-12) — Abstention and coverage denominators in the event metrics (T-12)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-12 (no test in its "Done when" depends on these items).
 **Contract sections:** F.1 Appendix N4 (classes, cᵢ, EV-M3/M5/M8/M11); E-1.2.1 §9.2.
@@ -405,4 +410,4 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 | 3 | P90 in EV-M8 | Linear interpolation between order statistics (Hyndman–Fan type 7, numpy's default) | Another quantile definition, for example nearest rank |
 | 4 | Weighting of EV-M5 and EV-M11, which N4 writes without Σwᵢ | The same weighted-ratio form as the other metrics (w = 1 gives the printed formula) | Always unweighted counts |
 
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T10 (Appendix T, contract E-1.2.8; D-10 and D-11, 12 Nov 2026).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.8

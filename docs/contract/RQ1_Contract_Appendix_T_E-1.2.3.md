@@ -771,3 +771,77 @@ frames 0–11. Expected values are unchanged: contact undetermined, K = 2,
 labels PC, IE. Row T11 is unchanged (not_assessable).
 Rationale: with w_e = 1.0 s at 10 fps, W_CA = frames 10–20. T10 now has
 sufficient frames 10–11 in W_CA; T11 has none.
+
+## T10. Edge readings, episode exposure fields, event counts and event-metric details (E-1.2.8; CR-009, CR-010, D-10, D-11)
+
+T10.1 Contact-state order (replaces T9.6 steps 2–3; T9.6 step 1 and W_CA are unchanged)
+Evaluate in this order and stop at the first match:
+1. not_assessable (T9.6 step 1).
+2. undetermined if Q is insufficient at CA.
+3. suspected if overlap at CA = 1 AND the contact cue (T9.3) = true.
+4. undetermined if any of the following holds: overlap at CA is 1 or unknown; clearance at CA is within k_σ·σ of 0 (σ = 0 if null); clearance at CA is null.
+5. none_observed otherwise (Q sufficient, overlap = 0, clearance − k_σ·σ > 0).
+Checks: N1 T6, T8 give undetermined; T7, T9 give suspected; T10 gives undetermined; T11 gives not_assessable; T1–T5 give none_observed.
+
+T10.2 Velocity requirements (clarifies T8.2 and T9.1)
+A smoothed velocity needs at least 3 frames AND a span t_last − t_first ≥ w_v/2 within the shifted window (T9.1). Both conditions apply even when the whole run is used. Otherwise speed and heading are null (not_observable). Example: at 10 fps with w_v = 0.5 s, 3 frames span 0.2 s < 0.25 s, so 4 frames are needed.
+
+T10.3 Closing rate (amends T8.3), R5 on insufficient frames (clarifies T9.2), cue when R5 is off (clarifies T9.3, T9.4)
+(a) closing_rate_mps at frame k uses the T9.1 window: length w_v centred on t_k, shifted to lie inside the POW's contiguous span without crossing a coverage break. It uses the frames of that window with clearance_state = measured. It needs ≥ 3 such frames spanning ≥ w_v/2; otherwise null (not_observable). It is defined for every pair frame of the POW, including frames whose own clearance is not measured. Result values of exactly zero are stored as +0.0.
+(b) When R5 is enabled: E(k) = unknown (2) whenever either object's evidence_class at k is insufficient (lost, ineligible or timing_uncertain). Otherwise E(k) follows T9.2, with criteria that lack values unknown as stated there. When R5 is disabled, E(k) = 0 on every frame (T9.4).
+(c) The contact cue (T9.3) is computed from kinematics whether or not R5 is enabled. R5 enabled controls only E, K and exp_evasive_score. If the kinematics needed for the cue are null, the cue is unknown.
+Check: G3 gives closing_rate_mps 1.5 (abs tolerance 1e-9) on every frame.
+
+T10.4 borderline_flags (extends T9.8; no label changes)
+Evaluate over the frames of I (not I⁺), using σ = 0 where σ is null:
+- clearance_within_k_sigma: set if on any frame of I with measured clearance, |clearance_m − d_p| ≤ k_σ·σ_c; or, for a configuration whose P provider is R1, |image_gap_norm − k_img| ≤ 0 on any frame with a non-null gap; or |pred_min_clearance_m − d_pc| ≤ k_σ·σ_pred on a frame with a prediction; or |minclr_m − d_nm| ≤ k_σ·minclr_sigma_m; or |clearance_at_CA| ≤ k_σ·σ at CA.
+- speed_near_v_min: set if on any frame of I with non-null forklift speed, |speed_mps − v_min| ≤ k_σ·speed_sigma_mps.
+- onset_sensitive: as T9.8.
+- footprint_orientation_unknown: set if any pair frame of I carries it (AR-35 item 3).
+Borderline flags never change a frame flag, a label or review_route.
+
+T10.5 Episode exposure and support fields (all over I = [start_frame, end_frame_excl) unless stated)
+All durations are clipped support of eligible frames by evidence class (ST-4, TI-09, TI-10).
+- duration_detected_s, duration_inferred_s, duration_insufficient_s: Σ support of I by pair evidence class.
+- support_detected_frac = duration_detected_s ÷ (duration_detected_s + duration_inferred_s + duration_insufficient_s). Null (not_applicable) if the denominator is 0.
+- attr_end_frame_excl = end of I⁺ in frames.
+- exp_t_in_band_detected_s, exp_t_in_band_inferred_s: per band of the configuration's band scheme (list in band order), Σ support of frames of I with measured clearance, by evidence class.
+- exp_t_clearance_unknown_s: Σ support of detected or inferred frames of I whose clearance is not measured.
+- Consistency: Σ exp_t_in_band_detected_s + (detected part of the clearance-unknown support) = duration_detected_s, and likewise for inferred, to 1 µs.
+- exp_speed_at_ca_mps: forklift speed_mps at CA. Null (not_observable) if CA is null or speed is null.
+- exp_closing_rate_max_mps: maximum over frames of I of non-null closing_rate_mps. Null (not_observable) if none.
+- exp_ttca_min_s: minimum over frames of I of non-null ttca_s. If none are non-null: null with reason not_applicable if every frame's ttca_s is null for not_applicable, otherwise not_observable.
+- exp_evasive_score: T9.2, over I⁺. Null (not_computed_by_config) if R5 is disabled; null (not_observable) if no ratio can be computed.
+- exp_visible_frac: Σ support of eligible frames of I where both objects have evidence_state visible or partially_visible, ÷ Σ support of eligible frames of I. Null (not_applicable) if the denominator is 0.
+Checks (hand-derived, abs tolerance 1e-9): G1 gives support_detected_frac 1.0, exp_speed_at_ca_mps 0.0, exp_closing_rate_max_mps 0.0, exp_ttca_min_s null (not_applicable). G2 gives exp_speed_at_ca_mps 1.0, taking CA as the earliest frame with minimum clearance. G3 gives exp_closing_rate_max_mps 1.5.
+
+T10.6 event_count_summary
+- One row per (scope, scenario, label) for scenario ∈ {S_VIEW, S_LINK, S_POSS} and label ∈ {all, O, H, PC, NM, UD, CT, IE}. Rows with zero events are written (n_events = 0).
+- n_events for label `all` = number of candidate_events in that scenario and scope. For any other label = number of those events with lbl_<label> true (not by summary_label). Labels overlap, so per-label counts need not sum to `all`.
+- An event belongs to the scope of its onset (§8). S5 writes scope_type ∈ {recording, timeline}. reference_window and split_partition scopes are computed at S8 and S9.
+- Discarded episodes are not events.
+- In single-camera runs the three scenarios give identical counts; n_ambiguous_groups = 0 and n_unresolved_identity_episodes = 0.
+- assumptions: A1, A2, A3 each with status unverified. wording = scenario_count.
+- A count of 0 is a count of events, never evidence of zero hazard or zero exposure; exports carry the coverage companion.
+Check: G1 recording scope has all = 1, O = 1, every other label = 0, in every scenario.
+
+T10.7 Event metrics (EV-M, resolves CR-010)
+(a) Abstained: a system event is abstained iff lbl_IE is true AND none of lbl_NM, lbl_UD, lbl_CT is true. Abstention applies only to label group G2. No event is abstained in label groups G1 or any. Abstained events are excluded from sᵢ and from matching candidates, and enter EV-M3, EV-M5 and abstained_miss.
+(b) cᵢ = aᵢ − (number of abstained_miss references in window i). Hence EV-M4 = 1 − EV-M5 on the same windows.
+(c) P90 in EV-M8: linear interpolation (numpy percentile, method "linear") over the unweighted |onset error| and |offset error| of matched pairs. The median uses the same method. With no matched pairs the value is null (not_applicable). n is reported with the value.
+(d) Weighting: EV-M3, EV-M5 and EV-M11 are RES-weighted ratios (wᵢ = 1/πᵢ) over RES windows, with unweighted values reported alongside, as for EV-M1. EV-M8 is unweighted and descriptive of the matched pairs only. For EV-M3, "abstained episodes ÷ all episodes" counts G2 abstention over all episodes; an episode belongs to the window of its onset. EV-M3's support form is Σ wᵢ abstained support ÷ Σ wᵢ POW support.
+
+T10.8 Tests
+CT-T10-01: N1 T1–T11 contact states with T10.1 (every row's contact value, including the new order).
+CT-T10-02: 4 frames at 10 fps give a velocity with w_v = 0.5 s; 3 frames give null.
+CT-T10-03: closing rate, G3 = 1.5 on every frame, and null with fewer than 3 measured frames in the window; a zero result is +0.0.
+CT-T10-04: R5 enabled, E unknown on a lost frame; E_ep true if any true frame exists in I⁺, otherwise unknown. R5 disabled, E = 0 on every frame.
+CT-T10-05: R5 disabled, the cue is still computed; a null-kinematics cue gives undetermined at overlap.
+CT-T10-06: borderline_flags, one case per bullet of T10.4 (including the R1 and footprint_orientation_unknown cases), each hand-calculated and recorded in the test; a borderline frame in I⁺ but outside I sets no flag.
+CT-T10-07: exposure fields on G1, G2, G3 (checks in T10.5), and the T10.5 consistency sum on every episode.
+CT-T10-08: event_count_summary rows for G1 (T10.6 check), and an event with H and NM counted under `all`, H and NM.
+CT-T10-09: EV-M3/M5/M11 weighted and unweighted on a hand-built two-window fixture; EV-M4 = 1 − EV-M5; P90 on 5 and on 4 values (hand values recorded); abstained definition on an event with IE and no NM/UD/CT (not abstained in G1, abstained in G2).
+CT-T10-10: q_reasons on a lost object contains person_lost or forklift_lost and not *_occluded; q_state is unchanged by the new values (T10.9).
+
+T10.9 Q reasons for lost objects (revises AR-35 item 6; descriptive enum addition, no effect on q_state)
+`pair_series.q_reasons` gains the values person_lost and forklift_lost. They are listed when the object has no track point or state = lost at the frame. person_occluded and forklift_occluded are listed only for state = predicted, as T8.7 states. q_state follows T8.7 unchanged.
