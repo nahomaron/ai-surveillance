@@ -128,3 +128,21 @@ def match_run_inputs_digest(references: list[Reference], events: list[SystemEven
         "label_group": group, "iou_m": iou_m, "reference_class": reference_class,
     }
     return hashlib.sha256(canonical_json(payload)).hexdigest()
+
+
+def unobservable_overlap(references: list[Reference], events: list[SystemEvent], records: list[dict], group: str,
+                         ref_groups: dict[str, frozenset]) -> list[dict]:
+    """T12.2: system events of this window and label group that overlap a reference that is not assessable (temporal
+    IoU > 0, no pair condition) and are matched to no reference. Decision: non_abstained (a decision in the group, so a
+    false or duplicate alert under N4) or abstained (T10.7(a), G2 only). Match classes are unchanged."""
+    unobservable = [r for r in references if not r.assessable and (group == "any" or group in ref_groups[r.ref_event_id])]
+    matched = {r["system_event_id"] for r in records if r["match_type"] == "matched"}
+    out = []
+    for e in sorted(events, key=lambda e: canonical_json(e.nk)):
+        if e.system_event_id in matched or not any(temporal_iou((r.t_onset, r.t_offset), (e.t_onset, e.t_offset)) > 0 for r in unobservable):
+            continue
+        if in_group(e, group):
+            out.append({"system_event_id": e.system_event_id, "decision": "non_abstained", "labels": sorted(e.labels)})
+        elif abstained(e, group):
+            out.append({"system_event_id": e.system_event_id, "decision": "abstained", "labels": sorted(e.labels)})
+    return out

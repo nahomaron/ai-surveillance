@@ -73,3 +73,33 @@ def abstention_rate(windows: list[tuple[list[tuple[frozenset, float]], float]], 
     abst_support = [sum(s for labels, s in eps if is_abstained(labels)) for eps, _ in windows]
     pow_support = [float(p) for _, p in windows]
     return {"episodes": _ratio(w, abst, count), "support": _ratio(w, abst_support, pow_support)}
+
+
+SENSITIVITY_LABEL = "sensitivity_excluding_unobservable_overlap"
+EV_M10_NOTE = "These events are neither confirmed nor refuted by the reference."
+
+
+def ev_m10(overlaps: list[list[dict]], weights: list[float] | None = None) -> dict:
+    """T12.2 EV-M10: per decision and per label (lbl_*), RES-weighted totals with unweighted values alongside."""
+    w = weights if weights is not None else [1.0] * len(overlaps)
+
+    def table(ws):
+        out: dict = {"non_abstained": 0.0, "abstained": 0.0, "by_label": {}}
+        for wi, window in zip(ws, overlaps):
+            for e in window:
+                out[e["decision"]] += wi
+                for label in e["labels"]:
+                    key = f"{e['decision']}:{label}"
+                    out["by_label"][key] = out["by_label"].get(key, 0.0) + wi
+        return out
+    return {"weighted": table(w), "unweighted": table([1.0] * len(overlaps)), "note": EV_M10_NOTE}
+
+
+def sensitivity_excluding_unobservable_overlap(windows: list[WindowCounts], overlaps: list[list[dict]], weights: list[float] | None = None) -> dict:
+    """T12.2: EV-M2 and EV-M7 with the non-abstained unobservable-overlap events removed from s_i and f_i. Reported beside
+    the headline values under SENSITIVITY_LABEL, never in their place."""
+    w = weights if weights is not None else [1.0] * len(windows)
+    n = [float(sum(1 for e in o if e["decision"] == "non_abstained")) for o in overlaps]
+    return {"label": SENSITIVITY_LABEL,
+            "EV-M2": _ratio(w, [float(x.m_s) for x in windows], [x.s - k for x, k in zip(windows, n)]),
+            "EV-M7": _ratio(w, [x.f - k for x, k in zip(windows, n)], [x.u for x in windows])}
