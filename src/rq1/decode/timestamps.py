@@ -1,7 +1,8 @@
 """S1 core: timestamp resolution, eligibility, delta_nom and support (E-1.2.1 sections 3.2-3.3; Appendix T T7).
 
 Pure functions over packet records. Times are exact `Fraction`s; floats appear only in stored rows.
-"Decode order" means bitstream order; the presentation index is the decoder output order (AR-25).
+`decode_seq` is the demux (file/DTS) position (T7.1). The presentation index used by `reorder_depth` is the
+decoder output position, which also places untimed frames (AR-25 as reviewed).
 """
 from __future__ import annotations
 
@@ -16,8 +17,8 @@ EXCLUSION_FLAGS = {"rv1": {"decode_error"}}  # AR-27: rules version rv1 excludes
 
 @dataclass(frozen=True)
 class PacketRecord:
-    index: int  # bitstream (decode) order
-    seq: int  # decoder output order, with undecodable frames placed where decoding failed
+    index: int  # demux (file/DTS) order: the stored decode_seq (T7.1)
+    seq: int  # decoder output position, with undecodable frames placed where decoding failed
     pts: int | None
     dts: int | None
     decode_ok: bool
@@ -127,21 +128,28 @@ def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig,
     if untimed_frac > cfg.f_untimed:
         raise ContractError("ERR-TIMESTAMPS", f"untimed fraction {untimed_frac:.3f} exceeds f_untimed {cfg.f_untimed}")
     first_at: dict[Fraction, FrameResult] = {}
-    for f in frames:  # step 3: duplicates keep the lowest decode_seq
+    for f in sorted(frames, key=lambda f: f.index):  # step 3: duplicates keep the lowest decode_seq
         if f.t is not None:
             if f.t in first_at:
                 f.ts_status, f.support_status, f.support_start = "duplicate", "zero_duplicate", f.t
             else:
                 first_at[f.t] = f
-    timeline = sorted(first_at.values(), key=lambda f: (f.t, f.seq))
+    timeline = sorted(first_at.values(), key=lambda f: (f.t, f.index))
     if len(timeline) < 2:
         raise ContractError("ERR-TIMESTAMPS", "fewer than 2 timed frames (T7 step 4)")
     excluded = EXCLUSION_FLAGS[cfg.rules_version]
     for f in timeline:  # step 4
         f.eligible = f.decode_ok and not (set(f.quality_flags) & excluded)
-    for i, f in enumerate(sorted((f for f in timeline if f.eligible), key=lambda f: (f.t, f.seq))):  # step 5
+    for i, f in enumerate(sorted((f for f in timeline if f.eligible), key=lambda f: (f.t, f.index))):  # step 5
         f.frame_index = i
-    pairs = [b.t - a.t for a, b in zip(timeline, timeline[1:]) if a.eligible and b.eligible and abs(a.index - b.index) == 1]
+    regions = []
+    for u in untimed:  # ST-2, in demux order
+        near = [f.t for f in frames if f.t is not None and abs(f.index - u.index) <= radius and f is not u]
+        if near and min(near) < max(near):
+            regions.append((min(near), max(near)))
+    regions = _merge(regions)
+    # T7.1 step 2: consecutive timed, non-duplicate frames in presentation order, excluding pairs overlapping U.
+    pairs = [b.t - a.t for a, b in zip(timeline, timeline[1:]) if not any(a.t < r1 and r0 < b.t for r0, r1 in regions)]
     all_timed = [b.t - a.t for a, b in zip(timeline, timeline[1:])]
     median = Fraction(statistics.median(pairs)) if pairs else None
     if declared is not None:  # T7 precedence
@@ -168,12 +176,6 @@ def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig,
             f.support_status = "excluded_own_support"
         elif f.ts_source == "dts_derived" and f.support_status != "final_assumed":
             f.support_status = "substituted"
-    regions = []
-    for u in untimed:  # ST-2
-        near = [f.t for f in frames if f.t is not None and abs(f.index - u.index) <= radius and f is not u]
-        if near and min(near) < max(near):
-            regions.append((min(near), max(near)))
-    regions = _merge(regions)
     for f in timeline:
         if f.support and any(f.support_start < r[1] and r[0] < f.support_start + f.support for r in regions):
             f.support_status = "timing_uncertain"

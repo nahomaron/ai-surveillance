@@ -552,3 +552,23 @@ Tests:
   degraded coverage. Above f_sub, exactly the substituted frames' support
   intervals become `usable_degraded / timing_substituted`, and total usable
   support is unchanged.
+
+## T7.1 Corrections to decode order and to the δ_nom fallback (E-1.2.5)
+
+1. `decode_seq` is the position of the frame's packet in demux (file / DTS)
+   order. It is NOT the decoder's output order. This replaces "decoder
+   output order" in E-1.2.1 §3.2. `reorder_depth` and the ±r neighbourhood
+   of ST-2 are measured in this order.
+2. T7 step 2 (adjacent-pair median) is replaced by:
+   δ_nom = the median of Δ over consecutive pairs of timed, non-duplicate
+   frames in presentation order (ordered by t_resolved_s; undecodable but
+   timed frames count). Exclude any pair whose interval [t_k, t_k+1)
+   overlaps an uncertainty region U_u of an untimed frame (ST-2). Use the
+   mean of the two middle values for an even count.
+   delta_nom_source = median_adjacent_pairs. Steps 1, 3 and 4 are
+   unchanged.
+3. Check values (undeclared δ_nom):
+   - Case A gives 0.033 s.
+   - Case B gives 0.034 s (the pair f0→f2 overlaps U = [0, 0.066) and is
+     excluded), so CT-T-22 is unchanged.
+   - Case C has no valid pair, so step 3 applies.

@@ -6,10 +6,10 @@ The Research Owner cannot watch you work. **`WORKPLAN.md` is your schedule.** Re
 
 ## Documents and precedence
 
-1. The normative contract **E-1.2.4** consists of three files:
+1. The normative contract **E-1.2.5** consists of three files:
    - `docs/contract/RQ1_Contract_Reference_E-1.2.1_FROZEN.md`;
    - `docs/contract/Package_F1_…md` **Part A and Appendix N**;
-   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and (section T7) the E-1.2.4 amendment.
+   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and the amendments in sections T7 (E-1.2.4) and T7.1 (E-1.2.5).
 
    Precedence: F.1 Part A and Appendix N > Appendix T > E-1.2.1 body.
 
@@ -32,7 +32,7 @@ of these hold:
   estimator, unit, coordinate frame, timebase, sampling or leakage rule,
   reference-independence rule, acceptance criterion, E2 rule or report
   wording.
-- It contradicts nothing in E-1.2.4.
+- It contradicts nothing in E-1.2.5.
 
 How to resolve:
 1. Write an "Agent Resolution" entry AR-<n> in docs/CHANGE_REQUESTS.md:
@@ -43,7 +43,7 @@ How to resolve:
 3. Mention the AR in the Progress log, and continue.
 
 As evidence when writing an AR, you may read Packages E, E.1, the E.1
-Errata and the Clarification (read-only). They never override E-1.2.4.
+Errata and the Clarification (read-only). They never override E-1.2.5.
 Cite the passage you relied on.
 
 Still raise a CR, mark the task BLOCKED, and continue with independent

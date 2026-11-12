@@ -101,7 +101,7 @@ def test_case_d(clip_dir):
 def test_ct_t_21_declared_source_recorded(clip_dir):
     s = summary(run(clip_dir, "fx_clip_a"))
     assert (s["delta_nom_s"], s["delta_nom_source"], s["delta_nom_declared_s"]) == (0.033, "declared_config", 0.033)
-    assert s["delta_nom_median_s"] == pytest.approx(0.034, abs=TOL)  # pair f2->f3 only (f1 is undecodable)
+    assert s["delta_nom_median_s"] == pytest.approx(0.033, abs=TOL)  # T7.1 check value for Case A
 
 
 def test_ct_t_22_case_b_without_declaration(clip_dir):
@@ -170,7 +170,10 @@ def test_ct_t_01_vfr_durations_are_support_sums(clip_dir):
     assert sum(f["support_s"] for f in frames(built)) == pytest.approx(expected, abs=1e-6)
     assert usable(built) == pytest.approx(expected, abs=1e-6)
     gaps = [s for s in built.tables["coverage_segment"] if s["coverage_state"] == "gap_unobserved"]
-    assert len(gaps) == sum(1 for d in deltas if d > 0.0495 + TOL)
+    # Architect review of 11 Nov 2026: the 17 ms gap_unobserved segments after each 50 ms interval are correct
+    # contract behaviour (delta_max = 1.5 x 0.033 = 0.0495 s < 0.050 s).
+    assert len(gaps) == sum(1 for d in deltas if d > 0.0495 + TOL) > 0
+    assert all(g["t_end_tl_s"] - g["t_start_tl_s"] == pytest.approx(0.017, abs=TOL) for g in gaps)
     assert summary(built)["vfr_detected"] is True
 
 
@@ -339,3 +342,37 @@ def test_ar28_case_b_is_rejected_at_the_ct_t_08_value(clip_dir):
     with pytest.raises(ContractError) as exc:
         run(clip_dir, "fx_clip_b", f_untimed=0.05)
     assert exc.value.code == "ERR-TIMESTAMPS"
+
+
+# Appendix T T7.1 (E-1.2.5)
+def test_t7_1_decode_seq_is_demux_order(clip_dir):
+    built = run(clip_dir, "fx_clip_c")
+    by_seq = {f["decode_seq"]: f for f in built.tables["frame"]}
+    assert [by_seq[i]["pts"] for i in range(4)] == [0, 100, None, 66]  # packets I0 P100 B33 B66 in file order
+    assert summary(built)["reorder_depth"] == 2
+
+
+def test_t7_1_check_value_case_a_undeclared(clip_dir):
+    s = summary(run(clip_dir, "fx_clip_a", declared=None))
+    assert (s["delta_nom_s"], s["delta_nom_source"]) == (pytest.approx(0.033, abs=TOL), "median_adjacent_pairs")
+
+
+def test_t7_1_check_value_case_c_falls_back_to_step_3(clip_dir):
+    s = summary(run(clip_dir, "fx_clip_c", declared=None))
+    assert s["delta_nom_source"] == "median_all_timed" and s["delta_nom_median_s"] is None
+    assert s["delta_nom_s"] == pytest.approx(0.050, abs=TOL)  # hand calculation: median of 0.066 and 0.034
+
+
+def test_t7_1_b_frame_clip_uses_presentation_order_pairs(clip_dir):
+    s = summary(run(clip_dir, "ct_t_02_bframes", declared=None))
+    assert s["reorder_depth"] > 0
+    assert s["delta_nom_source"] == "median_adjacent_pairs"  # not the all-intervals fallback
+    assert s["delta_nom_s"] == pytest.approx(0.033, abs=TOL)
+
+
+def test_t7_1_pairs_overlapping_an_uncertainty_region_are_excluded():
+    packets = [PacketRecord(0, 0, 0, 0, True), PacketRecord(1, 1, None, None, True), PacketRecord(2, 2, 100, 100, True),
+               PacketRecord(3, 3, 134, 134, True), PacketRecord(4, 4, 168, 168, True)]
+    result = timestamps.resolve(packets, Fraction(1, 1000), DecodeConfig(1.5, 0.5, 0.10, "rv1", {}, "delta_nom"), None)
+    assert result.uncertain == [(Fraction(0), Fraction(100, 1000))]
+    assert result.delta_nom == Fraction(34, 1000)  # the 0.100 s pair inside U is excluded

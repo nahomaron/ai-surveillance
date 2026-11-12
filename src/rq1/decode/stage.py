@@ -58,7 +58,7 @@ def run_s1(timeline: Row, inputs: list[S1Input], cfg: DecodeConfig, spec: Spec) 
 
 
 def _frame_row(recording_id: str, f: timestamps.FrameResult, to_tl, scale: Fraction) -> Row:
-    row = {"recording_id": recording_id, "decode_seq": f.seq, "ts_source": f.ts_source, "ts_status": f.ts_status, "decode_ok": f.decode_ok,
+    row = {"recording_id": recording_id, "decode_seq": f.index, "ts_source": f.ts_source, "ts_status": f.ts_status, "decode_ok": f.decode_ok,
            "quality_flags": list(f.quality_flags), "eligible": f.eligible, "support_s": float(f.support * scale), "support_status": f.support_status}
     row["frame_index"], row["frame_index_null_reason"] = _nullable(f.frame_index, "not_applicable")
     row["pts"], row["pts_null_reason"] = _nullable(f.pts, "not_observable")

@@ -59,10 +59,10 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 
 | ✓ | ID | Task | Needs | Refs | Done when | Size |
 |---|---|---|---|---|---|---|
-| [ ] | T-17 | **Dataset qualification (WP-12).** Record source URLs, versions, licence terms and authenticity evidence **before** downloading. Download only if pre-approved in §0; otherwise **STOP**. Reproduce the census facts (1 worker, 1 forklift, 300 frames, 10 views). Verify units. Extract lineage | G-M0 | Package F WP-12 | `research/datasets/qualification.md`; licence rows; data outside git | M |
+| [ ] | T-17 | **Dataset qualification (WP-12).** Record source URLs, versions, licence terms and authenticity evidence **before** downloading. Download only if pre-approved in §0; otherwise **STOP**. Reproduce the census facts (1 worker, 1 forklift, 300 frames, 10 views). Verify units. Extract lineage. Report the frame-interval distribution of every downloaded recording (min, median, P99, max, VFR flag) | G-M0 | Package F WP-12 | `research/datasets/qualification.md`; licence rows; data outside git | M |
 | [ ] | T-18 | **Dataset adapters (WP-13).** SDG and SmartSpaces → S0, oracle tracks, simulator references; `reference_class` set correctly | T-17 | Package F WP-13; F.1 A5.1 | Truth round-trip within 1e-6 m; reprojection check | L |
 | [ ] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
-| [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`; must include the camera grouping basis declared explicitly for every research configuration (AR-22 review) | M |
+| [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27) | M |
 | [S] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [ ] | T-21 | **M1a run (WP-14).** Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [S] | G-M1a | **STOP — Owner reviews M1a** | T-21 | — | Owner decision recorded | — |
@@ -77,6 +77,10 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [ ] | T-23 | **Tracker adapters (WP-17)** with evidence classes; identity-association fixtures | T-22 | HOTA/IDF1 against simulator IDs | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
+
+| ✓ | ID | Gate | Needs | Done when |
+|---|---|---|---|---|
+| [S] | G-FQ | **STOP before the first real-data task: frame-quality rules version.** The agent proposes a rules version (frozen, black, blur, exposure) for Architect review and Owner approval (AR-27 review). No real footage is decoded under `rv1` | Proposal in `DECISIONS_NEEDED.md` | Owner approves the rules version |
 
 **Later work, not scheduled until the Owner decides:** E2 measurement (E2-W1/W2 after M1a, using T-07's findings), multi-camera linkage (M2), real-data collection (requires ethics approval), the FM-X1 annotation-efficiency experiment.
 
@@ -243,3 +247,11 @@ _(the agent appends entries here)_
 - One requested test conflicts with F.1 A1.2 (anchor IDs come from the natural key only), so it was implemented to F.1 and raised as CR-004 / D-5.
 - Tests: 718/718 (full suite), determinism re-run: identical
 - T-06 was already complete (7bc0036) under E-1.2.4 and still passes. Next: T-08.
+
+### 2026-11-11 — Architect review of the T-06 Agent Resolutions applied (contract E-1.2.5)
+- AR-28 and AR-25 accepted; AR-27 acknowledged (STOP G-FQ added before the first real-data task); VFR fixture kept, with the 17 ms gaps asserted. Appendix T T7.1 appended verbatim; CLAUDE.md reads E-1.2.5.
+- Code: `decode_seq` is demux order; δ_nom step 2 is the presentation-order pair median excluding pairs that overlap an uncertainty region. T7.1 check values pass (A 0.033 s, B 0.034 s, C falls back to step 3).
+- `test_ct_t_21_declared_source_recorded` now expects a stored pair median of 0.033 s for Case A instead of 0.034 s. The old figure was the agent's derivation under the replaced T7 step 2, not an Appendix value; the new one is the T7.1 check value.
+- T-17 and T-20 rows extended with the review's reporting and pre-registration items.
+- Tests: 723/723 (full suite), determinism re-run: identical
+- Next: T-08, then T-10.
