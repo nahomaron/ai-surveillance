@@ -49,7 +49,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [x] | T-12 | **Evaluation part 1 (WP-09a).** Identity association, matching with composite tie weights, match classes, EV-M metrics | T-09, T-11 | F.1 A5.2; Appendix N4 | CT-ID-A1/A2, CT-E-20/21, FX-TIE (s1→r1, r2 miss) | M |
 | [x] | T-13 | **Evaluation part 2 (WP-09b).** Weighted estimators, Kish n_eff, stratified and cluster bootstrap, Wilson, Bland–Altman, ICC(2,1), κ | T-12 | Appendix N5 | FX-W: 0.71875 weighted, 0.70 unweighted, n_eff 3.3793103448 | M |
 | [x] | T-14 | **Evaluation part 3 (WP-09c).** Completeness CM-01–10, error attribution (rule tests and oracle factorial), acceptance criteria, scoped fitness engine | T-13 | Appendix N6, N9; E-1.2.1 §9.4–9.6 | FX-CM CM-01 = 0.600; FX-ID-3 CM-01 = 0.9; CT-E-22/29, CT-F-03–10, CT-ID-A3 | M |
-| [ ] | T-15 | **Export and reports (WP-10).** Export classes, fixture banner, wording rules, status board | T-14 | F.1 A2; E-1.2.1 §11 | CT-X-01–05, CT-E-26/27/28 | S |
+| [x] | T-15 | **Export and reports (WP-10).** Export classes, fixture banner, wording rules, status board | T-14 | F.1 A2; E-1.2.1 §11 | CT-X-01–05, CT-E-26/27/28 | S |
 | [ ] | T-16 | **M0 integration and self-audit (WP-11).** Run the whole fixture pipeline twice from a clean clone; full suite; complete the self-audit (§5); write `reports/M0_report.md` (§6 template); tag `m0-verified`; push | all above | Package F §12 | All M0 tests pass; identical artifact IDs across both runs | M |
 | [S] | G-M0 | **STOP — Owner reviews M0.** Recommended: share the repository with the Research Architect for an independent review before accepting | T-16 | — | Owner writes "M0 accepted" in `DECISIONS_NEEDED.md` | — |
 
@@ -442,3 +442,10 @@ _(the agent appends entries here)_
 ### 2026-11-12 — T-15 in progress (part A: OBX export)
 - Did: `export/obx.py`. Export-class guard EXP-1 to EXP-3 (ERR-EXPORT-CLASS both ways; preregistration_ref for test-partition metrics); one serializer for both classes (JCS files with metadata, sorted rows, data dictionary = JSON Schema per table, manifest with SHA-256 per file); shared validators (schema, forbidden names and values, VR-E-034, VR-E-040 including the zero-exposure clause carried from T-01); fixture exports written under `fixture/`. Episodes carry continuation_of_nk into OBX (AR-40 item 4 ruling). Lineage check for CT-E-28.
 - Contract tests: CT-X-01, CT-X-02, CT-X-03, CT-X-05, CT-E-26 (FX-12 E2 records), CT-E-27 (content scan), VR-E-040.
+
+### 2026-11-12 — T-15 done
+- Did (part B): `export/report.py`. Fixture and research templates (EXP-4 banner; mixed templates refused), wording linter (W1–W6, RV-04), Implementation-conformance section with RV-02 check and fixed caveat, candidate-event counts as scenario_count (never physical interactions; continuation chains named), EV-M10 section with the sensitivity label and note beside the headline values, completeness section printing "reference visibility assumed", three-status board.
+- Contract tests: CT-X-01 to CT-X-05, CT-E-26, CT-E-27, CT-E-28 (export level), VR-E-040 (both clauses), LK-07 wording.
+- Tests: 1684/1684 (full suite), determinism re-run: identical (1684/1684)
+- Problems / CRs: AR-46.
+- Next: T-16 (M0 integration and self-audit).
