@@ -295,3 +295,10 @@ _(the agent appends entries here)_
 - Commit: 9b9b1d5 (pushed)
 - Problems / CRs: AR-36.
 - Next: T-09.
+
+### 2026-11-12 — T-09 BLOCKED (part A done)
+- Why: CR-008 / D-9. Eight event-engine inputs are undefined (R5 rates, contact-cue units, E when R5 is off, closest-approach frame, "usable frames around CA", unknown-T runs in the lifecycle, onset_sensitive). Appendix N2's per-frame M and C_by_R3 conflict with T8.2 at the first and last frame; for G3 this also changes the episode to [1, 9) with minclr 2.50 m.
+- Part A done (9850a53, pushed): Kleene logic; providers R1, R2, R3, G, Q; lifecycle with m_gap, t_min, w_post; episode quantities; K; contact state; labels, IE, review routing; N1 T1–T13 exact at flag level; CL-INV property test (CT-E-10); CT-E-12 (substrate unchanged), CT-E-13 (R3 plus stub R4), CT-E-14 (early trigger); N2 interior-frame flags. AR-37.
+- Tests: 1180/1180 (full suite), determinism re-run: identical
+- Part B after D-9: R5 and contact cue from kinematics, CA frame, S5 artifact (flag_series, episode, discarded_episode, candidate_event, event_count_summary), episode exposure fields, N2 episodes end to end.
+- Next: no M0 task is independent of T-09 (T-12 needs T-09 and T-11). Waiting for D-9.
