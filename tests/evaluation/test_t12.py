@@ -296,3 +296,16 @@ def test_ar_39_item_3_label_groups_are_an_input_mapping():
         mt.match_window([ref("r1", 0.0, 1.0)], [], "G1", 0.3, "rule_conformance", {})
     assert exc.value.code == "ERR-SPEC"
     assert by_type(mt.match_window([ref("r1", 0.0, 1.0)], [], "G2", 0.3, "rule_conformance", {"r1": frozenset({"G1"})})) == []  # not in G2
+
+
+@pytest.mark.determinism
+def test_label_group_mapping_is_part_of_the_match_run_inputs_digest():
+    # Architect ruling on AR-39 item 3: the mapping is part of the match-run inputs hash. Input order does not matter.
+    refs = [ref("r1", 0.0, 1.0), ref("r2", 5.0, 6.0)]
+    events = [sev(0, 0.0, 1.0), sev(1, 5.0, 6.0, labels=("H", "UD"))]
+    groups = {"r1": frozenset({"G1", "G2"}), "r2": frozenset({"G1"})}
+    base = mt.match_run_inputs_digest(refs, events, "G2", 0.3, "rule_conformance", groups)
+    assert base == mt.match_run_inputs_digest(refs[::-1], events[::-1], "G2", 0.3, "rule_conformance", dict(reversed(list(groups.items()))))
+    assert base != mt.match_run_inputs_digest(refs, events, "G2", 0.3, "rule_conformance", {**groups, "r2": frozenset({"G1", "G2"})})
+    assert base != mt.match_run_inputs_digest(refs, events, "G1", 0.3, "rule_conformance", groups)
+    assert len(base) == 64

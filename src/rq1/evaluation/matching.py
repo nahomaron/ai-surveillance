@@ -113,3 +113,18 @@ def _record(r: Reference | None, e: SystemEvent | None, kind: str, iou: float | 
     return {"ref_event_id": r.ref_event_id if r else None, "system_event_id": e.system_event_id if e else None, "match_type": kind,
             "temporal_iou": iou, "onset_error_s": (e.t_onset - r.t_onset) if (r and e) else None,
             "offset_error_s": (e.t_offset - r.t_offset) if (r and e) else None, "reference_class": reference_class}
+
+
+def match_run_inputs_digest(references: list[Reference], events: list[SystemEvent], group: str, iou_m: float, reference_class: str,
+                            ref_groups: dict[str, frozenset]) -> str:
+    """SHA-256 over the JCS form of every input of one `match_window` call, the label-group mapping included
+    (Architect ruling on AR-39 item 3). Input order does not change it. S8 records it with the match run (AR-42 item 3)."""
+    import hashlib
+    payload = {
+        "references": sorted(([r.ref_event_id, r.t_onset, r.t_offset, list(r.pair), r.assessable] for r in references), key=canonical_json),
+        "events": sorted(([e.nk, e.system_event_id, e.t_onset, e.t_offset, list(e.pair) if e.pair else None, sorted(e.labels)] for e in events),
+                         key=canonical_json),
+        "label_groups": {k: sorted(v) for k, v in sorted(ref_groups.items())},
+        "label_group": group, "iou_m": iou_m, "reference_class": reference_class,
+    }
+    return hashlib.sha256(canonical_json(payload)).hexdigest()

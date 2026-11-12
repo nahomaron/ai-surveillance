@@ -11,6 +11,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TRIGGERS = ("rq1.ids", "rq1.fixtures", "rq1.substrate.builder", "rq1.substrate.oracle", "rq1.decode.stage", "rq1.registry.registrar", "rq1.events.s5")
 EXCEPTIONS: dict[str, str] = {
+    "tests/evaluation/test_t14_attribution.py::test_n9_pipeline_order_and_unresolved": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_attribution.py::test_rule_1_evidence_unavailable": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_attribution.py::test_rule_3_tracking": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_attribution.py::test_rule_4_geometry_and_rule_5_event_reasoning_and_rule_7": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_attribution.py::test_oracle_runner_covers_the_2_cubed_sets": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
+    "tests/evaluation/test_t14_attribution.py::test_vr_e_061_verified_only_on_synthetic_with_oracle_runs": "pure formula: N9 rule or VR-E-061 check on hand-built inputs; no fixture file, artifact or seed",
     "tests/decode/test_s1.py::test_ct_t_23_at_or_below_f_sub_no_degradation": "pure formula: T7 interval and support rules on hand-built timestamp lists; no clip, artifact or seed",
     "tests/decode/test_s1.py::test_ct_t_23_above_f_sub_exactly_substituted_frames_degrade": "pure formula: T7 interval and support rules on hand-built timestamp lists; no clip, artifact or seed",
     "tests/decode/test_s1.py::test_t7_median_all_timed_when_no_adjacent_pair": "pure formula: T7 interval and support rules on hand-built timestamp lists; no clip, artifact or seed",
