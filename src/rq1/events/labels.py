@@ -8,19 +8,23 @@ PRECEDENCE = ("CT", "UD", "NM", "PC", "H", "O")
 
 @dataclass(frozen=True)
 class CaInputs:
-    """Closest-approach inputs. In part A they are given (Appendix N1 states them per row); CR-008 items 2, 4 and 5."""
+    """Closest-approach inputs stated by an Appendix N1 row (flag level, AR-37). Pipeline runs derive them by T9.5 and T9.3."""
     frame_index: int
     overlap: int
     cue: bool
-    usable_around: bool
 
 
-def contact_state(usable_around: bool, overlap: int, cue: bool, q_at_ca: bool, clearance: float | None, sigma: float | None, k_sigma: float) -> str:
-    if not usable_around:
+def contact_state(ca_exists: bool, usable_in_w_ca: bool, q_at_ca: bool, overlap: int, cue: int,
+                  clearance: float | None, sigma: float | None, k_sigma: float) -> str:
+    """Appendix T T9.6 order. Overlap with a true cue is `suspected` before the other section 6 undetermined
+    conditions, as Appendix N1 T7 and T9 require (AR-38 item 2)."""
+    if not ca_exists or not usable_in_w_ca:
         return "not_assessable"
-    if overlap == 1 and cue:
+    if not q_at_ca:
+        return "undetermined"  # closest approach not visible
+    if overlap == 1 and cue == 1:
         return "suspected"
-    if overlap in (1, 2) or not q_at_ca:
+    if overlap in (1, 2):
         return "undetermined"
     if clearance is not None and clearance - k_sigma * (sigma or 0.0) <= 0:  # within k_sigma * sigma of 0; null sigma uses 0
         return "undetermined"

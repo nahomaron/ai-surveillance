@@ -62,16 +62,46 @@ def by_frame(built, table="pair_series"):
     return {r["frame_index"]: r for r in built.tables[table]}
 
 
-# T8.2 check: G2 speed 1.000000 m/s, heading 0, sigma 0 (interior frames; edge frames lack a half-window of span)
+# T8.2 check, and T9.1 check "G2 speed is still 1.000000 m/s": with the shifted window (Appendix T T9.1, E-1.2.7)
+# every frame has a velocity, including the track ends.
 def test_t8_2_g2_speed_heading_sigma():
     built, _ = build_s4(synthetic_s1.build(50), tracks(50), n2_positions("N2-G2", 50))
     fork = [r for r in built.tables["object_state"] if r["track_id"] == builder.track_ids(built)[2]]
-    interior = [r for r in fork if 2 <= r["frame_index"] <= 47]
+    assert len(fork) == 50
     assert all(r["speed_mps"] == pytest.approx(1.0, abs=TOL) and r["heading_rad"] == pytest.approx(0.0, abs=TOL) and r["speed_sigma_mps"] == pytest.approx(0.0, abs=TOL)
-               for r in interior)
-    assert all(r["sigma_status"] == "uncalibrated_model" for r in interior)
-    edge = next(r for r in fork if r["frame_index"] == 0)  # frames 0, 0.1, 0.2: span 0.2 < w_v/2 = 0.25
-    assert edge["speed_mps"] is None and edge["speed_mps_null_reason"] == "not_observable"
+               for r in fork)
+    assert all(r["sigma_status"] == "uncalibrated_model" for r in fork)
+
+
+def test_t9_1_window_is_shifted_not_shrunk():
+    times = {i: i / 10 for i in range(10)}
+    run = list(range(10))
+    assert kinematics.shifted_window(run, times, 0.0, 0.5) == [0, 1, 2, 3, 4, 5]  # [0, 0.5], not [0, 0.25]
+    assert kinematics.shifted_window(run, times, 0.9, 0.5) == [4, 5, 6, 7, 8, 9]  # [0.4, 0.9]
+    assert kinematics.shifted_window(run, times, 0.5, 0.5) == [3, 4, 5, 6, 7]  # interior: centred [0.25, 0.75]
+    assert kinematics.shifted_window([2, 3, 4], times, 0.3, 0.5) == [2, 3, 4]  # run shorter than w_v: the whole run
+
+
+def test_t9_1_runs_split_at_unusable_frames_and_coverage_breaks():
+    order = list(range(8))
+    runs = kinematics.contiguous_runs(order, usable={0, 1, 2, 4, 5, 6, 7}, crosses_break=lambda a, b: (a, b) == (5, 6))
+    assert runs[0] == [0, 1, 2] and runs[4] == [4, 5] and runs[7] == [6, 7] and 3 not in runs
+
+
+def test_t9_1_lost_frame_ends_the_run_and_the_velocity_window():
+    # Person lost on frame 5 of 10: frames 0-4 and 6-9 are separate runs, so frame 4's window is [0, 0.4], never across frame 5.
+    built, _ = build_s4(synthetic_s1.build(10), tracks(10, person_states={5: "lost"}), n2_positions("N2-G3", 10))
+    person = {r["frame_index"]: r for r in built.tables["object_state"] if r["track_id"] == builder.track_ids(built)[1]}
+    assert person[4]["speed_mps"] == pytest.approx(0.0, abs=TOL) and person[5]["speed_mps"] is None
+    assert person[6]["speed_mps"] == pytest.approx(0.0, abs=TOL)  # run 6-9: 4 frames spanning 0.3 s >= w_v/2
+
+
+def test_t9_1_keeps_the_t8_2_span_requirement():
+    # A run of 3 frames spans 0.2 s < w_v/2: T9.1 uses the whole run, and T8.2's span rule (unchanged by T9.1) makes speed null. CR-009 item 1.
+    built, _ = build_s4(synthetic_s1.build(10), tracks(10, person_states={3: "lost", 7: "lost"}), n2_positions("N2-G3", 10))
+    person = {r["frame_index"]: r for r in built.tables["object_state"] if r["track_id"] == builder.track_ids(built)[1]}
+    assert person[4]["speed_mps"] is None and person[4]["speed_mps_null_reason"] == "not_observable"
+    assert person[1]["speed_mps"] is None  # run 0-2, also 0.2 s
 
 
 def test_t8_2_ols_standard_errors():
@@ -116,9 +146,9 @@ def test_t8_3_g3_ttca_and_closing_rate():
     assert t_min == pytest.approx(2.0, abs=TOL) and kinematics.ttca(t_min, 2.0) == (None, "not_observable")
     built, _ = build_s4(synthetic_s1.build(10), tracks(10), n2_positions("N2-G3", 10))
     rows = by_frame(built)
-    # Inside the substrate, frame 0 has no T8.2 velocity (half-window span 0.2 s < 0.25 s), so no prediction exists there.
-    assert rows[0]["predicted"] == [] and rows[0]["ttca_s"] is None and rows[0]["ttca_s_null_reason"] == "not_observable"
-    assert rows[1]["predicted"][0]["t_at_min_s"] == pytest.approx(2.0, abs=TOL) and rows[1]["ttca_s_null_reason"] == "not_observable"
+    # T9.1 check (E-1.2.7): G3 has a velocity on every frame, and ttca_s at t = 0 is null (not_observable).
+    assert rows[0]["predicted"][0]["t_at_min_s"] == pytest.approx(2.0, abs=TOL)
+    assert rows[0]["ttca_s"] is None and rows[0]["ttca_s_null_reason"] == "not_observable"
     assert rows[5]["closing_rate_mps"] == pytest.approx(1.5, abs=TOL)  # clearance 3.70 - 1.5 t, so -slope = 1.5
 
 
@@ -268,8 +298,8 @@ def test_ct_e_07_ct_e_08_profiles_and_sums():
     profile = built.tables["exposure_profile"][0]
     assert sum(profile["t_in_band_inferred_s"]) == pytest.approx(0.5, abs=TOL)
     assert profile["t_total_support_s"] == pytest.approx(5.0, abs=TOL)
-    # Forklift moves at 1.0 m/s > v_min; frames 0 and 49 have no speed (half-window span 0.2 s < 0.25 s).
-    assert profile["t_motion_unknown_s"] == pytest.approx(0.2, abs=TOL)
+    # Forklift moves at 1.0 m/s > v_min on every frame (T9.1: the window shifts at the track ends), so no motion-unknown time.
+    assert profile["t_motion_unknown_s"] == pytest.approx(0.0, abs=TOL)
     assert profile["t_joint_visible_s"] == pytest.approx(4.5, abs=TOL)  # detected frames with both objects visible
 
 
@@ -286,7 +316,7 @@ def test_n2_through_the_substrate(name):
     rows = by_frame(built)
     assert [rows[i]["clearance_m"] for i in range(n)] == pytest.approx(fixture["clearance_m"], abs=TOL)
     if "pred_min_clearance_m" in fixture:
-        assert [rows[i]["predicted"][0]["pred_min_clearance_m"] for i in range(1, n - 1)] == pytest.approx(fixture["pred_min_clearance_m"][1:n - 1], abs=TOL)
+        assert [rows[i]["predicted"][0]["pred_min_clearance_m"] for i in range(n)] == pytest.approx(fixture["pred_min_clearance_m"], abs=TOL)  # every frame (T9.1)
     assert len(built.tables["pow"]) == 1 and built.tables["pow"][0]["t_detected_s"] == pytest.approx(n / 10, abs=TOL)
 
 

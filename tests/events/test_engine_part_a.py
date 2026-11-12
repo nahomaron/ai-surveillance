@@ -1,5 +1,6 @@
-"""T-09 part A: E-1.2.1 section 6 with Appendix N1 (flag level) and N2 (interior frames; edge frames are CR-008 item 7)."""
+"""T-09: E-1.2.1 section 6 with Appendix N1 (flag level) and N2 (every frame, Appendix T T9.1); contract E-1.2.7."""
 import copy
+import dataclasses
 import json
 import random
 from pathlib import Path
@@ -13,7 +14,9 @@ from rq1.schema import vr_rules
 from rq1.substrate import builder, oracle
 
 FIX = Path(__file__).resolve().parents[2] / "fixtures" / "records"
-PARAMS = engine.Params(m_gap=5, t_min=0.2, w_post=1.0, d_nm=0.5, k_sigma=2.0, o_max=0.5)  # Package F section 3 TEST-ONLY values
+V = json.loads((FIX / "TEST-ONLY-PARAMETERS.json").read_text())["parameters"]  # Package F section 3 TEST-ONLY values
+PARAMS = engine.Params(m_gap=V["m_gap"], t_min=V["t_min"], w_post=V["w_post"], d_nm=V["d_nm"], k_sigma=V["k_sigma"], o_max=V["o_max"], g_max=V["g_max"],
+                       w_e=V["w_e"], k_c=V["k_c"], k_c_turn=V["k_c_turn"], r5_enabled=True, e_turn=V["e_turn"], e_acc=V["e_acc"], e_dec=V["e_dec"])
 
 
 def n1(row):
@@ -29,7 +32,8 @@ def n1_frames(inputs):
     p, m, c, e, q = exp("P"), exp("M"), exp("C_any"), exp("E"), exp("Q")
     frames = []
     for i in range(inputs["n_frames"]):
-        measured = inputs.get("minclr_m") is not None and (inputs.get("ca_frame") is None or i < 10)  # T10/T11: clearance on frames 0-9 only
+        lo, hi = inputs.get("clearance_frames", [0, inputs["n_frames"]])
+        measured = inputs.get("minclr_m") is not None and lo <= i < hi  # T10: frames 0-11 (Appendix T T9.9); T11: frames 0-9
         frames.append(engine.FrameFlags(frame_index=i, t=i / 10, support=0.1, P=p[i], M=m[i], C_by={"R3": c[i]}, E=e[i], Q=q[i],
                                         clearance=inputs["minclr_m"] if measured else None, sigma=inputs.get("minclr_sigma_m") if measured else None))
     return frames
@@ -39,10 +43,13 @@ def run_n1(row):
     fixture = n1(row)
     inputs = fixture["inputs"]
     frames = n1_frames(inputs)
-    # The N1 row states its closest-approach inputs. T11's "no usable frames within +-w_e/2 of CA" is that row's stated condition.
+    # The N1 row states its CA frame (T10, T11), overlap and cue at CA (AR-37). Where no CA frame is stated, T9.5 picks it.
+    # Usable frames around CA are not an input: T9.6 derives them from Q over W_CA.
     ca = None
-    if "overlap_at_ca" in inputs:
-        ca = labels.CaInputs(frame_index=inputs["ca_frame"], overlap=tri(inputs["overlap_at_ca"]), cue=inputs["contact_cue"] == "yes", usable_around=row != "T11")
+    if inputs.get("ca_frame") is not None:
+        ca = labels.CaInputs(frame_index=inputs["ca_frame"], overlap=tri(inputs["overlap_at_ca"]), cue=inputs["contact_cue"] == "yes")
+    elif "overlap_at_ca" in inputs:
+        ca = labels.CaInputs(frame_index=engine.closest_approach(frames)[0].frame_index, overlap=tri(inputs["overlap_at_ca"]), cue=inputs["contact_cue"] == "yes")
     return engine.run_pow(frames, PARAMS, ca_inputs=ca), fixture["expected"]
 
 
@@ -101,7 +108,7 @@ def test_ct_e_10_cl_inv_property(seed):
     pick = lambda: rng.choice([0, 1, 2])
     frames = [engine.FrameFlags(i, i / 10, 0.1, P=pick(), M=pick(), C_by={"R3": pick(), "R4": pick()}, E=pick(), Q=rng.choice([0, 1]),
                                 clearance=rng.choice([None, rng.uniform(-0.3, 3.0)]), sigma=rng.choice([None, 0.05])) for i in range(n)]
-    ca = labels.CaInputs(frame_index=rng.randrange(n), overlap=pick(), cue=rng.random() < 0.5, usable_around=rng.random() < 0.8)
+    ca = labels.CaInputs(frame_index=rng.randrange(n), overlap=pick(), cue=rng.random() < 0.5)
     episodes, _ = engine.run_pow(frames, PARAMS, ca_inputs=ca if rng.random() < 0.5 else None)
     for ep in episodes:
         assert vr_rules.check_episode_labels(ep) == [], ep
@@ -138,39 +145,35 @@ def s4_for(name):
     return fixture["expected"], s4, n, s1
 
 
-RULES = providers.RuleParams(p_provider="R2", k_img=0.05, d_p=2.0, v_min=0.3, d_pc=1.0, tau=2.0, conflict=("R3",))
+RULES = providers.RuleParams(p_provider="R2", k_img=V["k_img"], d_p=V["d_p"], v_min=V["v_min"], d_pc=V["d_pc"], tau=V["tau"], conflict=("R3",),
+                             r5=True, w_e=V["w_e"], e_turn=V["e_turn"], e_acc=V["e_acc"], e_dec=V["e_dec"], k_sigma=V["k_sigma"])
+R1_RULES = dataclasses.replace(RULES, p_provider="R1")
 
 
 @pytest.mark.parametrize("name", ["N2-G1", "N2-G2", "N2-G3"])
-def test_n2_flags_interior_frames(name):
+def test_n2_flags_every_frame(name):
+    # Appendix T T9.1 (E-1.2.7): with the shifted velocity window, N2 holds as written on every frame, ends included.
     expected, s4, n, s1 = s4_for(name)
-    flags = providers.flag_frames(s4.tables, RULES, s1["frame"])
+    flags = providers.flag_frames(s4.tables, RULES, s1["frame"], s1["coverage_segment"])
     for key in ("P", "M", "C_by_R3"):
         got = [(f.C_by["R3"] if key == "C_by_R3" else getattr(f, key)) for f in flags]
-        assert got[1:n - 1] == expected[key][1:n - 1], (name, key)
-    assert [f.P for f in flags] == expected["P"]  # P depends on clearance only, so every frame matches
+        assert got == expected[key], (name, key)
 
 
 def test_ct_e_14_early_trigger_g3():
     _, s4, _, s1 = s4_for("N2-G3")
-    flags = providers.flag_frames(s4.tables, RULES, s1["frame"])
-    for f in flags:
-        f.E = 0  # CR-008 item 3: E is not computed here; the trigger test does not depend on it
+    flags = providers.flag_frames(s4.tables, RULES, s1["frame"], s1["coverage_segment"])
     episodes, _ = engine.run_pow(flags, PARAMS)
-    assert episodes[0]["start_frame"] == 1 and not any(f.P == 1 for f in flags)  # opens before any P frame
-    assert episodes[0]["lbl_PC"]
-    # CR-008 item 7: frames 0 and 9 have C_by_R3 unknown (no T8.2 velocity), so the episode is [1, 9) and its minimum
-    # clearance is 3.70 - 1.5 x 0.8 = 2.50 m, not N2's [0, 10) and 2.35 m.
-    assert (episodes[0]["end_frame_excl"], episodes[0]["minclr_m"]) == (9, pytest.approx(2.50, abs=1e-6))
+    assert not any(f.P == 1 for f in flags) and episodes[0]["lbl_PC"]  # opens on the conflict, before any P frame
+    # T9.1 check (E-1.2.7): G3 has a velocity on every frame, so N2 holds as written: episode frames 0-9, minclr 2.35 m.
+    assert (episodes[0]["start_frame"], episodes[0]["end_frame_excl"], episodes[0]["minclr_m"]) == (0, 10, pytest.approx(2.35, abs=1e-6))
 
 
 def test_ct_e_12_substrate_unchanged_by_events():
     _, s4, _, s1 = s4_for("N2-G2")
     before = copy.deepcopy(s4.tables)
-    for rules in (RULES, providers.RuleParams(p_provider="R1", k_img=0.05, d_p=2.0, v_min=0.3, d_pc=1.0, tau=2.0, conflict=("R3",))):
-        flags = providers.flag_frames(s4.tables, rules, s1["frame"])
-        for f in flags:
-            f.E = 0
+    for rules in (RULES, R1_RULES):
+        flags = providers.flag_frames(s4.tables, rules, s1["frame"], s1["coverage_segment"])
         engine.run_pow(flags, PARAMS)
     assert s4.tables == before
     for table, rows in s4.tables.items():
@@ -179,5 +182,5 @@ def test_ct_e_12_substrate_unchanged_by_events():
 
 def test_r1_only_configuration_never_has_motion():
     _, s4, _, s1 = s4_for("N2-G2")
-    flags = providers.flag_frames(s4.tables, providers.RuleParams(p_provider="R1", k_img=0.05, d_p=2.0, v_min=0.3, d_pc=1.0, tau=2.0, conflict=()), s1["frame"])
+    flags = providers.flag_frames(s4.tables, dataclasses.replace(R1_RULES, conflict=()), s1["frame"], s1["coverage_segment"])
     assert {f.M for f in flags} == {2}  # section 6.0: M unknown in every R1-only configuration, so no H (BL-2)

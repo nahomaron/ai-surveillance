@@ -1,4 +1,4 @@
-"""T8.2 and T8.3: least-squares velocity, speed, heading and yaw; closing rate and time to closest approach."""
+"""T8.2 (as corrected by T9.1) and T8.3: least-squares velocity, speed, heading and yaw; closing rate and time to closest approach."""
 from __future__ import annotations
 
 import math
@@ -47,6 +47,34 @@ def fit_velocity(t: list[float], xs: list[float], ys: list[float]) -> Fit:
     vx, sx = _slope(t, xs)
     vy, sy = _slope(t, ys)
     return Fit(vx, vy, sx, sy)
+
+
+def contiguous_runs(order: list[int], usable: set[int], crosses_break) -> dict[int, list[int]]:
+    """T9.1: each usable frame's maximal run of consecutive eligible frames (`order`) that are all usable,
+    split where `crosses_break(previous, next)` is true. Frames outside `usable` belong to no run."""
+    out: dict[int, list[int]] = {}
+    run: list[int] = []
+    for i in order:
+        if i in usable and run and not crosses_break(run[-1], i):
+            run.append(i)
+        else:
+            run = [i] if i in usable else []
+        if run:
+            out[i] = run  # the list keeps growing, so every member ends up sharing the whole run
+    return out
+
+
+def shifted_window(run: list[int], times: dict[int, float], t_k: float, w: float, eps: float = 1e-9) -> list[int]:
+    """T9.1: the interval of length w centred on t_k, shifted (not shrunk) to lie inside the run; the whole run if the run is shorter than w."""
+    r0, r1 = times[run[0]], times[run[-1]]
+    if r1 - r0 <= w + eps:
+        return list(run)
+    lo, hi = t_k - w / 2, t_k + w / 2
+    if lo < r0:
+        lo, hi = r0, r0 + w
+    elif hi > r1:
+        lo, hi = r1 - w, r1
+    return [i for i in run if lo - eps <= times[i] <= hi + eps]
 
 
 def window_ok(times: list[float], w_v: float) -> bool:

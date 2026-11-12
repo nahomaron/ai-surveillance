@@ -340,3 +340,43 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-37 — Reading Appendix N1 rows at flag level
 - **Gap:** N1 gives "contact inputs at the closest-approach (CA) frame" but names a CA frame only for T10 and T11. T11's `not_assessable` rests on its stated condition "(no usable frames within ±*w_e*/2 of CA)", which the flag columns cannot express (CR-008 item 5). **Choice:** where N1 gives no CA frame (T1–T9), CA is the first frame of minimum clearance; since clearance is constant in those rows, any frame gives the same result. T11's stated condition is passed as the "usable around CA" input; every other row has usable frames. In T10 and T11, clearance is measured on frames 0–9 only, as the rows state.
 - **No meaning effect:** test-harness reading of N1. The expected values are N1's, unchanged. **Files/tests:** `tests/events/test_engine_part_a.py` (`run_n1`, `n1_frames`). **Reverse:** edit the harness once CR-008 items 4 and 5 are decided.
+
+## AR-38 — Representation and reading choices for T9 (T-09)
+- **Gaps and choices:**
+  1. **E per frame when R5 is off.** T9.4 sets `E_ep = 0`. The `flag_series.E` value is not stated. It is written as 0, so that `E_ep` still follows the §6 rule (∃ a true frame) and the two agree.
+  2. **Contact-state order.** T9.6 step 2 says "any §6 undetermined condition", and §6 lists overlap as one. Read literally, that would make `suspected` (overlap ∧ cue) unreachable, which contradicts Appendix N1 T7 and T9. Appendix N takes precedence over Appendix T. The order implemented is: not_assessable (T9.6 step 1); undetermined if Q is insufficient at CA (step 2, first clause); suspected if overlap = 1 and cue = 1; undetermined for the other §6 conditions (overlap unknown, overlap without a cue, clearance within k_σ·σ of 0); otherwise none_observed. **Review flag.**
+  3. **Readings of T9 text.** (a) T9.1 keeps T8.2's "spanning ≥ w_v/2", because "All other T8.2 rules are unchanged". A run spanning less than w_v/2 therefore gives null speed. (b) A "contiguous run" is a run of consecutive eligible frames of the recording. (c) In T9.5 step 2, "the next frame of I is not measured" requires that such a frame exists. If m* is the last frame of I, CA = m* and is observed. (d) In the Appendix N1 harness, the CA frame, overlap and cue are row inputs (AR-37). Usable frames around CA are no longer an input: T9.6 derives them from Q.
+  4. **Borderline labels.** A borderline P (R2 clearance against d_p) or C (R3 predicted clearance against d_pc) frame is recorded as `clearance_within_k_sigma`, and a borderline M frame as `speed_near_v_min`. R1's image gap has no σ, so it is borderline only when it equals k_img, and it uses the same label. `footprint_orientation_unknown` is carried from `pair_series` (AR-35 item 3).
+  5. **Single-camera events.** `grouping_algorithm_version = single_camera_v1`. `join_sequence` holds the JCS text of each member's natural key. Events are listed by scenario, then in the §7 order. A null `t_onset_tl_s`, `t_end_tl_s` or `minclr_ev_m` has reason `not_observable`. An `unverified` assumption has `evidence_ref` null with reason `not_applicable`.
+  6. **Schema and interfaces.** `episode` gains `e_assessed` and `ca_observed` (bool, not nullable). `rule_configuration.classification` gains `k_c_turn` (f64). `flag_frames` takes the S1 coverage segments, so that R5 windows do not cross coverage breaks.
+- **No meaning effect:** items 1, 4, 5 and 6 are representation. Items 2 and 3 implement the contract text, using precedence where the two documents conflict. **Review flag:** items 2 and 3(a). **Files/tests:** `events/engine.py`, `events/labels.py`, `events/providers.py`, `events/candidates.py`, `schema/tables.py`; `tests/events/test_t9.py`, `tests/events/test_engine_part_a.py`, `tests/substrate/test_part_b.py::test_t9_1_keeps_the_t8_2_span_requirement`. **Reverse:** edit the named functions.
+
+## CR-009 (2026-11-12) — T9 edge readings and episode exposure fields (T-09)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-09 (S5 artifact).
+**Contract sections:** E-1.2.1 §5.6 (episode "Exposure (always populated)", `support_detected_frac`, `event_count_summary.label`), §6 lifecycle step 4; Appendix T T8.3, T9.1–T9.4.
+**Meaning-affecting:** yes. Every item changes a measured value, a flag or a count.
+
+**Part 1. Two readings each; the first reading is implemented provisionally and pinned by a test. None of them occurs in an Appendix N fixture.**
+
+| # | Question | Implemented reading | Other reading |
+|---|---|---|---|
+| 1 | T8.3 computes the closing rate "over the T8.2 window". Does T9.1's shift apply to it (inside the pair's run of measured frames)? | No. T9.1 corrects "the velocity window", so the T8.3 window stays centred and needs ≥ 3 measured frames | Yes, shifted inside the run of measured frames. This changes values at run ends, and so the T9.5 sign test and `exp_closing_rate_max_mps` |
+| 2 | R5 at a frame where the object belongs to no run (for example, the person is lost inside a bridged gap) | Unknown. The window cannot be shifted into a run, so the required values are null | Use the centred window, with a and b taken on either side of the gap |
+| 3 | Contact cue when R5 is disabled. T9.3 has no condition, but T9.4 says such a configuration "cannot produce … CT through evasive action" | The cue is still evaluated (literal T9.3), so CT remains possible | No cue, so contact is never `suspected` |
+| 4 | Over which frames borderline frames set the episode's `borderline_flags` | I⁺, by lifecycle step 4 ("assess attributes over I⁺") | I, the frames that set P_ep, X_ep and C_ep |
+
+**Part 2. Undefined; blocks the S5 artifact.** §5.6 names the fields below and Package E gives only types. The episode row cannot be written without them, because the exposure fields are not nullable.
+
+| # | Field | Proposed definition |
+|---|---|---|
+| 5a | Interval of the `exp_*` fields | I⁺ (lifecycle step 4; T9.2 already uses I⁺ for `exp_evasive_score`) |
+| 5b | `exp_t_in_band_detected_s`, `exp_t_in_band_inferred_s`, `exp_t_clearance_unknown_s` | The S4 `exposure_profile` definitions, restricted to I⁺ and using the configuration's `band_scheme_id` |
+| 5c | `exp_speed_at_ca_mps` | Forklift `speed_mps` at CA (C.1 §3.4 says "forklift speed at closest approach"); null if CA or the speed is null |
+| 5d | `exp_closing_rate_max_mps`, `exp_ttca_min_s` | Maximum closing rate and minimum non-null TTCA over I⁺; null if there are none |
+| 5e | `exp_visible_frac` | Support where both objects are visible or partially_visible (T8.6) ÷ total support, over I⁺ |
+| 5f | `duration_*_s`, `support_detected_frac` | Support-based durations by pair evidence class (§3.4) over I; `support_detected_frac` = detected ÷ (detected + inferred + insufficient) |
+| 6 | `event_count_summary.label` other than `all` | Count events whose `summary_label` equals the label, so counts partition `all`. The alternative is to count events with that `lbl_*` flag set, which overlaps and includes IE |
+
+**What proceeds meanwhile:** T9.1–T9.9 in full; flag_series rows; episodes, including durations over I and `exp_evasive_score`; discarded episodes; single-camera candidate events; `label = all` counts. T-12 does not use any item above.
+**Decision:** ______   **Approver:** ______

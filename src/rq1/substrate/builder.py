@@ -128,13 +128,16 @@ class SubstrateBuilder:
         return rows
 
     def _kinematics(self, rows: list[Row], frames: dict[int, Row], coverage: list[Row], cfg: SubstrateConfig, cls: str, supplied_yaw: dict) -> None:
-        usable = [r for r in rows if r["x_m"] is not None and r["evidence_class"] in ("detected", "inferred")]
+        by_frame = {r["frame_index"]: r for r in rows}
+        usable = {i for i, r in by_frame.items() if r["x_m"] is not None and r["evidence_class"] in ("detected", "inferred")}
+        runs = kinematics.contiguous_runs(sorted(frames), usable, lambda a, b: crosses_break(frames, coverage, a, b))
+        times_all = {i: f["t_resolved_s"] for i, f in frames.items()}
         for row in rows:
             uncal = row["geometry_method"] == "image_only"
-            t_k = frames[row["frame_index"]]["t_resolved_s"]
-            window = [r for r in usable if abs(frames[r["frame_index"]]["t_resolved_s"] - t_k) <= cfg.w_v / 2 + 1e-9
-                      and not _crosses_break(frames, coverage, r["frame_index"], row["frame_index"])]
-            times = [frames[r["frame_index"]]["t_resolved_s"] for r in window]
+            t_k = times_all[row["frame_index"]]
+            run = runs.get(row["frame_index"])
+            window = [by_frame[i] for i in kinematics.shifted_window(run, times_all, t_k, cfg.w_v)] if run else []  # T9.1
+            times = [times_all[r["frame_index"]] for r in window]
             if row["x_m"] is not None and kinematics.window_ok(times, cfg.w_v):
                 fit = kinematics.fit_velocity(times, [r["x_m"] for r in window], [r["y_m"] for r in window])
                 row["_v"] = (fit.vx, fit.vy)
@@ -210,7 +213,7 @@ class SubstrateBuilder:
         for row in series:
             t_k = frames[row["frame_index"]]["t_resolved_s"]
             window = [r for r in measured if abs(frames[r["frame_index"]]["t_resolved_s"] - t_k) <= cfg.w_v / 2 + 1e-9
-                      and not _crosses_break(frames, coverage, r["frame_index"], row["frame_index"])]
+                      and not crosses_break(frames, coverage, r["frame_index"], row["frame_index"])]
             if len(window) >= 3:
                 rate = -kinematics.slope([frames[r["frame_index"]]["t_resolved_s"] for r in window], [r["clearance_m"] for r in window])
                 _null(row, "closing_rate_mps", rate, "not_observable")
@@ -274,7 +277,8 @@ class SubstrateBuilder:
         return {"subject_type": "pow", "subject_nk": key, "band_scheme_id": scheme_id, **out, "sigma_status": sigma, "calibration_tier": tier}
 
 
-def _crosses_break(frames: dict[int, Row], coverage: list[Row], a: int, b: int) -> bool:
+def crosses_break(frames: dict[int, Row], coverage: list[Row], a: int, b: int) -> bool:
+    """True if a coverage break lies between frames a and b (T8.1, T8.2)."""
     if a == b:
         return False
     lo_i, hi_i = min(a, b), max(a, b)
