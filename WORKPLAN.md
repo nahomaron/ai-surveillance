@@ -50,7 +50,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [x] | T-13 | **Evaluation part 2 (WP-09b).** Weighted estimators, Kish n_eff, stratified and cluster bootstrap, Wilson, Bland–Altman, ICC(2,1), κ | T-12 | Appendix N5 | FX-W: 0.71875 weighted, 0.70 unweighted, n_eff 3.3793103448 | M |
 | [x] | T-14 | **Evaluation part 3 (WP-09c).** Completeness CM-01–10, error attribution (rule tests and oracle factorial), acceptance criteria, scoped fitness engine | T-13 | Appendix N6, N9; E-1.2.1 §9.4–9.6 | FX-CM CM-01 = 0.600; FX-ID-3 CM-01 = 0.9; CT-E-22/29, CT-F-03–10, CT-ID-A3 | M |
 | [x] | T-15 | **Export and reports (WP-10).** Export classes, fixture banner, wording rules, status board | T-14 | F.1 A2; E-1.2.1 §11 | CT-X-01–05, CT-E-26/27/28 | S |
-| [ ] | T-16 | **M0 integration and self-audit (WP-11).** Run the whole fixture pipeline twice from a clean clone; full suite; complete the self-audit (§5); write `reports/M0_report.md` (§6 template); tag `m0-verified`; push | all above | Package F §12 | All M0 tests pass; identical artifact IDs across both runs | M |
+| [x] | T-16 | **M0 integration and self-audit (WP-11).** Run the whole fixture pipeline twice from a clean clone; full suite; complete the self-audit (§5); write `reports/M0_report.md` (§6 template); tag `m0-verified`; push | all above | Package F §12 | All M0 tests pass; identical artifact IDs across both runs | M |
 | [S] | G-M0 | **STOP — Owner reviews M0.** Recommended: share the repository with the Research Architect for an independent review before accepting | T-16 | — | Owner writes "M0 accepted" in `DECISIONS_NEEDED.md` | — |
 
 ---
@@ -462,3 +462,9 @@ _(the agent appends entries here)_
 ### 2026-11-12 — T-16 in progress: M0 fixture pipeline
 - Did: `rq1.pipeline.m0` runs clips → S0 → S1 → oracle S3 → S4 → S5 → X0b → V0 → CV-SIM → X0c → S8 (with evaluation_config) → S8f → S4-E2 (FX-12 records) → S9 (fixture export and report) on a new 50-frame, 10 fps clip `fx_m0_pipeline` (clip manifest gained one entry; no existing clip changed). It reproduces Appendix N2 G2 end to end (one episode [0, 50), H, minclr 1.10 m, 5.0 s detected, matched to its reference); CT-E-26 and CT-E-28 end to end; two runs in separate processes give identical artifact IDs, payload hashes and export file hashes. CV-SIM converter gained `label_group_mapping` (AR-39 item 3 ruling).
 - A scene defect found on the first run: the oracle boxes lay outside the 64 × 64 px clip, so they were `truncated` and the episode was IE. Boxes moved inside the frame; the engine was not changed.
+
+### 2026-11-12 — T-16 done; STOP at G-M0
+- Did: M0 fixture pipeline end to end; clean clone of commit e6072ef run with the locked environment: full suite twice (1704/1704 each, 27.3 s) and pipeline twice (12 artifact IDs, payload hashes and all export-file hashes identical). Suite also passes with sockets blocked: no test needs network or a downloaded dataset. Installed packages equal requirements.lock (pip aside); rq1 not installed, so the clone ran its own src. Expected-value audit with git history: no `expected` block changed after its first commit; every input or parameter change listed with its authority in reports/M0_report.md section 5. Self-audit §5 complete. reports/M0_report.md written from the §6 template (status board: everything implemented or verified, nothing empirically validated; 47 ARs, 27 pending review).
+- Tests: 1704/1704 (full suite), determinism re-run: identical (1704/1704; pipeline artifact IDs identical across two clean-clone runs)
+- Problems / CRs: AR-47. CR-007 deferred (D-8). No other open CR.
+- Next: STOP. G-M0: the Owner reviews M0. Do not start M1a.

@@ -128,3 +128,11 @@ Question: T12.4 applies the support basis to all completeness support, but CM-10
 Options: (a) Yes, same on both bases (implemented). (b) Literal basis filter (CM-10 identically zero).
 Agent's recommendation: (a). Details are in CR-017.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T13 (E-1.2.11).
+
+## D-19 (2026-11-12) — G-M0: review of milestone M0        status: OPEN
+Task: G-M0   Blocking: T-17 onward (M1a)
+Question: M0 is complete and tagged `m0-verified`. Do you accept M0?
+Evidence: reports/M0_report.md (test matrix, artifact-ID table and determinism result from a clean clone, status board, expected-value audit, self-audit, open CRs, the 47 ARs with their review status).
+Options: (a) Write "M0 accepted" here. (b) Return items for rework.
+Agent's recommendation: an independent review by the Research Architect first, including the 27 ARs still pending review (AR-1 to AR-6, AR-8 to AR-21, AR-23, AR-24, AR-26, AR-29, AR-32, AR-33, AR-47).
+Owner decision: ______
