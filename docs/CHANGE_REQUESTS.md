@@ -465,3 +465,34 @@ The code reads the single values in `RuleParams` and `Params` (`providers.r5_rat
 (c) Keep the record as it is, and amend T11.1 to name `v_min` and `w_e` as read outside their provider.
 **Agent's recommendation:** (a). Nothing changes in the code until a decision is made.
 **Decision:** ______   **Approver:** ______
+
+## CR-013 (2026-11-12) — How a system event on an unobservable reference is counted (EV-M10)   status: OPEN
+
+**Raised by:** implementation agent, as the Architect's ruling on AR-39 item 6 requires. **Task:** T-14.
+**Contract sections:** F.1 Appendix N4 (classes; EV-M2, EV-M7, EV-M10); E-1.2.1 §9.2; `match_record.match_type`.
+**Meaning-affecting:** yes. It changes EV-M2 (precision), EV-M7 (false-alert burden) and EV-M10.
+
+**Problem.** N4 classes every unmatched system event that does not overlap a matched reference as `false_alert`, including an event that falls on a reference marked unobservable (not assessable). EV-M10 counts "system decisions on unobservable references", but N4 does not say whether such an event is also a false alert, nor what "on" means. Following AR-39 item 6, the code keeps N4 literal (`false_alert`), and no new match class has been added.
+
+**Options.**
+(a) **Keep N4 literal (current).** The event is a `false_alert` in EV-M2 and EV-M7, and is also counted in EV-M10. A decision the reference cannot judge then counts against precision.
+(b) **Exclude from EV-M2 and EV-M7 without a new class.** The event stays out of sᵢ and fᵢ and is counted only in EV-M10. Its `match_record` would need a type: either `unobservable_reference` with `system_event_id` set (reusing the existing class), or no record at all with a separate count.
+(c) **New match class** (for example `decision_on_unobservable`). The Architect said not to add this now; it is listed for completeness.
+For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `duplicate_alert`) or IoU ≥ *iou_m*; and the same pair (A5.2) or any pair.
+**Agent's recommendation:** (b), reusing `unobservable_reference` with `system_event_id` set, "on" as IoU > 0 with the same pair. A decision on footage the reference cannot judge is not evidence of a false alarm.
+**What proceeds meanwhile:** nothing changes. EV-M10 is not computed until this is decided.
+**Decision:** ______   **Approver:** ______
+
+## CR-014 (2026-11-12) — Oracle-factorial decision rule and "tests conflict" in error attribution (T-14)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-14 (CT-E-22, FX-16).
+**Contract sections:** F.1 Appendix N9; E-1.2.1 §9.4; Appendix T CT-E-22, FX-16, VR-E-061; CLAUDE.md "Documents and precedence" item 4.
+**Meaning-affecting:** yes. It decides `primary_stage`, `secondary_factors` and `attribution_status`.
+
+**Problem.**
+1. N9 ends: "On synthetic data, oracle substitution (2³ combinations of perception, tracking and geometry) assigns `verified_*` as specified in D.1 §7.2." The rule itself (which resolving set gives which status, and which stage becomes primary) appears only in D.1 §7.2, which is in `docs/methodology/`. CLAUDE.md says never to implement from that folder, while Appendix N, the highest-precedence document, cites it. D.1 §7.2 reads: "If one or more single-stage substitutions resolve it, `primary_stage` = earliest such stage; other resolving stages become secondary; status `verified_oracle_single`. If only a combination resolves it, `primary_stage` = earliest stage in the smallest resolving set; the rest secondary; status `verified_oracle_joint`." It also defines "resolved" as "it disappears", meaning the miss or false alert is no longer present in the substituted run. It does not say what happens when no combination resolves the error, or when two smallest resolving sets tie.
+2. N9's diagnostic rule says "If no test fails, or tests conflict, the result is `unresolved`". "Conflict" is not defined.
+**Options.** For 1: (a) the Architect confirms that N9's citation makes the quoted D.1 §7.2 rule normative, and states the two missing cases (no resolving set; tied smallest sets); or (b) the rule is restated in Appendix T. For 2: (c) define conflict, for example a later test failing while an earlier one could not be evaluated; or (d) delete the clause, so that only "no test fails" gives `unresolved`.
+**Agent's recommendation:** (a), with "no resolving set → `unresolved`" and "ties → the set whose earliest stage is earliest in pipeline order"; and (d).
+**What proceeds meanwhile:** the 2³ substitution runner (which combinations resolve the error), the N9 diagnostic tests in pipeline order with primary and secondary stages, and the VR-E-061 guard. The step from oracle outcomes to a `verified_*` status, and therefore CT-E-22, waits. Until then "tests conflict" is not detected: only "no test fails" gives `unresolved`.
+**Decision:** ______   **Approver:** ______

@@ -93,3 +93,17 @@ Question: T11.1 says a disabled provider's parameters play no role in S5 output.
 Options: (a) Shared classification parameters, recorded outside the provider entries. (b) Separate parameters per use. (c) Amend T11.1 to name the exception.
 Agent's recommendation: (a). Details are in CR-012.
 Owner decision: ______
+
+## D-14 (2026-11-12) — System events on unobservable references (EV-M10)        status: OPEN
+Task: T-14   Blocking: EV-M10; possibly EV-M2 and EV-M7 values
+Question: A system event that falls on a reference marked unobservable is currently a `false_alert` (N4 literal, per the AR-39 item 6 ruling). Should it count against precision and false-alert burden, or only in EV-M10? And what does "on" mean?
+Options: (a) Keep it a false alert and also count it in EV-M10. (b) Exclude it from EV-M2/EV-M7 and record it as `unobservable_reference` with the system event set. (c) A new match class (not to be added now).
+Agent's recommendation: (b), "on" = temporal IoU > 0 with the same pair. Details are in CR-013.
+Owner decision: ______
+
+## D-15 (2026-11-12) — The oracle-factorial attribution rule lives only in a methodology document        status: OPEN
+Task: T-14   Blocking: CT-E-22 (FX-16) and every `verified_*` attribution
+Question: Appendix N9 says oracle substitution assigns `verified_*` "as specified in D.1 §7.2", but CLAUDE.md forbids implementing from docs/methodology. May the agent implement the quoted D.1 §7.2 rule, and what happens when nothing resolves the error or two smallest sets tie? Separately, N9's "tests conflict" is undefined.
+Options: (a) Confirm D.1 §7.2 as quoted in CR-014 is normative through N9, plus the two missing cases. (b) The Architect restates the rule in Appendix T. For "conflict": define it, or delete the clause.
+Agent's recommendation: (a), with no resolving set → unresolved and ties → earliest stage; delete "or tests conflict". Details are in CR-014.
+Owner decision: ______
