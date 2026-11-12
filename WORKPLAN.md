@@ -415,3 +415,7 @@ _(the agent appends entries here)_
 ### 2026-11-12 — Owner decisions D-13 to D-17 recorded (contract E-1.2.10)
 - Appendix T section T12 appended verbatim; CLAUDE.md reads E-1.2.10; CR-012 to CR-016 closed as superseded by T12; D-13 to D-17 closed. E-1.2.1 and Appendix N not edited.
 - Architect rulings recorded under AR-42 (evc record to be defined), AR-43 and AR-44 (flip_rate_le revised).
+
+### 2026-11-12 — T12.1 conformance (contract E-1.2.10)
+- Did: rule_configuration providers hold only exclusive parameters (R1 k_img, R2 d_p, R3 d_pc, R5 e_turn/e_acc/e_dec); w_e moves to the classification block (`w_e_s`); v_min and tau come from the substrate_config record, which S5Config now carries; S5 refuses a runtime v_min, tau or w_e that differs from its single source, and an S4 artifact built with another substrate_config (ERR-SPEC). CT-T12-01.
+- Tests changed because T12.1 amends T11.1 (each cites T12.1): the CT-T11-02 R3 case now varies d_pc only (tau is substrate_config.prediction_horizon_s). S5 artifact IDs change, as T12.1 states (the rule_configuration and the test S4 configuration IDs change); payload values do not.

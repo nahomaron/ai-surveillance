@@ -50,11 +50,11 @@ def test_ct_t11_01_footprint_flag_unchanged(rules):
 
 
 # CT-T11-02: configurations that differ only in a disabled provider's parameters. Each pair uses a parameter that belongs to
-# the disabled provider alone. v_min and w_e are read outside their provider (T9.2, T9.6, T10.3(c)) and are left to CR-012.
+# the disabled provider alone. v_min and w_e are shared parameters (Appendix T T12.1), tested in test_t12.py.
 PAIRS = {
     "R2 disabled, d_p": (R1, dict(d_p=1.5)),
     "R1 disabled, k_img": (RULES, dict(k_img=0.2)),
-    "R3 disabled, d_pc and tau": (NO_R3, dict(d_pc=0.5, tau=3.0)),
+    "R3 disabled, d_pc": (NO_R3, dict(d_pc=0.5)),  # T12.1: tau is substrate_config.prediction_horizon_s, not an R3 parameter
     "R5 disabled, e_turn, e_acc, e_dec": (dataclasses.replace(RULES, r5=False), dict(e_turn=0.1, e_acc=0.1, e_dec=0.1)),
 }
 

@@ -42,7 +42,7 @@ def s4_custom(n, person_xy, fork_x, person_states=None, no_person_position=()):
     s3 = oracle.OracleTrackSource().tracks(s1["frame"][0]["recording_id"], truth, s1["frame"], Spec("S3", "E-1.2.8", "f", "f", ("orc_" + "a" * 26,), (), {}))
     cfg = builder.SubstrateConfig(15, 0.3, 0.5, 2.0, {"forklift"}, {"person": PERSON, "forklift": FORK}, {"person": "fpp_" + "p" * 26, "forklift": "fpp_" + "f" * 26},
                                   BANDS, 0.5)
-    s4 = builder.SubstrateBuilder().build(s1, s3, positions, None, cfg, Spec("S4", "E-1.2.8", "f", "f", ("gcf_" + "a" * 26, "sbc_" + "a" * 26), (s3.artifact_id,), {}))
+    s4 = builder.SubstrateBuilder().build(s1, s3, positions, None, cfg, Spec("S4", "E-1.2.8", "f", "f", ("gcf_" + "a" * 26, s5.substrate_config_id(SUBSTRATE)), (s3.artifact_id,), {}))
     return s1, s4
 
 
@@ -54,8 +54,13 @@ def s4_of(name, **kw):
     return s4_custom(n, list(xy), fx, **kw)
 
 
-def s5_config(rules=RULES, params=PARAMS):
-    return s5.S5Config(rules, params, "sbc_" + "a" * 26, "bsc_" + "a" * 26, version_label="TEST-ONLY")
+# The substrate_config record (section 5.2) S4 is built with in these tests; TEST-ONLY values (Package F section 3).
+SUBSTRATE = {"g_max": 15, "pair_classes": ["forklift"], "v_min": 0.3, "k_sup": 1.5, "motion_models": ["constant_velocity"],
+             "prediction_horizon_s": 2.0, "version_label": "TEST-ONLY", "version_label_null_reason": None}
+
+
+def s5_config(rules=RULES, params=PARAMS, substrate=None):
+    return s5.S5Config(rules, params, substrate or SUBSTRATE, "bsc_" + "a" * 26, version_label="TEST-ONLY")
 
 
 def build_s5(s1, s4, cfg=None):

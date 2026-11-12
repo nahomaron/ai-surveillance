@@ -205,7 +205,7 @@ _t("rule_configuration", "rcf", "Config", "-", "configuration", "", """
 experiment enum{E1}
 providers list<struct{provider_id:enum{R1,R2,R3,R4,R5,R6},enabled:bool,params:map<str,f64>}>
 lifecycle struct{m_gap_frames:i32,t_min_s:f64,w_post_s:f64}
-classification struct{d_nm_m:f64,k_sigma:f64,k_c:f64,k_c_turn:f64,o_max_frac:f64}
+classification struct{d_nm_m:f64,k_sigma:f64,k_c:f64,k_c_turn:f64,o_max_frac:f64,w_e_s:f64}
 motion_models list<str> ~
 substrate_config_id id
 band_scheme_id id
