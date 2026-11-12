@@ -62,7 +62,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [ ] | T-17 | **Dataset qualification (WP-12).** Record source URLs, versions, licence terms and authenticity evidence **before** downloading. Download only if pre-approved in §0; otherwise **STOP**. Reproduce the census facts (1 worker, 1 forklift, 300 frames, 10 views). Verify units. Extract lineage | G-M0 | Package F WP-12 | `research/datasets/qualification.md`; licence rows; data outside git | M |
 | [ ] | T-18 | **Dataset adapters (WP-13).** SDG and SmartSpaces → S0, oracle tracks, simulator references; `reference_class` set correctly | T-17 | Package F WP-13; F.1 A5.1 | Truth round-trip within 1e-6 m; reprojection check | L |
 | [ ] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
-| [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md` | M |
+| [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`; must include the camera grouping basis declared explicitly for every research configuration (AR-22 review) | M |
 | [S] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [ ] | T-21 | **M1a run (WP-14).** Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [S] | G-M1a | **STOP — Owner reviews M1a** | T-21 | — | Owner decision recorded | — |
@@ -236,3 +236,10 @@ _(the agent appends entries here)_
 - Problems / CRs: AR-24 to AR-28. The AR-5 pinning test was updated because E-1.2.4 adds decode_config fields. Note: with the T7 fixture δ_nom of exactly 0.033 s, δ_max is 0.0495 s (Package F §3 quotes 50 ms), so the 50 ms intervals of the CT-T-01 VFR clip are capped with 17 ms gaps.
 - Not yet done here: duration assertions of CT-T-14–19 and CT-T-20 (c, d) belong to T-08.
 - Next: T-08 (needs T-06, now done). T-10 also needs T-05 and T-06, both done.
+
+### 2026-11-11 — Architect review of AR-7 and AR-22 applied
+- AR-22 accepted; its note is recorded and added to the T-20 row.
+- AR-7 revised and applied: event-time columns (`frozen_utc` ×3, `locked_utc`) are stored but outside every hash; the `*_utc` format is exactly YYYY-MM-DDTHH:MM:SS.ffffffZ; VR-E-054 reads stored event times. SP-01, SP-08 and FT-02 must do the same when written (T-10, T-14).
+- One requested test conflicts with F.1 A1.2 (anchor IDs come from the natural key only), so it was implemented to F.1 and raised as CR-004 / D-5.
+- Tests: 718/718 (full suite), determinism re-run: identical
+- T-06 was already complete (7bc0036) under E-1.2.4 and still passes. Next: T-08.

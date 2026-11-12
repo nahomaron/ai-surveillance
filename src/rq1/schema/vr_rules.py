@@ -62,7 +62,7 @@ def check_ids(table: str, rows: list[Row], artifact_id: str | None = None) -> li
         if spec.identity_class == "anchor":
             expected = ids.source_id(row["sha256"]) if table == "source_file" else ids.anchor_id(spec.prefix, table, natural_key(table, row))
         elif spec.identity_class == "configuration":
-            content = {f.name: row[f.name] for f in spec.fields if not f.derived and f.name in row}
+            content = {f.name: row[f.name] for f in spec.fields if registry.is_payload(f) and f.name in row}
             expected = ids.make_id(spec.prefix, content)
         elif spec.identity_class == "observation":
             expected = ids.observation_id(spec.prefix, table, artifact_id, natural_key(table, row))

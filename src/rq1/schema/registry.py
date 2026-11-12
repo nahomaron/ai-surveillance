@@ -12,6 +12,7 @@ from .tables import DEFINITIONS, ENUMS
 from .types import Field, KeyPart, Table, Type, parse_type, with_reasons
 
 REASON = Type("enum", values=ENUMS["null_reason"])
+UTC_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"  # AR-7 (revised): YYYY-MM-DDTHH:MM:SS.ffffffZ
 ID = Type("id")
 # Section 5.7 and Appendix T VR-E-041, as normalized column-name fragments.
 FORBIDDEN_FRAGMENTS = ("potential_energy", "fall_probability", "impact_energy", "falling_object_trajectory",
@@ -157,6 +158,19 @@ def json_schema(table: str) -> dict[str, Any]:
             **_json_object(TABLES[table].fields)}
 
 
+def is_event(field: Field) -> bool:
+    return "event" in field.constraints
+
+
+def is_payload(field: Field) -> bool:
+    """Section 2.2 column classes plus AR-7 (revised): payload columns are hashed; derived and event-time columns are not."""
+    return not field.derived and not is_event(field)
+
+
+def event_columns(table: str) -> list[str]:
+    return [f.name for f in TABLES[table].fields if is_event(f)]
+
+
 def forbidden_field_names(table: str) -> list[str]:
     return [f.name for f in TABLES[table].fields if is_forbidden(table, f.name)]
 
@@ -228,6 +242,8 @@ def _encode(t: Type, value: Any) -> Any:
         return None
     if t.kind == "nk":
         return canonical_json(value).decode("utf-8")
+    if t.kind == "ts" and isinstance(value, str):
+        return datetime.strptime(value, UTC_FORMAT).replace(tzinfo=timezone.utc)
     if t.kind == "list":
         return [_encode(t.item, v) for v in value]
     if t.kind == "map":

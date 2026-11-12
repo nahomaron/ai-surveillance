@@ -1,6 +1,7 @@
 """The single schema source (WP-00): every table of E-1.2.1 section 5, as amended by F.1.
 
-Each definition line is `name[?] type [@constraint ...] [~]`. `?` is nullable (section 1.1); `~` marks
+Each definition line is `name[?] type [@constraint ...] [~]`. `@event` marks an event-time column (AR-7 as revised):
+stored, but outside the payload hash, the artifact ID and every record ID. `?` is nullable (section 1.1); `~` marks
 a field or type the contract implies but does not state, listed in CR-002. Same-artifact `nk`
 columns and each table's own ID are expanded in registry.py. Anchor tables use parent anchor IDs
 (F.1 A1.2).
@@ -597,7 +598,7 @@ frame_sha256 str
 strata list<struct{stratum_id:str,definition:str,N_h:i64,n_h:i64}>
 stratifier_inputs list<str>
 seed i64
-frozen_utc ts
+frozen_utc ts @event
 ecs_selection_basis? str
 """, True)
 _t("reference_window", "rwn", "Val", "V0", "observation", "plan_nk camera_group_id window_index", """
@@ -614,7 +615,7 @@ inclusion_prob? f64
 weight? f64
 exhaustive bool
 annotation_status enum{planned,in_progress,double_annotated,adjudicated,locked}
-locked_utc? ts
+locked_utc? ts @event
 lock_sha256? str
 split_version_id id
 partition_at_sampling str
@@ -757,7 +758,7 @@ assignments list<struct{leakage_group_id:str,partition:str}>
 t2b_shared_sessions? list<id>
 shared_scene_content bool
 training_manifest_hashes list<str>
-frozen_utc ts
+frozen_utc ts @event
 revision? struct{audit_id:id,moved_groups:list<str>,rule:enum{PR-01}}
 """, True)
 _t("leakage_audit", "lka", "Eval", "X0c", "observation", "split_version_id audit_seq", """
@@ -845,7 +846,7 @@ ci_level f64
 estimand enum{frame_description,new_session_performance,conditional_on_selection}
 n_min_units i64
 preregistration_ref str
-frozen_utc ts
+frozen_utc ts @event
 """, True)
 _t("measurement_fitness", "fit", "Eval", "S8f", "observation", "scope", """
 scope struct{output_id:str,measurement_definition_version:str,data_origin:data_origin,condition_stratum:str,calibration_tier:str,config_id:id,intended_use:enum{observation_description,exposure_duration_measurement,candidate_event_screening,rq2_candidate_input},criterion_ids:list<id>}

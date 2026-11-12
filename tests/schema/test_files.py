@@ -84,6 +84,8 @@ def test_ct_e_05_sentinel_world_value_is_rejected():
 
 
 def test_ar7_timestamps_round_trip_in_rfc3339_jcs_form():
+    # AR-7 as revised by the Architect (11 Nov 2026): exactly YYYY-MM-DDTHH:MM:SS.ffffffZ.
     from rq1.schema.canonical import canonical_json
-    value = dt.datetime(2026, 1, 1, 0, 0, 0, 5, tzinfo=dt.timezone.utc)
-    assert canonical_json({"t": value}) == b'{"t":"2026-01-01T00:00:00.000005Z"}'
+    assert canonical_json({"t": dt.datetime(2026, 1, 1, 0, 0, 0, 5, tzinfo=dt.timezone.utc)}) == b'{"t":"2026-01-01T00:00:00.000005Z"}'
+    assert canonical_json({"t": dt.datetime(2026, 1, 1, tzinfo=dt.timezone.utc)}) == b'{"t":"2026-01-01T00:00:00.000000Z"}'
+    assert canonical_json({"t": "2026-01-01T00:00:00.000000Z"}) == b'{"t":"2026-01-01T00:00:00.000000Z"}'

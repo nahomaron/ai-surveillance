@@ -33,6 +33,20 @@ def is_sentinel(column: str, value: float) -> bool:
     return value < 0 and bool(_NON_NEGATIVE.search(column))
 
 
+_UTC_TEXT = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$")
+
+
+def _canonical_utc(text: str) -> bool:
+    """AR-7 (revised): exactly YYYY-MM-DDTHH:MM:SS.ffffffZ, and a real date and time."""
+    if not _UTC_TEXT.match(text):
+        return False
+    try:
+        datetime.strptime(text, registry.UTC_FORMAT)
+    except ValueError:
+        return False
+    return True
+
+
 @dataclass(frozen=True)
 class Issue:
     rule: str  # VR rule ID, or SCHEMA for section 1.1 and 1.2 type rules
@@ -83,7 +97,10 @@ def _check_value(table: str, path: str, t: Type, value: Any, constraints: frozen
         if isinstance(value, bool) or value not in (0, 1, 2):
             bad(f"tri must be 0, 1 or 2: {value!r}")
     elif kind == "ts":
-        if not (isinstance(value, datetime) and value.utcoffset() == timedelta(0)):
+        if isinstance(value, str):
+            if not _canonical_utc(value):
+                bad(f"timestamp not in YYYY-MM-DDTHH:MM:SS.ffffffZ form: {value!r}", "UTC-FORMAT")
+        elif not (isinstance(value, datetime) and value.utcoffset() == timedelta(0)):
             bad(f"not a UTC timestamp: {value!r}")
     elif kind == "enum":
         if value not in t.values:

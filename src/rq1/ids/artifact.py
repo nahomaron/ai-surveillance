@@ -78,7 +78,16 @@ def spec_id(spec: Spec) -> str:
 
 
 def _payload_columns(table: str) -> set[str]:
-    return {f.name for f in registry.TABLES[table].fields if not f.derived}
+    return {f.name for f in registry.TABLES[table].fields if registry.is_payload(f)}
+
+
+def _event_values(table: str, row: Row) -> Row:
+    return {name: row[name] for name in registry.event_columns(table) if name in row}
+
+
+def config_id(table: str, row: Row) -> str:
+    """F.1 A1.2 configuration ID over payload columns only (event-time columns excluded, AR-7 revised)."""
+    return core.make_id(registry.TABLES[table].prefix, _canonical_row(table, row))
 
 
 def _canonical_row(table: str, row: Row) -> Row:
@@ -200,9 +209,14 @@ def _derive(identity: Identity) -> dict[str, list[Row]]:
 def build_artifact(spec: Spec | str, tables: dict[str, list[Row]], *, validate: bool = True) -> Artifact:
     """Steps 1 to 6. `validate=False` exists only for the partial-row vector of Appendix T T5."""
     if validate:  # before hashing, so that NaN and infinity are reported as contract violations
-        _validate({table: [_canonical_row(table, row) for row in rows] for table, rows in tables.items()})
+        _validate({table: [{**_canonical_row(table, row), **_event_values(table, row)} for row in rows] for table, rows in tables.items()})
     identity = compute_identity(spec, tables)
-    return Artifact(identity.artifact_spec_id, identity.spec, identity.payload_sha256, identity.artifact_id, identity.payload, _derive(identity))
+    events = {table: {canonical_json(natural_key(table, row)): _event_values(table, row) for row in rows} for table, rows in tables.items()}
+    derived = _derive(identity)
+    for table, rows in derived.items():  # event-time columns are stored with the record but never hashed
+        for row in rows:
+            row.update(events[table].get(canonical_json(natural_key(table, row)), {}))
+    return Artifact(identity.artifact_spec_id, identity.spec, identity.payload_sha256, identity.artifact_id, identity.payload, derived)
 
 
 def _validate(payload: dict[str, list[Row]]) -> None:
