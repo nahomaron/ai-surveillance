@@ -216,6 +216,8 @@ k_sup f64 ~
 f_untimed f64 ~
 f_sub f64 ~
 rules_version str ~
+delta_nom_declarations list<struct{recording_id:id,delta_nom_s:f64,evidence_ref:str}> ~
+final_frame_support enum{delta_nom,zero} ~
 version_label? str ~
 """)
 _t("geometry_config", "gcf", "Config", "-", "configuration", "", """
@@ -248,6 +250,9 @@ n_frames_eligible i64
 reorder_depth i32
 vfr_detected bool
 delta_nom_s f64
+delta_nom_source enum{declared_config,median_adjacent_pairs,median_all_timed}
+delta_nom_declared_s? f64
+delta_nom_median_s? f64
 substituted_support_frac f64
 untimed_frac f64
 extent_start_tl_s f64

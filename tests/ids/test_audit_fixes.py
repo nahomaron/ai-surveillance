@@ -102,7 +102,9 @@ def _columns(table):
 
 
 def test_ar5_config_table_columns():
-    assert _columns("decode_config") == {"k_sup": "f64", "f_untimed": "f64", "f_sub": "f64", "rules_version": "str", "version_label": "str"}
+    # E-1.2.4 T7 adds the delta_nom declaration; AR-24 names it and the final-frame variant field.
+    assert _columns("decode_config") == {"k_sup": "f64", "f_untimed": "f64", "f_sub": "f64", "rules_version": "str", "version_label": "str",
+                                         "delta_nom_declarations": "list", "final_frame_support": "enum"}
     assert _columns("geometry_config") == {"w_v_s": "f64", "motion_models": "list", "footprint_prior_ids": "list", "version_label": "str"}
     assert _columns("sampling_plan_config") == {"sample_type": "enum", "w_ref_s": "f64", "w_guard_s": "f64", "tiling_origin_tl_s": "f64",
                                                 "strata": "list", "seed": "i64", "version_label": "str"}

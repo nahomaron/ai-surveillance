@@ -23,7 +23,7 @@ from rq1.schema.vr_rules import natural_key
 from . import core
 
 Row = dict[str, Any]
-SCHEMA_VERSION = "E-1.2.3"
+SCHEMA_VERSION = "E-1.2.4"
 # F.1 A1.2 ART-ISO: prefixes that must appear exactly once in a spec (AR-16 names the prefixes).
 ART_ISO = {"S2": ("mdl", "inf"), "S3": ("trc|orc",), "S4": ("gcf", "sbc"), "S5": ("rcf",), "S8": ("evc", "spm")}
 TOLERANCE_STAGES = {"S2"}
