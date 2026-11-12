@@ -62,6 +62,7 @@ CLIPS: dict[str, Clip] = {
     "ct_t_07_file_b": Clip(_constant(60), "Appendix T CT-T-07: second of two files from one camera"),
     "ct_t_08_untimed": Clip(_constant(20), "Appendix T CT-T-08: stream without timestamps", faults={i: {"pts": None, "dts": None} for i in range(20)}),
     "fx_10": Clip(_vfr(5000, gap_after=60), "Appendix T FX-10: VFR, one 0.5 s PTS gap, one corrupt frame", corrupt_packets=frozenset({10})),
+    "fx_m0_pipeline": Clip(_constant(50, 100), "T-16 M0 integration: 50 frames at 100 ms (10 fps), carrying the Appendix N2 G2 scene (AR-47 item 1)"),
 }
 _SHADE_OFFSET = {"ct_t_07_file_b": 97}  # keeps the two CT-T-07 files distinct in content
 

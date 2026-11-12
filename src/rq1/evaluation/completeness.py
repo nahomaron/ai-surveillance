@@ -2,7 +2,7 @@
 "Matched" means a `track_identity_assoc` status `matched` for the same identity on that frame. Each metric is computed
 on both support bases: `detected` (system evidence class detected) and `detected_plus_inferred`.
 
-CM-01 to CM-10 and pooling follow N6 as clarified by Appendix T T12.4 (contract E-1.2.10). Reference objects in
+CM-01 to CM-10 and pooling follow N6 as clarified by Appendix T T12.4 (contract E-1.2.10; T13, E-1.2.11). Reference objects in
 `ref_visible` are co-visible candidates: visible or partially visible, or present when the dataset has no visibility truth
 (then `visibility_assumed` is set and reports print "reference visibility assumed")."""
 from __future__ import annotations

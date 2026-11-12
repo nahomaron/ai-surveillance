@@ -10,7 +10,12 @@ from rq1.fixtures import clips
 
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_CLIPS = {"fx_clip_a", "fx_clip_b", "fx_clip_c", "fx_clip_d", "ct_t_01_vfr", "ct_t_02_bframes", "ct_t_02_all_intra", "ct_t_03_dup_pts",
-                  "ct_t_04_dropout", "ct_t_05_corrupt", "ct_t_07_file_a", "ct_t_07_file_b", "ct_t_08_untimed", "fx_10"}
+                  "ct_t_04_dropout", "ct_t_05_corrupt", "ct_t_07_file_a", "ct_t_07_file_b", "ct_t_08_untimed", "fx_10",
+                  "fx_m0_pipeline"}  # added at T-16 for the M0 integration run (AR-47 item 1)
+
+
+def test_fx_m0_pipeline_clip_is_50_frames_at_100_ms():
+    assert clips.CLIPS["fx_m0_pipeline"].times_ms == [100 * i for i in range(50)]
 
 
 @pytest.fixture(scope="module")

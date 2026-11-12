@@ -106,3 +106,19 @@ class SimReferenceConverter:
         if interactions:
             out["ref_interaction"] = interactions
         return out
+
+
+G1_LABELS, G2_LABELS = ("O", "H", "PC"), ("NM", "UD", "CT")
+
+
+def label_group_mapping(interactions: list[Row], truth: Row) -> dict[str, frozenset]:
+    """Label groups of each CV-SIM ref_interaction (Architect ruling on AR-39 item 3: the converter produces the mapping).
+    A reference is in G1 if the simulator truth labels it O, H or PC, and in G2 if NM, UD or CT. `interactions` are built
+    rows (with rin_id); each is matched to its truth interaction by pair and onset."""
+    out = {}
+    for row in interactions:
+        source = next(x for x in truth["interactions"] if (x["person"], x["forklift"]) == (row["person_identity_id"], row["forklift_identity_id"])
+                      and abs(x["t_onset_tl_s"] - row["t_onset_tl_s"]) < 1e-9)
+        labels = set(source.get("labels", []))
+        out[row["rin_id"]] = frozenset(g for g, members in (("G1", G1_LABELS), ("G2", G2_LABELS)) if labels & set(members))
+    return out

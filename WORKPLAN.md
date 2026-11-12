@@ -458,3 +458,7 @@ _(the agent appends entries here)_
 
 ### 2026-11-12 — T13 conformance
 - Did: CM-10 stored once with support_basis = detected as a placeholder (`cm10_records`); reports print "basis-independent" (T13.1), CT-T13-01. CM-06 and CM-07 printed as "sum (s)" and "count" (T13.3; AR-45 item 3 ruling). Linter pass cases added; W2 now also allows "no near miss(es)" so that the required pass string "no near misses were observed" passes (AR-46 item 4 ruling). VR-E-040 zero-exposure check extended to not_evaluated (CD-03), with a failing and a passing test for each state (AR-46 item 7 ruling). T13.2 needed no code change: v_min and tau already come from substrate_config (T12.1 tests).
+
+### 2026-11-12 — T-16 in progress: M0 fixture pipeline
+- Did: `rq1.pipeline.m0` runs clips → S0 → S1 → oracle S3 → S4 → S5 → X0b → V0 → CV-SIM → X0c → S8 (with evaluation_config) → S8f → S4-E2 (FX-12 records) → S9 (fixture export and report) on a new 50-frame, 10 fps clip `fx_m0_pipeline` (clip manifest gained one entry; no existing clip changed). It reproduces Appendix N2 G2 end to end (one episode [0, 50), H, minclr 1.10 m, 5.0 s detected, matched to its reference); CT-E-26 and CT-E-28 end to end; two runs in separate processes give identical artifact IDs, payload hashes and export file hashes. CV-SIM converter gained `label_group_mapping` (AR-39 item 3 ruling).
+- A scene defect found on the first run: the oracle boxes lay outside the 64 × 64 px clip, so they were `truncated` and the episode was IE. Boxes moved inside the frame; the engine was not changed.

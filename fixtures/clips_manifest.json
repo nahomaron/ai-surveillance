@@ -83,6 +83,12 @@
    "n_frames": 4,
    "sha256": "cf3be871dfefbca7b1a205fcdb95e19d714ef1170ea1d64e168f29a3a81e599a",
    "source": "Clarification 2.3 case D (AR-21); Appendix N3; CT-T-17"
+  },
+  "fx_m0_pipeline": {
+   "faults_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+   "n_frames": 50,
+   "sha256": "11c652787d386ccd9353f4695f61c0383f38a2a3c0586440722a7379a929e024",
+   "source": "T-16 M0 integration: 50 frames at 100 ms (10 fps), carrying the Appendix N2 G2 scene (AR-47 item 1)"
   }
  },
  "contract": "E-1.2.3",

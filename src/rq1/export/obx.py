@@ -17,7 +17,7 @@ from rq1.schema.canonical import canonical_json
 from rq1.schema.errors import ContractError
 
 Row = dict[str, Any]
-CONTRACT = "E-1.2.10"
+CONTRACT = "E-1.2.11"
 TEST_ONLY = "TEST-ONLY"
 
 # Section 11 parts and the tables each one carries.
