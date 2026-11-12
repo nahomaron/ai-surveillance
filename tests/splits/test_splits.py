@@ -100,7 +100,7 @@ def test_sp_04_revision_never_moves_into_test():
 
 def test_sp_07_revision_takes_no_metric_or_label_inputs():
     params = set(inspect.signature(builder.revise).parameters)
-    assert params == {"split", "split_id", "audit", "audit_id", "frozen_utc"}
+    assert params == {"split", "split_id", "audit", "audit_id", "frozen_utc", "recordings"}  # recordings: metadata only (AR-34)
 
 
 def _t2b(extra=None):
@@ -113,7 +113,11 @@ def _t2b(extra=None):
 def test_ct_s_05_t2b_declared_share():
     split = freeze(_t2b(), tier="T2b", t2b_shared_sessions=["ses_s1"], shared_scene_content=True)
     edge = {"recording_a": "rec_s1c1", "recording_b": "rec_s1c2", "edge_type": "same_physical_interaction", "evidence_ref": "x"}
-    assert builder.audit(split, "spm_1", [edge], "sampled_annotation", 1, recordings=_t2b())["violations"] == []
+    audit = builder.audit(split, "spm_1", [edge], "sampled_annotation", 1, recordings=_t2b())
+    # AR-34 as changed by the Architect (12 Nov 2026): recorded in edges_added, not a violation.
+    assert audit["violations"] == [] and audit["edges_added"] == [edge]
+    with pytest.raises(ContractError):  # nothing to revise
+        builder.revise(split, "spm_1", audit, "lka_1", frozen_utc=T1, recordings=_t2b())
     with pytest.raises(ContractError) as exc:
         freeze(_t2b(), tier="T2b", t2b_shared_sessions=["ses_s1"], shared_scene_content=False)
     assert exc.value.code == "ERR-LEAKAGE"
@@ -162,10 +166,23 @@ def test_tiling_and_guard():
         (0, 0.0, 30.0, 35.0), (1, 30.0, 60.0, 65.0), (2, 60.0, 90.0, 90.0)]
 
 
-def test_cr_006_partial_final_window_is_refused():
-    with pytest.raises(ContractError) as exc:
-        sampling.tile_windows("cgp_1", "tl_1", (0.0, 10.0), w_ref=30.0, w_guard=5.0, origin=0.0)
-    assert exc.value.code == "ERR-SPEC"
+def test_d7_short_timeline_gives_one_short_window():
+    # Owner decision D-7 (b), 12 Nov 2026: a 10 s timeline with w_ref = 30 s gives exactly one 10 s window.
+    windows = sampling.tile_windows("cgp_1", "tl_1", (0.0, 10.0), w_ref=30.0, w_guard=5.0, origin=0.0)
+    assert [(w["t_start_tl_s"], w["t_end_tl_s"], w["window_length_s"], w["t_guard_end_tl_s"]) for w in windows] == [(0.0, 10.0, 10.0, 10.0)]
+
+
+def test_d7_last_window_shorter_and_guard_clipped():
+    windows = sampling.tile_windows("cgp_1", "tl_1", (0.0, 70.0), w_ref=30.0, w_guard=5.0, origin=0.0)
+    assert [(w["t_start_tl_s"], w["t_end_tl_s"], w["window_length_s"], w["t_guard_end_tl_s"]) for w in windows] == [
+        (0.0, 30.0, 30.0, 35.0), (30.0, 60.0, 30.0, 65.0), (60.0, 70.0, 10.0, 70.0)]
+
+
+def test_d7_weights_stay_inverse_pi_with_a_short_window():
+    population = [{**w, "stratum_id": "h", "recording_ids": ["rec_x"], "partition_at_sampling": "test", "leakage_group_id": "lkg_x"}
+                  for w in sampling.tile_windows("cgp_" + "a" * 26, "tl_" + "a" * 26, (0.0, 70.0), 30.0, 5.0, 0.0)]
+    drawn = sampling.draw_res(population, {"h": 3}, seed=1)
+    assert [w["weight"] for w in drawn] == [1.0, 1.0, 1.0]
 
 
 def _population(n_per=10, strata=("h1", "h2")):

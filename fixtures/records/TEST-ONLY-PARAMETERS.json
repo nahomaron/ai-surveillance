@@ -37,12 +37,13 @@
   "tau": 2.0,
   "ttc_max": 1.5,
   "v_min": 0.3,
+  "v_part": 0.5,
   "w_e": 1.0,
   "w_guard": 5.0,
   "w_post": 1.0,
   "w_ref": 30.0,
   "w_v": 0.5
  },
- "source": "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19",
+ "source": "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6",
  "version_label": "TEST-ONLY"
 }

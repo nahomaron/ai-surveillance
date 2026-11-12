@@ -69,30 +69,36 @@ def _merged(split: Row, edges: list[Row]) -> list[tuple[list[str], list[str]]]:
     return leakage.components(nodes, links)
 
 
-def audit(split: Row, split_id: str, identities: list[Row], discovery_basis: str, audit_seq: int, recordings: list[Row] | None = None,
-          audit_complete: bool = True) -> Row:
-    """`LeakageAuditor.audit` (X0c). Under T2b, edges inside a declared shared session are expected and not recorded."""
+def _expected_share(split: Row, recordings: list[Row] | None):
+    """AR-34: under T2b, an edge inside one declared shared session is expected and never a violation."""
     session = {r["recording_id"]: r["session_id"] for r in recordings or []}
     shared = set(split["t2b_shared_sessions"] or [])
-    edges = [e for e in identities if not (session.get(e["recording_a"]) in shared and session.get(e["recording_a"]) == session.get(e["recording_b"]))]
+    return lambda e: session.get(e["recording_a"]) in shared and session.get(e["recording_a"]) == session.get(e["recording_b"])
+
+
+def audit(split: Row, split_id: str, identities: list[Row], discovery_basis: str, audit_seq: int, recordings: list[Row] | None = None,
+          audit_complete: bool = True) -> Row:
+    """`LeakageAuditor.audit` (X0c). Every discovered edge is recorded; T2b shared-session edges are not violations (AR-34)."""
+    expected = _expected_share(split, recordings)
     assigned = _assignment(split)
     violations = []
-    for members, _ in _merged(split, edges):
+    for members, _ in _merged(split, [e for e in identities if not expected(e)]):
         partitions = sorted({assigned[m] for m in members}, key=ORDER.get)
         if len(partitions) > 1:
             violations.append({"leakage_group_id": leakage.group_id(members), "partitions": partitions})
-    return {"split_version_id": split_id, "audit_seq": audit_seq, "tier": split["tier"], "edges_added": [dict(e) for e in edges],
+    return {"split_version_id": split_id, "audit_seq": audit_seq, "tier": split["tier"], "edges_added": [dict(e) for e in identities],
             "violations": violations, "discovery_basis": discovery_basis, "audit_complete": audit_complete}
 
 
-def revise(split: Row, split_id: str, audit: Row, audit_id: str, frozen_utc: datetime) -> Row:
-    """`SplitBuilder.revise`: PR-01 only. Takes no metric, label or system output (SP-07, R-4)."""
+def revise(split: Row, split_id: str, audit: Row, audit_id: str, frozen_utc: datetime, recordings: list[Row] | None = None) -> Row:
+    """`SplitBuilder.revise`: PR-01 only. Takes no metric, label or system output (SP-07, R-4); `recordings` is metadata."""
     if not audit["violations"]:
         raise ContractError("ERR-INVARIANT", "SP-03: a revision needs a triggering audit with at least one violation")
     assigned = _assignment(split)
     members_of = {g["leakage_group_id"]: g for g in split["leakage_groups"]}
     groups, assignments, moved = [], [], []
-    for merged, kinds in _merged(split, audit["edges_added"]):
+    expected = _expected_share(split, recordings)
+    for merged, kinds in _merged(split, [e for e in audit["edges_added"] if not expected(e)]):
         target = min((assigned[m] for m in merged), key=ORDER.get)
         moved += [m for m in merged if assigned[m] != target]
         recordings = sorted(r for m in merged for r in members_of[m]["member_recording_ids"])

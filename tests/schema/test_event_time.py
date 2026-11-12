@@ -67,8 +67,8 @@ def test_supplied_retrieved_utc_is_hashed():
     spec = Spec("S0", "E-1.2.4", "f", "f", (), (), {})
     a, b = artifact.build_artifact(spec, {"dataset_source": [_dataset(T1)]}), artifact.build_artifact(spec, {"dataset_source": [_dataset(T2)]})
     assert a.payload_sha256 != b.payload_sha256 and a.artifact_id != b.artifact_id
-    # F.1 A1.2: the anchor ID depends on the natural key (name, version) only, so it does not change;
-    # the changed payload under the same anchor is an ANC-1 conflict. See CR-004.
+    # Owner decision D-5 (a), 12 Nov 2026: changing retrieved_utc leaves the dataset_source ID unchanged, changes the
+    # S0 payload hash, and registering both versions raises ERR-ANCHOR-CONFLICT (F.1 A1.2).
     assert a.tables["dataset_source"][0]["dsr_id"] == b.tables["dataset_source"][0]["dsr_id"] == core.anchor_id("dsr", "dataset_source", ["ds", "1"])
     register = AnchorRegistry()
     register.add(a)

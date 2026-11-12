@@ -45,12 +45,12 @@ def _summary(labels: list[str]) -> str:
     return next(x for x in PRECEDENCE if x in labels)
 
 
-_add("TEST-ONLY-PARAMETERS", "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19",
+_add("TEST-ONLY-PARAMETERS", "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6",
      parameters={"k_sup": 1.5, "f_untimed": 0.05, "f_sub": 0.10, "g_max": 15, "v_min": 0.3, "w_v": 0.5, "d_p": 2.0, "k_img": 0.05, "d_pc": 1.0,
                  "tau": 2.0, "ttc_max": 1.5, "pet_max": 1.0, "e_turn": 1.5, "e_acc": 1.0, "e_dec": 2.0, "w_e": 1.0, "m_gap": 5, "t_min": 0.2,
                  "w_post": 1.0, "d_nm": 0.5, "k_sigma": 2.0, "k_c": 3.0, "o_max": 0.5, "band_edges_m": [0.0, 0.5, 1.0, 2.0, 4.0], "iou_m": 0.3,
                  "iou_cm": 0.5, "k_kf": 1.0, "w_ref": 30.0, "w_guard": 5.0, "n_min": 10, "iou_rep": 0.95, "s_rep": 0.01, "eps_amb": 0.02,
-                 "n_miss": 5, "bootstrap_B": 200})
+                 "n_miss": 5, "bootstrap_B": 200, "v_part": 0.5})
 
 _N1 = [  # id, P, M, C, E, Q, minclr, overlap, cue, CA frame, contact, K, labels
     ("T1", "1×20", "0×20", "0×20", "0×20", "1×20", 1.10, "no", "no", None, "none_observed", 0, ["O"]),

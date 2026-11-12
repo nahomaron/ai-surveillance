@@ -183,6 +183,7 @@ def test_fx_12_is_measurement_only():
 def test_test_only_values():
     v = load("TEST-ONLY-PARAMETERS")["parameters"]
     assert (v["k_sup"], v["d_p"], v["k_img"], v["m_gap"], v["t_min"], v["w_post"], v["d_nm"], v["k_sigma"], v["iou_cm"], v["eps_amb"]) == (1.5, 2.0, 0.05, 5, 0.2, 1.0, 0.5, 2.0, 0.5, 0.02)
+    assert v["v_part"] == 0.5  # Appendix T T8.6 (E-1.2.6)
 
 
 def test_generator_refuses_inconsistent_expected_labels():

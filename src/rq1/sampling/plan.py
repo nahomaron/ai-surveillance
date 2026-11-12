@@ -19,16 +19,19 @@ RATE_METRICS = {"EV-M7"}  # per-hour burden; frequency aggregates are added as m
 
 
 def tile_windows(camera_group_id: str, timeline_id: str, extent: tuple[float, float], w_ref: float, w_guard: float, origin: float) -> list[Row]:
-    """Non-overlapping windows of w_ref from the tiling origin; the guard is clipped at the extent end."""
+    """Non-overlapping windows of w_ref from the tiling origin. The last window may be shorter, and the guard is clipped
+    at the extent end (Owner decision D-7)."""
     start, end, width = Fraction(str(extent[0])), Fraction(str(extent[1])), Fraction(str(w_ref))
     if Fraction(str(origin)) != start:
         raise ContractError("ERR-SPEC", "tiling origin must equal the timeline extent start")
-    count = (end - start) / width
-    if count.denominator != 1:
-        raise ContractError("ERR-SPEC", "timeline extent is not a multiple of w_ref; the final-window rule is pending (CR-006)")
     guard = Fraction(str(w_guard))
-    return [{"camera_group_id": camera_group_id, "timeline_id": timeline_id, "window_index": k, "t_start_tl_s": float(start + k * width),
-             "t_end_tl_s": float(start + (k + 1) * width), "t_guard_end_tl_s": float(min(start + (k + 1) * width + guard, end))} for k in range(int(count))]
+    windows, k = [], 0
+    while start + k * width < end:
+        a, b = start + k * width, min(start + (k + 1) * width, end)
+        windows.append({"camera_group_id": camera_group_id, "timeline_id": timeline_id, "window_index": k, "t_start_tl_s": float(a), "t_end_tl_s": float(b),
+                        "window_length_s": float(b - a), "t_guard_end_tl_s": float(min(b + guard, end))})
+        k += 1
+    return windows
 
 
 def check_inputs(inputs: list[Row]) -> None:
@@ -109,7 +112,8 @@ def plan_rows(plan_label: str, version: str, sample_type: str, split_version_id:
     windows = []
     for w in selected:
         row = {"plan_nk": [plan_label, version], "camera_group_id": w["camera_group_id"], "timeline_id": w["timeline_id"], "window_index": w["window_index"],
-               "t_start_tl_s": w["t_start_tl_s"], "t_end_tl_s": w["t_end_tl_s"], "t_guard_end_tl_s": w["t_guard_end_tl_s"], "stratum_id": w["stratum_id"],
+               "t_start_tl_s": w["t_start_tl_s"], "t_end_tl_s": w["t_end_tl_s"], "window_length_s": w.get("window_length_s", w["t_end_tl_s"] - w["t_start_tl_s"]),
+               "t_guard_end_tl_s": w["t_guard_end_tl_s"], "stratum_id": w["stratum_id"],
                "sample_type": w["sample_type"], "exhaustive": True, "annotation_status": "planned", "split_version_id": split_version_id,
                "partition_at_sampling": w["partition_at_sampling"], "leakage_group_id": w["leakage_group_id"]}
         row["inclusion_prob"], row["inclusion_prob_null_reason"] = _nullable(w["inclusion_prob"], "not_applicable")

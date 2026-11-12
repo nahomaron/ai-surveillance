@@ -608,6 +608,7 @@ timeline_id id
 window_index i64
 t_start_tl_s f64
 t_end_tl_s f64
+window_length_s f64 @ge0
 t_guard_end_tl_s f64
 stratum_id str
 sample_type sample_type
