@@ -129,10 +129,10 @@ Options: (a) Yes, same on both bases (implemented). (b) Literal basis filter (CM
 Agent's recommendation: (a). Details are in CR-017.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T13 (E-1.2.11).
 
-## D-19 (2026-11-12) — G-M0: review of milestone M0        status: OPEN
+## D-19 (2026-11-12) — G-M0: review of milestone M0        status: CLOSED
 Task: G-M0   Blocking: T-17 onward (M1a)
 Question: M0 is complete and tagged `m0-verified`. Do you accept M0?
 Evidence: reports/M0_report.md (test matrix, artifact-ID table and determinism result from a clean clone, status board, expected-value audit, self-audit, open CRs, the 47 ARs with their review status).
 Options: (a) Write "M0 accepted" here. (b) Return items for rework.
 Agent's recommendation: an independent review by the Research Architect first, including the 27 ARs still pending review (AR-1 to AR-6, AR-8 to AR-21, AR-23, AR-24, AR-26, AR-29, AR-32, AR-33, AR-47).
-Owner decision: ______
+Owner decision (12 Nov 2026): M0 ACCEPTED. The Architect reviewed the milestone report and AR-1 to AR-47 as written and accepted all pending ARs. Conditions: (1) M0_report.md names e6072ef as the commit its artifact-ID table belongs to; (2) M1a reports tie each result to its code commit; (3) "reference visibility assumed" wording is kept wherever visibility truth is missing; (4) D-8 stays deferred to T-22.

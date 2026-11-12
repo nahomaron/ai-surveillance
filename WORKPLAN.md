@@ -51,7 +51,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 | [x] | T-14 | **Evaluation part 3 (WP-09c).** Completeness CM-01–10, error attribution (rule tests and oracle factorial), acceptance criteria, scoped fitness engine | T-13 | Appendix N6, N9; E-1.2.1 §9.4–9.6 | FX-CM CM-01 = 0.600; FX-ID-3 CM-01 = 0.9; CT-E-22/29, CT-F-03–10, CT-ID-A3 | M |
 | [x] | T-15 | **Export and reports (WP-10).** Export classes, fixture banner, wording rules, status board | T-14 | F.1 A2; E-1.2.1 §11 | CT-X-01–05, CT-E-26/27/28 | S |
 | [x] | T-16 | **M0 integration and self-audit (WP-11).** Run the whole fixture pipeline twice from a clean clone; full suite; complete the self-audit (§5); write `reports/M0_report.md` (§6 template); tag `m0-verified`; push | all above | Package F §12 | All M0 tests pass; identical artifact IDs across both runs | M |
-| [S] | G-M0 | **STOP — Owner reviews M0.** Recommended: share the repository with the Research Architect for an independent review before accepting | T-16 | — | Owner writes "M0 accepted" in `DECISIONS_NEEDED.md` | — |
+| [x] | G-M0 | **STOP — Owner reviews M0.** Recommended: share the repository with the Research Architect for an independent review before accepting | T-16 | — | Owner writes "M0 accepted" in `DECISIONS_NEEDED.md` | — |
 
 ---
 
@@ -468,3 +468,8 @@ _(the agent appends entries here)_
 - Tests: 1704/1704 (full suite), determinism re-run: identical (1704/1704; pipeline artifact IDs identical across two clean-clone runs)
 - Problems / CRs: AR-47. CR-007 deferred (D-8). No other open CR.
 - Next: STOP. G-M0: the Owner reviews M0. Do not start M1a.
+
+### 2026-11-12 — G-M0 passed (D-19)
+- Owner decision: M0 ACCEPTED. The Architect accepted all 27 pending ARs as written (recorded under each AR); every AR from AR-1 to AR-47 is now reviewed. reports/M0_report.md updated: acceptance recorded, artifact-ID table tied to commit e6072ef.
+- Conditions carried into M1a: (1) done in M0_report.md; (2) every M1a report states the code commit each result belongs to; (3) "reference visibility assumed" stays wherever visibility truth is missing (report builder prints it; T-17 records whether each dataset has visibility truth, per the AR-36 ruling); (4) D-8 stays deferred to T-22.
+- Next: T-17 (dataset qualification). Per §0, downloads are allowed now that M0 is accepted, but only after T-17 records source authenticity and licence terms; real-world scenes stay excluded (D-3).

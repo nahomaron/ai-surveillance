@@ -2,7 +2,7 @@
 
 **Contract:** E-1.2.11 (E-1.2.1 FROZEN + F.1 Part A and Appendix N + Appendix T, sections T7 to T13).
 **Branch:** `m0-implementation`. **Pipeline and clean-clone runs at commit:** `e6072ef` (environment digest `228ef036e3d74142…`, the SHA-256 of `requirements.lock`).
-**Status:** STOP at G-M0. Everything below runs on fixtures and synthetic data. Nothing here is empirically validated.
+**Status:** M0 ACCEPTED by the Owner on 12 Nov 2026 (D-19). The artifact-ID table in section 3 belongs to commit `e6072ef` and reproduces exactly at that commit; the tag `m0-verified` sits on the later commit that adds this report. Everything below runs on fixtures and synthetic data. Nothing here is empirically validated.
 
 ## 1. Tasks
 
@@ -13,7 +13,7 @@
 | T-07 (E2 feasibility, document only) | done |
 | T-16 (this report) | done; tag `m0-verified` |
 | Blocked tasks | none |
-| G-M0 | STOP: waiting for the Owner |
+| G-M0 | Passed: M0 accepted (D-19, 12 Nov 2026) |
 
 T-09, earlier blocked by CR-008 and CR-009, is done (Appendix T T9, T10). T-14, earlier blocked by CR-014, is done (T12).
 
@@ -139,43 +139,43 @@ One process incident: commit `37be0c8` was pushed while the suite failed at coll
 
 ## 8. Agent Resolutions
 
-47 ARs in total; 20 Architect-reviewed, 27 pending: AR-1, AR-2, AR-3, AR-4, AR-5, AR-6, AR-8, AR-9, AR-10, AR-11, AR-12, AR-13, AR-14, AR-15, AR-16, AR-17, AR-18, AR-19, AR-20, AR-21, AR-23, AR-24, AR-26, AR-29, AR-32, AR-33, AR-47.
+47 ARs in total; all Architect-reviewed. The 27 pending at the time of writing were accepted as written at G-M0 (D-19).
 
 | AR | Title | Status |
 |---|---|---|
-| AR-1 | `version` column on `clock_alignment` and `calibration` | pending |
-| AR-2 | Column types where the contract lists names only | pending |
-| AR-3 | ID prefixes the contract does not give | pending |
-| AR-4 | Storage form of `<table>_nk` | pending |
-| AR-5 | Fields of `decode_config`, `geometry_config`, `sampling_plan_config` | pending |
-| AR-6 | Configuration field names given only in prose; `version_label` | pending |
+| AR-1 | `version` column on `clock_alignment` and `calibration` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-2 | Column types where the contract lists names only | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-3 | ID prefixes the contract does not give | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-4 | Storage form of `<table>_nk` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-5 | Fields of `decode_config`, `geometry_config`, `sampling_plan_config` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-6 | Configuration field names given only in prose; `version_label` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-7 | `ts` columns in artifact tables and their JCS form | Architect-reviewed (11 Nov 2026; revised) |
-| AR-8 | Which values count as sentinels (VR-E-003) | pending |
-| AR-9 | `label_source` on `ref_geometry` | pending |
-| AR-10 | VR-E-019 does not exist | pending |
-| AR-11 | Scope of VR-E-041 and `stage_error.severity` | pending |
-| AR-12 | Where the VR-E-070 ID applies | pending |
-| AR-13 | Inputs for VR-E-018 and VR-E-021 | pending |
-| AR-14 | Schema version string | pending |
-| AR-15 | Rounding of microsecond keys | pending |
-| AR-16 | ART-ISO prefixes and the error for schema violations | pending |
-| AR-17 | Scope of CT-I-03, 04, 07, 08 at T-02 | pending |
-| AR-18 | Integers beyond the range RFC 8785 can hash | pending |
-| AR-19 | Test-only value for `n_miss` | pending |
-| AR-20 | Design details of FX-ID box fixtures | pending |
-| AR-21 | Delivering timestamp faults to the decoder; Case A–D layouts | pending |
+| AR-8 | Which values count as sentinels (VR-E-003) | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-9 | `label_source` on `ref_geometry` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-10 | VR-E-019 does not exist | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-11 | Scope of VR-E-041 and `stage_error.severity` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-12 | Where the VR-E-070 ID applies | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-13 | Inputs for VR-E-018 and VR-E-021 | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-14 | Schema version string | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-15 | Rounding of microsecond keys | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-16 | ART-ISO prefixes and the error for schema violations | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-17 | Scope of CT-I-03, 04, 07, 08 at T-02 | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-18 | Integers beyond the range RFC 8785 can hash | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-19 | Test-only value for `n_miss` | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-20 | Design details of FX-ID box fixtures | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-21 | Delivering timestamp faults to the decoder; Case A–D layouts | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-22 | Default camera groups | Architect-reviewed (11 Nov 2026; accepted) |
-| AR-23 | Fixture records without key fields | pending |
-| AR-24 | Representation of the T7 declaration and the final-frame variant | pending |
+| AR-23 | Fixture records without key fields | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-24 | Representation of the T7 declaration and the final-frame variant | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-25 | "Decode order" is bitstream order; presentation index is decoder output order | Architect-reviewed (11 Nov 2026; accepted) |
-| AR-26 | PyAV does not expose FFmpeg's best-effort timestamp | pending |
+| AR-26 | PyAV does not expose FFmpeg's best-effort timestamp | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-27 | Exclusion rules version `rv1`; VFR flag; packet-to-frame matching | Architect-reviewed (11 Nov 2026; reviewed) |
 | AR-28 | Fixture value of *f_untimed* for Cases B and C | Architect-reviewed (11 Nov 2026; accepted) |
-| AR-29 | Oracle `tracked` points count as detected | pending |
+| AR-29 | Oracle `tracked` points count as detected | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-30 | Frame-level activity state | Architect-reviewed (12 Nov 2026; accepted) |
 | AR-31 | Metadata leakage edges | Architect-reviewed (12 Nov 2026; accepted) |
-| AR-32 | Initial partition assignment | pending |
-| AR-33 | Mechanics of the RES draw and bootstrap percentiles | pending |
+| AR-32 | Initial partition assignment | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
+| AR-33 | Mechanics of the RES draw and bootstrap percentiles | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 | AR-34 | T2b audits and declared shared sessions | Architect-reviewed (12 Nov 2026; accepted) |
 | AR-35 | Schema and labelling details needed to implement T8 | Architect-reviewed (12 Nov 2026; accepted, part revised) |
 | AR-36 | Status-log and CV-SIM conventions | Architect-reviewed (12 Nov 2026; accepted) |
@@ -189,7 +189,7 @@ One process incident: commit `37be0c8` was pushed while the suite failed at coll
 | AR-44 | Fitness-engine representation details (T-14) | Architect-reviewed (12 Nov 2026; accepted, part revised) |
 | AR-45 | Representation details of the T12 conformance (T-14) | Architect-reviewed (12 Nov 2026; accepted) |
 | AR-46 | OBX file format and report wording mechanics (T-15) | Architect-reviewed (12 Nov 2026; accepted) |
-| AR-47 | M0 integration run details (T-16) | pending |
+| AR-47 | M0 integration run details (T-16) | Architect-reviewed (12 Nov 2026, G-M0; accepted) |
 
 ## 9. Usage and time notes
 
@@ -199,6 +199,6 @@ One process incident: commit `37be0c8` was pushed while the suite failed at coll
 
 ## 10. Decisions needed
 
-- **G-M0:** the Owner reviews M0 and writes "M0 accepted" in `DECISIONS_NEEDED.md`. Recommended: an independent review by the Research Architect, including the 27 pending ARs.
+- **G-M0:** decided. M0 accepted on 12 Nov 2026 (D-19), with conditions: M1a reports tie each result to its code commit; "reference visibility assumed" is kept wherever visibility truth is missing; D-8 stays deferred to T-22.
 - **D-8:** deferred to T-22; reopen with GV-03/GV-04 evidence.
 - **Before M1a:** the §0 download approval applies only after M0 is accepted, and only after T-17 records source authenticity and licence terms.

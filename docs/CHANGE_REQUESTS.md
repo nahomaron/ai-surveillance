@@ -68,26 +68,32 @@ Made under the "Agent authority to close contract gaps" section of CLAUDE.md. Al
 ## AR-1 — `version` column on `clock_alignment` and `calibration`
 - **Gap:** F.1 A1.3 keys include `version`; §5.1 lists no such field. **Options:** (a) add `version · str`, (b) integer. **Choice:** (a), matching `world_frame.version`.
 - **No meaning effect:** an identifier for corrections only (ANC-1). **Files/tests:** `schema/tables.py`; `test_ar1_version_columns_are_strings`. **Reverse:** change the type in `tables.py`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-2 — Column types where the contract lists names only
 - **Gap:** 25 tables in §5.8–5.10 and F.1 A5 give field names without types. **Options:** (a) infer from suffix conventions (§1.2) and enums, (b) block. **Choice:** (a). Counts are `i64`, durations and ratios `f64`, references `id`, free references `str`.
 - **No meaning effect:** storage types only; no value or formula is set. **Files/tests:** `schema/tables.py`, list in `reports/T-01_vr_coverage.md`; `test_generates_valid_arrow_and_json_schema`, `test_every_table_round_trips_through_parquet`. **Reverse:** edit the type lines.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-3 — ID prefixes the contract does not give
 - **Gap:** F.1 A1.2 computes `id(prefix, …)` for configurations, and §2.1 gives human records a table prefix, but no prefix is listed for these tables. **Options:** (a) assign short unique prefixes, (b) use one generic prefix. **Choice:** (a): `fpp sbc bsc rcf dcf gcf spc rop rin rgm rcl tia tis anr anc rva adj rtp alg ecl ser`.
 - **No meaning effect:** the prefix labels the ID and is not hashed by `id()`. **Files/tests:** `schema/tables.py`; `test_ar3_prefixes`. **Reverse:** rename the prefix; IDs change only in their label.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-4 — Storage form of `<table>_nk`
 - **Gap:** Appendix T T5 fixes the payload value as a JSON array (`["rec_a",1]`) but not its Parquet column type. A natural key is heterogeneous, so it has no single Arrow list type. **Options:** (a) store JCS text in a utf8 column and decode on read, (b) one Arrow struct per table. **Choice:** (a).
 - **No meaning effect:** hashing always uses the decoded array, so `payload_sha256` is unaffected; CT-FK-05 reconstruction checks it. **Files/tests:** `schema/registry.py`; `test_nk_is_json_array_in_json_schema_and_text_in_arrow`, `test_nested_values_round_trip`. **Reverse:** swap `_encode`/`_decode`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-5 — Fields of `decode_config`, `geometry_config`, `sampling_plan_config`
 - **Gap:** F.1 A1.2 lists these configuration tables with no fields. **Options:** (a) define containers holding only parameters named in §5.2, §8 and §14, (b) block. **Choice:** (a). No default values exist; all values come from configuration records.
 - **No meaning effect:** containers only; parameter definitions are unchanged. **Files/tests:** `schema/tables.py`; `test_every_contract_table_is_registered`. **Reverse:** edit the definitions.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-6 — Configuration field names given only in prose; `version_label`
 - **Gap:** §5.2 names some fields in prose, and Package F §3 requires `version_label = "TEST-ONLY"` without listing it in §5.2. **Options:** (a) use the §14 parameter names and add a nullable `version_label`, (b) free-form maps. **Choice:** (a).
 - **No meaning effect:** naming only. It enables the T-15 TEST-ONLY guard. **Files/tests:** `schema/tables.py`; `test_minimal_row_is_valid_and_loads_into_arrow`. **Reverse:** rename.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-7 — `ts` columns in artifact tables and their JCS form
 - **Gap:** §1.1 restricts `ts` to `execution.json` and human entries, but §5.1, §5.8 and §5.9 declare `retrieved_utc`, `verified_utc`, `frozen_utc` and `locked_utc` on artifact tables. The JCS form is unstated. **Options:** (a) keep the specific field declarations, treat values as supplied inputs, hash as RFC 3339 UTC text, (b) drop them from payloads. **Choice:** (a). Pipelines must take these from configuration or metadata and never from the clock, which keeps exact-class stages reproducible.
@@ -100,58 +106,72 @@ Made under the "Agent authority to close contract gaps" section of CLAUDE.md. Al
 ## AR-8 — Which values count as sentinels (VR-E-003)
 - **Gap:** Appendix T says "no sentinel values (e.g., −1 for unknown)" and gives no list. −1 is legitimate in signed columns (`x_m`, `offset_s`, `image_gap_px`). **Options:** (a) reject negatives in columns that cannot be negative, (b) reject −1 everywhere. **Choice:** (a), as (b) would reject valid measurements.
 - **No meaning effect:** rejects invalid records and changes no valid value. In signed world columns, CT-E-05 catches sentinels through VR-E-014. **Files/tests:** `schema/validate.py`; `test_ar8_sentinel_applies_only_to_non_negative_columns`. **Reverse:** edit `_NON_NEGATIVE`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-9 — `label_source` on `ref_geometry`
 - **Gap:** VR-E-055 constrains reference records, but §5.8 gives `ref_geometry` no such column. **Options:** (a) add it, (b) exempt the table. **Choice:** (a), the stricter option that keeps the namespace guard complete.
 - **No meaning effect:** provenance only. **Files/tests:** `schema/tables.py`; `test_ar9_ref_geometry_has_label_source`. **Reverse:** remove the line.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-10 — VR-E-019 does not exist
 - **Gap:** §12.1 gives the range 010–021, but Appendix T has no VR-E-019. **Evidence:** Package E, Validation rules table, goes from VR-E-018 (line 871) straight to VR-E-020 (line 872), so this is a numbering gap, not lost text. **Options:** (a) treat as non-existent, (b) raise a CR. **Choice:** (a).
 - **No meaning effect:** no rule is added or removed. **Files/tests:** `schema/coverage.py`; `test_coverage_lists_every_active_rule_exactly_once`. **Reverse:** add the rule to `ACTIVE`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-11 — Scope of VR-E-041 and `stage_error.severity`
 - **Gap:** Appendix T forbids "severity" while §5.10 defines `stage_error.severity` (an error-handling level). **Options:** (a) forbid the field names everywhere with that one exemption, (b) check E2 tables only. **Choice:** (a), the stricter option.
 - **No meaning effect:** the exempted column is not a harm quantity. **Files/tests:** `schema/registry.py`; `test_no_forbidden_field_in_any_table`. **Reverse:** remove the exemption.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-12 — Where the VR-E-070 ID applies
 - **Gap:** E-1.2.1 §5.1 cites VR-E-070 for `site.approvals_ref`; Appendix T amends VR-E-070 to source-file retention and clip access. **Options:** (a) apply Appendix T to the ID and keep the §5.1 requirement under its own check, (b) drop the site check. **Choice:** (a), so no requirement is lost. Check name: `SITE-APPROVALS`.
 - **No meaning effect:** both requirements are enforced. **Files/tests:** `schema/validate.py`, `schema/vr_rules.py`; `test_site_approvals_still_required_for_real_origins`. **Reverse:** rename the rule tag.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-13 — Inputs for VR-E-018 and VR-E-021
 - **Gap:** VR-E-018 needs "a GV-05 evidence reference for the stratum", and no table holds one. VR-E-021 requires SI units, which a validator cannot infer from a number. **Options:** (a) pass GV-05 evidence as a validator argument keyed by calibration ID, and check unit suffixes, (b) add columns. **Choice:** (a).
 - **No meaning effect:** validators only; `sigma_status` is unchanged. **Files/tests:** `schema/vr_rules.py`; VR-E-018 and VR-E-021 cases. **Reverse:** change the arguments.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-14 — Schema version string
 - **Gap:** VR-E-001 and CT-E-30 need a major-version test, but no format for `schema_version` is stated. **Options:** (a) use the contract version with Package F §9's rule (E-1.2.x minor, E-1.3 major), (b) separate numbering. **Choice:** (a).
 - **No meaning effect:** compatibility handling only. **Files/tests:** `schema/errors.py`; `test_schema_major_uses_package_f_section_9`. **Reverse:** change `_major`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-15 — Rounding of microsecond keys
 - **Gap:** CN-2 says round half to even, but not whether on the exact binary value or a float product. **Options:** (a) exact `Decimal`, (b) `round(x * 1e6)`. **Choice:** (a), which does not depend on floating-point multiplication.
 - **No meaning effect:** natural-key components only; durations do not use this. **Files/tests:** `ids/core.py`; `test_ar15_time_keys_use_exact_half_even_microseconds`. **Reverse:** change `to_us`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-16 — ART-ISO prefixes and the error for schema violations
 - **Gap:** ART-ISO needs each spec's configurations to be recognizable, but tracker, oracle, model, inference and evaluation configurations have no prefix. §10.3 has no code for a generic schema violation found while building. **Options:** (a) prefixes `trc`, `orc`, `mdl`, `inf`, `evc`, and use `ERR-INVARIANT` for schema violations, (b) add typed spec fields and a new error code. **Choice:** (a), which leaves the §2.1 spec shape and the §10.3 code list unchanged.
 - **No meaning effect:** labels and error reporting only. **Files/tests:** `ids/artifact.py`; `test_ct_nk_06_art_iso`, `test_ar16_schema_violation_uses_err_invariant`. **Reverse:** change `ART_ISO` or the raised code.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-17 — Scope of CT-I-03, 04, 07, 08 at T-02
 - **Gap:** these tests describe pipeline behaviour (a real `g_max` change, recalibration, rule change, metric lineage) but T-02 precedes S4, S5 and S8. **Options:** (a) test the identity behaviour at builder level now and re-exercise it when those stages exist, (b) defer T-02. **Choice:** (a). The re-runs are scheduled in T-08, T-09, T-14 and T-16.
 - **No meaning effect:** test scheduling only. **Files/tests:** `tests/ids/test_identity.py`. **Reverse:** move the tests.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-18 — Integers beyond the range RFC 8785 can hash
 - **Gap:** `i64` columns can hold values above 2⁵³−1, but RFC 8785 (I-JSON) cannot serialize them, and the contract's hash requires JCS. **Options:** (a) reject such values as a schema violation, (b) hash them as strings. **Choice:** (a). It fails visibly, and no contract quantity needs that range (timestamps in microseconds reach about 285 years; published dataset seeds are far smaller).
 - **No meaning effect:** rejects an unrepresentable record and changes no valid value. **Files/tests:** `schema/validate.py`; `test_ar18_integers_outside_i_json_range_are_rejected`, `test_ar18_is_a_contract_error_not_a_serializer_crash`. **Reverse:** change the check and add a string form to `canonical.py`.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-19 — Test-only value for `n_miss`
 - **Gap:** F.1 A6 adds *n_miss* to §14, and FX-ID-8 mentions it, but Package F §3 gives no test value. **Options:** (a) a labelled TEST-ONLY value of 5 frames, (b) block FX-ID-8. **Choice:** (a). FX-ID-8 has no reference person on any frame, so its result does not depend on the value.
 - **No meaning effect:** TEST-ONLY; never a research threshold. If a later fixture's result depends on this value, it needs a CR. **Files/tests:** `fixtures/records.py`; `test_test_only_values`, `test_fx_id_expectations`. **Reverse:** edit the parameter.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-20 — Design details of FX-ID box fixtures
 - **Gap:** F.1 A5.2 states expected results but not box coordinates or, for FX-ID-2, when p1 and p2 are present. **Options:** (a) simple constant boxes with each person present only while tracked, (b) both persons present throughout, which would add missed frames that F.1 does not list. **Choice:** (a). FX-ID-6 uses boxes hand-computed to give IoU 0.60 and 0.59.
 - **No meaning effect:** fixture inputs only; expected statuses, counts and shares are F.1's. **Files/tests:** `fixtures/records.py`; `test_fx_id_6_box_iou_hand_calculation`, `test_fx_id_expectations`. **Reverse:** change the segments and regenerate.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-21 — Delivering timestamp faults to the decoder; Case A–D layouts
 - **Gap:** T-04 asks for clips with missing or duplicate timestamps, but every container tested (Matroska, NUT, AVI, MP4, MPEG-TS) repairs or rejects them on write. Appendix T cites Cases A–D without giving their layout. **Evidence:** Clarification §2.3 worked-example table (cases A–D, including "depth 2" and neighbours for case C) and §2.4 ("an encoder plus deliberate corruption or timestamp stripping"). **Options:** (a) real encoded clips plus a `.faults.json` overlay applied to packets at demux, (b) hand-written container bytes, (c) synthetic frame records with no decoder. **Choice:** (a). The real decoder then sees those timestamp states. Corrupt packets remain real corrupted bytes in the file.
 - **No meaning effect:** fixture delivery only; timestamp rules are unchanged. **Limit:** a file that natively lacks a timestamp is not exercised, because none could be produced. **Files/tests:** `fixtures/clips.py`; `tests/clips/test_clip_fixtures.py`. **Reverse:** replace the overlay with crafted files.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-22 — Default camera groups
 - **Gap:** §8 tiles windows per camera group, and §5.1 defines `camera_group`, but nothing says which groups S0 creates when none are declared. **Options:** (a) one `whole_session` group per timeline holding its cameras, (b) require declared groups. **Choice:** (a), using an existing enum value. Declared groups can be added later as a new version of the registration.
@@ -161,6 +181,7 @@ Made under the "Agent authority to close contract gaps" section of CLAUDE.md. Al
 ## AR-23 — Fixture records without key fields
 - **Gap:** Appendix T FX-B1 and FX-B3 omit fields needed to build a row (`version`, and `valid_from_us` in FX-B1), and FX-B3 states that "field presence and nullability are what the test checks". **Options:** (a) add these in the test adapter, (b) amend the fixture. **Choice:** (a). The committed fixture stays verbatim.
 - **No meaning effect:** key fields of a test record only. **Files/tests:** `tests/registry/test_registrar.py` (`_calibration`). **Reverse:** edit the adapter.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## CR-003 (2026-11-10) — How δ_nom is obtained, and what *f_sub* does   status: CLOSED
 
@@ -191,6 +212,7 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 ## AR-24 — Representation of the T7 declaration and the final-frame variant
 - **Gap:** T7 lets the decode configuration declare `delta_nom_s` "for the recording" with an evidence reference, and §3.3 defines a sensitivity variant for the final frame. Neither has a field. **Options:** (a) `decode_config.delta_nom_declarations: list<{recording_id, delta_nom_s, evidence_ref}>` and `final_frame_support: enum{delta_nom, zero}`, (b) a map keyed by recording. **Choice:** (a), which carries the evidence reference T7 requires. `delta_nom_median_s` is null `not_applicable` when no adjacent pair exists.
 - **No meaning effect:** containers for values T7 and §3.3 define. **Files/tests:** `schema/tables.py`; `test_ar5_config_table_columns` (updated for E-1.2.4), `test_ct_t_21_declared_source_recorded`, `test_ct_t_06_final_frame_sensitivity`. **Reverse:** change the fields.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-25 — "Decode order" is bitstream order; presentation index is decoder output order
 - **Gap:** §3.2 says `decode_seq` follows decoder output order, yet computes `reorder_depth` from "presentation index − decode index". A conforming decoder outputs frames in presentation order, so if "decode index" meant output order, the depth would always be 0. **Evidence:** CT-T-16 (Appendix T) requires 0.033 s for Case C, which needs depth 2. Clarification §2.3 case C ("depth 2", decode neighbours f0, f2, f3) confirms. **Options:** (a) decode index = bitstream (packet) order and presentation index = rank in decoder output order, (b) both from output order. Only (a) reproduces CT-T-16; (b) gives 0.067 s. **Choice:** (a). The same meaning applies to ST-2 "±r decode positions" and T7 "adjacent in decode order".
@@ -200,6 +222,7 @@ E.1 Addendum line 62 (superseded, read as evidence only) says "`δ_nom` the medi
 ## AR-26 — PyAV does not expose FFmpeg's best-effort timestamp
 - **Gap:** §3.2 resolves PTS, then the container best-effort timestamp, then DTS-derived. PyAV frames expose only `pts` and `dts`. **Options:** (a) skip the best-effort step, (b) reimplement FFmpeg's guess. **Choice:** (a). Without a PTS, FFmpeg's best-effort value is the DTS, and DTS-derived acceptance (depth 0) is never stricter than best-effort acceptance (depth 0 and consistent). The resolved time is therefore the same, and the frame is labelled `dts_derived`, never `best_effort`. T7's substituted share counts both sources, so it is also unchanged.
 - **No meaning effect:** identical times, eligibility and support. **Files/tests:** `decode/timestamps.py`; `test_case_d`. **Reverse:** add a best-effort branch if PyAV exposes it.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-27 — Exclusion rules version `rv1`; VFR flag; packet-to-frame matching
 - **Gap:** eligibility excludes frames with an "exclusion quality flag (rules version)", but no rules version is defined. Image-quality detection is a WP-04 non-goal ("exclusion rules are configuration"). `vfr_detected` has no definition. The decoder reports frames, not packets, so undecodable frames must be found by matching. **Choice:** `rv1` excludes `decode_error` only, and no other quality flag is computed. `vfr_detected` = spread of the intervals used for δ_nom exceeds one time-base tick. Frames are matched to packets by PTS, then DTS, then untimed order. A packet that raises, or whose frame never appears, is undecodable.
@@ -250,6 +273,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-29 — Oracle `tracked` points count as detected
 - **Gap:** §3.4 classes an object-frame as `detected` if `state = tracked` "with a detection". ORACLE-S3 (§10.1) produces tracks from simulator truth or fixtures, with no S2 detection. **Options:** (a) oracle `tracked` points are `detected`, with the truth standing in for the detection, (b) oracle frames are never detected. **Choice:** (a). Under (b), ORACLE-S3 could never produce detected time, which would defeat its purpose as the perception upper bound (Package F M1a).
 - **No meaning effect:** applies only to oracle tracks, whose `prov_class` is `simulator_truth`; `detection_id` is null `not_applicable`. **Files/tests:** `substrate/oracle.py`; `test_oracle_s3_tracks_and_evidence_classes`. **Reverse:** change `object_class` for oracle input.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-30 — Frame-level activity state
 - **Gap:** §3.5 and CD-01 to CD-03 define where `not_evaluated` applies but not how the three detection states are assigned. **Options:** (a) read the enum names: `pair_detected` when a person and a pair-class object are both `tracked` on the frame, `objects_detected_no_pair` when any object is `tracked`, otherwise `observed_no_detection`; (b) tie `pair_detected` to an open POW. **Choice:** (a). Predicted objects are not detections. Segments follow frame support inside each usable coverage segment and merge equal neighbours.
@@ -277,10 +301,12 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 ## AR-32 — Initial partition assignment
 - **Gap:** `SplitBuilder.freeze(metadata)` must assign leakage groups to partitions, but no assignment method is given. A random split with target fractions would be a design choice. **Choice:** partitions are declared per recording in the split configuration, as researcher input. A group whose members carry different declarations is a T1 violation (VR-E-060) and raises `ERR-LEAKAGE` at freeze. PR-01 is not applied at freeze, because it is defined only for audit revisions.
 - **No meaning effect:** an input, plus an existing rule. **Files/tests:** `splits/builder.py`; `test_ct_e_23_two_cameras_of_one_interaction_across_partitions`. **Reverse:** add an assignment method.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-33 — Mechanics of the RES draw and bootstrap percentiles
 - **Gap:** §8 and N5 fix stratified SRSWOR with π = n_h/N_h and PCG64 seeded from configuration, but not the draw order or the percentile interpolation. **Choice:** windows sorted by (stratum, camera group, window index); strata drawn in sorted order from one `numpy.random.Generator(PCG64(seed))` using `choice(N_h, n_h, replace=False)`. Bootstrap percentiles use numpy's default linear interpolation. `frame_sha256` = SHA-256 of the JCS window list.
 - **No meaning effect:** the design, π and weights are as specified; only which equally probable sample occurs depends on these details. Results are reproducible for the pinned numpy. **Files/tests:** `sampling/plan.py`, `evaluation/estimators.py`; `test_res_draw_is_seeded_and_reproducible`. **Reverse:** change the draw loop.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
 ## AR-34 — T2b audits and declared shared sessions
 - **Gap:** under T2b, "only the declared shared sessions may span" (§8), and CT-S-05 expects an audit to pass when the same interaction is seen by cameras of a declared shared session in different partitions. The audit record has no field to mark such an edge as expected. **Options:** (a) the audit leaves edges inside one declared shared session out of `edges_added` and out of violation detection, (b) record them with a new edge type. **Choice:** (a). Leakage groups for T2b are built without same-session edges for declared sessions, and undeclared spanning sessions raise `ERR-LEAKAGE` at freeze (SP-06, CT-S-06).
@@ -605,3 +631,4 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   5. **CV-SIM mapping.** `converter.label_group_mapping` derives each `ref_interaction`'s label groups from the simulator truth's labels (G1 for O/H/PC, G2 for NM/UD/CT), as the Architect's ruling on AR-39 item 3 requires.
   6. **M0 configuration IDs.** The oracle, decode, geometry, footprint, band-scheme, substrate, rule and evaluation configurations are content-addressed records with `version_label = TEST-ONLY`, built from the TEST-ONLY parameters fixture. The fitness scope has no registered criterion, so its status is `not_yet_assessable` (FT-04).
 - **No meaning effect:** fixture and run representation only; no measured value changes. **Review flag:** items 2 and 4. **Files/tests:** `pipeline/m0.py`, `fixtures/clips.py`, `validation/converter.py`; `tests/pipeline/test_m0.py`, `tests/clips/test_clip_fixtures.py`. **Reverse:** remove the clip and the pipeline module.
+- **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
