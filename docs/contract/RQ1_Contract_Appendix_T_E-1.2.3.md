@@ -684,3 +684,90 @@ T8.7 Evidence sufficiency Q per pair-frame
 
 New parameter v_part goes in the E-1.2.1 §14 list. Every check value above
 becomes a test.
+
+## T9. Event-engine definitions and corrections (E-1.2.7; CR-008, D-9)
+
+T9.1 Correction to T8.2 (track ends)
+The velocity window is the interval of length w_v centred on t_k, SHIFTED
+(not shrunk) so that it lies inside the track's contiguous run of frames
+with non-null position and evidence class ∈ {detected, inferred}, without
+crossing a coverage break. It requires ≥ 3 frames. If the run is shorter
+than w_v, use the whole run. All other T8.2 rules are unchanged.
+Checks:
+- G2 speed is still 1.000000 m/s.
+- G3 has a velocity on every frame, so N2 holds as written: episode frames
+  0–9, minclr 2.35 m, and ttca_s at t = 0 is null (not_observable).
+
+T9.2 R5 evasive-action rates
+For frame k, let a and b be the first and last frames inside the window of
+length w_e centred on t_k (shifted as in T9.1) with non-null smoothed
+values, requiring t_b − t_a ≥ w_e/2. Then:
+- person_speed_change = |speed_b − speed_a| / (t_b − t_a)        [m/s²]
+- forklift_decel = max(0, −(speed_b − speed_a)) / (t_b − t_a)    [m/s²]
+- person_turn_rate = |wrap(heading_b − heading_a)| / (t_b − t_a) [rad/s],
+  with wrap to (−π, π]. It is evaluated only if the person's speed ≥ v_min
+  at both a and b; otherwise the criterion is FALSE (no turn is possible
+  without motion; stopping is captured by person_speed_change).
+- E(k) = (person_turn_rate > e_turn) ∨ (person_speed_change > e_acc)
+         ∨ (forklift_decel > e_dec), in Kleene logic.
+- A criterion is unknown when its required values are null (not_observable).
+- exp_evasive_score = the maximum over I⁺ of the largest ratio of observed
+  value to threshold among the three criteria.
+
+T9.3 Contact cue (replaces "k_c" for both units)
+cue = (forklift_decel > k_c) ∨ (person_speed_change > k_c)
+      ∨ (person_turn_rate > k_c_turn), evaluated with T9.2 over the window
+centred on the closest-approach frame (CA). New parameter: k_c_turn
+(rad/s; TEST-ONLY value 3.0).
+
+T9.4 E when R5 is disabled
+If the configuration does not enable R5:
+- E_ep = 0 and the new episode field e_assessed = false;
+- K = (minclr < d_nm), in Kleene logic;
+- such a configuration cannot produce NM, UD or CT through evasive action.
+If R5 is enabled: e_assessed = true and §6 applies unchanged.
+Check: G2 gives H.
+
+T9.5 Closest-approach frame (CA)
+1. Let m* be the frame of I with the minimum measured clearance (earliest
+   on ties).
+2. If m* is the last measured frame of I, the next frame of I is not
+   measured, and closing_rate_mps at m* > 0 (or null), the approach
+   continued unobserved:
+   - t_CA = t(m*) + ttca_s(m*) if that is non-null, else the end of I;
+   - CA = the frame of I nearest t_CA (earliest on ties);
+   - ca_observed = false.
+3. Otherwise CA = m* and ca_observed = true.
+4. If I has no measured clearance: CA = the frame of I with the minimum
+   image_gap_norm (earliest on ties), ca_observed = false. If no frame of I
+   has boxes for both objects: CA = null (not_observable).
+New episode field: ca_observed · bool.
+
+T9.6 Usable frames around CA, and contact state
+W_CA = frames of I⁺ with |t − t_CA| ≤ w_e/2. Contact state is evaluated in
+this order:
+1. not_assessable: CA is null, or no frame in W_CA has
+   q_state = sufficient.
+2. undetermined: Q is insufficient at CA (CA not visible), or any §6
+   undetermined condition holds.
+3. suspected or none_observed: otherwise, per §6 with the T9.3 cue.
+
+T9.7 Lifecycle with unknown trigger values
+A maximal run of non-true T frames (0 or 2) between true frames is bridged
+iff:
+- (a) its length ≤ m_gap, or
+- (b) it contains no T = 0 frame and its length ≤ g_max.
+Otherwise the episode closes at the last true frame. Episodes still open
+only on T = 1.
+
+T9.8 onset_sensitive
+Set the onset_sensitive flag iff the episode's opening frame, or the frame
+immediately before it, is a borderline frame (§6.0: |value − threshold| ≤
+k_σ·σ) for P, M or any enabled C provider.
+
+T9.9 Correction to Appendix N1
+Row T10 inputs become: Q = 1×12, 0×8 (CA at frame 15); minclr 1.20 m from
+frames 0–11. Expected values are unchanged: contact undetermined, K = 2,
+labels PC, IE. Row T11 is unchanged (not_assessable).
+Rationale: with w_e = 1.0 s at 10 fps, W_CA = frames 10–20. T10 now has
+sufficient frames 10–11 in W_CA; T11 has none.

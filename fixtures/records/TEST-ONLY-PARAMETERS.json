@@ -23,6 +23,7 @@
   "iou_m": 0.3,
   "iou_rep": 0.95,
   "k_c": 3.0,
+  "k_c_turn": 3.0,
   "k_img": 0.05,
   "k_kf": 1.0,
   "k_sigma": 2.0,
@@ -44,6 +45,6 @@
   "w_ref": 30.0,
   "w_v": 0.5
  },
- "source": "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6",
+ "source": "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6; k_c_turn from Appendix T T9.3",
  "version_label": "TEST-ONLY"
 }

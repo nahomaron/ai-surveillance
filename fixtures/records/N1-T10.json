@@ -16,8 +16,12 @@
   "E": "2×20",
   "M": "2×20",
   "P": "0×20",
-  "Q": "1×10,0×10",
+  "Q": "1×12,0×8",
   "ca_frame": 15,
+  "clearance_frames": [
+   0,
+   12
+  ],
   "contact_cue": "no",
   "fps": 10,
   "minclr_m": 1.2,
@@ -25,6 +29,6 @@
   "n_frames": 20,
   "overlap_at_ca": "unknown"
  },
- "source": "Appendix N1 row T10",
+ "source": "Appendix N1 row T10, inputs as corrected by Appendix T T9.9 (E-1.2.7)",
  "version_label": "TEST-ONLY"
 }

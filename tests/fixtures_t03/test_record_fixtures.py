@@ -184,6 +184,15 @@ def test_test_only_values():
     v = load("TEST-ONLY-PARAMETERS")["parameters"]
     assert (v["k_sup"], v["d_p"], v["k_img"], v["m_gap"], v["t_min"], v["w_post"], v["d_nm"], v["k_sigma"], v["iou_cm"], v["eps_amb"]) == (1.5, 2.0, 0.05, 5, 0.2, 1.0, 0.5, 2.0, 0.5, 0.02)
     assert v["v_part"] == 0.5  # Appendix T T8.6 (E-1.2.6)
+    assert v["k_c_turn"] == 3.0  # Appendix T T9.3 (E-1.2.7)
+
+
+def test_n1_t10_inputs_follow_t9_9():
+    # Appendix T T9.9 (E-1.2.7, Architect amendment) corrects the T10 inputs; the expected values are unchanged.
+    t10, t11 = load("N1-T10"), load("N1-T11")
+    assert (t10["inputs"]["Q"], t10["inputs"]["clearance_frames"], t10["inputs"]["ca_frame"], t10["inputs"]["minclr_m"]) == ("1×12,0×8", [0, 12], 15, 1.2)
+    assert (t11["inputs"]["Q"], t11["inputs"]["clearance_frames"], t11["inputs"]["ca_frame"]) == ("1×10,0×10", [0, 10], 15)
+    assert "T9.9" in t10["source"]
 
 
 def test_generator_refuses_inconsistent_expected_labels():

@@ -52,16 +52,16 @@ Options: (a) Complete windows only, with the remainder outside the frame. (b) A 
 Agent's recommendation: (b). Details are in CR-006.
 Owner decision (12 Nov 2026): DECIDED (b). The last window of a timeline may be shorter. window_length_s is recorded on reference_window; the guard is clipped at the timeline end; weights stay 1/π.
 
-## D-8 (2026-11-12) — Where the forklift footprint sits relative to the tracked point        status: OPEN
+## D-8 (2026-11-12) — Where the forklift footprint sits relative to the tracked point        status: DEFERRED (to T-22)
 Task: T-08 (not blocking M0)   Blocking: the camera-based detector path (T-22, T-23, M1b)
 Question: Footprint priors declare an anchor (box_bottom_centre, rear_axle or centre), but the contract does not say how a camera-derived floor point maps to the footprint centre for the first two. This shifts clearance. M0 uses oracle centre positions, so it is unaffected.
 Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre, and rear_axle uses a declared rear overhang along yaw. (b) The Architect supplies another rule.
 Agent's recommendation: (a). Details are in CR-007.
-Owner decision: ______
+Owner decision (12 Nov 2026): DEFERRED to T-22. Reopen it with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre. Kept open as deferred.
 
-## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: OPEN
+## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: CLOSED
 Task: T-09   Blocking: T-09 part B (S5 from the pipeline), T-12 to T-16
 Question: Eight event-engine inputs are named but not defined. These include evasive-action rates, the contact cue's units, the value of E when R5 is off, the closest-approach frame, and "usable frames around closest approach". There is also a conflict between Appendix N2's per-frame flags and T8.2 at track ends. Each one changes E, K, contact state or labels. Do you approve the CR-008 proposals?
 Options: (a) Approve the CR-008 proposals. (b) The Architect supplies definitions. (c) Approve some items and return others.
 Agent's recommendation: (a), or the Architect's text for items 3 and 4, which matter most. Details are in CR-008.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. The Architect's definitions are Appendix T section T9 (contract E-1.2.7), appended verbatim. CR-008 closed as superseded by T9. T9 corrects T8.2 (T9.1) and Appendix N1 row T10 (T9.9); these are Architect amendments, not edited expected values, and the affected tests cite T9.

@@ -298,7 +298,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   7. Oracle positions: `geometry_method = simulator_truth`, `calibration_id` null `not_applicable`, `world_frame_id` null `not_supplied`. The exposure profile's `calibration_tier` is `calibrated_unvalidated`, the conservative choice.
 - **No meaning effect:** nullability, field placement and labels only. **Review flag:** items 6 and 7. **Files/tests:** `schema/tables.py`, `substrate/*`; `tests/substrate/test_part_b.py`, `test_ar5_config_table_columns`, `test_ar6_named_configuration_fields` (updated for the new fields). **Reverse:** edit the definitions.
 
-## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: OPEN
+## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: DEFERRED (D-8, to T-22)
 
 **Raised by:** implementation agent. **Task:** T-08 (not blocking M0); blocks the detector path (T-22, T-23, M1b).
 **Contract sections:** E-1.2.1 §5.2 `footprint_prior.anchor` · enum{box_bottom_centre, rear_axle, centre}; §5.5.
@@ -306,7 +306,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 
 **Problem.** A calibrated camera gives the floor point under the box's bottom centre (`foot_point_px`). The contract does not say how that point relates to the footprint rectangle for `box_bottom_centre` or `rear_axle` anchors, for example how far behind or below the centre it lies, and along which axis given yaw. Oracle positions are footprint centres, so the M0 fixtures are unaffected. The builder currently treats the projected point as the footprint centre, which is correct only for `anchor = centre`.
 **Proposed resolution:** for `box_bottom_centre`, use the projected point as the footprint centre (the bottom-centre of a ground-contact box approximates the footprint's image centre). For `rear_axle`, place the centre at `length/2 − rear_overhang` ahead along yaw, with `rear_overhang` added to the prior. If yaw is unknown, use the circumscribed disc as in T8.2.
-**Decision:** ______   **Approver:** ______
+**Decision:** DEFERRED to T-22 (D-8, 12 Nov 2026). Reopen with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre.   **Approver:** Research Owner
 
 ## AR-36 — Status-log and CV-SIM conventions
 - **Gaps and choices:**
@@ -317,7 +317,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   5. CV-SIM `ref_interaction` rows take onset and offset from the simulator's interaction intervals, with `visible_contact = cant_tell`, because synthetic data cannot support contact claims (Package F WP-13 non-goals). Their `reference_class` is `rule_conformance` (RV-01). An interaction belongs to the window of its onset.
 - **No meaning effect:** representation and fixture conventions; reference semantics follow A3 and A5.1. **Review flag:** item 4 (visibility), for real use. **Files/tests:** `validation/*`; `tests/validation/test_store.py`. **Reverse:** edit the converter.
 
-## CR-008 (2026-11-12) — Event-engine inputs that §6 names but does not define (T-09)   status: OPEN
+## CR-008 (2026-11-12) — Event-engine inputs that §6 names but does not define (T-09)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-09. Part A (defined parts) proceeds; part B waits.
 **Contract sections:** E-1.2.1 §6.0, §6 (lifecycle, contact state, labels); Appendix N1, N2; Appendix T T8.2.
@@ -335,7 +335,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 | 8 | `onset_sensitive` borderline flag | Borderline reporting | Set when moving the open frame by ±1 frame changes whether the episode survives *t_min* |
 
 **Interim (part A):** providers R1, R2, R3, G, Q and the Kleene combinations; lifecycle; episode quantities; K, contact state and labels from explicit closest-approach inputs; CL-INV; N1 T1–T13 at flag level; CT-E-10, 12, 13, 14; N2 interior-frame flags. No S5 artifact is produced from S4 until items 1 to 5 are decided.
-**Decision:** ______   **Approver:** ______
+**Decision:** superseded by T9 (Appendix T, contract E-1.2.7; D-9, 12 Nov 2026). T9 also corrects T8.2 (T9.1) and Appendix N1 row T10 (T9.9).   **Approver:** Research Owner, on the Architect's definitions.   **Resulting contract version:** E-1.2.7
 
 ## AR-37 — Reading Appendix N1 rows at flag level
 - **Gap:** N1 gives "contact inputs at the closest-approach (CA) frame" but names a CA frame only for T10 and T11. T11's `not_assessable` rests on its stated condition "(no usable frames within ±*w_e*/2 of CA)", which the flag columns cannot express (CR-008 item 5). **Choice:** where N1 gives no CA frame (T1–T9), CA is the first frame of minimum clearance; since clearance is constant in those rows, any frame gives the same result. T11's stated condition is passed as the "usable around CA" input; every other row has usable frames. In T10 and T11, clearance is measured on frames 0–9 only, as the rows state.

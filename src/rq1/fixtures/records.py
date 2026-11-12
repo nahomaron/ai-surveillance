@@ -45,12 +45,12 @@ def _summary(labels: list[str]) -> str:
     return next(x for x in PRECEDENCE if x in labels)
 
 
-_add("TEST-ONLY-PARAMETERS", "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6",
+_add("TEST-ONLY-PARAMETERS", "Package F section 3; eps_amb and iou_cm from F.1 A5.2 fixtures; B from Appendix N tolerances; n_miss per AR-19; v_part from Appendix T T8.6; k_c_turn from Appendix T T9.3",
      parameters={"k_sup": 1.5, "f_untimed": 0.05, "f_sub": 0.10, "g_max": 15, "v_min": 0.3, "w_v": 0.5, "d_p": 2.0, "k_img": 0.05, "d_pc": 1.0,
                  "tau": 2.0, "ttc_max": 1.5, "pet_max": 1.0, "e_turn": 1.5, "e_acc": 1.0, "e_dec": 2.0, "w_e": 1.0, "m_gap": 5, "t_min": 0.2,
                  "w_post": 1.0, "d_nm": 0.5, "k_sigma": 2.0, "k_c": 3.0, "o_max": 0.5, "band_edges_m": [0.0, 0.5, 1.0, 2.0, 4.0], "iou_m": 0.3,
                  "iou_cm": 0.5, "k_kf": 1.0, "w_ref": 30.0, "w_guard": 5.0, "n_min": 10, "iou_rep": 0.95, "s_rep": 0.01, "eps_amb": 0.02,
-                 "n_miss": 5, "bootstrap_B": 200, "v_part": 0.5})
+                 "n_miss": 5, "bootstrap_B": 200, "v_part": 0.5, "k_c_turn": 3.0})
 
 _N1 = [  # id, P, M, C, E, Q, minclr, overlap, cue, CA frame, contact, K, labels
     ("T1", "1×20", "0×20", "0×20", "0×20", "1×20", 1.10, "no", "no", None, "none_observed", 0, ["O"]),
@@ -62,14 +62,17 @@ _N1 = [  # id, P, M, C, E, Q, minclr, overlap, cue, CA frame, contact, K, labels
     ("T7", "1×20", "1×20", "0×20", "0×20", "1×20", -0.10, "yes", "yes", None, "suspected", 1, ["H", "CT"]),
     ("T8", "1×20", "0×20", "0×20", "0×20", "1×20", -0.05, "yes", "no", None, "undetermined", 1, ["O"]),
     ("T9", "1×20", "0×20", "0×20", "0×20", "1×20", -0.10, "yes", "yes", None, "suspected", 1, ["O", "CT"]),
-    ("T10", "0×20", "2×20", "1×20", "2×20", "1×10,0×10", 1.20, "unknown", "no", 15, "undetermined", 2, ["PC", "IE"]),
+    ("T10", "0×20", "2×20", "1×20", "2×20", "1×12,0×8", 1.20, "unknown", "no", 15, "undetermined", 2, ["PC", "IE"]),
     ("T11", "1×20", "1×20", "0×20", "2×20", "1×10,0×10", 1.05, "unknown", "no", 15, "not_assessable", 2, ["H", "IE"]),
 ]
 for row_id, p, m, c, e, q, minclr, overlap, cue, ca, contact, k, labels, in ((r[0], *r[1:6], r[6], r[7], r[8], r[9], r[10], r[11], r[12]) for r in _N1):
     routed = contact in ("undetermined", "suspected") or any(x in labels for x in ("NM", "UD", "CT", "IE"))
-    _add(f"N1-{row_id}", f"Appendix N1 row {row_id}",
+    # Clearance is measured on every frame, except T10 (frames 0-11, Appendix T T9.9) and T11 (frames 0-9, Appendix N1).
+    measured = {"T10": [0, 12], "T11": [0, 10]}.get(row_id, [0, 20])
+    source = "Appendix N1 row T10, inputs as corrected by Appendix T T9.9 (E-1.2.7)" if row_id == "T10" else f"Appendix N1 row {row_id}"
+    _add(f"N1-{row_id}", source,
          inputs={"fps": 10, "n_frames": 20, "P": p, "M": m, "C_any": c, "E": e, "Q": q, "minclr_m": minclr, "minclr_sigma_m": 0.05,
-                 "overlap_at_ca": overlap, "contact_cue": cue, "ca_frame": ca},
+                 "clearance_frames": measured, "overlap_at_ca": overlap, "contact_cue": cue, "ca_frame": ca},
          expected={"contact_state": contact, "K": k, "labels": labels, "summary_label": _summary(labels), "review_route": routed},
          hand_calculation="summary_label applies section 6 precedence CT > UD > NM > PC > H > O; review_route applies the section 6 routing rule.")
 _add("N1-T12", "Appendix N1 row T12",

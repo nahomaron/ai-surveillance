@@ -64,6 +64,7 @@ These values exist **only so that fixtures have known answers**. They are not re
 | *e_turn* / *e_acc* / *e_dec* / *w_e* | 1.5 rad/s / 1.0 m/s² / 2.0 m/s² / 1.0 s | FX-05 (T5) |
 | *m_gap* / *t_min* / *w_post* | 5 frames / 0.2 s / 1.0 s | Lifecycle fixtures |
 | *d_nm* / *k_σ* / *k_c* / *o_max* | 0.5 m / 2.0 / 3.0 m/s² / 0.5 | FX-01–06 |
+| *k_c_turn* | 3.0 rad/s (Appendix T T9.3, E-1.2.7) | Contact cue |
 | Band edges | 0, 0.5, 1.0, 2.0, 4.0 m | Exposure fixtures |
 | *iou_m* / *iou_cm* / *k_kf* | 0.3 / 0.5 / 1.0 s | Matching and CM fixtures |
 | *w_ref* / *w_guard* / *n_min* | 30 s / 5 s / 10 | Sampling fixtures |
