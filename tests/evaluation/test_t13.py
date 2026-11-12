@@ -62,15 +62,34 @@ def test_paired_bootstrap_difference():
     assert high <= 0.0 and low < 0.0
 
 
+def wilson_decimal(successes, n, z="1.959964"):
+    """The N5 Wilson formula in decimal arithmetic at 15 significant digits, independent of the estimator code."""
+    from decimal import Decimal, localcontext
+    with localcontext() as ctx:
+        ctx.prec = 15
+        z, n = Decimal(z), Decimal(n)
+        p = Decimal(successes) / n
+        centre = p + z * z / (2 * n)
+        half = z * (p * (1 - p) / n + z * z / (4 * n * n)).sqrt()
+        den = 1 + z * z / n
+        return (centre - half) / den, (centre + half) / den
+
+
 def test_wilson():
-    # 8/10, z = 1.959964: z^2 = 3.8414589; centre 0.8 + 0.1920729 = 0.9920729; half = z x sqrt(0.016 + 0.0096036472)
-    # = 1.959964 x 0.1600113975 = 0.3136166; denominator 1.3841459 -> (0.6784563 / 1.3841459, 1.3056895 / 1.3841459)
-    # = (0.4901625, 0.9433178). (An earlier hand value of 0.943315 for the upper bound was an arithmetic slip.)
+    # 8/10 with z = 1.959964, decimal at 15 digits (recorded run):
+    #   z^2 = 3.841458881296; centre = 0.8 + z^2/20 = 0.9920729440648
+    #   inner = 0.8 x 0.2 / 10 + z^2/400 = 0.02560364720324; sqrt = 0.160011397104206; half = z x sqrt = 0.313616577913948
+    #   denominator = 1 + z^2/10 = 1.3841458881296
+    #   low = 0.6784563661508 / 1.3841458881296 = 0.490162469122133; high = 1.3056895219787 / 1.3841458881296 = 0.943317849062234
+    # The first hand value of the upper bound (0.943315, T-13) was an arithmetic slip, corrected to 0.9433178 (Progress log).
+    low_d, high_d = wilson_decimal(8, 10)
+    assert (str(low_d), str(high_d)) == ("0.490162469122133", "0.943317849062234")
     low, high = est.wilson(8, 10)
-    assert low == pytest.approx(0.4901625, abs=1e-6) and high == pytest.approx(0.9433178, abs=1e-6)
+    assert low == pytest.approx(float(low_d), abs=1e-12) and high == pytest.approx(float(high_d), abs=1e-12)
     assert est.wilson(0, 0) is None
+    low0, high0 = wilson_decimal(0, 10)  # z^2 / (n + z^2) = 3.841458881296 / 13.841458881296 = 0.277532... at p = 0
     low, high = est.wilson(0, 10)
-    assert low == pytest.approx(0.0, abs=1e-12) and high == pytest.approx(3.841459 / 13.841459, abs=1e-6)  # z^2/(n + z^2)
+    assert low == pytest.approx(float(low0), abs=1e-12) == pytest.approx(0.0, abs=1e-12) and high == pytest.approx(float(high0), abs=1e-12)
 
 
 def test_bland_altman():
