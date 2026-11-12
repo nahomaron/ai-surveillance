@@ -76,7 +76,7 @@ Research Architect may reverse any of them.
 1. Read the task in `WORKPLAN.md` and every contract section it cites.
 2. **Write the tests first**, using expected values from Appendix N or a recorded hand calculation.
 3. Implement until the task's tests **and the full suite** pass.
-4. Run the determinism subset a second time (`pytest -m determinism`). Exact-class outputs must be identical (same artifact IDs). The subset is every test that builds, hashes or serializes an artifact, every fixture test, and every seeded property test. When unsure whether a test belongs, mark it. At T-16 and any task whose "Done when" says so, run the full suite twice instead.
+4. Run the full suite a second time. Exact-class outputs must be identical (same artifact IDs).
 5. Tick the task, append an entry to the Progress log in `WORKPLAN.md` (template in §6), commit, and **push**.
 6. At a **STOP** task, write the request in `DECISIONS_NEEDED.md`, push, and stop working on anything that depends on it. Continue only with tasks marked independent of it.
 

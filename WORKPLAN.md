@@ -110,7 +110,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage, fi
 ```
 ### <date> — <task-id> <status>
 - Did: …
-- Tests: <passed>/<total> (full suite once); determinism subset re-run: <n> tests, identical | differs (explain)
+- Tests: <passed>/<total> (full suite), determinism re-run: identical | differs (explain)
 - Commit: <hash> (pushed)
 - Problems / CRs: …
 - Next: <task-id>
@@ -407,3 +407,7 @@ _(the agent appends entries here)_
 - Tests: 1620/1620 (full suite once); determinism subset re-run: 1429 tests, identical (passed twice)
 - Problems / CRs: AR-44, CR-016.
 - Next: T-15 needs T-14. Its export classes, banner and wording do not depend on D-14 to D-17; starting it under the blocked parent needs the Owner's word.
+
+### 2026-11-12 — Process change (Owner decision): full-suite re-run restored
+- CLAUDE.md work-loop step 4 and the WORKPLAN §6 template again say: run the full suite a second time; exact-class outputs must be identical. Reason: the determinism subset gave no saving (full suite 27.5 s, subset 32.7 s).
+- Kept: the registered `determinism` marker and the marks on tests. Removed: the guard test `tests/test_determinism_guard.py` and its exception list.
