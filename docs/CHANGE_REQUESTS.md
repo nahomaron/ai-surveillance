@@ -307,3 +307,12 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 **Problem.** A calibrated camera gives the floor point under the box's bottom centre (`foot_point_px`). The contract does not say how that point relates to the footprint rectangle for `box_bottom_centre` or `rear_axle` anchors, for example how far behind or below the centre it lies, and along which axis given yaw. Oracle positions are footprint centres, so the M0 fixtures are unaffected. The builder currently treats the projected point as the footprint centre, which is correct only for `anchor = centre`.
 **Proposed resolution:** for `box_bottom_centre`, use the projected point as the footprint centre (the bottom-centre of a ground-contact box approximates the footprint's image centre). For `rear_axle`, place the centre at `length/2 − rear_overhang` ahead along yaw, with `rear_overhang` added to the prior. If yaw is unknown, use the circumscribed disc as in T8.2.
 **Decision:** ______   **Approver:** ______
+
+## AR-36 — Status-log and CV-SIM conventions
+- **Gaps and choices:**
+  1. The status log's first `prev_hash` is 64 zeros. `status_id` uses the prefix `sts`. Entries are stored as JCS JSON lines.
+  2. CV-SIM presence intervals, keyframes and geometry cover the window plus its guard, because annotation covers the guard (§8). Spans tile [t_start, t_guard_end) per A3.
+  3. In a non-exhaustive window, usable time with nothing present is `not_annotated`, never `reference_verified_absent` (RC-03).
+  4. Simulator geometry has `sigma_m = 0`, `interp_method = none` and a keyframe on every eligible frame, with `evidence_state = visible`. The simulator supplies no occlusion state; that is a T-18 adapter detail.
+  5. CV-SIM `ref_interaction` rows take onset and offset from the simulator's interaction intervals, with `visible_contact = cant_tell`, because synthetic data cannot support contact claims (Package F WP-13 non-goals). Their `reference_class` is `rule_conformance` (RV-01). An interaction belongs to the window of its onset.
+- **No meaning effect:** representation and fixture conventions; reference semantics follow A3 and A5.1. **Review flag:** item 4 (visibility), for real use. **Files/tests:** `validation/*`; `tests/validation/test_store.py`. **Reverse:** edit the converter.
