@@ -63,19 +63,35 @@ def cluster_bootstrap_ratio(windows: list[tuple[str, str, float, float, float]],
     return _percentiles(estimates)
 
 
-def paired_stratified_bootstrap_difference(sample: dict[str, list[tuple[float, float, float, float]]], weights: dict[str, float],
-                                           B: int, seed: int) -> tuple[float, float]:
-    """Paired comparison (N5): the same resampled windows for both configurations; interval of R_a - R_b.
-    Each window: (x_a, y_a, x_b, y_b); R = sum(w y) / sum(w x) per configuration."""
+def paired_bootstrap_difference(windows: list[tuple[str, str, str, float, float, float, float, float]], estimand: str,
+                                B: int, seed: int) -> tuple[float, float] | None:
+    """Paired comparison (N5 as clarified by T11.2): the interval scheme follows the compared metric's estimand.
+    frame_description: stratified window bootstrap (Target A); new_session_performance: cluster bootstrap over leakage
+    groups within data origin (Target B); conditional_on_selection: no paired interval (None).
+    Both configurations share each replicate's resampled units; the interval is that of R_a - R_b, R = sum(w y) / sum(w x).
+    Each window: (stratum, data_origin, leakage_group_id, weight, x_a, y_a, x_b, y_b). Keys are sorted before drawing."""
+    if estimand == "conditional_on_selection":
+        return None
+    if estimand == "frame_description":
+        units: dict[str, dict[str, list]] = {}
+        for i, (stratum, _, _, w, *vals) in enumerate(windows):
+            units.setdefault(stratum, {})[f"{i:09d}"] = [(w, *vals)]  # each window is its own unit
+    elif estimand == "new_session_performance":
+        units = {}
+        for origin_group in windows:
+            _, origin, group, w, *vals = origin_group
+            units.setdefault(origin, {}).setdefault(group, []).append((w, *vals))
+    else:
+        raise ValueError(f"unknown estimand {estimand}")
     rng = np.random.Generator(np.random.PCG64(seed))
-    strata = sorted(sample)
-    arrays = {h: np.array(sample[h], dtype=float) for h in strata}
+    plan = [[np.array(units[s][u], dtype=float) for u in sorted(units[s])] for s in sorted(units)]
     estimates = np.empty(B)
     for b in range(B):
         t = np.zeros(4)
-        for h in strata:
-            rows = arrays[h][rng.integers(0, len(arrays[h]), len(arrays[h]))]
-            t += weights[h] * rows.sum(axis=0)
+        for members in plan:
+            for k in rng.integers(0, len(members), len(members)):
+                rows = members[k]
+                t += (rows[:, :1] * rows[:, 1:]).sum(axis=0)
         estimates[b] = t[1] / t[0] - t[3] / t[2]
     return _percentiles(estimates)
 

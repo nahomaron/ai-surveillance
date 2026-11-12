@@ -53,11 +53,13 @@ def test_target_b_cluster_bootstrap():
 
 @pytest.mark.determinism
 def test_paired_bootstrap_difference():
-    sample = {"h1": [(3, 2, 3, 2), (1, 1, 1, 1)], "h2": [(2, 2, 2, 2), (4, 2, 4, 2)]}
-    assert est.paired_stratified_bootstrap_difference(sample, {"h1": 5.0, "h2": 2.0}, B=100, seed=3) == (0.0, 0.0)  # identical configs
-    better = {"h1": [(3, 2, 3, 3), (1, 1, 1, 1)], "h2": [(2, 2, 2, 2), (4, 2, 4, 3)]}  # b matches one more reference in two windows
-    low, high = est.paired_stratified_bootstrap_difference(better, {"h1": 5.0, "h2": 2.0}, B=200, seed=3)
-    assert high <= 0.0 and low < 0.0  # a - b is never positive
+    # Frame description (window resampling). Identical configurations give (0, 0); configuration b matching one more
+    # reference in two windows makes a - b never positive.
+    same = [("h1", "o", "g1", 5.0, 3, 2, 3, 2), ("h1", "o", "g1", 5.0, 1, 1, 1, 1), ("h2", "o", "g2", 2.0, 2, 2, 2, 2), ("h2", "o", "g2", 2.0, 4, 2, 4, 2)]
+    assert est.paired_bootstrap_difference(same, "frame_description", B=100, seed=3) == (0.0, 0.0)
+    better = [("h1", "o", "g1", 5.0, 3, 2, 3, 3), ("h1", "o", "g1", 5.0, 1, 1, 1, 1), ("h2", "o", "g2", 2.0, 2, 2, 2, 2), ("h2", "o", "g2", 2.0, 4, 2, 4, 3)]
+    low, high = est.paired_bootstrap_difference(better, "frame_description", B=200, seed=3)
+    assert high <= 0.0 and low < 0.0
 
 
 def test_wilson():
