@@ -452,3 +452,6 @@ _(the agent appends entries here)_
 
 ### 2026-11-12 — Process rule (Owner decision, no contract change)
 - CLAUDE.md work loop step 7 added: never commit or push in a command chain that does not stop on a failed test run; use `pytest ... && git commit ... && git push` or check the exit status; a push with a failing suite is recorded in the Progress log (as was done for 37be0c8).
+
+### 2026-11-12 — Owner decision D-18 recorded (contract E-1.2.11)
+- Appendix T section T13 appended verbatim; CLAUDE.md reads E-1.2.11; D-18 and CR-017 closed. Architect rulings recorded under AR-45 (CM-06/CM-07 labels) and AR-46 (linter pass cases; zero-exposure check extended to not_evaluated).

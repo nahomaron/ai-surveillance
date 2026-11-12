@@ -122,9 +122,9 @@ Options: see CR-016 (the stricter readings are implemented; case 1 is refused).
 Agent's recommendation: case 1 → experimental; real data = real_natural only; characterized = a comparability criterion with a decision other than not_assessable.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T12 (E-1.2.10).
 
-## D-18 (2026-11-12) — Does the support basis apply to CM-10?        status: OPEN
+## D-18 (2026-11-12) — Does the support basis apply to CM-10?        status: CLOSED
 Task: T-14   Blocking: nothing
 Question: T12.4 applies the support basis to all completeness support, but CM-10 counts insufficient pair-frames, which neither basis contains. Applied literally, CM-10 is always zero. Should CM-10 be the same on both bases?
 Options: (a) Yes, same on both bases (implemented). (b) Literal basis filter (CM-10 identically zero).
 Agent's recommendation: (a). Details are in CR-017.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T13 (E-1.2.11).

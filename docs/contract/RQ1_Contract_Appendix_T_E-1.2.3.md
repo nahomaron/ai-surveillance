@@ -918,3 +918,18 @@ CT-T12-02: EV-M10 and the sensitivity values on the T12.2 check fixture.
 CT-T12-03: the factorial cases of T12.3 (FX-16, the {P}/{G} tie, empty M with and without a failing rule).
 CT-T12-04: CM-05 to CM-08 and CM-10, plus pooled CM-01 over two RES windows, on hand-built fixtures extending FX-CM and FX-ID-3.
 CT-T12-05: a repeatability not_met alone gives experimental with failing_interval; real_staged scope reaches technically_validated and the status stays scoped; a decided comparability criterion counts as characterized; a not_assessable one does not.
+
+## T13. CM-10 basis; τ as a substrate parameter; completeness units (E-1.2.11; CR-017, D-18)
+
+T13.1 CM-10 is basis-independent (amends T12.4)
+CM-10 counts insufficient pair-frames. By §3.4, insufficient support belongs to neither the detected nor the detected + inferred basis, so a basis-restricted value would be zero by construction. CM-10 is therefore computed once, with the numerator and denominator of T12.4, and reported as "basis-independent". It is stored with support_basis = detected as a key placeholder. No other metric changes.
+Check: a pair with 2.0 s of reference co-visible support, of which 0.5 s lies on POW pair-frames of class insufficient, gives CM-10 = 0.25 on either basis label.
+
+T13.2 Substrate parameters (clarifies T12.1)
+v_min and τ (prediction horizon) are substrate parameters, stored in substrate_config (AR-35 item 4). They are read by S4 and, through the S5 single-source rule, by S5. R3's provider params hold d_pc only. Moves no value.
+
+T13.3 Units of CM-06 and CM-07 (clarifies T12.4)
+CM-06 is a sum in seconds, and CM-07 is a count of POWs. Neither is a proportion. Reports label them "sum" and "count".
+
+T13.4 Tests
+CT-T13-01: the CM-10 check of T13.1, on both basis labels.
