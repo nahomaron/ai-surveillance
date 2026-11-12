@@ -21,7 +21,7 @@ FIXED_LINES = {RV04_CAVEAT, EV_M10_NOTE, BANNER}
 # Wording rules (CLAUDE.md "Never"; LK-07; RV-04; the Architect's ruling on AR-40 item 4).
 WORDING = [
     ("W1 collision", re.compile(r"\bcollisions?\b", re.I)),
-    ("W2 near miss", re.compile(r"(?<!candidate )\bnear[- ]miss(es)?\b", re.I)),
+    ("W2 near miss", re.compile(r"(?<!candidate )(?<!\bno )\bnear[- ]miss(es)?\b", re.I)),  # "no near misses" claims none (AR-46 item 4 ruling)
     ("W3 contact claim", OBSERVED_CONTACT),
     ("W3 contact claim", re.compile(r"\bcontact (occurred|detected|happened)\b", re.I)),
     ("W4 validated", re.compile(r"(?<!technically_)(?<!empirically )\bvalidated\b", re.I)),
@@ -101,7 +101,9 @@ def completeness_section(records: list[dict], visibility_assumed: bool) -> tuple
     if visibility_assumed and uses_visibility:
         body += [f"Note: {VISIBILITY_NOTE}.", ""]
     for r in sorted(records, key=lambda r: (r["metric_id"], r["support_basis"], str(sorted(r["stratum"].items())))):
-        body.append(f"- {r['metric_id']} ({r['support_basis']}, {dict(sorted(r['stratum'].items()))}): {r['value']}")
+        basis = "basis-independent" if r["metric_id"] == "CM-10" else r["support_basis"]  # T13.1: stored under detected as a placeholder
+        unit = {"CM-06": "sum (s)", "CM-07": "count"}.get(r["metric_id"], "value")  # T13.3: never a proportion
+        body.append(f"- {r['metric_id']} ({basis}, {dict(sorted(r['stratum'].items()))}): {unit} {r['value']}")
     return "Completeness", body
 
 

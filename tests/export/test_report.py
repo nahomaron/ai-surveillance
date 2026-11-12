@@ -27,6 +27,7 @@ def test_ct_x_04_banner_and_templates():
     "Two collisions were found.", "The system found a near miss.", "Observed contact at frame 12.", "Contact occurred at CA.",
     "The detector was validated on SDG.", "There were 3 interactions.", "One physical interaction per episode.",
     "Site safety score 0.4.", "OSHA log linkage.",
+    "Near misses were observed in window 3.", "A near-miss occurred.", "The system validated the event.",
 ])
 def test_wording_rules_flag(line):
     assert report.lint(line) != []
@@ -35,6 +36,8 @@ def test_wording_rules_flag(line):
 @pytest.mark.parametrize("line", [
     "One candidate near miss (NM, candidate).", "Contact state: suspected; contact cue true.", "contact_state = undetermined",
     "Status: technically_validated in scope X.", "| Empirically validated (scope) |", "4 candidate events (scenario_count).",
+    # Pass cases required by the Architect's ruling on AR-46 item 4:
+    "No near misses were observed.", "no near miss was found in this window", "candidate near miss", "technically_validated",
 ])
 def test_wording_rules_allow(line):
     assert report.lint(line) == []

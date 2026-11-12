@@ -107,7 +107,7 @@ def test_cm_08():
 @pytest.mark.parametrize("basis", sorted(cm.BASES))
 def test_cm_10(basis):
     # POW1 (A, F) has dominant pair (p1, f1). Its pair-frames 55-59 are insufficient: 0.5 s of the 10.0 s co-visible -> 0.05.
-    # Frames 80-99 have no POW pair-frame: counted in neither numerator. Same value on both bases (CR-017).
+    # Frames 80-99 have no POW pair-frame: counted in neither numerator. Basis-independent (Appendix T T13.1).
     w = extended()
     for f in range(55, 60):
         w.pows[0]["frames"][f] = "insufficient"

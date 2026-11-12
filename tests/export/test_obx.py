@@ -117,13 +117,23 @@ def test_ct_e_27_content_scan():
     assert any(i.rule == "VR-E-041" and i.code == "ERR-FORBIDDEN-FIELD" for i in issues)
 
 
-def test_vr_e_040_in_exports():
-    seg = rows.row("activity_segment", ai_activity_state="observed_no_detection")
+@pytest.mark.parametrize("state", ["observed_no_detection", "not_evaluated"])
+def test_vr_e_040_in_exports(state):
+    # VR-E-040; the zero-exposure clause covers observed_no_detection and, by the Architect's ruling on AR-46 item 7,
+    # not_evaluated (CD-03). Passing case: the state with no exposure field; failing case: the state with zero exposure.
+    seg = rows.row("activity_segment", ai_activity_state=state)
     assert obx.check_content({"activity_segment": [seg]}) == []
+    zero = {**seg, "exp_t_in_band_detected_s": [0.0, 0.0]}
+    assert any(i.rule == "VR-E-040" and f"{state} mapped to zero exposure" in i.message for i in obx.check_content({"activity_segment": [zero]}))
+    assert any(i.rule == "VR-E-040" for i in obx.check_content({"activity_segment": [{**seg, "exp_t_clearance_unknown_s": 0.0}]}))
+
+
+def test_vr_e_040_reference_state_and_other_activity_states():
+    seg = rows.row("activity_segment", ai_activity_state="pair_detected")
+    issues = obx.check_content({"activity_segment": [{**seg, "exp_t_clearance_unknown_s": 0.0}]})
+    assert not any(i.rule == "VR-E-040" for i in issues)  # zero exposure is not a VR-E-040 issue where a pair is observed
     ref_state = {**seg, "ai_activity_state": "reference_verified_absent"}
     assert any(i.rule == "VR-E-040" for i in obx.check_content({"activity_segment": [ref_state]}))
-    zero = {**seg, "exp_t_in_band_detected_s": [0.0, 0.0]}  # observed_no_detection must never map to zero exposure
-    assert any(i.rule == "VR-E-040" and "zero exposure" in i.message for i in obx.check_content({"activity_segment": [zero]}))
 
 
 def test_ct_e_26_fx_12_e2_records():

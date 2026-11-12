@@ -86,8 +86,10 @@ def check_content(tables: dict[str, list[Row]]) -> list:
                 hit = next((f for f in EXCLUDED_VALUE_FRAGMENTS if f in text.lower()), None)
                 if hit:
                     issues.append(Issue("VR-E-041", "ERR-FORBIDDEN-FIELD", table, "*", f"forbidden content '{hit}'"))
-            if row.get("ai_activity_state") == "observed_no_detection" and any(_zero_exposure(k, v) for k, v in row.items()):
-                issues.append(Issue("VR-E-040", None, table, "*", "observed_no_detection mapped to zero exposure"))
+            state = row.get("ai_activity_state")
+            if state in ("observed_no_detection", "not_evaluated") and any(_zero_exposure(k, v) for k, v in row.items()):
+                # VR-E-040; extended to not_evaluated (CD-03) by the Architect's ruling on AR-46 item 7
+                issues.append(Issue("VR-E-040", None, table, "*", f"{state} mapped to zero exposure"))
     return issues
 
 

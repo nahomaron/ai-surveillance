@@ -190,7 +190,7 @@ def cm08(w: WindowFrames, basis: str) -> dict[str, dict]:
 def cm10(w: WindowFrames) -> dict[tuple[str, str], dict]:
     """T12.4 CM-10 per reference pair: co-visible frames on which a POW whose dominant pair is (p, f) has an insufficient
     pair-frame / co-visible frames. Frames with no POW pair-frame count in neither. The numerator is insufficient evidence,
-    which no basis contains, so CM-10 is the same on both bases (CR-017)."""
+    which no basis contains, so CM-10 is basis-independent (Appendix T T13.1)."""
     summaries, _ = summarize(w.assoc, w.support)
     dominant = {s["track_id"]: s["dominant_identity_id"] for s in summaries}
     out = {}
@@ -225,3 +225,9 @@ def record(window_id: str, metric_id: str, basis: str, stratum: dict, ratio: dic
     """A completeness_record row (E-1.2.1 section 5.9). Track-level completeness has no rule configuration (AR-43 item 2)."""
     return {"window_id": window_id, "metric_id": metric_id, "support_basis": basis, "config_id": None, "config_id_null_reason": "not_applicable",
             "stratum": stratum, **ratio, "interp_method": interp_method, "iou_cm": iou_cm, "k_kf_s": k_kf_s}
+
+
+def cm10_records(w: WindowFrames, window_id: str, interp_method: str, iou_cm: float, k_kf_s: float) -> list[dict]:
+    """T13.1: CM-10 is computed once and stored with support_basis = detected as a key placeholder; reports print
+    "basis-independent"."""
+    return [record(window_id, "CM-10", "detected", {"pair": f"{p}|{f}"}, ratio, interp_method, iou_cm, k_kf_s) for (p, f), ratio in cm10(w).items()]

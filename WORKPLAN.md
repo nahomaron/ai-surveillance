@@ -455,3 +455,6 @@ _(the agent appends entries here)_
 
 ### 2026-11-12 — Owner decision D-18 recorded (contract E-1.2.11)
 - Appendix T section T13 appended verbatim; CLAUDE.md reads E-1.2.11; D-18 and CR-017 closed. Architect rulings recorded under AR-45 (CM-06/CM-07 labels) and AR-46 (linter pass cases; zero-exposure check extended to not_evaluated).
+
+### 2026-11-12 — T13 conformance
+- Did: CM-10 stored once with support_basis = detected as a placeholder (`cm10_records`); reports print "basis-independent" (T13.1), CT-T13-01. CM-06 and CM-07 printed as "sum (s)" and "count" (T13.3; AR-45 item 3 ruling). Linter pass cases added; W2 now also allows "no near miss(es)" so that the required pass string "no near misses were observed" passes (AR-46 item 4 ruling). VR-E-040 zero-exposure check extended to not_evaluated (CD-03), with a failing and a passing test for each state (AR-46 item 7 ruling). T13.2 needed no code change: v_min and tau already come from substrate_config (T12.1 tests).
