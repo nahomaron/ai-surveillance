@@ -58,3 +58,10 @@ Question: Footprint priors declare an anchor (box_bottom_centre, rear_axle or ce
 Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre, and rear_axle uses a declared rear overhang along yaw. (b) The Architect supplies another rule.
 Agent's recommendation: (a). Details are in CR-007.
 Owner decision: ______
+
+## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: OPEN
+Task: T-09   Blocking: T-09 part B (S5 from the pipeline), T-12 to T-16
+Question: Eight event-engine inputs are named but not defined. These include evasive-action rates, the contact cue's units, the value of E when R5 is off, the closest-approach frame, and "usable frames around closest approach". There is also a conflict between Appendix N2's per-frame flags and T8.2 at track ends. Each one changes E, K, contact state or labels. Do you approve the CR-008 proposals?
+Options: (a) Approve the CR-008 proposals. (b) The Architect supplies definitions. (c) Approve some items and return others.
+Agent's recommendation: (a), or the Architect's text for items 3 and 4, which matter most. Details are in CR-008.
+Owner decision: ______

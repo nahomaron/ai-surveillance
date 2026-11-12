@@ -316,3 +316,23 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   4. Simulator geometry has `sigma_m = 0`, `interp_method = none` and a keyframe on every eligible frame, with `evidence_state = visible`. The simulator supplies no occlusion state; that is a T-18 adapter detail.
   5. CV-SIM `ref_interaction` rows take onset and offset from the simulator's interaction intervals, with `visible_contact = cant_tell`, because synthetic data cannot support contact claims (Package F WP-13 non-goals). Their `reference_class` is `rule_conformance` (RV-01). An interaction belongs to the window of its onset.
 - **No meaning effect:** representation and fixture conventions; reference semantics follow A3 and A5.1. **Review flag:** item 4 (visibility), for real use. **Files/tests:** `validation/*`; `tests/validation/test_store.py`. **Reverse:** edit the converter.
+
+## CR-008 (2026-11-12) — Event-engine inputs that §6 names but does not define (T-09)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-09. Part A (defined parts) proceeds; part B waits.
+**Contract sections:** E-1.2.1 §6.0, §6 (lifecycle, contact state, labels); Appendix N1, N2; Appendix T T8.2.
+**Meaning-affecting:** yes. Each item changes E, K, contact state or labels.
+
+| # | Gap | Effect | Proposed resolution |
+|---|---|---|---|
+| 1 | R5 needs "person heading-rate", "person speed change" and "forklift deceleration" within *w_e*, with no estimator | E flag, K, NM, `exp_evasive_score` | Use T8.2 smoothed values. heading-rate = |Δheading| / *w_e* over the window ends (wrapped to (−π, π]); speed change = |Δspeed| / *w_e*; deceleration = −Δspeed / *w_e*. Null if either end is null |
+| 2 | The contact cue compares "forklift deceleration or person heading change" with one threshold *k_c* (3.0 m/s²), although heading change is in radians | Contact `suspected`, label CT | Apply *k_c* to forklift deceleration only (item 1 estimator, over *w_e* centred on CA), and add a separate threshold for person heading change if wanted |
+| 3 | The value of E when R5 is not enabled (BL configurations without R6) | K is unknown everywhere, so IE replaces NM and UD. N2 G2 would get IE, against its expected H | With R5 disabled, E = 0 and `E_ep = false`, recorded as "not assessed by configuration"; or K uses only the clearance term |
+| 4 | Closest-approach frame | Contact state, Q at CA, IE, `exp_speed_at_ca_mps` | In N1 T10/T11 CA (frame 15) lies outside the measured-clearance frames, so CA is not simply the minimum measured clearance. Proposal: minimum measured clearance in *I*; if the minimum image gap occurs on a frame where clearance is not measurable, that frame; null if neither exists (then `not_assessable`) |
+| 5 | "No usable frames around closest approach" (`not_assessable`) | T10 (`undetermined`) and T11 (`not_assessable`) have the same flags around CA, so the distinction must come from this definition | Usable = pair-frame evidence class ≠ `insufficient` on eligible frames within ±*w_e*/2 of CA |
+| 6 | Lifecycle step 2 "bridge false runs ≤ *m_gap*": whether unknown (T = 2) runs bridge or close | Episode boundaries | Treat any run with T ≠ 1 as the gap; ≤ *m_gap* bridges, longer closes |
+| 7 | N2 G1–G3 expect M and C_by_R3 on every frame, but T8.2 gives no velocity on the first and last frame (half-window span 0.2 s < *w_v*/2), so M and C_by_R3 are unknown there | Per-frame flag expectations at two frames per fixture. Episode labels are unaffected | Amend N2 to expect unknown (2) on the edge frames, or let T8.2 accept a one-sided window at the ends of a track |
+| 8 | `onset_sensitive` borderline flag | Borderline reporting | Set when moving the open frame by ±1 frame changes whether the episode survives *t_min* |
+
+**Interim (part A):** providers R1, R2, R3, G, Q and the Kleene combinations; lifecycle; episode quantities; K, contact state and labels from explicit closest-approach inputs; CL-INV; N1 T1–T13 at flag level; CT-E-10, 12, 13, 14; N2 interior-frame flags. No S5 artifact is produced from S4 until items 1 to 5 are decided.
+**Decision:** ______   **Approver:** ______
