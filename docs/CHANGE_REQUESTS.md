@@ -446,3 +446,22 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
   4. **Null cases** (returned as None, to be stored as null `not_applicable`): Wilson with n = 0; Bland–Altman with n < 2; Cohen's κ with p_e = 1; Krippendorff's α with zero expected disagreement. For α, units with fewer than two values are not pairable, as Krippendorff's standard definition states.
 - **No meaning effect:** each choice applies the N5 definition mechanically. Item 1 is the standard stratified cluster bootstrap. **Review flag:** item 1. **Files/tests:** `evaluation/estimators.py`; `tests/evaluation/test_t13.py`. **Reverse:** edit the named functions.
 - **Architect review (12 Nov 2026):** items 1, 2 and 4 (the review's items a, b, d) ACCEPTED. Item 3 (item c): REVISED by T11.2; the paired comparison follows the estimand of the compared metric.
+
+## CR-012 (2026-11-12) — `v_min` and `w_e` are read outside the provider that owns them (T11.1)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-09 follow-up (T11 conformance). Non-blocking for M0 fixtures.
+**Contract sections:** Appendix T T11.1 ("Parameters of a disabled provider … play no role in S5 output"), T9.2, T9.6, T10.3(c); E-1.2.1 §6.0, §5.2; Package F §3.
+**Meaning-affecting:** yes. The answer decides which configuration changes may change S5 output.
+
+**Problem.** T11.1 says a disabled provider's parameters play no role in S5 output, and CT-T11-02 tests that. Two parameters are read outside their provider:
+1. **`v_min`.** §6.0 makes it R2's M threshold, and T11.1 lists the speed bullet under R2. But T9.2 also reads it in R5: the turn criterion is evaluated "only if the person's speed ≥ v_min". In a configuration with R1 as the P provider (R2 disabled) and R5 enabled, changing `v_min` can change E, K and the labels.
+2. **`w_e`.** Package F §3 lists it with R5's thresholds, and the `rule_configuration` record (AR-40 item 3) files it under R5. But the contact cue (T9.3), which T10.3(c) requires whether or not R5 is enabled, and W_CA (T9.6) both read it. In a configuration with R5 disabled, changing `w_e` can change the contact state.
+
+The code reads the single values in `RuleParams` and `Params` (`providers.r5_rates`, `engine._episode`). CT-T11-02 therefore tests only parameters that one provider owns alone: `d_p`, `k_img`, `d_pc`, `tau`, `e_turn`, `e_acc` and `e_dec`.
+
+**Options.**
+(a) `v_min` and `w_e` are shared classification parameters. They are recorded outside the provider entries, and T11.1's statement then holds for every parameter a provider owns. This is a representation change to the record and changes no value.
+(b) Each use gets its own parameter (for example an R5 `v_min_turn`, and a contact-window length separate from R5's `w_e`). This adds parameters to §14 and to the TEST-ONLY table.
+(c) Keep the record as it is, and amend T11.1 to name `v_min` and `w_e` as read outside their provider.
+**Agent's recommendation:** (a). Nothing changes in the code until a decision is made.
+**Decision:** ______   **Approver:** ______

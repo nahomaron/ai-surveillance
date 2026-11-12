@@ -86,3 +86,10 @@ Question: T10.4 sets `clearance_within_k_sigma` and `speed_near_v_min` from `d_p
 Options: (a) Yes, literally as T10.4 is written (implemented). (b) Only when the provider that owns the threshold is enabled.
 Agent's recommendation: the Architect's call. Details are in CR-011.
 Owner decision (12 Nov 2026): DECIDED. Decided: Architect definitions, Appendix T section T11 (E-1.2.9).
+
+## D-13 (2026-11-12) — Parameters used outside the provider that owns them        status: OPEN
+Task: T-09 (T11 conformance)   Blocking: nothing in M0 fixtures; the rule_configuration record shape before G-PR
+Question: T11.1 says a disabled provider's parameters play no role in S5 output. But `v_min` (R2) is also read by R5's turn criterion (T9.2), and `w_e` (R5) is also read by the contact cue and W_CA, which apply whether or not R5 is enabled (T9.6, T10.3(c)). Where do these two parameters belong?
+Options: (a) Shared classification parameters, recorded outside the provider entries. (b) Separate parameters per use. (c) Amend T11.1 to name the exception.
+Agent's recommendation: (a). Details are in CR-012.
+Owner decision: ______

@@ -163,10 +163,11 @@ def test_ct_t10_06_baseline_has_no_flag():
 
 
 @pytest.mark.determinism
-@pytest.mark.parametrize("rules", [RULES, R1])
-def test_ct_t10_06_clearance_against_d_p(rules):
-    # Frame 5 clearance 1.95: |1.95 - 2.0| = 0.05 <= 2 x 0.05. Applies to every frame of I with measured clearance, whatever the P provider.
-    assert flags_for(pair={5: {"clearance_m": 1.95}}, rules=rules) == [CLR]
+@pytest.mark.parametrize("rules,expected", [(RULES, [CLR]), (R1, [])])
+def test_ct_t10_06_clearance_against_d_p(rules, expected):
+    # Frame 5 clearance 1.95: |1.95 - 2.0| = 0.05 <= 2 x 0.05 = 0.10, so the R2 configuration sets the flag.
+    # Appendix T T11.1 (E-1.2.9): the d_p bullet applies only if the P provider is R2, so the R1 configuration sets none.
+    assert flags_for(pair={5: {"clearance_m": 1.95}}, rules=rules) == expected
 
 
 @pytest.mark.determinism
@@ -197,10 +198,11 @@ def test_ct_t10_06_clearance_at_ca():
 
 
 @pytest.mark.determinism
-@pytest.mark.parametrize("rules", [RULES, R1])
-def test_ct_t10_06_speed_near_v_min(rules):
-    # Frame 5 forklift speed 0.35, sigma 0.05: |0.35 - 0.3| = 0.05 <= 0.10.
-    assert flags_for(fork={5: (0.35, 0.05)}, rules=rules) == ["speed_near_v_min"]
+@pytest.mark.parametrize("rules,expected", [(RULES, ["speed_near_v_min"]), (R1, [])])
+def test_ct_t10_06_speed_near_v_min(rules, expected):
+    # Frame 5 forklift speed 0.35, sigma 0.05: |0.35 - 0.3| = 0.05 <= 2 x 0.05 = 0.10, so the R2 configuration sets the flag.
+    # Appendix T T11.1 (E-1.2.9): the v_min bullet applies only if R2 (the M provider) is enabled, so R1 sets none.
+    assert flags_for(fork={5: (0.35, 0.05)}, rules=rules) == expected
 
 
 @pytest.mark.determinism

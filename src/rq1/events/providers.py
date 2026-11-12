@@ -158,13 +158,14 @@ def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], 
             onset = clear_near or speed_near
         if "R3" in rules.conflict and cv is not None and borderline(cv["pred_min_clearance_m"], rules.d_pc, cv["sigma_m"], rules.k_sigma):
             onset = True  # T9.8: borderline for P, M or an enabled C provider
-        # T10.4 frame bullets (the minclr and CA bullets are episode-level, in the engine).
+        # T10.4 frame bullets, each only under its T11.1 condition (the minclr and CA bullets are episode-level, in the engine).
         flags = set()
-        if clear_near or (rules.p_provider == "R1" and gap_near):
+        r2 = rules.p_provider == "R2"  # R2 provides both P and M (section 6.0)
+        if (r2 and clear_near) or (rules.p_provider == "R1" and gap_near):
             flags.add("clearance_within_k_sigma")
-        if any(borderline(e["pred_min_clearance_m"], rules.d_pc, e["sigma_m"], rules.k_sigma) for e in row["predicted"]):
+        if "R3" in rules.conflict and any(borderline(e["pred_min_clearance_m"], rules.d_pc, e["sigma_m"], rules.k_sigma) for e in row["predicted"]):
             flags.add("clearance_within_k_sigma")
-        if speed_near:
+        if r2 and speed_near:
             flags.add("speed_near_v_min")
         frame_rates = rates.get(i)
         if not rules.r5:
