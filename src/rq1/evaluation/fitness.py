@@ -29,16 +29,21 @@ def check_frozen_before_test(criteria: list[dict], first_test_evaluation_utc: st
         raise ContractError("ERR-INVARIANT", f"FT-02: criteria frozen after the first test-partition evaluation: {late}")
 
 
+FULL_ENUMERATION = ("MR-01", "MR-08", "MR-09", "MR-12")  # Architect review of AR-44 item 2: degenerate interval [v, v]
+
+
 def decide_criterion(criterion: dict, result: dict | None) -> str:
-    """Section 9.6 criterion decision. `result` is the stored metric_result with its context: `partition`."""
+    """Section 9.6 criterion decision. `result` is the stored metric_result with its context: `partition`.
+    Without a stored interval the decision is not_assessable, except exact_equal (compares the value) and the
+    full-enumeration metrics MR-01, MR-08, MR-09 and MR-12, which use [v, v] (AR-44 item 2 as revised). MR-10 needs an interval."""
     if result is None or result["validity"] != "valid" or result["n_units"] < criterion["n_min_units"]:
         return "not_assessable"  # no valid result (FT-07: invalidated_leakage ignored), or n below n_min_units
     rule, t = criterion["rule"], criterion["target"]
     low, high, value = result.get("ci_low"), result.get("ci_high"), result.get("value")
-    if rule == "exact_equal" or (rule == "flip_rate_le" and (low is None or high is None)):
-        if value is None:
-            return "not_assessable"
-        return ("met" if value == t else "not_met") if rule == "exact_equal" else ("met" if value <= t else "not_met")
+    if rule == "exact_equal":
+        return "not_assessable" if value is None else ("met" if value == t else "not_met")
+    if (low is None or high is None) and criterion["metric_id"] in FULL_ENUMERATION and value is not None:
+        low = high = value
     if low is None or high is None:
         return "not_assessable"
     if rule in ("ci_upper_le", "flip_rate_le"):
@@ -72,30 +77,30 @@ def decide(scope: dict, criteria: list[dict], results: dict[str, dict | None], f
     decisions = {cid: (decide_criterion(registered[cid], results.get(cid)) if cid in registered else "not_assessable")  # no registered criterion
                  for cid in sorted(scope["criterion_ids"])}
     types = {cid: registered[cid]["criterion_type"] for cid in registered}
-    failing = [cid for cid in decisions if decisions[cid] == "not_met" and types.get(cid) in ("technical_accuracy", "completeness")]
+    not_met = [cid for cid in decisions if decisions[cid] == "not_met"]
     if all(d == "not_assessable" for d in decisions.values()):
         status = "not_yet_assessable"  # FT-04: missing evidence never gives unsuitable
-    elif failing:
-        status = "unsuitable_under_tested_conditions"  # FT-03: needs a recorded not_met
+    elif any(types.get(cid) in ("technical_accuracy", "completeness") for cid in not_met):
+        status = "unsuitable_under_tested_conditions"  # FT-03; only accuracy and completeness not_met (T12.5)
     elif _validated(scope, decisions, types, results):
         status = "technically_validated"
-    elif any(d in ("met", "inconclusive") for d in decisions.values()):
-        status = "experimental"
     else:
-        raise ContractError("ERR-SPEC", "section 9.6 defines no status for this combination of decisions (CR-016 item 1)")
+        status = "experimental"  # T12.5: the residual status
     out = {"criterion_decisions": decisions, "measurement_status": status, "failing_interval": None, "failing_interval_null_reason": "not_applicable"}
-    if failing:
-        r = results[failing[0]]
-        out["failing_interval"], out["failing_interval_null_reason"] = {"low": r["ci_low"], "high": r["ci_high"]}, None
+    if not_met:  # T12.5: the first not_met criterion of any type, in criterion-ID order
+        r = results[not_met[0]]
+        low, high = (r.get("ci_low"), r.get("ci_high")) if r.get("ci_low") is not None else (r.get("value"), r.get("value"))
+        out["failing_interval"], out["failing_interval_null_reason"] = {"low": low, "high": high}, None
     return out
 
 
 def _validated(scope: dict, decisions: dict, types: dict, results: dict) -> bool:
     """Section 9.6 technically_validated: every registered accuracy, completeness, repeatability and robustness criterion
     met on real data, test partition, valid split and RES windows, at least one criterion of each type, comparability
-    characterized. Provisional readings of "real data" and "characterized" are CR-016 items 2 and 3 (the stricter ones)."""
-    if scope["data_origin"] != "real_natural":
-        return False
+    characterized. T12.5: real data is real_natural or real_staged (scoped by data_origin, never carried across); comparability
+    is characterized when a registered comparability criterion has a decision other than not_assessable."""
+    if scope["data_origin"] not in ("real_natural", "real_staged"):
+        return False  # synthetic data never reaches technically_validated (FT-01, CT-F-04)
     gated = [cid for cid in decisions if types.get(cid) in GATED_TYPES]
     if any(decisions[cid] != "met" for cid in gated) or not all(any(types.get(c) == t for c in gated) for t in GATED_TYPES):
         return False

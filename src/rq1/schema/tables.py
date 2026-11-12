@@ -201,6 +201,19 @@ edges_m list<f64>
 bands list<struct{lower_m?:f64,upper_m?:f64}>
 version_label? str ~
 """)
+# Evaluation configuration (prefix evc, AR-16): defined by the Architect's ruling on AR-42 item 3 (12 Nov 2026), so that a
+# changed label-group mapping changes the S8 specification.
+_t("evaluation_config", "evc", "Config", "-", "configuration", "", """
+iou_m f64
+iou_cm f64
+eps_amb f64
+n_miss i32
+bootstrap_B i64
+seed i64
+reference_class reference_class
+label_group_mapping_sha256 str
+version_label? str ~
+""")
 _t("rule_configuration", "rcf", "Config", "-", "configuration", "", """
 experiment enum{E1}
 providers list<struct{provider_id:enum{R1,R2,R3,R4,R5,R6},enabled:bool,params:map<str,f64>}>

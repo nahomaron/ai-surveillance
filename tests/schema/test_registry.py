@@ -16,6 +16,7 @@ EXPECTED_TABLES = {
     "recording", "timeline", "clock_alignment", "camera_group", "world_frame", "calibration",
     "context_map",
     "footprint_prior", "substrate_config", "clearance_band_scheme", "rule_configuration",
+    "evaluation_config",  # prefix evc (AR-16); defined by the Architect's ruling on AR-42 item 3 (12 Nov 2026)
     "decode_summary", "frame", "coverage_segment",
     "detection", "track", "track_point",
     "object_state", "pow", "pair_series", "exposure_profile", "activity_segment", "gpw",

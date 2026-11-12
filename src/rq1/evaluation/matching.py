@@ -146,3 +146,18 @@ def unobservable_overlap(references: list[Reference], events: list[SystemEvent],
         elif abstained(e, group):
             out.append({"system_event_id": e.system_event_id, "decision": "abstained", "labels": sorted(e.labels)})
     return out
+
+
+def label_group_mapping_sha256(ref_groups: dict[str, frozenset]) -> str:
+    """SHA-256 of the JCS form of the label-group mapping (ref_event_id -> sorted groups), for the evaluation_config record."""
+    import hashlib
+    return hashlib.sha256(canonical_json({k: sorted(v) for k, v in sorted(ref_groups.items())})).hexdigest()
+
+
+def evaluation_config(iou_m: float, iou_cm: float, eps_amb: float, n_miss: int, bootstrap_b: int, seed: int, reference_class: str,
+                      ref_groups: dict[str, frozenset], version_label: str | None = None) -> dict:
+    """The evaluation_config record (prefix evc; Architect ruling on AR-42 item 3). Its content-addressed ID enters the S8
+    specification, so a changed mapping changes the S8 artifact ID."""
+    return {"iou_m": iou_m, "iou_cm": iou_cm, "eps_amb": eps_amb, "n_miss": n_miss, "bootstrap_B": bootstrap_b, "seed": seed,
+            "reference_class": reference_class, "label_group_mapping_sha256": label_group_mapping_sha256(ref_groups),
+            "version_label": version_label, "version_label_null_reason": None if version_label is not None else "not_applicable"}

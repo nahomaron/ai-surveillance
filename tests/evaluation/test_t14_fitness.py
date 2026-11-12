@@ -40,7 +40,12 @@ def test_criterion_rules():
     assert ft.decide_criterion(c("abs_bias_ci_within", 0.05), res(-0.02, 0.07)) == "inconclusive"
     assert ft.decide_criterion(c("exact_equal", 1.0), res(None, None, value=1.0)) == "met"
     assert ft.decide_criterion(c("exact_equal", 1.0), res(None, None, value=0.0)) == "not_met"
-    assert ft.decide_criterion(c("flip_rate_le", 0.05), res(None, None, value=0.04)) == "met"
+    # AR-44 item 2 as revised by the Architect: flip_rate_le without a stored interval is not_assessable, except for the
+    # full-enumeration metrics MR-01, MR-08, MR-09, MR-12, which use [v, v]: 0.04 <= 0.05 -> met. MR-10 needs an interval.
+    assert ft.decide_criterion(c("flip_rate_le", 0.05), res(None, None, value=0.04)) == "not_assessable"
+    assert ft.decide_criterion({**c("flip_rate_le", 0.05), "metric_id": "MR-08"}, res(None, None, value=0.04)) == "met"
+    assert ft.decide_criterion({**c("flip_rate_le", 0.05), "metric_id": "MR-08"}, res(None, None, value=0.06)) == "not_met"
+    assert ft.decide_criterion({**c("flip_rate_le", 0.05), "metric_id": "MR-10"}, res(None, None, value=0.04)) == "not_assessable"
 
 
 def test_not_assessable_cases():
@@ -133,12 +138,12 @@ def test_ct_e_29_and_ft_01_ft_03_ft_08_stored_status_checks():
         ft.check_record({"measurement_status": "unsuitable_under_tested_conditions", "override": {"downgrade_only": True}}, decided)
 
 
-def test_undefined_status_combination_is_refused():
-    # Only a repeatability criterion is not_met; the other is not_assessable: section 9.6 names no status (CR-016 item 1).
+def test_residual_status_is_experimental():
+    # Appendix T T12.5 (replaces the earlier refusal): only a repeatability criterion is not_met, the other not_assessable,
+    # so the status is experimental and failing_interval records the repeatability interval (0.60, 0.70).
     cs = [crit(1, "repeatability"), crit(2, "technical_accuracy")]
-    with pytest.raises(ContractError) as exc:
-        ft.decide(scope(cs), cs, {cs[0]["acc_id"]: res(0.60, 0.70)}, FIRST_TEST)
-    assert exc.value.code == "ERR-SPEC"
+    got = ft.decide(scope(cs), cs, {cs[0]["acc_id"]: res(0.60, 0.70)}, FIRST_TEST)
+    assert (got["measurement_status"], got["failing_interval"]) == ("experimental", {"low": 0.60, "high": 0.70})
 
 
 def test_measurement_fitness_row_matches_the_schema():
