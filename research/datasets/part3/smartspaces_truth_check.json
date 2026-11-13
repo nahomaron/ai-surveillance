@@ -1,0 +1,3004 @@
+{
+ "scenes": [
+  {
+   "scene": "Warehouse_000",
+   "calibration_sha256": "93091b6e4a47600075a8331135982d23e1f44d5a9abb5fb2959cbe44216257c5",
+   "ground_truth_sha256": "0c160199a14f04bcb95e2ece7c9c3be37f1ffa29a4b1fd1a390c607d21c28109",
+   "cameras_calibrated": [
+    "Camera_0000",
+    "Camera_0001",
+    "Camera_0002",
+    "Camera_0003",
+    "Camera_0004",
+    "Camera_0005",
+    "Camera_0006",
+    "Camera_0007",
+    "Camera_0008",
+    "Camera_0009",
+    "Camera_0010",
+    "Camera_0011",
+    "Camera_0012",
+    "Camera_0013",
+    "Camera_0014",
+    "Camera_0015",
+    "Camera_0016",
+    "Camera_0017",
+    "Camera_0019"
+   ],
+   "cameras_with_video": [
+    "Camera_0000",
+    "Camera_0001",
+    "Camera_0002",
+    "Camera_0003",
+    "Camera_0004",
+    "Camera_0005",
+    "Camera_0006",
+    "Camera_0007",
+    "Camera_0008",
+    "Camera_0009",
+    "Camera_0010",
+    "Camera_0011",
+    "Camera_0012",
+    "Camera_0013",
+    "Camera_0014",
+    "Camera_0015",
+    "Camera_0016",
+    "Camera_0017",
+    "Camera_0019"
+   ],
+   "video_frames": 9000,
+   "truth_frames": 9000,
+   "visible_boxes": 1924956,
+   "behind_camera": {},
+   "within_2px": 1922286,
+   "excess_gt_2px": 2670,
+   "excess_px": {
+    "forklift": {
+     "n": 281116,
+     "p50": -0.404,
+     "p99": 0.423,
+     "max": 0.485
+    },
+    "pallet_truck": {
+     "n": 236396,
+     "p50": -1.497,
+     "p99": -0.189,
+     "max": -0.189
+    },
+    "person": {
+     "n": 1407444,
+     "p50": -1.034,
+     "p99": 0.477,
+     "max": 26.676
+    }
+   },
+   "forklift_axes": {
+    "y_long": 80626
+   },
+   "max_abs_roll_pitch_rad": {
+    "forklift": 0.0,
+    "pallet_truck": 0.0,
+    "person": 1.3116e-05
+   },
+   "box_floor_z_m": {
+    "forklift": {
+     "min": 0.0294,
+     "p50": 0.029,
+     "max": 0.138
+    },
+    "pallet_truck": {
+     "min": -0.0038,
+     "p50": -0.003,
+     "max": 0.0001
+    },
+    "person": {
+     "min": -0.0636,
+     "p50": -0.019,
+     "max": 0.0
+    }
+   },
+   "excess_gt_2px_list": [
+    {
+     "frame": 148,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 148,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 149,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 154,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 155,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 156,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 157,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 158,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 159,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 160,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 161,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 161,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 162,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 163,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 164,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 165,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 166,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 173,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 174,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 175,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 176,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 177,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 178,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 179,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 180,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 190,
+     "camera": "Camera_0007",
+     "class": "person",
+     "obj_id": 9911,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 191,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9911,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 222,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 486,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 245,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2410,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 281,
+     "camera": "Camera_0014",
+     "class": "person",
+     "obj_id": 218,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 282,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2410,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 292,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 7.7
+    },
+    {
+     "frame": 293,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 8.8
+    },
+    {
+     "frame": 294,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 6.7
+    },
+    {
+     "frame": 295,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 296,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 317,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 485,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 336,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 485,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 350,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 486,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 351,
+     "camera": "Camera_0001",
+     "class": "person",
+     "obj_id": 11296,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 352,
+     "camera": "Camera_0001",
+     "class": "person",
+     "obj_id": 11296,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 390,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 391,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 391,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.5
+    },
+    {
+     "frame": 392,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 392,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 11.4
+    },
+    {
+     "frame": 393,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 393,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 16.9
+    },
+    {
+     "frame": 394,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 19.8
+    },
+    {
+     "frame": 395,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 17.1
+    },
+    {
+     "frame": 404,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 405,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 5.8
+    },
+    {
+     "frame": 406,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 454,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 456,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 469,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 8834,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 473,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 480,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 480,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 8834,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 537,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2423,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 538,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2423,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 547,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 550,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 562,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2421,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 564,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 565,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.4
+    },
+    {
+     "frame": 565,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 566,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.1
+    },
+    {
+     "frame": 566,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 567,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 5.9
+    },
+    {
+     "frame": 568,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 12.4
+    },
+    {
+     "frame": 568,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 8.7
+    },
+    {
+     "frame": 569,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 25.2
+    },
+    {
+     "frame": 569,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 6.8
+    },
+    {
+     "frame": 580,
+     "camera": "Camera_0009",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 585,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 586,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 587,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 590,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 591,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.6
+    },
+    {
+     "frame": 591,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 603,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 603,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.8
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 606,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 620,
+     "camera": "Camera_0007",
+     "class": "person",
+     "obj_id": 7059,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 621,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 622,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 623,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 624,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 638,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 639,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 640,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 640,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 641,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 641,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 642,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 642,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 643,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 656,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.0
+    },
+    {
+     "frame": 657,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 657,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 658,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 658,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.9
+    },
+    {
+     "frame": 659,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 659,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 660,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 660,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.2
+    },
+    {
+     "frame": 661,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 661,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.5
+    },
+    {
+     "frame": 662,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 662,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 663,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 663,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.4
+    },
+    {
+     "frame": 664,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 664,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 665,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 665,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.8
+    },
+    {
+     "frame": 666,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 667,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 668,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 669,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 670,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 671,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 7604,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 671,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 672,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 673,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 675,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 676,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 676,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 677,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.3
+    },
+    {
+     "frame": 677,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 678,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 678,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 679,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 679,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 680,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 680,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 681,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.1
+    },
+    {
+     "frame": 681,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.1
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.0
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.5
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 686,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 686,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 687,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 688,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 689,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 690,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 691,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 692,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 7.5
+    },
+    {
+     "frame": 693,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 9.4
+    },
+    {
+     "frame": 696,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 696,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 702,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 702,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 703,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.4
+    },
+    {
+     "frame": 703,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.5
+    },
+    {
+     "frame": 704,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.6
+    },
+    {
+     "frame": 704,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.4
+    },
+    {
+     "frame": 727,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 728,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 729,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 729,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 7.4
+    },
+    {
+     "frame": 745,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 746,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 746,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 747,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 5.5
+    },
+    {
+     "frame": 748,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 5.4
+    },
+    {
+     "frame": 756,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 757,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 758,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 759,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 763,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 764,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 781,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 782,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 783,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 799,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 800,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 813,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 814,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 6.6
+    },
+    {
+     "frame": 815,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 5.3
+    },
+    {
+     "frame": 818,
+     "camera": "Camera_0013",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 819,
+     "camera": "Camera_0013",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 835,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9634,
+     "excess_px": 2.7
+    }
+   ]
+  },
+  {
+   "scene": "Warehouse_001",
+   "calibration_sha256": "93091b6e4a47600075a8331135982d23e1f44d5a9abb5fb2959cbe44216257c5",
+   "ground_truth_sha256": "0c160199a14f04bcb95e2ece7c9c3be37f1ffa29a4b1fd1a390c607d21c28109",
+   "cameras_calibrated": [
+    "Camera_0000",
+    "Camera_0001",
+    "Camera_0002",
+    "Camera_0003",
+    "Camera_0004",
+    "Camera_0005",
+    "Camera_0006",
+    "Camera_0007",
+    "Camera_0008",
+    "Camera_0009",
+    "Camera_0010",
+    "Camera_0011",
+    "Camera_0012",
+    "Camera_0013",
+    "Camera_0014",
+    "Camera_0015",
+    "Camera_0016",
+    "Camera_0017",
+    "Camera_0019"
+   ],
+   "cameras_with_video": [
+    "Camera_0000",
+    "Camera_0001",
+    "Camera_0002",
+    "Camera_0003",
+    "Camera_0004",
+    "Camera_0005",
+    "Camera_0006",
+    "Camera_0007",
+    "Camera_0008",
+    "Camera_0009",
+    "Camera_0010",
+    "Camera_0011",
+    "Camera_0012",
+    "Camera_0013",
+    "Camera_0014",
+    "Camera_0015",
+    "Camera_0016",
+    "Camera_0017",
+    "Camera_0019"
+   ],
+   "video_frames": 9000,
+   "truth_frames": 9000,
+   "visible_boxes": 1924956,
+   "behind_camera": {},
+   "within_2px": 1922286,
+   "excess_gt_2px": 2670,
+   "excess_px": {
+    "forklift": {
+     "n": 281116,
+     "p50": -0.404,
+     "p99": 0.423,
+     "max": 0.485
+    },
+    "pallet_truck": {
+     "n": 236396,
+     "p50": -1.497,
+     "p99": -0.189,
+     "max": -0.189
+    },
+    "person": {
+     "n": 1407444,
+     "p50": -1.034,
+     "p99": 0.477,
+     "max": 26.676
+    }
+   },
+   "forklift_axes": {
+    "y_long": 80626
+   },
+   "max_abs_roll_pitch_rad": {
+    "forklift": 0.0,
+    "pallet_truck": 0.0,
+    "person": 1.3116e-05
+   },
+   "box_floor_z_m": {
+    "forklift": {
+     "min": 0.0294,
+     "p50": 0.029,
+     "max": 0.138
+    },
+    "pallet_truck": {
+     "min": -0.0038,
+     "p50": -0.003,
+     "max": 0.0001
+    },
+    "person": {
+     "min": -0.0636,
+     "p50": -0.019,
+     "max": 0.0
+    }
+   },
+   "excess_gt_2px_list": [
+    {
+     "frame": 148,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 148,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 149,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 154,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 155,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 156,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 157,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 158,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 159,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 160,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 161,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 161,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 162,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 163,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 164,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 165,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 166,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 173,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 174,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 175,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 176,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 177,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 178,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 179,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 180,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 190,
+     "camera": "Camera_0007",
+     "class": "person",
+     "obj_id": 9911,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 191,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9911,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 222,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 486,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 245,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2410,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 281,
+     "camera": "Camera_0014",
+     "class": "person",
+     "obj_id": 218,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 282,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2410,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 292,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 7.7
+    },
+    {
+     "frame": 293,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 8.8
+    },
+    {
+     "frame": 294,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 6.7
+    },
+    {
+     "frame": 295,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 296,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 317,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 485,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 336,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 485,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 350,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 486,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 351,
+     "camera": "Camera_0001",
+     "class": "person",
+     "obj_id": 11296,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 352,
+     "camera": "Camera_0001",
+     "class": "person",
+     "obj_id": 11296,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 390,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 391,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 391,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.5
+    },
+    {
+     "frame": 392,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 392,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 11.4
+    },
+    {
+     "frame": 393,
+     "camera": "Camera_0002",
+     "class": "person",
+     "obj_id": 356,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 393,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 16.9
+    },
+    {
+     "frame": 394,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 19.8
+    },
+    {
+     "frame": 395,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 17.1
+    },
+    {
+     "frame": 404,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 405,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 5.8
+    },
+    {
+     "frame": 406,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2425,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 454,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 456,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 469,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 8834,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 473,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 480,
+     "camera": "Camera_0010",
+     "class": "person",
+     "obj_id": 2428,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 480,
+     "camera": "Camera_0006",
+     "class": "person",
+     "obj_id": 8834,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 537,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2423,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 538,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2423,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 547,
+     "camera": "Camera_0004",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 550,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 562,
+     "camera": "Camera_0008",
+     "class": "person",
+     "obj_id": 2421,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 564,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 565,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.4
+    },
+    {
+     "frame": 565,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 566,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.1
+    },
+    {
+     "frame": 566,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 567,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 5.9
+    },
+    {
+     "frame": 568,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 12.4
+    },
+    {
+     "frame": 568,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 8.7
+    },
+    {
+     "frame": 569,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 25.2
+    },
+    {
+     "frame": 569,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9912,
+     "excess_px": 6.8
+    },
+    {
+     "frame": 580,
+     "camera": "Camera_0009",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 585,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 586,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 587,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 590,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 591,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.6
+    },
+    {
+     "frame": 591,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 603,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.0
+    },
+    {
+     "frame": 603,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 604,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0012",
+     "class": "person",
+     "obj_id": 488,
+     "excess_px": 6.8
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 605,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 606,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 620,
+     "camera": "Camera_0007",
+     "class": "person",
+     "obj_id": 7059,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 621,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 622,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 623,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 624,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 638,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 639,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 640,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 640,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 641,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 641,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 642,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 642,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 643,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 656,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.0
+    },
+    {
+     "frame": 657,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 657,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 658,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 658,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.9
+    },
+    {
+     "frame": 659,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 659,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 660,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 660,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.2
+    },
+    {
+     "frame": 661,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 661,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.5
+    },
+    {
+     "frame": 662,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 662,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.9
+    },
+    {
+     "frame": 663,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 663,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.4
+    },
+    {
+     "frame": 664,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.3
+    },
+    {
+     "frame": 664,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 665,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 665,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.8
+    },
+    {
+     "frame": 666,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 667,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 668,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 669,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 670,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 671,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 7604,
+     "excess_px": 2.1
+    },
+    {
+     "frame": 671,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 672,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.4
+    },
+    {
+     "frame": 673,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 675,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 676,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 676,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 677,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.3
+    },
+    {
+     "frame": 677,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 678,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 678,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 679,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 679,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 680,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.2
+    },
+    {
+     "frame": 680,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 681,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.1
+    },
+    {
+     "frame": 681,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.1
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 682,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 5.0
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 683,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.0
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 684,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.5
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.5
+    },
+    {
+     "frame": 685,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 686,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.1
+    },
+    {
+     "frame": 686,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 687,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 688,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 689,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.2
+    },
+    {
+     "frame": 690,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.9
+    },
+    {
+     "frame": 691,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 692,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 7.5
+    },
+    {
+     "frame": 693,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 9.4
+    },
+    {
+     "frame": 696,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 696,
+     "camera": "Camera_0005",
+     "class": "person",
+     "obj_id": 4089,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 702,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 3.9
+    },
+    {
+     "frame": 702,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 4.2
+    },
+    {
+     "frame": 703,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.4
+    },
+    {
+     "frame": 703,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 6.5
+    },
+    {
+     "frame": 704,
+     "camera": "Camera_0003",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.6
+    },
+    {
+     "frame": 704,
+     "camera": "Camera_0015",
+     "class": "person",
+     "obj_id": 2424,
+     "excess_px": 7.4
+    },
+    {
+     "frame": 727,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 2.4
+    },
+    {
+     "frame": 728,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.7
+    },
+    {
+     "frame": 729,
+     "camera": "Camera_0000",
+     "class": "person",
+     "obj_id": 9913,
+     "excess_px": 2.7
+    },
+    {
+     "frame": 729,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 7.4
+    },
+    {
+     "frame": 745,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 746,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 746,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 4.5
+    },
+    {
+     "frame": 747,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 5.5
+    },
+    {
+     "frame": 748,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 11584,
+     "excess_px": 5.4
+    },
+    {
+     "frame": 756,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.5
+    },
+    {
+     "frame": 757,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.1
+    },
+    {
+     "frame": 758,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.8
+    },
+    {
+     "frame": 759,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.3
+    },
+    {
+     "frame": 763,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.2
+    },
+    {
+     "frame": 764,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 781,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.0
+    },
+    {
+     "frame": 782,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.8
+    },
+    {
+     "frame": 783,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 799,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 2.6
+    },
+    {
+     "frame": 800,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9635,
+     "excess_px": 3.7
+    },
+    {
+     "frame": 813,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 4.6
+    },
+    {
+     "frame": 814,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 6.6
+    },
+    {
+     "frame": 815,
+     "camera": "Camera_0016",
+     "class": "person",
+     "obj_id": 6116,
+     "excess_px": 5.3
+    },
+    {
+     "frame": 818,
+     "camera": "Camera_0013",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 3.6
+    },
+    {
+     "frame": 819,
+     "camera": "Camera_0013",
+     "class": "person",
+     "obj_id": 6812,
+     "excess_px": 4.3
+    },
+    {
+     "frame": 835,
+     "camera": "Camera_0019",
+     "class": "person",
+     "obj_id": 9634,
+     "excess_px": 2.7
+    }
+   ]
+  }
+ ]
+}

@@ -278,3 +278,11 @@ Question: Which SDG 2D box feeds an oracle track point; what state an annotated 
 Options: see CR-019 (readings per item). Evidence for item 4: over the 72 held runs, 46 boxes (all on camera `eye_01`) miss their own 3D box by ≥ 157 px; one inspected case encloses a foreground pallet stacker instead of the forklift. 483 others miss by ≤ 80 px (person mesh vs box), with nothing in between.
 Agent's recommendation: tight box when visible; not visible → `predicted` with the loose box; incomplete annotation → no truth for that camera; inconsistent 2D box (excess > 120 px) → `predicted` with the reprojected 3D hull, logged as a truth defect.
 Owner decision: ______
+
+## D-29 (2026-11-13) — data_origin of a dataset whose scenes differ in origin (SmartSpaces)        status: OPEN
+Task: T-18 part C   Blocking: SmartSpaces S0 registration (Warehouse_000, Warehouse_001) and the real Warehouse_026/027 registration; not the SmartSpaces calibration and truth reading, not SDG S0
+Question: The SmartSpaces release holds a rendered scene (000), its Cosmos Transfer re-render (001, `synthetic_transferred`) and real scenes (026/027). `dataset_source` has one data_origin and one anchor (name, version), while VR-E-005 needs one origin per file. Which representation applies?
+Options: see CR-020. (a) one dataset row per origin, told apart by the version label; (b) one row with a chosen origin, sites carry each scene's origin; (c) contract change.
+Agent's recommendation: (a).
+Owner decision: ______
+
