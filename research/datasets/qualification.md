@@ -279,3 +279,12 @@ Declared before any annotation: per class, n_h = ceil(0.25 · N_h); numpy PCG64 
 - Safe and Unsafe Behaviours: Mendeley v1, 4 classes, 371 clips, each checked against Mendeley's SHA-256 (download log `data/raw/real/safe_unsafe_behaviours/fetch_log.json`). Labels: `real_natural` (D-24 c), `operational_facility`, production facility (not a warehouse), `contains_identifiable_persons`, `redaction_state = none`. Academic and testing use only; estimand `conditional_on_selection`; no frequency, duration or per-hour aggregates.
 - Both: `access_class = restricted_research`; VR-E-070 values pending the advisor (D-26); every artifact and report "exploratory; frame-quality rules provisional"; frame-quality rules `rv2-provisional`.
 - Co-occurrence check (forklifts and people together): requires viewing; done only as reference-free statistics or by a person. Not yet done.
+
+### 3.11 SDG member download: verification (12 Nov 2026)
+
+- **2,185 / 2,185 members fetched**, each exactly its planned length (12,997,484,238 bytes). Agent SHA-256 per member: `research/datasets/part3/sdg_member_hashes.json`. Integrity label `self_hashed_unverified_by_publisher`. No `.part` files remain.
+- Every `meta.json` parses; every line of every `.jsonl` member parses as JSON (a range that started or ended off a member boundary would not).
+- **All 690 `rgb.mp4` have 300 video packets** (10 s at 30 fps). The containers do not state a frame count; packets were counted by demuxing.
+- **Annotation length finding:** 19 annotation files have fewer than 300 lines (131 to 298). `object_detection.jsonl` lines carry no frame index; frame = line number. In a short file, therefore, the missing frames cannot be located, and the frame alignment of every later line is unknown. Affected: 5 runs. Runs with 300-line `object_detection` and `camera_params` on all 10 cameras: **64 of 69**. The 5 others have 9, 9, 5, 2 and 2 such cameras (`a610…run_15`, `91fb…run_1`, `77b0…run_5`, `a83b…run_3`, `a3cc…run_3`).
+- Rule proposed for T-18 (to be pinned as an AR or raised as a CR there): a camera's annotation is used as truth only when both its annotation files have exactly as many lines as its video has frames. Otherwise the camera has no simulator truth. Its RGB is still usable for reference-free checks.
+- Total held after D-24: **29,242,415,000 bytes (29.24 GB) of 30 GB.** The SDG download is complete and verified. A split may be frozen from here on (Owner condition of D-24 met), under T14.
