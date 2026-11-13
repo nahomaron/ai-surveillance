@@ -292,4 +292,4 @@ Declared before any annotation: per class, n_h = ceil(0.25 · N_h); numpy PCG64 
 ### 3.12 rv2-provisional synthetic check (D-25 step 1)
 
 - 68 synthetic recordings (the set held when D-25 was written: 30 SDG sample, 38 SmartSpaces synthetic Warehouse_001): **0 flags; 351,000 / 351,000 frames eligible**; luma P99 62–235. Per-recording counts: `research/datasets/part3/rv2_synthetic_check.json` (statistics only, no pixels).
-- The 690 SDG member videos (3.11) are being checked the same way; their result goes in `rv2_synthetic_check_members.json`.
+- The 690 SDG member videos (3.11): 57 recordings flagged (41 runs), 4,361 `black` and 40 `frozen` frames (all frozen frames are also black), 0 `overexposed`; 202,639 / 207,000 frames eligible. Two runs are lit so darkly that every frame of 13 recordings falls under P99 ≤ 32 although content is visible (false positives); other flags are short dark or occluded stretches. Details and the Architect question: D-25. Counts: `research/datasets/part3/rv2_synthetic_check_members.json`.
