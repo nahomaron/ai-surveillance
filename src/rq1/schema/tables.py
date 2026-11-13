@@ -393,6 +393,8 @@ image_gap_px? f64 ~
 image_gap_norm? f64 ~
 closing_rate_mps? f64
 ttca_s? f64
+ttc_s? f64
+pet_pred_s? f64
 predicted list<struct{motion_model_id:str,horizon_s:f64,pred_min_clearance_m:f64,sigma_m?:f64,t_at_min_s:f64}> ~
 q_state enum{sufficient,insufficient}
 q_reasons list<q_reason>

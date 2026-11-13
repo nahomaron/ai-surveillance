@@ -16,8 +16,9 @@ OFF_PARAMS = dataclasses.replace(PARAMS, r5_enabled=False)
 
 def test_rule_configuration_holds_only_exclusive_parameters():
     record = s5.rule_configuration(s5_config())
+    # E-1.2.13 (T15.5): R4 holds its exclusive parameters ttc_max and pet_max (the T12.1 list), recorded whether enabled or not.
     assert {p["provider_id"]: sorted(p["params"]) for p in record["providers"]} == {
-        "R1": ["k_img"], "R2": ["d_p"], "R3": ["d_pc"], "R5": ["e_acc", "e_dec", "e_turn"]}
+        "R1": ["k_img"], "R2": ["d_p"], "R3": ["d_pc"], "R4": ["pet_max", "ttc_max"], "R5": ["e_acc", "e_dec", "e_turn"]}
     assert record["classification"]["w_e_s"] == PARAMS.w_e == 1.0  # w_e: classification block
     assert record["substrate_config_id"] == s5.substrate_config_id(SUBSTRATE)  # v_min and tau: substrate_config
     assert validate.validate_row("rule_configuration", record) == []

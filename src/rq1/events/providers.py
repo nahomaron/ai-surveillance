@@ -1,4 +1,4 @@
-"""Flag providers R1, R2, R3, R5 and the substrate flags G and Q (E-1.2.1 section 6.0; Appendix T T9.2). R4 is T-19."""
+"""Flag providers R1 to R5 and the substrate flags G and Q (E-1.2.1 section 6.0; Appendix T T9.2; R4: T15, E-1.2.13)."""
 from __future__ import annotations
 
 import math
@@ -22,6 +22,8 @@ class RuleParams:
     d_p: float
     v_min: float
     d_pc: float
+    ttc_max: float  # R4 (T15.5: <= tau)
+    pet_max: float  # R4 (T15.5: <= tau)
     tau: float
     conflict: tuple[str, ...]
     r5: bool
@@ -51,6 +53,24 @@ def _cv(predicted: list[Row], tau: float) -> Row | None:
 def r3_c(predicted: list[Row], d_pc: float, tau: float) -> int:
     entry = _cv(predicted, tau)
     return 2 if entry is None else int(entry["pred_min_clearance_m"] < d_pc)
+
+
+def r4_c(row: Row, person_speed: float | None, fork_speed: float | None, ttc_max: float, pet_max: float) -> int:
+    """T15.4: unknown when the frame is uncalibrated or either velocity is null; otherwise TTC part OR PET part (T15.2, T15.3)."""
+    if row["clearance_state"] == "unmeasurable_uncalibrated" or person_speed is None or fork_speed is None:
+        return 2
+    for name in ("ttc_s", "pet_pred_s"):
+        if row[name] is None and row[f"{name}_null_reason"] != "not_applicable":
+            raise ContractError("ERR-INVARIANT", f"pair-frame {row['frame_index']}: velocities and calibration present but {name} not computed")
+    ttc_part = row["ttc_s"] is not None and row["ttc_s"] < ttc_max
+    pet_part = row["pet_pred_s"] is not None and row["pet_pred_s"] < pet_max
+    return int(ttc_part or pet_part)
+
+
+def check_r4(ttc_max: float, pet_max: float, tau: float) -> None:
+    """T15.5: ttc_max <= tau and pet_max <= tau, otherwise ERR-SPEC (checked for every configuration, AR-49 item 4)."""
+    if ttc_max > tau or pet_max > tau:
+        raise ContractError("ERR-SPEC", f"T15.5: ttc_max {ttc_max} and pet_max {pet_max} must not exceed tau {tau}")
 
 
 def g(clearance_state: str) -> int:
@@ -125,9 +145,10 @@ def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], 
     """Per-frame flags of one POW (the first if `pow_nk` is None). S5 reads substrate tables and never writes them."""
     if rules.p_provider not in ("R1", "R2"):
         raise ContractError("ERR-SPEC", "a configuration has exactly one P provider, R1 or R2")
-    unknown = set(rules.conflict) - {"R3"}
+    unknown = set(rules.conflict) - {"R3", "R4"}
     if unknown:
-        raise ContractError("ERR-SPEC", f"conflict providers not implemented yet: {sorted(unknown)}")
+        raise ContractError("ERR-SPEC", f"unknown conflict providers: {sorted(unknown)}")
+    check_r4(rules.ttc_max, rules.pet_max, rules.tau)
     pow_row = s4["pow"][0] if pow_nk is None else next(p for p in s4["pow"] if [p["person_track_id"], p["forklift_track_id"], p["start_frame"]] == pow_nk)
     key = [pow_row["person_track_id"], pow_row["forklift_track_id"], pow_row["start_frame"]]
     eligible = {f["frame_index"]: f for f in frames if f["eligible"]}
@@ -145,7 +166,12 @@ def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], 
         i = row["frame_index"]
         fk = fork_by.get(i)
         speed, speed_sigma = (fk["speed_mps"], fk["speed_sigma_mps"]) if fk else (None, None)
-        c_by = {name: r3_c(row["predicted"], rules.d_pc, rules.tau) for name in rules.conflict}
+        c_by = {}
+        if "R3" in rules.conflict:
+            c_by["R3"] = r3_c(row["predicted"], rules.d_pc, rules.tau)
+        if "R4" in rules.conflict:  # no borderline flag from R4 in this version (T15.5)
+            ps = person_by.get(i)
+            c_by["R4"] = r4_c(row, ps["speed_mps"] if ps else None, speed, rules.ttc_max, rules.pet_max)
         cv = _cv(row["predicted"], rules.tau)
         clear_near = borderline(row["clearance_m"], rules.d_p, row["clearance_sigma_m"], rules.k_sigma)
         gap_near = borderline(row["image_gap_norm"], rules.k_img, None, rules.k_sigma)  # sigma 0: equality (T10.4)

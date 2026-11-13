@@ -412,6 +412,7 @@ def test_ar_40_item_3_configuration_id_covers_parameters_of_disabled_providers()
     # An R1-only configuration still reads d_p, v_min and d_pc for T10.4 flags, so they must change the configuration ID.
     r1 = dataclasses.replace(RULES, p_provider="R1")
     record = s5.rule_configuration(s5_config(rules=r1))
-    assert [(p["provider_id"], p["enabled"]) for p in record["providers"]] == [("R1", True), ("R2", False), ("R3", True), ("R5", True)]
+    # E-1.2.13 (T15.5, T12.1, CT-T11-02 extended): R4 is recorded with its exclusive parameters, enabled or not.
+    assert [(p["provider_id"], p["enabled"]) for p in record["providers"]] == [("R1", True), ("R2", False), ("R3", True), ("R4", False), ("R5", True)]
     assert s5.config_id(s5_config(rules=r1)) != s5.config_id(s5_config(rules=dataclasses.replace(r1, d_p=1.5)))
     assert validate.validate_row("rule_configuration", record) == []

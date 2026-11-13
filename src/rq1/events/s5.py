@@ -30,12 +30,14 @@ def substrate_config_id(record: Row) -> str:
 
 def rule_configuration(cfg: S5Config) -> Row:
     """The section 5.2 rule_configuration record of this run. Its content-addressed ID is the S5 configuration ID.
-    T12.1: a provider's params hold only its exclusive parameters (R1 k_img, R2 d_p, R3 d_pc, R5 e_turn, e_acc, e_dec).
+    T12.1: a provider's params hold only its exclusive parameters (R1 k_img, R2 d_p, R3 d_pc, R4 ttc_max, pet_max (T15.5),
+    R5 e_turn, e_acc, e_dec).
     v_min and the prediction horizon tau come from substrate_config; w_e is in the classification block."""
     r, p = cfg.rules, cfg.params
     providers_list = [{"provider_id": "R1", "enabled": r.p_provider == "R1", "params": {"k_img": r.k_img}},
                       {"provider_id": "R2", "enabled": r.p_provider == "R2", "params": {"d_p": r.d_p}},
                       {"provider_id": "R3", "enabled": "R3" in r.conflict, "params": {"d_pc": r.d_pc}},
+                      {"provider_id": "R4", "enabled": "R4" in r.conflict, "params": {"pet_max": r.pet_max, "ttc_max": r.ttc_max}},
                       {"provider_id": "R5", "enabled": r.r5, "params": {"e_turn": r.e_turn, "e_acc": r.e_acc, "e_dec": r.e_dec}}]
     row = {"experiment": "E1", "providers": providers_list,
            "lifecycle": {"m_gap_frames": p.m_gap, "t_min_s": p.t_min, "w_post_s": p.w_post},
@@ -58,6 +60,7 @@ def effective_rules(cfg: S5Config) -> providers.RuleParams:
     for name, runtime, source in (("v_min", r.v_min, sc["v_min"]), ("tau", r.tau, sc["prediction_horizon_s"]), ("w_e", r.w_e, cfg.params.w_e)):
         if runtime != source:
             raise ContractError("ERR-SPEC", f"T12.1: {name} = {runtime} differs from its single source ({source})")
+    providers.check_r4(r.ttc_max, r.pet_max, r.tau)
     return r
 
 

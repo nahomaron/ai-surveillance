@@ -240,9 +240,9 @@ Owner decision (12 Nov 2026): exploratory mode for real footage. This phase is e
    Agent note: T12.5 as written lets real_natural and real_staged reach technically_validated; only synthetic data cannot. D-26 item 4 is therefore a new restriction, not existing behaviour. It is applied without a contract change, by the §9.6 downgrade-only override: every real-origin measurement_fitness record carries override {downgrade_only, rationale "D-26 exploratory phase", actor Owner} → experimental. If the Owner wants this as a contract rule instead, it needs Appendix T text.
 5. Proceed: D-24 downloads, E-1.2.12 (done, 9b35b9f), T-18, T-19 (T-19 is BLOCKED on CR-018 / D-27: R4 and BL-1 to BL-6 are not defined in the contract).
 
-## D-27 (2026-11-12) — R4 (TTC/PET) and BL-1 to BL-6 definitions        status: OPEN
+## D-27 (2026-11-12) — R4 (TTC/PET) and BL-1 to BL-6 definitions        status: CLOSED
 Task: T-19   Blocking: T-19; T-20 (configurations in the pre-registration)
 Question: The contract names R4 and BL-1 to BL-6 but defines neither computably. The BL table exists only in Package D (methodology). Which TTC and PET definitions, which Unknown rule, and which provider set for each BL?
 Options: see CR-018 (readings a/b/c per item).
 Agent's recommendation: TTC and PET from the R3 constant-velocity footprint prediction within τ; Unknown also without velocity; BL-1 deferred to M1b; BL-2 to BL-6 as listed in CR-018, as Appendix T text.
-Owner decision: ______
+Owner decision (13 Nov 2026, Architect rulings item B; Owner approval by forwarding them): DECIDED. Appended verbatim to Appendix T as section T15, contract **E-1.2.13**. TTC as CR-018 1(a); predicted PET (`pet_pred`, never reported as "PET" without the suffix) from the swept regions (convex hull of the footprints at 0 and τ); Unknown when uncalibrated or either velocity is null; ttc_max ≤ τ and pet_max ≤ τ or ERR-SPEC; no R4 borderline flag in this version. BL-1 DEFERRED to M1b; BL-2 = R1, BL-3 = R2, BL-4 = R2 + R3, BL-5 = R2 + R4, BL-6 = R2 + R3 + R4 + R5; contact cue in all. TTC/PET values before G-PR are TEST-ONLY (1.5 s, 1.0 s). T-19 unblocked.

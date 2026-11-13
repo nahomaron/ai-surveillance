@@ -945,3 +945,43 @@ T14.2 Partitions built under T14.1 are reported as "held-out runs of the same
  unseen-layout or unseen-site claim.
 T14.3 The report states the number of leakage groups per partition and data origin
  beside every Target B interval.
+
+## T15. R4 (time-to-collision and predicted post-encroachment) and baseline configurations (E-1.2.13; CR-018, D-27)
+
+T15.1 Prediction. R4 uses the T8.3 constant-velocity prediction: the same footprints,
+ the same yaw rule (T8.2; circumscribed disc when yaw is unknown), the same horizon τ
+ (substrate_config.prediction_horizon_s). Footprints translate without rotation.
+T15.2 TTC. ttc = the earliest t in [0, τ] at which predicted footprint clearance <= 0.
+ ttc = 0 if clearance <= 0 at the frame. Computed by bisection on [0, t_at_min]
+ (tolerance 1e-6 s). If no t in [0, τ] satisfies it, ttc is null (not_applicable)
+ and the TTC part is 0. TTC part = 1 iff ttc < ttc_max.
+T15.3 Predicted PET (pet_pred). For each object, its swept region over [0, τ] is the
+ convex hull of its footprint at t=0 and t=τ. Conflict area A = intersection of the
+ two swept regions. If A is empty, pet_pred is null (not_applicable) and the PET part
+ is 0. Otherwise each object's occupancy of A is an interval [t_in, t_out] within
+ [0, τ] (empty if it never enters A). If either interval is empty, pet_pred is null and
+ the PET part is 0. pet_pred = max(0, t_in(second) - t_out(first)), where "first" is
+ the object whose interval starts earlier (ties: the forklift is first).
+ PET part = 1 iff pet_pred < pet_max. pet_pred is a predicted quantity and is never
+ reported as "PET" without the suffix.
+T15.4 Unknown. C_by_R4 is unknown (2) when the frame's world geometry is not
+ calibrated (as written in §6.0) OR either object's velocity is null (T8.2/T9.1).
+ Otherwise C_by_R4 = TTC part OR PET part.
+T15.5 Configuration constraints. ttc_max <= τ and pet_max <= τ; otherwise refuse with
+ ERR-SPEC. ttc_max and pet_max are R4-owned parameters (T11.1). R4 sets no borderline
+ flag in this version (stated limitation).
+T15.6 Baseline configurations (oracle and detector paths alike):
+ BL-1 detection only, frame co-presence, no tracking: DEFERRED to M1b.
+ BL-2 = R1. BL-3 = R2. BL-4 = R2 + R3. BL-5 = R2 + R4. BL-6 = R2 + R3 + R4 + R5.
+ The contact cue applies in all configurations (T9.6, T10.3(c), T12.1).
+ Primary comparisons: BL-2 vs BL-3, and BL-3 vs BL-6. Others are secondary.
+ TTC/PET values used before G-PR are TEST-ONLY (ttc_max 1.5 s, pet_max 1.0 s).
+T15.7 Outputs. pair_series gains ttc_s and pet_pred_s (nullable, reasons as above).
+
+Fixtures required (passing and failing): head-on approach crossing within τ (ttc
+found); approach whose crossing is beyond τ (ttc null); crossing paths with time gap
+(pet_pred > 0, ttc null); simultaneous occupancy (pet_pred = 0); parallel paths (A
+empty); null velocity -> unknown; uncalibrated -> unknown; ttc_max > τ -> ERR-SPEC;
+disabled R4 parameters do not change S5 output (CT-T11-02 extended).
+
+Source: Architect rulings of 13 Nov 2026, item B (Owner approval by forwarding them), appended verbatim.

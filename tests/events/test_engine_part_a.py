@@ -152,7 +152,7 @@ def s4_for(name):
     return fixture["expected"], s4, n, s1
 
 
-RULES = providers.RuleParams(p_provider="R2", k_img=V["k_img"], d_p=V["d_p"], v_min=V["v_min"], d_pc=V["d_pc"], tau=V["tau"], conflict=("R3",),
+RULES = providers.RuleParams(p_provider="R2", k_img=V["k_img"], d_p=V["d_p"], v_min=V["v_min"], d_pc=V["d_pc"], ttc_max=V["ttc_max"], pet_max=V["pet_max"], tau=V["tau"], conflict=("R3",),
                              r5=True, w_e=V["w_e"], e_turn=V["e_turn"], e_acc=V["e_acc"], e_dec=V["e_dec"], k_sigma=V["k_sigma"])
 R1_RULES = dataclasses.replace(RULES, p_provider="R1")
 

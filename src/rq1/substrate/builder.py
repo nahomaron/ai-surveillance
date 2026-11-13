@@ -8,7 +8,7 @@ from typing import Any
 
 from rq1.ids.artifact import Artifact, Spec, build_artifact
 
-from . import activity, durations, evidence, geometry, kinematics, pows
+from . import activity, durations, evidence, geometry, kinematics, pows, surrogate
 
 Row = dict[str, Any]
 BREAKS = {"not_recorded", "gap_unobserved", "unusable"}
@@ -197,14 +197,23 @@ class SubstrateBuilder:
         _null(row, "image_gap_px", gap[0], "not_observable")
         _null(row, "image_gap_norm", gap[1], "not_observable")
         row["predicted"], ttca = [], (None, "not_observable")
+        # T15.7: without a prediction, ttc_s and pet_pred_s are null for the reason R4 is unknown (T15.4; AR-49 item 3).
+        r4_reason = "uncalibrated" if row["clearance_state"] == "unmeasurable_uncalibrated" else "not_observable"
+        ttc, pet = (None, r4_reason), (None, r4_reason)
         if have and ps.get("_v") and fs.get("_v"):
             yaw = fs["yaw_rad"]
-            value, t_min = geometry.predict_min_clearance((ps["x_m"], ps["y_m"]), ps["_v"], prior_p["radius_m"], (fs["x_m"], fs["y_m"]), fs["_v"], yaw,
-                                                          prior_f["length_m"], prior_f["width_m"], cfg.horizon_s)
+            args = ((ps["x_m"], ps["y_m"]), ps["_v"], prior_p["radius_m"], (fs["x_m"], fs["y_m"]), fs["_v"], yaw, prior_f["length_m"], prior_f["width_m"])
+            value, t_min = geometry.predict_min_clearance(*args, cfg.horizon_s)
             row["predicted"] = [{"motion_model_id": "constant_velocity", "horizon_s": cfg.horizon_s, "pred_min_clearance_m": value, "sigma_m": None,
                                  "sigma_m_null_reason": "not_computed_by_config", "t_at_min_s": t_min}]
             ttca = kinematics.ttca(t_min, cfg.horizon_s)
+            t_c = surrogate.ttc(lambda t: geometry.predicted_clearance(*args, t), t_min)
+            p_pet = surrogate.pet_pred(surrogate.person_shape(args[0], args[2]), args[1], surrogate.forklift_shape(args[3], yaw, args[6], args[7]),
+                                       args[4], cfg.horizon_s)
+            ttc, pet = (t_c, None if t_c is not None else "not_applicable"), (p_pet, None if p_pet is not None else "not_applicable")
         row["ttca_s"], row["ttca_s_null_reason"] = ttca
+        row["ttc_s"], row["ttc_s_null_reason"] = ttc
+        row["pet_pred_s"], row["pet_pred_s_null_reason"] = pet
         return row
 
     def _closing(self, series: list[Row], frames: dict[int, Row], coverage: list[Row], cfg: SubstrateConfig) -> None:

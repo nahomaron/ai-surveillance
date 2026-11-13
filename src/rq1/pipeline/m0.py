@@ -131,7 +131,7 @@ def run(work: Path) -> dict[str, Any]:
     s4 = keep(builder.SubstrateBuilder().build(s1.tables, s3, positions, None, s4_cfg, spec("S4", (gcf, sbc), (s3.artifact_id,))))
 
     # S5.
-    rules = providers.RuleParams(p_provider="R2", k_img=v["k_img"], d_p=v["d_p"], v_min=v["v_min"], d_pc=v["d_pc"], tau=v["tau"], conflict=("R3",), r5=True,
+    rules = providers.RuleParams(p_provider="R2", k_img=v["k_img"], d_p=v["d_p"], v_min=v["v_min"], d_pc=v["d_pc"], ttc_max=v["ttc_max"], pet_max=v["pet_max"], tau=v["tau"], conflict=("R3",), r5=True,
                                  w_e=v["w_e"], e_turn=v["e_turn"], e_acc=v["e_acc"], e_dec=v["e_dec"], k_sigma=v["k_sigma"])
     params = engine.Params(m_gap=v["m_gap"], t_min=v["t_min"], w_post=v["w_post"], d_nm=v["d_nm"], k_sigma=v["k_sigma"], o_max=v["o_max"], g_max=v["g_max"],
                            w_e=v["w_e"], k_c=v["k_c"], k_c_turn=v["k_c_turn"], r5_enabled=True, e_turn=v["e_turn"], e_acc=v["e_acc"], e_dec=v["e_dec"],

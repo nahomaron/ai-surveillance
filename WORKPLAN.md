@@ -64,7 +64,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-17b | **Qualification Part 3 (D-20 to D-22).** Record SDG shard→run map and a seeded draw, SmartSpaces real scenes, Safe and Unsafe Behaviours, FieldWorkArena exclusion, real-data rules, budget ≤ 30 GB — **before** any download | T-17 | VR-E-070; D-21 | `qualification.md` Part 3; D-23, D-24, D-25 opened | S |
 | [S] | G-DL | **STOP — Owner approves the Part 3 selection (D-24)**, then download with SHA checks | T-17b | — | Owner decision in D-24 | — |
 | [~] | T-18 | **Dataset adapters (WP-13).** SDG and SmartSpaces → S0, oracle tracks, simulator references; `reference_class` set correctly | T-17 | Package F WP-13; F.1 A5.1 | Truth round-trip within 1e-6 m; reprojection check | L |
-| [B] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** — BLOCKED on CR-018 / D-27 | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
+| [x] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** — under T15 (E-1.2.13; CR-018 / D-27 closed); BL-1 deferred to M1b | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
 | [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7) | M |
 | [S] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [ ] | T-21 | **M1a run (WP-14).** Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
@@ -527,3 +527,15 @@ _(the agent appends entries here)_
 - Tests: 1732/1732 (full suite), determinism re-run: identical (1732/1732)
 - Problems / CRs: none new; D-25 item 1 back to the Architect.
 - Next: STOP on D-25 item 1 (S_flat). Independent of it: T-18 part B on synthetic data under rv1.
+
+### 2026-11-13 — Architect rulings of 13 Nov 2026 recorded (contract E-1.2.13)
+- B: CR-018 / D-27 decided; Appendix T section T15 appended verbatim; CLAUDE.md reads E-1.2.13. C: AR-48 accepted. A (D-25 rv2): recorded with its implementation in the next entry.
+
+### 2026-11-13 — T-19 done (contract E-1.2.13)
+- Did: R4 under T15. `substrate/surrogate.py`: ttc by bisection on [0, t_at_min] of the T8.3 prediction; pet_pred from swept regions (hull of footprint at 0 and τ), occupancy intervals, forklift first on ties. S4 `pair_series` gains `ttc_s` and `pet_pred_s` (T15.7). S5 `r4_c`: Unknown when uncalibrated or either speed null, else TTC part OR PET part; no R4 borderline flag. T15.5 (ttc_max, pet_max ≤ τ) refused with ERR-SPEC. `events/baselines.py`: BL-2 to BL-6 provider sets, BL-1 deferred to M1b, primary comparisons BL-2 vs BL-3 and BL-3 vs BL-6.
+- Contract tests: every T15 fixture (head-on ttc found; crossing beyond τ ttc null; time-gap crossing pet_pred 0.6 s with ttc null; simultaneous occupancy pet_pred 0 with ttc 0.2693774 s; parallel paths A empty; null velocity and uncalibrated give Unknown; ttc_max or pet_max > τ gives ERR-SPEC; CT-T11-02 extended to R4), plus the disc footprint, ttc 0 at overlap, no R4 borderline flag, BL table (`tests/events/test_t15.py`, 22 tests). Hand values are written in the tests.
+- **Expected values changed by the contract (for Owner review):** two tests listed the rule_configuration providers without R4. E-1.2.13 makes R4 a recorded provider with ttc_max and pet_max, so both lists now include R4 (comment cites E-1.2.13). No value was changed to make code pass. As a result every rule_configuration ID, including the M0 pipeline's, differs from the IDs printed in `reports/M0_report.md` (AR-49 item 7).
+- Tests: 1766/1766 (full suite), determinism re-run: identical (1766/1766)
+- Problems / CRs: AR-49.
+- Next: rv2 (D-25 ruling A) and the 758-recording re-run; then T-18 part B.
+

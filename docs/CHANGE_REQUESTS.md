@@ -633,7 +633,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 - **No meaning effect:** fixture and run representation only; no measured value changes. **Review flag:** items 2 and 4. **Files/tests:** `pipeline/m0.py`, `fixtures/clips.py`, `validation/converter.py`; `tests/pipeline/test_m0.py`, `tests/clips/test_clip_fixtures.py`. **Reverse:** remove the clip and the pipeline module.
 - **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
 
-## CR-018 (2026-11-12) — R4 (TTC/PET) and configurations BL-1 to BL-6 are not defined computably (T-19)   status: OPEN
+## CR-018 (2026-11-12) — R4 (TTC/PET) and configurations BL-1 to BL-6 are not defined computably (T-19)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-19 (WP-06b). **Contract sections:** E-1.2.1 §6.0 (C_by_R4 row; "R1-only configurations (BL-2)"); Appendix T T8 (constant-velocity prediction, ttca), T11.1 and T12 (R4 parameters ttc_max, pet_max); Package F WP-06b (plan only).
 **Meaning-affecting:** yes. Each item below changes C flags, episodes and labels, and the BL mapping decides which providers each compared configuration enables (primary comparisons BL-2 vs BL-3 and BL-3 vs BL-6).
@@ -650,9 +650,9 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 
 **What proceeds meanwhile:** nothing in T-19. T-18 is independent.
 **Agent's recommendation:** 1(a), 2(a), 3(b), 4 defer BL-1 to M1b, 5 as proposed, as Appendix T text.
-**Decision:** ______   **Approver:** Research Architect / Owner
+**Decision:** (13 Nov 2026) 1(a), 2(a) as predicted PET `pet_pred`, 3(b), 4 BL-1 deferred to M1b, 5 as proposed; plus ttc_max, pet_max ≤ τ (ERR-SPEC) and no R4 borderline flag. Text: Appendix T section T15 (E-1.2.13), D-27.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-48 — How D-26 (exploratory real-data phase) is carried in records and reports
+## AR-48 — How D-26 (exploratory real-data phase) is carried in records and reports   status: ACCEPTED (Architect rulings, 13 Nov 2026, item C)
 - **Gap:** D-26 requires every real-data artifact and report to carry "exploratory; frame-quality rules provisional", and real-data results to be reported as experimental. No contract field holds such a note, and T12.5 lets real data reach technically_validated.
 - **Options:** (a) add a note field to artifacts, which is a schema change; (b) carry the state through existing fields and fixed report text; (c) amend T12.5, which is a contract change.
 - **Choice:** (b).
@@ -661,3 +661,15 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   3. Fitness: `fitness.exploratory_fitness_row` stores a real-origin technically_validated decision as experimental, with the §9.6 downgrade-only override {downgrade_only, rationale "D-26 exploratory phase…", actor Owner}. `check_record` accepts it (FT-01, FT-08). Lower statuses are never raised.
 - **No meaning effect beyond D-26:** no measured value, label or denominator changes. The status change is a contract-permitted downgrade ordered by the Owner. The rv2 thresholds themselves are D-25 (provisional, under Architect review), not part of this AR.
 - **Files/tests:** `decode/quality.py`, `evaluation/fitness.py`, `export/report.py`; `tests/evaluation/test_d26_exploratory.py`. **Reverse:** drop the manifest flag and the helper once the exploratory phase ends or the Architect writes T12.5 text.
+
+## AR-49 — Representation details of R4 and the baseline configurations (T-19, T15)
+- **Gaps and choices** (none changes a T15 value, flag rule, unit or horizon):
+  1. **Numerical method for pet_pred bounds.** T15.2 fixes bisection (1e-6 s) for ttc; T15.3 names no method for t_in / t_out. Choice: the same bisection, between a golden-section minimiser of the shape gap (as T8.3 already uses) and the interval ends; touching counts as meeting. Each bisection returns its inside end (the side where the condition holds), so ttc is within 1e-6 s above the exact crossing. Considered: closed-form polygon/capsule intersection (more code, same values within tolerance).
+  2. **Occupancy of A.** An object's footprint lies inside its own swept region, so it meets A = S_person ∩ S_forklift exactly when it meets the other object's swept region. The code tests that equivalent condition (no explicit intersection polygon). Same intervals by set identity.
+  3. **Null reasons when R4 cannot be evaluated.** T15.7 gives `not_applicable` for computed-but-absent values only. When no prediction exists, `ttc_s` and `pet_pred_s` are null with `uncalibrated` (pair-frame `clearance_state = unmeasurable_uncalibrated`) or otherwise `not_observable`, as `clearance_m` and `ttca_s` do. R4 decides Unknown from calibration and the two speeds (T15.4), not from these reasons; a calibrated frame with both speeds but no ttc/pet is refused (ERR-INVARIANT).
+  4. **When T15.5 is checked.** In every configuration, R4 enabled or not (the text is unconditional). Disabled-provider parameters still play no role in S5 output (T11.1; CT-T11-02 extended passes).
+  5. **Ties in T15.3.** "First" uses exact comparison of t_in, forklift first on equality. When the starts are equal the intervals overlap, so pet_pred = 0 either way.
+  6. **BL-1** is refused with ERR-SPEC "deferred to M1b"; BL-2 to BL-6 change only the provider switches (`events/baselines.py`); all parameter values come from the caller.
+  7. **R4 in `rule_configuration`.** Always recorded, `{"provider_id": "R4", "enabled", "params": {"pet_max", "ttc_max"}}`, as T12.1 lists them. Consequence: every rule_configuration ID changes, including the M0 pipeline's (its S5 artifact and episode IDs differ from those printed in `reports/M0_report.md`, which stays a record of M0 under E-1.2.11). Two test expectations that listed the providers without R4 (`test_t10.py::test_ar_40_item_3…`, `test_t12_shared_parameters.py::test_rule_configuration_holds_only_exclusive_parameters`) were updated to include R4, citing E-1.2.13 in the test. That is a contract change, not a code fix, and is reported for the Owner's review.
+- **Files/tests:** `substrate/surrogate.py`, `substrate/geometry.py` (`predicted_clearance`), `substrate/builder.py`, `schema/tables.py` (`pair_series.ttc_s`, `pet_pred_s`), `events/providers.py` (`r4_c`, `check_r4`), `events/s5.py`, `events/baselines.py`, `pipeline/m0.py`; `tests/events/test_t15.py`.
+- **Reverse:** items 1–2: swap the solver (values move within 1e-6 s); item 3: change two reason strings; item 4: guard `check_r4` by `"R4" in conflict`; item 7: record R4 only when enabled (would break CT-T11-02 extended).

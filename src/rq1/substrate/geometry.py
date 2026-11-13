@@ -30,11 +30,7 @@ def predict_min_clearance(person: tuple[float, float], person_v: tuple[float, fl
     """Minimum clearance over [0, horizon] with both objects at constant velocity. The signed distance of a convex set
     composed with a linear path is convex in time, so a golden-section search finds the minimum."""
     def at(t: float) -> float:
-        p = (person[0] + person_v[0] * t, person[1] + person_v[1] * t)
-        f = (forklift[0] + forklift_v[0] * t, forklift[1] + forklift_v[1] * t)
-        if yaw is None:  # T8.2: unknown yaw uses the circumscribed disc
-            return disc_clearance(p, radius, f, circumscribed_radius(length, width))
-        return clearance(p, radius, f, yaw, length, width)
+        return predicted_clearance(person, person_v, radius, forklift, forklift_v, yaw, length, width, t)
 
     lo, hi = 0.0, horizon_s
     ratio = (math.sqrt(5) - 1) / 2
@@ -46,6 +42,16 @@ def predict_min_clearance(person: tuple[float, float], person_v: tuple[float, fl
             lo = m1
     candidates = [(at(t), t) for t in (0.0, (lo + hi) / 2, horizon_s)]
     return min(candidates)
+
+
+def predicted_clearance(person: tuple[float, float], person_v: tuple[float, float], radius: float, forklift: tuple[float, float],
+                        forklift_v: tuple[float, float], yaw: float | None, length: float, width: float, t: float) -> float:
+    """Signed footprint clearance at time t of the constant-velocity prediction (T8.3; footprints translate, T15.1)."""
+    p = (person[0] + person_v[0] * t, person[1] + person_v[1] * t)
+    f = (forklift[0] + forklift_v[0] * t, forklift[1] + forklift_v[1] * t)
+    if yaw is None:  # T8.2: unknown yaw uses the circumscribed disc
+        return disc_clearance(p, radius, f, circumscribed_radius(length, width))
+    return clearance(p, radius, f, yaw, length, width)
 
 
 def disc_clearance(person: tuple[float, float], radius: float, centre: tuple[float, float], disc_radius: float) -> float:
