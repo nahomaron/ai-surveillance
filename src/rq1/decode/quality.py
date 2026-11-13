@@ -23,6 +23,7 @@ FROZEN_MIN_SPAN = Fraction(1, 2)  # seconds, t(last) - t(first) of a run of iden
 class LumaStats:
     n: int
     p99: int  # nearest rank: the ceil(0.99 n)-th smallest value
+    p1: int  # nearest rank: the ceil(0.01 n)-th smallest value (D-25 Architect review, item 1)
     n_bright: int  # pixels with luma >= OVEREXPOSED_LUMA
     digest: str  # SHA-256 of the luma bytes; identity test for `frozen`
 
@@ -36,8 +37,10 @@ def stats(luma: np.ndarray) -> LumaStats:
     n = int(y.size)
     hist = np.bincount(y.ravel(), minlength=256)
     rank = -(-99 * n // 100)  # ceil(0.99 n) in integers
-    p99 = int(np.searchsorted(np.cumsum(hist), rank))
-    return LumaStats(n, p99, int(hist[OVEREXPOSED_LUMA:].sum()), hashlib.sha256(y.tobytes()).hexdigest())
+    cum = np.cumsum(hist)
+    p99 = int(np.searchsorted(cum, rank))
+    p1 = int(np.searchsorted(cum, -(-n // 100)))  # ceil(0.01 n)
+    return LumaStats(n, p99, p1, int(hist[OVEREXPOSED_LUMA:].sum()), hashlib.sha256(y.tobytes()).hexdigest())
 
 
 def frame_flags(s: LumaStats) -> set[str]:

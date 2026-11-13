@@ -179,7 +179,7 @@ Owner decision (12 Nov 2026): APPROVED with changes.
  d. VR-E-070 fields (approvals_ref, retention, legal basis): BLOCKING placeholders; the Owner will supply them. No processing of real footage until they are filled AND D-25 is approved. Downloading is allowed.
  Item 1 (index file and 512-byte shard headers): accepted as metadata-only inspection. Item 5 (1,642 / 76 correction): accepted.
 
-## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: PROVISIONAL (applied as `rv2-provisional` under D-26; Architect review pending)
+## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: ARCHITECT REVIEWED, item 1 back to the Architect (1c: groups do not separate); `rv2-provisional` unchanged
 Task: G-FQ (AR-27 review)   Blocking: any decoding or processing of real footage
 Question: Which frame-quality rules version applies to real footage? `rv1` excludes `decode_error` only (AR-27). It must not be used on real footage.
 Why it matters: an excluded frame becomes ineligible (E-1.2.1 §3.2 step 4). Its support then leaves every duration, and its coverage segment becomes `unusable`. The rules version therefore changes measured values, so it is the Architect's and the Owner's choice. Thresholds below are proposals.
@@ -207,7 +207,26 @@ Step (1) result (12 Nov 2026, `research/datasets/part3/rv2_synthetic_check.json`
   - Partial `black`, 44 recordings, 462 frames (1–136 per recording), mostly `eye_01` (39 of 57). Some are dim but readable frames (false positives); some are fully black even when brightened ×6 (e.g. `…run_18…eye_00`, frames 21–102, consistent with an eye-level camera occluded by a passing object: **true positives**).
   - All 40 `frozen` frames lie inside black stretches (identical all-black frames); none is frozen and not black.
   Question for the Architect's review: the `black` threshold treats very dark but content-bearing frames as excluded. Options include a lower P99 threshold, or keeping 32 and recording these synthetic runs as low-light conditions. The agent changes nothing: `rv2-provisional` stays as written, and synthetic evaluation stays on `rv1` unless a configuration says otherwise.
-Architect review: ______   Owner decision (12 Nov 2026): awaiting Architect review; do not apply. rv1 stays in force; no real footage is processed.
+Architect review (13 Nov 2026; Owner approval by forwarding it):
+1. `black` becomes a no-content rule: black iff P99(Y) ≤ 32 AND (P99(Y) − P1(Y)) ≤ S_flat, P1 and P99 by the same nearest-rank method. S_flat is set from the spread of the frames now flagged black: (a) report the distribution for (i) the two red-lit runs, (ii) frames already judged truly blank, (iii) all others; (b) if (i) and (ii) separate cleanly, set S_flat to a round value in the gap and re-run all 758 synthetic recordings; (c) if not, change nothing and report back.
+2. Recordings with median frame P99 ≤ 32 that the new rule does not flag get the condition tag `low_light` (robustness stratum, not an exclusion).
+3. `frozen` and `overexposed` accepted as written; `blurred` not computed (accepted).
+4. Once (1b) succeeds: rename to `rv2`, apply it to all M1a recordings, synthetic and real. rv1 stays for the M0 fixtures; their expected values are unchanged. Real-data reports still carry "exploratory" (D-26).
+5. D-26 item 4: the downgrade-only override (AR-48) is accepted as the mechanism; no contract text needed.
+
+S_flat evidence, item 1a (13 Nov 2026, `research/datasets/part3/rv2_sflat_evidence.json`, script `rv2_sflat_evidence.py`; statistics only). Spread = P99(Y) − P1(Y), nearest rank (P1 = the ceil(0.01·n)-th smallest value), over all 4,361 frames flagged `black` in the 690 SDG member videos:
+| Group | Frames | min | P5 | median | P95 | max |
+|---|---|---|---|---|---|---|
+| (i) red-lit runs `run_43_seed_631373023`, `run_6_seed_1833142794` (15 recordings) | 3,952 | 0 | 4 | 9 | 14 | 16 |
+| (ii) judged truly blank: `run_18_seed_1313717419.eye_00`, black frames in seq 21–102 | 50 | 0 | 0 | 0 | 7 | 14 |
+| (iii) all others (41 recordings) | 359 | 0 | 0 | 10 | 14 | 16 |
+(i) and (ii) overlap over 0–14. They **do not separate cleanly**, so under item 1c nothing is changed.
+Where the overlap comes from (statistics only):
+- Group (ii): 37 of 50 frames are exactly flat (P1 = P99 = 16, limited-range black). The other 13 are the edges of the blank stretch (seq 74–81 and 97–102), where P99 rises 18 → 35 and the spread 2 → 14: the occluder entering or leaving. The D-25 judgment was recorded as a range, so these edge frames fall in group (ii).
+- Group (i): the 13 whole-video red-lit recordings (3,899 frames) have spread 3–16 on every frame, so none of them is flat. The spread 0–2 frames of group (i) come from the two partial recordings: `run_6…eye_01` seq 0–20 is exactly flat (P1 = P99 = 16; apparently the same kind of blank stretch as run_18), and isolated frames with P99 = 17 (spread 1) occur in `run_6…eye_01` and `run_43…eye_01`.
+- So the overlap is between groups as defined, not obviously between flat and content-bearing frames. Re-grouping by frame (for example, only exactly flat frames as (ii)) would be a new judgment, so the agent leaves it to the Architect.
+Not applied, since they depend on 1b: items 2 and 4. `rv2-provisional` stays as written; rv1 stays in force for synthetic evaluation; no real footage is processed. Applied: none of the rules. Recorded: items 3 and 5 accepted. Code change: `LumaStats` now also carries P1 (nearest rank); it changes no flag (`tests/decode/test_rv2_provisional.py::test_p1_nearest_rank_is_statistics_only`).
+Owner decision (13 Nov 2026): Architect review recorded; item 1 returned to the Architect under 1c. Status: OPEN (S_flat not set).
 
 ## D-26 (2026-11-12) — VR-E-070 values for real footage        status: DECIDED (exploratory); values PENDING advisor
 Task: any processing of real footage   Blocking: decoding, frame quality, detection and tracking on `data/raw/real/` (downloading is allowed, D-24 d)

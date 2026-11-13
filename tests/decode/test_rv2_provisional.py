@@ -114,3 +114,17 @@ def test_pyav_reader_supplies_luma_statistics(tmp_path):
 @pytest.mark.determinism
 def test_needs_pixels_by_version():
     assert quality.needs_pixels("rv2-provisional") and not quality.needs_pixels("rv1")
+
+
+@pytest.mark.determinism
+def test_p1_nearest_rank_is_statistics_only():
+    # D-25 Architect review item 1a: P1 by the same nearest-rank method as P99, the ceil(0.01 n)-th smallest value.
+    # 100 pixels, 1 at 0 and 99 at 50: rank ceil(1.00) = 1 -> 0. 101 pixels, 1 at 0 and 100 at 50: rank ceil(1.01) = 2 -> 50.
+    assert quality.stats(luma([0] + [50] * 99)).p1 == 0
+    assert quality.stats(luma([0] + [50] * 100)).p1 == 50
+    # A single pixel: rank 1 for both -> P1 = P99 = the value.
+    s = quality.stats(luma([7]))
+    assert (s.p1, s.p99) == (7, 7)
+    # P1 changes no flag: a flat frame at 16 (spread 0) and a dark ramp 0..31 (spread > 0) are both black under rv2-provisional.
+    assert quality.frame_flags(quality.stats(luma([16] * 100))) == {"black"}
+    assert quality.frame_flags(quality.stats(luma(list(range(32)) * 4))) == {"black"}

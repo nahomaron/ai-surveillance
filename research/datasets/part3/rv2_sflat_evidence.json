@@ -1,0 +1,599 @@
+{
+ "rules_version": "rv2-provisional",
+ "statistic": "P99(Y) - P1(Y), nearest rank, frames flagged black",
+ "groups": {
+  "i_red_lit": {
+   "n": 3952,
+   "min": 0,
+   "p1": 3,
+   "p5": 4,
+   "p50": 9,
+   "p95": 14,
+   "p99": 15,
+   "max": 16,
+   "hist": {
+    "0": 21,
+    "1": 11,
+    "2": 3,
+    "3": 71,
+    "4": 109,
+    "5": 265,
+    "6": 196,
+    "7": 489,
+    "8": 630,
+    "9": 762,
+    "10": 245,
+    "11": 491,
+    "12": 32,
+    "13": 303,
+    "14": 196,
+    "15": 96,
+    "16": 32
+   }
+  },
+  "ii_judged_blank": {
+   "n": 50,
+   "min": 0,
+   "p1": 0,
+   "p5": 0,
+   "p50": 0,
+   "p95": 7,
+   "p99": 14,
+   "max": 14,
+   "hist": {
+    "0": 37,
+    "2": 4,
+    "3": 1,
+    "5": 3,
+    "6": 2,
+    "7": 1,
+    "9": 1,
+    "14": 1
+   }
+  },
+  "iii_other": {
+   "n": 359,
+   "min": 0,
+   "p1": 0,
+   "p5": 0,
+   "p50": 10,
+   "p95": 14,
+   "p99": 15,
+   "max": 16,
+   "hist": {
+    "0": 62,
+    "1": 12,
+    "2": 11,
+    "3": 31,
+    "4": 29,
+    "5": 10,
+    "6": 8,
+    "7": 3,
+    "8": 4,
+    "9": 6,
+    "10": 4,
+    "11": 10,
+    "12": 10,
+    "13": 60,
+    "14": 90,
+    "15": 6,
+    "16": 3
+   }
+  }
+ },
+ "recordings": [
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00007.tar/0f6d585a0f0f0a8ed2c8_04573755960a76f10119_run_46_seed_1402403531.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 70,
+   "seq_max": 197,
+   "spread_min": 11,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00007.tar/53a0b9f76240c1d09ec8_03dde99492fa6570fb42_run_16_seed_1305281951.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 54,
+   "seq_max": 139,
+   "spread_min": 5,
+   "spread_max": 7
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00007.tar/b7d73816f28488e7b06e_047fca619ecf7a56b2e4_run_4_seed_795834165.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 84,
+   "seq_max": 139,
+   "spread_min": 9,
+   "spread_max": 9
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00060.tar/c0d5f8605931b5b2455a_1f1acf28b3117b56e89b_run_6_seed_1495571596.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 65,
+   "seq_min": 0,
+   "seq_max": 168,
+   "spread_min": 0,
+   "spread_max": 16
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00144.tar/57add1add4375ae44de3_474fb0ee1a02b38e6135_run_15_seed_1548162657.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 119,
+   "seq_max": 183,
+   "spread_min": 12,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00144.tar/f98b276e29b9a73d8e5c_469b20a288f784c6af56_run_31_seed_987818680.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 38,
+   "seq_max": 277,
+   "spread_min": 7,
+   "spread_max": 9
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00152.tar/19e61aee2e2685ad9479_4b43e53a255570bbc38c_run_4_seed_896766254.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 236,
+   "seq_max": 236,
+   "spread_min": 6,
+   "spread_max": 6
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00152.tar/a62b29698397ca0abdb1_4a9c3cb742a3bca07b87_run_23_seed_905230252.eye_02.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 6,
+   "seq_min": 0,
+   "seq_max": 5,
+   "spread_min": 0,
+   "spread_max": 1
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00255.tar/302c6562515629ae6eab_77b0d9589e791edd2cc0_run_5_seed_177568880.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 4,
+   "seq_min": 56,
+   "seq_max": 238,
+   "spread_min": 10,
+   "spread_max": 12
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00256.tar/bf0d08049590416ecc97_782a21a32dae9da04825_run_25_seed_665643073.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 44,
+   "seq_max": 44,
+   "spread_min": 5,
+   "spread_max": 5
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00289.tar/11490fb4a46da77ee7e6_895fb87e4745fcd44d65_run_28_seed_614054766.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 4,
+   "seq_min": 50,
+   "seq_max": 281,
+   "spread_min": 10,
+   "spread_max": 11
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00289.tar/33d9bda405cc70f6d166_89807437d8df6079523b_run_26_seed_1029494761.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 166,
+   "seq_max": 166,
+   "spread_min": 14,
+   "spread_max": 14
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00308.tar/11ef957000f20ad46aad_91fb07dbf3ccbaa20f9b_run_1_seed_1489524600.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 84,
+   "seq_max": 250,
+   "spread_min": 2,
+   "spread_max": 3
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00308.tar/b5074ed8d1403dc73651_915a40735677ac336401_run_4_seed_2076866610.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 177,
+   "seq_max": 177,
+   "spread_min": 2,
+   "spread_max": 2
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00336.tar/14ceea4ec8386db96a17_9ceb0327c127ac4b2f93_run_1_seed_1315993226.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 22,
+   "seq_max": 22,
+   "spread_min": 1,
+   "spread_max": 1
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00350.tar/5784c1fbfaaa1ad8e4a0_a40d0973dea5c1629a02_run_13_seed_1363227761.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 45,
+   "seq_max": 103,
+   "spread_min": 1,
+   "spread_max": 1
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00350.tar/6c597491ef6cd043d002_a3ccffca67456307f2f1_run_3_seed_56192878.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 126,
+   "seq_max": 126,
+   "spread_min": 8,
+   "spread_max": 8
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00354.tar/1db036df7db7f0dbce07_a5d6e0ab2dbfeeb08149_run_47_seed_1695863875.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 21,
+   "seq_min": 42,
+   "seq_max": 66,
+   "spread_min": 0,
+   "spread_max": 15
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00354.tar/a94bc8e88e13353d767e_a5e3f1d9d0441762a498_run_2_seed_401415230.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 118,
+   "seq_max": 118,
+   "spread_min": 3,
+   "spread_max": 3
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00354.tar/fadf50997358cdbb82eb_a610c26991503ecbde7e_run_15_seed_1633716385.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 82,
+   "seq_max": 82,
+   "spread_min": 16,
+   "spread_max": 16
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00357.tar/c3435ef108cacb8e901c_a76048e81ce9380bc9e9_run_1_seed_1504589676.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 207,
+   "seq_max": 207,
+   "spread_min": 13,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00357.tar/c3435ef108cacb8e901c_a76048e81ce9380bc9e9_run_1_seed_1504589676.eye_02.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 136,
+   "seq_min": 160,
+   "seq_max": 299,
+   "spread_min": 13,
+   "spread_max": 15
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00357.tar/fcad66f11d8db70dd688_a74b7e11218018565cf9_run_12_seed_695326786.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 222,
+   "seq_max": 256,
+   "spread_min": 0,
+   "spread_max": 1
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00358.tar/02012439e20720ed1dff_a7cfda21a109db229bed_run_11_seed_1899586412.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 24,
+   "seq_max": 212,
+   "spread_min": 2,
+   "spread_max": 2
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/5012d8b18b2aa8ce0cf2_a83b120d6daa8f2db3e2_run_3_seed_2069582642.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 234,
+   "seq_max": 234,
+   "spread_min": 16,
+   "spread_max": 16
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.ceiling_01.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 6,
+   "spread_max": 10
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.ceiling_02.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 3,
+   "spread_max": 6
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.ceiling_04.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 6,
+   "spread_max": 9
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.eye_00.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 7,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.eye_01.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 4,
+   "seq_min": 43,
+   "seq_max": 292,
+   "spread_min": 1,
+   "spread_max": 3
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.eye_02.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 7,
+   "spread_max": 11
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.eye_03.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 6,
+   "spread_max": 10
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/82e289c6e096a4e79cc5_a840044243f30a631c34_run_43_seed_631373023.eye_04.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 4,
+   "spread_max": 11
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00359.tar/ce994cc2d43bfdbe74e0_a7e77649ec5ed99dfbb0_run_14_seed_1589213945.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 50,
+   "seq_max": 150,
+   "spread_min": 4,
+   "spread_max": 6
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00383.tar/30c8068fe5f8ac8f46c4_b3ecedc9570d7c12a423_run_2_seed_758132596.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 125,
+   "seq_max": 245,
+   "spread_min": 6,
+   "spread_max": 7
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00383.tar/334019f35591cacbf92d_b3bd0c6c64fccf1e5f42_run_10_seed_2097959737.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 8,
+   "seq_min": 73,
+   "seq_max": 181,
+   "spread_min": 3,
+   "spread_max": 4
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00412.tar/c94873c9381e19a7a0b1_c136abac60f32caa1376_run_6_seed_2109566150.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 4,
+   "seq_min": 61,
+   "seq_max": 264,
+   "spread_min": 8,
+   "spread_max": 9
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00454.tar/0d1666cd1105ec0841e5_d43314fc5673be3a3e4e_run_1_seed_1944808407.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 99,
+   "seq_max": 260,
+   "spread_min": 1,
+   "spread_max": 1
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00486.tar/371186b5caf218799987_e2edf6d83d7a041c4728_run_4_seed_2057270033.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 89,
+   "seq_max": 264,
+   "spread_min": 3,
+   "spread_max": 4
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00486.tar/8f93bdb898471a16f789_e2fe21b23ebe037b9fa7_run_18_seed_1313717419.eye_00.rgb.mp4",
+   "group": "ii_judged_blank",
+   "black_frames": 50,
+   "seq_min": 21,
+   "seq_max": 102,
+   "spread_min": 0,
+   "spread_max": 14
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00486.tar/8f93bdb898471a16f789_e2fe21b23ebe037b9fa7_run_18_seed_1313717419.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 165,
+   "seq_max": 268,
+   "spread_min": 4,
+   "spread_max": 5
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00486.tar/9f1d98ab9e667097ff1c_e34ae78193869eddcd2e_run_42_seed_1691823079.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 99,
+   "seq_max": 99,
+   "spread_min": 12,
+   "spread_max": 12
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00498.tar/06a8de061a1dab0c2c54_e8defb7a7ff267038830_run_12_seed_1489170790.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 5,
+   "seq_min": 14,
+   "seq_max": 231,
+   "spread_min": 13,
+   "spread_max": 14
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00498.tar/06a8de061a1dab0c2c54_e8defb7a7ff267038830_run_12_seed_1489170790.eye_02.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 8,
+   "seq_min": 185,
+   "seq_max": 192,
+   "spread_min": 0,
+   "spread_max": 0
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00506.tar/0913cb1388d492dd6782_ed4f10e1e5b542de6327_run_2_seed_487012118.eye_02.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 39,
+   "seq_min": 179,
+   "seq_max": 236,
+   "spread_min": 0,
+   "spread_max": 12
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00506.tar/334d15ca402cdd58e82f_ed4d30f04f8195cf7a74_run_27_seed_1371415232.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 30,
+   "seq_max": 129,
+   "spread_min": 11,
+   "spread_max": 14
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00506.tar/fc1c3dbc756903db83b6_ed296ced1528b75288ce_run_10_seed_407801292.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 4,
+   "seq_min": 36,
+   "seq_max": 231,
+   "spread_min": 12,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00514.tar/4a436a1a0fb72fc8cd27_f181877a9c48f61aae8d_run_18_seed_946103981.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 3,
+   "seq_min": 207,
+   "seq_max": 280,
+   "spread_min": 12,
+   "spread_max": 14
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00514.tar/7e20dd294a026b974216_f196cc208599558c18c1_run_16_seed_294151668.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 2,
+   "seq_min": 33,
+   "seq_max": 76,
+   "spread_min": 10,
+   "spread_max": 11
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00514.tar/d3df9c45f9a9bf9cb1f1_f193df89e14b84066e42_run_8_seed_404177405.eye_01.rgb.mp4",
+   "group": "iii_other",
+   "black_frames": 1,
+   "seq_min": 147,
+   "seq_max": 147,
+   "spread_min": 0,
+   "spread_max": 0
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.ceiling_01.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 3,
+   "spread_max": 8
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.ceiling_02.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 9,
+   "spread_max": 11
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.ceiling_04.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 10,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.eye_00.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 299,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 11,
+   "spread_max": 16
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.eye_01.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 49,
+   "seq_min": 0,
+   "seq_max": 261,
+   "spread_min": 0,
+   "spread_max": 12
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.eye_02.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 5,
+   "spread_max": 13
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00529.tar/a46bb449fd0cdf2e97d9_f6d3af656ffd1880140d_run_6_seed_1833142794.eye_03.rgb.mp4",
+   "group": "i_red_lit",
+   "black_frames": 300,
+   "seq_min": 0,
+   "seq_max": 299,
+   "spread_min": 5,
+   "spread_max": 16
+  }
+ ]
+}

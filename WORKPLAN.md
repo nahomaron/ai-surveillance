@@ -521,3 +521,9 @@ _(the agent appends entries here)_
 - Data check (held shard 00538, run f1d9…, 10 cameras): 5,503 boxes in front of the camera. The reprojected 3D-box hull contains the dataset's own 2D loose box for 5,498 of them; 5 exceed it by more than 2 px (worst 416 px); 129 boxes have corners behind the camera. The 5 are to be explained in part B.
 - Tests: full suite run below with the commit
 - Next: T-18 part B (SDG oracle tracks and S0 registration from the artifacts; forklift by prim name; run-ID suffix join; T14.1 lineage: `ext_run_id` = run, `scene_id` = run, layout family in `layout_id`).
+
+### 2026-11-13 — G-FQ: Architect review of D-25 recorded; S_flat evidence (item 1a) does not separate, nothing changed (1c)
+- Did: recorded the Architect review in D-25. `LumaStats` also keeps P1 (nearest rank, same method as P99); no flag uses it yet. Computed P99 − P1 for the 4,361 `black` frames of the 690 SDG member videos (`research/datasets/part3/rv2_sflat_evidence.json`): red-lit runs 0–16 (median 9), judged blank 0–14 (median 0), others 0–16. Groups (i) and (ii) overlap, so S_flat is not set and the rules are not changed (item 1c). Items 2 and 4 (low_light tag, rename to rv2 and apply to all M1a recordings) are not applied because they depend on 1b. Items 3 and 5 recorded as accepted. The 13 whole-video red-lit recordings have spread ≥ 3 on every frame; the overlap comes from the blank-stretch edge frames in group (ii) and an exactly flat stretch in `run_6…eye_01` (group i). Details in D-25.
+- Tests: 1732/1732 (full suite), determinism re-run: identical (1732/1732)
+- Problems / CRs: none new; D-25 item 1 back to the Architect.
+- Next: STOP on D-25 item 1 (S_flat). Independent of it: T-18 part B on synthetic data under rv1.
