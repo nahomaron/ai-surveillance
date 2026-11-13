@@ -246,3 +246,10 @@ Question: The contract names R4 and BL-1 to BL-6 but defines neither computably.
 Options: see CR-018 (readings a/b/c per item).
 Agent's recommendation: TTC and PET from the R3 constant-velocity footprint prediction within τ; Unknown also without velocity; BL-1 deferred to M1b; BL-2 to BL-6 as listed in CR-018, as Appendix T text.
 Owner decision (13 Nov 2026, Architect rulings item B; Owner approval by forwarding them): DECIDED. Appended verbatim to Appendix T as section T15, contract **E-1.2.13**. TTC as CR-018 1(a); predicted PET (`pet_pred`, never reported as "PET" without the suffix) from the swept regions (convex hull of the footprints at 0 and τ); Unknown when uncalibrated or either velocity is null; ttc_max ≤ τ and pet_max ≤ τ or ERR-SPEC; no R4 borderline flag in this version. BL-1 DEFERRED to M1b; BL-2 = R1, BL-3 = R2, BL-4 = R2 + R3, BL-5 = R2 + R4, BL-6 = R2 + R3 + R4 + R5; contact cue in all. TTC/PET values before G-PR are TEST-ONLY (1.5 s, 1.0 s). T-19 unblocked.
+
+## D-28 (2026-11-13) — SDG oracle tracks: 2D box, not-visible frames, incomplete annotation, faulty truth boxes        status: OPEN
+Task: T-18 part B   Blocking: the SDG ORACLE-S3 artifacts and the CV-SIM references built from them (and so T-21); not S0 registration or the truth reading
+Question: Which SDG 2D box feeds an oracle track point; what state an annotated but not-visible object-frame gets; whether a camera with incomplete annotation has truth; and how a 2D truth box that contradicts the object's own 3D box is handled?
+Options: see CR-019 (readings per item). Evidence for item 4: over the 72 held runs, 46 boxes (all on camera `eye_01`) miss their own 3D box by ≥ 157 px; one inspected case encloses a foreground pallet stacker instead of the forklift. 483 others miss by ≤ 80 px (person mesh vs box), with nothing in between.
+Agent's recommendation: tight box when visible; not visible → `predicted` with the loose box; incomplete annotation → no truth for that camera; inconsistent 2D box (excess > 120 px) → `predicted` with the reprojected 3D hull, logged as a truth defect.
+Owner decision: ______

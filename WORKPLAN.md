@@ -539,3 +539,14 @@ _(the agent appends entries here)_
 - Problems / CRs: AR-49.
 - Next: rv2 (D-25 ruling A) and the 758-recording re-run; then T-18 part B.
 
+
+### 2026-11-13 — T-18 in progress (part B: SDG truth reading; oracle tracks BLOCKED on CR-019 / D-28)
+- Did: `adapters/sdg_truth.py` reads one camera's truth. Annotation line k is tied to decode_seq k, and a line count different from the video's frame count is refused. The forklift is found by prim name and a person by label `character`. The pose is the 3D-box floor centre and yaw is the box's x axis (AR-50; D-8 and T8.2 as written). Loose and tight 2D boxes are read as supplied, and the reprojection check is now code (`hull_excess`).
+- Data check over all 72 held SDG runs (709 cameras, 405,075 object boxes; `research/datasets/part3/sdg_truth_check.json`):
+  - `metro_agent_data.world_position` is stale in 32 runs and is otherwise the prim origin, 0.63 m off the forklift's footprint centre. So it is not used (AR-50 item 2).
+  - Annotation line count ≠ video frames on 9 cameras in 3 runs; 1 camera lacks members.
+  - 529 loose boxes extend more than 2 px beyond their reprojected 3D box, in two groups with nothing between 80.1 and 157.3 px. 483 boxes at ≤ 80 px are mostly persons (animated mesh larger than the fixed 3D box). 46 boxes at ≥ 157 px are all on camera `eye_01`; the inspected case (part A's 5 boxes, frame 136) is a forklift box that encloses a foreground pallet stacker. That explains part A's 5.
+- Raised: CR-019 / D-28. The oracle-track box (tight or loose), the state of not-visible frames, cameras with incomplete annotation, and the threshold and handling of faulty truth boxes all change measured values. SDG ORACLE-S3 and CV-SIM artifacts wait for it.
+- Tests: `tests/adapters/test_sdg_truth.py` (7 tests: hand-value floor pose and yaw wrap, classes, parsing, line-count refusal, truth round trip through the calibration within 1e-6 m, hull excess). Full suite: in the commit below.
+- Problems / CRs: AR-50, CR-019 (D-28).
+- Next: rv2 (D-25 ruling A) result; then T-18 part C, independent of CR-019: S0 registration of SDG recordings (T14.1 lineage: `ext_run_id` = run, `scene_id` = run, layout family in `layout_id`) and the SmartSpaces adapter.
