@@ -250,6 +250,8 @@ Re-run result, item 5 (`research/datasets/part3/rv2_check_synthetic.json`, scrip
 - For the record (no change made): frames with P99 ≤ 32 and spread 3–16 are now eligible. Among them are 9 of the 50 dark frames of the judged-blank stretch in `run_18…eye_00` (its edges, spread 3–14, occluder entering or leaving; the other 41 are black) and dark non-flat frames in the partial recordings, e.g. `run_6_seed_1495571596.eye_01` has 65 dark frames, 11 black, 54 at spread 3–16.
 Real footage, item 6: not yet run. Gate: no real-data result is produced before the per-recording dark-frame spread report under `rv2-real-provisional`.
 Status: DECIDED for synthetic M1a (`rv2`); real footage under `rv2-real-provisional`, item 6 report pending.
+Architect, 13 Nov 2026 (Owner approval by forwarding): the rv2 re-run (1620d65) ACCEPTED; AR-51 ACCEPTED as written. Asked: for the 40 frozen frames, how many are also black under rv2, and the spread of any that are not.
+Frozen/black overlap (`research/datasets/part3/rv2_frozen_overlap.json`, script `rv2_frozen_overlap.py`; statistics only): **all 40 frozen frames are also `black` under rv2**; every one is exactly flat (P1 = P99 = 16, spread 0). `run_18_seed_1313717419.eye_00`: 21 frames, decode_seq 53–73; `run_2_seed_487012118.eye_02`: 19 frames, decode_seq 181–199. No frozen frame is not black, so there is nothing to list. Nothing changed.
 
 ## D-26 (2026-11-12) — VR-E-070 values for real footage        status: DECIDED (exploratory); values PENDING advisor
 Task: any processing of real footage   Blocking: decoding, frame quality, detection and tracking on `data/raw/real/` (downloading is allowed, D-24 d)

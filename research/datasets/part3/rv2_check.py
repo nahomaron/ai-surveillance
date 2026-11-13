@@ -1,6 +1,6 @@
 """D-25 ruling (13 Nov 2026), item A: frame-quality flag counts, low_light tags and the per-frame spread (P99 - P1) of dark
 frames (P99 <= 32) for each recording under a pixel rules version. Statistics only, no pixels.
-low_light is reported under the implemented reading (median P99 over non-black frames, AR-49) and, for comparison, the
+low_light is reported under the implemented reading (median P99 over non-black frames, AR-51) and, for comparison, the
 other reading (median P99 over all decoded frames, recording not entirely black).
 Usage: PYTHONPATH=src python -I rv2_check.py <rules_version> <data_root> <out.json> <list.json|video> [...]
 A .json argument is a previous check file; its recordings (paths relative to data_root's parent `data/`) are used."""

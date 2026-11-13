@@ -556,3 +556,8 @@ _(the agent appends entries here)_
 - Tests: `tests/decode/test_rv2.py` (hand values). 1772/1772 (full suite), determinism re-run: identical (1772/1772)
 - Problems / CRs: AR-51. Pending gate: before any real-data result, the dark-frame spread report per real recording (ruling A item 6).
 - Next: T-18 part C, independent of CR-019: S0 registration of SDG recordings (T14.1 lineage) and the SmartSpaces adapter.
+
+### 2026-11-13 — G-FQ: rv2 re-run and AR-51 accepted; frozen/black overlap (Architect item 2)
+- Did: recorded the acceptance in D-25 and on AR-51. Under rv2, all 40 frozen frames are also black, exactly flat (P1 = P99 = 16): `run_18_seed_1313717419.eye_00` seq 53–73 (21), `run_2_seed_487012118.eye_02` seq 181–199 (19). No frozen frame is not black; nothing changed (`research/datasets/part3/rv2_frozen_overlap.json`).
+- Tests: no code change; full suite 1772/1772.
+- Next: T-18 part C.

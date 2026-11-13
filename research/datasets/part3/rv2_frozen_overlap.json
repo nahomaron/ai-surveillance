@@ -1,0 +1,47 @@
+{
+ "rules_version": "rv2",
+ "summary": {
+  "frozen": 40,
+  "frozen_and_black": 40
+ },
+ "recordings": [
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00486.tar/8f93bdb898471a16f789_e2fe21b23ebe037b9fa7_run_18_seed_1313717419.eye_00.rgb.mp4",
+   "frozen": 21,
+   "frozen_and_black": 21,
+   "frozen_seq_ranges": [
+    [
+     53,
+     73
+    ]
+   ],
+   "frozen_p99_hist": {
+    "16": 21
+   },
+   "frozen_spread_hist": {
+    "0": 21
+   },
+   "not_black_seq_ranges": [],
+   "not_black_spread_hist": {}
+  },
+  {
+   "recording": "raw/sdg/members/nearmiss-artifacts-00506.tar/0913cb1388d492dd6782_ed4f10e1e5b542de6327_run_2_seed_487012118.eye_02.rgb.mp4",
+   "frozen": 19,
+   "frozen_and_black": 19,
+   "frozen_seq_ranges": [
+    [
+     181,
+     199
+    ]
+   ],
+   "frozen_p99_hist": {
+    "16": 19
+   },
+   "frozen_spread_hist": {
+    "0": 19
+   },
+   "not_black_seq_ranges": [],
+   "not_black_spread_hist": {}
+  }
+ ]
+}
