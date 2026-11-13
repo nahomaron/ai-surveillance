@@ -288,3 +288,8 @@ Declared before any annotation: per class, n_h = ceil(0.25 · N_h); numpy PCG64 
 - **Annotation length finding:** 19 annotation files have fewer than 300 lines (131 to 298). `object_detection.jsonl` lines carry no frame index; frame = line number. In a short file, therefore, the missing frames cannot be located, and the frame alignment of every later line is unknown. Affected: 5 runs. Runs with 300-line `object_detection` and `camera_params` on all 10 cameras: **64 of 69**. The 5 others have 9, 9, 5, 2 and 2 such cameras (`a610…run_15`, `91fb…run_1`, `77b0…run_5`, `a83b…run_3`, `a3cc…run_3`).
 - Rule proposed for T-18 (to be pinned as an AR or raised as a CR there): a camera's annotation is used as truth only when both its annotation files have exactly as many lines as its video has frames. Otherwise the camera has no simulator truth. Its RGB is still usable for reference-free checks.
 - Total held after D-24: **29,242,415,000 bytes (29.24 GB) of 30 GB.** The SDG download is complete and verified. A split may be frozen from here on (Owner condition of D-24 met), under T14.
+
+### 3.12 rv2-provisional synthetic check (D-25 step 1)
+
+- 68 synthetic recordings (the set held when D-25 was written: 30 SDG sample, 38 SmartSpaces synthetic Warehouse_001): **0 flags; 351,000 / 351,000 frames eligible**; luma P99 62–235. Per-recording counts: `research/datasets/part3/rv2_synthetic_check.json` (statistics only, no pixels).
+- The 690 SDG member videos (3.11) are being checked the same way; their result goes in `rv2_synthetic_check_members.json`.

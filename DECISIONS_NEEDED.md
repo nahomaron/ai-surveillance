@@ -202,6 +202,7 @@ Implemented as `rv2-provisional` (12 Nov 2026, D-26), exactly as follows, for th
 - Frozen: consecutive timed, decoded frames in presentation order with byte-identical Y (compared by SHA-256), in a run whose span t(last) − t(first) ≥ 0.5 s. Every frame after the first is flagged. Duplicate-timestamp frames take no part.
 - Flags are sorted. Excluded frames give `excluded_own_support` and an `unusable` coverage piece with reasons `excluded_frame` plus the flags.
 - Only statistics are kept, never pixels. rv1 decodes no pixels and is unchanged.
+Step (1) result (12 Nov 2026, `research/datasets/part3/rv2_synthetic_check.json`): `rv2-provisional` on the 68 synthetic recordings held when D-25 was written (30 SDG sample videos, 9,000 frames; 38 SmartSpaces synthetic Warehouse_001 videos, 342,000 frames). **0 flags on every recording; 351,000 / 351,000 frames eligible.** Luma P99 ranged 62–235, far from both thresholds (black ≤ 32; overexposed needs half the pixels ≥ 250). No frozen run was found. The 690 SDG member videos downloaded later are being checked the same way, and that result will be added here.
 Architect review: ______   Owner decision (12 Nov 2026): awaiting Architect review; do not apply. rv1 stays in force; no real footage is processed.
 
 ## D-26 (2026-11-12) — VR-E-070 values for real footage        status: DECIDED (exploratory); values PENDING advisor

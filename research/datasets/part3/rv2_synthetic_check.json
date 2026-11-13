@@ -1,0 +1,549 @@
+{
+ "rules_version": "rv2-provisional",
+ "recordings": [
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.ceiling_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 76,
+   "p99_max": 86,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.ceiling_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 94,
+   "p99_max": 107,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.ceiling_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 92,
+   "p99_max": 97,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.ceiling_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 98,
+   "p99_max": 107,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.ceiling_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 97,
+   "p99_max": 108,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.eye_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 116,
+   "p99_max": 121,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.eye_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 80,
+   "p99_max": 157,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.eye_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 71,
+   "p99_max": 87,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.eye_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 101,
+   "p99_max": 127,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/03409105d2e824d618cd_fb4b37710010ab4b29bf_run_28_seed_221138365.eye_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 131,
+   "p99_max": 139,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.ceiling_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 172,
+   "p99_max": 183,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.ceiling_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 151,
+   "p99_max": 161,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.ceiling_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 159,
+   "p99_max": 175,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.ceiling_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 158,
+   "p99_max": 174,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.ceiling_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 171,
+   "p99_max": 179,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.eye_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 202,
+   "p99_max": 208,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.eye_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 70,
+   "p99_max": 173,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.eye_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 146,
+   "p99_max": 205,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.eye_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 197,
+   "p99_max": 225,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/23611f1773bce20f50ee_fb58e3d0baa30b7c4690_run_2_seed_1151131586.eye_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 209,
+   "p99_max": 211,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.ceiling_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 80,
+   "p99_max": 85,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.ceiling_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 95,
+   "p99_max": 103,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.ceiling_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 93,
+   "p99_max": 101,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.ceiling_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 100,
+   "p99_max": 106,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.ceiling_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 99,
+   "p99_max": 106,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.eye_00.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 111,
+   "p99_max": 118,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.eye_01.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 62,
+   "p99_max": 143,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.eye_02.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 83,
+   "p99_max": 159,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.eye_03.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 101,
+   "p99_max": 115,
+   "eligible": 300
+  },
+  {
+   "recording": "derived/sdg_rgb_sample/f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828.eye_04.rgb.mp4",
+   "frames": 300,
+   "flags": {},
+   "p99_min": 104,
+   "p99_max": 110,
+   "eligible": 300
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0000.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 174,
+   "p99_max": 178,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0001.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 199,
+   "p99_max": 214,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0002.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 165,
+   "p99_max": 169,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0003.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 224,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0004.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 143,
+   "p99_max": 148,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0005.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 225,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0006.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 127,
+   "p99_max": 132,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0007.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 204,
+   "p99_max": 206,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0008.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 182,
+   "p99_max": 199,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0009.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 138,
+   "p99_max": 152,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0010.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 225,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0011.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 225,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0012.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 151,
+   "p99_max": 153,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0013.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 224,
+   "p99_max": 224,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0014.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 225,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0015.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 210,
+   "p99_max": 215,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0016.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 139,
+   "p99_max": 149,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0017.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 148,
+   "p99_max": 158,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_000/videos/Camera_0019.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 191,
+   "p99_max": 220,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0000.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 155,
+   "p99_max": 231,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0001.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 99,
+   "p99_max": 231,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0002.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 123,
+   "p99_max": 226,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0003.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 132,
+   "p99_max": 235,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0004.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 90,
+   "p99_max": 228,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0005.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 166,
+   "p99_max": 235,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0006.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 71,
+   "p99_max": 232,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0007.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 105,
+   "p99_max": 231,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0008.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 114,
+   "p99_max": 215,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0009.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 81,
+   "p99_max": 209,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0010.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 117,
+   "p99_max": 232,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0011.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 156,
+   "p99_max": 235,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0012.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 120,
+   "p99_max": 228,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0013.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 85,
+   "p99_max": 227,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0014.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 83,
+   "p99_max": 230,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0015.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 139,
+   "p99_max": 231,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0016.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 110,
+   "p99_max": 225,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0017.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 94,
+   "p99_max": 231,
+   "eligible": 9000
+  },
+  {
+   "recording": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_001/videos/Camera_0019.mp4",
+   "frames": 9000,
+   "flags": {},
+   "p99_min": 115,
+   "p99_max": 234,
+   "eligible": 9000
+  }
+ ]
+}
