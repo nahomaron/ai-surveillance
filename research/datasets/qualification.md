@@ -248,3 +248,34 @@ Order of download after approval: real sources first (SmartSpaces, then Mendeley
 2. SmartSpaces real scenes: decide in light of the Croissant statement (3.2) whether they may be annotated, used unannotated, or excluded.
 3. Confirm `data_origin` and `site_kind` for both real sources.
 4. Supply `approvals_ref`, `retain_days` and `legal_basis_ref` (3.5).
+
+### 3.8 SDG member-level plan (D-24 a), recorded before download (12 Nov 2026)
+
+**Approval:** D-24 a replaces the whole-shard selection of 3.1. The draw is the one declared in 3.1: the same 475 eligible shards (every run a 10-camera `multi_camera_run`), numpy PCG64 seed `2026111203`, the same permutation. Only the cost per shard changes, so more shards fit the same 13,255,069,243-byte SDG budget (3.6).
+**Members per run:** `<run>.<camera>.rgb.mp4`, `<run>.<camera>.object_detection.jsonl` and `<run>.<camera>.camera_params.jsonl` for every camera present, plus `<run>.meta.json` and `<run>.metadata.txt`. Not fetched: depth, edges, segmentation, shaded segmentation, instance-segmentation npz and mapping.
+**Method (metadata only, accepted under D-24 item 1):** `walk.py` reads every tar header of a shard by HTTP range request and verifies each header checksum. On the held shard 00538 it reproduced Python `tarfile`'s (name, data offset, size) for all 276 members. Shards were walked in permutation order. Taken in order; the draw stops at the first shard whose selected bytes do not fit.
+
+| Result | Value |
+|---|---|
+| Shards walked | first 30 in permutation order; 8,210 headers; 0 checksum failures; all regular files |
+| Shards taken | **23**: 00336, 00243, 00354, 00359, 00152, 00383, 00486, 00498, 00514, 00506, 00412, 00255, 00529, 00454, 00060, 00358, 00357, 00256, 00007, 00289, 00144, 00308, 00350 |
+| Runs | **69** (each with 10 RGB cameras) |
+| Members | 2,185 |
+| Bytes | **12,997,484,238** (budget 13,255,069,243). First misfit, not taken: 00094 (563,721,722 bytes) |
+| Annotation coverage | 67 runs have `object_detection` and `camera_params` on all 10 cameras. **2 runs are partly annotated**: `a83b120d6daa8f2db3e2_run_3_seed_2069582642` (shard 00359; eye_00–02 only) and `77b0d9589e791edd2cc0_run_5_seed_177568880` (shard 00255; ceiling_01, eye_00–04). Both are kept: the draw rule is per shard and pre-declared. The adapter creates truth only for annotated cameras, and their unannotated cameras are not used for evaluation |
+
+**Integrity:** `self_hashed_unverified_by_publisher`. No publisher hash exists per member; only the whole-shard LFS SHA-256 does (recorded in the plan, not checkable without the whole shard). At download, each member is fetched as exactly `[data_offset, data_offset + size)`; its length must equal the header size; the agent's SHA-256 is recorded. Plan with every byte range and the header data (mode, mtime, typeflag, header offset, checksum result): `research/datasets/part3/sdg_member_plan.json`. Download log with the self-hashes: `research/datasets/part3/sdg_member_hashes.json` (written at download).
+**Storage:** `data/raw/sdg/members/<shard>/<member name>`.
+**Budget after this plan:** held 10,180,095,362 + SmartSpaces real 289,939,860 + Mendeley 5,774,895,535 + SDG members 12,997,484,238 = **29,242,415,000 bytes (29.24 GB)** of 30 GB.
+**Leakage (T14, E-1.2.12):** 69 + 3 held = 72 SDG runs, i.e. 72 scene instances, all in one layout family (`shared_scene_content`). No split is frozen until this download is complete and verified (D-24 / Owner).
+
+### 3.9 D-23 second-annotator subset (Safe and Unsafe Behaviours only)
+
+Declared before any annotation: per class, n_h = ceil(0.25 · N_h); numpy PCG64 seed `2026111223` over the class's clips sorted by path. Result: 53 / 210, 14 / 56, 19 / 75, 8 / 30, i.e. **94 of 371 clips (25.3 %)**. List: `research/datasets/part3/annotation_subset_d23.json`; script `annotation_subset.py`. The second annotator labels these before seeing the Owner's labels. SmartSpaces 026/027 get no annotation of any kind (D-24 b).
+
+### 3.10 Real-source status (D-24, D-26)
+
+- SmartSpaces `Warehouse_026/027`: downloaded to `data/raw/real/smartspaces/`; 15 / 15 files equal the publisher's SHA-256. Labels: `real_staged`, `staged_facility`, `contains_identifiable_persons`. Reference-free checks only; no annotation, no reference, no accuracy metric.
+- Safe and Unsafe Behaviours: Mendeley v1, 4 classes, 371 clips, each checked against Mendeley's SHA-256 (download log `data/raw/real/safe_unsafe_behaviours/fetch_log.json`). Labels: `real_natural` (D-24 c), `operational_facility`, production facility (not a warehouse), `contains_identifiable_persons`, `redaction_state = none`. Academic and testing use only; estimand `conditional_on_selection`; no frequency, duration or per-hour aggregates.
+- Both: `access_class = restricted_research`; VR-E-070 values pending the advisor (D-26); every artifact and report "exploratory; frame-quality rules provisional"; frame-quality rules `rv2-provisional`.
+- Co-occurrence check (forklifts and people together): requires viewing; done only as reference-free statistics or by a person. Not yet done.
