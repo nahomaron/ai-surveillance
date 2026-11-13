@@ -497,3 +497,13 @@ _(the agent appends entries here)_
 - Tests: 1704/1704 (full suite), determinism re-run: not applicable (no code change; research record only)
 - Problems / CRs: none. Deviation from "parquets only" recorded in Part 3 §3.1 and D-24.
 - Next: STOP for D-24. Independent of it: T-18 adapters on held synthetic data (SDG 00538, SmartSpaces 000/001), and T-19. No split freeze before E-1.2.12 (D-20).
+
+### 2026-11-12 — Owner decisions D-23, D-24 recorded; contract E-1.2.12 (Appendix T section T14)
+- D-24 approved with changes: SDG member-level byte-range download (self-hashed, `self_hashed_unverified_by_publisher`); SmartSpaces 026/027 reference-free only (no labels of any kind, no accuracy metrics); Safe and Unsafe Behaviours: real_natural, academic and testing use only, estimand conditional_on_selection; VR-E-070 values BLOCKING (D-26 opened). D-23: Owner annotates; a second person annotates a seeded 20–30 % subset blind to the first annotator; tool VIA; Safe and Unsafe Behaviours only. D-25 awaits the Architect. CLAUDE.md "Never" line amended by the Owner (D-21 exception).
+- Appendix T section T14 appended verbatim; CLAUDE.md reads E-1.2.12.
+
+### 2026-11-12 — T14 conformance
+- Did: T14.1 needed no engine change. Edges come from `scene_id`, `ext_run_id`, `render_parent` and `seed` (AR-31); a layout family in `layout_id` or `generation_batch` creates no edge on its own. Adapter rule for T-18: a synthetic `scene_id` is the run or scene asset, never the layout family. T14.2 and T14.3: `report.target_b_section` prints the T14 scope and, beside every cluster-bootstrap interval, the leakage-group counts per partition and data origin; it refuses a group member with no data origin. The linter rejects unseen-camera, -layout or -site claims in a T14-scoped report.
+- Contract tests: CT-T14-1 (layout family gives no edge; run, seed and render-lineage edges unchanged), CT-T14-2, CT-T14-3 (`tests/splits/test_t14.py`, 7 tests).
+- Tests: 1711/1711 (full suite), determinism re-run: identical (1711/1711)
+- Next: Part 3 addendum (SDG member-level draw, before download), then downloads, then T-18 and T-19.

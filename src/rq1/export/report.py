@@ -1,4 +1,4 @@
-"""Reports from OBX exports (F.1 A2 EXP-4; A5.1 RV-02, RV-04; E-1.2.1 sections 7, 9.5; Appendix T T12.2, T12.4; CLAUDE.md wording).
+"""Reports from OBX exports (F.1 A2 EXP-4; A5.1 RV-02, RV-04; E-1.2.1 sections 7, 9.5; Appendix T T12.2, T12.4, T14; CLAUDE.md wording).
 
 Reports are Markdown text built only from fixed section builders, then checked by `lint`. A fixture export uses the
 fixture template, which starts with the fixed banner; a research template on a fixture export is refused (CT-X-04)."""
@@ -9,12 +9,14 @@ import re
 from rq1.evaluation.event_metrics import EV_M10_NOTE, SENSITIVITY_LABEL
 from rq1.schema.errors import ContractError
 from rq1.schema.vr_rules import OBSERVED_CONTACT
+from rq1.splits.builder import ORDER, recording_partitions
 from rq1.validation.namespace import check_rv_02
 
 BANNER = "FIXTURE VERIFICATION — NOT RESEARCH RESULTS"
 CONFORMANCE_TITLE = "Implementation conformance"  # RV-02
 RV04_CAVEAT = "These results compare the system with its own rules applied to reference data. They show that the definitions are implemented as written; they are not hazard identification and not construct evidence."
 VISIBILITY_NOTE = "reference visibility assumed"  # T12.4 and the Architect's ruling on AR-36 item 4
+T14_SCOPE = "held-out runs of the same synthetic layout"  # T14.2
 STATUS_LABELS = {"implemented": "Implemented", "verified": "Verified", "empirically_validated": "Empirically validated (scope)"}
 FIXED_LINES = {RV04_CAVEAT, EV_M10_NOTE, BANNER}
 
@@ -28,12 +30,15 @@ WORDING = [
     ("W5 interaction count", re.compile(r"\bphysical interactions?\b|\b\d+\s+interactions?\b", re.I)),
     ("W6 score or ranking", re.compile(r"\b(safety|risk) score\b|\branking\b|\bOSHA\b|\bNAICS\b|\bestablishment rate\b", re.I)),
 ]
+# T14.2: a report scoped to held-out runs of the same synthetic layout makes no unseen-camera, -layout or -site claim.
+T14_UNSEEN = re.compile(r"\bunseen[- ](cameras?|layouts?|sites?)\b", re.I)
 RV04 = re.compile(r"\bhazard identification\b|\bidentif(y|ies) hazards?\b|\bconstruct\b|\bvalidity\b", re.I)
 
 
 def lint(text: str) -> list[str]:
     """Wording-rule violations as 'rule: line'. Fixed sentences written by this module are exempt."""
     issues, section = [], ""
+    t14_scoped = T14_SCOPE in text
     for line in text.splitlines():
         if line.startswith("#"):
             section = line.lstrip("# ").strip()
@@ -42,6 +47,8 @@ def lint(text: str) -> list[str]:
         for rule, pattern in WORDING:
             if pattern.search(line):
                 issues.append(f"{rule}: {line.strip()}")
+        if t14_scoped and T14_UNSEEN.search(line):
+            issues.append(f"T14.2 unseen claim: {line.strip()}")
         if section == CONFORMANCE_TITLE and RV04.search(line):
             issues.append(f"RV-04: {line.strip()}")
     return issues
@@ -105,6 +112,30 @@ def completeness_section(records: list[dict], visibility_assumed: bool) -> tuple
         unit = {"CM-06": "sum (s)", "CM-07": "count"}.get(r["metric_id"], "value")  # T13.3: never a proportion
         body.append(f"- {r['metric_id']} ({basis}, {dict(sorted(r['stratum'].items()))}): {unit} {r['value']}")
     return "Completeness", body
+
+
+def target_b_section(metric_rows: list[dict], split: dict, recording_origin: dict[str, str]) -> tuple[str, list[str]]:
+    """T14.2 and T14.3: Target B (cluster bootstrap) intervals, each with the number of leakage groups per partition and data
+    origin beside it. A group whose members differ in origin is counted once under the joined origin set. A split with
+    shared_scene_content is scoped as held-out runs of the same synthetic layout."""
+    partition_of = recording_partitions(split)
+    counts: dict[str, dict[str, int]] = {}
+    for group in split["leakage_groups"]:
+        members = group["member_recording_ids"]
+        missing = [m for m in members if m not in recording_origin]
+        if missing:
+            raise ContractError("ERR-INVARIANT", f"T14.3: no data origin for {missing}")
+        origin = "+".join(sorted({recording_origin[m] for m in members}))
+        part = partition_of[members[0]]
+        counts.setdefault(part, {}).setdefault(origin, 0)
+        counts[part][origin] += 1
+    groups = "; ".join(f"{p}: " + ", ".join(f"{o} {n}" for o, n in sorted(counts[p].items())) for p in sorted(counts, key=ORDER.get))
+    body = [f"Scope: {T14_SCOPE}.", ""] if split.get("shared_scene_content") else []
+    for r in sorted((r for r in metric_rows if r.get("interval_method") == "cluster_bootstrap"), key=lambda r: (r["metric_id"], r["slice"].get("partition", ""))):
+        level = f"{round(r['ci_level'] * 100):d} %"
+        body.append(f"- {r['metric_id']} ({r['slice'].get('partition')}): {r.get('value')} [{r.get('ci_low')}, {r.get('ci_high')}] "
+                    f"({level} cluster bootstrap); leakage groups by partition and data origin: {groups}")
+    return "Target B intervals (new sessions)", body
 
 
 def status_board(items: list[dict]) -> tuple[str, list[str]]:

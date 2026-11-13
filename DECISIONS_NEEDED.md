@@ -139,6 +139,7 @@ Owner decision (12 Nov 2026): M0 ACCEPTED. The Architect reviewed the milestone 
 
 ## D-20 (2026-11-12) — Leakage "same scene" for synthetic runs        status: CLOSED
 Owner decision (12 Nov 2026): DECIDED (B). A leakage "scene" is the rendered scene instance: a run, or a scene plus its re-renders. A shared layout family is recorded as `shared_scene_content`, with no leakage edge. Claims are limited to held-out runs of the same synthetic layout. The Architect will supply the Appendix T text (E-1.2.12). **No split is frozen until E-1.2.12 is committed.**
+Update (12 Nov 2026): the Architect's text was committed as Appendix T section T14 (E-1.2.12). The Owner added: no split is frozen until the SDG download is complete and verified.
 
 ## D-21 (2026-11-12) — Download cap and real-world footage (amends D-3)        status: CLOSED
 Owner decision (12 Nov 2026): DECIDED. Cap raised to 30 GB in total. Real-world footage is permitted **for testing only** (no training or fine-tuning). Recorded in WORKPLAN §0. Note for the Owner: CLAUDE.md "Never" still says "Use real worker footage" without the D-21 exception. The agent has not edited CLAUDE.md and asks the Owner to amend that line (see D-24 item 6). Until then the agent reads D-21 as the governing exception, limited to testing.
@@ -146,7 +147,7 @@ Owner decision (12 Nov 2026): DECIDED. Cap raised to 30 GB in total. Real-world 
 ## D-22 (2026-11-12) — SmartSpaces pallet trucks        status: CLOSED
 Owner decision (12 Nov 2026): DECIDED. Pallet trucks are excluded from the E1 pair class for now. They are recorded as present, not evaluated. Planned future extension.
 
-## D-23 (2026-11-12) — Reference annotation of real footage        status: OPEN
+## D-23 (2026-11-12) — Reference annotation of real footage        status: CLOSED
 Task: T-17 Part 3, T-18 onward   Blocking: every evaluation on real-origin data (no real-data evaluation until decided)
 Question: Who produces the reference annotation for real footage, who reviews it as the second reviewer, and with what tool?
 Facts: (1) Neither real source has E1 reference annotation. SmartSpaces `Warehouse_026/027` ship videos and calibration only. The Safe and Unsafe Behaviours labels are clip-level behaviour classes, not pair intervals or positions. (2) The SmartSpaces Croissant metadata says "manual labeling of the test set by participants is prohibited by the challenge rules" for the real-world target (qualification Part 3, 3.2). (3) Faces are visible in both sources, so annotators see identifiable people; the approvals (`approvals_ref`) must cover them. (4) Reference independence: annotators must not see system output (F.1 A5.1, `reference_class`).
@@ -155,9 +156,9 @@ Options:
 - Tool: (d) VGG Image Annotator (VIA 3, one offline HTML file; nothing leaves the computer; a small download that needs approval); (e) CVAT self-hosted (needs Docker, a system install, not pre-approved); (f) a minimal annotation exporter built in this repository (no install; more agent work).
 - SmartSpaces real scenes: (g) annotate despite the challenge statement (RQ1 is not a participant); (h) do not annotate them, and use them only for unannotated checks; (i) exclude them.
 Agent's recommendation: (a) + (d) + (h). Annotation needs a written protocol (E1 interval and pair definitions taken from the contract, nothing new) before anyone starts. The agent will draft the protocol when this is decided.
-Owner decision: ______
+Owner decision (12 Nov 2026): DECIDED. The Owner annotates. A second person independently annotates a declared, seeded subset (target 20–30 % of clips) before seeing the first annotator's labels. Tool: VIA (offline). Annotation applies to Safe and Unsafe Behaviours only. The subset is declared in `qualification.md` Part 3 (3.9).
 
-## D-24 (2026-11-12) — STOP: approve the Part 3 download selection        status: OPEN
+## D-24 (2026-11-12) — STOP: approve the Part 3 download selection        status: CLOSED
 Task: T-17 Part 3   Blocking: all Part 3 downloads; T-18 work on the new sources (T-18 on already-held data is independent)
 Question: Do you approve the selection in `research/datasets/qualification.md` Part 3, total 25.9 GB of the 30 GB cap?
 Selection: SmartSpaces `Warehouse_026` + `027` (15 files, 0.29 GB); Safe and Unsafe Behaviours v1, 4 classes (371 files, 5.77 GB, from Mendeley, SHA-256 checked); SDG artifacts shards `00336` + `00243` (6 runs, 9.66 GB; seeded draw, seed 2026111203, 10-camera runs only); 0.5 GB reserve.
@@ -171,7 +172,12 @@ Items needing your answer:
 Deviation to note: the artifacts-shard mapping could not come from `runs.parquet` / `clips.parquet` alone (they index RGB shards only). The agent fetched `manifest_nearmiss_artifacts.json` (3.3 MB) and read one 512-byte header per shard (Part 3, 3.1).
 Correction to note: Part 2 said 1,640 multi-camera near-miss runs (74 with fewer than 10 cameras). The index says 1,642 (76). Corrected in place, with a note.
 Agent's recommendation: approve items 1 to 5 as proposed, with item 3 = no.
-Owner decision: ______
+Owner decision (12 Nov 2026): APPROVED with changes.
+ a. SDG: download only the RGB video and annotation members of each selected artifacts shard (the ~70-run option), by byte-range reads of the LFS tar. Record the agent's own SHA-256 per extracted file at download, and the byte ranges and tar header data used; integrity label "self_hashed_unverified_by_publisher". Multi-camera runs only; seeded, pre-declared draw recorded in Part 3 BEFORE download.
+ b. SmartSpaces Warehouse_026/027: download. NO annotation and NO reference labels of any kind (the dataset states evaluation-only and prohibits manual labelling). Reference-free checks only: decode/timing, frame quality, detector output rates, track continuity. Never compute accuracy metrics on them.
+ c. Safe and Unsafe Behaviours: download from Mendeley v1 (the 4 classes, 371 clips). Testing only, academic use only. data_origin = real_natural. Clips were curator-selected by behaviour: any result has estimand = conditional_on_selection, with no frequency, duration or per-hour aggregates. No frames, crops, faces or company name in git, reports or exports.
+ d. VR-E-070 fields (approvals_ref, retention, legal basis): BLOCKING placeholders; the Owner will supply them. No processing of real footage until they are filled AND D-25 is approved. Downloading is allowed.
+ Item 1 (index file and 512-byte shard headers): accepted as metadata-only inspection. Item 5 (1,642 / 76 correction): accepted.
 
 ## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: OPEN (Architect review, then Owner approval)
 Task: G-FQ (AR-27 review)   Blocking: any decoding or processing of real footage
@@ -189,4 +195,10 @@ Proposed `rv2` (computed per decoded frame on the 8-bit luma plane, integer arit
 Before use: (1) run rv2 on all 68 held synthetic recordings and report flag counts per recording (expected 0; any flag is a false positive to explain); (2) on real footage, report flag counts per recording only. No frames are stored or shown. rv1 stays for the M0 fixtures, and their expected values are unchanged.
 Options: (a) approve rv2 as proposed; (b) approve with other thresholds; (c) add `blurred` with a stated threshold.
 Agent's recommendation: (a). The `frozen` rule needs the synthetic check first, because H.264 can produce byte-identical frames in static scenes. The 0.5 s run length is there to limit that.
-Architect review: ______   Owner decision: ______
+Architect review: ______   Owner decision (12 Nov 2026): awaiting Architect review; do not apply. rv1 stays in force; no real footage is processed.
+
+## D-26 (2026-11-12) — VR-E-070 values for real footage        status: OPEN (BLOCKING)
+Task: any processing of real footage   Blocking: decoding, frame quality, detection and tracking on `data/raw/real/` (downloading is allowed, D-24 d)
+Question: Please supply, for retention policy `rp_real_test_v1` and both real sites: `approvals_ref` = ______; `retain_days` = ______; `legal_basis_ref` = ______.
+Placeholders are stored as `BLOCKING_OWNER_TO_SUPPLY`. An adapter that meets that value refuses to register a real-origin source file (VR-E-070).
+Owner decision: ______

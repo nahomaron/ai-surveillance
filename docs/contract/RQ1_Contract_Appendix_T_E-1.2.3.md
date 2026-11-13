@@ -933,3 +933,15 @@ CM-06 is a sum in seconds, and CM-07 is a count of POWs. Neither is a proportion
 
 T13.4 Tests
 CT-T13-01: the CM-10 check of T13.1, on both basis labels.
+
+## T14. Leakage edge "same scene" (E-1.2.12; D-20)
+
+T14.1 For synthetic data, a scene is a rendered scene instance: one simulation run,
+ or one scene asset together with all its re-renderings. A layout or environment
+ family shared across runs is recorded as shared_scene_content metadata and creates
+ no leakage edge. Run, seed and render-lineage edges are unchanged (AR-31).
+T14.2 Partitions built under T14.1 are reported as "held-out runs of the same
+ synthetic layout". They support the held-out-sequence tier only: no unseen-camera,
+ unseen-layout or unseen-site claim.
+T14.3 The report states the number of leakage groups per partition and data origin
+ beside every Target B interval.
