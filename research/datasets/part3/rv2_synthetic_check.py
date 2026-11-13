@@ -8,7 +8,7 @@ from fractions import Fraction
 from rq1.decode import quality, timestamps, video
 from rq1.decode.timestamps import DecodeConfig
 
-cfg = DecodeConfig(k_sup=1.5, f_untimed=0.05, f_sub=0.1, rules_version=quality.RV2, declared={})
+cfg = DecodeConfig(k_sup=1.5, f_untimed=0.05, f_sub=0.1, rules_version=quality.RV2_PROVISIONAL, declared={})
 out = []
 for path in sys.argv[2:]:
     packets, info = video.read_packets(path, luma_stats=True)
@@ -18,4 +18,4 @@ for path in sys.argv[2:]:
     out.append({"recording": path.split("data/", 1)[-1], "frames": len(r.frames), "flags": dict(sorted(counts.items())),
                 "p99_min": min(p99), "p99_max": max(p99), "eligible": sum(f.eligible for f in r.frames)})
     print(out[-1], flush=True)
-json.dump({"rules_version": quality.RV2, "recordings": out}, open(sys.argv[1], "w"), indent=1)
+json.dump({"rules_version": quality.RV2_PROVISIONAL, "recordings": out}, open(sys.argv[1], "w"), indent=1)

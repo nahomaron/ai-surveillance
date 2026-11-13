@@ -10,7 +10,7 @@ from rq1.decode.timestamps import DecodeConfig
 
 RED_LIT = ("run_43_seed_631373023", "run_6_seed_1833142794")  # group (i)
 BLANK = ("run_18_seed_1313717419.eye_00", range(21, 103))  # group (ii): D-25 record, frames 21-102 (seq)
-cfg = DecodeConfig(k_sup=1.5, f_untimed=0.05, f_sub=0.1, rules_version=quality.RV2, declared={})
+cfg = DecodeConfig(k_sup=1.5, f_untimed=0.05, f_sub=0.1, rules_version=quality.RV2_PROVISIONAL, declared={})
 
 
 def group(rec, seq):
@@ -47,7 +47,7 @@ for r in check["recordings"]:
                         "seq_min": min(s for s, _ in v), "seq_max": max(s for s, _ in v),
                         "spread_min": min(d for _, d in v), "spread_max": max(d for _, d in v)})
         print(per_rec[-1], flush=True)
-out = {"rules_version": quality.RV2, "statistic": "P99(Y) - P1(Y), nearest rank, frames flagged black",
+out = {"rules_version": quality.RV2_PROVISIONAL, "statistic": "P99(Y) - P1(Y), nearest rank, frames flagged black",
        "groups": {g: summary(v) for g, v in sorted(spread.items())}, "recordings": per_rec}
 json.dump(out, open(sys.argv[3], "w"), indent=1)
 print(json.dumps(out["groups"], indent=1))

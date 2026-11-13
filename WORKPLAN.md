@@ -550,3 +550,9 @@ _(the agent appends entries here)_
 - Tests: `tests/adapters/test_sdg_truth.py` (7 tests: hand-value floor pose and yaw wrap, classes, parsing, line-count refusal, truth round trip through the calibration within 1e-6 m, hull excess). Full suite: in the commit below.
 - Problems / CRs: AR-50, CR-019 (D-28).
 - Next: rv2 (D-25 ruling A) result; then T-18 part C, independent of CR-019: S0 registration of SDG recordings (T14.1 lineage: `ext_run_id` = run, `scene_id` = run, layout family in `layout_id`) and the SmartSpaces adapter.
+
+### 2026-11-13 — G-FQ: D-25 ruling A applied (`rv2`, S_flat = 2, `low_light` tag); 758-recording re-run
+- Did: `rv2` (synthetic M1a) and `rv2-real-provisional` (real): black iff P99 ≤ 32 and P99 − P1 ≤ 2; frozen and overexposed unchanged. `low_light` recording tag (median P99 of the non-black frames ≤ 32), never an exclusion. `rv2-provisional` kept, superseded, so the evidence files reproduce; rv1 unchanged for the M0 fixtures. Re-run on all 758 synthetic recordings (558,000 frames, `research/datasets/part3/rv2_check_synthetic.json`): black 161 frames in 16 recordings (was 4,361), frozen 40 in 2 (unchanged), overexposed 0; eligible 557,839. `low_light`: 13 recordings, exactly the whole-video red-lit ones in `run_43_seed_631373023` and `run_6_seed_1833142794`; both readings of the tag rule give the same list. Recorded as the Architect review in D-25.
+- Tests: `tests/decode/test_rv2.py` (hand values). 1772/1772 (full suite), determinism re-run: identical (1772/1772)
+- Problems / CRs: AR-51. Pending gate: before any real-data result, the dark-frame spread report per real recording (ruling A item 6).
+- Next: T-18 part C, independent of CR-019: S0 registration of SDG recordings (T14.1 lineage) and the SmartSpaces adapter.

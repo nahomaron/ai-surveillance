@@ -179,7 +179,7 @@ Owner decision (12 Nov 2026): APPROVED with changes.
  d. VR-E-070 fields (approvals_ref, retention, legal basis): BLOCKING placeholders; the Owner will supply them. No processing of real footage until they are filled AND D-25 is approved. Downloading is allowed.
  Item 1 (index file and 512-byte shard headers): accepted as metadata-only inspection. Item 5 (1,642 / 76 correction): accepted.
 
-## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: ARCHITECT REVIEWED, item 1 back to the Architect (1c: groups do not separate); `rv2-provisional` unchanged
+## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: DECIDED (`rv2` for synthetic M1a, S_flat = 2); real footage `rv2-real-provisional`, dark-frame spread report pending
 Task: G-FQ (AR-27 review)   Blocking: any decoding or processing of real footage
 Question: Which frame-quality rules version applies to real footage? `rv1` excludes `decode_error` only (AR-27). It must not be used on real footage.
 Why it matters: an excluded frame becomes ineligible (E-1.2.1 §3.2 step 4). Its support then leaves every duration, and its coverage segment becomes `unusable`. The rules version therefore changes measured values, so it is the Architect's and the Owner's choice. Thresholds below are proposals.
@@ -227,6 +227,29 @@ Where the overlap comes from (statistics only):
 - So the overlap is between groups as defined, not obviously between flat and content-bearing frames. Re-grouping by frame (for example, only exactly flat frames as (ii)) would be a new judgment, so the agent leaves it to the Architect.
 Not applied, since they depend on 1b: items 2 and 4. `rv2-provisional` stays as written; rv1 stays in force for synthetic evaluation; no real footage is processed. Applied: none of the rules. Recorded: items 3 and 5 accepted. Code change: `LumaStats` now also carries P1 (nearest rank); it changes no flag (`tests/decode/test_rv2_provisional.py::test_p1_nearest_rank_is_statistics_only`).
 Owner decision (13 Nov 2026): Architect review recorded; item 1 returned to the Architect under 1c. Status: OPEN (S_flat not set).
+Architect review, second ruling (Architect rulings of 13 Nov 2026, item A, "D-25 rv2"; Owner approval by forwarding them):
+1. black iff P99(Y) ≤ 32 AND (P99 − P1) ≤ 2, nearest rank. This sets S_flat = 2.
+2. `low_light` is a recording-level tag "when median frame P99 <= 32 and the frame is not black"; a stratum, never an exclusion.
+3. frozen and overexposed unchanged; blurred not computed.
+4. Version `rv2` for ALL M1a synthetic recordings; rv1 stays for the M0 fixtures only.
+5. Re-run the 758-recording check; report counts per flag and the low_light list.
+6. Real footage uses `rv2-real-provisional` (same rule). Before any real-data result, report the per-frame spread distribution of dark frames (P99 ≤ 32) on each real recording, statistics only. If dark real frames sit at spread 3–6 in clearly blank stretches, raise it here; the agent does not change the threshold.
+Applied (13 Nov 2026): `src/rq1/decode/quality.py` versions `rv2` and `rv2-real-provisional` (same rule); `rv2-provisional` kept, superseded, only so the recorded evidence files above reproduce; rv1 unchanged (M0 fixture expected values unchanged). Tests `tests/decode/test_rv2.py` (hand values: flat and spread boundaries 2/3, P99 32/33, overexposed, frozen, dark content stays eligible, low_light cases). Representation details (the reading of "median frame P99 … not black", where the tag is kept): AR-51.
+Re-run result, item 5 (`research/datasets/part3/rv2_check_synthetic.json`, script `rv2_check.py`; statistics only): `rv2` on all 758 synthetic recordings (30 SDG sample videos, 690 SDG member videos, 38 SmartSpaces Warehouse_001 videos), 558,000 frames.
+| Flag | Frames | Recordings |
+|---|---|---|
+| `black` | 161 (was 4,361 under rv2-provisional) | 16 |
+| `frozen` | 40 (unchanged) | 2 |
+| `overexposed` | 0 | 0 |
+| `decode_error` | 0 | 0 |
+- Eligible 557,839 / 558,000 frames. All flags are in the 690 member videos; the 30 SDG samples and 38 SmartSpaces videos have 0 flags (P99 ≥ 62 on every frame).
+- `black` by recording: `run_18_seed_1313717419.eye_00` 41 (the judged-blank stretch), `run_2_seed_487012118.eye_02` 34, `run_6_seed_1833142794.eye_01` 32, `run_6_seed_1495571596.eye_01` 11, `run_47_seed_1695863875.eye_01` 11, `run_12_seed_1489170790.eye_02` 8, `run_23_seed_905230252.eye_02` 6, `run_43_seed_631373023.eye_01` 3, `run_12_seed_695326786.eye_01` 3, `run_11_seed_1899586412.eye_01` 3, `run_1_seed_1944808407.eye_01` 3, `run_13_seed_1363227761.eye_01` 2, and 1 each in `run_1_seed_1489524600.eye_01`, `run_4_seed_2076866610.eye_01`, `run_1_seed_1315993226.eye_01`, `run_8_seed_404177405.eye_01`.
+- `frozen`: `run_18_seed_1313717419.eye_00` 21 and `run_2_seed_487012118.eye_02` 19, the same 40 frames as before; each recording has more `black` frames than `frozen` ones (41 ≥ 21, 34 ≥ 19). Per-frame overlap was not recorded in this run.
+- `low_light`, 13 recordings: exactly the 13 whole-video red-lit recordings of item 1a, none of which is now black on any frame: `run_43_seed_631373023` ceiling_01, ceiling_02, ceiling_04, eye_00, eye_02, eye_03, eye_04 (median P99 20–27) and `run_6_seed_1833142794` ceiling_01, ceiling_02, ceiling_04, eye_00, eye_02, eye_03 (median P99 21–30). The `eye_01` cameras of both runs are not tagged (median P99 47) and carry partial `black` (3 and 32 frames).
+- The low_light reading: the other plausible reading (median over all decoded frames, tag unless every frame is black) gives the same 13 recordings, so the choice in AR-51 changes no tag on these data.
+- For the record (no change made): frames with P99 ≤ 32 and spread 3–16 are now eligible. Among them are 9 of the 50 dark frames of the judged-blank stretch in `run_18…eye_00` (its edges, spread 3–14, occluder entering or leaving; the other 41 are black) and dark non-flat frames in the partial recordings, e.g. `run_6_seed_1495571596.eye_01` has 65 dark frames, 11 black, 54 at spread 3–16.
+Real footage, item 6: not yet run. Gate: no real-data result is produced before the per-recording dark-frame spread report under `rv2-real-provisional`.
+Status: DECIDED for synthetic M1a (`rv2`); real footage under `rv2-real-provisional`, item 6 report pending.
 
 ## D-26 (2026-11-12) — VR-E-070 values for real footage        status: DECIDED (exploratory); values PENDING advisor
 Task: any processing of real footage   Blocking: decoding, frame quality, detection and tracking on `data/raw/real/` (downloading is allowed, D-24 d)

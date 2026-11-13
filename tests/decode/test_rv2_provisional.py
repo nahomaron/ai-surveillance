@@ -16,7 +16,7 @@ from rq1.decode.timestamps import DecodeConfig, PacketRecord
 TB = Fraction(1, 1000)
 
 
-def cfg(version="rv2-provisional"):
+def cfg(version="rv2-provisional"):  # the superseded provisional rule, kept reproducible
     return DecodeConfig(k_sup=1.5, f_untimed=0.05, f_sub=0.1, rules_version=version, declared={})
 
 
@@ -28,21 +28,21 @@ def luma(values):
 def test_black_nearest_rank_p99():
     # 100 pixels: 99 at 10, 1 at 200. Nearest rank ceil(0.99 * 100) = 99 -> the 99th smallest is 10 <= 32 -> black.
     assert quality.stats(luma([10] * 99 + [200])).p99 == 10
-    assert "black" in quality.frame_flags(quality.stats(luma([10] * 99 + [200])))
+    assert "black" in quality.frame_flags(quality.stats(luma([10] * 99 + [200])), quality.RV2_PROVISIONAL)
     # 98 at 10, 2 at 200: the 99th smallest is 200 -> not black.
     assert quality.stats(luma([10] * 98 + [200] * 2)).p99 == 200
-    assert "black" not in quality.frame_flags(quality.stats(luma([10] * 98 + [200] * 2)))
+    assert "black" not in quality.frame_flags(quality.stats(luma([10] * 98 + [200] * 2)), quality.RV2_PROVISIONAL)
     # Boundary: P99 = 32 is black, 33 is not.
-    assert "black" in quality.frame_flags(quality.stats(luma([32] * 100)))
-    assert "black" not in quality.frame_flags(quality.stats(luma([33] * 100)))
+    assert "black" in quality.frame_flags(quality.stats(luma([32] * 100)), quality.RV2_PROVISIONAL)
+    assert "black" not in quality.frame_flags(quality.stats(luma([33] * 100)), quality.RV2_PROVISIONAL)
 
 
 @pytest.mark.determinism
 def test_overexposed_half_of_pixels():
     # 50 of 100 pixels at 250 -> 2 * 50 >= 100 -> overexposed; 49 of 100 -> not. 249 never counts.
-    assert quality.frame_flags(quality.stats(luma([250] * 50 + [100] * 50))) == {"overexposed"}
-    assert quality.frame_flags(quality.stats(luma([250] * 49 + [100] * 51))) == set()
-    assert quality.frame_flags(quality.stats(luma([249] * 100))) == set()
+    assert quality.frame_flags(quality.stats(luma([250] * 50 + [100] * 50)), quality.RV2_PROVISIONAL) == {"overexposed"}
+    assert quality.frame_flags(quality.stats(luma([250] * 49 + [100] * 51)), quality.RV2_PROVISIONAL) == set()
+    assert quality.frame_flags(quality.stats(luma([249] * 100)), quality.RV2_PROVISIONAL) == set()
 
 
 def packets(images, step=33):
@@ -126,5 +126,5 @@ def test_p1_nearest_rank_is_statistics_only():
     s = quality.stats(luma([7]))
     assert (s.p1, s.p99) == (7, 7)
     # P1 changes no flag: a flat frame at 16 (spread 0) and a dark ramp 0..31 (spread > 0) are both black under rv2-provisional.
-    assert quality.frame_flags(quality.stats(luma([16] * 100))) == {"black"}
-    assert quality.frame_flags(quality.stats(luma(list(range(32)) * 4))) == {"black"}
+    assert quality.frame_flags(quality.stats(luma([16] * 100)), quality.RV2_PROVISIONAL) == {"black"}
+    assert quality.frame_flags(quality.stats(luma(list(range(32)) * 4)), quality.RV2_PROVISIONAL) == {"black"}

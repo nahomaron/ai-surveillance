@@ -13,7 +13,7 @@ from fractions import Fraction
 from rq1.schema.errors import ContractError
 
 from . import quality
-from .quality import EXCLUSION_FLAGS, LumaStats  # rv1 (AR-27) and rv2-provisional (D-25, D-26)
+from .quality import EXCLUSION_FLAGS, LumaStats  # rv1 (AR-27) and the rv2 versions (D-25, D-26)
 
 
 @dataclass(frozen=True)
@@ -77,6 +77,7 @@ class Resolved:
     untimed_frac: float
     vfr_detected: bool
     extent: tuple[Fraction, Fraction]
+    condition_tags: list[str] = field(default_factory=list)  # recording-level, e.g. low_light (rv2; AR-51); never an exclusion
 
 
 def _exact(value: float) -> Fraction:
@@ -108,13 +109,13 @@ def _split(piece: Piece, regions: list[tuple[Fraction, Fraction]]) -> list[Piece
     return parts
 
 
-def _quality_flags(frames: list[FrameResult], timeline: list[FrameResult], luma: dict[int, LumaStats | None]) -> None:
+def _quality_flags(frames: list[FrameResult], timeline: list[FrameResult], luma: dict[int, LumaStats | None], rules_version: str) -> None:
     """Pixel flags of the rules version; `frozen` compares each timed frame with the previous one in presentation order."""
     for f in frames:
         if f.decode_ok:
             if luma.get(f.seq) is None:
                 raise ContractError("ERR-INVARIANT", f"rules version needs luma statistics; frame {f.seq} has none")
-            f.quality_flags = sorted(set(f.quality_flags) | quality.frame_flags(luma[f.seq]))
+            f.quality_flags = sorted(set(f.quality_flags) | quality.frame_flags(luma[f.seq], rules_version))
     frozen = quality.frozen_seqs([(f.t, f.seq, luma[f.seq]) for f in timeline if f.decode_ok])
     for f in timeline:
         if f.seq in frozen:
@@ -153,7 +154,7 @@ def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig,
     if len(timeline) < 2:
         raise ContractError("ERR-TIMESTAMPS", "fewer than 2 timed frames (T7 step 4)")
     if quality.needs_pixels(cfg.rules_version):
-        _quality_flags(frames, timeline, {p.seq: p.luma for p in records})
+        _quality_flags(frames, timeline, {p.seq: p.luma for p in records}, cfg.rules_version)
     excluded = EXCLUSION_FLAGS[cfg.rules_version]
     for f in timeline:  # step 4
         f.eligible = f.decode_ok and not (set(f.quality_flags) & excluded)
@@ -221,4 +222,5 @@ def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig,
     spread = pairs or all_timed
     vfr = max(spread) - min(spread) > time_base
     end = max([timeline[-1].t] + [p.end for p in merged])
-    return Resolved(frames, merged, regions, depth, delta_nom, source, declared, median, substituted_frac, untimed_frac, vfr, (timeline[0].t, end))
+    tags = quality.condition_tags([p.luma for p in records if p.decode_ok and p.luma is not None], cfg.rules_version) if quality.needs_pixels(cfg.rules_version) else []
+    return Resolved(frames, merged, regions, depth, delta_nom, source, declared, median, substituted_frac, untimed_frac, vfr, (timeline[0].t, end), tags)
