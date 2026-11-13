@@ -12,7 +12,8 @@ from fractions import Fraction
 
 from rq1.schema.errors import ContractError
 
-EXCLUSION_FLAGS = {"rv1": {"decode_error"}}  # AR-27: rules version rv1 excludes undecodable frames only
+from . import quality
+from .quality import EXCLUSION_FLAGS, LumaStats  # rv1 (AR-27) and rv2-provisional (D-25, D-26)
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,7 @@ class PacketRecord:
     pts: int | None
     dts: int | None
     decode_ok: bool
+    luma: LumaStats | None = None  # supplied only when the rules version needs pixels
 
 
 @dataclass(frozen=True)
@@ -106,6 +108,19 @@ def _split(piece: Piece, regions: list[tuple[Fraction, Fraction]]) -> list[Piece
     return parts
 
 
+def _quality_flags(frames: list[FrameResult], timeline: list[FrameResult], luma: dict[int, LumaStats | None]) -> None:
+    """Pixel flags of the rules version; `frozen` compares each timed frame with the previous one in presentation order."""
+    for f in frames:
+        if f.decode_ok:
+            if luma.get(f.seq) is None:
+                raise ContractError("ERR-INVARIANT", f"rules version needs luma statistics; frame {f.seq} has none")
+            f.quality_flags = sorted(set(f.quality_flags) | quality.frame_flags(luma[f.seq]))
+    frozen = quality.frozen_seqs([(f.t, f.seq, luma[f.seq]) for f in timeline if f.decode_ok])
+    for f in timeline:
+        if f.seq in frozen:
+            f.quality_flags = sorted(set(f.quality_flags) | {"frozen"})
+
+
 def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig, declared: Fraction | None) -> Resolved:
     records = sorted(packets, key=lambda p: p.seq)
     rank = {p.seq: i for i, p in enumerate(records)}
@@ -137,6 +152,8 @@ def resolve(packets: list[PacketRecord], time_base: Fraction, cfg: DecodeConfig,
     timeline = sorted(first_at.values(), key=lambda f: (f.t, f.index))
     if len(timeline) < 2:
         raise ContractError("ERR-TIMESTAMPS", "fewer than 2 timed frames (T7 step 4)")
+    if quality.needs_pixels(cfg.rules_version):
+        _quality_flags(frames, timeline, {p.seq: p.luma for p in records})
     excluded = EXCLUSION_FLAGS[cfg.rules_version]
     for f in timeline:  # step 4
         f.eligible = f.decode_ok and not (set(f.quality_flags) & excluded)

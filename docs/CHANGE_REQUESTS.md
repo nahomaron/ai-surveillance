@@ -632,3 +632,32 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
   6. **M0 configuration IDs.** The oracle, decode, geometry, footprint, band-scheme, substrate, rule and evaluation configurations are content-addressed records with `version_label = TEST-ONLY`, built from the TEST-ONLY parameters fixture. The fitness scope has no registered criterion, so its status is `not_yet_assessable` (FT-04).
 - **No meaning effect:** fixture and run representation only; no measured value changes. **Review flag:** items 2 and 4. **Files/tests:** `pipeline/m0.py`, `fixtures/clips.py`, `validation/converter.py`; `tests/pipeline/test_m0.py`, `tests/clips/test_clip_fixtures.py`. **Reverse:** remove the clip and the pipeline module.
 - **Architect review (12 Nov 2026, G-M0):** ACCEPTED as written (D-19).
+
+## CR-018 (2026-11-12) — R4 (TTC/PET) and configurations BL-1 to BL-6 are not defined computably (T-19)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-19 (WP-06b). **Contract sections:** E-1.2.1 §6.0 (C_by_R4 row; "R1-only configurations (BL-2)"); Appendix T T8 (constant-velocity prediction, ttca), T11.1 and T12 (R4 parameters ttc_max, pet_max); Package F WP-06b (plan only).
+**Meaning-affecting:** yes. Each item below changes C flags, episodes and labels, and the BL mapping decides which providers each compared configuration enables (primary comparisons BL-2 vs BL-3 and BL-3 vs BL-6).
+
+**What the contract says.** R4: "Time-to-collision < ttc_max **or** post-encroachment time < pet_max, from constant-velocity footprint paths. Unknown when uncalibrated." The configurations BL-1 to BL-6 are named in Package F and defined only in the Package D baselines table: BL-1 detection only, frame co-presence, no tracking; BL-2 R1; BL-3 R2; BL-4 R3; BL-5 R4; BL-6 R6 + contact assessor. Package D is methodology and must not be implemented from. Package F gives test values ttc_max = 1.5 s, pet_max = 1.0 s.
+
+| # | Gap | Readings that give different numbers | Proposed definition |
+|---|---|---|---|
+| 1 | TTC | (a) earliest time in [0, τ] at which the constant-velocity predicted footprint clearance (the R3 / T8 prediction, same footprints) is ≤ 0; (b) the same without the τ bound; (c) centre-point TTC (distance / closing rate) | (a). TTC = 0 if clearance ≤ 0 at the frame. Found by bisection on [0, t_at_min] (the signed distance between convex footprints under linear relative motion is convex in t), tolerance 1e-6 s. No crossing within τ → TTC null, `C_by_R4` TTC part = 0 |
+| 2 | PET | (a) predicted PET: the conflict area is the intersection of the two footprints' swept regions over [0, τ]; PET = time the second object first enters it − time the first object last leaves it; (b) observed PET from actual future trajectories (post hoc); (c) PET at the crossing point of the two centre paths | (a), to match "from constant-velocity footprint paths". Swept regions that do not intersect → PET null, PET part = 0. Simultaneous occupancy → PET = 0 |
+| 3 | Unknown | (a) only when uncalibrated, as written; (b) also when no velocity is available (insufficient history), as R3 | (b). Without velocity no path exists; otherwise R4 would report 0 where it cannot evaluate |
+| 4 | BL-1 | No §6.0 provider computes "frame co-presence without tracking", and S5 runs on POWs built from tracks | Architect to define, or defer BL-1 to M1b |
+| 5 | BL-2 to BL-6 provider sets | No contract text | BL-2 = R1; BL-3 = R2; BL-4 = R2 + R3; BL-5 = R2 + R4; BL-6 = R2 + R3 + R4 + R5 with the §6 labels ("with R6"). The contact cue applies whether or not R5 is enabled (T9.6, T10.3(c), T12.1), so "+ contact assessor" adds nothing |
+
+**What proceeds meanwhile:** nothing in T-19. T-18 is independent.
+**Agent's recommendation:** 1(a), 2(a), 3(b), 4 defer BL-1 to M1b, 5 as proposed, as Appendix T text.
+**Decision:** ______   **Approver:** Research Architect / Owner
+
+## AR-48 — How D-26 (exploratory real-data phase) is carried in records and reports
+- **Gap:** D-26 requires every real-data artifact and report to carry "exploratory; frame-quality rules provisional", and real-data results to be reported as experimental. No contract field holds such a note, and T12.5 lets real data reach technically_validated.
+- **Options:** (a) add a note field to artifacts, which is a schema change; (b) carry the state through existing fields and fixed report text; (c) amend T12.5, which is a contract change.
+- **Choice:** (b).
+  1. Every S1 artifact on real footage is built with `rules_version = "rv2-provisional"`, which is stored on every coverage segment and in the decode configuration record. Downstream artifacts reference S1 by ID.
+  2. Reports: a manifest flag `exploratory` makes `report.render` print the fixed line first. A report whose manifest lists a real `data_origin` without the flag is refused (ERR-INVARIANT).
+  3. Fitness: `fitness.exploratory_fitness_row` stores a real-origin technically_validated decision as experimental, with the §9.6 downgrade-only override {downgrade_only, rationale "D-26 exploratory phase…", actor Owner}. `check_record` accepts it (FT-01, FT-08). Lower statuses are never raised.
+- **No meaning effect beyond D-26:** no measured value, label or denominator changes. The status change is a contract-permitted downgrade ordered by the Owner. The rv2 thresholds themselves are D-25 (provisional, under Architect review), not part of this AR.
+- **Files/tests:** `decode/quality.py`, `evaluation/fitness.py`, `export/report.py`; `tests/evaluation/test_d26_exploratory.py`. **Reverse:** drop the manifest flag and the helper once the exploratory phase ends or the Architect writes T12.5 text.

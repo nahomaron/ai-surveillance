@@ -9,7 +9,7 @@ from typing import Any
 from rq1.ids.artifact import Artifact, Spec, build_artifact
 from rq1.schema.errors import ContractError
 
-from . import timestamps, video
+from . import quality, timestamps, video
 from .timestamps import DecodeConfig, Piece, Resolved
 
 Row = dict[str, Any]
@@ -38,7 +38,7 @@ def run_s1(timeline: Row, inputs: list[S1Input], cfg: DecodeConfig, spec: Spec) 
     summaries, frame_rows, by_camera = [], [], {}
     aligned = timeline["kind"] == "aligned_session"
     for item in inputs:
-        packets, info = video.read_packets(item.path, item.faults_path)
+        packets, info = video.read_packets(item.path, item.faults_path, luma_stats=quality.needs_pixels(cfg.rules_version))
         declared = cfg.declared.get(item.recording_id)
         result = timestamps.resolve(packets, info.time_base, cfg, None if declared is None else Fraction(str(declared)))
         scale = 1 + Fraction(str(item.drift_ppm)) / 1_000_000 if aligned else Fraction(1)

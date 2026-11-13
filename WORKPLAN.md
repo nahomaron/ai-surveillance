@@ -64,7 +64,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-17b | **Qualification Part 3 (D-20 to D-22).** Record SDG shard→run map and a seeded draw, SmartSpaces real scenes, Safe and Unsafe Behaviours, FieldWorkArena exclusion, real-data rules, budget ≤ 30 GB — **before** any download | T-17 | VR-E-070; D-21 | `qualification.md` Part 3; D-23, D-24, D-25 opened | S |
 | [S] | G-DL | **STOP — Owner approves the Part 3 selection (D-24)**, then download with SHA checks | T-17b | — | Owner decision in D-24 | — |
 | [ ] | T-18 | **Dataset adapters (WP-13).** SDG and SmartSpaces → S0, oracle tracks, simulator references; `reference_class` set correctly | T-17 | Package F WP-13; F.1 A5.1 | Truth round-trip within 1e-6 m; reprojection check | L |
-| [ ] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
+| [B] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** — BLOCKED on CR-018 / D-27 | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
 | [ ] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7) | M |
 | [S] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [ ] | T-21 | **M1a run (WP-14).** Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
@@ -507,3 +507,11 @@ _(the agent appends entries here)_
 - Contract tests: CT-T14-1 (layout family gives no edge; run, seed and render-lineage edges unchanged), CT-T14-2, CT-T14-3 (`tests/splits/test_t14.py`, 7 tests).
 - Tests: 1711/1711 (full suite), determinism re-run: identical (1711/1711)
 - Next: Part 3 addendum (SDG member-level draw, before download), then downloads, then T-18 and T-19.
+
+### 2026-11-12 — Owner decision D-26 recorded; G-FQ applied provisionally (`rv2-provisional`)
+- D-26: exploratory phase for real footage. The VR-E-070 values are recorded as pending the advisor and no longer block. rv2 is applied as `rv2-provisional`; dataset terms stay binding; real-data results are reported as experimental. The agent noted in D-26 that T12.5 itself allows real data to reach technically_validated, so item 4 is applied by the §9.6 downgrade-only override (AR-48), not as existing behaviour.
+- Did: `decode/quality.py` (black, overexposed, frozen on the luma plane; statistics only, no pixels kept); the PyAV reader supplies luma statistics only for rules versions that need them; `resolve` applies the flags after timestamps (frozen needs time spans). rv1 is unchanged, and so are all M0 values. Fitness helper and report line for D-26 (AR-48). The exact rv2 semantics are written into D-25 for the Architect.
+- A test-fixture defect was found and fixed before the first commit: the hand-made "frozen" image was itself black under the rule. The input was changed; no expected value was edited.
+- Tests: 1726/1726 (full suite), determinism re-run: identical (1726/1726)
+- Problems / CRs: AR-48. CR-018 / D-27 (T-19 BLOCKED).
+- Still to do before any real-data run: the D-25 step-1 check, rv2-provisional on all held synthetic recordings (expected 0 flags).

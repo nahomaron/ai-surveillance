@@ -129,3 +129,16 @@ def fitness_row(scope: dict, decided: dict, construct: str, construct_evidence: 
             "failing_interval": decided["failing_interval"], "failing_interval_null_reason": decided["failing_interval_null_reason"],
             "construct_status": construct, "construct_evidence": construct_evidence, "parameter_sensitive": parameter_sensitive,
             "override": override, "override_null_reason": None if override else "not_applicable", "interpretation_note": INTERPRETATION_NOTE}
+
+
+D26_RATIONALE = "D-26 exploratory phase: real-origin results are reported as experimental"
+
+
+def exploratory_fitness_row(scope: dict, decided: dict, construct: str, construct_evidence: dict, parameter_sensitive: bool) -> dict:
+    """D-26 item 4, without a contract change: a real-origin technically_validated decision is stored as experimental with a
+    section 9.6 downgrade-only override (check_record accepts it). Lower statuses are never raised."""
+    real = scope["data_origin"] in ("real_natural", "real_staged")
+    if real and decided["measurement_status"] == "technically_validated":
+        override = {"downgrade_only": True, "rationale": D26_RATIONALE, "actor": "Owner"}
+        return {**fitness_row(scope, decided, construct, construct_evidence, parameter_sensitive, override), "measurement_status": "experimental"}
+    return fitness_row(scope, decided, construct, construct_evidence, parameter_sensitive)

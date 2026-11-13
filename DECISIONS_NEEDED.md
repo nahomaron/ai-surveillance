@@ -179,7 +179,7 @@ Owner decision (12 Nov 2026): APPROVED with changes.
  d. VR-E-070 fields (approvals_ref, retention, legal basis): BLOCKING placeholders; the Owner will supply them. No processing of real footage until they are filled AND D-25 is approved. Downloading is allowed.
  Item 1 (index file and 512-byte shard headers): accepted as metadata-only inspection. Item 5 (1,642 / 76 correction): accepted.
 
-## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: OPEN (Architect review, then Owner approval)
+## D-25 (2026-11-12) — G-FQ: frame-quality rules version `rv2` for real footage        status: PROVISIONAL (applied as `rv2-provisional` under D-26; Architect review pending)
 Task: G-FQ (AR-27 review)   Blocking: any decoding or processing of real footage
 Question: Which frame-quality rules version applies to real footage? `rv1` excludes `decode_error` only (AR-27). It must not be used on real footage.
 Why it matters: an excluded frame becomes ineligible (E-1.2.1 §3.2 step 4). Its support then leaves every duration, and its coverage segment becomes `unusable`. The rules version therefore changes measured values, so it is the Architect's and the Owner's choice. Thresholds below are proposals.
@@ -195,10 +195,30 @@ Proposed `rv2` (computed per decoded frame on the 8-bit luma plane, integer arit
 Before use: (1) run rv2 on all 68 held synthetic recordings and report flag counts per recording (expected 0; any flag is a false positive to explain); (2) on real footage, report flag counts per recording only. No frames are stored or shown. rv1 stays for the M0 fixtures, and their expected values are unchanged.
 Options: (a) approve rv2 as proposed; (b) approve with other thresholds; (c) add `blurred` with a stated threshold.
 Agent's recommendation: (a). The `frozen` rule needs the synthetic check first, because H.264 can produce byte-identical frames in static scenes. The 0.5 s run length is there to limit that.
+Implemented as `rv2-provisional` (12 Nov 2026, D-26), exactly as follows, for the Architect's review (`src/rq1/decode/quality.py`, `tests/decode/test_rv2_provisional.py`):
+- Luma = the decoder's 8-bit Y plane with no range conversion (limited-range black is about 16).
+- P99 = nearest rank: the ceil(0.99·n)-th smallest value; black iff P99 ≤ 32.
+- Overexposed iff 2 × (pixels with Y ≥ 250) ≥ n.
+- Frozen: consecutive timed, decoded frames in presentation order with byte-identical Y (compared by SHA-256), in a run whose span t(last) − t(first) ≥ 0.5 s. Every frame after the first is flagged. Duplicate-timestamp frames take no part.
+- Flags are sorted. Excluded frames give `excluded_own_support` and an `unusable` coverage piece with reasons `excluded_frame` plus the flags.
+- Only statistics are kept, never pixels. rv1 decodes no pixels and is unchanged.
 Architect review: ______   Owner decision (12 Nov 2026): awaiting Architect review; do not apply. rv1 stays in force; no real footage is processed.
 
-## D-26 (2026-11-12) — VR-E-070 values for real footage        status: OPEN (BLOCKING)
+## D-26 (2026-11-12) — VR-E-070 values for real footage        status: DECIDED (exploratory); values PENDING advisor
 Task: any processing of real footage   Blocking: decoding, frame quality, detection and tracking on `data/raw/real/` (downloading is allowed, D-24 d)
 Question: Please supply, for retention policy `rp_real_test_v1` and both real sites: `approvals_ref` = ______; `retain_days` = ______; `legal_basis_ref` = ______.
 Placeholders are stored as `BLOCKING_OWNER_TO_SUPPLY`. An adapter that meets that value refuses to register a real-origin source file (VR-E-070).
+Owner decision (12 Nov 2026): exploratory mode for real footage. This phase is exploratory, not a publication; the advisor will be consulted along the way.
+1. VR-E-070 values (PENDING, to re-decide with the advisor; they no longer block processing): approvals_ref = "PENDING-ADVISOR (exploratory, D-26)"; retention (`rp_real_test_v1`, retain_days null, label) = "until end of exploratory phase; re-decide with advisor"; legal_basis_ref = "dataset licence + publisher consent/academic-use statement".
+2. G-FQ: rv2 applied now as a PROVISIONAL rules version, version label `rv2-provisional`. Every real-data artifact and report carries "exploratory; frame-quality rules provisional". The Architect reviews rv2 later; if it changes, everything is re-run.
+3. Still binding (dataset terms): SmartSpaces 026/027 no annotation or reference labels, reference-free checks only; Safe and Unsafe Behaviours academic use only, conditional_on_selection, no per-hour aggregates; no frames, crops, faces or company names in git, reports or exports; no training or fine-tuning on real footage.
+4. Real-data results are reported as "experimental", never technically_validated.
+   Agent note: T12.5 as written lets real_natural and real_staged reach technically_validated; only synthetic data cannot. D-26 item 4 is therefore a new restriction, not existing behaviour. It is applied without a contract change, by the §9.6 downgrade-only override: every real-origin measurement_fitness record carries override {downgrade_only, rationale "D-26 exploratory phase", actor Owner} → experimental. If the Owner wants this as a contract rule instead, it needs Appendix T text.
+5. Proceed: D-24 downloads, E-1.2.12 (done, 9b35b9f), T-18, T-19 (T-19 is BLOCKED on CR-018 / D-27: R4 and BL-1 to BL-6 are not defined in the contract).
+
+## D-27 (2026-11-12) — R4 (TTC/PET) and BL-1 to BL-6 definitions        status: OPEN
+Task: T-19   Blocking: T-19; T-20 (configurations in the pre-registration)
+Question: The contract names R4 and BL-1 to BL-6 but defines neither computably. The BL table exists only in Package D (methodology). Which TTC and PET definitions, which Unknown rule, and which provider set for each BL?
+Options: see CR-018 (readings a/b/c per item).
+Agent's recommendation: TTC and PET from the R3 constant-velocity footprint prediction within τ; Unknown also without velocity; BL-1 deferred to M1b; BL-2 to BL-6 as listed in CR-018, as Appendix T text.
 Owner decision: ______

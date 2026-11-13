@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 
+from rq1.decode.quality import EXPLORATORY_NOTE  # D-26 item 2
 from rq1.evaluation.event_metrics import EV_M10_NOTE, SENSITIVITY_LABEL
 from rq1.schema.errors import ContractError
 from rq1.schema.vr_rules import OBSERVED_CONTACT
@@ -18,7 +19,7 @@ RV04_CAVEAT = "These results compare the system with its own rules applied to re
 VISIBILITY_NOTE = "reference visibility assumed"  # T12.4 and the Architect's ruling on AR-36 item 4
 T14_SCOPE = "held-out runs of the same synthetic layout"  # T14.2
 STATUS_LABELS = {"implemented": "Implemented", "verified": "Verified", "empirically_validated": "Empirically validated (scope)"}
-FIXED_LINES = {RV04_CAVEAT, EV_M10_NOTE, BANNER}
+FIXED_LINES = {RV04_CAVEAT, EV_M10_NOTE, BANNER, EXPLORATORY_NOTE}
 
 # Wording rules (CLAUDE.md "Never"; LK-07; RV-04; the Architect's ruling on AR-40 item 4).
 WORDING = [
@@ -61,7 +62,11 @@ def render(manifest: dict, template: str, title: str, sections: list[tuple[str, 
         raise ContractError("ERR-SPEC", f"template {template}")
     if fixture != (template == "fixture"):
         raise ContractError("ERR-EXPORT-CLASS", f"EXP-4: {template} template on a {manifest['export_class']} export")
-    lines = ([BANNER, ""] if fixture else []) + [f"# {title}", "", f"Export class: {manifest['export_class']}; contract {manifest['contract']}.", ""]
+    real = any(o in ("real_natural", "real_staged") for o in manifest.get("data_origins", ()))
+    if real and not manifest.get("exploratory"):
+        raise ContractError("ERR-INVARIANT", "D-26: a report on real-origin data is exploratory and must say so")
+    lines = ([BANNER, ""] if fixture else []) + ([EXPLORATORY_NOTE, ""] if manifest.get("exploratory") else [])
+    lines += [f"# {title}", "", f"Export class: {manifest['export_class']}; contract {manifest['contract']}.", ""]
     for heading, body in sections:
         lines += [f"## {heading}", "", *body, ""]
     text = "\n".join(lines)
