@@ -182,3 +182,30 @@ def test_t16_1_file_listed_under_two_rows_is_refused():
     assert e.value.code == "ERR-INVARIANT"
     registrar.register(reg.smartspaces_metadata(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c"), T), spec)  # other bytes: accepted
     registrar.register(reg.smartspaces_metadata(scene(), T), spec)  # the same file under its own row again: accepted
+
+
+def real_scene(name="Warehouse_026", tag="d"):
+    return {c: reg.Video(f"raw/real/smartspaces/test/{name}/videos/{c}.mp4", f"{i:02d}".ljust(64, tag), 7000 + i, "mp4", "h264")
+            for i, c in enumerate(("Camera_0000", "Camera_0001"))}
+
+
+def test_real_scenes_register_under_the_real_row_with_d24_d26_conditions():
+    from rq1.schema import vr_rules
+
+    registrar, spec = Registrar(), Spec("S0", "E-1.2.15", "test", "env", (), (), {})
+    built = registrar.register(reg.smartspaces_real_metadata("Warehouse_026", real_scene(), T), spec)
+    t = built.tables
+    d, site = t["dataset_source"][0], t["site"][0]
+    assert d["version"].endswith("/real_staged") and d["data_origin"] == "real_staged" and d["annotation_levels"] == ["none"]  # D-24 b: no annotation
+    assert (site["data_origin"], site["site_kind"], site["approvals_ref"]) == ("real_staged", "staged_facility", "PENDING-ADVISOR (exploratory, D-26)")
+    assert all(f["privacy_state"] == "contains_identifiable_persons" and f["retention_policy_id"] == reg.retention_policy_id(reg.RETENTION_REAL) for f in t["source_file"])
+    assert reg.retention_policy_id(reg.RETENTION_REAL) != reg.retention_policy_id()  # not the synthetic policy
+    assert "calibration" not in t and "world_frame" not in t  # AR-54: uncalibrated, reference-free checks only
+    real_ids = {f["src_id"] for f in t["source_file"]}
+    assert vr_rules.check_retention(t["source_file"], real_ids, {reg.retention_policy_id(reg.RETENTION_REAL)}, []) == []  # VR-E-070
+    assert vr_rules.check_retention(t["source_file"], real_ids, {reg.retention_policy_id()}, []) != []
+    # T16: the real row is a third row of the same release; no leakage edge to the synthetic scenes (different scenes)
+    syn = registrar.register(reg.smartspaces_metadata(scene(), T), spec)
+    assert syn.tables["dataset_source"][0]["dsr_id"] != d["dsr_id"] and syn.tables["dataset_source"][0]["name"] == d["name"]
+    rows = _split_rows((built, "test"), (syn, "test"))
+    assert len(splits.freeze(rows, "t16", "1", "T1", T)["leakage_groups"]) == 2

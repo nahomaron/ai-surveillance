@@ -203,3 +203,35 @@ def smartspaces_metadata(scene: SmartSpacesScene, retrieved_utc: datetime) -> Ro
                                                        "transform_from_dataset": [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0],
                                                        "unit_status": "verified", "prov_class": "dataset_supplied"}]}]}],
             "source_files": sources, "recordings": recordings, "calibrations": calibrations}
+
+
+# Real SmartSpaces scenes (D-21, D-24 b, D-26; T16: "Register 026/027 under the real row with the D-24/D-26 conditions unchanged").
+APPROVALS_REF_D26 = "PENDING-ADVISOR (exploratory, D-26)"
+RETENTION_REAL = {"label": "rp_real_test_v1: until end of exploratory phase; re-decide with advisor",
+                  "applies_to": "real-origin source files and their derivatives", "retain_days": None,
+                  "deletion_method": "delete the files and their derived copies and record the action in access_log",
+                  "legal_basis_ref": "dataset licence + publisher consent/academic-use statement"}
+
+
+def smartspaces_real_metadata(scene_name: str, cameras: dict[str, Video], retrieved_utc: datetime) -> Row:
+    """One real SmartSpaces scene (Warehouse_026 / 027): data_origin real_staged, staged_facility, identifiable persons,
+    reference-free checks only. No annotation level, no calibration and no world frame are registered (AR-54): the scene
+    is uncalibrated for RQ1. The VR-E-070 values are the D-26 pending values."""
+    version = smartspaces_version("real_staged")
+    key = [SS_NAME, version]
+    sources, recordings = [], []
+    for cam, video in sorted(cameras.items()):
+        sources.append({**_source(video, "contains_identifiable_persons"), "retention_policy_id": retention_policy_id(RETENTION_REAL)})
+        recordings.append({"dataset": key, "site": scene_name, "session": scene_name, "camera": cam, "sha256": video.sha256,
+                           "registration_label": f"{scene_name}.{cam}", "alignment": None})
+    lineage = {"ext_run_id": scene_name, "scene_id": scene_name, "generation_batch": "MTMC_Tracking_2026/test",
+               "render_parent": None, "render_parent_null_reason": "not_applicable"}
+    return {"licenses": [LICENSES["smartspaces"]],
+            "datasets": [{"name": SS_NAME, "version": version, "data_origin": "real_staged", "dataset_kind": "research",
+                          "source_url": f"https://huggingface.co/datasets/{SS_NAME}", "retrieved_utc": retrieved_utc, "license": [SS_NAME, SS_VERSION],
+                          "annotation_levels": ["none"], "unit_status": "unknown", "notes_ref": "research/datasets/qualification.md 3.2, 3.5, 3.10",
+                          "sites": [{"site_label": scene_name, "data_origin": "real_staged", "site_kind": "staged_facility",
+                                     "independent_of_development": False, "approvals_ref": APPROVALS_REF_D26,
+                                     "cameras": [{"camera_label": cam, "viewpoint_class": "other", "declared_overlap_camera_ids": []} for cam in sorted(cameras)],
+                                     "sessions": [{"session_label": scene_name, "scripted": False, "extent": None, "lineage": lineage}]}]}],
+            "source_files": sources, "recordings": recordings}

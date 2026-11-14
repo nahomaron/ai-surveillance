@@ -300,3 +300,10 @@ Options: see CR-022. (a) as written; (b) band (81, 157] or (80.1, 157.3).
 Agent's recommendation: (b), with the bound stated by the Architect.
 Owner decision: ______
 
+## D-32 (2026-11-13) — SDG forklift yaw: the motion-direction check is not concentrated        status: OPEN
+Task: T-18 / T-21   Blocking: SDG S4 (forklift footprint orientation) and everything built on it in the M1a run; not S0, S1, ORACLE-S3 or SmartSpaces
+Question: The Architect's check on AR-52 item 2 passes on SmartSpaces (99.8 % of moving-forklift frames within 15° of the adopted yaw). On SDG it does not: 53.6 % within 15°, 35.3 % beyond 75°. The off-axis frames are pivot turns at 75°/s, where the footprint centre swings across the body axis; on straight frames 100 % are within 15°. Use the SDG box yaw, or not?
+Options: see CR-023. (a) use the box yaw; (b) T8.2 fallback (heading, then disc); (c) circumscribed disc for all SDG forklift frames.
+Agent's recommendation: (a). Until decided, SDG yaw is withheld in code.
+Owner decision: ______
+

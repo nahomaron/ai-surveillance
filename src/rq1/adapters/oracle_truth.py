@@ -115,8 +115,10 @@ def usable_truth(n_video_frames: int, annotation_lines: dict[str, int | None]) -
     return bool(annotation_lines) and all(n == n_video_frames for n in annotation_lines.values())
 
 
-def sdg_obs(cal: dict[str, Any], obj: sdg_truth.ObjectTruth) -> tuple[Obs, str | None]:
-    """One SDG object-frame under T17.5. Returns the observation and `truth_defect`, `unchecked` or None."""
+def sdg_obs(cal: dict[str, Any], obj: sdg_truth.ObjectTruth, use_yaw: bool = False) -> tuple[Obs, str | None]:
+    """One SDG object-frame under T17.5. Returns the observation and `truth_defect`, `unchecked` or None.
+    SDG forklift yaw is withheld by default (Architect ruling on AR-52 item 2: the motion-direction check is not
+    concentrated near 0 on SDG; CR-023). Without it the forklift yaw follows T8.2 (heading, else circumscribed disc)."""
     note, visible = None, obj.tight
     if obj.loose is not None:
         excess = sdg_truth.hull_excess(cal, obj)
@@ -126,7 +128,7 @@ def sdg_obs(cal: dict[str, Any], obj: sdg_truth.ObjectTruth) -> tuple[Obs, str |
             raise ContractError("ERR-INVARIANT", f"T17.5: loose-box excess {excess:.1f} px of {obj.prim} lies in (80, 157] px")
         elif excess > DEFECT_PX:
             note, visible = "truth_defect", None
-    return Obs(obj.cls, visible, sdg_truth.box_corners(obj.box3d), obj.xy, obj.yaw if obj.cls == "forklift" else None), note
+    return Obs(obj.cls, visible, sdg_truth.box_corners(obj.box3d), obj.xy, obj.yaw if use_yaw and obj.cls == "forklift" else None), note
 
 
 def smartspaces_obs(obj: smartspaces.ObjectTruth, camera: str) -> Obs:

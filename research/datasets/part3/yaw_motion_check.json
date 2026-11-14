@@ -5,6 +5,15 @@
  "sdg": {
   "runs": 67,
   "adapter_yaw_long_axis_local_x": {
+   "all": {
+    "n": 16507,
+    "p50": 0.0,
+    "p90": 77.52,
+    "p99": 78.78,
+    "max": 82.52,
+    "within_15_deg": 0.5362,
+    "beyond_75_deg": 0.3528
+   },
    "straight": {
     "n": 8647,
     "p50": 0.0,
@@ -28,6 +37,15 @@
  "smartspaces": {
   "forklifts": 9,
   "adapter_yaw_long_axis_rotation_plus_90": {
+   "all": {
+    "n": 40511,
+    "p50": 0.2,
+    "p90": 4.23,
+    "p99": 6.3,
+    "max": 30.56,
+    "within_15_deg": 0.9976,
+    "beyond_75_deg": 0.0
+   },
    "straight": {
     "n": 25728,
     "p50": 0.03,
@@ -48,6 +66,15 @@
    }
   },
   "literal_rotation_z": {
+   "all": {
+    "n": 40511,
+    "p50": 89.8,
+    "p90": 90.0,
+    "p99": 90.0,
+    "max": 90.0,
+    "within_15_deg": 0.0,
+    "beyond_75_deg": 0.9976
+   },
    "straight": {
     "n": 25728,
     "p50": 89.97,

@@ -50,6 +50,11 @@ def angles(path):
     return out
 
 
+def report(total, i):
+    """`all` is the Architect's check (every frame above the speed threshold); the split explains it."""
+    return {"all": stats(total["straight"][i] + total["turning"][i]), **{kind: stats(v[i]) for kind, v in total.items()}}
+
+
 def merge(total, part):
     for kind in total:
         total[kind][0].extend(part[kind][0])
@@ -67,7 +72,7 @@ def main():
             path.append((fk[0].xy, fk[0].yaw, fk[0].yaw) if fk else None)  # SDG: adapter yaw is the supplied local-x direction
         merge(total, angles(path))
         runs += 1
-    res["sdg"] = {"runs": runs, "adapter_yaw_long_axis_local_x": {kind: stats(v[0]) for kind, v in total.items()}}
+    res["sdg"] = {"runs": runs, "adapter_yaw_long_axis_local_x": report(total, 0)}
     doc = smartspaces.load(gt_path)
     paths = collections.defaultdict(lambda: [None] * len(doc))
     for k in range(len(doc)):
@@ -78,8 +83,8 @@ def main():
     total = {"straight": ([], []), "turning": ([], [])}
     for path in paths.values():
         merge(total, angles(path))
-    res["smartspaces"] = {"forklifts": len(paths), "adapter_yaw_long_axis_rotation_plus_90": {kind: stats(v[0]) for kind, v in total.items()},
-                          "literal_rotation_z": {kind: stats(v[1]) for kind, v in total.items()}}
+    res["smartspaces"] = {"forklifts": len(paths), "adapter_yaw_long_axis_rotation_plus_90": report(total, 0),
+                          "literal_rotation_z": report(total, 1)}
     json.dump(res, open(out_path, "w"), indent=1)
     print(json.dumps(res, indent=1))
 

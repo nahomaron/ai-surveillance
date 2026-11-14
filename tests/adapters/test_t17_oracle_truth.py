@@ -31,8 +31,15 @@ def sdg_obj(tight=TIGHT, loose=LOOSE, at=(1.0, 2.0, 0.0), prim=sdg_truth.FORKLIF
     return sdg_truth.ObjectTruth(prim, "forklift", (at[0], at[1]), 0.0, loose, tight, box3d)
 
 
-def obs(**kw):
-    return ot.sdg_obs(CAL, sdg_obj(**kw))[0]
+def obs(use_yaw=True, **kw):
+    return ot.sdg_obs(CAL, sdg_obj(**kw), use_yaw=use_yaw)[0]
+
+
+def test_sdg_yaw_is_withheld_by_default_cr_023():
+    assert ot.sdg_obs(CAL, sdg_obj())[0].yaw is None  # Architect ruling on AR-52 item 2: do not use yaw until CR-023 is decided
+    assert ot.sdg_obs(CAL, sdg_obj(), use_yaw=True)[0].yaw == 0.0
+    tracks, _ = ot.camera_tracks(CAL, [{"f": obs(use_yaw=False)}])
+    assert "yaw" not in ot.s3_truth(tracks, {"f": "forklift"}, {0: 0})[1][(1, 0)]
 
 
 @pytest.mark.determinism

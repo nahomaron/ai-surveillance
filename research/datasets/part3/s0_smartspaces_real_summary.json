@@ -1,0 +1,111 @@
+{
+ "code_commit": "2e71838750a783b5300ce338f8577b439d1725d7",
+ "retention_policy": {
+  "label": "rp_real_test_v1: until end of exploratory phase; re-decide with advisor",
+  "applies_to": "real-origin source files and their derivatives",
+  "retain_days": null,
+  "deletion_method": "delete the files and their derived copies and record the action in access_log",
+  "legal_basis_ref": "dataset licence + publisher consent/academic-use statement",
+  "rtp_id": "rtp_m5g4j2gnloc4qx2vmupmtk4epo"
+ },
+ "approvals_ref": "PENDING-ADVISOR (exploratory, D-26)",
+ "scenes": [
+  {
+   "scene": "Warehouse_026",
+   "artifact_id": "art_ovoaxyuwvb6bmeg5qde2npbpge",
+   "payload_sha256": "e34ada01a7a1a8877421a9adcd88186b8a4d387ed37d63440ccd8b638245aeec",
+   "data_origin": "real_staged",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/real_staged",
+   "dsr_id": "dsr_ll5q4htdp2m2vwxhtb3kso3ypz",
+   "rows": {
+    "camera": 4,
+    "camera_group": 4,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 4,
+    "session": 1,
+    "site": 1,
+    "source_file": 4,
+    "timeline": 4
+   },
+   "codecs": [
+    "h264"
+   ],
+   "recordings": [
+    [
+     "rec_ern67bl26gexbhhhqisxk427wf",
+     "Warehouse_026.Camera_0000"
+    ],
+    [
+     "rec_p7lj5beiqi6zxwf7mfcu7zyuvy",
+     "Warehouse_026.Camera_0002"
+    ],
+    [
+     "rec_q7xnlxofhlcu3mrlzbzd7keb2x",
+     "Warehouse_026.Camera_0003"
+    ],
+    [
+     "rec_tj3yembqbvqu6jl5bbjuslqmlc",
+     "Warehouse_026.Camera_0001"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_027",
+   "artifact_id": "art_tmjtlso32y6rli57ghxiobebim",
+   "payload_sha256": "05ceb9a7fb63570eaa47a9f04c124d99ea57466c81234663cb7765449fa3c997",
+   "data_origin": "real_staged",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/real_staged",
+   "dsr_id": "dsr_ll5q4htdp2m2vwxhtb3kso3ypz",
+   "rows": {
+    "camera": 7,
+    "camera_group": 7,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 7,
+    "session": 1,
+    "site": 1,
+    "source_file": 7,
+    "timeline": 7
+   },
+   "codecs": [
+    "h264"
+   ],
+   "recordings": [
+    [
+     "rec_32h2xrrvlqzx3qixrkb6u2twzf",
+     "Warehouse_027.Camera_0002"
+    ],
+    [
+     "rec_5jkd65wzgtipsm3gjggqpxjmqa",
+     "Warehouse_027.Camera_0003"
+    ],
+    [
+     "rec_acvgc5f3v3kifx4cvvnmn4ymsv",
+     "Warehouse_027.Camera_0005"
+    ],
+    [
+     "rec_gutwcv4cv5m3km6igbl4xjpj4f",
+     "Warehouse_027.Camera_0000"
+    ],
+    [
+     "rec_ohg6de4k5tiwrlgyj5n2tiggiq",
+     "Warehouse_027.Camera_0004"
+    ],
+    [
+     "rec_sdxbp7xxtsvnrtjrcu2pok5y5k",
+     "Warehouse_027.Camera_0001"
+    ],
+    [
+     "rec_vib5tlph52irmhql5vb6wrc53l",
+     "Warehouse_027.Camera_0006"
+    ]
+   ]
+  }
+ ],
+ "access_log": {
+  "entries": 11,
+  "chain_ok": true,
+  "last_record_hash": "4526ed727fa325bc5b14c919779b4dacf528c1b58a09739a9bc507b080817dcf"
+ }
+}
