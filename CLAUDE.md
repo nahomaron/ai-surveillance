@@ -6,10 +6,10 @@ The Research Owner cannot watch you work. **`WORKPLAN.md` is your schedule.** Re
 
 ## Documents and precedence
 
-1. The normative contract **E-1.2.16** consists of three files:
+1. The normative contract **E-1.2.17** consists of three files:
    - `docs/contract/RQ1_Contract_Reference_E-1.2.1_FROZEN.md`;
    - `docs/contract/Package_F1_…md` **Part A and Appendix N**;
-   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and the amendments in sections T7 (E-1.2.4), T7.1 (E-1.2.5), T8 (E-1.2.6), T9 (E-1.2.7), T10 (E-1.2.8), T11 (E-1.2.9), T12 (E-1.2.10), T13 (E-1.2.11), T14 (E-1.2.12), T15 (E-1.2.13), T16 (E-1.2.14), T17 (E-1.2.15) and T18 (E-1.2.16).
+   - `docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md`, which supplies the text of every cited rule, test and fixture ID, and the amendments in sections T7 (E-1.2.4), T7.1 (E-1.2.5), T8 (E-1.2.6), T9 (E-1.2.7), T10 (E-1.2.8), T11 (E-1.2.9), T12 (E-1.2.10), T13 (E-1.2.11), T14 (E-1.2.12), T15 (E-1.2.13), T16 (E-1.2.14), T17 (E-1.2.15), T18 (E-1.2.16) and T19 (E-1.2.17).
 
    Precedence: F.1 Part A and Appendix N > Appendix T > E-1.2.1 body.
 
@@ -32,7 +32,7 @@ of these hold:
   estimator, unit, coordinate frame, timebase, sampling or leakage rule,
   reference-independence rule, acceptance criterion, E2 rule or report
   wording.
-- It contradicts nothing in E-1.2.16.
+- It contradicts nothing in E-1.2.17.
 
 How to resolve:
 1. Write an "Agent Resolution" entry AR-<n> in docs/CHANGE_REQUESTS.md:
@@ -43,7 +43,7 @@ How to resolve:
 3. Mention the AR in the Progress log, and continue.
 
 As evidence when writing an AR, you may read Packages E, E.1, the E.1
-Errata and the Clarification (read-only). They never override E-1.2.16.
+Errata and the Clarification (read-only). They never override E-1.2.17.
 Cite the passage you relied on.
 
 Still raise a CR, mark the task BLOCKED, and continue with independent

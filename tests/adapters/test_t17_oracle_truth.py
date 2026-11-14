@@ -1,4 +1,4 @@
-"""Appendix T T17 (E-1.2.15) with the T18 amendments (E-1.2.16): oracle track points and reference visibility from simulator truth.
+"""Appendix T T17 (E-1.2.15) with the T18 amendments (E-1.2.16) and the T19 clarification (E-1.2.17): oracle track points and reference visibility from simulator truth.
 
 Hand camera (as in test_smartspaces): K = [[1000, 0, 960], [0, 1000, 540], [0, 0, 1]], R = diag(1, -1, -1), t = (0, 0, 10):
 at world (0, 0, 10), looking straight down, image 1920 x 1080. Hand box: x 0.8..1.2, y 1.8..2.2, z 0..1. Top face at
@@ -39,8 +39,8 @@ def obs(**kw):
     return ot.sdg_obs(CAL, sdg_obj(**kw))[0]
 
 
-def camera_tracks(frames, g_max=G):
-    return ot.camera_tracks(CAL, frames, g_max)
+def camera_tracks(frames, g_max=G, ineligible=frozenset(), cache=None):
+    return ot.camera_tracks(CAL, frames, g_max, ineligible, cache)
 
 
 def test_sdg_forklift_yaw_is_the_box_yaw_cr_023():
@@ -73,7 +73,7 @@ def test_t17_1_visible_is_tracked_with_the_tight_box():
     (p,) = tracks["f"]
     assert (p.decode_seq, p.state, p.box) == (0, "tracked", TIGHT_IMG)  # the tight box (in CF-IMG), never the loose one
     assert p.xy == (1.0, 2.0) and p.yaw == 0.0
-    assert counts == {"tracked": 1, "predicted": 0, "lost": 0, "lost_long_run": 0, "outside_span": 0, "never_visible_objects": 0}
+    assert counts == {"tracked": 1, "predicted": 0, "lost": 0, "lost_long_run": 0, "not_eligible_in_run": 0, "outside_span": 0, "never_visible_objects": 0}
 
 
 def test_t17_2_interior_gap_is_predicted_with_the_reprojected_box():
@@ -101,7 +101,7 @@ def test_t17_3_no_point_outside_the_visible_span_and_no_track_when_never_visible
     frames = [{"f": hidden, "g": hidden}, {"f": obs(), "g": hidden}, {"f": hidden, "g": hidden}]
     tracks, counts = camera_tracks(frames)
     assert list(tracks) == ["f"] and [p.decode_seq for p in tracks["f"]] == [1]  # leading and trailing frames: no point
-    assert counts == {"tracked": 1, "predicted": 0, "lost": 0, "lost_long_run": 0, "outside_span": 5, "never_visible_objects": 1}  # g: never visible, no track
+    assert counts == {"tracked": 1, "predicted": 0, "lost": 0, "lost_long_run": 0, "not_eligible_in_run": 0, "outside_span": 5, "never_visible_objects": 1}  # g: never visible, no track
 
 
 def test_t17_4_line_count_mismatch_or_missing_parameters_is_no_truth():
@@ -199,6 +199,44 @@ def test_t18_g_max_is_required_and_not_negative():
     assert [p.decode_seq for p in tracks["f"]] == [0, 2]  # g_max = 0: every run is longer than g_max
 
 
+# --- T19 (E-1.2.17): the run length is counted in eligible frames, as the T8.1 gap is ---------------------------------------
+
+def test_t19_run_of_g_max_plus_one_camera_frames_with_one_ineligible_is_predicted():
+    frames = [{"f": obs()}] + [{"f": obs(tight=None)}] * (G + 1) + [{"f": obs()}]
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({5}))  # G eligible frames in the run
+    assert [(p.decode_seq, p.state) for p in tracks["f"]] == [(0, "tracked")] + [(k, "predicted") for k in range(1, G + 2) if k != 5] + [(G + 2, "tracked")]
+    assert (counts["predicted"], counts["lost"], counts["lost_long_run"], counts["not_eligible_in_run"]) == (G, 0, 0, 1)  # no point on the ineligible frame
+    assert ot.not_visible_runs(frames, frozenset({5})) == {"f": [G]} and ot.not_visible_runs(frames) == {"f": [G + 1]}
+
+
+def test_t19_run_of_g_max_plus_one_eligible_frames_is_lost():
+    frames = [{"f": obs()}] + [{"f": obs(tight=None)}] * (G + 2) + [{"f": obs()}]
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({5}))  # G + 1 eligible frames and one ineligible frame
+    assert [(p.decode_seq, p.state) for p in tracks["f"]] == [(0, "tracked"), (G + 3, "tracked")]
+    assert (counts["predicted"], counts["lost"], counts["lost_long_run"], counts["not_eligible_in_run"]) == (0, G + 2, G + 2, 0)  # lost on every frame
+    tracks, counts = camera_tracks([{"f": obs()}] + [{"f": obs(tight=None)}] * (G + 1) + [{"f": obs()}])  # all eligible
+    assert [p.decode_seq for p in tracks["f"]] == [0, G + 2] and counts["lost_long_run"] == G + 1
+
+
+def test_t19_a_visible_frame_that_is_not_eligible_still_ends_a_run_ar_56():
+    """AR-56 item 2 (review flag): a run lies between two frames on which the dataset lists the object as visible (T17.2),
+    whether or not those frames are eligible. Two runs of 10 around a visible, ineligible frame are two runs of 10."""
+    hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
+    frames = [seen] + [hidden] * 10 + [seen] + [hidden] * 10 + [seen]
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({11}))
+    assert (counts["predicted"], counts["lost"]) == (20, 0) and ot.not_visible_runs(frames, frozenset({11})) == {"f": [10, 10]}
+    assert ot.merged_run_frames(frames, G, frozenset({11})) == 20  # counted as eligible frames without a point they would be one gap of 20 > g_max
+    assert ot.merged_run_frames(frames, G, frozenset()) == 0
+
+
+def test_reprojection_cache_gives_the_same_tracks():
+    frames = [{"f": obs()}] + [{"f": obs(tight=None)}] * 6 + [{"f": obs()}]
+    cache = {}
+    first = camera_tracks(frames, g_max=10, cache=cache)
+    assert len(cache) == 6 and camera_tracks(frames, g_max=10, cache=cache) == first == camera_tracks(frames, g_max=10)
+    assert camera_tracks(frames, g_max=5, cache=cache) == camera_tracks(frames, g_max=5)
+
+
 def test_t18_run_length_summary_nearest_rank():
     """T18 amendment 3 (min, median, P90, P99, max), nearest-rank percentiles: the value at rank ceil(q n) of the sorted lengths.
     Lengths 1..10: median = 5th value = 5; P90 = 9th = 9; P99 = 10th = 10."""
@@ -278,7 +316,7 @@ def test_the_five_eye_01_frames_of_run_2_seed_516797828_are_truth_defects():
                 assert row[o.prim].visible is None and o.tight is not None  # visible in the file, treated as not visible
         frames.append(row)
     assert defects == [(k, "forklift") for k in (136, 176, 199, 213, 226)]
-    tracks, _ = ot.camera_tracks(cal, frames, G)
+    tracks, _ = ot.camera_tracks(cal, frames, G, frozenset())
     states = {p.decode_seq: p.state for p in tracks[sdg_truth.FORKLIFT_PRIM]}
     assert all(states.get(k) in ("predicted", None) for k in (136, 176, 199, 213, 226))
 

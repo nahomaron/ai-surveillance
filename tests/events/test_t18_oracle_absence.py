@@ -35,7 +35,7 @@ def _obs(cls, xy, visible):
 def build(run, g_max):
     frames = [{"p": _obs("person", (1.0, 2.0), None if START <= k < START + run else (1045, 300, 1090, 355)),
                "f": _obs("forklift", (-2.5 + k / 10, 0.0), (300, 600, 500, 720))} for k in range(N)]
-    tracks, counts = ot.camera_tracks(CAL, frames, g_max)
+    tracks, counts = ot.camera_tracks(CAL, frames, g_max, frozenset())
     s1 = synthetic_s1.build(N, width=1920, height=1080)
     truth, positions = ot.s3_truth(tracks, {"p": "person", "f": "forklift"}, {k: k for k in range(N)})
     s3 = oracle.OracleTrackSource().tracks(s1["frame"][0]["recording_id"], truth, s1["frame"], Spec("S3", "E-1.2.16", "f", "f", ("orc_" + "a" * 26,), (), {}))

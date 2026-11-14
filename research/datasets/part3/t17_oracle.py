@@ -1,9 +1,11 @@
-"""T-18 / Appendix T T17 as amended by T18 (E-1.2.16): S1 (rules version rv2) and ORACLE-S3 for every registered recording
-of one S0 index, the T17.7 counts per run, and the not-visible run-length distribution per class (T18 amendment 3).
+"""T-18 / Appendix T T17 as amended by T18 and clarified by T19 (E-1.2.17): S1 (rules version rv2) and ORACLE-S3 for every registered recording
+of one S0 index, the T17.7 counts per run, the not-visible run-length distribution per class in eligible frames (T18
+amendment 3, T19), and, as sensitivity evidence only, the number of POWs (T8.1) and of POWs ended by gap_exceeded when g_max
+is 5, 15, 30 or 60 frames (oracle points and POW bridging both built with that g_max; counts only).
 IDs and counts only; artifacts go to the git-ignored <out_dir>.
 Parameters k_sup, f_untimed, f_sub, g_max are the TEST-ONLY values (no pre-registration is frozen): the artifacts are TEST-ONLY.
 A camera whose truth is refused under T17.5 (an excess in (90, 150] px) gets no oracle track and is reported.
-S1 reuse: T18 changes nothing in S1. With <previous_counts.json> <previous_out_dir>, a recording's S1 artifact of the
+S1 reuse: T18 and T19 change nothing in S1. With <previous_counts.json> <previous_out_dir>, a recording's S1 artifact of the
 previous run is verified (file hashes and payload reconstruction) and reused when it has the same decode configuration
 and S0 input; otherwise the recording is decoded again. The S3 artifact names the S1 artifact it was built from.
 Usage: PYTHONPATH=src python t17_oracle.py <data_root> <s0_out_dir> <out_dir> <counts.json> [<previous_counts.json> <previous_out_dir>]"""
@@ -26,17 +28,18 @@ from rq1.ids import artifact as artifacts
 from rq1.ids.artifact import Spec, write_artifact
 from rq1.schema import files
 from rq1.schema.errors import ContractError
-from rq1.substrate import oracle
+from rq1.substrate import oracle, pows
 
 ROOT = Path(__file__).resolve().parents[3]
-CONTRACT, TEST_ONLY = "E-1.2.16", "TEST-ONLY"
+CONTRACT, TEST_ONLY = "E-1.2.17", "TEST-ONLY"
 V = json.loads((ROOT / "fixtures" / "records" / "TEST-ONLY-PARAMETERS.json").read_text())["parameters"]
 DECODE_RECORD = {"k_sup": V["k_sup"], "f_untimed": V["f_untimed"], "f_sub": V["f_sub"], "rules_version": quality.RV2, "delta_nom_declarations": [],
                  "final_frame_support": "delta_nom", "version_label": TEST_ONLY, "version_label_null_reason": None}
 DCF = core.make_id("dcf", DECODE_RECORD)
 G_MAX = V["g_max"]
-ORC = core.make_id("orc", {"source": "simulator_truth", "rule": "Appendix T T17, T18", "g_max": G_MAX, "version_label": TEST_ONLY})
-KEYS = ("tracked", "predicted", "lost", "lost_long_run", "outside_span", "never_visible_objects")
+ORC = core.make_id("orc", {"source": "simulator_truth", "rule": "Appendix T T17, T18, T19", "g_max": G_MAX, "version_label": TEST_ONLY})
+KEYS = ("tracked", "predicted", "lost", "lost_long_run", "not_eligible_in_run", "outside_span", "never_visible_objects")
+SENSITIVITY_G = (5, 15, 30, 60)  # frames; G_MAX must be one of them
 
 
 def provenance():
@@ -62,33 +65,43 @@ def reuse_s1(entry, previous, previous_dir):
         return None
     if artifacts.verify(directory) != art:
         return None
-    return art, files.read_table(os.path.join(directory, "frame.parquet"), "frame", artifacts.SCHEMA_VERSION), spec
+    read = lambda table: files.read_table(os.path.join(directory, f"{table}.parquet"), table, artifacts.SCHEMA_VERSION)
+    return art, read("frame"), spec, read("coverage_segment")
 
 
 def s1_frames(order, data_root, commit, env, out_dir, origin, previous, previous_dir):
-    """Yields (entry, S1 artifact id, frame rows, S1 code commit, S1 contract label, reused) in `order`."""
+    """Yields (entry, S1 artifact id, frame rows, coverage rows, S1 code commit, S1 contract label, reused) in `order`."""
     with multiprocessing.Pool(max(1, (os.cpu_count() or 2) - 1)) as pool:
         for entry in order:
             kept = reuse_s1(entry, previous, previous_dir)
             if kept is not None:
-                yield entry, kept[0], kept[1], kept[2]["code_commit"], kept[2]["schema_bundle"], True
+                yield entry, kept[0], kept[1], kept[3], kept[2]["code_commit"], kept[2]["schema_bundle"], True
                 continue
             _, s1 = pool.apply(s1_worker, ((entry, data_root, commit, env),))
             write_artifact(s1, os.path.join(out_dir, s1.artifact_id), origin[entry["s0"]])
-            yield entry, s1.artifact_id, s1.tables["frame"], commit, CONTRACT, False
+            yield entry, s1.artifact_id, s1.tables["frame"], s1.tables["coverage_segment"], commit, CONTRACT, False
 
 
-def run_lengths(frames, classes, seq_to_index):
-    """Per class: {run length in decoded frames: number of runs}; and the runs whose T18 outcome would differ if the length
-    were counted in eligible frames instead (CR-024), with the runs that contain a frame that is not eligible."""
-    lengths, differ, with_ineligible = collections.defaultdict(collections.Counter), 0, 0
-    for key, runs in ot.not_visible_spans(frames).items():
-        for start, n in runs:
+def run_lengths(frames, classes, ineligible):
+    """Per class: {run length in eligible frames (T19): number of runs}."""
+    lengths = collections.defaultdict(collections.Counter)
+    for key, runs in ot.not_visible_runs(frames, ineligible).items():
+        for n in runs:
             lengths[classes[key]][n] += 1
-            eligible = sum(1 for k in range(start, start + n) if seq_to_index.get(k) is not None)
-            with_ineligible += eligible != n
-            differ += (n > G_MAX) != (eligible > G_MAX)
-    return {cls: {str(n): c for n, c in sorted(counter.items())} for cls, counter in sorted(lengths.items())}, differ, with_ineligible
+    return {cls: {str(n): c for n, c in sorted(counter.items())} for cls, counter in sorted(lengths.items())}
+
+
+def pow_counts(tracks, classes, seq_to_index, frame_rows, coverage, g):
+    """T8.1 POWs of every person-forklift pair of the camera with gap bridge g: (POWs, POWs ended by gap_exceeded)."""
+    frames = {f["frame_index"]: f for f in frame_rows if f["eligible"]}
+    states = {key: {seq_to_index[p.decode_seq]: p.state for p in pts if seq_to_index.get(p.decode_seq) is not None} for key, pts in tracks.items()}
+    total = exceeded = 0
+    for person in sorted((k for k in states if classes[k] == "person"), key=str):
+        for fork in sorted((k for k in states if classes[k] == "forklift"), key=str):
+            windows = pows.build(states[person], states[fork], frames, coverage, g)
+            total += len(windows)
+            exceeded += sum(w.end_reason == "gap_exceeded" for w in windows)
+    return total, exceeded
 
 
 class Annotations:
@@ -162,7 +175,7 @@ def main():
     commit, env = provenance()
     ann, cams = Annotations(data_root), []
     order = sorted(index, key=lambda e: (e["annotation"].get("ground_truth", ""), e["run"], e["camera"]))
-    for entry, s1_id, frame_rows, s1_commit, s1_contract, reused in s1_frames(order, data_root, commit, env, out_dir, origin, previous, previous_dir):
+    for entry, s1_id, frame_rows, coverage, s1_commit, s1_contract, reused in s1_frames(order, data_root, commit, env, out_dir, origin, previous, previous_dir):
         seq_to_index = {f["decode_seq"]: f["frame_index"] for f in frame_rows}
         out = {"dataset": entry["dataset"], "run": entry["run"], "camera": entry["camera"], "rec_id": entry["rec_id"], "s1": s1_id,
                "s1_code_commit": s1_commit, "s1_contract": s1_contract, "s1_reused": reused,
@@ -170,9 +183,16 @@ def main():
         built = (sdg_frames if entry["dataset"] == "sdg" else smartspaces_frames)(entry, ann, len(frame_rows), out)
         if built is not None:
             frames, classes = built
-            tracks, counts = ot.camera_tracks(entry["calibration"], frames, G_MAX)
+            ineligible = frozenset(k for k, i in seq_to_index.items() if i is None)
+            cache, by_g = {}, {}
+            for g in sorted(SENSITIVITY_G, reverse=True):  # the largest g first fills the reprojection cache
+                by_g[g] = ot.camera_tracks(entry["calibration"], frames, g, ineligible, cache)
+                total_pows, exceeded = pow_counts(by_g[g][0], classes, seq_to_index, frame_rows, coverage, g)
+                out.setdefault("pow_sensitivity", {})[str(g)] = {"pows": total_pows, "pows_ended_gap_exceeded": exceeded}
+            tracks, counts = by_g[G_MAX]
             out.update({k: counts[k] for k in KEYS})
-            out["not_visible_run_lengths"], out["runs_differing_if_eligible_frames"], out["runs_with_ineligible_frame"] = run_lengths(frames, classes, seq_to_index)
+            out["not_visible_run_lengths"] = run_lengths(frames, classes, ineligible)
+            out["frames_in_runs_merged_across_ineligible_visible"] = ot.merged_run_frames(frames, G_MAX, ineligible)
             out["points_on_ineligible_frames"] = sum(1 for pts in tracks.values() for p in pts if seq_to_index.get(p.decode_seq) is None)
             truth, _ = ot.s3_truth(tracks, classes, seq_to_index)
             out["tracks"] = dict(sorted(collections.Counter(t["class"] for t in truth).items()))
@@ -183,7 +203,7 @@ def main():
         cams.append(out)
         print(len(cams), "/", len(order), entry["run"], entry["camera"], flush=True)
     runs = []
-    extra = ("truth_defect", "unchecked_boxes", "points_on_ineligible_frames", "runs_differing_if_eligible_frames", "runs_with_ineligible_frame")
+    extra = ("truth_defect", "unchecked_boxes", "points_on_ineligible_frames", "frames_in_runs_merged_across_ineligible_visible")
     for key in sorted({(c["dataset"], c["run"]) for c in cams}):
         mine = [c for c in cams if (c["dataset"], c["run"]) == key]
         runs.append({"dataset": key[0], "run": key[1], "cameras": len(mine), "cameras_with_oracle_tracks": sum("s3" in c for c in mine),
@@ -205,12 +225,19 @@ def main():
                      "runs_longer_than_g_max": sum(count for n, count in h.items() if n > G_MAX),
                      "frames_in_runs_longer_than_g_max": sum(n * count for n, count in h.items() if n > G_MAX),
                      "histogram": {str(n): h[n] for n in sorted(h)}} for (d, cls), h in sorted(histogram.items())]
+    sensitivity = [{"dataset": d, "run_or_all": "all", "g_max": g, "label": "sensitivity evidence, counts only",
+                    "pows": sum(c["pow_sensitivity"][str(g)]["pows"] for c in cams if c["dataset"] == d and "pow_sensitivity" in c),
+                    "pows_ended_gap_exceeded": sum(c["pow_sensitivity"][str(g)]["pows_ended_gap_exceeded"] for c in cams if c["dataset"] == d and "pow_sensitivity" in c)}
+                   for d in sorted({c["dataset"] for c in cams}) for g in SENSITIVITY_G]
+    by_scene = [{"dataset": d, "run": r, "g_max": g, "pows": sum(c["pow_sensitivity"][str(g)]["pows"] for c in cams if (c["dataset"], c["run"]) == (d, r) and "pow_sensitivity" in c),
+                 "pows_ended_gap_exceeded": sum(c["pow_sensitivity"][str(g)]["pows_ended_gap_exceeded"] for c in cams if (c["dataset"], c["run"]) == (d, r) and "pow_sensitivity" in c)}
+                for d, r in sorted({(c["dataset"], c["run"]) for c in cams}) for g in SENSITIVITY_G]
     summary = {"contract": CONTRACT, "code_commit": commit, "decode_config_id": DCF, "oracle_config_id": ORC, "rules_version": quality.RV2,
-               "parameters": TEST_ONLY, "g_max": G_MAX, "run_length_unit": "decoded frames of the camera (CR-024)", "percentiles": "nearest-rank",
+               "parameters": TEST_ONLY, "g_max": G_MAX, "run_length_unit": "eligible frames of the recording (T19)", "percentiles": "nearest-rank",
                "s1_code_commits": sorted({c["s1_code_commit"] for c in cams}),
-               "reference_visibility": ot.VISIBILITY_NOTE, "total": total, "not_visible_run_lengths": distribution, "runs": runs, "cameras": cams}
+               "reference_visibility": ot.VISIBILITY_NOTE, "total": total, "not_visible_run_lengths": distribution, "pow_sensitivity": sensitivity, "pow_sensitivity_by_run": by_scene, "runs": runs, "cameras": cams}
     json.dump(summary, open(counts_path, "w"), indent=1)
-    print(json.dumps({"total": total, "not_visible_run_lengths": [{k: v for k, v in d.items() if k != "histogram"} for d in distribution]}, indent=1))
+    print(json.dumps({"total": total, "not_visible_run_lengths": [{k: v for k, v in d.items() if k != "histogram"} for d in distribution], "pow_sensitivity": sensitivity}, indent=1))
 
 
 if __name__ == "__main__":

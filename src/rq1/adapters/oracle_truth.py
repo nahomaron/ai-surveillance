@@ -1,12 +1,13 @@
-"""Oracle track points and reference visibility from simulator truth, per camera (Appendix T T17 as amended by T18,
-contract E-1.2.16).
+"""Oracle track points and reference visibility from simulator truth, per camera (Appendix T T17 as amended by T18 and
+clarified by T19, contract E-1.2.17).
 
 T17.1 visible frame -> `tracked` with the dataset's visible box (SDG tight box; SmartSpaces visible-list entry).
 T17.2 not-visible frame between the object's first and last visible frame in the camera -> `predicted` with the
       image-clipped reprojection of the object's 3D box; `lost` (no point) when that reprojection is empty.
       T18 amendment 2: only when the run of consecutive not-visible frames it belongs to has <= g_max frames (the T8.1
       parameter). A longer run is `lost` on every frame (no points); the track continues when the object is visible again.
-      Run lengths count the camera's frames as the truth lists them (decoded frames; CR-024).
+      T19: the run length is counted in eligible frames of the recording, as the T8.1 gap is. A run with <= g_max eligible
+      frames is predicted on its eligible frames; ineligible frames carry no track point in either case.
 T17.3 no point outside the visible span; an object never visible in the camera has no track. The SDG loose box is never
       a track point.
 T17.4 a camera has simulator truth only when every annotation file has as many lines as the video has frames and camera
@@ -159,9 +160,26 @@ def not_visible_spans(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[
     return {key: _runs(visible) for key, visible in _visible_frames(frames).items() if visible}
 
 
-def not_visible_runs(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[int]]:
-    """T18 amendment 3: the lengths (frames) of those runs."""
-    return {key: [n for _, n in runs] for key, runs in not_visible_spans(frames).items()}
+def not_visible_runs(frames: list[dict[Hashable, Obs]], ineligible: frozenset[int] = frozenset()) -> dict[Hashable, list[int]]:
+    """T18 amendment 3 with T19: the lengths of those runs in eligible frames (`ineligible`: decoded frames that are not
+    eligible). A run whose frames are all ineligible has length 0."""
+    return {key: [sum(1 for k in range(start, start + n) if k not in ineligible) for start, n in runs]
+            for key, runs in not_visible_spans(frames).items()}
+
+
+def merged_run_frames(frames: list[dict[Hashable, Obs]], g_max: int, ineligible: frozenset[int]) -> int:
+    """Diagnostic for AR-56 item 2: the eligible frames that lie in runs of <= g_max eligible frames (predicted or lost by
+    reprojection) but would lie in a run longer than g_max if a visible frame that is not eligible did not end a run."""
+    n = 0
+    for visible in _visible_frames(frames).values():
+        kept = [k for k in visible if k not in ineligible]
+        own = {k for start, length in _runs(visible) for k in range(start, start + length)
+               if sum(1 for j in range(start, start + length) if j not in ineligible) <= g_max}
+        for start, length in _runs(kept):
+            inside = [k for k in range(start, start + length) if k not in ineligible]
+            if len(inside) > g_max:
+                n += sum(1 for k in inside if k in own)
+    return n
 
 
 def run_length_summary(lengths: list[int]) -> dict[str, int | None]:
@@ -173,13 +191,18 @@ def run_length_summary(lengths: list[int]) -> dict[str, int | None]:
             "max": v[-1] if v else None}
 
 
-def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max: int) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
-    """T17.1-T17.3 for one camera, with the T18 absence length. `frames[k]`: object key -> observation on decoded frame k.
-    Returns the points of every object that is visible at least once (sorted by decode_seq) and the T17.7 counts.
-    `lost` counts every lost frame; `lost_long_run` is the part of it that lies in runs longer than g_max."""
+def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max: int, ineligible: frozenset[int],
+                  cache: dict | None = None) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
+    """T17.1-T17.3 for one camera, with the T18 absence length counted as T19 says. `frames[k]`: object key -> observation
+    on decoded frame k; `ineligible`: the decoded frames that are not eligible in S1. Returns the points of every object that
+    is visible at least once (sorted by decode_seq) and the T17.7 counts.
+    `lost` counts every lost frame; `lost_long_run` is the part of it in runs longer than g_max; `not_eligible_in_run` counts
+    the ineligible frames of the other runs (no point, neither predicted nor lost). A tracked point on an ineligible frame is
+    still returned here and is left out by `s3_truth`.
+    `cache` (optional, one per camera) keeps reprojections between calls that differ only in g_max."""
     if g_max < 0:
         raise ContractError("ERR-SPEC", f"g_max must be >= 0, got {g_max}")
-    counts = {"tracked": 0, "predicted": 0, "lost": 0, "lost_long_run": 0, "outside_span": 0, "never_visible_objects": 0}
+    counts = {"tracked": 0, "predicted": 0, "lost": 0, "lost_long_run": 0, "not_eligible_in_run": 0, "outside_span": 0, "never_visible_objects": 0}
     seen = _visible_frames(frames)
     tracks: dict[Hashable, list[Point]] = {}
     for key in sorted(seen, key=str):
@@ -189,7 +212,8 @@ def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max:
             counts["never_visible_objects"] += 1
             counts["outside_span"] += present
             continue
-        long_run = {k for start, n in _runs(visible) if n > g_max for k in range(start, start + n)}
+        long_run = {k for start, n in _runs(visible) if sum(1 for j in range(start, start + n) if j not in ineligible) > g_max
+                    for k in range(start, start + n)}
         points = []
         for k in range(visible[0], visible[-1] + 1):
             o = frames[k].get(key)
@@ -198,10 +222,18 @@ def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max:
                 counts["tracked"] += 1
                 continue
             if k in long_run:
-                counts["lost"] += 1  # T18 amendment 2: a run longer than g_max is lost on every frame
+                counts["lost"] += 1  # T18 amendment 2, T19: a run of more than g_max eligible frames is lost on every frame
                 counts["lost_long_run"] += 1
                 continue
-            box = None if o is None else clipped_reprojection(cal, o.corners() if callable(o.corners) else o.corners)
+            if k in ineligible:
+                counts["not_eligible_in_run"] += 1  # T19: no track point on an ineligible frame
+                continue
+            if cache is not None and (key, k) in cache:
+                box = cache[(key, k)]
+            else:
+                box = None if o is None else clipped_reprojection(cal, o.corners() if callable(o.corners) else o.corners)
+                if cache is not None:
+                    cache[(key, k)] = box
             if box is None:
                 counts["lost"] += 1  # T17.2: empty reprojection (or no pose on this frame): no point
             else:

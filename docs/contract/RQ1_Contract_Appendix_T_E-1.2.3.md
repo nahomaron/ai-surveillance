@@ -1067,3 +1067,16 @@ still raises ERR-INVARIANT; pair-level S4/S5 output on a fixture is identical be
 and after amendment 2.
 
 Source: Architect rulings of 14 Nov 2026, item B (Owner approval by forwarding them), appended verbatim.
+
+## T19. T18 clarification: length of a not-visible run (E-1.2.17; CR-024, D-33)
+
+T18 clarification: length of a not-visible run
+ The length of a not-visible run (T18 amendment 2) is counted in eligible frames of
+ the recording, as the T8.1 gap is. A run with <= g_max eligible frames is predicted
+ on its eligible frames; a longer run is lost on every frame. Ineligible frames carry
+ no track point in either case.
+
+ Tests: a run of g_max + 1 camera frames of which one is ineligible -> predicted;
+ a run of g_max + 1 eligible frames -> lost. Re-run the SDG and SmartSpaces counts.
+
+Source: Architect rulings of 14 Nov 2026 (second set), item A (Owner approval by forwarding them), appended verbatim.

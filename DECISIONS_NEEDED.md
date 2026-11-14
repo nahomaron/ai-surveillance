@@ -309,9 +309,9 @@ Agent's recommendation: (a). Until decided, SDG yaw is withheld in code.
 Owner decision (14 Nov 2026, Architect rulings item A; Owner approval by forwarding): option (a), no contract text. SDG forklift yaw = the box long-axis yaw ("simulator yaw when supplied", T8.2). The motion-direction check is withdrawn as an acceptance test and kept as evidence. SDG S4 unblocked. The heading-fallback finding is added to CR-007 / D-8; a `forklift_turning` per-frame stratum is proposed in T-20.
 
 
-## D-33 (2026-11-14) — T18 absence length: counted in the camera's frames or in eligible frames?        status: OPEN (not blocking)
+## D-33 (2026-11-14) — T18 absence length: counted in the camera's frames or in eligible frames?        status: CLOSED (Appendix T T19, E-1.2.17)
 Task: T-18   Blocking: nothing now; decide before the M1a run (T-21)
 Question: T18 amendment 2 predicts a not-visible run only when it "has <= g_max frames (the T8.1 parameter)". T17 counts frames of the camera as the truth lists them; T8.1 counts eligible frames. A run that contains a frame that is not eligible (a black frame, for example) can be lost under one count and predicted under the other. Which count applies?
 Options: see CR-024. (a) decoded frames of the camera (implemented, as T17 reads); (b) eligible frames (as T8.1).
 Agent's recommendation: (a). The number of held runs on which the two differ is in the Progress log and in `t17_counts_*.json`.
-Owner decision: ______
+Owner decision (14 Nov 2026, Architect rulings second set, item A; Owner approval by forwarding): option (b), eligible frames, as the T8.1 gap is. Appended verbatim to Appendix T as section T19, contract **E-1.2.17**. Counts re-run.
