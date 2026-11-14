@@ -325,7 +325,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 - **No meaning effect:** nullability, field placement and labels only. **Review flag:** items 6 and 7. **Files/tests:** `schema/tables.py`, `substrate/*`; `tests/substrate/test_part_b.py`, `test_ar5_config_table_columns`, `test_ar6_named_configuration_fields` (updated for the new fields). **Reverse:** edit the definitions.
 - **Architect review (12 Nov 2026):** items 1–5 ACCEPTED. Item 6 REVISED by T10.9: a lost or missing object is listed as `person_lost` / `forklift_lost`, not `*_occluded`; q_state is unchanged. Item 7 ACCEPTED for M0. At T-18, set `world_frame_id` and `calibration_tier` for oracle data from the dataset's declared frame and calibration, and raise a CR if the dataset supplies none. Oracle-path results are never pooled with detector-path results; exports carry `geometry_method`.
 
-## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: DEFERRED (D-8, to T-22)
+## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: DEFERRED (D-8, to T-22); evidence added 14 Nov 2026
 
 **Raised by:** implementation agent. **Task:** T-08 (not blocking M0); blocks the detector path (T-22, T-23, M1b).
 **Contract sections:** E-1.2.1 §5.2 `footprint_prior.anchor` · enum{box_bottom_centre, rear_axle, centre}; §5.5.
@@ -334,6 +334,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 **Problem.** A calibrated camera gives the floor point under the box's bottom centre (`foot_point_px`). The contract does not say how that point relates to the footprint rectangle for `box_bottom_centre` or `rear_axle` anchors, for example how far behind or below the centre it lies, and along which axis given yaw. Oracle positions are footprint centres, so the M0 fixtures are unaffected. The builder currently treats the projected point as the footprint centre, which is correct only for `anchor = centre`.
 **Proposed resolution:** for `box_bottom_centre`, use the projected point as the footprint centre (the bottom-centre of a ground-contact box approximates the footprint's image centre). For `rear_axle`, place the centre at `length/2 − rear_overhang` ahead along yaw, with `rear_overhang` added to the prior. If yaw is unknown, use the circumscribed disc as in T8.2.
 **Decision:** DEFERRED to T-22 (D-8, 12 Nov 2026). Reopen with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre.   **Approver:** Research Owner
+**Evidence added for the T-22 decision (Architect ruling A of 14 Nov 2026, from CR-023):** on SDG the T8.2 heading fallback (yaw = direction of travel of the footprint centre) is about 77° off the body axis during pivot turns. Over the 67 runs checked, 7,860 of 16,507 moving-forklift frames (≥ 0.3 m/s) are turning frames (yaw rate ≥ 5°/s over 10 frames); on them the angle between the direction of travel and the box long axis has median 77.5°, P99 81.3°, and 74 % lie beyond 75°. On straight frames (8,647) it is within 10.5° on every frame. SmartSpaces turning frames: median 2.5°, P99 11.3°. Source: `research/datasets/part3/yaw_motion_check.json`. A camera-based path without a supplied yaw would therefore orient the forklift rectangle almost across the body during such turns; the anchor rule and the yaw fallback should be decided together.
 
 ## AR-36 — Status-log and CV-SIM conventions
 - **Gaps and choices:**
@@ -719,7 +720,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 **Agent's recommendation:** 1(a), 2(a), 3(a), 4(b) at 120 px.
 **Decision:** (13 Nov 2026) Appendix T section T17 (E-1.2.15), D-28: 1(a); 2 predicted with the image-clipped reprojected 3D box inside the visible span (not the loose box), lost when empty, no point outside the span; 3(a) and camera parameters required; 4 excess > 120 px → truth_defect treated as not visible, excess in (80, 157] px → ERR-INVARIANT.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-52 — SmartSpaces calibration and truth reading; SDG S0 registration (T-18 part C)   status: ACCEPTED (Architect, 13 Nov 2026). Item 2 subject to the motion-direction check: SmartSpaces passes; SDG is not concentrated, so SDG yaw is not used (CR-023)
+## AR-52 — SmartSpaces calibration and truth reading; SDG S0 registration (T-18 part C)   status: ACCEPTED (Architect, 13 Nov 2026). Item 2: the motion-direction check is withdrawn as an acceptance test and kept as evidence; the long-axis yaw is used for both datasets (CR-023, decided 14 Nov 2026)
 - **Gaps and choices:**
   1. **SmartSpaces calibration.** `calibration.json` supplies K (`intrinsicMatrix`), E = [R | t] (`extrinsicMatrix`, OpenCV, metres), and a `cameraMatrix` and `homography` that are not K·E (they map the dataset's map-image coordinates: `scaleFactor`, `translationToGlobalCoordinates`). Choice: full_camera from K and E, `distortion_model = none` (rendered pinhole, none supplied), `dataset_supplied`, `supplied_unvalidated` until GV-02; the map-image matrices are not read. Evidence: with K·E, 1,922,286 of 1,924,956 visible 2D boxes per scene (99.86 %) lie within 2 px of the image-clipped projection of the object's own 3D box; with `cameraMatrix`, most projected box centres fall behind the camera. Considered: ground_plane_homography from `homography` (wrong frame).
   2. **Forklift yaw = the direction of the box's long horizontal axis.** T8.2 uses "simulator or oracle yaw when supplied", else the heading; the prior rectangle's length lies along yaw. SmartSpaces forklifts are long along their local y axis on all 80,626 forklift boxes (1.16 × 2.68 m and 1.13 × 1.87 m), so yaw = rotation_z + π/2, wrapped to (−π, π]; SDG forklifts are long along local x on all 20,081 boxes checked (3.03 × 1.13 m), so AR-50's local-x yaw is the same rule. A box with equal horizontal extents is refused. **Review flag:** a literal reading "yaw = the supplied rotation" would turn the SmartSpaces forklift footprint 90° against its own 3D box and make yaw jump by 90° where a track falls back to heading; the agent does not consider it plausible. If the Architect does, this item becomes a CR. No value uses it yet: oracle tracks wait for CR-019.
@@ -748,20 +749,29 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 **Agent's recommendation:** (a).
 **Decision:** (13 Nov 2026) option (a), version labels "<edition>@<revision>/<data_origin>" (Architect rulings second set, item C, citing T16 / E-1.2.14, whose section text the agent has not received).   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-53 — Representation details of T17 oracle tracks and the SmartSpaces S0 (T-18)
+## AR-53 — Representation details of T17 oracle tracks and the SmartSpaces S0 (T-18)   status: item 3 ACCEPTED (Architect, 14 Nov 2026; per-dataset evidence recorded below); other items pending review
 - **Gaps and choices** (none changes a T17 rule):
   1. **"Behind the camera" in T17.2.** A 3D box that straddles the camera plane is cut at a near plane z_cam = 0.001 m and the part in front is projected; the reprojection is empty only when nothing lies in front or nothing falls in the image. Considered: empty as soon as one corner is behind (would turn close, partly visible-range objects into `lost`).
   2. **Image clipping.** The convex hull of the projected vertices is clipped exactly to the image rectangle (polygon clipping, then its bounding box); a result without area is empty.
   3. **Box coordinates → CF-IMG. Review flag.** Both datasets give 2D boxes as inclusive pixel indices: maxima are 1919 and 1079 on 1920 × 1080 images, and one-pixel boxes with x1 = x2 or y1 = y2 exist (SDG tight boxes: 117 of 379,570; SmartSpaces visible boxes: 98,702 of 1,924,956). CF-IMG (E-1.2.1 §5) is corner-origin with x1 < x2 and y1 < y2, and "adapters map their outputs back to CF-IMG". So a dataset box [x0, y0, x1, y1] is the CF-IMG box [x0, y0, x1 + 1, y1 + 1]; reprojected boxes are clipped to [0, W] × [0, H]. Without this, T17.1 ("box = that visible box") cannot be stored for those boxes (schema: x1 < x2). It moves every oracle box's right and bottom edge by 1 px against the raw numbers. The T17.5 excess stays in dataset coordinates, as the ruling's figures (80.1, 157.3, 46 boxes) were computed. Considered: treating zero-extent boxes as not visible (contradicts T17.6 "no minimum visible area").
   4. **Frame without a truth record inside the visible span** → `lost` (no pose to reproject).
-  5. **T17.5 order and scope.** Every loose box is checked, visible or not. An excess in (80, 157] px is refused before the 120 px rule is applied. The refusal is per camera: that camera gets no oracle track, the driver records the case and continues (CR-022).
+  5. **T17.5 order and scope.** Every loose box is checked, visible or not. An excess in the guard band ((80, 157] px as first written; (90, 150] px since T18) is refused before the 120 px rule is applied. The refusal is per camera: that camera gets no oracle track, the driver records the case and continues (CR-022).
   6. **To S3 and S4.** Points on frames without a `frame_index` (not eligible under the rules version) are left out; a track left without points is dropped; `local_id` = 1… in sorted identity order; simulator positions carry a zero covariance (AR-36 item 4); yaw is passed for forklifts only. SmartSpaces pallet trucks become tracks of class `pallet_truck` (present, not an E1 pair class, D-22).
   7. **CV-SIM references.** `reference_objects` gives the T17.6 objects (present on T17.1 frames after T17.5, with the visible box and the simulator position). O/H/PC interaction references apply the definitions with rule parameters, which do not exist before the pre-registration is frozen (G-PR); they are built in the M1a run (T-21) from these objects.
-  8. **T16.** The T16 text reached the agent after T17 and is now in Appendix T verbatim (the placeholder is removed). As T16.1 says: one dataset_source per data_origin, version `MTMC_Tracking_2026@<full revision hash>/<data_origin>`, one shared licence component whose own version has no origin suffix. T16.2 and the T16.1 refusal: AR-54.
+  8. **T16.** The T16 text is in Appendix T verbatim (it reached the agent after T17). As T16.1 says: one dataset_source per data_origin, version `MTMC_Tracking_2026@<full revision hash>/<data_origin>`, one shared licence component whose own version has no origin suffix. T16.2 and the T16.1 refusal: AR-54.
   9. **SmartSpaces S0.** One S0 artifact per scene (VR-E-005). Site = scene; session = scene; lineage: ext_run_id = scene name, scene_id = the scene asset (`Warehouse_000` for both scenes, T14.1), render_parent = `Warehouse_000` on `Warehouse_001`, seed null `not_supplied`, generation_batch `MTMC_Tracking_2026/train`. `viewpoint_class = other` (the dataset states none; **review flag**: it may be a stratum). Timelines `recording_local`, as for SDG (AR-52 item 5).
   10. **Registrar fix.** `_fill_struct` ignored a supplied null reason inside `session.lineage` and stored `not_supplied`; it now honours it, as `_fill` does. SDG sessions therefore store `render_parent` null `not_applicable` as AR-52 item 7 says; the SDG S0 ID changed (now `art_xwrldyhquvmorjhpjxb573tbxk` at contract label E-1.2.15). M0 supplies no lineage reasons and is unchanged.
   11. **Driver parameters.** The T17 run decodes with `rv2` and the TEST-ONLY values of k_sup, f_untimed, f_sub; its S1 and S3 artifacts are TEST-ONLY and are rebuilt under the frozen pre-registration.
-  12. **Yaw against motion.** The Architect's check (ruling on AR-52 item 2) and its result: CR-023.
+  12. **Yaw against motion.** The Architect's check (ruling on AR-52 item 2) was run; its result is in CR-023, decided 14 Nov 2026: the check is evidence only, and the SDG box yaw is used.
+- **Item 3, evidence per dataset (Architect ruling C, 14 Nov 2026;** `research/datasets/part3/box_convention_evidence.json`, all annotated objects, 1920 × 1080 images**):**
+
+  | Dataset, field | Boxes | Non-integer | Largest x1, y1 | Boxes with x1 = 1919 | Boxes with y1 = 1079 | x0 = x1 | y0 = y1 | x1 < x0 or y1 < y0 |
+  |---|---|---|---|---|---|---|---|---|
+  | SDG `bounding_box_2d_tight_fast` (679 annotation files) | 381,470 | 0 | 1919, 1079 | 23,153 | 20,622 | 112 | 43 | 0 |
+  | SDG `bounding_box_2d_loose_fast` | 388,318 | 0 | 1919, 1079 | 23,223 | 20,684 | 18 | 4 | 0 |
+  | SmartSpaces `2d bounding box visible`, Warehouse_000 (001 identical) | 1,924,956 | 0 | 1919, 1079 | 20,022 | 18,906 | 61,497 | 73,565 | 0 |
+
+  In each dataset every value is an integer, boxes cut by the right or bottom image border stop at W − 1 or H − 1 and never reach W or H, and boxes one pixel wide or high have equal minimum and maximum. All three facts fit inclusive pixel indices and none fits half-open edges. (The counts differ slightly from the E1-object counts quoted in item 3 because this table covers every annotated object.)
 - **No meaning effect:** items 1, 2, 4–7, 9–11 are representation or parsing of T17 as written; item 3 applies the contract's CF-IMG definition to the datasets' convention and is flagged; item 8 applies only the quoted ruling.
 - **Files/tests:** `adapters/oracle_truth.py`, `adapters/registration.py`, `registry/registrar.py`; `tests/adapters/test_t17_oracle_truth.py`, `tests/adapters/test_registration.py`; drivers `research/datasets/part3/t17_oracle.py`, `s0_register_smartspaces.py`, `yaw_motion_check.py`. **Reverse:** item 3: drop `cf_img` and the clip bound; item 1: change `NEAR_M` or the rule in `clipped_reprojection`.
 
@@ -781,7 +791,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 **What proceeds meanwhile:** everything except freezing a split that contains SmartSpaces recordings. **Agent's recommendation:** (a). The agent changes nothing in `splits/leakage.py` until decided.
 **Decision:** (13 Nov 2026) covered by T16.2, received after this CR was written: "within one dataset" means rows with the same dataset name; implemented in `splits/leakage.py` (`dataset_name`), tests `test_t16_*`.   **Approver:** Research Architect; Owner (by forwarding)
 
-## CR-022 (2026-11-13) — T17.5 refusal band (80, 157] px catches one ordinary held box at 80.1 px (T-18)   status: OPEN
+## CR-022 (2026-11-13) — T17.5 refusal band (80, 157] px catches one ordinary held box at 80.1 px (T-18)   status: CLOSED (Appendix T T18 amendment 1, E-1.2.16)
 
 **Raised by:** implementation agent. **Task:** T-18 (SDG ORACLE-S3). **Contract section:** Appendix T T17.5.
 **Meaning-affecting:** yes (which cameras have oracle tracks and references).
@@ -794,9 +804,9 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 | (b) Refusal band (81, 157] px, or (80.1, 157.3) as in the sentence before it | no camera refused; the 80.1 px box is an ordinary person box (animated mesh larger than the fixed 3D box) |
 
 **What proceeds meanwhile:** all other cameras. **Agent's recommendation:** (b) with a stated bound; the agent does not move the bound itself.
-**Decision:** ______   **Approver:** Research Architect / Owner
+**Decision:** (14 Nov 2026) guard band (90, 150] px; the 120 px threshold is unchanged (Appendix T T18 amendment 1, appended verbatim). Implemented in `oracle_truth.REFUSE_BAND_PX`; tests `test_t17_5_refusal_band`, `test_the_eye_02_camera_of_run_22_seed_1886649344_has_an_oracle_track`. The CR text holds no point the ruling does not cover.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-54 — T16 mechanics, the real SmartSpaces rows and the access log (T-18)
+## AR-54 — T16 mechanics, the real SmartSpaces rows and the access log (T-18)   status: item 3 ACCEPTED (Architect, 14 Nov 2026: no calibration for 026/027); other items pending review
 - **Gaps and choices:**
   1. **T16.2 in code.** `leakage._edge_type` compares `dataset_name` (falling back to `dataset_id` when a caller supplies none, which is the pre-T16 behaviour for a single row). Callers of `SplitBuilder.freeze` pass the dataset_source name with each recording.
   2. **T16.1 refusal.** The registrar keeps src_id → dataset_source row across its registrations and refuses a file listed under a second row (ERR-INVARIANT), within one registration or across them. Registering the same file again under its own row is allowed (identical bytes, D-5).
@@ -806,7 +816,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 - **No meaning effect:** items 1–2 implement T16 as written; item 3 applies D-24 / D-26 as recorded and makes the conservative choice where the publisher is silent; items 4–5 are governance mechanics.
 - **Files/tests:** `splits/leakage.py`, `registry/registrar.py`, `registry/access_log.py`, `adapters/registration.py`; `tests/adapters/test_registration.py` (`test_t16_*`, `test_real_scenes_*`), `tests/registry/test_access_log.py`; `research/datasets/part3/s0_register_smartspaces_real.py`. **Reverse:** item 3: add the calibration rows and re-register.
 
-## CR-023 (2026-11-13) — SDG forklift yaw fails the motion-direction check as stated (AR-52 item 2, AR-50 item 3)   status: OPEN
+## CR-023 (2026-11-13) — SDG forklift yaw fails the motion-direction check as stated (AR-52 item 2, AR-50 item 3)   status: CLOSED (option (a), no contract text)
 
 **Raised by:** implementation agent, as the Architect's ruling on AR-52 item 2 requires ("if it concentrates near 90 deg, or is not concentrated, raise a CR and do not use yaw"). **Contract sections:** Appendix T T8.2 (forklift yaw), T8.3, T15.1; AR-50 item 3, AR-52 item 2.
 **Meaning-affecting:** yes (forklift footprint orientation, so clearance, R3 and R4).
@@ -830,5 +840,32 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 
 **Until decided:** SDG yaw is not used. `oracle_truth.sdg_obs` withholds it by default (`test_sdg_yaw_is_withheld_by_default_cr_023`), so nothing downstream receives an SDG yaw. Note for T-21: under (b) the heading fallback would be active, which this evidence shows is misleading during pivots; the agent builds no SDG S4 until this is decided.
 **Agent's recommendation:** (a).
+**Decision:** (14 Nov 2026) option (a), no contract text. SDG forklift yaw = the box long-axis yaw (AR-50 item 3, AR-52 item 2), which is "simulator yaw when supplied" under T8.2. The motion-direction check is withdrawn as an acceptance test for yaw (body orientation and direction of travel differ during pivot turns); its result is kept as evidence. SDG S4 is unblocked. Also ruled: (1) the heading-fallback finding is added to CR-007 / D-8 for the T-22 decision (done); (2) a per-frame stratum `forklift_turning` (|yaw rate| above a stated value) is proposed in T-20 so that R3/R4 results can be reported for turning and straight frames separately. Implemented: `oracle_truth.sdg_obs` passes the forklift yaw (`test_sdg_forklift_yaw_is_the_box_yaw_cr_023` replaces the withholding test). The CR text holds no point the ruling does not cover.   **Approver:** Research Architect; Owner (by forwarding)
+
+
+## CR-024 (2026-11-14) — T18 amendment 2: is the run length counted in the camera's frames or in eligible frames? (T-18)   status: OPEN (not blocking)
+
+**Raised by:** implementation agent. **Task:** T-18 (T18 implementation). **Contract sections:** Appendix T T18 amendment 2, T17.1–T17.2, T8.1.
+**Meaning-affecting:** yes in principle (which frames have predicted points). See the count on the held data below.
+
+**Problem.** T18 amendment 2 predicts a not-visible run "only when the run has <= g_max frames (the T8.1 parameter)". T17 defines visibility per frame of the camera as the truth lists it (every decoded frame). T8.1 counts its gap "in eligible frames". A run that contains a frame that is not eligible (for example a black frame under rv2) is one frame longer in the first count than in the second, so a run of g_max + 1 decoded frames with one ineligible frame is lost under one reading and predicted under the other.
+
+| Option | Effect |
+|---|---|
+| (a) Decoded frames of the camera, as T17 counts frames (implemented) | the oracle track does not depend on the frame-quality rules version |
+| (b) Eligible frames, as T8.1 counts its gap | the oracle run rule and the POW gap rule use the same count; the oracle points then depend on the decode configuration |
+
+**Implemented meanwhile:** (a), as the T17 text reads. `t17_oracle.py` counts, per camera, the runs whose outcome would differ under (b) at the TEST-ONLY g_max and the runs that contain an ineligible frame; the totals are in `t17_counts_*.json` (`runs_differing_if_eligible_frames`, `runs_with_ineligible_frame`) and in the Progress log.
+**Agent's recommendation:** (a).
 **Decision:** ______   **Approver:** Research Architect / Owner
 
+## AR-55 — Representation details of the T18 amendments and the count rebuild (T-18)
+- **Gaps and choices** (none changes a T17 or T18 rule):
+  1. **What a run is.** A maximal sequence of consecutive frames, between two visible frames of the object in the camera, on which it is not visible. Frames without a truth record, truth-defect frames (T17.5, "treated as not visible") and frames whose reprojection is empty all count. Inside a run of at most g_max frames T17.2 still applies frame by frame (empty reprojection → lost). Leading and trailing not-visible frames are outside the span and are no run (T17.3).
+  2. **Counts.** `lost` stays the number of all lost frames (T17.7); `lost_long_run` is the part of it in runs longer than g_max.
+  3. **g_max as input.** `camera_tracks` takes g_max as a required argument; a negative value is refused (ERR-SPEC); g_max = 0 makes every run lost. The oracle configuration record (`orc_`) of the driver now carries g_max, because the oracle points depend on it. The driver uses the TEST-ONLY g_max (15); the artifacts are TEST-ONLY and are rebuilt under the frozen pre-registration.
+  4. **Run-length statistics (T18 amendment 3).** Lengths in decoded frames (CR-024). Median, P90 and P99 are nearest-rank (the value at rank ⌈q·n⌉ of the sorted lengths), so each is an observed length. The files also keep the full histogram and, for the test value of g_max, the runs and frames above it.
+  5. **Rebuild without decoding again.** T18 changes nothing in S0 or S1. The rebuild reuses each recording's S1 artifact of the first run after verifying it (file hashes, payload reconstruction, same decode configuration and S0 input); the new S3 artifacts carry contract label E-1.2.16 and name that S1 artifact as input. The S0 and S1 artifacts keep the label E-1.2.15 under which they were built. The count files record the S1 code commit per camera.
+  6. **The before/after test. Review flag.** "Pair-level S4/S5 output on a fixture is identical before and after amendment 2" holds, and is tested, for a fixture whose not-visible run has g_max frames (S3, S4 and S5 artifact IDs identical). For a run of g_max + 1 frames the output is not identical, and cannot be under T8.1: before, the predicted points were joint frames and one POW covered the run; after, the run is a gap longer than g_max, the POW ends with `gap_exceeded` and a second POW continues it. Both cases are pinned in `tests/events/test_t18_oracle_absence.py`. If the Architect expected identity for long runs too, this item becomes a CR.
+- **No meaning effect:** items 1–5 are representation, parsing or build mechanics of T18 as written (the one unit question is CR-024); item 6 reports a consequence of T18 and T8.1 and changes nothing.
+- **Files/tests:** `adapters/oracle_truth.py`, `research/datasets/part3/t17_oracle.py`; `tests/adapters/test_t17_oracle_truth.py` (`test_t18_*`), `tests/events/test_t18_oracle_absence.py`. **Reverse:** item 2: drop the key; item 4: change `run_length_summary`; item 5: run the driver without the two reuse arguments.

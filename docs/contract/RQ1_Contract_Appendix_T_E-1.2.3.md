@@ -1048,3 +1048,22 @@ not visible; an excess of 100 px -> ERR-INVARIANT; SmartSpaces object absent fro
 camera's visible list -> T17.2/T17.3.
 
 Source: Architect rulings of 13 Nov 2026 (second set), item A (Owner approval by forwarding them), appended verbatim.
+
+## T18. T17 amendments: guard band, absence length, run-length reporting (E-1.2.16; CR-022, D-31)
+
+T17 amendments
+1. T17.5 guard band. Replace "(80, 157] px" with "(90, 150] px". The 120 px threshold
+   is unchanged. (Held data: ordinary boxes <= 80.1 px, defects >= 157.3 px.)
+2. T17.2 absence length. A run of consecutive not-visible frames inside the visible
+   span is predicted only when the run has <= g_max frames (the T8.1 parameter).
+   A longer run is lost on every frame of the run (no points). The track identity
+   continues when the object is visible again.
+3. T17.7 adds: the distribution of not-visible run lengths per dataset and class
+   (frames: min, median, P90, P99, max), for the G-PR choice of g_max.
+
+Tests: run of g_max frames -> predicted; g_max + 1 -> lost on all its frames; the
+eye_02 camera of run_22_seed_1886649344 now has an oracle track; an excess of 100 px
+still raises ERR-INVARIANT; pair-level S4/S5 output on a fixture is identical before
+and after amendment 2.
+
+Source: Architect rulings of 14 Nov 2026, item B (Owner approval by forwarding them), appended verbatim.

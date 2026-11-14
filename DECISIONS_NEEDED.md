@@ -58,6 +58,7 @@ Question: Footprint priors declare an anchor (box_bottom_centre, rear_axle or ce
 Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre, and rear_axle uses a declared rear overhang along yaw. (b) The Architect supplies another rule.
 Agent's recommendation: (a). Details are in CR-007.
 Owner decision (12 Nov 2026): DEFERRED to T-22. Reopen it with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre. Kept open as deferred.
+Evidence added 14 Nov 2026 (Architect ruling A, from CR-023 / D-32), for the T-22 decision: the T8.2 heading fallback is about 77° off the forklift's body axis during SDG pivot turns (median 77.5° on 7,860 turning frames; within 10.5° on all 8,647 straight frames). Details in CR-007.
 
 ## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: CLOSED
 Task: T-09   Blocking: T-09 part B (S5 from the pipeline), T-12 to T-16
@@ -291,19 +292,26 @@ Task: T-18   Blocking: freezing any split that contains SmartSpaces recordings; 
 Question: Under CR-020 option (a), Warehouse_000 and its Cosmos Transfer re-render Warehouse_001 are separate dataset rows, and the scene and render-lineage edges only link recordings of the same dataset. The current rule gives no edge between them, although T14.1 makes them one scene. Should those edges apply across dataset rows of the same release (same name and `<edition>@<revision>`)? The T16 text, which the agent has not received, may already say.
 Options: see CR-021. (a) edges apply across rows of the same release; (b) declared by hand at freeze; (c) no edge.
 Agent's recommendation: (a).
-Owner decision: ______
+Owner decision (13 Nov 2026, T16.2, Owner approval by forwarding): option (a). "Within one dataset" means rows with the same dataset name; scene, run, seed and render-parent edges apply across those rows.
 
-## D-31 (2026-11-13) — T17.5 refusal band and the held 80.1 px box        status: OPEN
+## D-31 (2026-11-13) — T17.5 refusal band and the held 80.1 px box        status: CLOSED (Appendix T T18, E-1.2.16)
 Task: T-18   Blocking: oracle tracks and references of one SDG camera (`…run_22_seed_1886649344`, `eye_02`); nothing else
 Question: T17.5 refuses any loose-box excess in (80, 157] px, but the largest ordinary excess on the held data is 80.1 px (a person box), inside that band. As written, that camera is refused. Keep it refused, or set the band's lower bound above 80.1?
 Options: see CR-022. (a) as written; (b) band (81, 157] or (80.1, 157.3).
 Agent's recommendation: (b), with the bound stated by the Architect.
-Owner decision: ______
+Owner decision (14 Nov 2026, Architect rulings item B; Owner approval by forwarding): guard band (90, 150] px, threshold 120 px unchanged. Appended verbatim to Appendix T as section T18, contract **E-1.2.16**, together with the absence-length rule (a not-visible run inside the visible span is predicted only when it has ≤ g_max frames; a longer run is lost on every frame) and the run-length reporting for the G-PR choice of g_max.
 
-## D-32 (2026-11-13) — SDG forklift yaw: the motion-direction check is not concentrated        status: OPEN
+## D-32 (2026-11-13) — SDG forklift yaw: the motion-direction check is not concentrated        status: CLOSED
 Task: T-18 / T-21   Blocking: SDG S4 (forklift footprint orientation) and everything built on it in the M1a run; not S0, S1, ORACLE-S3 or SmartSpaces
 Question: The Architect's check on AR-52 item 2 passes on SmartSpaces (99.8 % of moving-forklift frames within 15° of the adopted yaw). On SDG it does not: 53.6 % within 15°, 35.3 % beyond 75°. The off-axis frames are pivot turns at 75°/s, where the footprint centre swings across the body axis; on straight frames 100 % are within 15°. Use the SDG box yaw, or not?
 Options: see CR-023. (a) use the box yaw; (b) T8.2 fallback (heading, then disc); (c) circumscribed disc for all SDG forklift frames.
 Agent's recommendation: (a). Until decided, SDG yaw is withheld in code.
-Owner decision: ______
+Owner decision (14 Nov 2026, Architect rulings item A; Owner approval by forwarding): option (a), no contract text. SDG forklift yaw = the box long-axis yaw ("simulator yaw when supplied", T8.2). The motion-direction check is withdrawn as an acceptance test and kept as evidence. SDG S4 unblocked. The heading-fallback finding is added to CR-007 / D-8; a `forklift_turning` per-frame stratum is proposed in T-20.
 
+
+## D-33 (2026-11-14) — T18 absence length: counted in the camera's frames or in eligible frames?        status: OPEN (not blocking)
+Task: T-18   Blocking: nothing now; decide before the M1a run (T-21)
+Question: T18 amendment 2 predicts a not-visible run only when it "has <= g_max frames (the T8.1 parameter)". T17 counts frames of the camera as the truth lists them; T8.1 counts eligible frames. A run that contains a frame that is not eligible (a black frame, for example) can be lost under one count and predicted under the other. Which count applies?
+Options: see CR-024. (a) decoded frames of the camera (implemented, as T17 reads); (b) eligible frames (as T8.1).
+Agent's recommendation: (a). The number of held runs on which the two differ is in the Progress log and in `t17_counts_*.json`.
+Owner decision: ______

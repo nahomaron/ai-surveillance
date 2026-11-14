@@ -1,15 +1,19 @@
-"""Oracle track points and reference visibility from simulator truth, per camera (Appendix T T17, contract E-1.2.15).
+"""Oracle track points and reference visibility from simulator truth, per camera (Appendix T T17 as amended by T18,
+contract E-1.2.16).
 
 T17.1 visible frame -> `tracked` with the dataset's visible box (SDG tight box; SmartSpaces visible-list entry).
 T17.2 not-visible frame between the object's first and last visible frame in the camera -> `predicted` with the
       image-clipped reprojection of the object's 3D box; `lost` (no point) when that reprojection is empty.
+      T18 amendment 2: only when the run of consecutive not-visible frames it belongs to has <= g_max frames (the T8.1
+      parameter). A longer run is `lost` on every frame (no points); the track continues when the object is visible again.
+      Run lengths count the camera's frames as the truth lists them (decoded frames; CR-024).
 T17.3 no point outside the visible span; an object never visible in the camera has no track. The SDG loose box is never
       a track point.
 T17.4 a camera has simulator truth only when every annotation file has as many lines as the video has frames and camera
       parameters exist.
 T17.5 (SDG) loose-box excess beyond the clipped reprojected 3D box: > 120 px -> truth_defect, the object-frame is treated
-      as not visible (3D pose kept); an excess in (80, 157] px -> ERR-INVARIANT; a box with a 3D corner behind the camera
-      is not checked (counted).
+      as not visible (3D pose kept); an excess in (90, 150] px (T18 amendment 1) -> ERR-INVARIANT; a box with a 3D corner
+      behind the camera is not checked (counted).
 T17.6 reference visible support = the T17.1 frames after T17.5 (`reference_objects`).
 
 Coordinates (AR-53 item 3): track-point boxes are CF-IMG (E-1.2.1: origin at the top-left corner, pixel centre at
@@ -34,7 +38,7 @@ from rq1.substrate.surrogate import hull
 from . import sdg_truth, smartspaces
 
 DEFECT_PX = 120.0  # T17.5: adapter data-quality parameter, not a research threshold
-REFUSE_BAND_PX = (80.0, 157.0)  # T17.5: an excess in (80, 157] px is refused
+REFUSE_BAND_PX = (90.0, 150.0)  # T17.5 as amended by T18: an excess in (90, 150] px is refused
 NEAR_M = 1e-3  # near plane of the reprojection (AR-53 item 1)
 VISIBILITY_NOTE = "reference visibility: binary, dataset-defined, no minimum visible area"  # T17.6 report text
 _EDGES = [(a, a | bit) for a in range(8) for bit in (1, 2, 4) if not a & bit]  # corners are indexed 4*ix + 2*iy + iz
@@ -115,36 +119,68 @@ def usable_truth(n_video_frames: int, annotation_lines: dict[str, int | None]) -
     return bool(annotation_lines) and all(n == n_video_frames for n in annotation_lines.values())
 
 
-def sdg_obs(cal: dict[str, Any], obj: sdg_truth.ObjectTruth, use_yaw: bool = False) -> tuple[Obs, str | None]:
+def sdg_obs(cal: dict[str, Any], obj: sdg_truth.ObjectTruth) -> tuple[Obs, str | None]:
     """One SDG object-frame under T17.5. Returns the observation and `truth_defect`, `unchecked` or None.
-    SDG forklift yaw is withheld by default (Architect ruling on AR-52 item 2: the motion-direction check is not
-    concentrated near 0 on SDG; CR-023). Without it the forklift yaw follows T8.2 (heading, else circumscribed disc)."""
+    Forklift yaw = the box long-axis yaw, the "simulator yaw when supplied" of T8.2 (CR-023 / D-32, Architect 14 Nov 2026)."""
     note, visible = None, obj.tight
     if obj.loose is not None:
         excess = sdg_truth.hull_excess(cal, obj)
         if excess is None:
             note = "unchecked"  # a 3D corner behind the camera (stated limitation)
         elif REFUSE_BAND_PX[0] < excess <= REFUSE_BAND_PX[1]:
-            raise ContractError("ERR-INVARIANT", f"T17.5: loose-box excess {excess:.1f} px of {obj.prim} lies in (80, 157] px")
+            raise ContractError("ERR-INVARIANT", f"T17.5: loose-box excess {excess:.1f} px of {obj.prim} lies in (90, 150] px")
         elif excess > DEFECT_PX:
             note, visible = "truth_defect", None
-    return Obs(obj.cls, visible, sdg_truth.box_corners(obj.box3d), obj.xy, obj.yaw if use_yaw and obj.cls == "forklift" else None), note
+    return Obs(obj.cls, visible, sdg_truth.box_corners(obj.box3d), obj.xy, obj.yaw if obj.cls == "forklift" else None), note
 
 
 def smartspaces_obs(obj: smartspaces.ObjectTruth, camera: str) -> Obs:
     return Obs(obj.cls, obj.visible.get(camera), lambda: smartspaces.box_corners(obj), obj.xy, obj.yaw)
 
 
-def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]]) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
-    """T17.1-T17.3 for one camera. `frames[k]`: object key -> observation on decoded frame k. Returns the points of every
-    object that is visible at least once (sorted by decode_seq) and the T17.7 counts."""
-    counts = {"tracked": 0, "predicted": 0, "lost": 0, "outside_span": 0, "never_visible_objects": 0}
+def _visible_frames(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[int]]:
     seen: dict[Hashable, list[int]] = {}
     for k, objs in enumerate(frames):
         for key, o in objs.items():
             seen.setdefault(key, [])
             if o.visible is not None:
                 seen[key].append(k)
+    return seen
+
+
+def _runs(visible: list[int]) -> list[tuple[int, int]]:
+    """(first frame, length) of every run of not-visible frames between consecutive visible frames."""
+    return [(a + 1, b - a - 1) for a, b in zip(visible, visible[1:]) if b - a > 1]
+
+
+def not_visible_spans(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[tuple[int, int]]]:
+    """(first decoded frame, length) of every not-visible run inside each object's visible span, in frame order.
+    Objects that are never visible have no span and are left out."""
+    return {key: _runs(visible) for key, visible in _visible_frames(frames).items() if visible}
+
+
+def not_visible_runs(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[int]]:
+    """T18 amendment 3: the lengths (frames) of those runs."""
+    return {key: [n for _, n in runs] for key, runs in not_visible_spans(frames).items()}
+
+
+def run_length_summary(lengths: list[int]) -> dict[str, int | None]:
+    """min, median, P90, P99, max of run lengths in frames. Percentiles are nearest-rank: the value at rank ceil(q n) of the
+    sorted lengths (always an observed length)."""
+    v = sorted(lengths)
+    rank = lambda num, den: v[max(1, -(-num * len(v) // den)) - 1] if v else None
+    return {"runs": len(v), "frames": sum(v), "min": v[0] if v else None, "median": rank(1, 2), "p90": rank(9, 10), "p99": rank(99, 100),
+            "max": v[-1] if v else None}
+
+
+def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max: int) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
+    """T17.1-T17.3 for one camera, with the T18 absence length. `frames[k]`: object key -> observation on decoded frame k.
+    Returns the points of every object that is visible at least once (sorted by decode_seq) and the T17.7 counts.
+    `lost` counts every lost frame; `lost_long_run` is the part of it that lies in runs longer than g_max."""
+    if g_max < 0:
+        raise ContractError("ERR-SPEC", f"g_max must be >= 0, got {g_max}")
+    counts = {"tracked": 0, "predicted": 0, "lost": 0, "lost_long_run": 0, "outside_span": 0, "never_visible_objects": 0}
+    seen = _visible_frames(frames)
     tracks: dict[Hashable, list[Point]] = {}
     for key in sorted(seen, key=str):
         visible = seen[key]
@@ -153,12 +189,17 @@ def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]]) -> tup
             counts["never_visible_objects"] += 1
             counts["outside_span"] += present
             continue
+        long_run = {k for start, n in _runs(visible) if n > g_max for k in range(start, start + n)}
         points = []
         for k in range(visible[0], visible[-1] + 1):
             o = frames[k].get(key)
             if o is not None and o.visible is not None:
                 points.append(Point(k, "tracked", cf_img(o.visible), o.xy, o.yaw))
                 counts["tracked"] += 1
+                continue
+            if k in long_run:
+                counts["lost"] += 1  # T18 amendment 2: a run longer than g_max is lost on every frame
+                counts["lost_long_run"] += 1
                 continue
             box = None if o is None else clipped_reprojection(cal, o.corners() if callable(o.corners) else o.corners)
             if box is None:
