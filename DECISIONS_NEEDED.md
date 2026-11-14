@@ -315,3 +315,10 @@ Question: T18 amendment 2 predicts a not-visible run only when it "has <= g_max 
 Options: see CR-024. (a) decoded frames of the camera (implemented, as T17 reads); (b) eligible frames (as T8.1).
 Agent's recommendation: (a). The number of held runs on which the two differ is in the Progress log and in `t17_counts_*.json`.
 Owner decision (14 Nov 2026, Architect rulings second set, item A; Owner approval by forwarding): option (b), eligible frames, as the T8.1 gap is. Appended verbatim to Appendix T as section T19, contract **E-1.2.17**. Counts re-run.
+
+## D-34 (2026-11-14) — G-PR: approve and freeze the pre-registration        status: OPEN
+Task: G-PR   Blocking: T-21 (M1a run) and everything after it
+Question: `docs/preregistration_DRAFT.md` is the agent's proposal. Please choose the values in its "Owner" columns and commit the result as `docs/preregistration_FROZEN.md`. Points that need an explicit choice: (1) g_max (§5; evidence only, no value recommended); (2) the split: SDG validation/test sizes, the draw seed, and where the single SmartSpaces leakage group goes (§2); (3) w_ref per dataset and the census sampling (§3.2); (4) the rule and lifecycle parameters of §4.3, for which the held data give no basis; (5) the SmartSpaces forklift footprint (two box sizes, one prior per class; §4.2); (6) whether the `forklift_turning` stratum needs contract text, and its window and threshold (§6.1); (7) the acceptance-criterion targets and n_min_units (§9); (8) whether the truth-side statistics should be recomputed on validation runs only after the split is frozen (§10 item 1); (9) bootstrap replicates and seed (§4.4).
+Options: (a) freeze with the Owner's values; (b) return the draft with changes for a second version.
+Agent's recommendation: none on the scientific values. On procedure: decide (6) and AR-56 item 2 with the Architect before the freeze, because both change what is computed.
+Owner decision: ______
