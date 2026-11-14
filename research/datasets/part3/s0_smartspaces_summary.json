@@ -1,0 +1,245 @@
+{
+ "code_commit": "e963055f6be3f9d86343c35f9beb3fb5656ab2b5",
+ "scenes": [
+  {
+   "scene": "Warehouse_000",
+   "artifact_id": "art_k3kmwlyr3dwyaztop6bedfkxts",
+   "payload_sha256": "b83607c897a43eb73b1b00b85bddeb94d91f8642613c16e34b18f9e519d7ad80",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 19,
+    "camera": 19,
+    "camera_group": 19,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 19,
+    "session": 1,
+    "site": 1,
+    "source_file": 19,
+    "timeline": 19,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_000",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_000",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "Warehouse_000",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_4u4rkjr7z4no27nkbl67p3wk4p",
+     "Warehouse_000.Camera_0014"
+    ],
+    [
+     "rec_7j32y5lztt55n57e72emn3rozk",
+     "Warehouse_000.Camera_0012"
+    ],
+    [
+     "rec_7o37gpldlwn5szrniltusbmhi6",
+     "Warehouse_000.Camera_0008"
+    ],
+    [
+     "rec_a4xzbluiin23i7q7f7n5b4ssaq",
+     "Warehouse_000.Camera_0019"
+    ],
+    [
+     "rec_bg7mfp35qxkdvpzxx2v4plckdw",
+     "Warehouse_000.Camera_0010"
+    ],
+    [
+     "rec_dazuru3oqam7putbrgn2xcg3kj",
+     "Warehouse_000.Camera_0004"
+    ],
+    [
+     "rec_gbhz7bu4l42ybvpnicu34jqedm",
+     "Warehouse_000.Camera_0015"
+    ],
+    [
+     "rec_iy7tla4pnshhce25mqggx2i2o2",
+     "Warehouse_000.Camera_0002"
+    ],
+    [
+     "rec_jq3ivtbno4okgs2bf2rqqfzbbv",
+     "Warehouse_000.Camera_0000"
+    ],
+    [
+     "rec_keczwidx46ir3kziwepmns5ub2",
+     "Warehouse_000.Camera_0001"
+    ],
+    [
+     "rec_kx4st3lneau77ejnu674o3uekd",
+     "Warehouse_000.Camera_0006"
+    ],
+    [
+     "rec_lctvl447z53nqzpigikrvseqjp",
+     "Warehouse_000.Camera_0005"
+    ],
+    [
+     "rec_lim6zsuza5yzclnkpvcex6veco",
+     "Warehouse_000.Camera_0016"
+    ],
+    [
+     "rec_nqc5tpixjzaicu4clc7iy34a5o",
+     "Warehouse_000.Camera_0009"
+    ],
+    [
+     "rec_plkiffh72kx2iaabj3ihqttfl4",
+     "Warehouse_000.Camera_0003"
+    ],
+    [
+     "rec_towkwq322cong3vl2d22vtzq4e",
+     "Warehouse_000.Camera_0007"
+    ],
+    [
+     "rec_vasm5pnjppepejad7yxptzkrit",
+     "Warehouse_000.Camera_0013"
+    ],
+    [
+     "rec_w3y7rsyzbkmvfagh5cenhg4t3x",
+     "Warehouse_000.Camera_0017"
+    ],
+    [
+     "rec_xlylns6d4sicogckppfaihmhrh",
+     "Warehouse_000.Camera_0011"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_001",
+   "artifact_id": "art_yv3yukgysr54ykjywdrhhjxpc2",
+   "payload_sha256": "36ba123f46b85e7d19b9081724f47e466b36f630946efeddc9528f55d1817e2a",
+   "data_origin": "synthetic_transferred",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_transferred",
+   "dsr_id": "dsr_kt5hguaw263vwuspwzv5kzn7zp",
+   "rows": {
+    "calibration": 19,
+    "camera": 19,
+    "camera_group": 19,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 19,
+    "session": 1,
+    "site": 1,
+    "source_file": 19,
+    "timeline": 19,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_001",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_000",
+    "scene_id_null_reason": null,
+    "render_parent": "Warehouse_000",
+    "render_parent_null_reason": null,
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "Warehouse_000",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_4ymudp4viw7fenhayde7mrnszd",
+     "Warehouse_001.Camera_0013"
+    ],
+    [
+     "rec_5522qtflaj27lkv7yvekmakur5",
+     "Warehouse_001.Camera_0014"
+    ],
+    [
+     "rec_6pnudfk5rmy33fdtqgj4nchce5",
+     "Warehouse_001.Camera_0002"
+    ],
+    [
+     "rec_e3bjivehl7oklqbwnnka2vywyc",
+     "Warehouse_001.Camera_0000"
+    ],
+    [
+     "rec_fzzfe7bmdv7mz5ejpj57c5kszs",
+     "Warehouse_001.Camera_0015"
+    ],
+    [
+     "rec_g4hmrmnjexr4etbnniym52px37",
+     "Warehouse_001.Camera_0017"
+    ],
+    [
+     "rec_gseszpyt647qhbwuacnn6una3y",
+     "Warehouse_001.Camera_0004"
+    ],
+    [
+     "rec_hmnw5yim2h3zslmp6paaekyih6",
+     "Warehouse_001.Camera_0010"
+    ],
+    [
+     "rec_m2stjq4edusujgmm5f2qoim56i",
+     "Warehouse_001.Camera_0019"
+    ],
+    [
+     "rec_mwqfbmckmswoufjtz3hfniiks6",
+     "Warehouse_001.Camera_0006"
+    ],
+    [
+     "rec_oesvfckklgbv2vw6y2apqmmo34",
+     "Warehouse_001.Camera_0011"
+    ],
+    [
+     "rec_oq2owgwsfg6e7kbsapsynbd5mq",
+     "Warehouse_001.Camera_0001"
+    ],
+    [
+     "rec_r2i47of7loc6x5mlzxctn2knzk",
+     "Warehouse_001.Camera_0003"
+    ],
+    [
+     "rec_seqjofvdkmxbufzu7p5e7qlqbe",
+     "Warehouse_001.Camera_0008"
+    ],
+    [
+     "rec_shl7qitp2exdndsvduqcmkzzxc",
+     "Warehouse_001.Camera_0007"
+    ],
+    [
+     "rec_vnzluwinufhoxejt3u4r4oll3d",
+     "Warehouse_001.Camera_0005"
+    ],
+    [
+     "rec_vx2ywwns7rhlkmurplh56skvvx",
+     "Warehouse_001.Camera_0012"
+    ],
+    [
+     "rec_x5uhxinexcylcomsmyo543zrsh",
+     "Warehouse_001.Camera_0016"
+    ],
+    [
+     "rec_ygc4p5nc3utkb5jc6zjx6bgmql",
+     "Warehouse_001.Camera_0009"
+    ]
+   ]
+  }
+ ]
+}

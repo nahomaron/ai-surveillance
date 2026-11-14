@@ -1,7 +1,7 @@
 {
- "artifact_id": "art_vv6sr4v7drrylwgkdd3subizsb",
- "payload_sha256": "f9d10dc9a375e2a3c0597ad86cfc564dabab0dccf26a04e2930fb0da7c43e17b",
- "code_commit": "cb7a20fbb7315747db29064540e5abee7a82afd0",
+ "artifact_id": "art_xwrldyhquvmorjhpjxb573tbxk",
+ "payload_sha256": "770765566d60bf8d618d14486cff1a3158c3d27776d907d2c8687a237e834693",
+ "code_commit": "e963055f6be3f9d86343c35f9beb3fb5656ab2b5",
  "retention_policy": {
   "label": "rp_synthetic_public_v1",
   "applies_to": "public synthetic datasets held under data/raw and data/derived (git-ignored)",

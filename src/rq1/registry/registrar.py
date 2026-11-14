@@ -42,7 +42,7 @@ def _fill_struct(fields, given: Row) -> Row:
             continue
         out[f.name] = given.get(f.name)
         if f.nullable:
-            out[f"{f.name}_null_reason"] = None if out[f.name] is not None else "not_supplied"
+            out[f"{f.name}_null_reason"] = None if out[f.name] is not None else given.get(f"{f.name}_null_reason") or "not_supplied"
     return out
 
 
@@ -97,6 +97,7 @@ class Registrar:
 
     def __init__(self) -> None:
         self.anchors = AnchorRegistry()
+        self._file_rows: dict[str, str] = {}  # src_id -> dataset_source row (T16.1: each file belongs to exactly one row)
 
     def register(self, metadata: Row, spec: Spec) -> Artifact:
         tables: dict[str, list[Row]] = {name: [] for name in ("license_component", "dataset_source", "site", "session", "camera", "source_file", "recording", "timeline", "camera_group")}
@@ -131,9 +132,21 @@ class Registrar:
         for item in metadata.get("calibrations", []):
             self._calibration(item, tables, cameras, frames)
         tables = {name: rows for name, rows in tables.items() if rows}
+        file_rows = self._file_dataset_rows(metadata)
         built = build_artifact(spec, tables)
         self.anchors.add(built)
+        self._file_rows.update(file_rows)
         return built
+
+    def _file_dataset_rows(self, metadata: Row) -> dict[str, str]:
+        """T16.1 / VR-E-005: a file listed under two dataset_source rows is refused, within one registration or across
+        the registrations of this registrar."""
+        seen: dict[str, str] = {}
+        for item in metadata["recordings"]:
+            src, dsr = core.source_id(item["sha256"]), core.anchor_id("dsr", "dataset_source", list(item["dataset"]))
+            if seen.setdefault(src, self._file_rows.get(src, dsr)) != dsr:
+                raise ContractError("ERR-INVARIANT", f"T16.1: file {src} is listed under two dataset_source rows")
+        return seen
 
     def _recordings(self, metadata: Row, tables: dict[str, list[Row]], sessions: dict, cameras: dict) -> None:
         groups: dict[str, list[str]] = {}

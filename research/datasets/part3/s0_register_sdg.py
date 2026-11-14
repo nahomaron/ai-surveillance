@@ -70,7 +70,7 @@ def main():
     runs = [reg.SdgRun(run, index[reg.rgb_run_id(run)], views) for run, views in sorted(cams.items())]
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
     env = hashlib.sha256((ROOT / "requirements.lock").read_bytes()).hexdigest()
-    built = Registrar().register(reg.sdg_metadata(runs, RETRIEVED_UTC), Spec("S0", "E-1.2.13", commit, env, (), (), {}))
+    built = Registrar().register(reg.sdg_metadata(runs, RETRIEVED_UTC), Spec("S0", "E-1.2.15", commit, env, (), (), {}))
     write_artifact(built, os.path.join(out_dir, built.artifact_id), "synthetic_rendered")
     t = built.tables
     calibrated = {c["camera_id"] for c in t["calibration"]}
@@ -83,6 +83,19 @@ def main():
                "sessions": [{"ses_id": s["ses_id"], "ext_run_id": s["lineage"]["ext_run_id"], "seed": s["lineage"]["seed"],
                              "generation_batch": s["lineage"]["generation_batch"]} for s in sorted(t["session"], key=lambda s: s["session_label"])],
                "recordings": sorted([r["rec_id"], r["registration_label"]] for r in t["recording"])}
+    # Index for the T17 driver (git-ignored, next to the artifact): one entry per recording.
+    rec = {r["registration_label"]: r for r in t["recording"]}
+    tl = {x["tl_id"]: x for x in t["timeline"]}
+    index = []
+    for run in runs:
+        ext = reg.rgb_run_id(run.artifact_run)
+        for view, (vid, cal) in sorted(run.cameras.items()):
+            r = rec[f"{ext}.{view}"]
+            held = vid.uri.startswith(HELD_RGB)
+            index.append({"dataset": "sdg", "run": ext, "camera": view, "rec_id": r["rec_id"], "camera_id": r["camera_id"], "timeline": tl[r["timeline_id"]],
+                          "uri": vid.uri, "calibration": cal, "s0": built.artifact_id,
+                          "annotation": {"tar": HELD_TAR} if held else {"dir": os.path.dirname(vid.uri)}, "prefix": f"{run.artifact_run}.{view}"})
+    json.dump(index, open(os.path.join(out_dir, "index.json"), "w"))
     json.dump(summary, open(summary_path, "w"), indent=1)
     print(json.dumps({k: summary[k] for k in ("artifact_id", "rows", "codecs", "cameras_without_calibration")}, indent=1))
 

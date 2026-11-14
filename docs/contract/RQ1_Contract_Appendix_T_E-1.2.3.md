@@ -985,3 +985,66 @@ empty); null velocity -> unknown; uncalibrated -> unknown; ttc_max > τ -> ERR-S
 disabled R4 parameters do not change S5 output (CT-T11-02 extended).
 
 Source: Architect rulings of 13 Nov 2026, item B (Owner approval by forwarding them), appended verbatim.
+
+## T16. Releases with mixed data origins (E-1.2.14; CR-020, D-29)
+
+T16.1 A published release whose files have different data origins is registered as one
+ dataset_source row per origin. The rows share the dataset name and differ in version:
+ "<edition>@<revision>/<data_origin>". Each file belongs to exactly one row (VR-E-005).
+ The rows share the pinned revision and the licence component.
+T16.2 For leakage edges (§8, AR-31, T14), "within one dataset" means rows with the same
+ dataset name. Scene, run, seed and render-parent edges apply across those rows.
+T16.3 Results are never pooled across data origins (existing rule); each row's origin
+ governs its fitness scope.
+
+Tests: Warehouse_000 (synthetic) and Warehouse_001 (synthetic_transferred) register in
+different rows and fall in ONE leakage group; declaring them in different partitions
+raises ERR-LEAKAGE; a file listed under two rows is refused. Register 026/027 under the
+real row with the D-24/D-26 conditions unchanged.
+If CR-020 contains a complication this text does not cover, stop and report it.
+
+Source: Architect rulings of 13 Nov 2026 (first set, item A; received by the agent after the second set), Owner approval by forwarding them, appended verbatim.
+
+## T17. Oracle tracks and reference visibility from simulator truth (per camera) (E-1.2.15; CR-019, D-28)
+
+T17.1 Visible frame. An object-frame is visible in a camera when the dataset lists a
+ visible 2D box for it there (SDG: tight box; SmartSpaces: an entry in
+ "2d bounding box visible"). The oracle track point is state tracked (detected, AR-29),
+ box = that visible box, evidence_state by T8.6 from that box.
+T17.2 Not-visible frame inside the visible span. For a frame between the object's first
+ and last visible frame in that camera on which it is not visible: state predicted,
+ evidence_state occluded_predicted, class inferred; position = the simulator 3D pose;
+ box = the image-clipped reprojection of the object's 3D box with the camera's
+ calibration. If that clipped reprojection is empty (outside the image or behind the
+ camera): state lost, no point.
+T17.3 Outside the visible span. Before an object's first and after its last visible
+ frame in a camera there is no track point. An object never visible in a camera has no
+ track in that camera. The SDG loose box is not used for any track point.
+T17.4 Cameras without usable truth. A camera's annotation is simulator truth only when
+ every annotation file has exactly as many lines as the video has frames and camera
+ parameters exist. Otherwise the camera has no oracle track and no reference; its
+ recording is used for reference-free checks only and is outside the oracle and
+ reference populations. Counts are reported.
+T17.5 Truth defect (SDG). When an object's loose box extends more than 120 px (native
+ resolution) beyond the image-clipped reprojection of its own 3D box, the 2D truth of
+ that object-frame is discarded and the frame is treated as not visible (T17.2, T17.3).
+ The 3D pose is kept. Each case is logged as truth_defect. 120 px is an adapter
+ data-quality parameter, not a research threshold: on the held data any value in
+ (80.1, 157.3) selects the same 46 boxes. If any box has an excess in (80, 157] px,
+ the adapter refuses (ERR-INVARIANT) and the case is reported. Boxes with a 3D corner
+ behind the camera are not checked (stated limitation; count reported).
+T17.6 Reference side. CV-SIM references use the same per-frame visibility: reference
+ visible support is the T17.1 frames after T17.5. Reports state "reference visibility:
+ binary, dataset-defined, no minimum visible area". Oracle tracks and references come
+ from the same truth, so oracle-path agreement is rule-conformance evidence only.
+T17.7 Reporting. Per dataset and run: tracked, predicted and lost frame counts,
+ truth_defect count, cameras without truth, unchecked boxes.
+
+Tests (passing and failing): visible -> tracked with the tight box; interior gap ->
+predicted with the reprojected box; reprojection empty -> lost; leading and trailing
+not-visible frames -> no point; never-visible object -> no track; line-count mismatch
+-> no truth; the 5 eye_01 frames of run_2_seed_516797828 -> truth_defect, treated as
+not visible; an excess of 100 px -> ERR-INVARIANT; SmartSpaces object absent from a
+camera's visible list -> T17.2/T17.3.
+
+Source: Architect rulings of 13 Nov 2026 (second set), item A (Owner approval by forwarding them), appended verbatim.

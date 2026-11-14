@@ -1,4 +1,4 @@
-"""Leakage edges and groups (E-1.2.1 section 8; AR-31)."""
+"""Leakage edges and groups (E-1.2.1 section 8; AR-31; Appendix T T14, T16.2)."""
 from __future__ import annotations
 
 from itertools import combinations
@@ -11,11 +11,17 @@ SCENE_FIELDS = ("scene_id", "ext_run_id", "render_parent", "seed")
 SCRIPT_FIELDS = ("actor_roster_ref", "layout_id", "script_id", "collection_day")
 
 
+def _dataset(r: Row) -> str:
+    """T16.2: "within one dataset" means dataset_source rows with the same dataset name (a release registered as one row
+    per data origin, T16.1). A recording without `dataset_name` is compared by its dataset row."""
+    return r.get("dataset_name") or r["dataset_id"]
+
+
 def _edge_type(a: Row, b: Row) -> str | None:
     if a["session_id"] == b["session_id"]:
         return "same_session"
     la, lb = a.get("lineage", {}), b.get("lineage", {})
-    if a["dataset_id"] == b["dataset_id"]:
+    if _dataset(a) == _dataset(b):
         if any(la.get(f) is not None and la.get(f) == lb.get(f) for f in SCENE_FIELDS):
             return "same_scene_or_run"
         if (la.get("render_parent") is not None and la.get("render_parent") == lb.get("scene_id")) or \

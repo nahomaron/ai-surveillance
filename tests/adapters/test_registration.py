@@ -8,6 +8,7 @@ from rq1.adapters import smartspaces
 from rq1.ids.artifact import Spec
 from rq1.registry.registrar import Registrar
 from rq1.schema.errors import ContractError
+from rq1.splits import builder as splits
 from rq1.splits import leakage
 
 T = datetime(2026, 11, 13, 1, 52, 54, tzinfo=timezone.utc)
@@ -73,6 +74,7 @@ def test_s0_tables():
     assert len(t["calibration"]) == 2 and {c["calibration_tier"] for c in t["calibration"]} == {"full_camera"}  # eye_01 has none
     assert all(f["retention_policy_id"] == reg.retention_policy_id() and f["privacy_state"] == "synthetic_no_persons" for f in t["source_file"])
     assert all(tl["kind"] == "recording_local" for tl in t["timeline"])  # AR-52 item 5
+    assert all(s["lineage"]["render_parent"] is None and s["lineage"]["render_parent_null_reason"] == "not_applicable" for s in t["session"])  # stored, not only built
     assert register([run(), run(n=13, seed=851910160, head="aaaaaaaaaaaaaaaaaaaa", rgb="72a9270c9daa123ace61")]).artifact_id == built.artifact_id
 
 
@@ -91,3 +93,92 @@ def test_identical_bytes_refused():
     b = reg.SdgRun(b.artifact_run, b.index_row, {"ceiling_00": a.cameras["ceiling_00"]})
     with pytest.raises(ContractError):
         reg.sdg_metadata([a, b], T)
+
+
+def scene(name="Warehouse_000", origin="synthetic_rendered", parent=None, tag="b"):
+    cams = {c: (reg.Video(f"raw/smartspaces/MTMC_Tracking_2026/train/{name}/videos/{c}.mp4", f"{i:02d}".ljust(64, tag), 5000 + i, "mp4", "h264"), CAL)
+            for i, c in enumerate(("Camera_0000", "Camera_0001"))}
+    return reg.SmartSpacesScene(name, origin, parent, cams)
+
+
+def register_scene(s):
+    return Registrar().register(reg.smartspaces_metadata(s, T), Spec("S0", "E-1.2.15", "test", "env", (), (), {}))
+
+
+@pytest.mark.determinism
+def test_smartspaces_version_label_per_origin_cr_020():
+    assert reg.smartspaces_version("synthetic_transferred") == "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_transferred"
+    a, b = register_scene(scene()), register_scene(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c"))
+    da, db = a.tables["dataset_source"][0], b.tables["dataset_source"][0]
+    assert (da["data_origin"], db["data_origin"]) == ("synthetic_rendered", "synthetic_transferred")
+    assert da["version"].endswith("/synthetic_rendered") and db["version"].endswith("/synthetic_transferred") and da["dsr_id"] != db["dsr_id"]
+    assert a.tables["site"][0]["data_origin"] == "synthetic_rendered" and b.tables["site"][0]["data_origin"] == "synthetic_transferred"  # one origin per file
+    assert a.tables["license_component"] == b.tables["license_component"]  # one licence row for the release
+    assert len(a.tables["recording"]) == 2 and len(a.tables["calibration"]) == 2
+
+
+def test_smartspaces_lineage_render_parent():
+    la = register_scene(scene()).tables["session"][0]["lineage"]
+    lb = register_scene(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c")).tables["session"][0]["lineage"]
+    assert (la["ext_run_id"], la["scene_id"], la["render_parent"], la["render_parent_null_reason"]) == ("Warehouse_000", "Warehouse_000", None, "not_applicable")
+    assert (lb["ext_run_id"], lb["scene_id"], lb["render_parent"]) == ("Warehouse_001", "Warehouse_000", "Warehouse_000")  # T14.1: asset + re-renders
+    assert la["seed"] is None and la["seed_null_reason"] == "not_supplied"
+
+
+def test_smartspaces_refusals():
+    with pytest.raises(ContractError):
+        reg.smartspaces_metadata(scene("Warehouse_026", "real_staged"), T)
+    with pytest.raises(ContractError):
+        reg.smartspaces_metadata(scene("Warehouse_001", "synthetic_transferred", None), T)
+    with pytest.raises(ContractError):
+        reg.smartspaces_metadata(scene("Warehouse_000", "synthetic_rendered", "Warehouse_000"), T)
+
+
+def _split_rows(*built_partition):
+    """Recordings as `SplitBuilder.freeze` takes them, with the dataset name (T16.2)."""
+    rows = []
+    for built, partition in built_partition:
+        d, s = built.tables["dataset_source"][0], built.tables["session"][0]
+        rows += [{"recording_id": r["rec_id"], "session_id": r["session_id"], "dataset_id": d["dsr_id"], "dataset_name": d["name"],
+                  "lineage": s["lineage"], "partition": partition} for r in built.tables["recording"]]
+    return rows
+
+
+def test_t16_scene_and_its_re_render_are_one_leakage_group():
+    """T16 test: Warehouse_000 and Warehouse_001 register in different rows and fall in ONE leakage group; declaring them in
+    different partitions raises ERR-LEAKAGE."""
+    a, b = register_scene(scene()), register_scene(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c"))
+    assert a.tables["dataset_source"][0]["dsr_id"] != b.tables["dataset_source"][0]["dsr_id"]  # different rows (T16.1)
+    assert a.tables["dataset_source"][0]["name"] == b.tables["dataset_source"][0]["name"]
+    assert a.tables["dataset_source"][0]["license_component_id"] == b.tables["dataset_source"][0]["license_component_id"]  # shared licence component
+    rows = _split_rows((a, "test"), (b, "test"))
+    groups = leakage.components([r["recording_id"] for r in rows], leakage.metadata_edges(rows))
+    assert len(groups) == 1 and len(groups[0][0]) == 4 and "same_scene_or_run" in groups[0][1]
+    frozen = splits.freeze(rows, "t16", "1", "T1", T)
+    assert len(frozen["leakage_groups"]) == 1
+    with pytest.raises(ContractError) as e:
+        splits.freeze(_split_rows((a, "train"), (b, "test")), "t16", "1", "T1", T)
+    assert e.value.code == "ERR-LEAKAGE"
+
+
+def test_t16_2_edges_do_not_cross_dataset_names():
+    a, b = register_scene(scene()), register_scene(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c"))
+    rows = _split_rows((a, "train"), (b, "test"))
+    for r in rows[2:]:
+        r["dataset_name"] = "another/dataset"  # the same scene label in an unrelated dataset is not the same scene (AR-31)
+    assert len(splits.freeze(rows, "t16", "1", "T1", T)["leakage_groups"]) == 2
+    for r in rows:
+        del r["dataset_name"]  # without names, rows are compared by dataset row, as before T16
+    assert len(splits.freeze(rows, "t16", "1", "T1", T)["leakage_groups"]) == 2
+
+
+def test_t16_1_file_listed_under_two_rows_is_refused():
+    registrar = Registrar()
+    spec = Spec("S0", "E-1.2.15", "test", "env", (), (), {})
+    registrar.register(reg.smartspaces_metadata(scene(), T), spec)
+    same_files = scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="b")  # tag b: the bytes of Warehouse_000's videos
+    with pytest.raises(ContractError) as e:
+        registrar.register(reg.smartspaces_metadata(same_files, T), spec)
+    assert e.value.code == "ERR-INVARIANT"
+    registrar.register(reg.smartspaces_metadata(scene("Warehouse_001", "synthetic_transferred", "Warehouse_000", tag="c"), T), spec)  # other bytes: accepted
+    registrar.register(reg.smartspaces_metadata(scene(), T), spec)  # the same file under its own row again: accepted

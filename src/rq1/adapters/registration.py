@@ -147,3 +147,59 @@ def sdg_metadata(runs: list[SdgRun], retrieved_utc: datetime) -> Row:
                                                        "transform_from_dataset": [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0],
                                                        "unit_status": "verified", "prov_class": "dataset_supplied"}]}]}],
             "source_files": sources, "recordings": recordings, "calibrations": calibrations}
+
+
+@dataclass(frozen=True)
+class SmartSpacesScene:
+    name: str  # e.g. Warehouse_001
+    data_origin: str  # synthetic_rendered | synthetic_transferred
+    render_parent: str | None  # the scene this one re-renders (Warehouse_001 <- Warehouse_000), else None
+    cameras: dict[str, tuple[Video, Row | None]]  # camera id -> (video, calibration or None)
+
+
+SS_WORLD_FRAME = ("smartspaces_scene_world", "MTMC_Tracking_2026")
+
+
+def smartspaces_version(data_origin: str) -> str:
+    """CR-020 option (a) (Architect rulings of 13 Nov 2026, second set, item C): `<edition>@<revision>/<data_origin>`."""
+    return f"{SS_VERSION}/{data_origin}"
+
+
+def smartspaces_metadata(scene: SmartSpacesScene, retrieved_utc: datetime) -> Row:
+    """`Registrar.register` input for one SmartSpaces synthetic scene: one S0 artifact per scene, single data_origin
+    (VR-E-005). Site = the scene; session = the scene; scene_id = the scene asset (the render parent when there is one,
+    T14.1: a scene asset together with all its re-renderings)."""
+    if scene.data_origin not in ("synthetic_rendered", "synthetic_transferred"):
+        raise ContractError("ERR-SPEC", f"SmartSpaces scene {scene.name}: {scene.data_origin} is not a synthetic origin (real scenes are registered under D-26)")
+    if (scene.data_origin == "synthetic_transferred") != (scene.render_parent is not None):
+        raise ContractError("ERR-INVARIANT", f"SmartSpaces scene {scene.name}: a transferred scene has a render parent, a rendered one has none")
+    version = smartspaces_version(scene.data_origin)
+    key = [SS_NAME, version]
+    lineage = {"ext_run_id": scene.name, "scene_id": scene.render_parent or scene.name, "generation_batch": "MTMC_Tracking_2026/train",
+               "layout_id": scene.render_parent or scene.name, "seed": None, "seed_null_reason": "not_supplied"}
+    if scene.render_parent is None:
+        lineage.update({"render_parent": None, "render_parent_null_reason": "not_applicable"})
+    else:
+        lineage["render_parent"] = scene.render_parent
+    cameras, sources, recordings, calibrations = [], [], [], []
+    for cam, (video, cal) in sorted(scene.cameras.items()):
+        cameras.append({"camera_label": cam, "viewpoint_class": "other", "declared_overlap_camera_ids": []})
+        sources.append(_source(video))
+        recordings.append({"dataset": key, "site": scene.name, "session": scene.name, "camera": cam, "sha256": video.sha256,
+                           "registration_label": f"{scene.name}.{cam}", "alignment": None})
+        if cal is not None:
+            calibrations.append({**cal, "dataset": key, "site": scene.name, "camera": cam, "world_frame": list(SS_WORLD_FRAME),
+                                 "version": SS_VERSION, "valid_from_us": 0, "height_reference_ids": []})
+    return {"licenses": [LICENSES["smartspaces"]],
+            "datasets": [{"name": SS_NAME, "version": version, "data_origin": scene.data_origin, "dataset_kind": "research",
+                          "source_url": f"https://huggingface.co/datasets/{SS_NAME}", "retrieved_utc": retrieved_utc, "license": [SS_NAME, SS_VERSION],
+                          "annotation_levels": ["objects", "tracks", "world_geometry"], "unit_status": "verified",
+                          "notes_ref": "research/datasets/qualification.md",
+                          "sites": [{"site_label": scene.name, "data_origin": scene.data_origin, "site_kind": "synthetic_scene",
+                                     "independent_of_development": False, "cameras": cameras,
+                                     "sessions": [{"session_label": scene.name, "scripted": True, "extent": None, "lineage": lineage}],
+                                     "world_frames": [{"label": SS_WORLD_FRAME[0], "version": SS_WORLD_FRAME[1],
+                                                       "origin_description": "scene world frame of calibration.json and ground_truth.json (z up, metres)",
+                                                       "transform_from_dataset": [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+                                                       "unit_status": "verified", "prov_class": "dataset_supplied"}]}]}],
+            "source_files": sources, "recordings": recordings, "calibrations": calibrations}

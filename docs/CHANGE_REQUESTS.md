@@ -662,7 +662,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 - **No meaning effect beyond D-26:** no measured value, label or denominator changes. The status change is a contract-permitted downgrade ordered by the Owner. The rv2 thresholds themselves are D-25 (provisional, under Architect review), not part of this AR.
 - **Files/tests:** `decode/quality.py`, `evaluation/fitness.py`, `export/report.py`; `tests/evaluation/test_d26_exploratory.py`. **Reverse:** drop the manifest flag and the helper once the exploratory phase ends or the Architect writes T12.5 text.
 
-## AR-49 — Representation details of R4 and the baseline configurations (T-19, T15)
+## AR-49 — Representation details of R4 and the baseline configurations (T-19, T15)   status: ACCEPTED (Architect, 13 Nov 2026, incl. item 7: a contract-driven change under E-1.2.13, not an edited expected value)
 - **Gaps and choices** (none changes a T15 value, flag rule, unit or horizon):
   1. **Numerical method for pet_pred bounds.** T15.2 fixes bisection (1e-6 s) for ttc; T15.3 names no method for t_in / t_out. Choice: the same bisection, between a golden-section minimiser of the shape gap (as T8.3 already uses) and the interval ends; touching counts as meeting. Each bisection returns its inside end (the side where the condition holds), so ttc is within 1e-6 s above the exact crossing. Considered: closed-form polygon/capsule intersection (more code, same values within tolerance).
   2. **Occupancy of A.** An object's footprint lies inside its own swept region, so it meets A = S_person ∩ S_forklift exactly when it meets the other object's swept region. The code tests that equivalent condition (no explicit intersection polygon). Same intervals by set identity.
@@ -674,7 +674,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 - **Files/tests:** `substrate/surrogate.py`, `substrate/geometry.py` (`predicted_clearance`), `substrate/builder.py`, `schema/tables.py` (`pair_series.ttc_s`, `pet_pred_s`), `events/providers.py` (`r4_c`, `check_r4`), `events/s5.py`, `events/baselines.py`, `pipeline/m0.py`; `tests/events/test_t15.py`.
 - **Reverse:** items 1–2: swap the solver (values move within 1e-6 s); item 3: change two reason strings; item 4: guard `check_r4` by `"R4" in conflict`; item 7: record R4 only when enabled (would break CT-T11-02 extended).
 
-## AR-50 — SDG truth reading (T-18 part B)
+## AR-50 — SDG truth reading (T-18 part B)   status: ACCEPTED (Architect, 13 Nov 2026; item 3 yaw subject to the AR-52 motion-direction check)
 - **Gaps and choices:**
   1. **Line ↔ frame.** `object_detection.jsonl` line k is the truth of decoded frame k in presentation order (`decode_seq` k). It is never keyed by `frame_index`, which renumbers eligible frames only and would shift under an excluding rules version. Parsing refuses a camera whose line count differs from its video's frame count (ERR-INVARIANT). What such a camera may still be used for is CR-019 item 3.
   2. **Pose source.** The pose is the per-frame 3D-box transform (USD row vectors), and the footprint centre is the centre of the box's floor face: the "simulator footprint centre" that D-8 / CR-007 prescribes for the oracle path. `metro_agent_data.world_position` is not read. Data check over the 72 held runs (ceiling_00): in 32 runs it never changes while the boxes move (distance to the box floor centre median 1.0–1.1 m, max 4.2 m: a stale initial pose); in the other 40 it moves and sits at the prim origin (person: median 0.08 m from the box floor centre; forklift: median 0.63 m, max 0.91 m, because the forklift's origin is not at its footprint centre). It is therefore neither always current nor ever the footprint centre of the forklift, so there is no second plausible source.
@@ -691,7 +691,7 @@ For (a), (b) and (c), "on" also needs a definition: temporal IoU > 0 (as for `du
 - **No meaning effect:** the flag rule, thresholds and the tag rule are the ruling's; items 2–4 are storage and naming; item 1 is checked to give the same tags on all data held.
 - **Files/tests:** `decode/quality.py`, `decode/timestamps.py`; `tests/decode/test_rv2.py`, `tests/decode/test_rv2_provisional.py` (now passes the version explicitly; no expected value changed); check `research/datasets/part3/rv2_check.py`. **Reverse:** item 1: change the frame filter in `condition_tags`; item 2: add an S1 field; item 3: drop `RV2_PROVISIONAL` once the evidence files are no longer needed.
 
-## CR-019 (2026-11-13) — SDG oracle tracks: which 2D box, not-visible frames, incomplete annotation, faulty truth boxes (T-18)   status: OPEN
+## CR-019 (2026-11-13) — SDG oracle tracks: which 2D box, not-visible frames, incomplete annotation, faulty truth boxes (T-18)   status: CLOSED
 
 **Raised by:** implementation agent. **Task:** T-18 part B (oracle tracks, WP-13). **Contract sections:** E-1.2.1 §10.1 (ORACLE-S3), §3.4 (evidence classes), §5.5; Appendix T T8.5 (image gap), T8.6 (evidence state), T8.7 (Q); AR-29 (oracle `tracked` = detected); AR-36 item 4 and its Architect ruling ("the adapter sets evidence_state from [visibility truth] when present").
 **Meaning-affecting:** yes. Each item changes oracle track points, and so image_gap (R1 P), evidence classes (detected / inferred durations), Q, POW gap bridging and the reference visible support.
@@ -717,9 +717,9 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 - SmartSpaces (T-18 part C, `research/datasets/part3/smartspaces_truth_check.json`): item 1 does not arise (one box per camera, the visible one); **item 2 applies** (an object present in the scene's truth but absent from a camera's visible list); item 3 does not arise (frame ids 0–8,999 = the 9,000 video frames of every camera); item 4: no group like `eye_01`: of 1,924,956 visible boxes per scene, 99.86 % lie within 2 px of the reprojected 3D box, every box beyond that is a person (max 26.7 px, the animated mesh), forklifts ≤ 0.49 px.
 **What proceeds meanwhile:** SDG truth reading (AR-50), S0 registration of the SDG recordings, SmartSpaces adapters. Not built until decided: the SDG ORACLE-S3 artifacts and CV-SIM references that depend on items 1–4.
 **Agent's recommendation:** 1(a), 2(a), 3(a), 4(b) at 120 px.
-**Decision:** ______   **Approver:** Research Architect / Owner
+**Decision:** (13 Nov 2026) Appendix T section T17 (E-1.2.15), D-28: 1(a); 2 predicted with the image-clipped reprojected 3D box inside the visible span (not the loose box), lost when empty, no point outside the span; 3(a) and camera parameters required; 4 excess > 120 px → truth_defect treated as not visible, excess in (80, 157] px → ERR-INVARIANT.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-52 — SmartSpaces calibration and truth reading; SDG S0 registration (T-18 part C)
+## AR-52 — SmartSpaces calibration and truth reading; SDG S0 registration (T-18 part C)   status: ACCEPTED (Architect, 13 Nov 2026; item 2 subject to the motion-direction check: SmartSpaces passes; SDG is not concentrated overall, see the Progress log — CR still to be written)
 - **Gaps and choices:**
   1. **SmartSpaces calibration.** `calibration.json` supplies K (`intrinsicMatrix`), E = [R | t] (`extrinsicMatrix`, OpenCV, metres), and a `cameraMatrix` and `homography` that are not K·E (they map the dataset's map-image coordinates: `scaleFactor`, `translationToGlobalCoordinates`). Choice: full_camera from K and E, `distortion_model = none` (rendered pinhole, none supplied), `dataset_supplied`, `supplied_unvalidated` until GV-02; the map-image matrices are not read. Evidence: with K·E, 1,922,286 of 1,924,956 visible 2D boxes per scene (99.86 %) lie within 2 px of the image-clipped projection of the object's own 3D box; with `cameraMatrix`, most projected box centres fall behind the camera. Considered: ground_plane_homography from `homography` (wrong frame).
   2. **Forklift yaw = the direction of the box's long horizontal axis.** T8.2 uses "simulator or oracle yaw when supplied", else the heading; the prior rectangle's length lies along yaw. SmartSpaces forklifts are long along their local y axis on all 80,626 forklift boxes (1.16 × 2.68 m and 1.13 × 1.87 m), so yaw = rotation_z + π/2, wrapped to (−π, π]; SDG forklifts are long along local x on all 20,081 boxes checked (3.03 × 1.13 m), so AR-50's local-x yaw is the same rule. A box with equal horizontal extents is refused. **Review flag:** a literal reading "yaw = the supplied rotation" would turn the SmartSpaces forklift footprint 90° against its own 3D box and make yaw jump by 90° where a track falls back to heading; the agent does not consider it plausible. If the Architect does, this item becomes a CR. No value uses it yet: oracle tracks wait for CR-019.
@@ -731,7 +731,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 - **No meaning effect:** items 1, 3 and 4 read the supplied data as verified above; item 2 is flagged for review; items 5–7 are registration representation; T14.1 edges are as written (one leakage group per run). Result: one S0 artifact for 72 runs, 720 recordings, 708 calibrations (`research/datasets/part3/s0_sdg_summary.json`).
 - **Files/tests:** `adapters/smartspaces.py`, `adapters/registration.py`; `tests/adapters/test_smartspaces.py`, `tests/adapters/test_registration.py`; data checks `research/datasets/part3/smartspaces_truth_check.py`, `s0_register_sdg.py`. **Reverse:** item 2: change `forklift_yaw`; items 5–7: edit `sdg_metadata` and re-register (S0 IDs change).
 
-## CR-020 (2026-11-13) — dataset_source.data_origin when a dataset's scenes differ in origin (T-18 part C)   status: OPEN
+## CR-020 (2026-11-13) — dataset_source.data_origin when a dataset's scenes differ in origin (T-18 part C)   status: DECIDED (a); T16 section text not yet received
 
 **Raised by:** implementation agent. **Task:** T-18 part C (SmartSpaces S0). **Contract sections:** E-1.2.1 §3.1 (`dataset_source.data_origin`, `site.data_origin`), §2 (manifest `data_origin`), Appendix T VR-E-005 (one data_origin per file; real and synthetic never share a file or aggregate), T12.5, T14.3; F.1 A1.2 (dataset anchor = name, version; D-5).
 **Meaning-affecting:** yes. data_origin is a fitness scope key (T12.5), stratifies Target B group counts (T14.3) and decides what may be pooled (VR-E-005).
@@ -746,5 +746,53 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 
 **What proceeds meanwhile:** SmartSpaces calibration and truth reading (AR-52); SDG S0 (single origin, registered). **Not built until decided:** SmartSpaces S0 for Warehouse_000/001, and the real 026/027 registration.
 **Agent's recommendation:** (a).
+**Decision:** (13 Nov 2026) option (a), version labels "<edition>@<revision>/<data_origin>" (Architect rulings second set, item C, citing T16 / E-1.2.14, whose section text the agent has not received).   **Approver:** Research Architect; Owner (by forwarding)
+
+## AR-53 — Representation details of T17 oracle tracks and the SmartSpaces S0 (T-18)
+- **Gaps and choices** (none changes a T17 rule):
+  1. **"Behind the camera" in T17.2.** A 3D box that straddles the camera plane is cut at a near plane z_cam = 0.001 m and the part in front is projected; the reprojection is empty only when nothing lies in front or nothing falls in the image. Considered: empty as soon as one corner is behind (would turn close, partly visible-range objects into `lost`).
+  2. **Image clipping.** The convex hull of the projected vertices is clipped exactly to the image rectangle (polygon clipping, then its bounding box); a result without area is empty.
+  3. **Box coordinates → CF-IMG. Review flag.** Both datasets give 2D boxes as inclusive pixel indices: maxima are 1919 and 1079 on 1920 × 1080 images, and one-pixel boxes with x1 = x2 or y1 = y2 exist (SDG tight boxes: 117 of 379,570; SmartSpaces visible boxes: 98,702 of 1,924,956). CF-IMG (E-1.2.1 §5) is corner-origin with x1 < x2 and y1 < y2, and "adapters map their outputs back to CF-IMG". So a dataset box [x0, y0, x1, y1] is the CF-IMG box [x0, y0, x1 + 1, y1 + 1]; reprojected boxes are clipped to [0, W] × [0, H]. Without this, T17.1 ("box = that visible box") cannot be stored for those boxes (schema: x1 < x2). It moves every oracle box's right and bottom edge by 1 px against the raw numbers. The T17.5 excess stays in dataset coordinates, as the ruling's figures (80.1, 157.3, 46 boxes) were computed. Considered: treating zero-extent boxes as not visible (contradicts T17.6 "no minimum visible area").
+  4. **Frame without a truth record inside the visible span** → `lost` (no pose to reproject).
+  5. **T17.5 order and scope.** Every loose box is checked, visible or not. An excess in (80, 157] px is refused before the 120 px rule is applied. The refusal is per camera: that camera gets no oracle track, the driver records the case and continues (CR-022).
+  6. **To S3 and S4.** Points on frames without a `frame_index` (not eligible under the rules version) are left out; a track left without points is dropped; `local_id` = 1… in sorted identity order; simulator positions carry a zero covariance (AR-36 item 4); yaw is passed for forklifts only. SmartSpaces pallet trucks become tracks of class `pallet_truck` (present, not an E1 pair class, D-22).
+  7. **CV-SIM references.** `reference_objects` gives the T17.6 objects (present on T17.1 frames after T17.5, with the visible box and the simulator position). O/H/PC interaction references apply the definitions with rule parameters, which do not exist before the pre-registration is frozen (G-PR); they are built in the M1a run (T-21) from these objects.
+  8. **T16 placeholder.** The T16 section text has not reached the agent; Appendix T holds a marked placeholder. Applied from the ruling's item C only: one dataset_source per data_origin, version `MTMC_Tracking_2026@<full revision hash>/<data_origin>`; the licence row keeps the release version without the suffix (one licence row, CR-020 option (a)). Anything else T16 says is not applied; S0 IDs may change when it arrives.
+  9. **SmartSpaces S0.** One S0 artifact per scene (VR-E-005). Site = scene; session = scene; lineage: ext_run_id = scene name, scene_id = the scene asset (`Warehouse_000` for both scenes, T14.1), render_parent = `Warehouse_000` on `Warehouse_001`, seed null `not_supplied`, generation_batch `MTMC_Tracking_2026/train`. `viewpoint_class = other` (the dataset states none; **review flag**: it may be a stratum). Timelines `recording_local`, as for SDG (AR-52 item 5).
+  10. **Registrar fix.** `_fill_struct` ignored a supplied null reason inside `session.lineage` and stored `not_supplied`; it now honours it, as `_fill` does. SDG sessions therefore store `render_parent` null `not_applicable` as AR-52 item 7 says; the SDG S0 ID changed (now `art_xwrldyhquvmorjhpjxb573tbxk` at contract label E-1.2.15). M0 supplies no lineage reasons and is unchanged.
+  11. **Driver parameters.** The T17 run decodes with `rv2` and the TEST-ONLY values of k_sup, f_untimed, f_sub; its S1 and S3 artifacts are TEST-ONLY and are rebuilt under the frozen pre-registration.
+  12. **Yaw against motion (agent's check; the "AR-52 motion-direction check" text has not reached the agent).** `research/datasets/part3/yaw_motion_check.json`: on straight-moving forklift frames (speed ≥ 0.3 m/s over 10 frames, yaw rate < 5°/s) the motion direction lies within 15° of the adapter's yaw axis on 100 % of frames in both datasets (SDG 8,647 frames, max 10.5°; SmartSpaces 25,728 frames, max 14.2°). The literal SmartSpaces rotation is ≥ 75° off on 100 %. SDG turning frames (yaw rate 75°/s) move about 77.5° across the axis: the simulated forklift pivots, so its box centre swings sideways. No rule was changed; if the Architect's check differs, it is run when its text arrives.
+- **No meaning effect:** items 1, 2, 4–7, 9–11 are representation or parsing of T17 as written; item 3 applies the contract's CF-IMG definition to the datasets' convention and is flagged; item 8 applies only the quoted ruling.
+- **Files/tests:** `adapters/oracle_truth.py`, `adapters/registration.py`, `registry/registrar.py`; `tests/adapters/test_t17_oracle_truth.py`, `tests/adapters/test_registration.py`; drivers `research/datasets/part3/t17_oracle.py`, `s0_register_smartspaces.py`, `yaw_motion_check.py`. **Reverse:** item 3: drop `cf_img` and the clip bound; item 1: change `NEAR_M` or the rule in `clipped_reprojection`.
+
+## CR-021 (2026-11-13) — No leakage edge between a scene and its re-render once they are separate dataset rows (T-18)   status: CLOSED (Appendix T T16.2)
+
+**Raised by:** implementation agent. **Task:** T-18 (SmartSpaces S0). **Contract sections:** E-1.2.1 §8 (leakage edges), AR-31, Appendix T T14.1; CR-020 option (a) (T16, text not received).
+**Meaning-affecting:** yes (leakage rule).
+
+**Problem.** Under CR-020 option (a), `Warehouse_000` (`…/synthetic_rendered`) and `Warehouse_001` (`…/synthetic_transferred`) are two dataset_source rows. The scene and render-lineage edges (`same_scene_or_run`) are created only between recordings of the **same dataset** (AR-31: scene, run and seed identifiers are dataset-local). With the registered rows, `leakage.metadata_edges` gives **no edge** between the two scenes; if both had one dataset row it gives `same_scene_or_run`. T14.1 says a scene asset and all its re-renderings are one scene, so the two must fall in one leakage group. The T16 text may already cover this; the agent has not received it.
+
+| Option | Effect |
+|---|---|
+| (a) Scene, run, seed and render-parent edges apply across dataset_source rows that share the dataset name and the `<edition>@<revision>` part of the version label | 000 and 001 fall in one group; SDG is unaffected |
+| (b) The edge is declared by hand when the split is frozen (as a `training_use`-style declared edge) | depends on the operator remembering it |
+| (c) As written: no edge | a scene and its re-render could be split across partitions |
+
+**What proceeds meanwhile:** everything except freezing a split that contains SmartSpaces recordings. **Agent's recommendation:** (a). The agent changes nothing in `splits/leakage.py` until decided.
+**Decision:** (13 Nov 2026) covered by T16.2, received after this CR was written: "within one dataset" means rows with the same dataset name; implemented in `splits/leakage.py` (`dataset_name`), tests `test_t16_*`.   **Approver:** Research Architect; Owner (by forwarding)
+
+## CR-022 (2026-11-13) — T17.5 refusal band (80, 157] px catches one ordinary held box at 80.1 px (T-18)   status: OPEN
+
+**Raised by:** implementation agent. **Task:** T-18 (SDG ORACLE-S3). **Contract section:** Appendix T T17.5.
+**Meaning-affecting:** yes (which cameras have oracle tracks and references).
+
+**Problem.** T17.5 states that any threshold in (80.1, 157.3) selects the same 46 boxes, and that an excess in (80, 157] px is refused with ERR-INVARIANT. The held data contain one box inside that band: the largest ordinary excess, 80.1 px (person, run `a7530aa436c6e2eeb59c_run_22_seed_1886649344`, camera `eye_02`, decode_seq 206; listed in CR-019's table under (80, 100]). The adapter is implemented as written, so that camera is refused: it has no oracle track and no reference, and it is reported. The other 9 cameras of the run are unaffected.
+
+| Option | Effect on the held data |
+|---|---|
+| (a) Keep T17.5 as written | this one camera stays outside the oracle and reference populations (reported as refused) |
+| (b) Refusal band (81, 157] px, or (80.1, 157.3) as in the sentence before it | no camera refused; the 80.1 px box is an ordinary person box (animated mesh larger than the fixed 3D box) |
+
+**What proceeds meanwhile:** all other cameras. **Agent's recommendation:** (b) with a stated bound; the agent does not move the bound itself.
 **Decision:** ______   **Approver:** Research Architect / Owner
 
