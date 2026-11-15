@@ -34,3 +34,18 @@ Profile (cProfile): about 70 % of S4 time is R4 `pet_pred` (`surrogate.occupancy
 τ = 3 and 4 s lengthen the R4 search, so those two variants cost more than the base.
 
 **Memory.** S4 holds every pair_series row in memory and canonicalises the tables to hash them. The largest SmartSpaces camera has about 724,000 pair-frames: an estimated 1–2 GB for one S4 build. With 8 GB, SmartSpaces cameras must run one at a time. SDG is not at risk.
+
+## Re-measurement after AR-58 (D-38 A.3), 15 Nov 2026
+
+Code ddfac38 / c5b6896 (same `src`), machine otherwise idle, units base (S3, S4 simulator_truth, S5 BL-2..BL-6) and full_camera (S4, S5 BL-2..BL-6, S4 at w_v 0.33 and 1.0):
+
+| Camera | Object points (tracked + predicted + lost) | Pair-frames | Load | base | full_camera | Peak RSS |
+|---|---|---|---|---|---|---|
+| Camera_0002 | 90,746 | 2,773 | 17 s | 27 s | 59 s | 2.0 GB |
+| Camera_0000 | 156,600 | 60,125 | 17 s | 234 s | 397 s | 2.6 GB |
+
+Fit (two points): base + full_camera ≈ 0.68 ms per object point + 8.7 ms per pair-frame, plus 17 s loading. **All 19 cameras: about 8.5 h** (3,638,655 points, 3,193,789 pair-frames). SDG validation, all four units with all sweeps: 62 min for 226 cameras with 2 workers.
+
+Memory: about 10 KB per pair-frame on top of about 2 GB; the largest cameras (Camera_0003, 724k pair-frames; Camera_0015, 660k) may exceed 8 GB and swap. The run goes one camera at a time, smallest first, and resumes per camera.
+
+**T21 references on SmartSpaces:** 4,439,591 reference pair-frames per camera (scene-wide truth: 60 persons × 9 forklifts), 84.4 million over 19 cameras, about 200 h at 8.7 ms each: not feasible (D-39).

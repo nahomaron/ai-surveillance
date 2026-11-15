@@ -373,3 +373,13 @@ Owner decision D-38 detail and Architect ruling on CR-025 (14 Nov 2026, pasted =
 - C. GV metrics and S8 from F.1 N7 within T-21; representation details as an AR.
 - D. Test partition still reserved (D-37).
 - Owner session instruction: long jobs write each completed camera's results to disk, and a restart resumes without recomputing finished work.
+
+## D-39 (2026-11-15) — SmartSpaces: the T21 references are not feasible as specified; what replaces SmartSpaces EV-M in v1?        status: OPEN
+Task: T-21   Blocking: SmartSpaces EV-M1–EV-M8, CM-02 (reference-moving frames) and CM-06 (reference clearance) on SmartSpaces. Not blocking: SmartSpaces base and full_camera runs (running under D-38 A.3), SmartSpaces GV and the other CM metrics, everything on SDG.
+Question: D-38 A.3 re-measurement (machine idle; `research/m1a/runtime_estimate.md` addendum): SmartSpaces base + full_camera ≈ **8.5 h** for the 19 cameras (≤ 12 h, so they run, one camera at a time). But T21.1 builds references from "every eligible frame on which both objects exist in the truth, whatever their visibility", and the SmartSpaces truth is scene-wide: every camera's truth holds all 60 persons and 9 forklifts on every frame they exist. That gives **4.44 million reference pair-frames per camera, 84.4 million over 19 cameras** (`research/m1a/smartspaces_reference_pair_frames.json`), about **200 h** at the measured 8.7 ms per pair-frame, and more memory per camera than this 8 GB machine has. Which plan?
+Options:
+- (a) **SmartSpaces EV-M not run in v1.** Report SmartSpaces GV, CM-01, CM-03–CM-05, CM-07–CM-10, MR-01 (base runs); list EV-M1–EV-M8, CM-02 and CM-06 on SmartSpaces as "not run in v1 (T21 reference infeasible on this machine)". SDG carries all EV-M results.
+- (b) **Architect amendment of T21 for scene-wide truth:** e.g. restrict reference pairs in a camera to pairs that are both visible (T20.1) in that camera at least once, or to pair-frames within a stated distance; then re-estimate. Changes reference meaning, so it is a contract decision.
+- (c) **Run T21 as written in the background** (about 8–9 days serial; one camera at a time; memory-bound, may not complete on 8 GB).
+Agent's recommendation: (a) for v1, and (b) put to the Architect for v2. Under (b), "both visible at least once in the camera" would cut the pairs to those T21.3 can ever make assessable.
+Also for review (no work waits on it): AR-58 (accepted under D-38 A.1, evidence recorded) and the four AR-59 review flags: item 2 (T21.1 reference without visibility in Q), item 5 (GV-04 at full_camera positions), item 6 (GV-07 against simulator speed at the same w_v), item 7 (GV-08 realized minimum from the same run, null past the POW end).
