@@ -1,0 +1,12 @@
+{
+ "dataset": "sdg",
+ "runs": [
+  "run1",
+  "run2"
+ ],
+ "units_compared": 904,
+ "artifact_ids_compared": 56726,
+ "differences": [],
+ "missing": [],
+ "value": 1.0
+}

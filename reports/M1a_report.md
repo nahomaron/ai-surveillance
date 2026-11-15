@@ -1,6 +1,6 @@
 # M1a report — validation partition (T-21)
 
-**Status: INTERIM.** SDG validation complete. SmartSpaces Warehouse_000 base and full_camera runs in progress. MR-01 repeat run in progress. SmartSpaces EV-M waits for D-39. Every number below is **experimental**: synthetic data, oracle perception, validation partition only (D-36, D-37). Nothing here is "validated". Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed.
+**Status: INTERIM.** SDG validation complete, including MR-01. SmartSpaces Warehouse_000 base and full_camera runs in progress. SmartSpaces EV-M waits for D-39. Every number below is **experimental**: synthetic data, oracle perception, validation partition only (D-36, D-37). Nothing here is "validated". Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed.
 
 Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`). Run code: commit `d800a5c` (phase 1, artifacts); evaluation code in `research/m1a/` (commit `59e31f0` and later). Results file: `research/m1a/results_sdg.json`.
 
@@ -14,6 +14,8 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
 - BL-6 uses all of them plus evasive-action cues.
 
 **What they were compared with.** The yardstick is not human labelling. It is BL-6 applied to the simulator's complete ground truth (Appendix T, T21). The comparison therefore shows how much is lost through what a camera can see and through each configuration's simpler rules. It says nothing about how well a real detector would do.
+
+**Repeatability.** Re-running everything from the same code reproduced all 56,726 artifact IDs exactly (MR-01 = 1.0).
 
 **Main findings (SDG, validation).**
 1. **Image boxes alone perform poorly.**
@@ -43,7 +45,6 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
 
 **What is not here yet.**
 - SmartSpaces results (running).
-- The repeatability check (running).
 - SmartSpaces interaction metrics: the reference construction needs about 200 hours there (decision D-39).
 
 ## Technical report — SDG validation
@@ -286,7 +287,7 @@ MR-10: not computable: no calibration covariance is supplied for the dataset cal
 ### Not run or not computable in v1
 - **SDG:** GV-02 (no held-out floor points); GV-05 / MR-11 and MR-10 (no covariance supplied); MR-02 to MR-07 (outside M1a).
 - **SmartSpaces:** sweeps (D-38 A.3); EV-M and CM-02 / CM-06 (D-39).
-- **MR-01:** repeat run in progress. The value follows when it completes.
+- **MR-01 (criterion C1-MR-01, registered for the M1a run):** **1.0** on SDG validation. A second run from the same commit (`d800a5c`) reproduced every artifact ID of all four units on all 226 cameras: 904 unit records, 56,726 artifact IDs, 0 differences (`research/m1a/mr01_sdg.json`). SmartSpaces MR-01: not run (one run within the 12 h bound).
 
 ### Engineering record
 - **AR-58**, D-38 A.1 acceptance met on all 118,534 SDG validation pair-frames (both geometries):
