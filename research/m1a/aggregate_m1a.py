@@ -53,7 +53,7 @@ def _stat(rows, ds, value_fn=None):
     return out
 
 
-def main(ds: str, label: str) -> None:
+def _load(ds, label):
     root = ev.out_dir(label, ds)
     cams = []
     for d in sorted(root.iterdir()):
@@ -61,6 +61,44 @@ def main(ds: str, label: str) -> None:
         if p.exists():
             with gzip.open(p, "rb") as f:
                 cams.append(pickle.load(f))
+    return root, cams
+
+
+def main_without_reference(ds: str, label: str) -> None:
+    """SmartSpaces (D-39): scenario counts, CM per V0 window (no CM-02 / CM-06), GV; no EV-M, no sweeps (D-38 A.3)."""
+    root, cams = _load(ds, label)
+    windows = [w for c in cams for w in c["windows"]]
+    res = {"dataset": ds, "label": label, "cameras": len(cams), "windows": len(windows), "leakage_groups": len({w["leakage_group"] for w in windows}),
+           "strata": sorted({w["stratum"] for w in windows}), "status": "experimental (synthetic, oracle perception, validation partition)",
+           "not_run": {"EV-M1..EV-M8, CM-02, CM-06": "D-39 (T21 reference infeasible on SmartSpaces)", "sweeps (MR-08, MR-09, MR-12, GV-03)": "D-38 A.3",
+                       "GV-07 at w_v 0.33 and 1.0": "the simulator_truth speeds at those w_v come from the sweeps"},
+           "note_intervals": "one leakage group (Warehouse_000): Target B intervals are not informative; Target A resamples the 190 windows"}
+    res["code_commits"] = {u: sorted({json.loads((root / c["rec_id"] / f"{u}.json").read_text())["code_commit"] for c in cams}) for u in ("base", "full_camera")}
+    res["scenario_counts"] = {bl: {k: sum(c["runs"][bl][k] for c in cams) for k in ("episodes", "events", "duration_s")} |
+                              {"labels": {x: sum(c["runs"][bl]["labels"][x] for c in cams) for x in ev.LABELS}} for bl in CFG}
+    res["cm"] = {}
+    for metric, basis in sorted({k for w in windows for k in w["cm"]}):
+        if metric == "CM-07":
+            tot = defaultdict(int)
+            for w in windows:
+                for summ in w["cm"][(metric, basis)]:
+                    for k, v in summ.items():
+                        tot[k] += v
+            n = sum(tot.values())
+            res["cm"][f"{metric} {basis}"] = {**tot, "pair_window_fidelity": tot["1"] / n if n else None}
+            continue
+        rows = [(w["stratum"], w["leakage_group"], r["denominator"], r["numerator"]) for w in windows for r in w["cm"][(metric, basis)]]
+        res["cm"][f"{metric} {basis}"] = _stat(rows, ds)
+    res["gv"] = gv_aggregate(cams, ds)
+    out = m.ROOT / f"research/m1a/results_{ds}.json"
+    out.write_text(json.dumps(res, indent=1, sort_keys=True, default=str))
+    print(f"wrote {out}")
+
+
+def main(ds: str, label: str) -> None:
+    if ds != "sdg":
+        return main_without_reference(ds, label)
+    root, cams = _load(ds, label)
     res = {"dataset": ds, "label": label, "cameras": len(cams), "windows": len(cams), "leakage_groups": len({c["leakage_group"] for c in cams}),
            "strata": sorted({c["stratum"] for c in cams}), "status": "experimental (synthetic, oracle perception, validation partition)",
            "reference_class": "rule_conformance (T21)", "interpretation": "T21.5: event metrics on the oracle path measure the effect of camera "
