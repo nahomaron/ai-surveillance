@@ -14,7 +14,7 @@ no contract text, and does not unblock T-21.
 | Pre-registration | `docs/preregistration_FROZEN.md`, version 1, SHA-256 `b2d8e6ce53aff1b2c5f48cf3e50915c980b32f75f224fdf0ae36881311c341a3` |
 | Split | X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj` (frozen; verified by reconstruction before use) |
 | Packages | `requirements.lock` only; nothing installed |
-| Tests | `tests/viewer/test_v01_viewer.py`, 18 tests; full suite 1881/1881, twice |
+| Tests | `tests/viewer/test_v01_viewer.py` (18) and `tests/viewer/test_v01_marks.py` (11, item 5b); full suite 1892/1892, twice |
 
 ## How to run
 
@@ -128,6 +128,30 @@ No test-partition recording was requested or built. These pages were generated f
 commit, so their header shows `145c315…+uncommitted`; regenerate after checkout for a clean header (the content is
 otherwise the same).
 
+## Owner marking mode (item 5b, D-36 follow-up, 14 Nov 2026)
+
+- **Use:** the "Marking mode" button on a page (or open the page with `#mark` at the end of its address). Per clip:
+  "Would you send this clip for review? yes / no / unsure", and a free-text note.
+- **What is shown in marking mode:** the footprints (forklift prior footprint and dataset 3D box outline, person disc;
+  predicted points keep their dashed outline), the frame scrubber with play controls, and the time. Hidden: rings, the
+  clearance line and its label, velocity arrows and speed labels, ghosts, the timeline (with its threshold lines and turning
+  shading), the sliders, the lost and ineligible markers, the pair options and the numeric side panel. The 1 m grid and the
+  scale bar stay, so that distances can still be judged by eye. Each overlay is drawn by its own function, and every call is
+  behind the marking-mode switch (`test_marking_mode_gates_every_overlay_in_the_page_script`); checked in headless Chrome.
+- **Where marks go:** `out/viewer/owner_marks.json` (git-ignored), labelled "exploratory, Owner impression, not a
+  reference label", `read_by: "no stage"`. A page opened from disk cannot write a file by itself, so:
+  - in Chrome (and other Chromium browsers), "Save to owner_marks.json…" asks once for the file
+    (pick `out/viewer/owner_marks.json`), and merges this clip's mark into it;
+  - in any browser, "Download this mark" saves `owner_mark_<rec_id>.json`; then
+    `PYTHONPATH=src python -m rq1.viewer --import-marks ~/Downloads/owner_mark_*.json` merges the files into
+    `out/viewer/owner_marks.json` (a later mark of the same clip replaces the earlier one).
+  The import refuses (ERR-SPEC) a file whose label, question or schema differ, an answer other than yes / no / unsure, a
+  non-text field, or a clip outside the validation partition of the frozen split.
+- **Fields per clip:** answer, note, run, camera, dataset row, and the code commit of the page. No timestamp is stored.
+- **Read by no stage:** only `src/rq1/viewer/marks.py` names the file; no other module of `rq1` does, and the page builder
+  does not read it (`test_marks_are_read_by_no_stage`). Nothing in it feeds a reference, label, metric or configuration.
+- Tests: `tests/viewer/test_v01_marks.py` (11).
+
 ## Known limits
 
 1. **Truth only, display only.** Every page is simulator truth through the oracle path. Agreement between what a page
@@ -149,12 +173,8 @@ otherwise the same).
 7. **Dataset row label.** The T16 row name of SDG contains the dataset's own words "near-miss"; under the wording rules the
    pages show the row by its dataset ID ("SDG-Warehouse, nvidia/PhysicalAI-WorldModel-Synthetic-Warehouse-Operations-Scenes
    (synthetic_rendered)").
-8. **Optional items not built.** Item 5a (camera frame beside the floor view) was not built. Item 5b (Owner marking mode)
-   was not built: its label text contains "safety", and the wording rule in item 3f ("no 'safe'") is pinned by a test on
-   every page. If wanted, the Owner can give a wording (for example "would a reviewer flag this clip?"), and it can be added
-   as a separate download from the page (marks would then be saved by the browser as `owner_marks.json`, labelled
-   "exploratory, Owner impression, not a reference label", and moved into `out/viewer/` by hand; a page without a server
-   cannot write to disk itself).
+8. **Optional items.** Item 5a (camera frame beside the floor view) was not built. Item 5b was built (D-36 follow-up; see
+   "Owner marking mode" below).
 9. **Browser checks.** The JavaScript is not exercised by the test suite (no JavaScript runtime in `requirements.lock`). It
    was checked for syntax and rendered in headless Chrome on one SDG and one SmartSpaces page, with no page error.
    SmartSpaces pages (about 20 MB, 9,000 frames) take a few seconds to open.

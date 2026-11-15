@@ -7,7 +7,7 @@ import json
 import re
 from typing import Any
 
-from . import settings
+from . import marks, settings
 
 _DATA_OPEN = '<script id="rq1-data" type="application/json">'
 _DATA_RE = re.compile(re.escape(_DATA_OPEN) + r"(.*?)</script>", re.S)
@@ -27,6 +27,7 @@ def embedded(page: str) -> Any:
 
 
 def render(data: dict[str, Any]) -> str:
+    data = dict(data, marks=marks.page_block())
     h = data["header"]
     title = html.escape(f"Truth replay {h.get('run', '')} {h.get('camera', '')}".strip())
     banner = html.escape(settings.BANNER)
@@ -77,13 +78,14 @@ _TEMPLATE = """<!doctype html>
  <label>rate <select id="rate"></select></label>
  <input type="range" id="frame" min="0" value="0" step="1">
  <span id="flabel"></span>
- <label>pair <select id="pair"></select></label>
+ <label id="pairlabel">pair <select id="pair"></select></label>
  <label><input type="checkbox" id="follow" checked> follow pair</label>
- <label><input type="checkbox" id="allpairs" checked> lines for pairs within d_p</label>
+ <label id="allpairslabel"><input type="checkbox" id="allpairs" checked> lines for pairs within d_p</label>
  <button id="fit">fit view</button>
+ <button id="markmode">Marking mode</button>
 </div>
 <div id="controls2" style="padding:6px 16px;display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--line)"></div>
-<div id="main"><canvas id="floor"></canvas><aside id="side"></aside></div>
+<div id="main"><canvas id="floor"></canvas><aside id="side"><div id="sideinfo"></div><div id="markpanel" style="display:none"></div></aside></div>
 <canvas id="timeline"></canvas>
 <div class="note" id="note"></div>
 <script id="rq1-data" type="application/json">@@DATA@@</script>
@@ -106,6 +108,7 @@ _SCRIPT = r"""
 const D = JSON.parse(document.getElementById("rq1-data").textContent);
 const S = D.settings, H = D.header, N = H.n_frames, FR = D.frames;
 const FROZEN = Object.assign({}, S.display), disp = Object.assign({}, S.display);
+let MARKING = false;
 const R = S.person_radius_m, FL = S.fork_prior_m[0], FW = S.fork_prior_m[1];
 const OBJ = D.objects, BY = {}; OBJ.forEach(o => { BY[o.id] = o; });
 const DT = FR.dt || 1 / 30;
@@ -220,42 +223,22 @@ function ghost(drawIt, x, y, col, lab) { ctx.save(); ctx.globalAlpha = 0.45; dra
 function pos(o, k) { const x = at(o, k, "x"), y = at(o, k, "y"); return x === null ? null : [x, y]; }
 function vel(o, k) { const vx = at(o, k, "vx"), vy = at(o, k, "vy"); return vx === null ? null : [vx, vy]; }
 
-function drawFloor() {
-  const r = window.devicePixelRatio || 1; ctx.setTransform(r, 0, 0, r, 0, 0); ctx.clearRect(0, 0, cv.clientWidth, cv.clientHeight);
-  const pair = PAIRS[pairIdx];
-  if ($("follow").checked && pair) { const a = pos(BY[pair.p], frame), b = pos(BY[pair.f], frame); if (a && b) { view.cx = (a[0] + b[0]) / 2; view.cy = (a[1] + b[1]) / 2; } }
-  grid();
-  const k = frame, cP = css("--person"), cF = css("--fork"), cO = css("--other"), tau = disp.tau_s, sel = pair ? [pair.p, pair.f] : [];
-  OBJ.forEach(o => {
-    const st = at(o, k, "st"); if (st === null || st === "-") return;
-    const col = o.cls === "person" ? cP : o.cls === "forklift" ? cF : cO;
-    const p = pos(o, k);
-    if (!p) { const ax = at(o, k, "ax"), ay = at(o, k, "ay"); if (ax === null) return;
-      if (st === "L") { circle(ax, ay, o.cls === "person" ? R : 0.6, col, null, [3, 4], 1); text(ax, ay, label(o) + " lost", col, 8, -8); }
-      else { const q = W2S(ax, ay); ctx.strokeStyle = cO; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(q[0] - 5, q[1] - 5); ctx.lineTo(q[0] + 5, q[1] + 5);
-        ctx.moveTo(q[0] + 5, q[1] - 5); ctx.lineTo(q[0] - 5, q[1] + 5); ctx.stroke(); text(ax, ay, label(o) + " ineligible frame", cO, 8, -8); }
-      return; }
-    const v = vel(o, k), pred = st === "P", fill = pred ? null : col + "33", dash = pred ? [6, 4] : [];
-    if (o.cls === "person") {
-      circle(p[0], p[1], R, col, fill, dash, 2);
-      if (v && tau > 0) ghost(() => circle(p[0] + v[0] * tau, p[1] + v[1] * tau, R, col, null, [2, 4], 1), p[0] + v[0] * tau, p[1] + v[1] * tau, col, sel.includes(o.id));
-    } else {
-      const box = at(o, k, "box");
-      if (o.cls !== "forklift" && box) poly(box, col, null, [5, 4], 1.5);
-      if (o.cls === "forklift") {
-        const yaw = at(o, k, "yaw");
-        if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2, col, fill, dash, 2); else poly(rectPts(p[0], p[1], yaw, FL, FW, 0), col, fill, dash, 2);
-        const ring = (d, c2) => { if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2 + d, c2, null, [1, 3], 1); else poly(rectPts(p[0], p[1], yaw, FL, FW, d), c2, null, [1, 3], 1); };
-        if (disp.d_p_m > 0) ring(disp.d_p_m, css("--ring-p")); if (disp.d_pc_m > 0) ring(disp.d_pc_m, css("--ring-pc"));
-        if (box) poly(box, css("--fg"), null, [5, 4], 1.5);
-        if (v && tau > 0) { const gx = p[0] + v[0] * tau, gy = p[1] + v[1] * tau;
-          ghost(() => { if (yaw === null) circle(gx, gy, Math.hypot(FL, FW) / 2, col, null, [2, 4], 1); else poly(rectPts(gx, gy, yaw, FL, FW, 0), col, null, [2, 4], 1); }, gx, gy, col, sel.includes(o.id)); }
-      }
-    }
-    if (v) { arrow(p[0], p[1], v[0], v[1], col); }
-    const sp = at(o, k, "speed");
-    text(p[0], p[1], label(o) + (pred ? " pred" : "") + (sp !== null ? "  " + sp.toFixed(2) + " m/s" : ""), col, 10, 14);
-  });
+function drawRings(p, yaw) {
+  const ring = (d, c2) => { if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2 + d, c2, null, [1, 3], 1); else poly(rectPts(p[0], p[1], yaw, FL, FW, d), c2, null, [1, 3], 1); };
+  if (disp.d_p_m > 0) ring(disp.d_p_m, css("--ring-p")); if (disp.d_pc_m > 0) ring(disp.d_pc_m, css("--ring-pc"));
+}
+function drawGhosts(o, p, v, yaw, col, lab) {
+  const tau = disp.tau_s; if (!v || tau <= 0) return;
+  const gx = p[0] + v[0] * tau, gy = p[1] + v[1] * tau;
+  if (o.cls === "person") ghost(() => circle(gx, gy, R, col, null, [2, 4], 1), gx, gy, col, lab);
+  else if (o.cls === "forklift") ghost(() => { if (yaw === null) circle(gx, gy, Math.hypot(FL, FW) / 2, col, null, [2, 4], 1); else poly(rectPts(gx, gy, yaw, FL, FW, 0), col, null, [2, 4], 1); }, gx, gy, col, lab);
+}
+function drawVectors(o, k, p, v, col, pred) {
+  if (v) arrow(p[0], p[1], v[0], v[1], col);
+  const sp = at(o, k, "speed");
+  text(p[0], p[1], label(o) + (pred ? " pred" : "") + (sp !== null ? "  " + sp.toFixed(2) + " m/s" : ""), col, 10, 14);
+}
+function drawClearance(k) {
   PAIRS.forEach((pr, i) => {
     const c = pr.c[k]; if (c === null) return;
     if (i !== pairIdx && !($("allpairs").checked && c <= disp.d_p_m)) return;
@@ -267,7 +250,32 @@ function drawFloor() {
     ctx.fillStyle = css("--fg"); ctx.font = (i === pairIdx ? "600 " : "") + "12px system-ui,sans-serif"; ctx.fillText(c.toFixed(2) + " m", (a[0] + b[0]) / 2 + 6, (a[1] + b[1]) / 2 - 6);
   });
 }
-
+function drawFloor() {
+  const r = window.devicePixelRatio || 1; ctx.setTransform(r, 0, 0, r, 0, 0); ctx.clearRect(0, 0, cv.clientWidth, cv.clientHeight);
+  const pair = PAIRS[pairIdx];
+  if ($("follow").checked && pair) { const a = pos(BY[pair.p], frame), b = pos(BY[pair.f], frame); if (a && b) { view.cx = (a[0] + b[0]) / 2; view.cy = (a[1] + b[1]) / 2; } }
+  grid();
+  const k = frame, cP = css("--person"), cF = css("--fork"), cO = css("--other"), sel = pair ? [pair.p, pair.f] : [];
+  OBJ.forEach(o => {
+    const st = at(o, k, "st"); if (st === null || st === "-") return;
+    const col = o.cls === "person" ? cP : o.cls === "forklift" ? cF : cO;
+    const p = pos(o, k);
+    if (!p) { if (MARKING) return; const ax = at(o, k, "ax"), ay = at(o, k, "ay"); if (ax === null) return;
+      if (st === "L") { circle(ax, ay, o.cls === "person" ? R : 0.6, col, null, [3, 4], 1); text(ax, ay, label(o) + " lost", col, 8, -8); }
+      else { const q = W2S(ax, ay); ctx.strokeStyle = cO; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(q[0] - 5, q[1] - 5); ctx.lineTo(q[0] + 5, q[1] + 5);
+        ctx.moveTo(q[0] + 5, q[1] - 5); ctx.lineTo(q[0] - 5, q[1] + 5); ctx.stroke(); text(ax, ay, label(o) + " ineligible frame", cO, 8, -8); }
+      return; }
+    const v = vel(o, k), pred = st === "P", fill = pred ? null : col + "33", dash = pred ? [6, 4] : [];
+    const yaw = o.cls === "forklift" ? at(o, k, "yaw") : null, box = o.cls === "person" ? null : at(o, k, "box");
+    if (o.cls === "person") circle(p[0], p[1], R, col, fill, dash, 2);
+    else if (o.cls === "forklift") { if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2, col, fill, dash, 2); else poly(rectPts(p[0], p[1], yaw, FL, FW, 0), col, fill, dash, 2); }
+    if (box) poly(box, o.cls === "forklift" ? css("--fg") : col, null, [5, 4], 1.5);  /* dataset 3D box footprint */
+    if (!MARKING && o.cls === "forklift") drawRings(p, yaw);
+    if (!MARKING) drawGhosts(o, p, v, yaw, col, sel.includes(o.id));
+    if (!MARKING) drawVectors(o, k, p, v, col, pred);
+  });
+  if (!MARKING) drawClearance(k);
+}
 function side() {
   const k = frame, t = FR.t[k], pair = PAIRS[pairIdx];
   let h = "<p><b>frame " + k + "</b> &middot; t = " + (t === null ? "n/a" : t.toFixed(3) + " s") + " &middot; " + (FR.el[k] === "1" ? "eligible" : "ineligible") + "</p>";
@@ -281,8 +289,8 @@ function side() {
     " m &middot; <span class='sw' style='background:var(--fork)'></span>forklift prior " + FL + " &times; " + FW +
     " m (solid fill); dataset 3D box footprint: dashed outline in the text colour. Dashed outline without fill: predicted oracle point. " +
     "Dotted rings: d_p, d_pc (clearance). Faint shapes marked t+tau: constant-velocity position at t + tau. Arrows: velocity (length = 1 s of travel).</p>";
-  $("side").innerHTML = h;
-  $("flabel").textContent = "frame " + k + " / " + (N - 1);
+  $("sideinfo").innerHTML = h;
+  $("flabel").textContent = "frame " + k + " / " + (N - 1) + " \u00b7 t = " + (t === null ? "n/a" : t.toFixed(3) + " s");
 }
 
 /* timeline */
@@ -301,6 +309,15 @@ function hline(c, y0, ph, lo, hi, v, color, name) {
   if (v < lo || v > hi) return; const y = y0 + ph - (v - lo) / (hi - lo) * ph; c.strokeStyle = color; c.setLineDash([4, 3]); c.beginPath(); c.moveTo(XL, y);
   c.lineTo(tl.clientWidth - 10, y); c.stroke(); c.setLineDash([]); c.fillStyle = color; c.fillText(name, tl.clientWidth - 90, y - 3);
 }
+function drawTimelineLines(c, panel, y0, ph, lo, hi) {
+  if (panel === "clearance") { hline(c, y0, ph, lo, hi, disp.d_p_m, css("--ring-p"), "d_p " + disp.d_p_m.toFixed(1));
+    hline(c, y0, ph, lo, hi, disp.d_pc_m, css("--ring-pc"), "d_pc " + disp.d_pc_m.toFixed(1)); hline(c, y0, ph, lo, hi, 0, css("--muted"), "0"); }
+  else hline(c, y0, ph, lo, hi, disp.e_fturn_deg_s, css("--ring-p"), "e_fturn " + disp.e_fturn_deg_s.toFixed(1));
+}
+function drawTurningShading(c, F, y0, ph) {
+  const shade = {T: css("--turn-t"), F: css("--turn-f"), U: css("--turn-u")};
+  for (let k = 0; k < N; k++) { const s = turnAt(F, k); if (!s || s === "-") continue; c.fillStyle = shade[s]; c.fillRect(xOf(k), y0, Math.max(1, xOf(k + 1) - xOf(k)), ph); }
+}
 function renderTimeline() {
   const r = window.devicePixelRatio || 1; off.width = tl.width; off.height = tl.height; const c = off.getContext("2d"); c.setTransform(r, 0, 0, r, 0, 0);
   c.clearRect(0, 0, tl.clientWidth, tl.clientHeight); c.font = "11px system-ui,sans-serif";
@@ -308,15 +325,16 @@ function renderTimeline() {
   rects.forEach(([y0, ph, n]) => { c.strokeStyle = css("--line"); c.strokeRect(XL, y0, tl.clientWidth - XL - 10, ph); c.fillStyle = css("--muted"); c.fillText(n, XL + 4, y0 + 11); });
   if (pair) {
     let [y0, ph] = rects[0]; let hi = 0.5; pair.c.forEach(v => { if (v !== null) hi = Math.max(hi, Math.min(10, v)); }); hi = Math.max(hi, disp.d_p_m + 0.5); const lo = Math.min(0, ...pair.c.filter(v => v !== null));
-    series(c, k => pair.c[k], y0, ph, lo, hi, css("--fg")); hline(c, y0, ph, lo, hi, disp.d_p_m, css("--ring-p"), "d_p " + disp.d_p_m.toFixed(1)); hline(c, y0, ph, lo, hi, disp.d_pc_m, css("--ring-pc"), "d_pc " + disp.d_pc_m.toFixed(1));
-    hline(c, y0, ph, lo, hi, 0, css("--muted"), "0"); c.fillStyle = css("--muted"); c.fillText(hi.toFixed(1), 4, y0 + 10); c.fillText(lo.toFixed(1), 4, y0 + ph);
+    series(c, k => pair.c[k], y0, ph, lo, hi, css("--fg"));
+    if (!MARKING) drawTimelineLines(c, "clearance", y0, ph, lo, hi);
+    c.fillStyle = css("--muted"); c.fillText(hi.toFixed(1), 4, y0 + 10); c.fillText(lo.toFixed(1), 4, y0 + ph);
     [y0, ph] = rects[1]; let smax = 0.5; [P, F].forEach(o => o.speed.forEach(v => { if (v !== null) smax = Math.max(smax, v); }));
     series(c, k => at(P, k, "speed"), y0, ph, 0, smax, css("--person")); series(c, k => at(F, k, "speed"), y0, ph, 0, smax, css("--fork"));
     c.fillStyle = css("--muted"); c.fillText(smax.toFixed(1), 4, y0 + 10); c.fillText("0", 4, y0 + ph);
     [y0, ph] = rects[2]; let ymax = Math.max(disp.e_fturn_deg_s * 2, 10); F.yr.forEach(v => { if (v !== null) ymax = Math.max(ymax, Math.min(180, v)); });
-    const shade = {T: css("--turn-t"), F: css("--turn-f"), U: css("--turn-u")};
-    for (let k = 0; k < N; k++) { const s = turnAt(F, k); if (!s || s === "-") continue; c.fillStyle = shade[s]; c.fillRect(xOf(k), y0, Math.max(1, xOf(k + 1) - xOf(k)), ph); }
-    series(c, k => at(F, k, "yr"), y0, ph, 0, ymax, css("--fork")); hline(c, y0, ph, 0, ymax, disp.e_fturn_deg_s, css("--ring-p"), "e_fturn " + disp.e_fturn_deg_s.toFixed(1));
+    if (!MARKING) drawTurningShading(c, F, y0, ph);
+    series(c, k => at(F, k, "yr"), y0, ph, 0, ymax, css("--fork"));
+    if (!MARKING) drawTimelineLines(c, "yaw", y0, ph, 0, ymax);
     c.fillStyle = css("--muted"); c.fillText(ymax.toFixed(0), 4, y0 + 10); c.fillText("0", 4, y0 + ph);
     [y0, ph] = rects[3]; const lane = ph / 3, col = {V: css("--fg"), P: css("--ring-p"), L: css("--ring-pc"), I: css("--other")};
     [[P, 0], [F, 1]].forEach(([o, j]) => { const y = y0 + 4 + j * lane; c.fillStyle = css("--muted"); c.fillText(label(o), 4, y + lane * 0.6);
@@ -360,5 +378,48 @@ $("note").textContent = "Oracle points were built at the pre-registered g_max = 
   "not-visible runs longer than the slider value. Timeline shading: forklift_turning true (amber), false (green), unknown (grey), at the e_fturn slider value " +
   "(T20.2, w_turn = " + S.w_turn_s + " s). Speeds and velocities: the S4 estimate (w_v = " + S.w_v_s + " s). Clearance: the S4 signed footprint distance " +
   "between the forklift prior footprint and the person disc. Click the timeline to jump; drag and scroll the floor view to pan and zoom.";
+/* Owner marking mode (V-01 item 5b): overlays hidden; only footprints, the scrubber and the time. Marks: exploratory,
+   Owner impression, not a reference label; read by no stage. */
+const MK = D.marks;
+function sortKeys(x) { if (Array.isArray(x)) return x.map(sortKeys); if (x && typeof x === "object") { const o = {}; Object.keys(x).sort().forEach(k => { o[k] = sortKeys(x[k]); }); return o; } return x; }
+function markDoc(existing) {
+  const doc = existing || {label: MK.label, question: MK.question, read_by: MK.read_by, schema: MK.schema, marks: {}};
+  const ans = document.querySelector("input[name=answer]:checked");
+  doc.marks[H.recording_id] = {answer: ans ? ans.value : "", note: $("marknote").value, run: H.run, camera: H.camera, dataset_row: H.dataset_row, page_code_commit: H.code_commit};
+  return sortKeys(doc);
+}
+function markStatus(t) { $("markstatus").textContent = t; }
+function answered() { if (!document.querySelector("input[name=answer]:checked")) { markStatus("Choose yes, no or unsure first."); return false; } return true; }
+(function buildMarkPanel() {
+  const mp = $("markpanel"); mp.innerHTML = "";
+  const q = document.createElement("p"); q.innerHTML = "<b></b>"; q.firstChild.textContent = MK.question; mp.append(q);
+  MK.answers.forEach(a => { const l = document.createElement("label"); l.style.marginRight = "14px"; const r = document.createElement("input"); r.type = "radio"; r.name = "answer"; r.value = a; l.append(r, " " + a); mp.append(l); });
+  const ta = document.createElement("textarea"); ta.id = "marknote"; ta.rows = 5; ta.style.width = "100%"; ta.style.marginTop = "8px"; ta.placeholder = "note (free text)"; mp.append(ta);
+  const b1 = document.createElement("button"); b1.textContent = "Save to " + MK.file.split("/").pop() + "…"; b1.style.marginTop = "6px";
+  b1.disabled = !window.showSaveFilePicker; b1.title = window.showSaveFilePicker ? "pick " + MK.file + "; this clip's mark is merged into it" : "not available in this browser: use the download";
+  b1.addEventListener("click", async () => { if (!answered()) return; try {
+      const h = await window.showSaveFilePicker({suggestedName: MK.file.split("/").pop(), types: [{description: "JSON", accept: {"application/json": [".json"]}}]});
+      let existing = null; const txt = await (await h.getFile()).text();
+      if (txt.trim()) { existing = JSON.parse(txt); if (existing.label !== MK.label || existing.schema !== MK.schema || typeof existing.marks !== "object") { markStatus("That file is not an Owner marks file: nothing written."); return; } }
+      const w = await h.createWritable(); await w.write(JSON.stringify(markDoc(existing), null, 1) + "\n"); await w.close(); markStatus("Saved (merged) to " + h.name + ".");
+    } catch (e) { markStatus("Not saved: " + e.message); } });
+  const b2 = document.createElement("button"); b2.textContent = "Download this mark"; b2.style.margin = "6px 0 0 8px";
+  b2.addEventListener("click", () => { if (!answered()) return; const blob = new Blob([JSON.stringify(markDoc(null), null, 1) + "\n"], {type: "application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "owner_mark_" + H.recording_id + ".json"; a.click(); URL.revokeObjectURL(a.href);
+    markStatus("Downloaded. Merge it with: python -m rq1.viewer --import-marks <file>"); });
+  mp.append(b1, b2);
+  const st = document.createElement("p"); st.id = "markstatus"; st.style.color = "var(--muted)"; mp.append(st);
+  const lb = document.createElement("p"); lb.style.color = "var(--muted)"; lb.textContent = "Marks: " + MK.label + "; read by " + MK.read_by + ". Kept in " + MK.file + "."; mp.append(lb);
+})();
+function setMarking(on) {
+  MARKING = on; $("markmode").textContent = on ? "Leave marking mode" : "Marking mode";
+  ["controls2", "timeline", "note", "sideinfo"].forEach(id => { $(id).style.display = on ? "none" : ""; });
+  ["pairlabel", "allpairslabel"].forEach(id => { $(id).style.display = on ? "none" : ""; });
+  $("markpanel").style.display = on ? "" : "none";
+  resize(); timelineDirty = true; draw();
+}
+$("markmode").addEventListener("click", () => setMarking(!MARKING));
+
 resize(); fit(); draw();
+if (location.hash === "#mark") setMarking(true);
 """

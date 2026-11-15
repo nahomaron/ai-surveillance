@@ -653,3 +653,9 @@ _(the agent appends entries here)_
 - Tests: 1881/1881 (full suite), twice; determinism subset 1542/1542; V-01 acceptance tests 18 (`tests/viewer/test_v01_viewer.py`).
 - Problems / CRs: none. Optional items 5a (camera frame) and 5b (Owner marking mode) not built; 5b's label wording conflicts with the "no 'safe'" rule on pages (report, known limit 8).
 - Next: no merge (Owner decides). Mainline remains STOP on D-38 and CR-025.
+
+### 2026-11-14 — V-01 item 5b done (Owner marking mode; D-36 follow-up; branch `v01-truth-viewer`)
+- Did: marking mode on every page (question "Would you send this clip for review? yes / no / unsure" and a note); all overlays hidden in it (only footprints, scrubber, time; grid and scale bar kept). Marks in `out/viewer/owner_marks.json`, labelled "exploratory, Owner impression, not a reference label", read by no stage; saved directly from Chromium browsers or by download plus `python -m rq1.viewer --import-marks`. `src/rq1/viewer/marks.py`; report updated.
+- Tests: 1892/1892 (full suite), twice; 11 new tests (`tests/viewer/test_v01_marks.py`).
+- Problems / CRs: none.
+- Next: no merge (Owner decides). Mainline remains as recorded on `m0-implementation`.

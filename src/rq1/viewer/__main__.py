@@ -2,6 +2,7 @@
 
   PYTHONPATH=src python -m rq1.viewer --rec <rec_id> [--rec <rec_id> ...]
   PYTHONPATH=src python -m rq1.viewer --all-validation [--dataset sdg|smartspaces]
+  PYTHONPATH=src python -m rq1.viewer --import-marks <owner_mark_*.json> ...   (merge Owner marks; item 5b)
 
 A recording outside the validation partition of the frozen X0b split, or any recording when no frozen split exists, is
 refused with ERR-SPEC. The page records the code commit it was generated from (with "+uncommitted" when the working tree
@@ -16,7 +17,7 @@ from pathlib import Path
 
 from rq1.schema.errors import ContractError
 
-from . import page
+from . import guard, marks, page
 from .recordings import Source
 
 
@@ -33,12 +34,22 @@ def main(argv: list[str] | None = None) -> int:
     group = ap.add_mutually_exclusive_group(required=True)
     group.add_argument("--rec", action="append", help="recording ID (rec_...); may be repeated")
     group.add_argument("--all-validation", action="store_true", help="every validation-partition recording held")
+    group.add_argument("--import-marks", nargs="+", metavar="FILE", help="merge mark files saved by the pages into the Owner marks file")
     ap.add_argument("--dataset", choices=("sdg", "smartspaces"), help="with --all-validation: one dataset only")
     args = ap.parse_args(argv)
     root = Path(args.root).resolve()
     out = (root / args.out).resolve()
     if root / "out" not in out.parents and out != root / "out":
         ap.error("--out must lie under <root>/out (git-ignored)")
+    if args.import_marks:
+        try:
+            split, _ = guard.load_frozen_split(root)
+            target, n = marks.import_files(root, args.import_marks, split)
+        except (ContractError, ValueError) as e:
+            print(f"refused: {e}", file=sys.stderr)
+            return 2
+        print(f"{target}: {n} clips marked ({marks.LABEL})")
+        return 0
     try:
         source = Source(root)
     except ContractError as e:
