@@ -106,19 +106,21 @@ def _ends(rows: dict[int, Row], runs: dict[int, list[int]], times: dict[int, flo
     return window[0], window[-1]
 
 
-def r5_rates(person: list[Row], fork: list[Row], frames: dict[int, Row], coverage: list[Row], w_e: float, v_min: float) -> dict[int, Rates]:
-    """T9.2 rates for every frame of the recording, from the S4 smoothed speeds and headings."""
+def prepare_rates(rows: list[Row], frames: dict[int, Row], coverage: list[Row]):
+    """One track's rows by frame and its T9.1 contiguous runs (depends on the track only; AR-58 item 5)."""
+    by = {r["frame_index"]: r for r in rows}
+    usable = {i for i, r in by.items() if r["x_m"] is not None and r["evidence_class"] in ("detected", "inferred")}
+    return by, kinematics.contiguous_runs(sorted(frames), usable, lambda a, b: crosses_break(frames, coverage, a, b))
+
+
+def r5_rates(person: list[Row], fork: list[Row], frames: dict[int, Row], coverage: list[Row], w_e: float, v_min: float,
+             only: list[int] | None = None, prepared: tuple | None = None) -> dict[int, Rates]:
+    """T9.2 rates for every frame of the recording (or for the frames in `only`), from the S4 smoothed speeds and headings.
+    Each frame's rates depend on that frame alone, so `only` changes no value (AR-58 item 5); `prepared` is the pair of
+    `prepare_rates` results for the person and the forklift."""
     times = {i: f["t_resolved_s"] for i, f in frames.items()}
-    order = sorted(frames)
-    brk = lambda a, b: crosses_break(frames, coverage, a, b)
-
-    def prepare(rows: list[Row]):
-        by = {r["frame_index"]: r for r in rows}
-        usable = {i for i, r in by.items() if r["x_m"] is not None and r["evidence_class"] in ("detected", "inferred")}
-        return by, kinematics.contiguous_runs(order, usable, brk)
-
-    p_rows, p_runs = prepare(person)
-    f_rows, f_runs = prepare(fork)
+    order = sorted(frames) if only is None else only
+    (p_rows, p_runs), (f_rows, f_runs) = prepared or (prepare_rates(person, frames, coverage), prepare_rates(fork, frames, coverage))
     out = {}
     for k in order:
         change = turn = decel = None
@@ -141,28 +143,67 @@ def r5_rates(person: list[Row], fork: list[Row], frames: dict[int, Row], coverag
     return out
 
 
-def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], coverage: list[Row], pow_nk: list | None = None) -> list[FrameFlags]:
-    """Per-frame flags of one POW (the first if `pow_nk` is None). S5 reads substrate tables and never writes them."""
+class S4Index:
+    """Lookups over one S4 artifact's tables and one S1 frame list, built once per S5 build (AR-58 item 5, speed only).
+    Each lookup returns the rows the unindexed scans of `flag_frames` returned, in the same order."""
+
+    def __init__(self, s4: dict[str, list[Row]], frames: list[Row], coverage: list[Row]):
+        self.pow = {}
+        for p in s4["pow"]:
+            self.pow.setdefault((p["person_track_id"], p["forklift_track_id"], p["start_frame"]), p)
+        self.objects: dict[str, list[Row]] = {}
+        for r in s4["object_state"]:
+            self.objects.setdefault(r["track_id"], []).append(r)
+        self.pairs: dict[tuple, list[Row]] = {}
+        for r in s4["pair_series"]:
+            self.pairs.setdefault(tuple(r["pow_nk"]), []).append(r)
+        self.eligible = {f["frame_index"]: f for f in frames if f["eligible"]}
+        recording = frames[0]["recording_id"]
+        own = [c for c in coverage if c.get("recording_id") == recording]
+        self.cov = [c for c in coverage if own and c["timeline_id"] == own[0]["timeline_id"] and c["camera_id"] == own[0]["camera_id"]]
+        self._prepared: dict[str, tuple] = {}
+
+    def prepared(self, track_id: str) -> tuple:
+        if track_id not in self._prepared:
+            self._prepared[track_id] = prepare_rates(self.objects.get(track_id, []), self.eligible, self.cov)
+        return self._prepared[track_id]
+
+
+def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], coverage: list[Row], pow_nk: list | None = None,
+                index: S4Index | None = None) -> list[FrameFlags]:
+    """Per-frame flags of one POW (the first if `pow_nk` is None). S5 reads substrate tables and never writes them.
+    `index` (built from the same s4, frames and coverage) replaces the table scans and changes no value (AR-58 item 5)."""
     if rules.p_provider not in ("R1", "R2"):
         raise ContractError("ERR-SPEC", "a configuration has exactly one P provider, R1 or R2")
     unknown = set(rules.conflict) - {"R3", "R4"}
     if unknown:
         raise ContractError("ERR-SPEC", f"unknown conflict providers: {sorted(unknown)}")
     check_r4(rules.ttc_max, rules.pet_max, rules.tau)
-    pow_row = s4["pow"][0] if pow_nk is None else next(p for p in s4["pow"] if [p["person_track_id"], p["forklift_track_id"], p["start_frame"]] == pow_nk)
-    key = [pow_row["person_track_id"], pow_row["forklift_track_id"], pow_row["start_frame"]]
-    eligible = {f["frame_index"]: f for f in frames if f["eligible"]}
-    recording = frames[0]["recording_id"]
-    own = [c for c in coverage if c.get("recording_id") == recording]
-    cov = [c for c in coverage if own and c["timeline_id"] == own[0]["timeline_id"] and c["camera_id"] == own[0]["camera_id"]]
-    person = [r for r in s4["object_state"] if r["track_id"] == pow_row["person_track_id"]]
-    fork = [r for r in s4["object_state"] if r["track_id"] == pow_row["forklift_track_id"]]
+    if index is None:
+        pow_row = s4["pow"][0] if pow_nk is None else next(p for p in s4["pow"] if [p["person_track_id"], p["forklift_track_id"], p["start_frame"]] == pow_nk)
+        key = [pow_row["person_track_id"], pow_row["forklift_track_id"], pow_row["start_frame"]]
+        eligible = {f["frame_index"]: f for f in frames if f["eligible"]}
+        recording = frames[0]["recording_id"]
+        own = [c for c in coverage if c.get("recording_id") == recording]
+        cov = [c for c in coverage if own and c["timeline_id"] == own[0]["timeline_id"] and c["camera_id"] == own[0]["camera_id"]]
+        person = [r for r in s4["object_state"] if r["track_id"] == pow_row["person_track_id"]]
+        fork = [r for r in s4["object_state"] if r["track_id"] == pow_row["forklift_track_id"]]
+        series = sorted((r for r in s4["pair_series"] if r["pow_nk"] == key), key=lambda r: r["frame_index"])
+        prepared = None
+    else:
+        pow_row = s4["pow"][0] if pow_nk is None else index.pow[tuple(pow_nk)]
+        key = [pow_row["person_track_id"], pow_row["forklift_track_id"], pow_row["start_frame"]]
+        eligible, cov = index.eligible, index.cov
+        person, fork = index.objects.get(key[0], []), index.objects.get(key[1], [])
+        series = sorted(index.pairs.get(tuple(key), []), key=lambda r: r["frame_index"])
+        prepared = (index.prepared(key[0]), index.prepared(key[1]))
     person_by = {r["frame_index"]: r for r in person}
     fork_by = {r["frame_index"]: r for r in fork}
-    rates = r5_rates(person, fork, eligible, cov, rules.w_e, rules.v_min)  # T10.3(c): the cue needs them even when R5 is off
+    # T10.3(c): the cue needs the rates even when R5 is off. Only this POW's frames are read.
+    rates = r5_rates(person, fork, eligible, cov, rules.w_e, rules.v_min, only=[r["frame_index"] for r in series if r["frame_index"] in eligible], prepared=prepared)
     seen = lambda r: r is not None and r["evidence_state"] in ("visible", "partially_visible")
     out = []
-    for row in sorted((r for r in s4["pair_series"] if r["pow_nk"] == key), key=lambda r: r["frame_index"]):
+    for row in series:
         i = row["frame_index"]
         fk = fork_by.get(i)
         speed, speed_sigma = (fk["speed_mps"], fk["speed_sigma_mps"]) if fk else (None, None)

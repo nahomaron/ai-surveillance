@@ -2,6 +2,7 @@
 (E-1.2.1 sections 3.4, 3.5, 4.2, 5.5; Appendix T section T8)."""
 from __future__ import annotations
 
+import bisect
 import math
 from dataclasses import dataclass
 from typing import Any
@@ -50,6 +51,16 @@ class SubstrateBuilder:
         size = (summary["width_px"], summary["height_px"])
         tracks = {t["track_local_id"]: t for t in s3.tables["track"]}
         points = {(p["track_nk"][1], p["frame_index"]): p for p in s3.tables["track_point"]}
+        # Indexes built once (AR-58 item 4, speed only): per-track eligible point states, in the order of `points`, and the
+        # classes tracked on each eligible frame. They replace scans of every point per track pair and per frame.
+        state_by_track: dict[int, dict[int, str]] = {}
+        tracked_classes: dict[int, set[str]] = {i: set() for i in frames}
+        for (l, i), p in points.items():
+            if i in frames:
+                state_by_track.setdefault(l, {})[i] = p["state"]
+                if p["state"] == "tracked":
+                    tracked_classes[i].add(tracks[l]["class"])
+        frame_order = sorted(frames)
         states_rows: dict[tuple[str, int], Row] = {}
         object_rows = []
         for local, track in sorted(tracks.items()):
@@ -62,18 +73,18 @@ class SubstrateBuilder:
         forklifts = [t for t in tracks.values() if t["class"] in cfg.pair_classes]
         for person in sorted(persons, key=lambda t: t["track_local_id"]):
             for fork in sorted(forklifts, key=lambda t: t["track_local_id"]):
-                pstate = {i: p["state"] for (l, i), p in points.items() if l == person["track_local_id"] and i in frames}
-                fstate = {i: p["state"] for (l, i), p in points.items() if l == fork["track_local_id"] and i in frames}
+                pstate = dict(state_by_track.get(person["track_local_id"], {}))
+                fstate = dict(state_by_track.get(fork["track_local_id"], {}))
                 for window in pows.build(pstate, fstate, frames, coverage, cfg.g_max):
                     key = [person["trk_id"], fork["trk_id"], window.start]
                     series = [self._pair(person, fork, i, key, points, states_rows, frames, coverage, size, cfg, window)
-                              for i in sorted(frames) if window.start <= i < window.end_excl]
+                              for i in frame_order[bisect.bisect_left(frame_order, window.start):bisect.bisect_left(frame_order, window.end_excl)]]
                     self._closing(series, frames, coverage, cfg)
                     pair_rows += series
                     pow_rows.append(self._pow(key, window, series, frames, frames_all, recording, timeline_id, camera_id))
                     for scheme_id, bands in sorted(cfg.band_schemes.items()):
                         profiles.append(self._profile(key, scheme_id, bands, window, series, frames, frames_all, states_rows, fork, calibration, positions, cfg))
-        detections = {i: {tracks[l]["class"] for (l, j), p in points.items() if j == i and p["state"] == "tracked"} for i in frames}
+        detections = tracked_classes
         activity_rows = activity.build(coverage, frames_all, detections, cfg.pair_classes, s3.artifact_id)
         for row in object_rows:
             row.pop("_v", None)

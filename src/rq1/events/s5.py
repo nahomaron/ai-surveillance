@@ -69,7 +69,10 @@ def _pow_nk(p: Row) -> list:
 
 
 def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> Artifact:
-    frames = sorted((f for f in s1["frame"] if f["recording_id"] == s1["frame"][0]["recording_id"]), key=lambda f: f["frame_index"])
+    # Ineligible frames have no frame_index; they sort after the eligible ones (by decode_seq). Only eligibility and the
+    # recording are read from this list, so the order of ineligible frames changes nothing (AR-58 item 6, crash fix).
+    frames = sorted((f for f in s1["frame"] if f["recording_id"] == s1["frame"][0]["recording_id"]),
+                    key=lambda f: (f["frame_index"] is None, f["frame_index"] if f["frame_index"] is not None else f["decode_seq"]))
     recording = frames[0]["recording_id"]
     own = sorted((c for c in s1["coverage_segment"] if c.get("recording_id") == recording), key=lambda c: c["t_start_tl_s"])
     timeline_id = own[0]["timeline_id"]
@@ -82,8 +85,9 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> 
     discarded: list[Row] = []
     last_episode: dict[str, Row] = {}  # pow_id -> episode that ends at the POW end
     by_pow_id = {p["pow_id"]: p for p in pows}
+    index = providers.S4Index(s4.tables, frames, s1["coverage_segment"])  # AR-58 item 5: lookups built once
     for pw in pows:
-        flags = providers.flag_frames(s4.tables, rules, frames, s1["coverage_segment"], pow_nk=_pow_nk(pw))
+        flags = providers.flag_frames(s4.tables, rules, frames, s1["coverage_segment"], pow_nk=_pow_nk(pw), index=index)
         eps, disc = engine.run_pow(flags, cfg.params)
         flag_rows += engine.flag_series_rows(pw["pow_id"], flags)
         discarded += [{"pow_id": pw["pow_id"], **d} for d in disc]

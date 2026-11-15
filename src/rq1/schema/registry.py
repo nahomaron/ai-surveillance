@@ -1,6 +1,8 @@
 """Registry and generators: Arrow schemas, JSON Schemas and row scaffolds from tables.py."""
 from __future__ import annotations
 
+import functools
+
 import json
 from datetime import datetime, timezone
 from typing import Any
@@ -175,6 +177,7 @@ def forbidden_field_names(table: str) -> list[str]:
     return [f.name for f in TABLES[table].fields if is_forbidden(table, f.name)]
 
 
+@functools.lru_cache(maxsize=None)
 def is_forbidden(table: str, column: str) -> bool:
     return (table, column) not in FORBIDDEN_EXEMPT and any(x in column.lower() for x in FORBIDDEN_FRAGMENTS)
 

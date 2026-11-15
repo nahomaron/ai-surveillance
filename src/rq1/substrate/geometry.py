@@ -37,8 +37,12 @@ def predict_min_clearance(person: tuple[float, float], person_v: tuple[float, fl
     for _ in range(200):
         m1, m2 = hi - ratio * (hi - lo), lo + ratio * (hi - lo)
         if at(m1) <= at(m2):
+            if m2 == hi:  # fixed point: no later iteration can change the bracket (AR-58; same result as 200 iterations)
+                break
             hi = m2
         else:
+            if m1 == lo:
+                break
             lo = m1
     candidates = [(at(t), t) for t in (0.0, (lo + hi) / 2, horizon_s)]
     return min(candidates)

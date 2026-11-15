@@ -10,6 +10,12 @@ set of t where they intersect is an interval (found by bisection, tolerance 1e-6
 - pet_pred (T15.3): swept region of an object = convex hull of its footprint at 0 and tau. Because each footprint lies inside its
   own swept region, an object's footprint meets the conflict area A = S_person & S_forklift exactly when it meets the other
   object's swept region; that gives the occupancy interval [t_in, t_out].
+
+Search method (AR-58, revising the AR-49 item 1 method; values within 1e-6 s of it): the same golden-section minimiser and the
+same bisections, but (i) the shape gap along the path, gap(F + v t, G), is evaluated as the distance from the point v t to the
+Minkowski difference G - F (one convex polygon, built once per occupancy) minus both radii, which is the same quantity; and
+(ii) the golden-section loop stops when its bracket no longer changes (a fixed point: every later iteration would repeat it).
+The AR-49 method is kept, unused, in `surrogate_ar49.py` for the equivalence tests.
 """
 from __future__ import annotations
 
@@ -105,6 +111,36 @@ def polygon_distance(p: tuple[Point, ...], q: tuple[Point, ...]) -> float:
     return min(min(_point_segment(v, c, d) for v in p for c, d in eq), min(_point_segment(v, a, b) for v in q for a, b in ep))
 
 
+def minkowski_difference(region: tuple[Point, ...], footprint: tuple[Point, ...]) -> tuple[Point, ...]:
+    """G - F = {g - f}: the convex hull of the pairwise vertex differences. F + d meets G exactly when d lies in G - F."""
+    return hull([(gx - fx, gy - fy) for gx, gy in region for fx, fy in footprint])
+
+
+def _path_gap(footprint: Shape, v: Point, region: Shape):
+    """t -> gap(footprint + v t, region), as the distance from v t to the polygon region - footprint, minus both radii (AR-58)."""
+    verts, radius = minkowski_difference(region.verts, footprint.verts), footprint.r + region.r
+    vx, vy = v
+    if len(verts) == 1:
+        (ax, ay), = verts
+        return lambda t: math.hypot(vx * t - ax, vy * t - ay) - radius
+    edges = [(a[0], a[1], b[0] - a[0], b[1] - a[1], (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) for a, b in _edges(verts)]
+    polygon = len(verts) >= 3
+
+    def f(t: float) -> float:
+        px, py = vx * t, vy * t
+        if polygon and all(dx * (py - ay) - dy * (px - ax) >= 0 for ax, ay, dx, dy, _ in edges):
+            return 0.0 - radius
+        best = math.inf
+        for ax, ay, dx, dy, n in edges:
+            u = ((px - ax) * dx + (py - ay) * dy) / n
+            u = 0.0 if u < 0.0 else (1.0 if u > 1.0 else u)
+            d = math.hypot(px - ax - u * dx, py - ay - u * dy)
+            if d < best:
+                best = d
+        return best - radius
+    return f
+
+
 def gap(a: Shape, b: Shape) -> float:
     """<= 0 exactly when the two shapes intersect (touching counts)."""
     return polygon_distance(a.verts, b.verts) - a.r - b.r
@@ -116,8 +152,12 @@ def _argmin(f, lo: float, hi: float) -> float:
     for _ in range(200):
         m1, m2 = b - ratio * (b - a), a + ratio * (b - a)
         if f(m1) <= f(m2):
+            if m2 == b:  # fixed point: the bracket no longer changes, so no later iteration can change it (AR-58)
+                break
             b = m2
         else:
+            if m1 == a:
+                break
             a = m1
     return min((f(t), t) for t in (lo, (a + b) / 2, hi))[1]
 
@@ -144,7 +184,7 @@ def ttc(clearance_at, t_at_min: float) -> float | None:
 
 def occupancy(footprint: Shape, v: Point, region: Shape, tau: float) -> tuple[float, float] | None:
     """The interval of t in [0, tau] where footprint + v t meets `region`; None if it never does."""
-    f = lambda t: gap(footprint.moved((v[0] * t, v[1] * t)), region)
+    f = _path_gap(footprint, v, region)
     t_star = _argmin(f, 0.0, tau)
     if f(t_star) > 0:
         return None

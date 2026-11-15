@@ -1,6 +1,7 @@
 """Artifact builder: the seven-step construction of E-1.2.1 section 2.3, with F.1 A1 identity classes."""
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 import os
@@ -77,8 +78,10 @@ def spec_id(spec: Spec) -> str:
     return f"asp_{core.b32(hashlib.sha256(canonical_json(spec.as_dict())).digest())}"
 
 
-def _payload_columns(table: str) -> set[str]:
-    return {f.name for f in registry.TABLES[table].fields if registry.is_payload(f)}
+@functools.lru_cache(maxsize=None)
+def _payload_columns(table: str) -> frozenset[str]:
+    """Cached per table: the schema registry is static (AR-58 item 3, speed only)."""
+    return frozenset(f.name for f in registry.TABLES[table].fields if registry.is_payload(f))
 
 
 def _event_values(table: str, row: Row) -> Row:
@@ -92,7 +95,8 @@ def config_id(table: str, row: Row) -> str:
 
 def _canonical_row(table: str, row: Row) -> Row:
     """Keep payload columns and put contract-defined sets in canonical order (section 1.5)."""
-    payload = {k: v for k, v in row.items() if k in _payload_columns(table)}
+    columns = _payload_columns(table)
+    payload = {k: v for k, v in row.items() if k in columns}
     for name, value in payload.items():
         if name.endswith("_nks") or (table == "camera_group" and name == "camera_ids"):
             payload[name] = sort_set(value)
