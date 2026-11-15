@@ -1,0 +1,527 @@
+{
+ "rule": "D-34 item B.8; truth-side statistics only (no S5, no S8, no system output)",
+ "split_artifact": "art_w5v3ldr43xdsqc6l4zifmjkuuj",
+ "counts_code_commit": "9a0674e67eddb9d83687e1c19fc556cead336c89",
+ "contract": "E-1.2.18",
+ "run_length_unit": "eligible frames of the recording (T19); visible = dataset-visible and eligible (T20.1)",
+ "percentiles": "nearest-rank",
+ "sdg": {
+  "validation_runs": 24,
+  "validation_cameras": 240,
+  "validation_cameras_with_oracle_tracks": 226,
+  "run_lengths": {
+   "validation": {
+    "forklift": {
+     "runs": 51,
+     "frames": 84,
+     "min": 0,
+     "median": 1,
+     "p90": 1,
+     "p99": 17,
+     "max": 17,
+     "share_le": {
+      "5": {
+       "runs": 0.9412,
+       "frames": 0.5357
+      },
+      "15": {
+       "runs": 0.9804,
+       "frames": 0.7976
+      },
+      "30": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "60": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "150": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "300": {
+       "runs": 1.0,
+       "frames": 1.0
+      }
+     }
+    },
+    "person": {
+     "runs": 131,
+     "frames": 1265,
+     "min": 0,
+     "median": 2,
+     "p90": 27,
+     "p99": 79,
+     "max": 141,
+     "share_le": {
+      "5": {
+       "runs": 0.6412,
+       "frames": 0.0964
+      },
+      "15": {
+       "runs": 0.8244,
+       "frames": 0.2759
+      },
+      "30": {
+       "runs": 0.9084,
+       "frames": 0.4593
+      },
+      "60": {
+       "runs": 0.9771,
+       "frames": 0.7723
+      },
+      "150": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "300": {
+       "runs": 1.0,
+       "frames": 1.0
+      }
+     }
+    }
+   },
+   "all_runs": {
+    "forklift": {
+     "runs": 162,
+     "frames": 344,
+     "min": 0,
+     "median": 1,
+     "p90": 1,
+     "p99": 38,
+     "max": 68,
+     "share_le": {
+      "5": {
+       "runs": 0.9444,
+       "frames": 0.3837
+      },
+      "15": {
+       "runs": 0.9691,
+       "frames": 0.5145
+      },
+      "30": {
+       "runs": 0.9877,
+       "frames": 0.6919
+      },
+      "60": {
+       "runs": 0.9938,
+       "frames": 0.8023
+      },
+      "150": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "300": {
+       "runs": 1.0,
+       "frames": 1.0
+      }
+     }
+    },
+    "person": {
+     "runs": 388,
+     "frames": 4848,
+     "min": 0,
+     "median": 3,
+     "p90": 38,
+     "p99": 122,
+     "max": 141,
+     "share_le": {
+      "5": {
+       "runs": 0.5799,
+       "frames": 0.0705
+      },
+      "15": {
+       "runs": 0.7655,
+       "frames": 0.2141
+      },
+      "30": {
+       "runs": 0.8608,
+       "frames": 0.3787
+      },
+      "60": {
+       "runs": 0.9613,
+       "frames": 0.7203
+      },
+      "150": {
+       "runs": 1.0,
+       "frames": 1.0
+      },
+      "300": {
+       "runs": 1.0,
+       "frames": 1.0
+      }
+     }
+    }
+   }
+  },
+  "pow_sensitivity": {
+   "validation": {
+    "5": {
+     "pows": 275,
+     "pows_ended_gap_exceeded": 49
+    },
+    "15": {
+     "pows": 249,
+     "pows_ended_gap_exceeded": 23
+    },
+    "30": {
+     "pows": 237,
+     "pows_ended_gap_exceeded": 11
+    },
+    "60": {
+     "pows": 228,
+     "pows_ended_gap_exceeded": 2
+    }
+   },
+   "all_runs": {
+    "5": {
+     "pows": 864,
+     "pows_ended_gap_exceeded": 167
+    },
+    "15": {
+     "pows": 790,
+     "pows_ended_gap_exceeded": 93
+    },
+    "30": {
+     "pows": 750,
+     "pows_ended_gap_exceeded": 53
+    },
+    "60": {
+     "pows": 710,
+     "pows_ended_gap_exceeded": 13
+    }
+   }
+  },
+  "yaw_rate_deg_per_s": {
+   "runs_with_ceiling_00_annotation": {
+    "validation": 23,
+    "all_runs": 67
+   },
+   "validation": {
+    "window_0.5_s": {
+     "frames": 6881,
+     "p50": 0.0,
+     "p90": 75.0,
+     "p99": 75.0,
+     "max": 84.38,
+     "groups": {
+      "< 1": {
+       "frames": 4047,
+       "share": 0.5881
+      },
+      "1 to < 5": {
+       "frames": 60,
+       "share": 0.0087
+      },
+      "5 to < 20": {
+       "frames": 198,
+       "share": 0.0288
+      },
+      "20 to < 120": {
+       "frames": 2576,
+       "share": 0.3744
+      },
+      ">= 120": {
+       "frames": 0,
+       "share": 0.0
+      }
+     }
+    },
+    "window_1.0_s": {
+     "frames": 6881,
+     "p50": 0.0,
+     "p90": 75.0,
+     "p99": 75.0,
+     "max": 83.11,
+     "groups": {
+      "< 1": {
+       "frames": 3660,
+       "share": 0.5319
+      },
+      "1 to < 5": {
+       "frames": 125,
+       "share": 0.0182
+      },
+      "5 to < 20": {
+       "frames": 386,
+       "share": 0.0561
+      },
+      "20 to < 120": {
+       "frames": 2710,
+       "share": 0.3938
+      },
+      ">= 120": {
+       "frames": 0,
+       "share": 0.0
+      }
+     }
+    }
+   },
+   "all_runs": {
+    "window_0.5_s": {
+     "frames": 20081,
+     "p50": 0.0,
+     "p90": 75.0,
+     "p99": 75.0,
+     "max": 84.38,
+     "groups": {
+      "< 1": {
+       "frames": 11226,
+       "share": 0.559
+      },
+      "1 to < 5": {
+       "frames": 164,
+       "share": 0.0082
+      },
+      "5 to < 20": {
+       "frames": 568,
+       "share": 0.0283
+      },
+      "20 to < 120": {
+       "frames": 8123,
+       "share": 0.4045
+      },
+      ">= 120": {
+       "frames": 0,
+       "share": 0.0
+      }
+     }
+    },
+    "window_1.0_s": {
+     "frames": 20081,
+     "p50": 0.0,
+     "p90": 75.0,
+     "p99": 75.0,
+     "max": 83.11,
+     "groups": {
+      "< 1": {
+       "frames": 10105,
+       "share": 0.5032
+      },
+      "1 to < 5": {
+       "frames": 350,
+       "share": 0.0174
+      },
+      "5 to < 20": {
+       "frames": 1146,
+       "share": 0.0571
+      },
+      "20 to < 120": {
+       "frames": 8480,
+       "share": 0.4223
+      },
+      ">= 120": {
+       "frames": 0,
+       "share": 0.0
+      }
+     }
+    }
+   }
+  },
+  "forklift_box_size_m": {
+   "validation": {
+    "3.03 x 1.13": 6881
+   },
+   "all_runs": {
+    "3.03 x 1.13": 20081
+   }
+  }
+ },
+ "smartspaces_warehouse_000": {
+  "cameras": 19,
+  "note": "the whole synthetic group is validation: validation = all runs",
+  "run_lengths": {
+   "validation": {
+    "forklift": {
+     "runs": 692,
+     "frames": 128867,
+     "min": 1,
+     "median": 27,
+     "p90": 434,
+     "p99": 2789,
+     "max": 3951,
+     "share_le": {
+      "5": {
+       "runs": 0.2153,
+       "frames": 0.0033
+      },
+      "15": {
+       "runs": 0.4176,
+       "frames": 0.0137
+      },
+      "30": {
+       "runs": 0.5231,
+       "frames": 0.0258
+      },
+      "60": {
+       "runs": 0.6142,
+       "frames": 0.0461
+      },
+      "150": {
+       "runs": 0.8092,
+       "frames": 0.1523
+      },
+      "300": {
+       "runs": 0.8772,
+       "frames": 0.2286
+      }
+     }
+    },
+    "pallet_truck": {
+     "runs": 585,
+     "frames": 6587,
+     "min": 1,
+     "median": 6,
+     "p90": 23,
+     "p99": 46,
+     "max": 502,
+     "share_le": {
+      "5": {
+       "runs": 0.3556,
+       "frames": 0.0862
+      },
+      "15": {
+       "runs": 0.6923,
+       "frames": 0.3223
+      },
+      "30": {
+       "runs": 0.9709,
+       "frames": 0.8244
+      },
+      "60": {
+       "runs": 0.9966,
+       "frames": 0.9138
+      },
+      "150": {
+       "runs": 0.9983,
+       "frames": 0.9238
+      },
+      "300": {
+       "runs": 0.9983,
+       "frames": 0.9238
+      }
+     }
+    },
+    "person": {
+     "runs": 6625,
+     "frames": 1578245,
+     "min": 1,
+     "median": 19,
+     "p90": 606,
+     "p99": 3373,
+     "max": 8009,
+     "share_le": {
+      "5": {
+       "runs": 0.2859,
+       "frames": 0.0031
+      },
+      "15": {
+       "runs": 0.4632,
+       "frames": 0.0101
+      },
+      "30": {
+       "runs": 0.5722,
+       "frames": 0.0202
+      },
+      "60": {
+       "runs": 0.6571,
+       "frames": 0.0355
+      },
+      "150": {
+       "runs": 0.7467,
+       "frames": 0.0743
+      },
+      "300": {
+       "runs": 0.8195,
+       "frames": 0.1404
+      }
+     }
+    }
+   }
+  },
+  "pow_sensitivity": {
+   "validation": {
+    "5": {
+     "pows": 18084,
+     "pows_ended_gap_exceeded": 16619
+    },
+    "15": {
+     "pows": 13907,
+     "pows_ended_gap_exceeded": 12439
+    },
+    "30": {
+     "pows": 11447,
+     "pows_ended_gap_exceeded": 9973
+    },
+    "60": {
+     "pows": 9522,
+     "pows_ended_gap_exceeded": 8040
+    }
+   }
+  },
+  "yaw_rate_deg_per_s": {
+   "validation": {
+    "window_0.5_s": {
+     "frames": 80626,
+     "p50": 0.0,
+     "p90": 24.11,
+     "p99": 25.99,
+     "max": 337.5,
+     "groups": {
+      "< 1": {
+       "frames": 64082,
+       "share": 0.7948
+      },
+      "1 to < 5": {
+       "frames": 718,
+       "share": 0.0089
+      },
+      "5 to < 20": {
+       "frames": 3550,
+       "share": 0.044
+      },
+      "20 to < 120": {
+       "frames": 12100,
+       "share": 0.1501
+      },
+      ">= 120": {
+       "frames": 176,
+       "share": 0.0022
+      }
+     }
+    },
+    "window_1.0_s": {
+     "frames": 80604,
+     "p50": 0.0,
+     "p90": 24.11,
+     "p99": 25.14,
+     "max": 180.0,
+     "groups": {
+      "< 1": {
+       "frames": 62648,
+       "share": 0.7772
+      },
+      "1 to < 5": {
+       "frames": 1054,
+       "share": 0.0131
+      },
+      "5 to < 20": {
+       "frames": 5485,
+       "share": 0.068
+      },
+      "20 to < 120": {
+       "frames": 11129,
+       "share": 0.1381
+      },
+      ">= 120": {
+       "frames": 288,
+       "share": 0.0036
+      }
+     }
+    }
+   },
+   "source": "research/datasets/part3/yaw_rate_distribution.json (Warehouse_000 truth = the validation group)"
+  }
+ }
+}

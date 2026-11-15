@@ -1,0 +1,354 @@
+{
+ "contract": "E-1.2.18",
+ "code_commit": "0e95e77a72afa6d0831805c5a65812ad87bebfdf",
+ "requirements_lock_sha256": "228ef036e3d741429ce8683b6035900a83aca0cd28d34661ba0233779c6e971d",
+ "frozen_utc": "2026-11-15T01:47:59+00:00",
+ "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+ "parameters": "pre-registered (G-PR, D-34, D-35)",
+ "split": {
+  "artifact_id": "art_w5v3ldr43xdsqc6l4zifmjkuuj",
+  "payload_sha256": "c01ad60be4ae42a9e986ab1ec8461dae55b7c3d0d0b57c2a5b342fb056465382",
+  "spm_id": "spm_uvjw4v4mygzvtvwqrbjjhambh5",
+  "split_label": "m1a",
+  "version": "1",
+  "tier": "T1",
+  "basis": "metadata_only",
+  "s0_inputs": [
+   "art_xwrldyhquvmorjhpjxb573tbxk",
+   "art_k3kmwlyr3dwyaztop6bedfkxts"
+  ],
+  "split_draw_config_id": "sdr_nrca36qkkf72d4qenhtbx2anjh",
+  "split_draw_record": {
+   "rule": "D-34 item B.2, D-35 option (b)",
+   "strata": "batch family",
+   "derivation": "batch family = first path element of session.lineage.generation_batch (split at '/'); validation runs per family drawn by simple random sampling without replacement, runs sorted by ext_run_id, one numpy PCG64 generator seeded with the draw seed, families drawn in sorted family order; all other runs are test",
+   "validation_per_family": {
+    "warehouse_osmos": 12,
+    "warehouse_osmos_1": 5,
+    "warehouse_osmos_2": 7
+   },
+   "seed": 2026111401,
+   "rng": "numpy PCG64",
+   "smartspaces_synthetic_group": "validation",
+   "tier": "T1"
+  },
+  "leakage_groups": 73,
+  "leakage_groups_by_partition": {
+   "validation": 25,
+   "test": 48
+  },
+  "recordings": 739,
+  "families": [
+   {
+    "family": "warehouse_osmos",
+    "runs": 36,
+    "validation": 12,
+    "test": 24
+   },
+   {
+    "family": "warehouse_osmos_1",
+    "runs": 16,
+    "validation": 5,
+    "test": 11
+   },
+   {
+    "family": "warehouse_osmos_2",
+    "runs": 20,
+    "validation": 7,
+    "test": 13
+   }
+  ],
+  "sdg_validation_runs": [
+   "1f153860933aed78a2e3_run_20_seed_139404633",
+   "1f464952ebcd1193d2fc_run_15_seed_188131302",
+   "469b20a288f784c6af56_run_31_seed_987818680",
+   "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+   "4b43e53a255570bbc38c_run_4_seed_896766254",
+   "7795973468ccd09f99e0_run_12_seed_1024710749",
+   "77ac50db826f518b0227_run_1_seed_37495231",
+   "77b0d9589e791edd2cc0_run_5_seed_177568880",
+   "78339f687f36f0ce3118_run_11_seed_1779639537",
+   "896d68d8822c4835c308_run_22_seed_843682243",
+   "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+   "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+   "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+   "a3ccffca67456307f2f1_run_3_seed_56192878",
+   "a74b7e11218018565cf9_run_12_seed_695326786",
+   "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+   "a7965c230dd8f2da2665_run_14_seed_963259144",
+   "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+   "b3ecedc9570d7c12a423_run_2_seed_758132596",
+   "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+   "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+   "e34ae78193869eddcd2e_run_42_seed_1691823079",
+   "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+   "f700a731670a2da62cd5_run_19_seed_1150621462"
+  ],
+  "sdg_test_runs": [
+   "03dde99492fa6570fb42_run_16_seed_1305281951",
+   "04573755960a76f10119_run_46_seed_1402403531",
+   "047fca619ecf7a56b2e4_run_4_seed_795834165",
+   "1f1acf28b3117b56e89b_run_6_seed_1495571596",
+   "474fb0ee1a02b38e6135_run_15_seed_1548162657",
+   "4753e62c1af548988996_run_5_seed_559227388",
+   "4b05a6af0c4350b2d671_run_4_seed_806564663",
+   "72a9270c9daa123ace61_run_13_seed_851910160",
+   "72c2e190ff811e2fcd9d_run_42_seed_648376005",
+   "72cdf064afe3ed619660_run_14_seed_495532104",
+   "7825287d6b5992c4ff05_run_3_seed_570866978",
+   "782a21a32dae9da04825_run_25_seed_665643073",
+   "895fb87e4745fcd44d65_run_28_seed_614054766",
+   "89807437d8df6079523b_run_26_seed_1029494761",
+   "915a40735677ac336401_run_4_seed_2076866610",
+   "9cb8e8b90aac0e419ea4_run_29_seed_2071889816",
+   "9ceb0327c127ac4b2f93_run_1_seed_1315993226",
+   "a3f8258e79b54e2a8300_run_38_seed_1607933004",
+   "a40d0973dea5c1629a02_run_13_seed_1363227761",
+   "a5d6e0ab2dbfeeb08149_run_47_seed_1695863875",
+   "a5e3f1d9d0441762a498_run_2_seed_401415230",
+   "a610c26991503ecbde7e_run_15_seed_1633716385",
+   "a7530aa436c6e2eeb59c_run_22_seed_1886649344",
+   "a784ab52aac44fdd5f3a_run_1_seed_895115829",
+   "a7cfda21a109db229bed_run_11_seed_1899586412",
+   "a83b120d6daa8f2db3e2_run_3_seed_2069582642",
+   "a840044243f30a631c34_run_43_seed_631373023",
+   "b3b1364d2b42b8f0e750_run_12_seed_1051639981",
+   "b3bd0c6c64fccf1e5f42_run_10_seed_2097959737",
+   "c0e03618852d295a528d_run_5_seed_1533309934",
+   "c136abac60f32caa1376_run_6_seed_2109566150",
+   "c1799e7c9f3321b87ee9_run_12_seed_1631557442",
+   "d42a1b0b6b3bc9c5ad57_run_1_seed_311184104",
+   "d43314fc5673be3a3e4e_run_1_seed_1944808407",
+   "d436c14976dd115683ae_run_19_seed_102300275",
+   "e8defb7a7ff267038830_run_12_seed_1489170790",
+   "e9432d7a24d244b6fca2_run_13_seed_98198484",
+   "e95abe0369a6d2828698_run_2_seed_1172495457",
+   "ed296ced1528b75288ce_run_10_seed_407801292",
+   "ed4f10e1e5b542de6327_run_2_seed_487012118",
+   "f181877a9c48f61aae8d_run_18_seed_946103981",
+   "f193df89e14b84066e42_run_8_seed_404177405",
+   "f196cc208599558c18c1_run_16_seed_294151668",
+   "f678bb4ceecf9a411214_run_55_seed_305107042",
+   "f6d3af656ffd1880140d_run_6_seed_1833142794",
+   "fb11684081300a3c4725_run_2_seed_516797828",
+   "fb4b37710010ab4b29bf_run_28_seed_221138365",
+   "fb58e3d0baa30b7c4690_run_2_seed_1151131586"
+  ],
+  "smartspaces": {
+   "Warehouse_000": "validation (in X0b v1)",
+   "Warehouse_001": "validation by its leakage edge to Warehouse_000 (T16.2); not in X0b v1 (VR-E-005: one data_origin per file); enters at M1b as a new split version"
+  }
+ },
+ "sampling_plans": [
+  {
+   "plan_label": "m1a-sdg-validation",
+   "artifact_id": "art_wiaoelxnrzaqb2ii44esa47k3f",
+   "payload_sha256": "1576d15f9c440eb63f63f9cbf6fe740586f39e2975f4374c3276e7cc4c17d690",
+   "plan_id": "spl_vlvbg6r3u2pesbeojeqqatzb4s",
+   "frame_sha256": "b149f6078126c3022ad18f84773d82f56b891e6e02739cb939459eb9516027fc",
+   "population_definition_ref": "validation partition of spm_uvjw4v4mygzvtvwqrbjjhambh5, dataset row dsr_pajag75djvy6qoc4pge2rrynug (nvidia/PhysicalAI-WorldModel-Synthetic-Warehouse-Operations-Scenes, synthetic_rendered), camera groups with usable truth (T17.4)",
+   "w_ref_s": 10.0,
+   "w_guard_s": 0.0,
+   "strata": [
+    {
+     "stratum_id": "sdg:ceiling",
+     "definition": "pre-system metadata",
+     "N_h": 109,
+     "n_h": 109
+    },
+    {
+     "stratum_id": "sdg:eye_level",
+     "definition": "pre-system metadata",
+     "N_h": 117,
+     "n_h": 117
+    }
+   ],
+   "windows": 226,
+   "camera_groups": 226,
+   "leakage_groups": 24,
+   "recordings_outside_t17_4": [
+    "77b0d9589e791edd2cc0_run_5_seed_177568880.ceiling_00",
+    "77b0d9589e791edd2cc0_run_5_seed_177568880.ceiling_01",
+    "77b0d9589e791edd2cc0_run_5_seed_177568880.ceiling_02",
+    "77b0d9589e791edd2cc0_run_5_seed_177568880.ceiling_03",
+    "77b0d9589e791edd2cc0_run_5_seed_177568880.ceiling_04",
+    "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600.ceiling_00",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.ceiling_00",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.ceiling_01",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.ceiling_02",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.ceiling_03",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.ceiling_04",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.eye_02",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.eye_03",
+    "a3ccffca67456307f2f1_run_3_seed_56192878.eye_04"
+   ]
+  },
+  {
+   "plan_label": "m1a-sdg-test",
+   "artifact_id": "art_hfchmhd3zbgjl24gnqaxifaoo3",
+   "payload_sha256": "19474bd33e156b7c73b77d1fa3c956ecca69393b30a1313c0472a8d97ed357d2",
+   "plan_id": "spl_vtjhjz6weab625yuy3u2l6wka3",
+   "frame_sha256": "fda37202d28a0102002431017bdab88ae3c125e0fb6b9472433638766534f29d",
+   "population_definition_ref": "test partition of spm_uvjw4v4mygzvtvwqrbjjhambh5, dataset row dsr_pajag75djvy6qoc4pge2rrynug (nvidia/PhysicalAI-WorldModel-Synthetic-Warehouse-Operations-Scenes, synthetic_rendered), camera groups with usable truth (T17.4)",
+   "w_ref_s": 10.0,
+   "w_guard_s": 0.0,
+   "strata": [
+    {
+     "stratum_id": "sdg:ceiling",
+     "definition": "pre-system metadata",
+     "N_h": 235,
+     "n_h": 235
+    },
+    {
+     "stratum_id": "sdg:eye_level",
+     "definition": "pre-system metadata",
+     "N_h": 236,
+     "n_h": 236
+    }
+   ],
+   "windows": 471,
+   "camera_groups": 471,
+   "leakage_groups": 48,
+   "recordings_outside_t17_4": [
+    "a610c26991503ecbde7e_run_15_seed_1633716385.eye_01",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.ceiling_00",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.ceiling_01",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.ceiling_02",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.ceiling_03",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.ceiling_04",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.eye_02",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.eye_03",
+    "a83b120d6daa8f2db3e2_run_3_seed_2069582642.eye_04"
+   ]
+  },
+  {
+   "plan_label": "m1a-smartspaces_000-validation",
+   "artifact_id": "art_rvcgsenmz4onjnq5jbfu4n6wax",
+   "payload_sha256": "25c8cd098d588c4c3763621c0225d126257318885dd597bc04e74054acb33a88",
+   "plan_id": "spl_f7omx5ay2o3oh6xn3dkv6e5tyo",
+   "frame_sha256": "ca4f28ca8a9c47f5d5f0ee09b878ace94587e56e6e7a40bdebe44d17261cae5f",
+   "population_definition_ref": "validation partition of spm_uvjw4v4mygzvtvwqrbjjhambh5, dataset row dsr_5nr5cqt45xkvpfsajtjncmfpf7 (nvidia/PhysicalAI-SmartSpaces, synthetic_rendered), camera groups with usable truth (T17.4)",
+   "w_ref_s": 30.0,
+   "w_guard_s": 5.0,
+   "strata": [
+    {
+     "stratum_id": "smartspaces_000:other",
+     "definition": "pre-system metadata",
+     "N_h": 190,
+     "n_h": 190
+    }
+   ],
+   "windows": 190,
+   "camera_groups": 19,
+   "leakage_groups": 1,
+   "recordings_outside_t17_4": []
+  }
+ ],
+ "acceptance_criteria": [
+  {
+   "acc_id": "acc_tzjtfybncoz2hlqu62w4myrw4n",
+   "criterion_label": "C1-MR-01",
+   "output_id": "all exact stages",
+   "criterion_type": "repeatability",
+   "metric_id": "MR-01",
+   "slice": {
+    "run": "M1a run",
+    "stages": "every exact-class artifact of the run"
+   },
+   "rule": "exact_equal",
+   "target": 1.0,
+   "estimand": "frame_description",
+   "n_min_units": 1,
+   "version": "1",
+   "ci_level": 0.95,
+   "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+   "frozen_utc": "2026-11-15T01:47:59+00:00"
+  },
+  {
+   "acc_id": "acc_eoxyzlbdojmylidna45ultqozf",
+   "criterion_label": "C2-GV-01-ceiling",
+   "output_id": "object positions",
+   "criterion_type": "technical_accuracy",
+   "metric_id": "GV-01",
+   "slice": {
+    "dataset_row": "SDG-Warehouse near-miss (synthetic_rendered)",
+    "partition": "test",
+    "geometry_method": "full_camera",
+    "statistic": "RMSE",
+    "viewpoint_class": "ceiling"
+   },
+   "rule": "ci_upper_le",
+   "target": 0.25,
+   "estimand": "new_session_performance",
+   "n_min_units": 20,
+   "version": "1",
+   "ci_level": 0.95,
+   "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+   "frozen_utc": "2026-11-15T01:47:59+00:00"
+  },
+  {
+   "acc_id": "acc_w3m4qgj3rci5f7gv3cdaujbqmq",
+   "criterion_label": "C2-GV-01-eye_level",
+   "output_id": "object positions",
+   "criterion_type": "technical_accuracy",
+   "metric_id": "GV-01",
+   "slice": {
+    "dataset_row": "SDG-Warehouse near-miss (synthetic_rendered)",
+    "partition": "test",
+    "geometry_method": "full_camera",
+    "statistic": "RMSE",
+    "viewpoint_class": "eye_level"
+   },
+   "rule": "ci_upper_le",
+   "target": 0.25,
+   "estimand": "new_session_performance",
+   "n_min_units": 20,
+   "version": "1",
+   "ci_level": 0.95,
+   "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+   "frozen_utc": "2026-11-15T01:47:59+00:00"
+  },
+  {
+   "acc_id": "acc_suetxtthdff6bf5r3y76cfsq2z",
+   "criterion_label": "C3-GV-07",
+   "output_id": "speed",
+   "criterion_type": "technical_accuracy",
+   "metric_id": "GV-07",
+   "slice": {
+    "dataset_row": "SDG-Warehouse near-miss (synthetic_rendered)",
+    "partition": "test",
+    "geometry_method": "full_camera",
+    "statistic": "speed RMSE",
+    "w_v_s": "0.5"
+   },
+   "rule": "ci_upper_le",
+   "target": 0.15,
+   "estimand": "new_session_performance",
+   "n_min_units": 20,
+   "version": "1",
+   "ci_level": 0.95,
+   "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+   "frozen_utc": "2026-11-15T01:47:59+00:00"
+  },
+  {
+   "acc_id": "acc_kmy7qocn5vmwq6ir33mwdevv2m",
+   "criterion_label": "C4-GV-04",
+   "output_id": "clearance",
+   "criterion_type": "technical_accuracy",
+   "metric_id": "GV-04",
+   "slice": {
+    "dataset_row": "SDG-Warehouse near-miss (synthetic_rendered)",
+    "partition": "test",
+    "statistic": "bias, prior footprint minus simulator 3D box footprint"
+   },
+   "rule": "abs_bias_ci_within",
+   "target": 0.1,
+   "estimand": "new_session_performance",
+   "n_min_units": 20,
+   "version": "1",
+   "ci_level": 0.95,
+   "preregistration_ref": "docs/preregistration_FROZEN.md, version 1",
+   "frozen_utc": "2026-11-15T01:47:59+00:00"
+  }
+ ]
+}
