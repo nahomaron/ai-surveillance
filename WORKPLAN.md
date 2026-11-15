@@ -641,3 +641,6 @@ _(the agent appends entries here)_
 - Tests: no code change (1863/1863 at 566fe76).
 - Next: STOP on D-38 and CR-025.
 
+### 2026-11-14 — Session end: D-38 decided (option A)
+- Owner chose option (A). Next session (when the laptop can run unattended for about 12 h): R4 surrogate speed-up as an AR with bit-identical values; re-measure; SDG validation in full (base BL-2 to BL-6, full_camera run, sweeps); then SmartSpaces Warehouse_000 base and full_camera runs if within about 12 h. Build the GV metrics and the S8 driver for real data on the way. CR-025 open: no EV-M results until it is decided. D-37: nothing on the test partition.
+

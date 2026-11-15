@@ -355,7 +355,7 @@ Owner decision (14 Nov 2026):
 - The frozen split (X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj`) and sampling plans stay as they are and are reused by version 2.
 Agent's enforcement: the M1a run driver refuses any recording whose partition in the frozen split is not `validation` (ERR-LEAKAGE), and this is tested.
 
-## D-38 (2026-11-14) — T-21 validation run exceeds 4 hours: reduced plan for approval        status: OPEN (STOP)
+## D-38 (2026-11-14) — T-21 validation run exceeds 4 hours: reduced plan for approval        status: DECIDED (option A)
 Task: T-21   Blocking: T-21
 Question: D-36 step 1 estimate (`research/m1a/runtime_estimate.md`): (a) BL-2 to BL-6 on all validation windows takes about **88 h** serial (SDG about 2 h; SmartSpaces Warehouse_000 about 86 h, because it has 3.19 million person–forklift pair-frames against about 68,000 on SDG, at about 50 ms per pair-frame in S4, 70 % of it in the R4 `pet_pred` search). (b) The one-at-a-time sweeps take about 16 h serial on SDG (about 5 h with 3 workers) and are infeasible on SmartSpaces (about 700 h). SmartSpaces S4 needs an estimated 1–2 GB per camera, so its cameras must run one at a time on this 8 GB machine. Which plan?
 Options:
@@ -364,5 +364,5 @@ Options:
 - (C) **(A) without the speed-up:** SmartSpaces base only, running about 3.5 days in the background.
 Agent's recommendation: (A), with the bound for (A)(3) set by you (for example 12 h). The window census is frozen, so no plan subsamples SmartSpaces windows.
 Also open and needed before EV-M results: **CR-025** (how the O/H/PC references are built from truth). S3–S5, CM, GV and the MR metrics do not depend on it. GV-01 and GV-03–GV-08 and the S8 driver for real data are not yet built. They are implemented from the F.1 N7 table as part of T-21, with an AR for any representation detail.
-Owner decision: ______
+Owner decision (14 Nov 2026): option (A), as recommended. The run is to start in a new session when the laptop can be left running for about 12 hours; the agent takes about 12 h as the bound for (A)(3) unless the Owner states another. Order: (1) R4 speed-up (AR, bit-identical values), re-measure; (2) SDG validation in full; (3) SmartSpaces Warehouse_000 base and full_camera runs, one camera at a time, if within the bound. CR-025 stays open: EV-M results wait for it.
 
