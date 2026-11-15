@@ -67,8 +67,8 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-19 | **R4 and configurations BL-1–BL-6 (WP-06b)** — under T15 (E-1.2.13; CR-018 / D-27 closed); BL-1 deferred to M1b | T-09 | E-1.2.1 §6.0 | R4 fixtures with hand-computed TTC/PET | S |
 | [x] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7); (5) the not-visible run-length table per dataset and class (T18 amendment 3), for the choice of g_max; (6) a proposed per-frame stratum `forklift_turning` (|yaw rate| above a stated value; CR-023 ruling), so R3/R4 results are reported for turning and straight frames separately | M |
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
-| [S] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** No S5 or S8 on any partition until then | G-PR | — | Owner decision in D-36 | — |
-| [ ] | T-21 | **M1a run (WP-14)** (needs G-VAL). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
+| [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
+| [B] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; waits for D-38 and CR-025). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [S] | G-M1a | **STOP — Owner reviews M1a** | T-21 | — | Owner decision recorded | — |
 
 ---
@@ -633,4 +633,11 @@ _(the agent appends entries here)_
 - Tests: 1863/1863 (full suite), determinism re-run: identical (1863/1863)
 - Problems / CRs: AR-57. Open: CR-007 (deferred to T-22).
 - Next: **STOP at G-VAL (D-36).**
+
+### 2026-11-14 — T-21 BLOCKED before running: D-36 step 1 estimate exceeds 4 h (D-38); CR-025 opened
+- Decisions recorded: D-36 approved for validation only; D-37 test-partition reservation in force; AR-57 accepted in full (Owner note on item 9: at M1b raise a CR on how new recordings join a frozen split).
+- Did: timing probe on one SDG validation camera and a pair-frame count on SmartSpaces Warehouse_000 (`research/m1a/runtime_estimate.md`, `runtime_probe.py`, `smartspaces_pair_frames.py`; validation recordings only, nothing written to `out/`, no S8). (a) about 88 h serial (SDG about 2 h, SmartSpaces about 86 h: 3.19 M pair-frames at about 50 ms each in S4, 70 % in R4 `pet_pred`); (b) SDG sweeps about 16 h serial, SmartSpaces sweeps infeasible; SmartSpaces S4 about 1–2 GB per camera.
+- Raised: D-38 (reduced plan; recommendation (A)); CR-025 (construction of the O/H/PC references from truth; blocks EV-M only).
+- Tests: no code change (1863/1863 at 566fe76).
+- Next: STOP on D-38 and CR-025.
 

@@ -340,10 +340,29 @@ Everything else in D-34 can be applied as written (checked 14 Nov 2026): the τ 
 Owner decision (14 Nov 2026): option (b). Strata = the 3 batch families (first path element of generation_batch): warehouse_osmos 12 validation of 36, warehouse_osmos_2 7 of 20, warehouse_osmos_1 5 of 16. Inside each family: simple random draw without replacement, seed 2026111401, runs sorted by ext_run_id, numpy PCG64. The derivation is recorded in `docs/preregistration_FROZEN.md` and in the X0b split record (AR-57 item 2). The two freeze-time ARs (criterion #2 = one record per viewpoint class; one sampling plan per dataset row and partition) are accepted. Continue D-34 from C.2.
 Owner answer (14 Nov 2026, during the freeze), on VR-E-005 (one data_origin per file) against the Warehouse_000 / 001 leakage group: X0b v1 holds SDG and Warehouse_000 only; Warehouse_001 is validation through its leakage edge (T16.2) and enters at M1b as a new split version (AR-57 item 9).
 
-## D-36 (2026-11-14) — STOP after the freeze: go-ahead for the M1a validation run        status: OPEN (STOP)
+## D-36 (2026-11-14) — STOP after the freeze: go-ahead for the M1a validation run        status: CLOSED (approved for validation only)
 Task: T-21   Blocking: T-21 (M1a run) and everything after it
 Question: The pre-registration is frozen (`docs/preregistration_FROZEN.md`, version 1; X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj`; three V0 plans; five acceptance-criterion records; freeze record `docs/preregistration/freeze_record.json`). D-34 item B.8 is done (`docs/preregistration/validation_truth_tables.md`): the stated basis of g_max, e_fturn and the footprint priors still holds on the validation runs; nothing re-chosen. By D-34 item C.4 and the Owner's session override (14 Nov 2026), no S5 or S8 run has been made on any partition and T-21 has not started. May the agent start the validation run of T-21?
 Options: (a) go ahead with the validation partition only (then STOP again before test); (b) hold.
 Agent's recommendation: none; the Owner decides. Before any S8 on test, the X0c leakage audit must be complete (R-2) and the reference windows locked.
+Owner decision (14 Nov 2026): APPROVED for the VALIDATION partition only. Procedure: (1) before running, estimate wall-clock time and peak memory for (a) BL-2 to BL-6 on all validation windows and (b) the full one-at-a-time sweep grid; if (a) exceeds 4 hours or memory is at risk, propose a reduced plan and stop for approval; (2) order: base configurations (SDG, then SmartSpaces Warehouse_000), then the full_camera geometry run (GV metrics), then the MR-08/MR-12 sweeps; (3) every result tied to its code commit and pre-registration v1, "verified" or "experimental", oracle-path agreement under implementation conformance; (4) report: a one-page plain-language summary, then the full technical report; (5) anything that needs a frozen value or a contract definition changed: stop and raise it, do not adjust; (6) when validation is done, STOP; no X0c audit or test-partition work until a go-ahead referencing pre-registration v2.
+
+## D-37 (2026-11-14) — Test-partition reservation        status: IN FORCE (Owner decision)
+Task: T-21 and later   Blocking: all test-partition work
+Owner decision (14 Nov 2026):
+- The test partition is reserved. Nothing runs on test-partition recordings: no S4, S5 or S8 artifact is built for them, and no metric, count or statistic of system output is computed on them.
+- The test partition will be evaluated once, under a pre-registration version 2 to be frozen after the Owner's literature review. Version 1 is the exploratory parameter set for validation only.
+- The frozen split (X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj`) and sampling plans stay as they are and are reused by version 2.
+Agent's enforcement: the M1a run driver refuses any recording whose partition in the frozen split is not `validation` (ERR-LEAKAGE), and this is tested.
+
+## D-38 (2026-11-14) — T-21 validation run exceeds 4 hours: reduced plan for approval        status: OPEN (STOP)
+Task: T-21   Blocking: T-21
+Question: D-36 step 1 estimate (`research/m1a/runtime_estimate.md`): (a) BL-2 to BL-6 on all validation windows takes about **88 h** serial (SDG about 2 h; SmartSpaces Warehouse_000 about 86 h, because it has 3.19 million person–forklift pair-frames against about 68,000 on SDG, at about 50 ms per pair-frame in S4, 70 % of it in the R4 `pet_pred` search). (b) The one-at-a-time sweeps take about 16 h serial on SDG (about 5 h with 3 workers) and are infeasible on SmartSpaces (about 700 h). SmartSpaces S4 needs an estimated 1–2 GB per camera, so its cameras must run one at a time on this 8 GB machine. Which plan?
+Options:
+- (A) **SDG complete, SmartSpaces after a speed-up.** (1) Speed up the R4 surrogate as an engineering change (an Agent Resolution): every ttc / pet_pred value bit-identical to the current code on all T15 fixtures, on a random-case equivalence test and on every SDG validation pair-frame; then re-measure. (2) SDG validation in full: base BL-2 to BL-6, full_camera run, all sweeps (about 6 h wall clock now, less after (1)). (3) SmartSpaces Warehouse_000: base BL-2 to BL-6 and the full_camera run only, one camera at a time, if the re-measured time is under a bound you set. SmartSpaces sweeps are listed as not run in v1.
+- (B) **SDG only in v1.** SDG as in (A)(2); SmartSpaces deferred to v2. No code change.
+- (C) **(A) without the speed-up:** SmartSpaces base only, running about 3.5 days in the background.
+Agent's recommendation: (A), with the bound for (A)(3) set by you (for example 12 h). The window census is frozen, so no plan subsamples SmartSpaces windows.
+Also open and needed before EV-M results: **CR-025** (how the O/H/PC references are built from truth). S3–S5, CM, GV and the MR metrics do not depend on it. GV-01 and GV-03–GV-08 and the S8 driver for real data are not yet built. They are implemented from the F.1 N7 table as part of T-21, with an AR for any representation detail.
 Owner decision: ______
 
