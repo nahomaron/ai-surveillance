@@ -1,4 +1,4 @@
-"""Appendix T T17 (E-1.2.15) with the T18 amendments (E-1.2.16) and the T19 clarification (E-1.2.17): oracle track points and reference visibility from simulator truth.
+"""Appendix T T17 (E-1.2.15) with the T18 amendments (E-1.2.16), the T19 clarification (E-1.2.17) and T20.1 (E-1.2.18): oracle track points and reference visibility from simulator truth.
 
 Hand camera (as in test_smartspaces): K = [[1000, 0, 960], [0, 1000, 540], [0, 0, 1]], R = diag(1, -1, -1), t = (0, 0, 10):
 at world (0, 0, 10), looking straight down, image 1920 x 1080. Hand box: x 0.8..1.2, y 1.8..2.2, z 0..1. Top face at
@@ -39,8 +39,8 @@ def obs(**kw):
     return ot.sdg_obs(CAL, sdg_obj(**kw))[0]
 
 
-def camera_tracks(frames, g_max=G, ineligible=frozenset(), cache=None):
-    return ot.camera_tracks(CAL, frames, g_max, ineligible, cache)
+def camera_tracks(frames, g_max=G, ineligible=frozenset(), cache=None, **kw):
+    return ot.camera_tracks(CAL, frames, g_max, ineligible, cache, **kw)
 
 
 def test_sdg_forklift_yaw_is_the_box_yaw_cr_023():
@@ -218,15 +218,65 @@ def test_t19_run_of_g_max_plus_one_eligible_frames_is_lost():
     assert [p.decode_seq for p in tracks["f"]] == [0, G + 2] and counts["lost_long_run"] == G + 1
 
 
-def test_t19_a_visible_frame_that_is_not_eligible_still_ends_a_run_ar_56():
-    """AR-56 item 2 (review flag): a run lies between two frames on which the dataset lists the object as visible (T17.2),
-    whether or not those frames are eligible. Two runs of 10 around a visible, ineligible frame are two runs of 10."""
+# --- T20.1 (E-1.2.18): visible means dataset-visible AND eligible -----------------------------------------------------------
+# Replaces test_t19_a_visible_frame_that_is_not_eligible_still_ends_a_run_ar_56, which pinned the AR-56 item 2 reading that
+# T20.1 reverses (contract change, not a change to make code pass).
+
+def test_t20_1_a_visible_but_ineligible_frame_is_part_of_the_run_around_it():
+    """T20.1 test (Appendix T, verbatim): 10 hidden, 1 visible but ineligible, 10 hidden, g_max = 15 -> one run of 20, lost on
+    every frame. Frames: 0 visible; 1-10 hidden; 11 visible, ineligible; 12-21 hidden; 22 visible. The run is frames 1-21:
+    21 camera frames, 20 of them eligible; 20 > 15, so all 21 frames are lost (T18 amendment 2, T19) and frame 11 carries
+    no point."""
     hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
     frames = [seen] + [hidden] * 10 + [seen] + [hidden] * 10 + [seen]
-    tracks, counts = camera_tracks(frames, ineligible=frozenset({11}))
-    assert (counts["predicted"], counts["lost"]) == (20, 0) and ot.not_visible_runs(frames, frozenset({11})) == {"f": [10, 10]}
-    assert ot.merged_run_frames(frames, G, frozenset({11})) == 20  # counted as eligible frames without a point they would be one gap of 20 > g_max
-    assert ot.merged_run_frames(frames, G, frozenset()) == 0
+    outcomes = {}
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({11}), outcomes=outcomes)
+    assert ot.not_visible_runs(frames, frozenset({11})) == {"f": [20]}
+    assert ot.not_visible_spans(frames, frozenset({11})) == {"f": [(1, 21)]}
+    assert [(p.decode_seq, p.state) for p in tracks["f"]] == [(0, "tracked"), (22, "tracked")]
+    assert (counts["tracked"], counts["predicted"], counts["lost"], counts["lost_long_run"], counts["not_eligible_in_run"]) == (2, 0, 21, 21, 0)
+    assert {k: outcomes[("f", k)] for k in range(23)} == {0: "tracked", 22: "tracked", **{k: "lost" for k in range(1, 22)}}
+
+
+def test_t20_1_the_e_1_2_17_reading_is_kept_only_as_a_diagnostic():
+    """The same frames under the E-1.2.17 reading of AR-56 item 2 (`legacy_e_1_2_17`, used only to report changed outcomes):
+    two runs of 10, predicted, and a tracked point on the ineligible frame 11."""
+    hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
+    frames = [seen] + [hidden] * 10 + [seen] + [hidden] * 10 + [seen]
+    outcomes = {}
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({11}), outcomes=outcomes, legacy_e_1_2_17=True)
+    assert (counts["tracked"], counts["predicted"], counts["lost"]) == (3, 20, 0)
+    assert outcomes[("f", 11)] == "tracked" and outcomes[("f", 5)] == "predicted"
+
+
+def test_t20_1_span_ends_at_the_last_eligible_visible_frame():
+    """Frames 0-2 visible and eligible, 3 hidden, 4 visible but ineligible. T20.1: the visible frames are 0-2, so the span is
+    0-2; frames 3 and 4 are outside it (T17.3: no point) and there is no run."""
+    hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
+    frames = [seen, seen, seen, hidden, seen]
+    outcomes = {}
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({4}), outcomes=outcomes)
+    assert [(p.decode_seq, p.state) for p in tracks["f"]] == [(0, "tracked"), (1, "tracked"), (2, "tracked")]
+    assert (counts["tracked"], counts["predicted"], counts["outside_span"]) == (3, 0, 2)
+    assert sorted(outcomes) == [("f", 0), ("f", 1), ("f", 2)] and ot.not_visible_runs(frames, frozenset({4})) == {"f": []}
+
+
+def test_t20_1_an_object_visible_only_on_ineligible_frames_has_no_track():
+    hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
+    tracks, counts = camera_tracks([hidden, seen, hidden, seen], ineligible=frozenset({1, 3}))
+    assert tracks == {} and counts["never_visible_objects"] == 1 and counts["outside_span"] == 4
+
+
+def test_t20_1_short_run_with_a_visible_ineligible_frame_is_predicted_on_its_eligible_frames():
+    """Frames 0 visible; 1-3 hidden; 4 visible, ineligible; 5-6 hidden; 7 visible; g_max = 15. One run of 5 eligible frames
+    (1-3, 5-6; 6 camera frames), predicted; frame 4 has no point and is counted as not_eligible_in_run."""
+    hidden, seen = {"f": obs(tight=None)}, {"f": obs()}
+    frames = [seen] + [hidden] * 3 + [seen] + [hidden] * 2 + [seen]
+    tracks, counts = camera_tracks(frames, ineligible=frozenset({4}))
+    assert [(p.decode_seq, p.state) for p in tracks["f"]] == [(0, "tracked"), (1, "predicted"), (2, "predicted"), (3, "predicted"),
+                                                              (5, "predicted"), (6, "predicted"), (7, "tracked")]
+    assert (counts["tracked"], counts["predicted"], counts["not_eligible_in_run"]) == (2, 5, 1)
+    assert ot.not_visible_runs(frames, frozenset({4})) == {"f": [5]}
 
 
 def test_reprojection_cache_gives_the_same_tracks():

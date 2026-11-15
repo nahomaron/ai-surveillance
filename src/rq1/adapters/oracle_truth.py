@@ -1,5 +1,5 @@
 """Oracle track points and reference visibility from simulator truth, per camera (Appendix T T17 as amended by T18 and
-clarified by T19, contract E-1.2.17).
+clarified by T19 and T20.1, contract E-1.2.18).
 
 T17.1 visible frame -> `tracked` with the dataset's visible box (SDG tight box; SmartSpaces visible-list entry).
 T17.2 not-visible frame between the object's first and last visible frame in the camera -> `predicted` with the
@@ -8,6 +8,10 @@ T17.2 not-visible frame between the object's first and last visible frame in the
       parameter). A longer run is `lost` on every frame (no points); the track continues when the object is visible again.
       T19: the run length is counted in eligible frames of the recording, as the T8.1 gap is. A run with <= g_max eligible
       frames is predicted on its eligible frames; ineligible frames carry no track point in either case.
+      T20.1: for T17.2, T17.3, T18 and T19 an object's visible frames in a camera are the frames on which the dataset lists
+      it as visible AND that are eligible. The visible span runs from the first to the last such frame, and a not-visible
+      run lies between two such frames. A dataset-visible frame that is not eligible carries no point and is part of the
+      run around it.
 T17.3 no point outside the visible span; an object never visible in the camera has no track. The SDG loose box is never
       a track point.
 T17.4 a camera has simulator truth only when every annotation file has as many lines as the video has frames and camera
@@ -139,12 +143,14 @@ def smartspaces_obs(obj: smartspaces.ObjectTruth, camera: str) -> Obs:
     return Obs(obj.cls, obj.visible.get(camera), lambda: smartspaces.box_corners(obj), obj.xy, obj.yaw)
 
 
-def _visible_frames(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[int]]:
+def _visible_frames(frames: list[dict[Hashable, Obs]], ineligible: frozenset[int] = frozenset()) -> dict[Hashable, list[int]]:
+    """T20.1: per object, the frames on which the dataset lists it as visible and that are eligible. Every object that
+    appears in `frames` has an entry (empty when it has no such frame)."""
     seen: dict[Hashable, list[int]] = {}
     for k, objs in enumerate(frames):
         for key, o in objs.items():
             seen.setdefault(key, [])
-            if o.visible is not None:
+            if o.visible is not None and k not in ineligible:
                 seen[key].append(k)
     return seen
 
@@ -154,32 +160,17 @@ def _runs(visible: list[int]) -> list[tuple[int, int]]:
     return [(a + 1, b - a - 1) for a, b in zip(visible, visible[1:]) if b - a > 1]
 
 
-def not_visible_spans(frames: list[dict[Hashable, Obs]]) -> dict[Hashable, list[tuple[int, int]]]:
-    """(first decoded frame, length) of every not-visible run inside each object's visible span, in frame order.
-    Objects that are never visible have no span and are left out."""
-    return {key: _runs(visible) for key, visible in _visible_frames(frames).items() if visible}
+def not_visible_spans(frames: list[dict[Hashable, Obs]], ineligible: frozenset[int] = frozenset()) -> dict[Hashable, list[tuple[int, int]]]:
+    """(first decoded frame, length in camera frames) of every not-visible run inside each object's visible span (T20.1:
+    visible = dataset-visible and eligible), in frame order. Objects without a visible frame have no span and are left out."""
+    return {key: _runs(visible) for key, visible in _visible_frames(frames, ineligible).items() if visible}
 
 
 def not_visible_runs(frames: list[dict[Hashable, Obs]], ineligible: frozenset[int] = frozenset()) -> dict[Hashable, list[int]]:
-    """T18 amendment 3 with T19: the lengths of those runs in eligible frames (`ineligible`: decoded frames that are not
-    eligible). A run whose frames are all ineligible has length 0."""
+    """T18 amendment 3 with T19 and T20.1: the lengths of those runs in eligible frames (`ineligible`: decoded frames that
+    are not eligible). A run whose frames are all ineligible has length 0."""
     return {key: [sum(1 for k in range(start, start + n) if k not in ineligible) for start, n in runs]
-            for key, runs in not_visible_spans(frames).items()}
-
-
-def merged_run_frames(frames: list[dict[Hashable, Obs]], g_max: int, ineligible: frozenset[int]) -> int:
-    """Diagnostic for AR-56 item 2: the eligible frames that lie in runs of <= g_max eligible frames (predicted or lost by
-    reprojection) but would lie in a run longer than g_max if a visible frame that is not eligible did not end a run."""
-    n = 0
-    for visible in _visible_frames(frames).values():
-        kept = [k for k in visible if k not in ineligible]
-        own = {k for start, length in _runs(visible) for k in range(start, start + length)
-               if sum(1 for j in range(start, start + length) if j not in ineligible) <= g_max}
-        for start, length in _runs(kept):
-            inside = [k for k in range(start, start + length) if k not in ineligible]
-            if len(inside) > g_max:
-                n += sum(1 for k in inside if k in own)
-    return n
+            for key, runs in not_visible_spans(frames, ineligible).items()}
 
 
 def run_length_summary(lengths: list[int]) -> dict[str, int | None]:
@@ -192,18 +183,24 @@ def run_length_summary(lengths: list[int]) -> dict[str, int | None]:
 
 
 def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max: int, ineligible: frozenset[int],
-                  cache: dict | None = None) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
-    """T17.1-T17.3 for one camera, with the T18 absence length counted as T19 says. `frames[k]`: object key -> observation
-    on decoded frame k; `ineligible`: the decoded frames that are not eligible in S1. Returns the points of every object that
-    is visible at least once (sorted by decode_seq) and the T17.7 counts.
+                  cache: dict | None = None, outcomes: dict | None = None,
+                  legacy_e_1_2_17: bool = False) -> tuple[dict[Hashable, list[Point]], dict[str, int]]:
+    """T17.1-T17.3 for one camera, with the T18 absence length counted as T19 says and visible frames as T20.1 says.
+    `frames[k]`: object key -> observation on decoded frame k; `ineligible`: the decoded frames that are not eligible in S1.
+    Returns the points of every object with at least one visible frame (sorted by decode_seq) and the T17.7 counts.
     `lost` counts every lost frame; `lost_long_run` is the part of it in runs longer than g_max; `not_eligible_in_run` counts
-    the ineligible frames of the other runs (no point, neither predicted nor lost). A tracked point on an ineligible frame is
-    still returned here and is left out by `s3_truth`.
-    `cache` (optional, one per camera) keeps reprojections between calls that differ only in g_max."""
+    the ineligible frames of the other runs (no point, neither predicted nor lost). Under T20.1 no point lies on an
+    ineligible frame.
+    `cache` (optional, one per camera) keeps reprojections between calls that differ only in g_max.
+    `outcomes` (optional dict): filled with (object key, decode_seq) -> tracked | predicted | lost | no_point_ineligible for
+    every frame inside the object's visible span; frames outside it have no entry.
+    `legacy_e_1_2_17` (diagnostic only, never used for an artifact): the E-1.2.17 reading of AR-56 item 2, in which a
+    dataset-visible frame that is not eligible is a visible frame. Used only to report the frames whose outcome T20.1 changes."""
     if g_max < 0:
         raise ContractError("ERR-SPEC", f"g_max must be >= 0, got {g_max}")
     counts = {"tracked": 0, "predicted": 0, "lost": 0, "lost_long_run": 0, "not_eligible_in_run": 0, "outside_span": 0, "never_visible_objects": 0}
-    seen = _visible_frames(frames)
+    seen = _visible_frames(frames, frozenset() if legacy_e_1_2_17 else ineligible)
+    note = (lambda key, k, state: outcomes.__setitem__((key, k), state)) if outcomes is not None else (lambda key, k, state: None)
     tracks: dict[Hashable, list[Point]] = {}
     for key in sorted(seen, key=str):
         visible = seen[key]
@@ -214,19 +211,23 @@ def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max:
             continue
         long_run = {k for start, n in _runs(visible) if sum(1 for j in range(start, start + n) if j not in ineligible) > g_max
                     for k in range(start, start + n)}
+        visible_set = set(visible)
         points = []
         for k in range(visible[0], visible[-1] + 1):
             o = frames[k].get(key)
-            if o is not None and o.visible is not None:
+            if k in visible_set:
                 points.append(Point(k, "tracked", cf_img(o.visible), o.xy, o.yaw))
                 counts["tracked"] += 1
+                note(key, k, "tracked")
                 continue
             if k in long_run:
                 counts["lost"] += 1  # T18 amendment 2, T19: a run of more than g_max eligible frames is lost on every frame
                 counts["lost_long_run"] += 1
+                note(key, k, "lost")
                 continue
             if k in ineligible:
-                counts["not_eligible_in_run"] += 1  # T19: no track point on an ineligible frame
+                counts["not_eligible_in_run"] += 1  # T19, T20.1: no track point on an ineligible frame (dataset-visible or not)
+                note(key, k, "no_point_ineligible")
                 continue
             if cache is not None and (key, k) in cache:
                 box = cache[(key, k)]
@@ -236,9 +237,11 @@ def camera_tracks(cal: dict[str, Any], frames: list[dict[Hashable, Obs]], g_max:
                     cache[(key, k)] = box
             if box is None:
                 counts["lost"] += 1  # T17.2: empty reprojection (or no pose on this frame): no point
+                note(key, k, "lost")
             else:
                 points.append(Point(k, "predicted", box, o.xy, o.yaw))
                 counts["predicted"] += 1
+                note(key, k, "predicted")
         counts["outside_span"] += present - sum(1 for k in range(visible[0], visible[-1] + 1) if key in frames[k])
         tracks[key] = points
     return tracks, counts

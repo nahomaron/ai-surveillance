@@ -1080,3 +1080,29 @@ T18 clarification: length of a not-visible run
  a run of g_max + 1 eligible frames -> lost. Re-run the SDG and SmartSpaces counts.
 
 Source: Architect rulings of 14 Nov 2026 (second set), item A (Owner approval by forwarding them), appended verbatim.
+
+## T20. Visible on an eligible frame; reporting stratum forklift_turning (E-1.2.18; D-34, G-PR)
+
+T20.1 Visible on an eligible frame (clarifies T17.2, T17.3, T19; AR-56 item 2)
+ For T17.2, T17.3, T18 and T19, an object's visible frames in a camera are the frames
+ on which the dataset lists it as visible AND that are eligible. The visible span runs
+ from its first to its last such frame, and a not-visible run lies between two such
+ frames. A dataset-visible frame that is not eligible carries no point and is part of
+ the run around it.
+ Test: 10 hidden, 1 visible but ineligible, 10 hidden, g_max = 15 -> one run of 20,
+ lost on every frame. Re-run the counts; report any frame whose outcome changes.
+
+T20.2 Reporting stratum forklift_turning
+ For pair-frame k, let a and b be the first and last frames inside the window of length
+ w_turn centred on t_k, shifted as in T9.1, on which the forklift's yaw (T8.2) is
+ non-null, with t_b - t_a >= w_turn/2. forklift_yaw_rate = |fold(yaw_b - yaw_a)| /
+ (t_b - t_a), where fold maps the difference to (-pi/2, pi/2]. forklift_turning is true
+ when the rate > e_fturn, false when <= e_fturn, unknown when the yaw is null on the
+ window or the window is too short. It is derived at report time, stored in no artifact,
+ and changes no flag, label, episode or denominator. Unknown frames are reported as a
+ third group. On the detector path it is reported only where yaw is supplied or
+ validated (D-8).
+ Tests: constant yaw -> false; 75 deg/s -> true; a half-turn jump -> false; null yaw ->
+ unknown.
+
+Source: Architect rulings of 14 Nov 2026 (G-PR), item A (Owner decision D-34 and approval by forwarding them), appended verbatim.

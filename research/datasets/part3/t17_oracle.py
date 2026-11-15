@@ -1,7 +1,9 @@
-"""T-18 / Appendix T T17 as amended by T18 and clarified by T19 (E-1.2.17): S1 (rules version rv2) and ORACLE-S3 for every registered recording
+"""T-18 / Appendix T T17 as amended by T18 and clarified by T19 and T20.1 (E-1.2.18): S1 (rules version rv2) and ORACLE-S3 for every registered recording
 of one S0 index, the T17.7 counts per run, the not-visible run-length distribution per class in eligible frames (T18
 amendment 3, T19), and, as sensitivity evidence only, the number of POWs (T8.1) and of POWs ended by gap_exceeded when g_max
 is 5, 15, 30 or 60 frames (oracle points and POW bridging both built with that g_max; counts only).
+T20.1 outcome changes: at g_max, every object-frame whose outcome (tracked, predicted, lost, no point on an ineligible frame,
+outside the span) differs between the E-1.2.17 reading of AR-56 item 2 and T20.1 is listed per camera ("t20_1_changes").
 IDs and counts only; artifacts go to the git-ignored <out_dir>.
 Parameters k_sup, f_untimed, f_sub, g_max are the TEST-ONLY values (no pre-registration is frozen): the artifacts are TEST-ONLY.
 A camera whose truth is refused under T17.5 (an excess in (90, 150] px) gets no oracle track and is reported.
@@ -31,13 +33,13 @@ from rq1.schema.errors import ContractError
 from rq1.substrate import oracle, pows
 
 ROOT = Path(__file__).resolve().parents[3]
-CONTRACT, TEST_ONLY = "E-1.2.17", "TEST-ONLY"
+CONTRACT, TEST_ONLY = "E-1.2.18", "TEST-ONLY"
 V = json.loads((ROOT / "fixtures" / "records" / "TEST-ONLY-PARAMETERS.json").read_text())["parameters"]
 DECODE_RECORD = {"k_sup": V["k_sup"], "f_untimed": V["f_untimed"], "f_sub": V["f_sub"], "rules_version": quality.RV2, "delta_nom_declarations": [],
                  "final_frame_support": "delta_nom", "version_label": TEST_ONLY, "version_label_null_reason": None}
 DCF = core.make_id("dcf", DECODE_RECORD)
 G_MAX = V["g_max"]
-ORC = core.make_id("orc", {"source": "simulator_truth", "rule": "Appendix T T17, T18, T19", "g_max": G_MAX, "version_label": TEST_ONLY})
+ORC = core.make_id("orc", {"source": "simulator_truth", "rule": "Appendix T T17, T18, T19, T20.1", "g_max": G_MAX, "version_label": TEST_ONLY})
 KEYS = ("tracked", "predicted", "lost", "lost_long_run", "not_eligible_in_run", "outside_span", "never_visible_objects")
 SENSITIVITY_G = (5, 15, 30, 60)  # frames; G_MAX must be one of them
 
@@ -102,6 +104,17 @@ def pow_counts(tracks, classes, seq_to_index, frame_rows, coverage, g):
             total += len(windows)
             exceeded += sum(w.end_reason == "gap_exceeded" for w in windows)
     return total, exceeded
+
+
+def t20_1_changes(cal, frames, classes, ineligible, cache):
+    """Object-frames whose outcome at G_MAX differs between E-1.2.17 (AR-56 item 2: a dataset-visible ineligible frame is a
+    visible frame) and T20.1. Outcome outside the visible span: outside_span."""
+    new, old = {}, {}
+    ot.camera_tracks(cal, frames, G_MAX, ineligible, cache, outcomes=new)
+    ot.camera_tracks(cal, frames, G_MAX, ineligible, cache, outcomes=old, legacy_e_1_2_17=True)
+    return [{"object": str(key), "class": classes[key], "decode_seq": k, "eligible": k not in ineligible,
+             "e_1_2_17": old.get((key, k), "outside_span"), "t20_1": new.get((key, k), "outside_span")}
+            for key, k in sorted(set(new) | set(old), key=lambda x: (str(x[0]), x[1])) if old.get((key, k), "outside_span") != new.get((key, k), "outside_span")]
 
 
 class Annotations:
@@ -192,7 +205,7 @@ def main():
             tracks, counts = by_g[G_MAX]
             out.update({k: counts[k] for k in KEYS})
             out["not_visible_run_lengths"] = run_lengths(frames, classes, ineligible)
-            out["frames_in_runs_merged_across_ineligible_visible"] = ot.merged_run_frames(frames, G_MAX, ineligible)
+            out["t20_1_changes"] = t20_1_changes(entry["calibration"], frames, classes, ineligible, cache)
             out["points_on_ineligible_frames"] = sum(1 for pts in tracks.values() for p in pts if seq_to_index.get(p.decode_seq) is None)
             truth, _ = ot.s3_truth(tracks, classes, seq_to_index)
             out["tracks"] = dict(sorted(collections.Counter(t["class"] for t in truth).items()))
@@ -203,7 +216,10 @@ def main():
         cams.append(out)
         print(len(cams), "/", len(order), entry["run"], entry["camera"], flush=True)
     runs = []
-    extra = ("truth_defect", "unchecked_boxes", "points_on_ineligible_frames", "frames_in_runs_merged_across_ineligible_visible")
+    extra = ("truth_defect", "unchecked_boxes", "points_on_ineligible_frames", "t20_1_changed_object_frames", "t20_1_changed_eligible_object_frames")
+    for c in cams:
+        c["t20_1_changed_object_frames"] = len(c.get("t20_1_changes", []))
+        c["t20_1_changed_eligible_object_frames"] = sum(x["eligible"] for x in c.get("t20_1_changes", []))
     for key in sorted({(c["dataset"], c["run"]) for c in cams}):
         mine = [c for c in cams if (c["dataset"], c["run"]) == key]
         runs.append({"dataset": key[0], "run": key[1], "cameras": len(mine), "cameras_with_oracle_tracks": sum("s3" in c for c in mine),
@@ -232,12 +248,14 @@ def main():
     by_scene = [{"dataset": d, "run": r, "g_max": g, "pows": sum(c["pow_sensitivity"][str(g)]["pows"] for c in cams if (c["dataset"], c["run"]) == (d, r) and "pow_sensitivity" in c),
                  "pows_ended_gap_exceeded": sum(c["pow_sensitivity"][str(g)]["pows_ended_gap_exceeded"] for c in cams if (c["dataset"], c["run"]) == (d, r) and "pow_sensitivity" in c)}
                 for d, r in sorted({(c["dataset"], c["run"]) for c in cams}) for g in SENSITIVITY_G]
+    transitions = collections.Counter((c["dataset"], x["class"], x["eligible"], x["e_1_2_17"], x["t20_1"]) for c in cams for x in c.get("t20_1_changes", []))
+    t20 = [{"dataset": d, "class": cls, "eligible": e, "e_1_2_17": a, "t20_1": b, "object_frames": n} for (d, cls, e, a, b), n in sorted(transitions.items(), key=str)]
     summary = {"contract": CONTRACT, "code_commit": commit, "decode_config_id": DCF, "oracle_config_id": ORC, "rules_version": quality.RV2,
-               "parameters": TEST_ONLY, "g_max": G_MAX, "run_length_unit": "eligible frames of the recording (T19)", "percentiles": "nearest-rank",
+               "parameters": TEST_ONLY, "g_max": G_MAX, "run_length_unit": "eligible frames of the recording (T19); visible = dataset-visible and eligible (T20.1)", "percentiles": "nearest-rank",
                "s1_code_commits": sorted({c["s1_code_commit"] for c in cams}),
-               "reference_visibility": ot.VISIBILITY_NOTE, "total": total, "not_visible_run_lengths": distribution, "pow_sensitivity": sensitivity, "pow_sensitivity_by_run": by_scene, "runs": runs, "cameras": cams}
+               "reference_visibility": ot.VISIBILITY_NOTE, "total": total, "not_visible_run_lengths": distribution, "pow_sensitivity": sensitivity, "pow_sensitivity_by_run": by_scene, "t20_1_transitions": t20, "runs": runs, "cameras": cams}
     json.dump(summary, open(counts_path, "w"), indent=1)
-    print(json.dumps({"total": total, "not_visible_run_lengths": [{k: v for k, v in d.items() if k != "histogram"} for d in distribution], "pow_sensitivity": sensitivity}, indent=1))
+    print(json.dumps({"total": total, "t20_1_transitions": t20, "not_visible_run_lengths": [{k: v for k, v in d.items() if k != "histogram"} for d in distribution], "pow_sensitivity": sensitivity}, indent=1))
 
 
 if __name__ == "__main__":
