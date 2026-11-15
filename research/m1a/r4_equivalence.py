@@ -63,8 +63,14 @@ def dump(label: str, out_dir: str, workers: int) -> None:
             print(n, rec, status, flush=True)
 
 
+_POW_NK: dict = {}  # pow_id -> POW natural key, for the run being compared (set per camera and geometry)
+
+
 def _key(row):
-    return (json.dumps(row.get("pow_nk") or row.get("pow_id"), sort_keys=True), row.get("frame_index"), row.get("start_frame"))
+    """Alignment key: the POW natural key (person and forklift track IDs, from the S3 that both versions share, and the
+    start frame), never pow_id, which is derived from the S4 artifact and changes with any S4 value."""
+    nk = row.get("pow_nk") or _POW_NK[row["pow_id"]]
+    return (json.dumps(nk), row.get("frame_index", -1), row.get("start_frame", -1))
 
 
 ID_FIELDS = {"pow_id", "episode_id", "flag_series_id", "s4_artifact_id"}  # reported separately if they differ
@@ -81,6 +87,13 @@ def _cmp_rows(old, new, where, tol_fields, out):
         for f in a:
             x, y = a[f], b[f]
             if x == y:
+                continue
+            if f == "continuation_of_nk" and x is not None and y is not None:
+                # [previous pow_id, start_frame]: compared through the POW natural key; the raw IDs go to id_fields.
+                if (_POW_NK[x[0]], x[1]) != (_POW_NK[y[0]], y[1]):
+                    out["mismatch"].append({"where": where, "key": _key(a), "field": f, "old": repr(x), "new": repr(y)})
+                else:
+                    out["id_fields"].append({"where": where, "key": _key(a), "field": f})
                 continue
             if f in tol_fields and isinstance(x, float) and isinstance(y, float):
                 d = abs(x - y)
@@ -117,8 +130,13 @@ def compare(out_dir: str, old_label: str, new_label: str, summary_path: str) -> 
             out["pair_frames_with_pet"] += sum(r["pet_pred_s"] is not None for r in ps_old)
             out["pair_frames_with_ttc"] += sum(r["ttc_s"] is not None for r in ps_old)
             _cmp_rows(ps_old, ps_new, f"{name}/{g}/pair_series", {"ttc_s", "pet_pred_s"}, out)
+            nk_old = {r["pow_id"]: r["pow_nk"] for r in ps_old}
+            nk_new = {r["pow_id"]: r["pow_nk"] for r in ps_new}
             for bl in old[g]["s5"]:
                 o, n = old[g]["s5"][bl], new[g]["s5"][bl]
+                for table in ("flag_series", "episode"):  # every POW id must map to a natural key on its own side
+                    assert all(r["pow_id"] in nk_old for r in o[table]) and all(r["pow_id"] in nk_new for r in n[table])
+                _POW_NK.clear(); _POW_NK.update(nk_old); _POW_NK.update(nk_new)
                 out["r4_frames"] += sum(1 for r in o["flag_series"] if "R4" in (r.get("C_by_provider") or {}))
                 for table in ("flag_series", "episode"):
                     _cmp_rows(o[table], n[table], f"{name}/{g}/{bl}/{table}", set(), out)

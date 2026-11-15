@@ -1,0 +1,577 @@
+{
+ "accepted": true,
+ "beyond_tolerance": [],
+ "beyond_tolerance_count": 0,
+ "cameras": 226,
+ "field_sets": [],
+ "id_fields": [
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    0,
+    -1
+   ],
+   "new": "'psr_2y6oxzqo7gcqnf7gtqkbxmchdl'",
+   "old": "'psr_xuphopguzgvugudw2uls2pwotz'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    0,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    1,
+    -1
+   ],
+   "new": "'psr_zyheuimcbvtyrrikygi3xy3bsw'",
+   "old": "'psr_lrr42eystt2ckpttowconj2i2a'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    1,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    2,
+    -1
+   ],
+   "new": "'psr_lfpdjp35lz4in3srb26kkcw5he'",
+   "old": "'psr_atbjmshhs5faqpry3ef6zjqk3t'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    2,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    3,
+    -1
+   ],
+   "new": "'psr_5tkiffp6w7vgfzqifupmrdcbjq'",
+   "old": "'psr_lykctudtdxhnvg6clc3ekjcl3i'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    3,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    4,
+    -1
+   ],
+   "new": "'psr_d4wkjtx32izbxqgo4jexfnjoii'",
+   "old": "'psr_h4sayai753sixni55c3rx3ilol'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    4,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    5,
+    -1
+   ],
+   "new": "'psr_u5b45jdlrv4me4vlln4imz66is'",
+   "old": "'psr_3wucixlmeuud4pfxyqqybss7ac'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    5,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    6,
+    -1
+   ],
+   "new": "'psr_wt3xwm5vlvekhq2szzjgoeglyi'",
+   "old": "'psr_rs5l4xhetzxwocsottzakj7u5u'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    6,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    7,
+    -1
+   ],
+   "new": "'psr_6zqyjnpoe5t6y6njnjdchbnes6'",
+   "old": "'psr_ru5dced62o4pq6pae6wgt2rse4'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    7,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    8,
+    -1
+   ],
+   "new": "'psr_2o2rioynvjasq3d43jhujakbi7'",
+   "old": "'psr_2h7fm4c6oe3civf6c56yxu2nwk'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    8,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    9,
+    -1
+   ],
+   "new": "'psr_lnwfhzdnm4ahujy4x5l6h5t2ta'",
+   "old": "'psr_x2lpubgaiqxjddj57bmacdmd7c'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    9,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    10,
+    -1
+   ],
+   "new": "'psr_ffbrpx3fvjfixe3lb3eyvw7x72'",
+   "old": "'psr_2uond5cgnthqirvqma5mfmlkg2'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    10,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    11,
+    -1
+   ],
+   "new": "'psr_pfgh2xbbss7ctf4fobu2celrqy'",
+   "old": "'psr_eigqzqpvewzfofeva77cwpgzw3'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    11,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    12,
+    -1
+   ],
+   "new": "'psr_5qodbuuydn7ly3isqyiqh262m6'",
+   "old": "'psr_7a6mi6bd2qwgutm3whka6bxhcz'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    12,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    13,
+    -1
+   ],
+   "new": "'psr_apt35ssrh4zgd5u7652m6k57da'",
+   "old": "'psr_rxqv5jgvzi7mw3seuphk4zojlt'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    13,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    14,
+    -1
+   ],
+   "new": "'psr_xfjftmfb6qynulvlxgkwtspaij'",
+   "old": "'psr_nlfk3jvk45wn3bzvkynv5r4zwu'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    14,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    15,
+    -1
+   ],
+   "new": "'psr_hm5zstgizffj67lgls3pqlpks7'",
+   "old": "'psr_a7ctzh3mp2wcykcbhvdq3yjimz'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    15,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    16,
+    -1
+   ],
+   "new": "'psr_ajulwa35glzn6b5gqt7icg4rjs'",
+   "old": "'psr_js6iixk6gueccvgodhzx22yfr5'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    16,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    17,
+    -1
+   ],
+   "new": "'psr_zy2h7kog5ogz5ctrzia6btvv26'",
+   "old": "'psr_j2ca3qiyeepjhvctqeiilre6ws'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    17,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    18,
+    -1
+   ],
+   "new": "'psr_x5wcvmqb2rpfaimnkdwjt2wdvz'",
+   "old": "'psr_u2pr2ptxeupreju3xtw5lsnvjl'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    18,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    19,
+    -1
+   ],
+   "new": "'psr_gsdl2sq6xmlu4qo7s5voniyas2'",
+   "old": "'psr_gfr6fnrovawfybymegcj3bj3tl'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    19,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    20,
+    -1
+   ],
+   "new": "'psr_cgjaplhw3kpxrlp7bljjwf6exg'",
+   "old": "'psr_nucg562vsbzpm7ymubywxvqijf'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    20,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    21,
+    -1
+   ],
+   "new": "'psr_sndnisnjktj3id5k4kzylzto75'",
+   "old": "'psr_5khlwt6yma32747gzyr7hdja37'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    21,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    22,
+    -1
+   ],
+   "new": "'psr_zccyg7eznpydc26jm3in24l2op'",
+   "old": "'psr_i2ksgwz7fubwxtshl2kuoemgwb'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    22,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    23,
+    -1
+   ],
+   "new": "'psr_glcull2rk2sebipc4piusta55d'",
+   "old": "'psr_b5jrkdiocpxswazdz2itltrcy2'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    23,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "psr_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    24,
+    -1
+   ],
+   "new": "'psr_drryj4kbljro6p7biezij4gpvc'",
+   "old": "'psr_uj5gclnnwklzxbtjwn5fpvwxjb'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  },
+  {
+   "field": "pow_id",
+   "key": [
+    "[\"trk_edi62wjhcloadvb2lpew3vbgdx\", \"trk_ahareaqrtfbe46ql4xqzstlpvn\", 0]",
+    24,
+    -1
+   ],
+   "new": "'pow_jchpeo5rnepmxqbhjxlts3hndl'",
+   "old": "'pow_l237yuvqo53hulaiwxw3aukjia'",
+   "where": "rec_2lp5aamd7teaxdq4u3pkws5k6m.pkl/simulator_truth/pair_series"
+  }
+ ],
+ "id_fields_count": 595719,
+ "max_abs_diff": {
+  "pet_pred_s": 9.352216008284842e-07
+ },
+ "mismatch": [],
+ "mismatch_count": 0,
+ "missing": [],
+ "n_diff": {
+  "pet_pred_s": 1725
+ },
+ "pair_frames": {
+  "full_camera": 59267,
+  "simulator_truth": 59267
+ },
+ "pair_frames_with_pet": 32270,
+ "pair_frames_with_ttc": 23990,
+ "r4_frames": 237068,
+ "row_count": []
+}
