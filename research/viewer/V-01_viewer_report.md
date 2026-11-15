@@ -8,7 +8,8 @@ no contract text, and does not unblock T-21.
 | Item | Value |
 |---|---|
 | Branch | `v01-truth-viewer`, created from `m0-implementation` at `145c315` (T-21 BLOCKED on D-38 / CR-025) |
-| Final commit | see the Progress-log entry of 14 Nov 2026 "V-01 done" and the agent's final message (a commit cannot name its own hash) |
+| V-01 commit | `e76b45a` (code, tests, report, WORKPLAN); this line was added in the follow-up commit "V-01: record final commit in the viewer report" |
+| Branch history note | `007dd15` "D-38 decided (option A); session end" on this branch is a commit by the agent in another tab, made while the shared working directory had this branch checked out; it carries the D-38 record and swept in the first draft of the viewer files. The same D-38 record is on `m0-implementation` as `f90c5bd` (identical edits to `DECISIONS_NEEDED.md` and `WORKPLAN.md`), so a merge applies them once. No history was rewritten. |
 | Contract | E-1.2.18 (no change) |
 | Pre-registration | `docs/preregistration_FROZEN.md`, version 1, SHA-256 `b2d8e6ce53aff1b2c5f48cf3e50915c980b32f75f224fdf0ae36881311c341a3` |
 | Split | X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj` (frozen; verified by reconstruction before use) |
