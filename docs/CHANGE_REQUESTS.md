@@ -749,7 +749,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 **Agent's recommendation:** (a).
 **Decision:** (13 Nov 2026) option (a), version labels "<edition>@<revision>/<data_origin>" (Architect rulings second set, item C, citing T16 / E-1.2.14, whose section text the agent has not received).   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-53 — Representation details of T17 oracle tracks and the SmartSpaces S0 (T-18)   status: item 3 ACCEPTED (Architect, 14 Nov 2026; per-dataset evidence recorded below); other items pending review
+## AR-53 — Representation details of T17 oracle tracks and the SmartSpaces S0 (T-18)   status: ACCEPTED (item 3: Architect, 14 Nov 2026; remaining items: G-PR rulings, 14 Nov 2026, D-34)
 - **Gaps and choices** (none changes a T17 rule):
   1. **"Behind the camera" in T17.2.** A 3D box that straddles the camera plane is cut at a near plane z_cam = 0.001 m and the part in front is projected; the reprojection is empty only when nothing lies in front or nothing falls in the image. Considered: empty as soon as one corner is behind (would turn close, partly visible-range objects into `lost`).
   2. **Image clipping.** The convex hull of the projected vertices is clipped exactly to the image rectangle (polygon clipping, then its bounding box); a result without area is empty.
@@ -806,7 +806,7 @@ So a 2 px threshold would label hundreds of ordinary person boxes as defects. A 
 **What proceeds meanwhile:** all other cameras. **Agent's recommendation:** (b) with a stated bound; the agent does not move the bound itself.
 **Decision:** (14 Nov 2026) guard band (90, 150] px; the 120 px threshold is unchanged (Appendix T T18 amendment 1, appended verbatim). Implemented in `oracle_truth.REFUSE_BAND_PX`; tests `test_t17_5_refusal_band`, `test_the_eye_02_camera_of_run_22_seed_1886649344_has_an_oracle_track`. The CR text holds no point the ruling does not cover.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-54 — T16 mechanics, the real SmartSpaces rows and the access log (T-18)   status: item 3 ACCEPTED (Architect, 14 Nov 2026: no calibration for 026/027); other items pending review
+## AR-54 — T16 mechanics, the real SmartSpaces rows and the access log (T-18)   status: ACCEPTED (item 3: Architect, 14 Nov 2026, no calibration for 026/027; remaining items: G-PR rulings, 14 Nov 2026, D-34)
 - **Gaps and choices:**
   1. **T16.2 in code.** `leakage._edge_type` compares `dataset_name` (falling back to `dataset_id` when a caller supplies none, which is the pre-T16 behaviour for a single row). Callers of `SplitBuilder.freeze` pass the dataset_source name with each recording.
   2. **T16.1 refusal.** The registrar keeps src_id → dataset_source row across its registrations and refuses a file listed under a second row (ERR-INVARIANT), within one registration or across them. Registering the same file again under its own row is allowed (identical bytes, D-5).
@@ -861,7 +861,7 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 **Agent's recommendation:** (a).
 **Decision:** (14 Nov 2026) option (b): the run length is counted in eligible frames of the recording, as the T8.1 gap is; a run with ≤ g_max eligible frames is predicted on its eligible frames, a longer run is lost on every frame, and ineligible frames carry no track point in either case (Appendix T T19, appended verbatim). Implemented in `oracle_truth.camera_tracks` (`ineligible`), tests `test_t19_*`; counts re-run.   **Approver:** Research Architect; Owner (by forwarding)
 
-## AR-55 — Representation details of the T18 amendments and the count rebuild (T-18)   status: item 6 ACCEPTED as pinned (Architect, 14 Nov 2026); item 4's frame unit superseded by T19; other items pending review
+## AR-55 — Representation details of the T18 amendments and the count rebuild (T-18)   status: ACCEPTED (item 6 as pinned, Architect, 14 Nov 2026; item 4's frame unit superseded by T19; remaining items: G-PR rulings, 14 Nov 2026, D-34)
 - **Gaps and choices** (none changes a T17 or T18 rule):
   1. **What a run is.** A maximal sequence of consecutive frames, between two visible frames of the object in the camera, on which it is not visible. Frames without a truth record, truth-defect frames (T17.5, "treated as not visible") and frames whose reprojection is empty all count. Inside a run of at most g_max frames T17.2 still applies frame by frame (empty reprojection → lost). Leading and trailing not-visible frames are outside the span and are no run (T17.3).
   2. **Counts.** `lost` stays the number of all lost frames (T17.7); `lost_long_run` is the part of it in runs longer than g_max.
@@ -872,7 +872,7 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 - **No meaning effect:** items 1–5 are representation, parsing or build mechanics of T18 as written (the one unit question is CR-024); item 6 reports a consequence of T18 and T8.1 and changes nothing.
 - **Files/tests:** `adapters/oracle_truth.py`, `research/datasets/part3/t17_oracle.py`; `tests/adapters/test_t17_oracle_truth.py` (`test_t18_*`), `tests/events/test_t18_oracle_absence.py`. **Reverse:** item 2: drop the key; item 4: change `run_length_summary`; item 5: run the driver without the two reuse arguments.
 
-## AR-56 — Representation details of T19 and the POW sensitivity counts (T-18, T-20)
+## AR-56 — Representation details of T19 and the POW sensitivity counts (T-18, T-20)   status: ACCEPTED (G-PR rulings, 14 Nov 2026, D-34), item 2 as revised by T20.1 (E-1.2.18): a run lies between two dataset-visible eligible frames; the E-1.2.17 reading is kept only as the `legacy_e_1_2_17` diagnostic that lists changed outcomes
 - **Gaps and choices** (none changes a T17, T18 or T19 rule):
   1. **Counts.** In a run of at most g_max eligible frames, an ineligible frame gets no point and is counted as `not_eligible_in_run` (neither predicted nor lost). In a longer run every frame, eligible or not, is counted as lost ("lost on every frame") and in `lost_long_run`. A visible frame that is not eligible still yields a tracked point in `camera_tracks`; `s3_truth` leaves it out, as before (AR-53 item 6), and the driver counts it (`points_on_ineligible_frames`).
   2. **Where a run ends. Review flag.** A run lies between two frames on which the dataset lists the object as visible (T17.2), whether or not those frames are eligible; T19 changes how its length is counted, not where it ends. So two runs of 10 eligible frames on either side of a visible but ineligible frame are two runs of 10, although S4 then sees 20 consecutive eligible frames without a point (a T8.1 gap of 20). The other reading (a run ends only at an eligible visible frame) would make the oracle run equal to the T8.1 gap in every case. The driver counts the eligible frames whose outcome would differ (`frames_in_runs_merged_across_ineligible_visible`); the totals are in the Progress log. If the count on held data is not 0, or the Architect prefers the other reading, this item becomes a CR. Pinned by `test_t19_a_visible_frame_that_is_not_eligible_still_ends_a_run_ar_56`.

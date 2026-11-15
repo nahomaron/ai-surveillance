@@ -1,12 +1,12 @@
 {
- "contract": "E-1.2.17",
- "code_commit": "63aed8b3f28aa579ca3ac7137a1622ecbd01bd08",
+ "contract": "E-1.2.18",
+ "code_commit": "9a0674e67eddb9d83687e1c19fc556cead336c89",
  "decode_config_id": "dcf_xv2ryouaw22oljgqmrpylb4uqz",
- "oracle_config_id": "orc_xkch6nrca6vkvnz4gkv4grmu2m",
+ "oracle_config_id": "orc_otzubl67wszozxd5mfw3ius7ta",
  "rules_version": "rv2",
  "parameters": "TEST-ONLY",
  "g_max": 15,
- "run_length_unit": "eligible frames of the recording (T19)",
+ "run_length_unit": "eligible frames of the recording (T19); visible = dataset-visible and eligible (T20.1)",
  "percentiles": "nearest-rank",
  "s1_code_commits": [
   "2e71838750a783b5300ce338f8577b439d1725d7"
@@ -23,7 +23,8 @@
   "truth_defect": 0,
   "unchecked_boxes": 0,
   "points_on_ineligible_frames": 0,
-  "frames_in_runs_merged_across_ineligible_visible": 0,
+  "t20_1_changed_object_frames": 0,
+  "t20_1_changed_eligible_object_frames": 0,
   "cameras": 38,
   "cameras_with_oracle_tracks": 38,
   "runs": 2,
@@ -1469,6 +1470,7 @@
    "pows_ended_gap_exceeded": 8040
   }
  ],
+ "t20_1_transitions": [],
  "runs": [
   {
    "dataset": "smartspaces",
@@ -1487,7 +1489,8 @@
    "truth_defect": 0,
    "unchecked_boxes": 0,
    "points_on_ineligible_frames": 0,
-   "frames_in_runs_merged_across_ineligible_visible": 0
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -1506,7 +1509,8 @@
    "truth_defect": 0,
    "unchecked_boxes": 0,
    "points_on_ineligible_frames": 0,
-   "frames_in_runs_merged_across_ineligible_visible": 0
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   }
  ],
  "cameras": [
@@ -1737,14 +1741,16 @@
      "7997": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 4,
     "pallet_truck": 1,
     "person": 33
    },
-   "s3": "art_b2fawynycqcwqrfwpm63eqbapz"
+   "s3": "art_qnpveg573klpkr5ijvt62izmzs",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -2090,14 +2096,16 @@
      "4553": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 1,
     "person": 48
    },
-   "s3": "art_olycfp2tqbj2sujbkefhujun3f"
+   "s3": "art_lmpeum26leuc2ejqpwvq332tge",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -2212,13 +2220,15 @@
      "6352": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 16
    },
-   "s3": "art_thbhdmtttl7s2fptiacsm7qnoq"
+   "s3": "art_3h723huehfdbyz7ijsr3nybdfj",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -2575,14 +2585,16 @@
      "5776": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 5,
     "pallet_truck": 3,
     "person": 56
    },
-   "s3": "art_6ukm5g6d77fdxlvp5ph6fjaoqz"
+   "s3": "art_7keiyf5i32uwhsv6iv3alne32j",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -2794,14 +2806,16 @@
      "8009": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 1,
     "person": 34
    },
-   "s3": "art_wuvbc63a5hxqtghjoveeobsdiz"
+   "s3": "art_2h7olj2q22s6bmeszidx24ylin",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -2953,14 +2967,16 @@
      "3692": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 2,
     "person": 30
    },
-   "s3": "art_qpluy56g45hcgrih2fvx3xjnuk"
+   "s3": "art_abiwrkoz25uh355xchxe2yqare",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -3123,13 +3139,15 @@
      "5688": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 16
    },
-   "s3": "art_rx3kfwxwri7hcbdnbiqmppihbp"
+   "s3": "art_y5paxtesjds23mkkjqdsjwqpe7",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -3326,14 +3344,16 @@
      "7929": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 4,
     "pallet_truck": 1,
     "person": 31
    },
-   "s3": "art_eigjrazvoninjyhrlxozv7us4w"
+   "s3": "art_k2cmx67drosf6pia47drrr5v5t",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -3499,12 +3519,14 @@
      "4809": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "person": 35
    },
-   "s3": "art_nejm3zupjhdnyeyoc23ifbp57v"
+   "s3": "art_4y4inoyykcw5f2r7j3g7jrev3z",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -3901,13 +3923,15 @@
      "7145": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "person": 53
    },
-   "s3": "art_7km7fhaebrulmcehnnycbgunnx"
+   "s3": "art_7i4jj5mizn6m62l4jxnqvr3urk",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4091,14 +4115,16 @@
      "7039": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "pallet_truck": 3,
     "person": 38
    },
-   "s3": "art_kp743mjqnjzauteviojogrcw34"
+   "s3": "art_nes6htxj6easitv5i2dtwe64rr",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4206,14 +4232,16 @@
      "6389": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "pallet_truck": 5,
     "person": 17
    },
-   "s3": "art_v23tp2vwhaleufvtqufvkffhmh"
+   "s3": "art_vuwiqeonvcezligpgqcqwdbg4d",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4325,13 +4353,15 @@
      "5405": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "person": 23
    },
-   "s3": "art_2pzuurcvk5xcgqucq6ac7y3vus"
+   "s3": "art_sryg27yv7byzb66lqf3q2vtd3j",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4514,14 +4544,16 @@
      "7514": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "pallet_truck": 2,
     "person": 24
    },
-   "s3": "art_2af7wui6zzoklif3h4gjp3tnpg"
+   "s3": "art_3ilria4pstk6tmenjz5zt46dxl",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4603,14 +4635,16 @@
      "5569": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "pallet_truck": 5,
     "person": 25
    },
-   "s3": "art_n7a4jcz7ugwko66mpkoitbg3jg"
+   "s3": "art_eclfu6g6njorrm27e5genm7zjg",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -4981,14 +5015,16 @@
      "6824": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 5,
     "pallet_truck": 3,
     "person": 55
    },
-   "s3": "art_y7tlvb7zm6frhpzdas6dia4ehz"
+   "s3": "art_zxm2pdveajqid7r7wszcj2nqr3",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -5114,13 +5150,15 @@
      "4286": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 13
    },
-   "s3": "art_ijsydlg33nktbms2nlvneguynv"
+   "s3": "art_mj74mlci6urpz2blxpudqee6mf",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -5310,13 +5348,15 @@
      "5911": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "person": 28
    },
-   "s3": "art_lusyn2vpf4om4jsybyfwup5lrd"
+   "s3": "art_k2dspeogklpctpqbdtd3ncvx4w",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -5494,13 +5534,15 @@
      "3997": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "person": 25
    },
-   "s3": "art_hhsjiblnn34yrdcp6gibcu2uoh"
+   "s3": "art_7b46f2qwezthskwpsxmvndvkyi",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -5729,14 +5771,16 @@
      "7997": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 4,
     "pallet_truck": 1,
     "person": 33
    },
-   "s3": "art_hcelvjzlyzcjraubjnv5ww6pny"
+   "s3": "art_l3k2oj53yqt2cevhvb3sm7h6al",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -6082,14 +6126,16 @@
      "4553": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 1,
     "person": 48
    },
-   "s3": "art_232a2nm4byur5tfvoodhyplcwr"
+   "s3": "art_x5q3mgstdw42fmdifwa2mpdmje",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -6204,13 +6250,15 @@
      "6352": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 16
    },
-   "s3": "art_p56psygvzggll2b5tibdfld3q5"
+   "s3": "art_fagubeb6czisqlx454lv6fsljy",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -6567,14 +6615,16 @@
      "5776": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 5,
     "pallet_truck": 3,
     "person": 56
    },
-   "s3": "art_j3a6qwrzp7424c4okctb4mgqj3"
+   "s3": "art_kavdcfjie2r7qbf4zjxyfnj6yd",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -6786,14 +6836,16 @@
      "8009": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 1,
     "person": 34
    },
-   "s3": "art_7yhsgwwbmi4wayat5nflkpyw4s"
+   "s3": "art_emltw24kop2vtmdmljacearitw",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -6945,14 +6997,16 @@
      "3692": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 6,
     "pallet_truck": 2,
     "person": 30
    },
-   "s3": "art_7j2z424bqk6s4vdzbyy5ez4akb"
+   "s3": "art_qt6zy3whtqfoourt7qlnpl3hda",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -7115,13 +7169,15 @@
      "5688": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 16
    },
-   "s3": "art_zo4lkyctofworsil3skrk5kq4k"
+   "s3": "art_jibqgebh5n4yna734xhpa5hveu",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -7318,14 +7374,16 @@
      "7929": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 4,
     "pallet_truck": 1,
     "person": 31
    },
-   "s3": "art_dehdebjxdjq6kxol4okjz4pmbo"
+   "s3": "art_vwxmloqqv4xkqeutowqnvkgkqw",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -7491,12 +7549,14 @@
      "4809": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "person": 35
    },
-   "s3": "art_wqc5x3nhmgylobgq2rbodvyxm7"
+   "s3": "art_wmhyzsgtpnbofb5t2kyabokcxs",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -7893,13 +7953,15 @@
      "7145": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "person": 53
    },
-   "s3": "art_at3254q2xgcbx22qyokcpt45ku"
+   "s3": "art_bb55qbyuld3l3xaixfplu5hegl",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8083,14 +8145,16 @@
      "7039": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "pallet_truck": 3,
     "person": 38
    },
-   "s3": "art_ycvp7qbgu77jdpkawovebisoq4"
+   "s3": "art_ywdskusot2n2f32zdpb24nxvlg",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8198,14 +8262,16 @@
      "6389": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "pallet_truck": 5,
     "person": 17
    },
-   "s3": "art_7ovz43ih5lfivtpcvbf3ikdibr"
+   "s3": "art_hzowfju3gpebhujksuikdgsjzf",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8317,13 +8383,15 @@
      "5405": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "person": 23
    },
-   "s3": "art_ckfdzatdf3oaqavo3xovpefgyz"
+   "s3": "art_44nwppu6ojmxr2uoqh2rc37zo4",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8506,14 +8574,16 @@
      "7514": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "pallet_truck": 2,
     "person": 24
    },
-   "s3": "art_z6yq3dafqsr3olmroztoyub2ls"
+   "s3": "art_75i2wblblbywe4z2qtkggj6sxc",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8595,14 +8665,16 @@
      "5569": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "pallet_truck": 5,
     "person": 25
    },
-   "s3": "art_b2vz74fcyh56d7vdyb5lqhqliy"
+   "s3": "art_gyj7mv4ursvuynbnsyjxiua34p",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -8973,14 +9045,16 @@
      "6824": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 5,
     "pallet_truck": 3,
     "person": 55
    },
-   "s3": "art_3xuzcwyycba5jgffxddqfksus3"
+   "s3": "art_qrphhgxyicto6m2aaeqrf5pv2i",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -9106,13 +9180,15 @@
      "4286": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 1,
     "person": 13
    },
-   "s3": "art_raaiu6nm2rzwtpcwkvrw67yonz"
+   "s3": "art_7nhmeaskwu5jvma7w267jdaroz",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -9302,13 +9378,15 @@
      "5911": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 2,
     "person": 28
    },
-   "s3": "art_f35x2p5pjny6zzi3kojb3p7z45"
+   "s3": "art_ic5u2bwtwi3okxqw7e5mh5wvy4",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   },
   {
    "dataset": "smartspaces",
@@ -9486,13 +9564,15 @@
      "3997": 1
     }
    },
-   "frames_in_runs_merged_across_ineligible_visible": 0,
+   "t20_1_changes": [],
    "points_on_ineligible_frames": 0,
    "tracks": {
     "forklift": 3,
     "person": 25
    },
-   "s3": "art_melkibthbdmcwkkmjyqdbx57xl"
+   "s3": "art_ztlglfjjggxpf2jotrtwwryxda",
+   "t20_1_changed_object_frames": 0,
+   "t20_1_changed_eligible_object_frames": 0
   }
  ]
 }
