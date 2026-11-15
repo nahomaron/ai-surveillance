@@ -192,7 +192,7 @@ def main():
         wanted = sys.argv[sys.argv.index("--cameras") + 1].split(",")
         for r in wanted:
             ctx.camera(r)
-        cams = [r for r in cams if r in wanted]
+        cams = [r for r in wanted if r in cams]  # in the order given (e.g. smallest first)
     _out(label, ds).mkdir(parents=True, exist_ok=True)
     print(f"{ds} {label} units={units} cameras={len(cams)} workers={workers} commit={prov[0]}", flush=True)
     jobs = [(ds, label, units, r, prov, write) for r in cams]
