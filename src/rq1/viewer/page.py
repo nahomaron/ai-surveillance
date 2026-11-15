@@ -56,7 +56,7 @@ header b{color:var(--fg);font-weight:600}
 #controls{padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;border-bottom:1px solid var(--line)}
 #controls label{display:flex;gap:6px;align-items:center}#controls input[type=range]{width:120px}
 #frame{width:min(520px,60vw)!important}button,select{font:inherit;padding:3px 8px}
-#main{display:flex;gap:0;min-height:420px}#floor{flex:1 1 auto;width:100%;height:62vh;min-height:360px;display:block;cursor:grab}
+#main{display:flex;gap:0;min-height:420px}#floor{flex:1 1 0;min-width:0;width:auto;height:62vh;min-height:360px;display:block;cursor:grab}
 aside{width:300px;flex:0 0 300px;border-left:1px solid var(--line);padding:8px 12px;overflow:auto;max-height:62vh;background:var(--panel)}
 aside table{border-collapse:collapse;width:100%}aside td,aside th{padding:2px 4px;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}
 #timeline{width:100%;height:300px;display:block;border-top:1px solid var(--line);cursor:crosshair}
@@ -216,6 +216,7 @@ function grid() {
   ctx.fillStyle = css("--fg"); ctx.font = "12px system-ui,sans-serif"; ctx.fillText(nice + " m", bx + 4, by - 8);
   ctx.fillStyle = css("--muted"); ctx.fillText("grid " + step + " m, world frame (x right, y up)", bx, 16);
 }
+function ghost(drawIt, x, y, col, lab) { ctx.save(); ctx.globalAlpha = 0.45; drawIt(); if (lab) text(x, y, "t+tau", col, -14, 4); ctx.restore(); }
 function pos(o, k) { const x = at(o, k, "x"), y = at(o, k, "y"); return x === null ? null : [x, y]; }
 function vel(o, k) { const vx = at(o, k, "vx"), vy = at(o, k, "vy"); return vx === null ? null : [vx, vy]; }
 
@@ -224,7 +225,7 @@ function drawFloor() {
   const pair = PAIRS[pairIdx];
   if ($("follow").checked && pair) { const a = pos(BY[pair.p], frame), b = pos(BY[pair.f], frame); if (a && b) { view.cx = (a[0] + b[0]) / 2; view.cy = (a[1] + b[1]) / 2; } }
   grid();
-  const k = frame, cP = css("--person"), cF = css("--fork"), cO = css("--other"), tau = disp.tau_s;
+  const k = frame, cP = css("--person"), cF = css("--fork"), cO = css("--other"), tau = disp.tau_s, sel = pair ? [pair.p, pair.f] : [];
   OBJ.forEach(o => {
     const st = at(o, k, "st"); if (st === null || st === "-") return;
     const col = o.cls === "person" ? cP : o.cls === "forklift" ? cF : cO;
@@ -237,16 +238,18 @@ function drawFloor() {
     const v = vel(o, k), pred = st === "P", fill = pred ? null : col + "33", dash = pred ? [6, 4] : [];
     if (o.cls === "person") {
       circle(p[0], p[1], R, col, fill, dash, 2);
-      if (v && tau > 0) circle(p[0] + v[0] * tau, p[1] + v[1] * tau, R, col, null, [2, 3], 1);
+      if (v && tau > 0) ghost(() => circle(p[0] + v[0] * tau, p[1] + v[1] * tau, R, col, null, [2, 4], 1), p[0] + v[0] * tau, p[1] + v[1] * tau, col, sel.includes(o.id));
     } else {
-      const box = at(o, k, "box"); if (box) poly(box, col, null, [4, 3], 1);
+      const box = at(o, k, "box");
+      if (o.cls !== "forklift" && box) poly(box, col, null, [5, 4], 1.5);
       if (o.cls === "forklift") {
         const yaw = at(o, k, "yaw");
         if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2, col, fill, dash, 2); else poly(rectPts(p[0], p[1], yaw, FL, FW, 0), col, fill, dash, 2);
         const ring = (d, c2) => { if (yaw === null) circle(p[0], p[1], Math.hypot(FL, FW) / 2 + d, c2, null, [1, 3], 1); else poly(rectPts(p[0], p[1], yaw, FL, FW, d), c2, null, [1, 3], 1); };
         if (disp.d_p_m > 0) ring(disp.d_p_m, css("--ring-p")); if (disp.d_pc_m > 0) ring(disp.d_pc_m, css("--ring-pc"));
+        if (box) poly(box, css("--fg"), null, [5, 4], 1.5);
         if (v && tau > 0) { const gx = p[0] + v[0] * tau, gy = p[1] + v[1] * tau;
-          if (yaw === null) circle(gx, gy, Math.hypot(FL, FW) / 2, col, null, [2, 3], 1); else poly(rectPts(gx, gy, yaw, FL, FW, 0), col, null, [2, 3], 1); }
+          ghost(() => { if (yaw === null) circle(gx, gy, Math.hypot(FL, FW) / 2, col, null, [2, 4], 1); else poly(rectPts(gx, gy, yaw, FL, FW, 0), col, null, [2, 4], 1); }, gx, gy, col, sel.includes(o.id)); }
       }
     }
     if (v) { arrow(p[0], p[1], v[0], v[1], col); }
@@ -276,8 +279,8 @@ function side() {
     h += "<tr><td>" + label(o) + " " + o.cls + "</td><td>" + STATE_TEXT[st] + "</td><td>" + fmt(at(o, k, "speed"), 2) + "</td></tr>"; });
   h += "</table><p style='margin-top:10px;color:var(--muted)'><span class='sw' style='background:var(--person)'></span>person disc r = " + R +
     " m &middot; <span class='sw' style='background:var(--fork)'></span>forklift prior " + FL + " &times; " + FW +
-    " m (solid), dataset 3D box footprint (dashed). Dashed outline: predicted oracle point. Dotted rings: d_p, d_pc (clearance). Thin dashed shapes: " +
-    "constant-velocity position at t + tau. Arrows: velocity (length = 1 s of travel).</p>";
+    " m (solid fill); dataset 3D box footprint: dashed outline in the text colour. Dashed outline without fill: predicted oracle point. " +
+    "Dotted rings: d_p, d_pc (clearance). Faint shapes marked t+tau: constant-velocity position at t + tau. Arrows: velocity (length = 1 s of travel).</p>";
   $("side").innerHTML = h;
   $("flabel").textContent = "frame " + k + " / " + (N - 1);
 }

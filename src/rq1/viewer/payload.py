@@ -58,8 +58,8 @@ def _footprint(o: ot.Obs) -> list[list[float]] | None:
     corners = o.corners() if callable(o.corners) else o.corners
     if corners is None:
         return None
-    poly = hull([(float(c[0]), float(c[1])) for c in corners])
-    return [[_r(x), _r(y)] for x, y in poly] if len(poly) >= 3 else None
+    poly = hull([(_r(c[0]), _r(c[1])) for c in corners])  # rounded first: the top and bottom corners coincide
+    return [[x, y] for x, y in poly] if len(poly) >= 3 else None
 
 
 def build(header: Row, s1: dict[str, list[Row]], frames: list[dict[Hashable, ot.Obs]], classes: dict[Hashable, str], calibration: Row,

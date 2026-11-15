@@ -281,3 +281,30 @@ def test_viewer_imports_no_s5_or_s8_module():
     source = "\n".join(p.read_text() for p in files)
     assert "SubstrateBuilder().build(" not in source  # no POW or pair series built, nothing an S5 run could read
     assert not re.search(r"import_module\([\"']rq1\.(events|evaluation)", source)
+
+
+# --- held data (skipped where the git-ignored data are not on the machine) ---------------------------------------------
+
+HELD = all((ROOT / p).exists() for p in ("out/prereg", "out/s0_sdg/index.json", "out/t17_sdg", "data/raw/sdg"))
+
+
+@pytest.mark.skipif(not HELD, reason="held data not on this machine (git-ignored data/ and out/)")
+@pytest.mark.determinism
+def test_held_validation_page_follows_the_rules_and_a_test_recording_is_refused():
+    from rq1.viewer.recordings import Source
+
+    source = Source(ROOT)
+    rec = next(r for r in source.validation_recordings() if source.entries[r][0] == "sdg")
+    a, b = page.render(source.build(rec, "0" * 40)), page.render(source.build(rec, "0" * 40))
+    assert a.encode() == b.encode()
+    assert settings.BANNER in a and "TEST-ONLY" not in a
+    assert not re.search(r"(https?:|wss?:|ftp:)//|//cdn|\bwww\.", a, re.I)
+    for word in ("validated", "near miss", "near-miss", "nearmiss", "collision", "contact", "safe"):
+        assert word not in a.lower(), word
+    data = page.embedded(a)
+    assert data["header"]["partition"] == "validation" and data["header"]["split_artifact_id"] == source.split_artifact_id
+    assert data["header"]["viewpoint_class"] in ("ceiling", "eye_level") and data["header"]["low_light"] in ("yes", "no")
+    test_rec = min(r for r, p in guard.partitions(source.split).items() if p == "test")
+    with pytest.raises(ContractError) as e:
+        source.build(test_rec, "0" * 40)
+    assert e.value.code == "ERR-SPEC"

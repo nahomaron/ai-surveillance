@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any
 
 from rq1.ids import artifact
-from rq1.pipeline import prereg
 from rq1.schema import files
 from rq1.schema.errors import ContractError
 
@@ -24,6 +23,9 @@ Row = dict[str, Any]
 DATASETS = ("sdg", "smartspaces")
 S1_TABLES = ("frame", "coverage_segment", "decode_summary")
 LOW_LIGHT_FILE = Path("research/datasets/part3/rv2_check_synthetic.json")
+# The T16 row name of SDG contains the dataset's own words "near-miss"; pages follow the wording rules, so the row is shown by
+# its dataset ID (preregistration_FROZEN.md section 1) instead.
+SDG_ROW_DISPLAY = "SDG-Warehouse, nvidia/PhysicalAI-WorldModel-Synthetic-Warehouse-Operations-Scenes (synthetic_rendered)"
 
 
 def _driver(root: Path):
@@ -92,7 +94,7 @@ class Source:
             raise ContractError("ERR-SPEC", f"{recording_id}: no usable simulator truth (T17.4) or truth refused (T17.5)")
         frames, classes = got
         camera = self._camera_table(entry["s0"], ds).get(entry["camera_id"], {})
-        row = prereg.SDG_ROW if ds == "sdg" else f"SmartSpaces MTMC_Tracking_2026 {entry['run']} (synthetic_rendered)"
+        row = SDG_ROW_DISPLAY if ds == "sdg" else f"SmartSpaces MTMC_Tracking_2026 {entry['run']} (synthetic_rendered)"
         header = {"dataset_row": row, "run": entry["run"], "camera": entry["camera"], "recording_id": recording_id,
                   "viewpoint_class": camera.get("viewpoint_class", "not recorded"), "low_light": self.low_light.get(entry["uri"], "not recorded"),
                   "code_commit": code_commit, "contract": settings.CONTRACT, "preregistration_sha256": self.prereg_sha256,
