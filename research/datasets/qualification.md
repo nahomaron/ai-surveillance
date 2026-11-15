@@ -293,3 +293,17 @@ Declared before any annotation: per class, n_h = ceil(0.25 · N_h); numpy PCG64 
 
 - 68 synthetic recordings (the set held when D-25 was written: 30 SDG sample, 38 SmartSpaces synthetic Warehouse_001): **0 flags; 351,000 / 351,000 frames eligible**; luma P99 62–235. Per-recording counts: `research/datasets/part3/rv2_synthetic_check.json` (statistics only, no pixels).
 - The 690 SDG member videos (3.11): 57 recordings flagged (41 runs), 4,361 `black` and 40 `frozen` frames (all frozen frames are also black), 0 `overexposed`; 202,639 / 207,000 frames eligible. Two runs are lit so darkly that every frame of 13 recordings falls under P99 ≤ 32 although content is visible (false positives); other flags are short dark or occluded stretches. Details and the Architect question: D-25. Counts: `research/datasets/part3/rv2_synthetic_check_members.json`.
+
+## Part 4 — SDG `Dodge` annotation fields (Appendix T T21.6; 15 Nov 2026)
+
+T21.6: SDG `Dodge` annotations are **not** used as references in M1a; this section only describes their fields. Their use is a later decision. Source: the held `object_detection.jsonl` files (one camera per run; the agent block is run-level), read-only, truth only (no system output). Script: `research/m1a/dodge_fields.py`.
+
+| Item | Finding |
+|---|---|
+| Where | `object_detection.jsonl`, one JSON line per decoded frame, key `agents` → agent prim path → `metro_agent_data` |
+| Field | `metro_agent_data.current_task_name` (string, per agent per frame). `Dodge` is one of its values; the others seen are `forward`, `turn_left`, `turn_right`, `idle`, `Idle` (two spellings) |
+| Sibling fields | `prim_path`, `agent_type`, `agent_name`, `agent_group`, `world_position`, `world_rotation`, `world_facing_direction`, `world_moving_direction`, `speed`, `current_task_name`, `asset_url`, `semantic_label`, `label_attached_prim_path_list`; `SkelRoot`, `Skeleton` on character agents only. No field names a counterpart (forklift) or a dodge distance; no onset or offset time field; the task is a per-frame state |
+| Coverage | 69 runs with annotation files; `Dodge` appears in **53** (the worker agent) |
+| Onset (first frame with `Dodge`) | frame 0 in **18** runs (the task is already running when the recording starts, so no onset is observed); otherwise frames 12–139 |
+| Length (frames with `Dodge`, 300-frame recordings) | 94–201 frames, or all 300 (15 runs) |
+| Caveats for any later use | `world_position` is stale in 32 of 72 runs (AR-50 item 2), so the agent block is not a reliable pose source; a `Dodge` task state is a scripted behaviour label, not an annotated evasive action with an observed onset; runs that start in `Dodge` have no onset |
