@@ -1106,3 +1106,31 @@ T20.2 Reporting stratum forklift_turning
  unknown.
 
 Source: Architect rulings of 14 Nov 2026 (G-PR), item A (Owner decision D-34 and approval by forwarding them), appended verbatim.
+
+## T21. Interaction references from simulator truth (CV-SIM, M1a oracle path) (E-1.2.19; CR-025)
+
+T21 Interaction references from simulator truth (CV-SIM, M1a oracle path)
+T21.1 Definition source. Reference interactions are produced by applying configuration
+ BL-6 (R2 + R3 + R4 + R5) with the pre-registration's base parameter values to the
+ complete simulator truth of each person-forklift pair in each camera's timeline:
+ simulator positions and yaw on every eligible frame on which both objects exist in the
+ truth, whatever their visibility, with zero covariance, the frozen footprint priors and
+ world geometry. reference_class = rule_conformance.
+T21.2 Labels. Reference label groups are G1 only (O, H, PC), derived from the reference
+ episode labels. No G2 (NM, UD, CT) reference exists on synthetic data.
+T21.3 Assessability. A reference interaction is assessable in a camera iff both objects
+ are visible (T17.1, T20.1) together on at least one eligible frame of its interval in
+ that camera. Otherwise it is unobservable_reference for that camera (N4, T12.2) and is
+ reported, not scored.
+T21.4 Fixed reference. References are built once at the base values and do not change
+ in MR-08/MR-12 sweeps; sweeps are scored against the base reference.
+T21.5 Interpretation. Event metrics on the oracle path measure the effect of camera
+ observability (T17-T20) and of the configuration's rules relative to BL-6, not
+ perception. Reports state this beside EV-M1 to EV-M8.
+T21.6 Dodge. SDG Dodge annotations are not used as references. Describe their fields in
+ the qualification record; their use is a later decision.
+Tests: an interaction visible throughout -> assessable, matched by BL-6 on the oracle
+path; an interaction never jointly visible in a camera -> unobservable_reference; a
+sweep run uses the same reference IDs as the base run; no G2 reference is produced.
+
+Source: Architect ruling on CR-025, 14 Nov 2026, item B ("append to Appendix T as section T21, next contract version"; Owner approval by forwarding it), appended verbatim.

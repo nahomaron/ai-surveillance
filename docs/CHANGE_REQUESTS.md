@@ -896,7 +896,7 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
   10. **Manifest data_origin** of the X0b and V0 artifacts: `synthetic_rendered` (all their recordings).
 - **Files/tests:** `splits/draw.py`, `pipeline/prereg.py`, `sampling/plan.py`, `research/preregistration/freeze.py`; `tests/splits/test_draw.py`, `tests/pipeline/test_prereg.py`. **Reverse:** items 1, 2, 4–6, 10 change only IDs; re-run the freeze script.
 
-## CR-025 (2026-11-14) — How CV-SIM builds the O/H/PC interaction references from simulator truth (T-21)   status: OPEN
+## CR-025 (2026-11-14) — How CV-SIM builds the O/H/PC interaction references from simulator truth (T-21)   status: CLOSED (Appendix T T21, E-1.2.19: readings 1(a), 2(a), 2(c); Dodge not used as a reference)
 **Raised by:** implementation agent. **Task:** T-21 (M1a validation run). **Contract sections:** F.1 A5.1 (`reference_class = rule_conformance`: "applying the system's own operational definitions (P, X, C, O/H/PC labels) to simulator truth or reference geometry"; RV-01); T17.6 (reference visible support); E-1.2.1 §5.8 (`ref_interaction`); Package F WP-14 ("EV-M1–M8 for O/H/PC against definition-applied references"; plan, not contract).
 **Meaning-affecting:** yes. The reference interactions are the denominator of EV-M1 and the matching target of EV-M2–M8.
 **Problem.** `SimReferenceConverter` takes `truth["interactions"]` as given. For M0 they were written by hand. For SDG and SmartSpaces nothing in the contract says how they are produced. Readings that give different numbers:
