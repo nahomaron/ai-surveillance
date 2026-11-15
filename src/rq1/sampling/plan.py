@@ -99,10 +99,13 @@ def _nullable(value: Any, reason: str) -> tuple[Any, Any]:
 
 
 def plan_rows(plan_label: str, version: str, sample_type: str, split_version_id: str, population: list[Row], selected: list[Row], strata_n: dict[str, int],
-              seed: int, frame: Row, frozen_utc: datetime, ecs_selection_basis: str | None = None, supersedes_plan_id: str | None = None) -> dict[str, list[Row]]:
+              seed: int, frame: Row, frozen_utc: datetime, ecs_selection_basis: str | None = None, supersedes_plan_id: str | None = None,
+              population_definition_ref: str | None = None) -> dict[str, list[Row]]:
+    """`population_definition_ref` defaults to the test partition of the split (M0); M1a plans name their partition and
+    dataset row (AR-57 item 3)."""
     keys = sorted([w["camera_group_id"], w["window_index"], w["stratum_id"]] for w in population)
     plan = {"plan_label": plan_label, "version": version, "sample_type": sample_type, "split_version_id": split_version_id,
-            "population_definition_ref": f"test partition of {split_version_id}", "frame_definition": frame,
+            "population_definition_ref": population_definition_ref or f"test partition of {split_version_id}", "frame_definition": frame,
             "frame_sha256": hashlib.sha256(canonical_json(keys)).hexdigest(),
             "strata": [{"stratum_id": h, "definition": "pre-system metadata", "N_h": sum(1 for w in population if w["stratum_id"] == h), "n_h": n}
                        for h, n in sorted(strata_n.items())],
