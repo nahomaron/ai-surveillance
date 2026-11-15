@@ -90,13 +90,12 @@ class Camera:
         self.eligible = {f["frame_index"]: f for f in self.frames if f["eligible"]}
         rw = files.read_table(str(ROOT / "out/prereg" / V0[ds] / "reference_window.parquet"), "reference_window", m.A.SCHEMA_VERSION)
         self.windows = sorted((w for w in rw if w["timeline_id"] == self.timeline), key=lambda w: w["window_index"])
-        if len(self.windows) != 1:
-            raise NotImplementedError("windows per camera other than 1 (SmartSpaces) are handled in a later revision")
-        self.window = self.windows[0]
+        self.window = self.windows[0]  # SDG: the only window of the camera
 
-    def support(self) -> dict[int, float]:
-        """Clipped eligible support per frame inside the window (E-1.2.1 section 3.4)."""
-        a, b = self.window["t_start_tl_s"], self.window["t_end_tl_s"]
+    def support(self, window=None) -> dict[int, float]:
+        """Clipped eligible support per frame inside the window (E-1.2.1 section 3.4); the guard is not part of it."""
+        window = window or self.window
+        a, b = window["t_start_tl_s"], window["t_end_tl_s"]
         out = {}
         for i, f in self.eligible.items():
             if f["support_s"] and f["support_start_tl_s"] is not None:
@@ -178,6 +177,10 @@ def evaluate_camera(args):
     if path.exists():
         return rec, "skipped"
     cam = Camera(ds, label, rec)
+    if "reference" not in cam.units:
+        return evaluate_camera_without_reference(cam, path)
+    if len(cam.windows) != 1:
+        raise NotImplementedError("EV-M with several windows per camera")
     support = cam.support()
     usable = sum(support.values())
     base, fc, ref = cam.units["base"], cam.units["full_camera"], cam.units["reference"]
@@ -258,6 +261,64 @@ def evaluate_camera(args):
     return rec, "done"
 
 
+def evaluate_camera_without_reference(cam: Camera, path: Path):
+    """SmartSpaces (D-39): no T21 reference unit. CM per V0 window without the reference-geometry metrics (CM-02 needs
+    reference-moving frames, CM-06 reference clearance); GV on the full_camera run; no EV-M, no sweeps."""
+    ds, label = cam.ds, cam.label
+    base, fc = cam.units["base"], cam.units["full_camera"]
+    s3 = load_art(label, ds, base["s3"])
+    trk_key = track_map(s3, oracle_keys(cam.visible), cam.classes)
+    rows, _, track_class = association(s3, trk_key)
+    s4 = load_art(label, ds, base["s4"])
+    trk_of_local = {t["track_local_id"]: t["trk_id"] for t in s3["track"]}
+    ref_visible, ref_present = {}, {}
+    for p in s3["track_point"]:
+        if p["state"] == "tracked":
+            key = trk_key[trk_of_local[p["track_nk"][1]]]
+            ref_visible.setdefault(p["frame_index"], {})[key] = cam.classes[key]
+    for key, cls, i, *_ in cam.truth_rows:
+        ref_present.setdefault(i, set()).add(key)
+    series = {}
+    for r in s4["pair_series"]:
+        series.setdefault(tuple(r["pow_nk"]), {})[r["frame_index"]] = r
+    out = {"rec_id": cam.rec, "camera": cam.camera_name, "run": cam.run, "windows": [], "runs": {}}
+    for bl, art in base["s5"].items():
+        out["runs"][bl] = run_summary(load_art(label, ds, art))
+    for win in cam.windows:
+        support = cam.support(win)
+        pows = []
+        for p in s4["pow"]:
+            fr = series[(p["person_track_id"], p["forklift_track_id"], p["start_frame"])]
+            frames = {i: r["evidence_class"] for i, r in fr.items() if i in support}
+            if frames:
+                pows.append({"person_track": p["person_track_id"], "forklift_track": p["forklift_track_id"], "frames": frames,
+                             "clearance_state": {i: fr[i]["clearance_state"] for i in frames}, "clearance": {i: fr[i]["clearance_m"] for i in frames},
+                             "calibration_tier": "simulator_truth"})
+        w = cm.WindowFrames(support=support, ref_visible={f: v for f, v in ref_visible.items() if f in support},
+                            ref_present={f: v for f, v in ref_present.items() if f in support}, assoc=[r for r in rows if r["frame_index"] in support],
+                            track_class={f: v for f, v in track_class.items() if f in support}, pows=pows, ref_class=dict(cam.classes))
+        comp = {}
+        for basis in sorted(cm.BASES):
+            comp[("CM-01", basis)] = list(cm.cm_object(w, "person", basis).values())
+            comp[("CM-03", basis)] = list(cm.cm03(w, None, basis).values())
+            comp[("CM-04", basis)] = [cm.cm04(w, None, basis)]
+            comp[("CM-05", basis)] = [cm.cm05(w, basis)]
+            comp[("CM-07", basis)] = [cm.cm07(w, basis)["summary"]]
+            comp[("CM-08", basis)] = list(cm.cm08(w, basis).values())
+            comp[("CM-09", basis)] = [cm.cm09(w, basis)]
+        comp[("CM-10", "basis-independent")] = list(cm.cm10(w).values())
+        out["windows"].append({"window_id": win["rwn_id"], "stratum": win["stratum_id"], "leakage_group": win["leakage_group_id"],
+                               "weight": win["weight"], "usable_s": sum(support.values()), "cm": comp})
+    del s4, series
+    out["stratum"], out["leakage_group"] = cam.windows[0]["stratum_id"], cam.windows[0]["leakage_group_id"]
+    out["gv"] = gv_camera(cam, label, ds, s3, trk_key, fc, base)
+    tmp = path.with_suffix(".tmp")
+    with gzip.open(tmp, "wb") as f:
+        pickle.dump(out, f)
+    os.replace(tmp, path)
+    return cam.rec, "done"
+
+
 def _speeds(s4: dict, trk_key) -> dict:
     return {(trk_key[r["track_id"]], r["frame_index"]): r["speed_mps"] for r in s4["object_state"] if r["speed_mps"] is not None}
 
@@ -315,12 +376,15 @@ def gv_camera(cam: Camera, label, ds, s3, trk_key, fc, base) -> dict:
     out["gv06_p"] = [(r["P"], p3[(r["pow_id"], r["frame_index"])]) for r in f2 if (r["pow_id"], r["frame_index"]) in p3]
     # GV-07: full_camera speed minus simulator_truth speed at the same w_v (AR-59 item 6)
     st_speed = {0.5: _speeds(load_art(label, ds, base["s4"]), trk_key)}
-    with gzip.open(out_dir(label, ds) / cam.rec / "sweeps.pkl.gz", "rb") as fh:
-        bundle = pickle.load(fh)
-    for w_v in (0.33, 1.0):
-        st_speed[w_v] = _speeds(bundle[f"w_v={w_v}"]["s4"].tables, trk_key)
-    fc_speed = {0.5: _speeds(s4, trk_key), **{float(k): _speeds(load_art(label, ds, v), trk_key) for k, v in fc["s4_w_v"].items()}}
-    for w_v in (0.33, 0.5, 1.0):
+    bundle_path = out_dir(label, ds) / cam.rec / "sweeps.pkl.gz"
+    if bundle_path.exists():  # the simulator_truth speeds at other w_v come from the sweeps (none on SmartSpaces in v1)
+        with gzip.open(bundle_path, "rb") as fh:
+            bundle = pickle.load(fh)
+        for w_v in (0.33, 1.0):
+            st_speed[w_v] = _speeds(bundle[f"w_v={w_v}"]["s4"].tables, trk_key)
+        del bundle
+    fc_speed = {0.5: _speeds(s4, trk_key), **{float(k): _speeds(load_art(label, ds, v), trk_key) for k, v in fc["s4_w_v"].items() if float(k) in st_speed}}
+    for w_v in sorted(st_speed):
         out["gv07"][w_v] = [(cam.classes[k[0]], state.get(k), v - st_speed[w_v][k]) for k, v in fc_speed[w_v].items() if k in st_speed[w_v]]
     return out
 
@@ -352,7 +416,9 @@ def sweeps_camera(cam: Camera, label, ds, refs, groups, base_sets, usable, s4_ba
 
 
 def main_cameras(ds, label, workers):
-    recs = sorted(p.name for p in out_dir(label, ds).iterdir() if p.name.startswith("rec_") and all((p / f"{u}.json").exists() for u in ("base", "full_camera", "reference", "sweeps")))
+    need = ("base", "full_camera", "reference", "sweeps") if ds == "sdg" else ("base", "full_camera")
+    recs = sorted(p.name for p in out_dir(label, ds).iterdir() if p.name.startswith("rec_") and all((p / f"{u}.json").exists() for u in need)
+                  and (p / "truth.pkl.gz").exists())
     print(f"evaluate {ds} {label}: {len(recs)} cameras", flush=True)
     jobs = [(ds, label, r) for r in recs]
     it = map(evaluate_camera, jobs) if workers == 1 else Pool(workers, maxtasksperchild=4).imap_unordered(evaluate_camera, jobs)
