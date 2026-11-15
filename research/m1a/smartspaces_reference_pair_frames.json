@@ -1,0 +1,12 @@
+{
+ "camera_used": "Camera_0000",
+ "frames": 9000,
+ "persons": 60,
+ "forklifts": 9,
+ "pairs_upper_bound": 540,
+ "reference_pair_frames_per_camera": 4439591,
+ "reference_pair_frames_all_19_cameras": 84352229,
+ "max_persons_on_a_frame": 58,
+ "max_forklifts_on_a_frame": 9,
+ "seconds": 17
+}
