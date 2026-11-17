@@ -668,3 +668,12 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: AR-60 (proposed). D-39 open.
 - Next: (optional) AR-60 check on `rec_dazuru…` and `rec_bg7m…`; restart with `PYTHONPATH=src .venv/bin/python research/m1a/evaluate_m1a.py smartspaces run1 cameras 1 && … aggregate` (finished cameras are skipped); then the SmartSpaces part of the report; then STOP at G-M1a.
+
+### 2026-11-17 — T-21: SmartSpaces evaluation resumed and complete (AR-60 code)
+- Did: restarted `evaluate_m1a.py smartspaces run1 cameras 1` then `aggregate` at code 7812832 (AR-60). The 6 finished cameras were skipped; the other 13 (including `rec_gbhz7…`, which had run 34 h before AR-60) were evaluated in about 1 h in all (05:47). `research/m1a/results_smartspaces.json`: 19 cameras, 190 windows, one leakage group (Target B not informative), status experimental (synthetic, oracle perception, validation partition); EV-M, CM-02, CM-06 not run (D-39); sweeps not run (D-38 A.3).
+- Results (headline): CM-01 1.000; CM-03 0.567; CM-04 0.632; CM-05 0.000 detected / 0.017 detected+inferred; CM-08 0.000; CM-10 0.000. BL-6: 574 episodes (H 297, PC 466, NM 158, UD 116, O 52, IE 50). GV-04 1.87×1.13 m prior bias −0.28 m, 2.68×1.16 m −0.001 m. GV-06 ρ 0.35, R1/R2 disagreement 4 %.
+- **For review, GV-01 / GV-07 / GV-08 on full_camera:** heavy-tailed. GV-01 RMSE: forklift 33,275 m (P95 103 m); person 53 m (P95 99 m); pallet truck 17 m. The inferred points are small (RMSE 0.68–0.88 m), but the detected points are large. This matches the first-camera check (20 % of person errors above 10 m). Cause not verified. A likely candidate is the ground projection of box foot points near the horizon on SmartSpaces cameras. Nothing was changed.
+- Tests: 2391/2391 (full suite)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: D-39 open; AR-60 proposed (optional check on `rec_dazuru…`, `rec_bg7m…` still not run).
+- Next: diagnose the full_camera GV-01 tail (counts only, no rule change); SmartSpaces part of `reports/M1a_report.md`; then STOP at G-M1a.
