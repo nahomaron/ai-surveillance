@@ -82,9 +82,12 @@ def summarize(rows: list[Row], support: dict[int, float]) -> tuple[list[Row], li
     covering: dict[str, set[str]] = {}
     for r in matched:
         covering.setdefault(r["physical_identity_id"], set()).add(r["track_id"])
+    by_track: dict[str, list[Row]] = {}
+    for r in matched:
+        by_track.setdefault(r["track_id"], []).append(r)
     out = []
     for track in tracks:
-        own = sorted((r for r in matched if r["track_id"] == track), key=lambda r: r["frame_index"])
+        own = sorted(by_track.get(track, []), key=lambda r: r["frame_index"])
         if not own:
             out.append({"track_id": track, "dominant_identity_id": None, "dominant_share": None, "n_identities": 0, "n_switches": 0, "status": "unmatched_system"})
             continue

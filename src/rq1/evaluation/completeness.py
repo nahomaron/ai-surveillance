@@ -28,6 +28,14 @@ class WindowFrames:
     ref_moving: dict[int, set] = field(default_factory=dict)  # frame -> forklift identities moving (CM-02 restriction)
     ref_class: dict[str, str] = field(default_factory=dict)  # identity -> class, for identities that are present but never visible
     visibility_assumed: bool = False  # no visibility truth: presence counts as co-visible (T12.4)
+    # Lookup tables built once per window on first use (AR-60: speed only; the fields above are read-only inputs).
+    _index: dict = field(default_factory=dict, init=False, repr=False, compare=False)
+
+
+def _cached(w: WindowFrames, key, build):
+    if key not in w._index:
+        w._index[key] = build()
+    return w._index[key]
 
 
 def _ratio(num: float, den: float) -> dict:
@@ -35,12 +43,25 @@ def _ratio(num: float, den: float) -> dict:
 
 
 def _matched(w: WindowFrames) -> dict[int, dict[str, str]]:
-    """frame -> {identity: matched track}."""
-    out: dict[int, dict[str, str]] = {}
-    for r in w.assoc:
-        if r["status"] == "matched":
-            out.setdefault(r["frame_index"], {})[r["physical_identity_id"]] = r["track_id"]
-    return out
+    """frame -> {identity: matched track} (a later row of the same frame overrides an earlier one)."""
+    def build():
+        out: dict[int, dict[str, str]] = {}
+        for r in w.assoc:
+            if r["status"] == "matched":
+                out.setdefault(r["frame_index"], {})[r["physical_identity_id"]] = r["track_id"]
+        return out
+    return _cached(w, "matched", build)
+
+
+def _matched_tracks(w: WindowFrames) -> dict[int, dict[str, str]]:
+    """frame -> {track: matched identity} (a later row of the same frame overrides an earlier one)."""
+    def build():
+        out: dict[int, dict[str, str]] = {}
+        for r in w.assoc:
+            if r["status"] == "matched":
+                out.setdefault(r["frame_index"], {})[r["track_id"]] = r["physical_identity_id"]
+        return out
+    return _cached(w, "matched_tracks", build)
 
 
 def cm_object(w: WindowFrames, cls: str, basis: str, moving_only: bool = False) -> dict[str, dict]:
@@ -56,28 +77,54 @@ def cm_object(w: WindowFrames, cls: str, basis: str, moving_only: bool = False) 
     return out
 
 
+def _pow_tracks(w: WindowFrames, ok: tuple) -> dict[int, set]:
+    """frame -> {(person track, forklift track) of every POW whose pair-frame on that frame is in `ok`}."""
+    def build():
+        out: dict[int, set] = {}
+        for p in w.pows:
+            for f, c in p["frames"].items():
+                if c in ok:
+                    out.setdefault(f, set()).add((p["person_track"], p["forklift_track"]))
+        return out
+    return _cached(w, ("pow_tracks", ok), build)
+
+
 def _covered(w: WindowFrames, pair: tuple[str, str], f: int, ok: tuple) -> bool:
     m = _matched(w).get(f, {})
-    return any(p["frames"].get(f) in ok and m.get(pair[0]) == p["person_track"] and m.get(pair[1]) == p["forklift_track"] for p in w.pows)
+    return (m.get(pair[0]), m.get(pair[1])) in _pow_tracks(w, ok).get(f, ())
 
 
 def reference_pairs(w: WindowFrames) -> list[tuple[str, str]]:
     """T12.4: (person p, forklift f) with at least one eligible frame of the window on which both are co-visible."""
-    pairs = set()
-    for objs in w.ref_visible.values():
-        persons = [i for i, c in objs.items() if c == "person"]
-        forks = [i for i, c in objs.items() if c != "person"]
-        pairs |= {(p, f) for p in persons for f in forks}
-    return sorted(pairs)
+    def build():
+        pairs = set()
+        for objs in w.ref_visible.values():
+            persons = [i for i, c in objs.items() if c == "person"]
+            forks = [i for i, c in objs.items() if c != "person"]
+            pairs |= {(p, f) for p in persons for f in forks}
+        return sorted(pairs)
+    return list(_cached(w, "reference_pairs", build))
+
+
+def _visible_frames(w: WindowFrames) -> dict[str, set]:
+    """identity -> frames on which it is in ref_visible."""
+    def build():
+        out: dict[str, set] = {}
+        for f, objs in w.ref_visible.items():
+            for i in objs:
+                out.setdefault(i, set()).add(f)
+        return out
+    return _cached(w, "visible_frames", build)
 
 
 def _covisible(w: WindowFrames, pair: tuple[str, str]) -> list[int]:
-    return sorted(f for f, objs in w.ref_visible.items() if pair[0] in objs and pair[1] in objs)
+    vis = _visible_frames(w)
+    return sorted(vis.get(pair[0], set()) & vis.get(pair[1], set()))
 
 
 def _attributed(w: WindowFrames, pow_: dict, f: int) -> tuple[str, str] | None:
     """T12.4: the pair (p, f) a POW frame is attributed to: both tracks matched, to p and f, on that frame."""
-    m = {r["track_id"]: r["physical_identity_id"] for r in w.assoc if r["frame_index"] == f and r["status"] == "matched"}
+    m = _matched_tracks(w).get(f, {})
     person, fork = m.get(pow_["person_track"]), m.get(pow_["forklift_track"])
     return (person, fork) if person is not None and fork is not None else None
 
@@ -101,7 +148,17 @@ def cm04(w: WindowFrames, pairs: list[tuple[str, str]] | None, basis: str) -> di
 def _units(w: WindowFrames, basis: str):
     """POW frames of the basis: (pow index, frame)."""
     ok = BASES[basis]
-    return [(k, f) for k, p in enumerate(w.pows) for f, c in sorted(p["frames"].items()) if c in ok]
+    return _cached(w, ("units", basis), lambda: [(k, f) for k, p in enumerate(w.pows) for f, c in sorted(p["frames"].items()) if c in ok])
+
+
+def _units_by_pair(w: WindowFrames, basis: str) -> dict:
+    """attributed pair -> the POW frames of the basis attributed to it, in `_units` order."""
+    def build():
+        out: dict = {}
+        for k, f in _units(w, basis):
+            out.setdefault(_attributed(w, w.pows[k], f), []).append((k, f))
+        return out
+    return _cached(w, ("units_by_pair", basis), build)
 
 
 def cm05(w: WindowFrames, basis: str) -> dict:
@@ -136,10 +193,10 @@ def cm06(w: WindowFrames, basis: str, bands: list, ref_clearance: dict | None) -
     per, ai_all, ref_all = {}, [], []
     for pair in pairs:
         ai, ref = [0.0] * len(bands), [0.0] * len(bands)
-        for k, f in _units(w, basis):
+        for k, f in _units_by_pair(w, basis).get(pair, []):
             p = w.pows[k]
             value = p.get("clearance", {}).get(f)
-            if value is not None and p.get("clearance_state", {}).get(f, "measured") == "measured" and _attributed(w, p, f) == pair:
+            if value is not None and p.get("clearance_state", {}).get(f, "measured") == "measured":
                 ai[band_index(bands, value)] += w.support[f]
         for f in _covisible(w, pair):
             value = ref_clearance.get(pair, {}).get(f)
@@ -158,6 +215,9 @@ def cm07(w: WindowFrames, basis: str) -> dict:
     position = {f: i for i, f in enumerate(order)}
     intervals = []
     for pair in reference_pairs(w):
+        pows_on: dict[int, set] = {}  # frame -> POWs with a pair-frame of the basis attributed to the pair
+        for k, f in _units_by_pair(w, basis).get(pair, []):
+            pows_on.setdefault(f, set()).add(k)
         frames = _covisible(w, pair)
         runs: list[list[int]] = []
         for f in frames:
@@ -166,8 +226,7 @@ def cm07(w: WindowFrames, basis: str) -> dict:
             else:
                 runs.append([f])
         for run in runs:
-            inside = set(run)
-            count = len({k for k, f in _units(w, basis) if f in inside and _attributed(w, w.pows[k], f) == pair})
+            count = len(set().union(*(pows_on.get(f, ()) for f in run)))
             intervals.append({"pair": pair, "start_frame": run[0], "end_frame_excl": run[-1] + 1, "n_pows": count})
     n = len(intervals)
     summary = {"0": sum(1 for i in intervals if i["n_pows"] == 0), "1": sum(1 for i in intervals if i["n_pows"] == 1),

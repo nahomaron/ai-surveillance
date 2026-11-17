@@ -660,3 +660,11 @@ _(the agent appends entries here)_
 - **SmartSpaces:** base + full_camera run one camera at a time, smallest first (commit ddfac38; 7 of 19 cameras done at 02:33). `research/m1a/finish_smartspaces.sh` waits for it, then builds truth tables, evaluates (CM per window, GV; no EV-M, D-39) and aggregates; every step resumes. First camera checked: person position error median 0.30 m, but 20 % above 10 m (not a frame mismatch: median offset < 3 cm).
 - Tests: no change since 8217dff (1890 + the T21 tests).
 - Next: when the SmartSpaces run and finisher end, write the SmartSpaces part of the report; then **STOP at G-M1a** (D-39 open; AR-58 / AR-59 review flags).
+
+### 2026-11-17 — T-21: SmartSpaces evaluation stopped by the Owner; speed-only fix (AR-60); not restarted
+- Did: the SmartSpaces evaluation had finished 6 of 19 cameras; camera 7 (`rec_gbhz7…`) ran about 34 h without finishing (time grew much faster than camera size). On the Owner's instruction the evaluator and `finish_smartspaces.sh` were stopped (17 Nov, 04:30); camera 7's partial work is lost, the 6 finished `eval.pkl.gz` and all 19 truth tables are kept. Stale watcher shells from earlier sessions also killed. Cause found in S8 helpers that rescan whole tables per frame or per pair (`completeness`, `association.summarize`, `gv.realized_min`); fixed with per-window indexes, same computation order (**AR-60**).
+- Equivalence: 501 seeded random cases repr-identical to frozen pre-AR-60 copies (`tests/evaluation/test_ar60_eval_index.py`); real data, 3 SDG and 2 SmartSpaces cameras re-evaluated into a scratch folder, outputs repr-identical to the stored ones (`research/m1a/ar60_equivalence.jsonl`); `rec_a4xz…` 7 min → 25 s. The check on the two largest finished cameras (`rec_dazuru…`, `rec_bg7m…`) was not run (laptop resting).
+- Tests: 2391/2391 (full suite), determinism re-run: identical (2391/2391)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: AR-60 (proposed). D-39 open.
+- Next: (optional) AR-60 check on `rec_dazuru…` and `rec_bg7m…`; restart with `PYTHONPATH=src .venv/bin/python research/m1a/evaluate_m1a.py smartspaces run1 cameras 1 && … aggregate` (finished cameras are skipped); then the SmartSpaces part of the report; then STOP at G-M1a.

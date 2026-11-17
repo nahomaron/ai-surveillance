@@ -172,8 +172,8 @@ def run_summary(s5: dict) -> dict:
 
 
 def evaluate_camera(args):
-    ds, label, rec = args
-    path = out_dir(label, ds) / rec / "eval.pkl.gz"
+    ds, label, rec, *dest = args  # optional 4th element: another output path (AR-60 equivalence check)
+    path = Path(dest[0]) if dest else out_dir(label, ds) / rec / "eval.pkl.gz"
     if path.exists():
         return rec, "skipped"
     cam = Camera(ds, label, rec)
