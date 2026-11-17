@@ -943,3 +943,43 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 - **No meaning effect:** no definition, parameter, unit, order of summation or rule changes; outputs identical (tests and real-data check above). The window's input fields must not be mutated after a metric has been computed on it; no caller does.
 - **Files/tests:** `src/rq1/evaluation/completeness.py`, `association.py`, `gv.py`, `research/m1a/evaluate_m1a.py`; `tests/evaluation/test_ar60_eval_index.py` against frozen copies in `tests/evaluation/reference_pre_ar60/` (commit 636b311); `research/m1a/ar60_equivalence.py` (re-evaluates finished cameras into a scratch folder and compares; never overwrites `out/`).
 - **Reverse:** restore the three modules from `tests/evaluation/reference_pre_ar60/` (no value changes).
+
+## CR-026 (2026-11-17) — full_camera foot rays: a range condition for a floor position (T-21, G-M1a diagnosis)   status: OPEN (proposal only; not implemented)
+**Raised by:** implementation agent, on the Architect's instruction of 17 Nov 2026 ("if (5) shows that such rays produce numeric positions, raise a CR"). **Task:** T-21. **Contract sections:** E-1.2.1 §2 null-reason enum (closed list: not_applicable, not_observable, uncalibrated, upstream_failure, not_supplied, not_computed_by_config, withheld_privacy, pending_review, out_of_scope_rq1); `object_state.x_m?`, `y_m?`; track_point `foot_point_px`; GV-01 (F.1 N7).
+**Meaning-affecting:** yes. The rule changes which object-frames have a position, so it changes every S4 quantity built on positions (clearance, speed, R2–R5 flags), GV-01, GV-07, GV-08 and their denominators.
+**Current behaviour (`geometry.full_camera_to_floor`, `substrate/builder.py` `_object_states`).**
+- The foot point is the bottom-centre of the track box.
+- The ray through the foot point is intersected with z = 0. When |d_z| < 1e-12 (parallel), or when the intersection parameter is s ≤ 0 (the floor is met behind the camera, which for a camera above the floor means a ray at or above the horizon), the function returns None.
+- The builder then writes x_m = y_m = null with null reason `not_observable`.
+- **There is no range limit.** Any ray below the horizon gives a numeric position, however far away.
+**Evidence** (validation only; full_camera S4 of run1; recomputed positions equal the stored ones on all 2,071,041 points; `research/m1a/position_diagnosis_{sdg,smartspaces}.json`, `research/m1a/position_cutoffs.json`):
+- **Rays at or above the horizon:** SDG 611, SmartSpaces 8,895, all tracked points. All are null (`not_observable`); none produce a number. Parallel rays: 0.
+- **Rays meeting the floor in front beyond 50 m:** SDG 386 (0.31 % of GV-01 points; 230 beyond 100 m; 17 beyond 1 km), SmartSpaces 974,217 (50 %; 303,325 beyond 100 m; 493 beyond 1 km, whose errors reach P99 2,989 km). **These produce numeric positions.**
+- SDG: those 386 points carry 99.9 % of the GV-01 squared error. RMSE 44.8 m with them, 1.34 m without. No SDG object is more than 20 m from its camera.
+- SmartSpaces: the scene is large. 725,201 GV-01 points (37 %) are truly more than 50 m from the camera, and predicted points beyond 50 m (12,317) are accurate (predicted P99 1.58 m overall).
+- The large errors come from tracked points whose visible box ends above the 3D box's bottom edge (feet hidden; SmartSpaces median error 20 m at 10–50 px, 34 m at 50–200 px), on shallow rays (median 111 m below 1°, 35 m at 1–2°, 1.0 m at 2–5°). Tracked points with the bottom edge within 2 px and not on a border: SmartSpaces median 0.30 m, P99 0.93 m.
+**What a limit would remove** (GV-01 points nulled, of which error ≤ 1 m / > 10 m; error of the kept points):
+
+| rule | SDG nulled (≤ 1 m / > 10 m) | SDG kept P99, RMSE | SmartSpaces nulled (≤ 1 m / > 10 m) | SmartSpaces kept P99, RMSE |
+|---|---|---|---|---|
+| none | 0 | 2.60 m, 44.8 m | 0 | 209 m, 12,520 m |
+| range > 20 m | 559 (0 / 555) | 1.83 m, 0.92 m | 1,662,833 = 86 % (778,777 / 663,700) | 6.2 m, 1.18 m |
+| range > 50 m | 386 (0 / 386) | 1.99 m, 1.34 m | 974,217 = 50 % (239,502 / 625,376) | 17.1 m, 3.77 m |
+| range > 100 m | 230 (0 / 230) | 2.19 m, 2.96 m | 303,325 = 16 % (16 / 300,682) | 46.7 m, 13.0 m |
+| angle < 2° | 480 (0 / 480) | 1.89 m, 1.01 m | 435,336 = 22 % (29,089 / 393,824) | 41.1 m, 10.5 m |
+| angle < 3° | 538 (0 / 536) | 1.85 m, 0.94 m | 734,871 = 38 % (119,445 / 566,264) | 23.7 m, 5.46 m |
+
+**Proposed rule (for the Architect to word and parameterise):** a full_camera (and ground-plane homography) floor position exists only when the foot ray meets the floor in front of the camera at a horizontal range ≤ R_max; otherwise x_m, y_m are null with a stated reason.
+**Open choices (each changes numbers):**
+1. **The value of R_max, and where it lives.** A single fixed value does not fit both datasets:
+   - 50 m removes only wrong SDG positions;
+   - on SmartSpaces, 50 m removes 239,502 positions that are correct within 1 m, and 100 m still leaves P99 47 m.
+   - Options: (a) a fixed contract value; (b) a per-site parameter tied to the floor extent of the calibrated area (registered with the calibration); (c) a ray-angle limit instead of, or in addition to, R_max. (c) is a proxy for the metres-per-pixel sensitivity at the foot point, but it depends on camera height.
+2. **The null reason.** The enum is closed:
+   - (a) reuse `not_observable`, as for rays at or above the horizon today;
+   - (b) add a new value (e.g. `out_of_range`) by amendment.
+3. **Scope.** Should the rule also cover the homography tier (`homography_to_floor` returns None only when w ≤ 0)?
+
+**Stated limitation:** no range rule fixes the mid-range SmartSpaces errors from hidden feet (kept P99 17 m at R_max 50 m). They come from the foot point (visible-box bottom), not from the ray. That is a separate question (foot-point source when the bottom edge is occluded) and is not proposed here.
+**Agent's recommendation:** 1(b) with 2(b), so the null is distinguishable from not-visible. Decide 3 together with 1.
+**Not implemented.** No code, value or definition changed. Until decided, GV-01, GV-07 and GV-08 are reported as computed, with this diagnosis beside them.

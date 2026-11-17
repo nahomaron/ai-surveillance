@@ -69,7 +69,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
-| [S] | G-M1a | **STOP — Owner reviews M1a** | T-21 | — | Owner decision recorded | — |
+| [S] | G-M1a | **STOP — Owner reviews M1a** (D-40 open, 17 Nov 2026) | T-21 | — | Owner decision recorded | — |
 
 ---
 
@@ -677,3 +677,20 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: D-39 open; AR-60 proposed (optional check on `rec_dazuru…`, `rec_bg7m…` still not run).
 - Next: diagnose the full_camera GV-01 tail (counts only, no rule change); SmartSpaces part of `reports/M1a_report.md`; then STOP at G-M1a.
+
+### 2026-11-17 — T-21: position-error diagnosis; SmartSpaces report section; CR-026; STOP at G-M1a (D-40)
+- Did (Architect instruction of 17 Nov 2026; validation only, statistics only, nothing decoded, no definition or frozen value changed):
+  - `research/m1a/position_diagnosis.py`: per full_camera point (tracked or predicted) on all 226 SDG and 19 SmartSpaces validation cameras. Recomputed positions equal the stored ones (0 mismatches on 2,071,041 points). Breakdown by state, class × viewpoint, bottom-edge offset, border, ray angle and outcome, range, and true distance → `research/m1a/position_diagnosis_{sdg,smartspaces}.json`.
+  - `research/m1a/position_cutoffs.py`: range and angle limits as evidence → `position_cutoffs.json`.
+  - The optional AR-60 check on the two largest cameras was skipped (Architect).
+- Findings:
+  - Predicted points: P99 ≤ 1.71 m on both datasets.
+  - Tracked points with the bottom edge within 2 px and not on a border: SmartSpaces P99 0.93 m.
+  - The errors come from visible boxes ending above the 3D box bottom, on shallow rays (median error 111 m below 1°, 35 m at 1–2°).
+  - Rays at or above the horizon (SDG 611, SmartSpaces 8,895) are already null (`not_observable`). Rays meeting the floor beyond 50 m give numbers (SDG 386 = 99.9 % of the squared error; SmartSpaces 974,217 = 50 %, and 37 % of SmartSpaces objects are truly beyond 50 m).
+- Raised: **CR-026** (range condition for foot rays; proposal only, not implemented); **D-40** (G-M1a stop).
+- Report: `reports/M1a_report.md`: status, plain-language page (SmartSpaces and the diagnosis summary), SmartSpaces technical section, diagnosis section, Stop.
+- Tests: 2391/2391 (full suite; no src change)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: D-39, CR-026, D-40 open; AR-58 / AR-59 flags / AR-60 for review.
+- Next: **STOP at G-M1a (D-40).** T-22 and all M1b work need G-M1a; test partition reserved (D-37). No independent task remains.

@@ -383,3 +383,20 @@ Options:
 - (c) **Run T21 as written in the background** (about 8–9 days serial; one camera at a time; memory-bound, may not complete on 8 GB).
 Agent's recommendation: (a) for v1, and (b) put to the Architect for v2. Under (b), "both visible at least once in the camera" would cut the pairs to those T21.3 can ever make assessable.
 Also for review (no work waits on it): AR-58 (accepted under D-38 A.1, evidence recorded) and the four AR-59 review flags: item 2 (T21.1 reference without visibility in Q), item 5 (GV-04 at full_camera positions), item 6 (GV-07 against simulator speed at the same w_v), item 7 (GV-08 realized minimum from the same run, null past the POW end).
+
+## D-40 (2026-11-17) — STOP at G-M1a: Owner review of the M1a validation results        status: OPEN
+Task: G-M1a   Blocking: T-22 and all M1b work; any test-partition work (also D-37)
+Question: The M1a validation run is complete (`reports/M1a_report.md`, plain-language page first):
+- SDG: EV-M, CM, GV, sweeps and MR-01 = 1.0.
+- SmartSpaces Warehouse_000: CM and GV.
+- The position-error diagnosis is done (Architect, 17 Nov 2026).
+Does the Owner accept M1a as reported, and in what order should the open items be decided?
+Open items for this gate:
+1. **D-39** (SmartSpaces EV-M; recommendation (a) for v1).
+2. **CR-026** (range condition for full_camera foot rays; proposal only).
+   - Rays at or above the horizon are already null (`not_observable`). Rays that meet the floor far away give numeric positions.
+   - A 50 m limit removes only wrong SDG positions, but also 239,502 SmartSpaces positions that are correct within 1 m.
+   - Recommendation: a per-site range registered with the calibration, and a new null reason.
+3. **AR-58** (accepted under D-38 A.1), **AR-59** review flags 2, 5, 6, 7, and **AR-60** (speed-only; the optional check on the two largest SmartSpaces cameras was skipped on the Architect's instruction).
+4. **Hidden feet at moderate range** (CR-026 stated limitation): whether the foot-point source on occluded bottom edges needs its own CR before M1b.
+Agent's recommendation: decide D-39 and CR-026 first. GV-01 / GV-07 / GV-08 cannot be read as calibration quality until CR-026 is settled. No acceptance criterion was evaluated (validation only).
