@@ -69,7 +69,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
-| [S] | G-M1a | **STOP — Owner reviews M1a** (D-40 open, 17 Nov 2026) | T-21 | — | Owner decision recorded | — |
+| [x] | G-M1a | **STOP — Owner reviews M1a** (D-40 DECIDED 17 Nov 2026: M1a accepted as experimental validation evidence) | T-21 | — | Owner decision recorded | — |
 
 ---
 
@@ -694,3 +694,30 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: D-39, CR-026, D-40 open; AR-58 / AR-59 flags / AR-60 for review.
 - Next: **STOP at G-M1a (D-40).** T-22 and all M1b work need G-M1a; test partition reserved (D-37). No independent task remains.
+
+### 2026-11-17 — G-M1a decided (D-40); rulings 1–9 carried out; M1b feasibility probe; STOP (D-42)
+- Decisions recorded:
+  - D-40 (M1a accepted as experimental validation evidence);
+  - D-39 (option (a) for v1; T21 amendment for v2);
+  - AR-58 and AR-60 ACCEPTED; AR-59 items 2, 6 and 7 ACCEPTED, item 5 REVISED;
+  - D-41 (pre-registration v2 note on GV-01 reporting);
+  - D-8 / CR-007 evidence (SDG forklift full_camera median about 1 m, no outliers).
+- Did:
+  - **Report wording** (item 2): BL-4/BL-6 vs BL-3 now "agree more closely with the BL-6 reference definition (T21.5)"; added the sentence on reference dependence and the BL-2 viewpoint note (R1/R2 disagreement 51 % SDG, 4 % SmartSpaces).
+  - **AR-59 item 5 revised / item 7 addition** (`research/m1a/gv_revised.py` → `gv_revised_{sdg,smartspaces}.json`):
+    - GV-04 at simulator positions: SDG +0.0004 m; SmartSpaces −0.0009 m (2.68 × 1.16 m) and −0.279 m (pallet trucks under the forklift prior). The prior clearance equals the stored base clearance on all 3,252,035 pair-frames.
+    - GV-08 against simulator truth: SDG bias 0.69 m (P5 −1.12, P95 2.19 m). The earlier GV-04 values are superseded in the report.
+  - **Per-label (O, H, PC) recall and precision on SDG** (item 5; `research/m1a/ev_by_label.py` → `ev_by_label_sdg.json`; descriptive). BL-2 never labels H or PC; PC appears only with R4; BL-4 = BL-6 (PC 0.996 / 0.945).
+  - **CR-026 diagnostics** (item 6; `research/m1a/position_sensitivity.py` → `position_sensitivity_{sdg,smartspaces}.json`; rows checked against posdiag; Jacobian checked by finite differences):
+    - (a) Sensitivity at 0.1 m/px: SDG catches 96.8 % of errors > 10 m and loses 0.02 % of points within 1 m. On SmartSpaces, 0.5 m/px catches 90.3 % and loses 18.1 %.
+    - (b) The head-height check separates weakly.
+    - CR-026 stays open; no rule implemented.
+  - **M1b feasibility** (item 9; `research/m1b/feasibility.md`, `detector_probe.py`, `detector_probe.json`, `requirements_detector.txt`):
+    - Environment: `.venv-det` from system Python 3.9.6 (no wheels for 3.14 / 3.15), git-ignored; PyTorch 2.2.2 CPU and ONNX Runtime 1.19.2 run.
+    - Weights: 310 MB in git-ignored `out/m1b/weights/`; no download over 1 GB.
+    - FPS on 10 SDG validation frames: YOLOX-nano 34.3, SSDlite 7.1, YOLOX-s 3.9, FRCNN-MobileNet 1.1, FRCNN-R50 0.12.
+- Tests: 2391/2391 (full suite; no src change)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-026 open (Architect, v2/M1b); D-42 open.
+- Next: **STOP (D-42).** T-22 proper waits for the Owner's go-ahead; test partition reserved (D-37).
+

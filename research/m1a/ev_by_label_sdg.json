@@ -1,0 +1,238 @@
+{
+ "dataset": "sdg",
+ "label": "run1",
+ "status": "experimental (synthetic, oracle perception, validation partition); descriptive (D-40 item 5)",
+ "reading": "agreement with the BL-6 reference definition applied to complete truth (T21.5), per label",
+ "cameras": 226,
+ "by_config": {
+  "BL-2": {
+   "O": {
+    "assessable": 9,
+    "matched": 2,
+    "system": 351,
+    "false_alert": 349,
+    "duplicate": 0,
+    "recall": 0.2222222222222222,
+    "recall_target_a": null,
+    "precision": 0.005698005698005698,
+    "precision_target_a": [
+     0.0,
+     0.014663834742107982
+    ]
+   },
+   "H": {
+    "assessable": 294,
+    "matched": 0,
+    "system": 0,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 0.0,
+    "recall_target_a": [
+     0.0,
+     0.0
+    ],
+    "precision": null,
+    "precision_target_a": null
+   },
+   "PC": {
+    "assessable": 278,
+    "matched": 0,
+    "system": 0,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 0.0,
+    "recall_target_a": [
+     0.0,
+     0.0
+    ],
+    "precision": null,
+    "precision_target_a": null
+   }
+  },
+  "BL-3": {
+   "O": {
+    "assessable": 9,
+    "matched": 9,
+    "system": 9,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 1.0,
+    "recall_target_a": null,
+    "precision": 1.0,
+    "precision_target_a": null
+   },
+   "H": {
+    "assessable": 294,
+    "matched": 286,
+    "system": 310,
+    "false_alert": 0,
+    "duplicate": 24,
+    "recall": 0.9727891156462585,
+    "recall_target_a": [
+     0.9539007092198581,
+     0.9897967831200276
+    ],
+    "precision": 0.9225806451612903,
+    "precision_target_a": [
+     0.8922141012093461,
+     0.9505332318207178
+    ]
+   },
+   "PC": {
+    "assessable": 278,
+    "matched": 0,
+    "system": 0,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 0.0,
+    "recall_target_a": [
+     0.0,
+     0.0
+    ],
+    "precision": null,
+    "precision_target_a": null
+   }
+  },
+  "BL-4": {
+   "O": {
+    "assessable": 9,
+    "matched": 9,
+    "system": 9,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 1.0,
+    "recall_target_a": null,
+    "precision": 1.0,
+    "precision_target_a": null
+   },
+   "H": {
+    "assessable": 294,
+    "matched": 293,
+    "system": 310,
+    "false_alert": 0,
+    "duplicate": 17,
+    "recall": 0.9965986394557823,
+    "recall_target_a": [
+     0.9894356865575076,
+     1.0
+    ],
+    "precision": 0.9451612903225807,
+    "precision_target_a": [
+     0.9191894674904384,
+     0.9677445285758739
+    ]
+   },
+   "PC": {
+    "assessable": 278,
+    "matched": 277,
+    "system": 293,
+    "false_alert": 0,
+    "duplicate": 16,
+    "recall": 0.9964028776978417,
+    "recall_target_a": [
+     0.9888888888888889,
+     1.0
+    ],
+    "precision": 0.9453924914675768,
+    "precision_target_a": [
+     0.9196103713934267,
+     0.9685314685314685
+    ]
+   }
+  },
+  "BL-5": {
+   "O": {
+    "assessable": 9,
+    "matched": 9,
+    "system": 9,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 1.0,
+    "recall_target_a": null,
+    "precision": 1.0,
+    "precision_target_a": null
+   },
+   "H": {
+    "assessable": 294,
+    "matched": 286,
+    "system": 310,
+    "false_alert": 0,
+    "duplicate": 24,
+    "recall": 0.9727891156462585,
+    "recall_target_a": [
+     0.9539007092198581,
+     0.9897967831200276
+    ],
+    "precision": 0.9225806451612903,
+    "precision_target_a": [
+     0.8922141012093461,
+     0.9505332318207178
+    ]
+   },
+   "PC": {
+    "assessable": 278,
+    "matched": 259,
+    "system": 275,
+    "false_alert": 0,
+    "duplicate": 16,
+    "recall": 0.9316546762589928,
+    "recall_target_a": [
+     0.9028776978417267,
+     0.9589590384508684
+    ],
+    "precision": 0.9418181818181818,
+    "precision_target_a": [
+     0.912579744816587,
+     0.9687620192307692
+    ]
+   }
+  },
+  "BL-6": {
+   "O": {
+    "assessable": 9,
+    "matched": 9,
+    "system": 9,
+    "false_alert": 0,
+    "duplicate": 0,
+    "recall": 1.0,
+    "recall_target_a": null,
+    "precision": 1.0,
+    "precision_target_a": null
+   },
+   "H": {
+    "assessable": 294,
+    "matched": 293,
+    "system": 310,
+    "false_alert": 0,
+    "duplicate": 17,
+    "recall": 0.9965986394557823,
+    "recall_target_a": [
+     0.9894356865575076,
+     1.0
+    ],
+    "precision": 0.9451612903225807,
+    "precision_target_a": [
+     0.9191894674904384,
+     0.9677445285758739
+    ]
+   },
+   "PC": {
+    "assessable": 278,
+    "matched": 277,
+    "system": 293,
+    "false_alert": 0,
+    "duplicate": 16,
+    "recall": 0.9964028776978417,
+    "recall_target_a": [
+     0.9888888888888889,
+     1.0
+    ],
+    "precision": 0.9453924914675768,
+    "precision_target_a": [
+     0.9196103713934267,
+     0.9685314685314685
+    ]
+   }
+  }
+ }
+}

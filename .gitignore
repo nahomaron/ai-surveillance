@@ -32,3 +32,6 @@ venv/
 *.avi
 *.mov
 *.parquet
+
+# Detector feasibility environment (T-22 / D-40 item 9; Python 3.9, outside requirements.lock)
+.venv-det/

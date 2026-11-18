@@ -59,6 +59,7 @@ Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre,
 Agent's recommendation: (a). Details are in CR-007.
 Owner decision (12 Nov 2026): DEFERRED to T-22. Reopen it with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre. Kept open as deferred.
 Evidence added 14 Nov 2026 (Architect ruling A, from CR-023 / D-32), for the T-22 decision: the T8.2 heading fallback is about 77° off the forklift's body axis during SDG pivot turns (median 77.5° on 7,860 turning frames; within 10.5° on all 8,647 straight frames). Details in CR-007.
+Evidence added 17 Nov 2026 (G-M1a, D-40 item 7): on SDG validation the full_camera forklift position error has median 1.12 m (ceiling) and 0.99 m (eye level), P99 about 1.5 m, and no outliers (no tracked forklift above 10 m; `research/m1a/position_diagnosis_sdg.json`). This is consistent with the bottom-centre foot point lying at the near edge of the footprint rather than at its centre (forklift box 3.03 × 1.13 m). Input for the T-22 decision.
 
 ## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: CLOSED
 Task: T-09   Blocking: T-09 part B (S5 from the pipeline), T-12 to T-16
@@ -374,7 +375,7 @@ Owner decision D-38 detail and Architect ruling on CR-025 (14 Nov 2026, pasted =
 - D. Test partition still reserved (D-37).
 - Owner session instruction: long jobs write each completed camera's results to disk, and a restart resumes without recomputing finished work.
 
-## D-39 (2026-11-15) — SmartSpaces: the T21 references are not feasible as specified; what replaces SmartSpaces EV-M in v1?        status: OPEN
+## D-39 (2026-11-15) — SmartSpaces: the T21 references are not feasible as specified; what replaces SmartSpaces EV-M in v1?        status: DECIDED (option (a) for v1; T21 amendment for v2)
 Task: T-21   Blocking: SmartSpaces EV-M1–EV-M8, CM-02 (reference-moving frames) and CM-06 (reference clearance) on SmartSpaces. Not blocking: SmartSpaces base and full_camera runs (running under D-38 A.3), SmartSpaces GV and the other CM metrics, everything on SDG.
 Question: D-38 A.3 re-measurement (machine idle; `research/m1a/runtime_estimate.md` addendum): SmartSpaces base + full_camera ≈ **8.5 h** for the 19 cameras (≤ 12 h, so they run, one camera at a time). But T21.1 builds references from "every eligible frame on which both objects exist in the truth, whatever their visibility", and the SmartSpaces truth is scene-wide: every camera's truth holds all 60 persons and 9 forklifts on every frame they exist. That gives **4.44 million reference pair-frames per camera, 84.4 million over 19 cameras** (`research/m1a/smartspaces_reference_pair_frames.json`), about **200 h** at the measured 8.7 ms per pair-frame, and more memory per camera than this 8 GB machine has. Which plan?
 Options:
@@ -383,8 +384,9 @@ Options:
 - (c) **Run T21 as written in the background** (about 8–9 days serial; one camera at a time; memory-bound, may not complete on 8 GB).
 Agent's recommendation: (a) for v1, and (b) put to the Architect for v2. Under (b), "both visible at least once in the camera" would cut the pairs to those T21.3 can ever make assessable.
 Also for review (no work waits on it): AR-58 (accepted under D-38 A.1, evidence recorded) and the four AR-59 review flags: item 2 (T21.1 reference without visibility in Q), item 5 (GV-04 at full_camera positions), item 6 (GV-07 against simulator speed at the same w_v), item 7 (GV-08 realized minimum from the same run, null past the POW end).
+Owner decision (G-M1a, 17 Nov 2026, D-40 item 3): option (a) for v1: SmartSpaces EV-M1–EV-M8, CM-02 and CM-06 are not run in v1. For v2 the Architect will amend T21 to restrict reference pairs in a camera to pairs that are jointly visible (T20.1) in that camera at least once.
 
-## D-40 (2026-11-17) — STOP at G-M1a: Owner review of the M1a validation results        status: OPEN
+## D-40 (2026-11-17) — STOP at G-M1a: Owner review of the M1a validation results        status: DECIDED (M1a accepted as experimental validation evidence; rulings 1–9)
 Task: G-M1a   Blocking: T-22 and all M1b work; any test-partition work (also D-37)
 Question: The M1a validation run is complete (`reports/M1a_report.md`, plain-language page first):
 - SDG: EV-M, CM, GV, sweeps and MR-01 = 1.0.
@@ -400,3 +402,32 @@ Open items for this gate:
 3. **AR-58** (accepted under D-38 A.1), **AR-59** review flags 2, 5, 6, 7, and **AR-60** (speed-only; the optional check on the two largest SmartSpaces cameras was skipped on the Architect's instruction).
 4. **Hidden feet at moderate range** (CR-026 stated limitation): whether the foot-point source on occluded bottom edges needs its own CR before M1b.
 Agent's recommendation: decide D-39 and CR-026 first. GV-01 / GV-07 / GV-08 cannot be read as calibration quality until CR-026 is settled. No acceptance criterion was evaluated (validation only).
+Owner decision (G-M1a, 17 Nov 2026):
+1. M1a ACCEPTED as experimental validation evidence, subject to item 2 (report wording).
+2. Report wording: BL-4/BL-6 vs BL-3 → "agree more closely with the BL-6 reference definition (T21.5)"; plain-language sentence on reference dependence (BL-2 vs BL-3 least reference-dependent; BL-3 vs BL-6 partly circular); note beside BL-2: R1/R2 disagreement 51 % SDG, 4 % SmartSpaces, so the BL-2 finding is viewpoint-dependent and not yet tested on SmartSpaces.
+3. D-39: option (a) for v1; T21 amendment (jointly visible pairs) for v2.
+4. AR-59 item 2 ACCEPTED; item 5 REVISED (GV-04 at simulator positions, re-report); item 6 ACCEPTED; item 7 ACCEPTED, and GV-08 also reported against simulator truth. AR-58 and AR-60 ACCEPTED.
+5. Descriptive per-label (O, H, PC) recall and precision per configuration on SDG.
+6. CR-026: no fixed range rule; kept open; pixel-sensitivity and person height-consistency diagnostics added; the Architect writes the rule for v2/M1b.
+7. D-8 / CR-007: SDG forklift full_camera median error about 1 m, no outliers.
+8. Pre-registration v2 note (recorded below as D-41).
+9. M1b feasibility: CPU detector runtime on this Intel Mac, model licences, FPS on 10 SDG frames (no download over 1 GB without approval); then STOP.
+
+## D-41 (2026-11-17) — Note for pre-registration v2: how position accuracy is stated        status: RECORDED (no change to v1)
+Source: Owner, G-M1a (D-40 item 8).
+- GV-01 RMSE is outlier-dominated on both datasets: SDG 44.8 m, of which 99.9 % of the squared error comes from 0.3 % of points; SmartSpaces 12.5 km.
+- Pre-registration v2 should state position accuracy as **median, P95 and outlier share** (share above stated distances).
+- **Position availability** (share of object-frames with a numeric position, by null reason) should be reported separately.
+- Pre-registration v1 and its frozen criteria are unchanged.
+
+## D-42 (2026-11-17) — STOP after the M1b feasibility probe: go-ahead for T-22?        status: OPEN
+Task: T-22   Blocking: T-22 (detector benchmark) and all later M1b work
+Question: The D-40 item 9 probe is done (`research/m1b/feasibility.md`).
+- **Runtimes:** PyTorch 2.2.2 CPU and ONNX Runtime 1.19.2 install and run on this Intel Mac. They live in a separate Python 3.9 environment, `.venv-det`, because no wheels exist for the project's Python 3.15.
+- **Speed** on 10 SDG validation frames (1920 × 1080): YOLOX-nano 34.3 FPS; SSDlite320 7.1; YOLOX-s 3.9; Faster R-CNN MobileNetV3 1.1; Faster R-CNN ResNet50 v2 0.12.
+- **Licences:** torchvision code BSD-3 (weights trained on COCO, no separate licence stated); YOLOX Apache-2.0; Ultralytics AGPL-3.0 (not used).
+- COCO has no forklift class. On these frames the models emitted person and a few other labels (truck, tv, boat, suitcase …), not matched to objects.
+Options:
+- (a) Go ahead with T-22 (benchmark on an SDG and SmartSpaces validation frame subset with truth matching, licence table), using `.venv-det` as a pre-approved environment.
+- (b) Hold M1b until the Architect has written the CR-026 rule and pre-registration v2 has started.
+Agent's recommendation: none; the Owner decides. The weight licences need the Owner's check before any use beyond research. A separate interpreter (`.venv-det`, Python 3.9) for detector code is an environment decision; it should be recorded in WORKPLAN §0 if accepted.

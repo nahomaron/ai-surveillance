@@ -1,0 +1,236 @@
+{
+ "status": "feasibility probe (D-40 item 9); not a measurement of the instrument",
+ "platform": {
+  "machine": "x86_64",
+  "macos": "12.7.6",
+  "cpu": "Intel(R) Core(TM) i7-5650U CPU @ 2.20GHz",
+  "logical_cpus": 4,
+  "python": "3.9.6",
+  "torch_threads": 2
+ },
+ "frames": [
+  {
+   "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+   "camera": "ceiling_04",
+   "frame": 0,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+   "camera": "ceiling_04",
+   "frame": 74,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+   "camera": "ceiling_04",
+   "frame": 149,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+   "camera": "ceiling_04",
+   "frame": 224,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+   "camera": "ceiling_04",
+   "frame": 299,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+   "camera": "eye_04",
+   "frame": 0,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+   "camera": "eye_04",
+   "frame": 74,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+   "camera": "eye_04",
+   "frame": 149,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+   "camera": "eye_04",
+   "frame": 224,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  },
+  {
+   "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+   "camera": "eye_04",
+   "frame": 299,
+   "shape": [
+    1080,
+    1920,
+    3
+   ]
+  }
+ ],
+ "licences": {
+  "torchvision (code)": "BSD-3-Clause (torchvision LICENSE)",
+  "torchvision COCO weights": "no separate weight licence stated by torchvision; trained on COCO 2017 (annotations CC BY 4.0; images under Flickr terms) \u2014 needs Owner check before use beyond research",
+  "YOLOX (code and released weights)": "Apache-2.0 (Megvii-BaseDetection/YOLOX LICENSE)",
+  "Ultralytics YOLOv5/v8/11 (not benchmarked)": "AGPL-3.0 or commercial Enterprise licence \u2014 not used here because of the copyleft terms",
+  "RT-DETR (not benchmarked)": "Apache-2.0 (lyuwenyu/RT-DETR; also in Hugging Face transformers)",
+  "PyTorch": "BSD-style (torch LICENSE)",
+  "ONNX Runtime": "MIT"
+ },
+ "models": {
+  "ssdlite320_mobilenet_v3_large": {
+   "runtime": "PyTorch 2.2.2 CPU",
+   "weights": "SSDLite320_MobileNet_V3_Large_Weights.COCO_V1",
+   "params_mb_fp32": 13.8,
+   "frames_timed": 10,
+   "total_s": 1.408,
+   "fps": 7.104,
+   "per_frame_s": {
+    "median": 0.136,
+    "max": 0.173
+   },
+   "labels_score_ge_0_5": {
+    "ceiling": {},
+    "eye_level": {
+     "person": 5,
+     "suitcase": 2
+    }
+   }
+  },
+  "fasterrcnn_mobilenet_v3_large_fpn": {
+   "runtime": "PyTorch 2.2.2 CPU",
+   "weights": "FasterRCNN_MobileNet_V3_Large_FPN_Weights.COCO_V1",
+   "params_mb_fp32": 77.5,
+   "frames_timed": 10,
+   "total_s": 9.039,
+   "fps": 1.106,
+   "per_frame_s": {
+    "median": 0.887,
+    "max": 1.045
+   },
+   "labels_score_ge_0_5": {
+    "ceiling": {
+     "person": 5,
+     "tv": 2,
+     "skateboard": 1
+    },
+    "eye_level": {
+     "person": 5
+    }
+   }
+  },
+  "fasterrcnn_resnet50_fpn_v2": {
+   "runtime": "PyTorch 2.2.2 CPU",
+   "weights": "FasterRCNN_ResNet50_FPN_V2_Weights.COCO_V1",
+   "params_mb_fp32": 174.8,
+   "frames_timed": 10,
+   "total_s": 84.174,
+   "fps": 0.119,
+   "per_frame_s": {
+    "median": 8.329,
+    "max": 9.604
+   },
+   "labels_score_ge_0_5": {
+    "ceiling": {
+     "person": 5,
+     "boat": 1,
+     "handbag": 1
+    },
+    "eye_level": {
+     "person": 5,
+     "chair": 2,
+     "tv": 2,
+     "suitcase": 1,
+     "handbag": 1
+    }
+   }
+  },
+  "yolox_nano": {
+   "runtime": "ONNX Runtime 1.19.2 CPUExecutionProvider",
+   "weights": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_nano.onnx",
+   "weights_sha256": "c789161ed43c8269fcd4e67c67eeeb4e80c622da2eb296a20bc6007bd18a0b7d",
+   "file_mb": 3.7,
+   "input": "416x416 letterbox",
+   "frames_timed": 10,
+   "total_s": 0.292,
+   "fps": 34.264,
+   "per_frame_s": {
+    "median": 0.029,
+    "max": 0.032
+   },
+   "labels_score_ge_0_5": {
+    "ceiling": {
+     "person": 3
+    },
+    "eye_level": {
+     "person": 5
+    }
+   }
+  },
+  "yolox_s": {
+   "runtime": "ONNX Runtime 1.19.2 CPUExecutionProvider",
+   "weights": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.onnx",
+   "weights_sha256": "c5c2d13e59ae883e6af3b45daea64af4833a4951c92d116ec270d9ddbe998063",
+   "file_mb": 35.9,
+   "input": "640x640 letterbox",
+   "frames_timed": 10,
+   "total_s": 2.578,
+   "fps": 3.879,
+   "per_frame_s": {
+    "median": 0.245,
+    "max": 0.305
+   },
+   "labels_score_ge_0_5": {
+    "ceiling": {
+     "person": 4,
+     "truck": 1
+    },
+    "eye_level": {
+     "person": 5
+    }
+   }
+  }
+ }
+}
