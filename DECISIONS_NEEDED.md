@@ -519,7 +519,7 @@ Decision:
 Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free: D-47, CR-029, AR-62.
 
 
-## D-47 (2026-11-19) — STOP after the T-25p detector-path pilot        status: OPEN
+## D-47 (2026-11-19) — STOP after the T-25p detector-path pilot        status: DECIDED (19 Nov 2026)
 Task: T-25p   Blocking: all later M1b work on the detector path
 Question: The pilot is done and revised on the Owner's instruction of 19 Nov 2026 (`reports/M1b_pilot_report.md`; `research/m1b/pilot_results.json`, `pilot_frame_check.json`, `pilot_tracker_loss.json`, `pilot_license_components.json`). 206 SDG validation cameras, 24 leakage groups, 282 assessable T21 references. Descriptive, validation only.
 - **Events (G1, BL-6; Target B intervals in the report).** Columns A and B are re-aggregated on the same 206 cameras.
@@ -547,4 +547,19 @@ Options: for the Owner and Architect. None of these was run.
 - (e) Stop the detector path here.
 
 Agent's recommendation: none; the Owner decides. Nothing was tuned; the test partition was not touched.
-Owner decision: ______
+Owner decision (19 Nov 2026; pasting it = approval):
+0. Pilot report `f83a241` ACCEPTED as experimental validation evidence (synthetic, validation only). AR-62: all nine items ACCEPTED, with the report additions already made (IDF1 pooling stated; birth-frame and score-band counts reported).
+1. **C' exploratory re-run** (S3 onward only; C's stored S2 reused, no S2 re-run).
+   - One ByteTrack per class, as in C. Per class: track_high_thresh = new_track_thresh = the class's detector threshold (person 0.20, forklift 0.05); track_low_thresh = min(0.10, detector threshold), so for forklifts the second stage receives nothing. All other parameters are the installed defaults.
+   - The rule is fixed before the run; no other value is tried.
+   - Reported as "C' (post-hoc, exploratory)" beside C, never replacing it. Same tables as C, plus tracks started, tracks with no matched identity (false tracks) and identity switches.
+   - The new tracker configuration is recorded in every S3 run configuration (new S3 IDs).
+2. **CR-007 / D-8 evidence** (diagnosis only): on column B, the forklift position error decomposed along and across the camera's viewing direction on the floor (median, P95, by viewpoint); B's EV-M1/EV-M2 for pairs with forklift error below and above 1 m. Added to CR-007 for the Architect. No anchor rule is chosen.
+3. **N9 diagnosis** of the 111 unmatched BL-6 events in C (and in C'): rule tests in pipeline order; primary stage counts. Descriptive only.
+4. **Not now:** Grounding DINO on the detector path (revisit after C'); fine-tuning (T-24 stays blocked); any test-partition work (D-37); any change to the frozen pre-registration v1.
+5. **Operations.**
+   - Long runs only on mains power, with no other agent running on the laptop.
+   - Every `.venv-det` command sets YOLO_CONFIG_DIR to a git-ignored folder in the repository; added to the run scripts.
+   - Check and record whether Ultralytics' settings had sync enabled during the S2 and frame-check runs, and whether the network was reachable. Recorded in the Progress log; nothing in the results changes.
+   - The next S2 build (pre-registration v2) carries the CLIP and Grounding DINO license_component rows inside the artifact.
+6. Tests: full suite twice; detector-environment tests. Progress log, commit, push. Report: a new section for C' and items 2-3, plus a short addendum to the plain-language page. STOP and open the next free D number for review. A part that needs a contract definition gets a CR and is skipped.

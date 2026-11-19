@@ -2,6 +2,7 @@
 `.venv-det` through a subprocess.
 
   PYTHONPATH=src .venv/bin/python research/m1b/run_pilot.py [rec_id ...]     (default: every pilot camera with S2 raw output)
+  PYTHONPATH=src .venv/bin/python research/m1b/run_pilot.py --cprime [rec_id ...]   (D-47 item 1: C', S3 onward on C's S2)
 
 Per camera (out/m1b/pilot/cam/<rec_id>/pipeline.json; artifacts under out/m1b/pilot/artifacts/):
   S1  stored rv2 artifact, reused (T-21)
@@ -32,7 +33,7 @@ from rq1.perception import s2  # noqa: E402
 from rq1.schema import files  # noqa: E402
 from rq1.substrate import builder  # noqa: E402
 from rq1.events import s5  # noqa: E402
-from rq1.tracking import bridging  # noqa: E402
+from rq1.tracking import bridging, bytetrack  # noqa: E402
 from rq1.tracking.s3 import DetectorTrackSource  # noqa: E402
 
 ROOT = pc.ROOT
@@ -78,7 +79,7 @@ def load_s1(ctx, rec):
 
 def tracker_config() -> dict:
     out = subprocess.run([str(DET_PY), "-c", "import json; from rq1.tracking import bytetrack as b; print(json.dumps(b.default_config(), sort_keys=True))"],
-                         cwd=ROOT, env={"PYTHONPATH": str(ROOT / "src")}, capture_output=True, text=True, check=True).stdout
+                         cwd=ROOT, env=pc.DET_ENV, capture_output=True, text=True, check=True).stdout
     return json.loads(out.strip().splitlines()[-1])
 
 
@@ -111,7 +112,7 @@ def run_camera(ctx, rec, prov, trk_cfg) -> dict:
     trk_in, trk_out = d / "tracker_in.json", d / "tracker_out.json"
     trk_in.write_text(json.dumps({"frames": eligible, "detections": [{k: r[k] for k in ("frame_index", "det_index", "class", "bbox_xyxy_px", "score")}
                                                                     for r in dets]}))
-    subprocess.run([str(DET_PY), "-m", "rq1.tracking.bytetrack", str(trk_in), str(trk_out)], cwd=ROOT, env={"PYTHONPATH": str(ROOT / "src")}, check=True)
+    subprocess.run([str(DET_PY), "-m", "rq1.tracking.bytetrack", str(trk_in), str(trk_out)], cwd=ROOT, env=pc.DET_ENV, check=True)
     log = json.loads(trk_out.read_text())
     if log["config"] != trk_cfg:
         raise RuntimeError(f"{rec}: tracker configuration changed during the run")
@@ -147,6 +148,92 @@ def run_camera(ctx, rec, prov, trk_cfg) -> dict:
     return out
 
 
+# ------------------------------------------------------------------------------------------------ C' (D-47 item 1)
+CPRIME_DIR = "cam_cprime"  # out/m1b/pilot/cam_cprime/<rec_id>/pipeline.json; column C stays in cam/
+
+
+def tracker_config_cprime() -> dict:
+    """D-47 item 1: the installed defaults plus the per-class C' parameters (rule fixed by the Owner before the run)."""
+    cfg = tracker_config()
+    cfg["params_by_class"] = bytetrack.cprime_params(cfg["params"], s2.THRESHOLDS)
+    cfg["variant"] = "C' (post-hoc, exploratory; D-47 item 1)"
+    return cfg
+
+
+def load_artifact_tables(art_id) -> dict:
+    d = pc.OUT / "artifacts" / art_id
+    man = json.loads((d / "manifest.json").read_text())
+    return {f["path"][:-8]: files.read_table(str(d / f["path"]), f["path"][:-8], m.A.SCHEMA_VERSION) for f in man["files"]}
+
+
+def run_camera_cprime(ctx, rec, prov, trk_cfg) -> dict:
+    """S3 onward on column C's stored S2 artifact (no detection, no S2 rebuild); new S3/S4/S5 IDs."""
+    d = pc.OUT / CPRIME_DIR / rec
+    d.mkdir(parents=True, exist_ok=True)
+    if (d / "pipeline.json").exists():
+        return json.loads((d / "pipeline.json").read_text())
+    base = json.loads((pc.OUT / "cam" / rec / "pipeline.json").read_text())
+    cam, s1, cal = load_s1(ctx, rec)
+    origin = json.load(open(ROOT / "out/s0_sdg" / ctx.index[rec]["s0"] / "manifest.json"))["data_origin"]
+    s2_id = base["s2"]
+    dets = load_artifact_tables(s2_id)["detection"]
+    eligible = sorted(fr["frame_index"] for fr in s1["frame"] if fr["eligible"])
+    times = {}
+    t0 = time.time()
+    trk_in, trk_out = d / "tracker_in.json", d / "tracker_out.json"
+    trk_in.write_text(json.dumps({"frames": eligible, "params_by_class": trk_cfg["params_by_class"],
+                                  "detections": [{k: r[k] for k in ("frame_index", "det_index", "class", "bbox_xyxy_px", "score")} for r in dets]}))
+    subprocess.run([str(DET_PY), "-m", "rq1.tracking.bytetrack", str(trk_in), str(trk_out)], cwd=ROOT, env=pc.DET_ENV, check=True)
+    log = json.loads(trk_out.read_text())
+    if {k: v for k, v in log["config"].items()} != {k: v for k, v in trk_cfg.items() if k != "variant"}:
+        raise RuntimeError(f"{rec}: tracker configuration differs from the C' configuration")
+    pts = {c: bridging.points_from_log(log["logs"][c], m.S4_BASE["g_max"]) for c in ("person", "forklift")}
+    trc = core.make_id("trc", {"tracker": trk_cfg, "g_max": m.S4_BASE["g_max"], "bridging": "D-45 item 1", "tracked_box": "detection box (AR-62 item 3)"})
+    s3_art, local_map = DetectorTrackSource().tracks(rec, pts, dets, s1["frame"], spec("S3", prov, (trc,), (s2_id,)))
+    s3_id = save(s3_art, origin)
+    times["s3_track"] = round(time.time() - t0, 2)
+    counts = {c: {k: sum(tr["counts"].get(k, 0) for tr in pts[c].values()) for k in ("tracked", "predicted", "lost_long_run", "runs_bridged", "runs_lost",
+                                                                                       "predicted_degenerate")} | {"tracks": len(pts[c])} for c in pts}
+    t0 = time.time()
+    out = {"rec_id": rec, "camera": cam["camera"], "viewpoint": pc.viewpoint(cam["camera"]), "variant": trk_cfg["variant"], "code_commit": prov[0],
+           "environment_digest": prov[1], "contract": pc.CONTRACT, "preregistration": "docs/preregistration_FROZEN.md, version 1", "s1": cam["s1"],
+           "s2": s2_id, "s2_reused_from": "column C (cam/<rec>/pipeline.json)", "s3": s3_id, "license_component": base["license_component"],
+           "tracker_config": trk_cfg, "track_counts": counts, "local_map": {str(k): list(v) for k, v in local_map.items()},
+           "detections": base["detections"], "s2_detector_seconds": base["s2_detector_seconds"], "s2_wall_s": base["s2_wall_s"], "s5": {}}
+    if cal is None:
+        out.update(s4=None, s4_null_reason="uncalibrated")
+    else:
+        record, cfg, _, _ = m.substrate_config(ctx, m.S4_BASE)
+        gcf = core.make_id("gcf", {"geometry": "full_camera"})
+        s4_art = builder.SubstrateBuilder().build(s1, s3_art, {}, cal, cfg, spec("S4", prov, (s5.substrate_config_id(record), gcf), (s3_id,)))
+        out["s4"] = save(s4_art, origin)
+        times["s4"] = round(time.time() - t0, 2)
+        t0 = time.time()
+        for bl in m.BASELINES:
+            c = m.s5_config(ctx, bl, m.S4_BASE, m.S5_BASE)
+            out["s5"][bl] = save(s5.build(s1, s4_art, c, spec("S5", prov, (s5.config_id(c),), (out["s4"],))), origin)
+        times["s5"] = round(time.time() - t0, 2)
+    out["seconds"] = times
+    pc.write_json(d / "pipeline.json", out)
+    return out
+
+
+def main_cprime(recs: list[str]) -> None:
+    prov = provenance()
+    ctx = m.Context("sdg")
+    pilot = [c["rec_id"] for c in pc.pilot_cameras(ctx)]
+    recs = recs or [r for r in pilot if (pc.OUT / "cam" / r / "pipeline.json").exists()]
+    for r in recs:
+        if r not in pilot:
+            raise SystemExit(f"{r} is not a pilot camera")
+    trk_cfg = tracker_config_cprime()
+    print(f"C' pipeline: {len(recs)} cameras, commit {prov[0]}, params_by_class {json.dumps(trk_cfg['params_by_class'], sort_keys=True)}", flush=True)
+    t0 = time.time()
+    for n, r in enumerate(recs, 1):
+        out = run_camera_cprime(ctx, r, prov, trk_cfg)
+        print(n, r, json.dumps(out.get("seconds")), f"elapsed {round(time.time() - t0)} s", flush=True)
+
+
 def main(recs: list[str]) -> None:
     prov = provenance()
     ctx = m.Context("sdg")
@@ -164,4 +251,7 @@ def main(recs: list[str]) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if sys.argv[1:2] == ["--cprime"]:
+        main_cprime(sys.argv[2:])
+    else:
+        main(sys.argv[1:])

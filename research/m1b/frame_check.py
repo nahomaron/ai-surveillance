@@ -2,8 +2,8 @@
 
   PYTHONPATH=src .venv/bin/python research/m1b/frame_check.py select
   PYTHONPATH=src .venv/bin/python research/m1b/frame_check.py extract out/m1b/pilot/frame_check
-  .venv-det/bin/python research/m1b/zero_shot_probe.py run yolo_world out/m1b/pilot/frame_check out/m1b/pilot/fc_det_yolo_world.json
-  .venv-det/bin/python research/m1b/zero_shot_probe.py run grounding_dino out/m1b/pilot/frame_check out/m1b/pilot/fc_det_grounding_dino.json
+  YOLO_CONFIG_DIR=out/m1b/ultralytics_config .venv-det/bin/python research/m1b/zero_shot_probe.py run yolo_world out/m1b/pilot/frame_check out/m1b/pilot/fc_det_yolo_world.json
+  YOLO_CONFIG_DIR=out/m1b/ultralytics_config .venv-det/bin/python research/m1b/zero_shot_probe.py run grounding_dino out/m1b/pilot/frame_check out/m1b/pilot/fc_det_grounding_dino.json
   PYTHONPATH=src .venv/bin/python research/m1b/frame_check.py evaluate out/m1b/pilot/frame_check  -> research/m1b/pilot_frame_check.json
 
 Selection: the probe procedure (`zero_shot_frames.select`, `even_positions`) with seed 2026111902 on the pool of SDG

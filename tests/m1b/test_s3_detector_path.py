@@ -59,7 +59,7 @@ def run_tracker(tmp_path, fixture, rows):
     inp, out = tmp_path / "in.json", tmp_path / "out.json"
     inp.write_text(json.dumps({"frames": fixture["frames"], "detections": [{k: r[k] for k in ("frame_index", "det_index", "class", "bbox_xyxy_px", "score")}
                                                                           for r in rows]}))
-    subprocess.run([str(DET_PY), "-m", "rq1.tracking.bytetrack", str(inp), str(out)], check=True, cwd=ROOT, env={"PYTHONPATH": str(ROOT / "src")})
+    subprocess.run([str(DET_PY), "-m", "rq1.tracking.bytetrack", str(inp), str(out)], check=True, cwd=ROOT, env={"PYTHONPATH": str(ROOT / "src"), "YOLO_CONFIG_DIR": str(ROOT / "out/m1b/ultralytics_config"), "YOLO_AUTOINSTALL": "false"})
     return json.loads(out.read_text())
 
 

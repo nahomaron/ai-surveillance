@@ -96,3 +96,57 @@ class ByteTrackAdapter(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def one_forklift(score, n=10):
+    """D-47 item 1 fixture: one forklift box, constant over n eligible frames, at a fixed score."""
+    return list(range(n)), [{"frame_index": i, "det_index": 0, "class": "forklift", "bbox_xyxy_px": [100.0, 100.0, 200.0, 180.0], "score": score}
+                            for i in range(n)]
+
+
+@unittest.skipUnless(HAVE_ULTRALYTICS, "Ultralytics runs in .venv-det only")
+class CPrime(unittest.TestCase):
+    """D-47 item 1 (C', exploratory). Hand reasoning (installed Ultralytics 8.4.215; byte_tracker.py lines 337-338, 448,
+    462ff., 500, 529-531; matching.py `fuse_score`, line 145):
+    - defaults, score 0.06: not high (< 0.25), not low (0.06 <= 0.10): the tracker never sees it -> no tracked point.
+    - C' forklift (high = new = 0.05, low = 0.05), score 0.06:
+      frame 0: a new track is activated on the tracker's first frame and reported -> 1 point.
+      frame 1: first association cost with fuse_score on = 1 - IoU * score = 1 - 1 * 0.06 = 0.94 > match_thresh 0.8 -> no
+      match; the low band (0.05 < s < 0.05) is empty, so the second stage has nothing -> the track is lost. The detection
+      starts a new, unconfirmed track (0.06 >= 0.05), not reported.
+      frame 2 on: the unconfirmed track's cost is also 0.94 > 0.7 (line 462ff.) -> removed; a new unconfirmed track starts.
+      -> tracked points per frame [1, 0, 0, 0, 0, 0, 0, 0, 0, 0].
+      (The first version of this reasoning omitted fuse_score and expected 10 points; corrected from the code before any
+      pilot run, recorded in the Progress log.)
+    - C', score 0.30: cost 1 - 0.30 = 0.70 <= 0.8 on every frame -> 10 tracked points, one tracker ID; the same under the
+      defaults (0.30 >= 0.25).
+    - defaults with no override: the recorded configuration is exactly `default_config()` (C's S3 IDs unchanged)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from rq1.tracking import bytetrack
+        cls.bt = bytetrack
+        cls.defaults = bytetrack.default_config()["params"]
+
+    def test_default_ignores_low_score_forklift(self):
+        frames, dets = one_forklift(0.06)
+        out = self.bt.run(frames, dets)
+        self.assertEqual(sum(len(f["tracked"]) for f in out["logs"]["forklift"]), 0)
+        self.assertEqual(out["config"], self.bt.default_config())
+
+    def test_cprime_low_score_forklift_starts_but_cannot_continue(self):
+        frames, dets = one_forklift(0.06)
+        pbc = self.bt.cprime_params(self.defaults, {"person": 0.20, "forklift": 0.05})
+        out = self.bt.run(frames, dets, pbc)
+        tracked = [f["tracked"] for f in out["logs"]["forklift"]]
+        self.assertEqual([len(t) for t in tracked], [1] + [0] * 9)
+        self.assertEqual(out["config"]["params_by_class"], pbc)
+        self.assertEqual(out["config"]["params"], self.defaults)
+
+    def test_score_030_tracked_throughout_under_both(self):
+        frames, dets = one_forklift(0.30)
+        pbc = self.bt.cprime_params(self.defaults, {"person": 0.20, "forklift": 0.05})
+        for out in (self.bt.run(frames, dets), self.bt.run(frames, dets, pbc)):
+            tracked = [f["tracked"] for f in out["logs"]["forklift"]]
+            self.assertEqual([len(t) for t in tracked], [1] * 10)
+            self.assertEqual(len({t[0][0] for t in tracked}), 1)

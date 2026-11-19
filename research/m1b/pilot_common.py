@@ -19,6 +19,10 @@ OUT = Path(os.environ.get("PILOT_OUT", str(ROOT / "out/m1b/pilot")))  # PILOT_OU
 RAW = ROOT / "out/m1b/pilot/s2raw"  # raw detector output per camera (`.venv-det`)
 CONTRACT = "E-1.2.21"
 FRAME_CHECK_SEED = 2026111902  # D-45 item 3c
+# D-47 item 5: every `.venv-det` command gets the Ultralytics settings folder inside the repository (git-ignored, sync off)
+# and no automatic installs, so no settings file is ever written to the home folder.
+DET_CONFIG_DIR = ROOT / "out/m1b/ultralytics_config"
+DET_ENV = {"PYTHONPATH": str(ROOT / "src"), "YOLO_CONFIG_DIR": str(DET_CONFIG_DIR), "YOLO_AUTOINSTALL": "false"}
 
 
 def probe_cameras() -> list[str]:
