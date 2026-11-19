@@ -420,7 +420,7 @@ Source: Owner, G-M1a (D-40 item 8).
 - **Position availability** (share of object-frames with a numeric position, by null reason) should be reported separately.
 - Pre-registration v1 and its frozen criteria are unchanged.
 
-## D-42 (2026-11-17) — STOP after the M1b feasibility probe: go-ahead for T-22?        status: OPEN
+## D-42 (2026-11-17) — STOP after the M1b feasibility probe: go-ahead for T-22?        status: DECIDED (19 Nov 2026)
 Task: T-22   Blocking: T-22 (detector benchmark) and all later M1b work
 Question: The D-40 item 9 probe is done (`research/m1b/feasibility.md`).
 - **Runtimes:** PyTorch 2.2.2 CPU and ONNX Runtime 1.19.2 install and run on this Intel Mac. They live in a separate Python 3.9 environment, `.venv-det`, because no wheels exist for the project's Python 3.15.
@@ -431,3 +431,46 @@ Options:
 - (a) Go ahead with T-22 (benchmark on an SDG and SmartSpaces validation frame subset with truth matching, licence table), using `.venv-det` as a pre-approved environment.
 - (b) Hold M1b until the Architect has written the CR-026 rule and pre-registration v2 has started.
 Agent's recommendation: none; the Owner decides. The weight licences need the Owner's check before any use beyond research. A separate interpreter (`.venv-det`, Python 3.9) for detector code is an environment decision; it should be recorded in WORKPLAN §0 if accepted.
+Owner decision (19 Nov 2026, with Architect instructions):
+1. **Option (a), with a revised T-22 scope: zero-shot detectors.** YOLO-World v2-s (Ultralytics) and Grounding DINO tiny (IDEA-Research), with exactly the prompts "person" and "forklift". Probe protocol fixed before any detector is run (WORKPLAN T-22 row; `research/m1b/zero_shot_probe.md`).
+2. `.venv-det` (Python 3.9, PyTorch 2.2.2 CPU) is accepted and recorded in WORKPLAN §0.
+3. New installs go into `.venv-det` only: `ultralytics` and `transformers` at the newest versions supporting Python 3.9 and torch 2.2.2, pinned in `research/m1b/requirements_detector.txt`.
+4. Downloads: each below 1 GB, into git-ignored `out/m1b/weights/`, with source URL, SHA-256 and licence recorded in `research/m1b/` and `NOTICE.md`.
+5. Not allowed: changing the frozen pre-registration or any analysis module; running S4, S5 or S8 with detector output (that waits for the Architect's detector-path pilot spec); fine-tuning; Ultralytics trackers. STOP after the probe report.
+
+Owner answers to two questions the agent asked before downloading (19 Nov 2026):
+- **Budget.** The datasets already held 29.24 GB of the 30 GB cap, and the feasibility weights 0.31 GB. The new weights (about 1.07 GB) did not fit. Owner: model weights count toward the cap, and the cap is raised to **31.5 GB** for this task.
+- **CLIP package.** YOLO-World's text encoder needs the Ultralytics CLIP fork, which is installed from git and is not on PyPI. Owner: install it into `.venv-det`, pinned by commit (`7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40`).
+
+## D-43 (2026-11-19) — Licence for the repository        status: DECIDED (19 Nov 2026)
+Source: Owner, 19 Nov 2026.
+Decision:
+- (a) `LICENSE` at the repository root: the unmodified GNU AGPL-3.0 text, from https://www.gnu.org/licenses/agpl-3.0.txt (SHA-256 `0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0`).
+- (b) `NOTICE.md` lists the third-party material the repository refers to but does not contain, each with its licence:
+  - the SDG near-miss data (OpenMDW-1.1);
+  - SmartSpaces `MTMC_Tracking_2026` (CC BY 4.0);
+  - Safe and Unsafe Behaviours (CC BY 4.0; no frames, crops or faces in this repository, D-24 c);
+  - every detector weight file used, with its source URL and SHA-256.
+  It states that no dataset files or weights are in the repository.
+- (c) Reason for the record: the working system uses an AGPL-3.0 detector (Ultralytics YOLO-World, D-42). The Owner may relicense the project's own code later.
+
+Note on numbering: D-44 and CR-027 are used on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026). The next free numbers on this branch are D-45 and CR-028.
+
+## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: OPEN
+Task: T-22   Blocking: the detector-path pilot (S4/S5/S8 with detector output), T-23 and all later M1b work
+Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.json`).
+- Data: 100 SDG validation frames; 93 person and 97 forklift reference boxes; IoU ≥ 0.3; best-F1 threshold. Descriptive only.
+- **Grounding DINO tiny:**
+  - person: recall 0.95, precision 1.00 (threshold 0.45);
+  - forklift: recall 0.89, precision 0.96 (threshold 0.45);
+  - speed: 16.5 s per frame (median), P90 19.7 s; peak memory 2.3 GB.
+- **YOLO-World v2-s:**
+  - person: recall 0.90, precision 0.98 (threshold 0.20);
+  - forklift: recall 0.63, precision 0.92 (threshold 0.05, the lowest tested; recall 0.38 at 0.10);
+  - speed: 0.35 s per frame, P90 0.37 s; peak memory 1.8 GB.
+- Forklifts on eye-level cameras are the weak case for both models: recall 0.51 for YOLO-World and 0.83 for Grounding DINO.
+- **Scale.** All 67,800 SDG validation frames would take about 6.6 h with YOLO-World and about 13 days of serial CPU time with Grounding DINO on this laptop.
+- **Choices to review.** The instruction did not fix seven choices (draw procedure, frame spacing, model settings, Grounding DINO class assignment without NMS, tie rules, timing). They are listed in the report for the Architect.
+Options: for the Owner and Architect (detector-path pilot spec, choice of detector, prompts or thresholds for the pilot). The agent makes no recommendation. Nothing was fine-tuned or tracked, and no detector output entered the pipeline.
+Owner decision: ______
+

@@ -19,6 +19,8 @@ How to use this file:
 | After M0 is accepted: download one SDG-Warehouse near-miss shard and selected synthetic SmartSpaces scenes, **22 GB cap in total, outside git**, **after** recording source authenticity and licence terms in T-17. Real-world scenes (`Warehouse_026`, `Warehouse_027` and any other real footage) are excluded (Owner decision D-3, 9 Nov 2026) | [-] |
 | Install CPU-only PyTorch or ONNX Runtime for the detector benchmark (T-22), if available for this platform | [-] |
 | **Amendment D-21 (12 Nov 2026):** download cap raised to **30 GB in total**, outside git. Real-world footage is permitted **for testing only** (no training or fine-tuning), stored under `data/raw/real/`, after it is recorded in `qualification.md` Part 3 and the Owner approves the selection (D-24); no processing of real footage before G-FQ (D-25) | [-] |
+| **D-42 (19 Nov 2026):** detector environment `.venv-det` (macOS system Python 3.9.6, PyTorch 2.2.2 CPU; git-ignored; outside `requirements.lock`) accepted. New installs into `.venv-det` only, pinned in `research/m1b/requirements_detector.txt`: `ultralytics` and `transformers` (newest versions supporting Python 3.9 and torch 2.2.2: 8.4.215 and 4.57.6, with their dependencies), and the Ultralytics CLIP fork from git pinned by commit (Owner answer, 19 Nov 2026). Downloads: YOLO-World v2-s weights with the CLIP ViT-B/32 text encoder, and IDEA-Research/grounding-dino-tiny (safetensors), each below 1 GB, into git-ignored `out/m1b/weights/` | [-] |
+| **D-42 budget (Owner answer, 19 Nov 2026):** model weights count toward the download cap; the cap is raised from 30 GB to **31.5 GB** in total for this task | [-] |
 
 Never pre-approved: paid services, cloud upload of data, real worker footage (except the D-21 testing-only exception above), fine-tuning compute purchases, any contract change.
 
@@ -77,7 +79,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 
 | ✓ | ID | Task | Needs | Done when | Size |
 |---|---|---|---|---|---|
-| [ ] | T-22 | **Detector benchmark (WP-15).** Check whether CPU PyTorch or ONNX Runtime installs on this Mac. If it doesn't → **STOP** with options. Benchmark pretrained detectors on a small frame subset; record what COCO models output on forklifts (not assumed zero); licence table | G-M1a; §0 approval | Benchmark report | M |
+| [S] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
 | [ ] | T-23 | **Tracker adapters (WP-17)** with evidence classes; identity-association fixtures | T-22 | HOTA/IDF1 against simulator IDs | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
@@ -721,3 +723,27 @@ _(the agent appends entries here)_
 - Problems / CRs: CR-026 open (Architect, v2/M1b); D-42 open.
 - Next: **STOP (D-42).** T-22 proper waits for the Owner's go-ahead; test partition reserved (D-37).
 
+
+### 2026-11-19 — D-43 licence; D-42 decided; T-22 zero-shot probe; STOP (D-45)
+- **D-43 (item 1):** `LICENSE` holds the unmodified AGPL-3.0 text from gnu.org (SHA-256 `0d96a4ff…abcb0`). `NOTICE.md` lists, without containing any of them:
+  - SDG (OpenMDW-1.1), SmartSpaces `MTMC_Tracking_2026` (CC BY 4.0) and Safe and Unsafe Behaviours (CC BY 4.0; no frames, crops or faces, D-24 c);
+  - all 8 detector and text-encoder weight files used, with source URL, SHA-256 and licence.
+- **D-42 (item 2):** decided, option (a); T-22 row revised (zero-shot scope); `.venv-det` recorded in WORKPLAN §0.
+  - Installs, `.venv-det` only: ultralytics 8.4.215 and transformers 4.57.6 (newest for Python 3.9 + torch 2.2.2). `opencv-python` pinned to 4.10.0.84, because 4.11 has no macOS 12 x86_64 wheel. Pinned in `requirements_detector.txt`; no existing package changed.
+  - Two Owner answers before downloading (recorded in D-42 and §0):
+    - the 30 GB cap would have been exceeded, so the Owner raised it to 31.5 GB, with weights counted;
+    - the Ultralytics CLIP fork is installed from git, pinned at `7ffa84b`.
+  - Downloads: 1,070,205,099 bytes (YOLO-World v2-s, CLIP ViT-B/32, Grounding DINO tiny), hashes checked. Held total 30.62 GB of 31.5 GB.
+  - One slip, corrected: CLIP first landed in an un-ignored `./weights/` folder. It was moved to `out/m1b/weights/` before any commit; Ultralytics now reads its settings from `out/m1b/ultralytics_config`.
+- **Probe:**
+  - Scripts: `research/m1b/zero_shot_frames.py` (seeded selection 2026111901 and reference boxes, main `.venv`), `zero_shot_probe.py` (`.venv-det`), `zs_match.py`.
+  - Data: 100 frames from 20 SDG validation cameras (10 ceiling, 10 eye-level); 93 person and 97 forklift references.
+  - Best-F1, descriptive:
+    - Grounding DINO: person recall 0.95 / precision 1.00, forklift 0.89 / 0.96, at 16.5 s per frame;
+    - YOLO-World: person 0.90 / 0.98, forklift 0.63 / 0.92 at the lowest threshold (0.05), at 0.35 s per frame.
+  - Report: `research/m1b/zero_shot_probe.md`, plain-language summary first, with 7 choices for Architect review. Nothing validated; no S4, S5 or S8 run, no fine-tuning, no tracker, no other prompt; pre-registration and analysis modules untouched.
+- Tests: 2406/2406 (full suite, main `.venv`), twice: identical. Probe matcher tests 7/7 in `.venv-det`. New tests: `tests/m1b/test_zs_frames.py` (seed reproducibility, committed record, refusal of test-partition recordings) and `tests/m1b/test_zs_match.py` (hand-computed 3-box toy case).
+- **Item 4:** done on `v02-review-ui` (commit 5deb106, pushed): D-40 → D-44 and CR-026 → CR-027, in the new `../rq1-v02` worktree.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. D-45 open (STOP). CR-026 still open.
+- Next: **STOP (D-45).** The detector-path pilot waits for the Architect's spec; test partition reserved (D-37).
