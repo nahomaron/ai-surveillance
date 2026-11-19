@@ -8,6 +8,7 @@
   "track_high_thresh": 0.25,
   "track_low_thresh": 0.1
  },
+ "cam_dir": "cam",
  "cameras": 206,
  "matching": {
   "iou_min": 0.3,

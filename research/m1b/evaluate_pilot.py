@@ -2,6 +2,9 @@
 
   PYTHONPATH=src .venv/bin/python research/m1b/evaluate_pilot.py cameras [workers]   -> out/m1b/pilot/cam/<rec>/eval.pkl.gz
   PYTHONPATH=src .venv/bin/python research/m1b/evaluate_pilot.py aggregate           -> research/m1b/pilot_results.json
+  PYTHONPATH=src .venv/bin/python research/m1b/evaluate_pilot.py cameras-cprime [workers] / aggregate-cprime
+                                                                                    -> research/m1b/pilot_results_cprime.json
+  (D-47 item 1: column C' only, from out/m1b/pilot/cam_cprime/; the same functions as column C)
 
 Three columns on the same pilot cameras (D-45 item 3d):
   A  oracle path, simulator positions: T-21 `base` unit (ORACLE-S3 -> S4 simulator_truth -> S5)
@@ -166,12 +169,16 @@ def ev_clip(b, w, h):
     return (x1, y1, x2, y2) if x2 > x1 and y2 > y1 else None
 
 
-def evaluate_camera(rec):
-    path = pc.OUT / "cam" / rec / "eval.pkl.gz"
+VARIANTS = {None: ("cam", "C"), "cprime": ("cam_cprime", "C'")}  # D-47 item 1: C' beside C, never replacing it
+
+
+def evaluate_camera(rec, variant=None):
+    cam_dir, det_col = VARIANTS[variant]
+    path = pc.OUT / cam_dir / rec / "eval.pkl.gz"
     if path.exists():
         return rec, "skipped"
     cam = ev.Camera("sdg", M1A_LABEL, rec)
-    pipe = json.loads((pc.OUT / "cam" / rec / "pipeline.json").read_text())
+    pipe = json.loads((pc.OUT / cam_dir / rec / "pipeline.json").read_text())
     support = cam.support()
     usable = sum(support.values())
     sup_all = lambda rows: {f: support.get(f, 0.0) for f in {r["frame_index"] for r in rows}}
@@ -193,9 +200,13 @@ def evaluate_camera(rec):
     ref_present = defaultdict(set)
     for key, cls, i, *_ in cam.truth_rows:
         ref_present[i].add(key)
-    cols = {"A": (ev.load_art(M1A_LABEL, "sdg", base["s4"]), {bl: ev.load_art(M1A_LABEL, "sdg", a) for bl, a in base["s5"].items()}, rows_o, summ_o, tc_o, "simulator_truth"),
-            "B": (ev.load_art(M1A_LABEL, "sdg", fc["s4"]), {bl: ev.load_art(M1A_LABEL, "sdg", a) for bl, a in fc["s5"].items()}, rows_o, summ_o, tc_o, "full_camera"),
-            "C": (load_pilot(pipe["s4"]), {bl: load_pilot(a) for bl, a in pipe["s5"].items()}, rows_c, summ_c, tc_c, "full_camera")}
+    detector_col = (load_pilot(pipe["s4"]), {bl: load_pilot(a) for bl, a in pipe["s5"].items()}, rows_c, summ_c, tc_c, "full_camera")
+    if variant is None:
+        cols = {"A": (ev.load_art(M1A_LABEL, "sdg", base["s4"]), {bl: ev.load_art(M1A_LABEL, "sdg", a) for bl, a in base["s5"].items()}, rows_o, summ_o, tc_o, "simulator_truth"),
+                "B": (ev.load_art(M1A_LABEL, "sdg", fc["s4"]), {bl: ev.load_art(M1A_LABEL, "sdg", a) for bl, a in fc["s5"].items()}, rows_o, summ_o, tc_o, "full_camera"),
+                "C": detector_col}
+    else:
+        cols = {det_col: detector_col}
     out = {"rec_id": rec, "camera": cam.camera_name, "viewpoint": pc.viewpoint(cam.camera_name), "stratum": cam.window["stratum_id"],
            "leakage_group": cam.window["leakage_group_id"], "usable_s": usable,
            "references": {"n": len(refs), "assessable": sum(r.assessable for r in refs), "g1": sum(1 for r in refs if "G1" in groups[r.ref_event_id])},
@@ -211,10 +222,11 @@ def evaluate_camera(rec):
         out["cm"][col] = completeness(cam, support, rows, tc, s4, tier, ref_visible, ref_present)
     # position accuracy and availability (D-41), B and C
     persons_o = {t["trk_id"] for t in s3o["track"] if t["class"] == "person"}
-    out["position"]["B"] = positions(cols["B"][0], Identity(lambda t, i: trk_key[t], persons_o), cam)
+    if variant is None:
+        out["position"]["B"] = positions(cols["B"][0], Identity(lambda t, i: trk_key[t], persons_o), cam)
     matched_c = {(r["track_id"], r["frame_index"]): r["physical_identity_id"] for r in rows_c if r["status"] == "matched"}
     persons_c = {t["trk_id"] for t in s3c["track"] if t["class"] == "person"}
-    out["position"]["C"] = positions(cols["C"][0], Identity(lambda t, i: matched_c.get((t, i)), persons_c), cam)
+    out["position"][det_col] = positions(cols[det_col][0], Identity(lambda t, i: matched_c.get((t, i)), persons_c), cam)
     # tracking (C): T-12 statuses and IDF1 per class
     cls_c = {t["trk_id"]: t["class"] for t in s3c["track"]}
     out["tracking"] = {}
@@ -255,9 +267,10 @@ def pos_summary(errs):
     return {"n": len(errs), "median_m": _q(errs, 50), "p95_m": _q(errs, 95), **{f"share_gt_{int(c)}m": sum(1 for e in errs if e > c) / len(errs) for c in CUTS_M}}
 
 
-def aggregate() -> dict:
+def aggregate(variant=None) -> dict:
+    cam_dir, det_col = VARIANTS[variant]
     cams = []
-    for rec in (pc.OUT / "cam").iterdir():
+    for rec in (pc.OUT / cam_dir).iterdir():
         p = rec / "eval.pkl.gz"
         if p.exists():
             with gzip.open(p, "rb") as f:
@@ -268,7 +281,8 @@ def aggregate() -> dict:
            "viewpoints": {v: sum(1 for c in cams if c["viewpoint"] == v) for v in ("ceiling", "eye_level")},
            "leakage_groups": len({c["leakage_group"] for c in cams}), "strata": sorted({c["stratum"] for c in cams}),
            "references": {k: sum(c["references"][k] for c in cams) for k in ("n", "assessable", "g1")}, "ev": {}, "labels": {}, "cm": {}, "position": {}}
-    for col in COLUMNS:
+    columns = list(cams[0]["ev"])  # A, B, C for the pilot; C' alone for the variant
+    for col in columns:
         res["ev"][col], res["labels"][col] = {}, {}
         for bl in agg.CFG:
             wc = [WindowCounts(**c["ev"][col][bl]["counts"]) for c in cams]
@@ -292,7 +306,7 @@ def aggregate() -> dict:
             st = agg._ratio(rows)
             st["target_b"] = agg._ci(rows, "sdg")["target_b"]
             res["cm"][col][" ".join(key)] = st
-    for col in ("B", "C"):
+    for col in list(cams[0]["position"]):
         errs = defaultdict(list)
         avail = defaultdict(int)
         for c in cams:
@@ -332,10 +346,16 @@ def aggregate() -> dict:
     return res
 
 
-def main_cameras(workers):
-    recs = sorted(p.name for p in (pc.OUT / "cam").iterdir() if (p / "pipeline.json").exists())
-    print(f"evaluate pilot: {len(recs)} cameras", flush=True)
-    it = map(evaluate_camera, recs) if workers == 1 else Pool(workers, maxtasksperchild=4).imap_unordered(evaluate_camera, recs)
+def _evaluate_cprime(rec):
+    return evaluate_camera(rec, "cprime")
+
+
+def main_cameras(workers, variant=None):
+    cam_dir, _ = VARIANTS[variant]
+    fn = evaluate_camera if variant is None else _evaluate_cprime
+    recs = sorted(p.name for p in (pc.OUT / cam_dir).iterdir() if (p / "pipeline.json").exists())
+    print(f"evaluate pilot ({cam_dir}): {len(recs)} cameras", flush=True)
+    it = map(fn, recs) if workers == 1 else Pool(workers, maxtasksperchild=4).imap_unordered(fn, recs)
     for n, (rec, status) in enumerate(it, 1):
         print(n, rec, status, flush=True)
 
@@ -343,6 +363,12 @@ def main_cameras(workers):
 if __name__ == "__main__":
     if sys.argv[1] == "cameras":
         main_cameras(int(sys.argv[2]) if len(sys.argv) > 2 else 1)
+    elif sys.argv[1] == "cameras-cprime":
+        main_cameras(int(sys.argv[2]) if len(sys.argv) > 2 else 1, "cprime")
+    elif sys.argv[1] == "aggregate-cprime":
+        r = aggregate("cprime")
+        pc.write_json(pc.ROOT / "research/m1b/pilot_results_cprime.json", r)
+        print("wrote research/m1b/pilot_results_cprime.json")
     else:
         r = aggregate()
         pc.write_json(pc.ROOT / "research/m1b/pilot_results.json", r)

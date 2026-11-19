@@ -1,6 +1,7 @@
 """T-25p revision (Owner instruction of 19 Nov 2026, item 2d): where frame-level recall is lost between S2 and S3.
 
-  PYTHONPATH=src .venv/bin/python research/m1b/tracker_loss.py   -> research/m1b/pilot_tracker_loss.json
+  PYTHONPATH=src .venv/bin/python research/m1b/tracker_loss.py            -> research/m1b/pilot_tracker_loss.json
+  PYTHONPATH=src .venv/bin/python research/m1b/tracker_loss.py --cprime   -> research/m1b/pilot_tracker_loss_cprime.json (D-47 item 1)
 
 Reads the stored pilot artifacts only (S2 `detection`, S3 `track_point`) and the T-21 oracle references; no stage is re-run.
 Per class, on every eligible pilot frame, against the reference-visible boxes clipped to the image (the probe's reference,
@@ -84,14 +85,14 @@ def empty() -> dict:
             "stages": {c: {"references": 0, "s2": 0, "tracked": 0, "tracked_predicted": 0} for c in CLASSES}}
 
 
-def run() -> dict:  # pragma: no cover - driver over stored artifacts
+def run(cam_dir: str = "cam") -> dict:  # pragma: no cover - driver over stored artifacts
     import pilot_common as pc
     import evaluate_pilot as ep
     ev = ep.ev
     totals = {v: empty() for v in ("all", "ceiling", "eye_level")}
-    recs = sorted(p.name for p in (pc.OUT / "cam").iterdir() if (p / "pipeline.json").exists())
+    recs = sorted(p.name for p in (pc.OUT / cam_dir).iterdir() if (p / "pipeline.json").exists())
     for rec in recs:
-        pipe = json.loads((pc.OUT / "cam" / rec / "pipeline.json").read_text())
+        pipe = json.loads((pc.OUT / cam_dir / rec / "pipeline.json").read_text())
         cam = ev.Camera("sdg", ep.M1A_LABEL, rec)
         s3o = ev.load_art(ep.M1A_LABEL, "sdg", cam.units["base"]["s3"])
         trk_key = ev.track_map(s3o, ev.oracle_keys(cam.visible), cam.classes)
@@ -106,15 +107,16 @@ def run() -> dict:  # pragma: no cover - driver over stored artifacts
         part = camera(refs, dets, points, sorted(cam.eligible))
         for v in ("all", pc.viewpoint(cam.camera_name)):
             add(totals[v], part)
-    return {"status": "T-25p revision item 2d; descriptive; synthetic SDG validation; nothing validated", "cameras": len(recs),
+    return {"status": "T-25p revision item 2d; descriptive; synthetic SDG validation; nothing validated", "cameras": len(recs), "cam_dir": cam_dir,
             "matching": {"iou_min": zm.IOU_M, "rule": "the probe matcher (same class, one-to-one by descending IoU)"},
             "bands": list(BANDS), "thresholds": THRESHOLDS, "bytetrack": {"track_low_thresh": LOW, "track_high_thresh": HIGH},
             "results": totals}
 
 
 if __name__ == "__main__":  # pragma: no cover
-    out = run()
-    p = os.path.join(os.path.dirname(__file__), "pilot_tracker_loss.json")
+    cprime = sys.argv[1:2] == ["--cprime"]
+    out = run("cam_cprime" if cprime else "cam")
+    p = os.path.join(os.path.dirname(__file__), "pilot_tracker_loss_cprime.json" if cprime else "pilot_tracker_loss.json")
     with open(p, "w") as f:
         f.write(json.dumps(out, indent=1, sort_keys=True) + "\n")
     print(json.dumps(out["results"]["all"]["stages"], indent=1))
