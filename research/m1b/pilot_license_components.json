@@ -1,0 +1,66 @@
+{
+ "other_grounding_dino_files": "tokenizer and config files: SHA-256 in research/m1b/zero_shot_weights.json; same licence",
+ "rows": [
+  {
+   "in_artifact": "yes: the `license_component` row of every pilot S2 artifact",
+   "lic_id": "lic_o5ewu7z62ba22gjdgwsxvtitky",
+   "row": {
+    "component": "yolov8s-worldv2.pt",
+    "component_type": "model_weights",
+    "decision_ref": "D-43",
+    "decision_ref_null_reason": null,
+    "license_label": "AGPL-3.0",
+    "license_status": "verified",
+    "obligations": [
+     "source_url https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s-worldv2.pt"
+    ],
+    "terms_location": "license_file",
+    "verified_utc": null,
+    "verified_utc_null_reason": "not_supplied",
+    "version": "sha256:9b2c17ab6124a913e9b3a5c170617920d91b0f01111a8479da69f00e2cf27792"
+   },
+   "used_in": "T-25p S2 (every pilot frame); T-25p frame-level check; T-22 probe"
+  },
+  {
+   "in_artifact": "no: its SHA-256 is in the S2 run configuration (`text_encoder_sha256`); a row in the S2 artifact would change the S2 artifact IDs (record only, Owner revision item 6)",
+   "lic_id": "lic_ym5owzhkkwvjzayaewgzuzhpyc",
+   "row": {
+    "component": "ViT-B-32.pt",
+    "component_type": "model_weights",
+    "decision_ref": "D-43",
+    "decision_ref_null_reason": null,
+    "license_label": "MIT",
+    "license_status": "verified",
+    "obligations": [
+     "source_url https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt"
+    ],
+    "terms_location": "license_file",
+    "verified_utc": null,
+    "verified_utc_null_reason": "not_supplied",
+    "version": "sha256:40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+   },
+   "used_in": "T-25p S2 (text embeddings of the prompts, through `set_classes`); T-25p frame-level check; T-22 probe"
+  },
+  {
+   "in_artifact": "no: the frame-level check builds no artifact (record only)",
+   "lic_id": "lic_bim7wazyo5z6kh4iiks4hvky2q",
+   "row": {
+    "component": "grounding-dino-tiny/model.safetensors",
+    "component_type": "model_weights",
+    "decision_ref": "D-43",
+    "decision_ref_null_reason": null,
+    "license_label": "Apache-2.0",
+    "license_status": "verified",
+    "obligations": [
+     "source_url https://huggingface.co/IDEA-Research/grounding-dino-tiny/resolve/a2bb814dd30d776dcf7e30523b00659f4f141c71/model.safetensors"
+    ],
+    "terms_location": "license_file",
+    "verified_utc": null,
+    "verified_utc_null_reason": "not_supplied",
+    "version": "sha256:1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3"
+   },
+   "used_in": "T-25p frame-level check (item 3c); T-22 probe"
+  }
+ ],
+ "status": "T-25p revision item 6: license_component rows of every weight file loaded in the pilot (built by rq1.perception.s2.weights_component); record only, no artifact changed"
+}

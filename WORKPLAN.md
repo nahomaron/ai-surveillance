@@ -825,3 +825,30 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. AR-62 open (D-47). CR-026 open.
 - Next: **STOP (D-47).** Test partition reserved (D-37).
+
+### 2026-11-19 — T-25p report revised (Owner instruction of 19 Nov 2026); STOP at D-47
+- Did (report and evaluation code only; no stage re-run, nothing tuned):
+  - **Limitations** section added (item 1).
+  - **Threshold coupling** (item 2), checked in the installed `ultralytics/trackers/byte_tracker.py` (8.4.215):
+    - the low-score second association matches only tracks in the Tracked state (line 448);
+    - lost tracks are matched only in the first stage against detections ≥ 0.25 (lines 295, 303, 337);
+    - new tracks need ≥ 0.25 (line 500).
+    - Stated for both classes; the single-camera ratio dropped.
+  - New `research/m1b/tracker_loss.py` (read-only over the stored artifacts) → `pilot_tracker_loss.json`. Bands × reference match × tracked, and frame-level recall per stage: forklift S2 0.61 → tracked 0.16 → with predicted 0.17; person 0.92 → 0.91 → 0.92.
+  - **Probe overlap** (item 3): 96 of 206 pilot cameras and 10 of 20 frame-check cameras share a run with a probe camera.
+  - **Engineering record** (item 4):
+    - The machine went down after 07:23: boot 10:14:47, no clean shutdown recorded, power log silent 07:17–10:35, on battery with a battery-health warning at 07:07. Cause not established.
+    - The T23 agent (D-48) is listed as a possible cause of the slow period, next to throttling.
+    - S2 runtime split: slow period 7 cameras, 1,502 s.
+    - `git diff --stat ac40508 533d2ff` quoted.
+    - Re-run time from the S2 artifact onward: about 40 min (measured stages).
+  - **Evaluation details** (item 5): stated that A and B are re-aggregated on the 206 cameras with Target B recomputed; IDF1 pooled by summed IDTP/IDFP/IDFN, n printed; position denominators and unscored C points printed (`pilot_report_tables.py`).
+  - **Licences** (item 6):
+    - The CLIP ViT-B/32 text encoder had **no `license_component` row** in the S2 artifact (its SHA-256 is in the run configuration only). It is added as a record only in `research/m1b/pilot_license_components.json`, because adding it to the artifact would change the S2 artifact IDs.
+    - Grounding DINO tiny: row recorded likewise (the frame-level check builds no artifact).
+    - `NOTICE.md` "used in" updated; all three files were already listed there.
+  - **D-47** rewritten with the revision results. Options (a) exploratory S3-onward re-run with aligned tracker thresholds, reported beside column C, and (b) detector and tracker thresholds fixed as a pair in pre-registration v2 are listed; neither was run.
+- Tests: 2465/2465 passed, 8 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 16/16, `test_zs_match` 7/7. New `tests/m1b/test_tracker_loss.py` (5; hand-computed toy case, band boundaries, threshold guard). `tracker_loss.py` run twice: byte-identical JSON. Wording linter on the report: one W4 hit, the disclaimer sentence itself.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new; no item needed a CR. One slip, corrected: importing Ultralytics without `YOLO_CONFIG_DIR` (to locate `byte_tracker.py`) created `~/Library/Application Support/Ultralytics/settings.json` at 16:01. It was deleted with its folder. Only the import ran, with no prediction, so nothing was sent.
+- Next: **STOP (D-47).**

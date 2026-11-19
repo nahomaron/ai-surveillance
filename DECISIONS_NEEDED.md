@@ -521,14 +521,30 @@ Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free
 
 ## D-47 (2026-11-19) — STOP after the T-25p detector-path pilot        status: OPEN
 Task: T-25p   Blocking: all later M1b work on the detector path
-Question: The pilot is done (`reports/M1b_pilot_report.md`; `research/m1b/pilot_results.json`, `pilot_frame_check.json`). 206 SDG validation cameras, 24 leakage groups, 282 assessable T21 references. Descriptive, validation only.
-- **Events (G1, BL-6; Target B intervals in the report):** A (oracle, simulator positions) recall 1.00, precision 0.95; B (oracle boxes, full_camera) 0.74, 0.55; C (YOLO-World + ByteTrack, full_camera) 0.11, 0.22. BL-2 in C: 0.03, 0.10.
-- **Detection (all pilot frames):** person recall 0.92, precision 0.98; forklift recall 0.61 (ceiling 0.78, eye level 0.43), precision 0.99.
-- **Tracking:** person IDF1 0.83, CM-01 0.91; forklift IDF1 0.24, tracks on 16 % of forklift-visible frames, 93 forklift identities never matched; CM-03 0.12. No identity switches; fragmentation common.
-- **Score bands:** 81 % of forklift detections score below 0.25 (ByteTrack's start threshold) and 34 % at or below 0.10 (unused by ByteTrack); persons 99 % at or above 0.25. The D-45 forklift threshold 0.05 and the ByteTrack defaults were applied as fixed.
-- **Position (D-41), where available:** C person median 0.23 m, P95 0.53 m; B 0.19 m, 0.75 m. C forklift median 0.81 m (kept forklifts only).
-- **Frame-level check (20 cameras outside the probe):** YOLO-World person 0.94 / forklift 0.59; Grounding DINO tiny 0.96 / 0.94 at 15.2 s per frame (YOLO-World 0.34 s).
+Question: The pilot is done and revised on the Owner's instruction of 19 Nov 2026 (`reports/M1b_pilot_report.md`; `research/m1b/pilot_results.json`, `pilot_frame_check.json`, `pilot_tracker_loss.json`, `pilot_license_components.json`). 206 SDG validation cameras, 24 leakage groups, 282 assessable T21 references. Descriptive, validation only.
+- **Events (G1, BL-6; Target B intervals in the report).** Columns A and B are re-aggregated on the same 206 cameras.
+  - A (oracle, simulator positions): recall 1.00, precision 0.95.
+  - B (oracle boxes, full_camera): 0.74, 0.55.
+  - C (YOLO-World + ByteTrack together, full_camera): 0.11, 0.22. BL-2 in C: 0.03, 0.10.
+- **Where recall is lost (frame level, same references and matcher).**
+  - Forklift: S2 0.61 → tracked points 0.16 → with predicted points 0.17.
+  - Person: 0.92 → 0.91 → 0.92.
+  - 99 % of forklift detections match a forklift; 27 % of those became tracked points.
+- **Tracker threshold coupling** (installed `byte_tracker.py`): new tracks need ≥ 0.25 (line 500); the low-score second stage only continues tracks in the Tracked state (line 448); a lost track is revived only by a detection ≥ 0.25. Share of matched detections that were tracked, by band:
+  - forklift: ≥ 0.25 86 %; [0.10, 0.25) 21 %; [0.05, 0.10) 0 %;
+  - person: ≥ 0.25 99 %; [0.20, 0.25) 28 %.
+- **Tracking.** Person IDF1 0.83, CM-01 0.91. Forklift IDF1 0.24, 93 identities never matched. CM-03 0.12.
+- **Probe overlap.** 96 of the 206 pilot cameras, and 10 of the 20 frame-check cameras, share a run with a probe camera.
+- **Frame-level check.** YOLO-World person 0.94, forklift 0.59. Grounding DINO tiny 0.96, 0.94, at 15.2 s per frame (YOLO-World 0.34 s).
+- **Licence records.** The CLIP text encoder had no `license_component` row in the S2 artifact; the row is now recorded only (`pilot_license_components.json`). Adding it to the artifact would change the S2 artifact IDs.
 - **Review:** AR-62 (items 3, 5, 6, 7 are review flags).
-Options: for the Owner and Architect. Questions raised by the pilot, not tried (D-45 item 4): (a) make the forklift detection threshold and the tracker thresholds consistent; (b) try a stronger forklift detector on the detector path (Grounding DINO, about 44 times the cost per frame); (c) diagnose the 111 unmatched BL-6 candidate events in column C; (d) stop the detector path here. Agent's recommendation: none; the Owner decides. Nothing was tuned; the test partition was not touched.
-Owner decision: ______
 
+Options: for the Owner and Architect. None of these was run.
+- (a) A post-hoc **exploratory** S3-onward re-run, with the tracker thresholds aligned to the detector thresholds. It would be reported beside column C, never replacing it. It needs no new detection: about 40 min.
+- (b) Fix the detector and tracker thresholds **as a pair** in pre-registration v2.
+- (c) Try a stronger forklift detector on the detector path. Grounding DINO costs about 44 times as much per frame.
+- (d) Diagnose the 111 unmatched BL-6 candidate events in column C.
+- (e) Stop the detector path here.
+
+Agent's recommendation: none; the Owner decides. Nothing was tuned; the test partition was not touched.
+Owner decision: ______

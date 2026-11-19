@@ -1,4 +1,5 @@
-"""T-25p: markdown tables for `reports/M1b_pilot_report.md` from `pilot_results.json` and `pilot_frame_check.json`.
+"""T-25p: markdown tables for `reports/M1b_pilot_report.md` from `pilot_results.json`, `pilot_frame_check.json` and
+`pilot_tracker_loss.json` (Owner revision of 19 Nov 2026, items 2d and 5).
 
   PYTHONPATH=src .venv/bin/python research/m1b/pilot_report_tables.py > out/m1b/pilot/tables.md
 """
@@ -27,6 +28,7 @@ def pct(v, n=1):
 def main():
     r = json.load(open(ROOT / "research/m1b/pilot_results.json"))
     fc = json.load(open(ROOT / "research/m1b/pilot_frame_check.json"))
+    tl = json.load(open(ROOT / "research/m1b/pilot_tracker_loss.json"))
     out = []
     p = out.append
     p(f"Cameras: {r['cameras']} ({r['viewpoints']['ceiling']} ceiling, {r['viewpoints']['eye_level']} eye-level); leakage groups: "
@@ -63,19 +65,45 @@ def main():
                 d = fc["models"][mdl]["results"][v][c]
                 p(f"| {name} | {v} | {c} | {f(d['recall'])} | {f(d['precision'])} | {d['tp']} / {d['references']} / {d['detections']} |")
     p("\n### Tracking (column C; T-12 association at iou_cm 0.5; IDF1 per class)\n")
-    p("| class | tracks | one_to_one | id_switch | fragment | unmatched_system | identity switches | identities never matched | IDF1 | IDTP / IDFP / IDFN |")
-    p("|---|---|---|---|---|---|---|---|---|---|")
+    p(f"IDF1 is pooled over the {r['cameras']} cameras by summing IDTP, IDFP and IDFN per class, then IDF1 = IDTP / (IDTP + 0.5 IDFP + 0.5 IDFN). "
+      "n below: reference boxes (IDTP + IDFN) and system points (IDTP + IDFP).\n")
+    p("| class | tracks | one_to_one | id_switch | fragment | unmatched_system | identity switches | identities never matched | IDF1 | IDTP / IDFP / IDFN | n references / system points |")
+    p("|---|---|---|---|---|---|---|---|---|---|---|")
     for c in ("person", "forklift"):
         t = r["tracking"][c]
         s = t["status"]
         p(f"| {c} | {t['tracks']} | {s['one_to_one']} | {s['id_switch']} | {s['fragment']} | {s['unmatched_system']} | {t['n_switches']} | "
-          f"{t['missed_identities']} | {f(t['IDF1'], 3)} | {t['IDTP']:.0f} / {t['IDFP']:.0f} / {t['IDFN']:.0f} |")
-    p("\nBridging (D-45 item 1) and detections by ByteTrack score band:\n")
-    p("| class | tracked points | predicted points (bridged) | runs bridged | runs lost (> 15) | frames lost in long runs | detections ≥ 0.25 | in (0.10, 0.25) | ≤ 0.10 |")
-    p("|---|---|---|---|---|---|---|---|---|")
+          f"{t['missed_identities']} | {f(t['IDF1'], 3)} | {t['IDTP']:.0f} / {t['IDFP']:.0f} / {t['IDFN']:.0f} | {t['IDTP'] + t['IDFN']:.0f} / {t['IDTP'] + t['IDFP']:.0f} |")
+    p("\nBridging (D-45 item 1):\n")
+    p("| class | tracked points | predicted points (bridged) | runs bridged | runs lost (> 15) | frames lost in long runs |")
+    p("|---|---|---|---|---|---|")
     for c in ("person", "forklift"):
-        b, s = r["tracking"][c]["bridging"], r["score_bands"][c]
-        p(f"| {c} | {b['tracked']} | {b['predicted']} | {b['runs_bridged']} | {b['runs_lost']} | {b['lost_long_run']} | {s['ge_high']} | {s['low_to_high']} | {s['le_low']} |")
+        b = r["tracking"][c]["bridging"]
+        p(f"| {c} | {b['tracked']} | {b['predicted']} | {b['runs_bridged']} | {b['runs_lost']} | {b['lost_long_run']} |")
+    t_all = tl["results"]["all"]
+    p("\n### Detections by score band, reference match and tracking (column C, all pilot frames; `tracker_loss.py`)\n")
+    p("Bands: class threshold (person 0.20, forklift 0.05) to 0.10, 0.10 to 0.25, 0.25 and above (ByteTrack's default track_low_thresh "
+      "and track_high_thresh). Matched: matched to a reference-visible box by the probe matcher (IoU ≥ 0.3) among all S2 detections "
+      "of the frame. Tracked: the detection became a `tracked` S3 point.\n")
+    p("| class | band | detections | matched, tracked | matched, not tracked | unmatched, tracked | unmatched, not tracked | share of matched that were tracked |")
+    p("|---|---|---|---|---|---|---|---|")
+    for c in ("person", "forklift"):
+        for bnd in tl["bands"]:
+            k = t_all["bands"][c][bnd]
+            n = sum(k.values())
+            if n == 0:
+                p(f"| {c} | {bnd} | 0 (empty: the class threshold is above 0.10) | — | — | — | — | — |" if c == "person" and bnd.startswith("[thr") else f"| {c} | {bnd} | 0 | — | — | — | — | — |")
+                continue
+            mt = k["matched_tracked"] + k["matched_not_tracked"]
+            p(f"| {c} | {bnd} | {n} | {k['matched_tracked']} | {k['matched_not_tracked']} | {k['unmatched_tracked']} | {k['unmatched_not_tracked']} | {pct(k['matched_tracked'] / mt if mt else None)} |")
+    p("\nFrame-level recall stage by stage (same references and matcher; matched references / reference boxes):\n")
+    p("| viewpoint | class | reference boxes | S2 detections (after thresholds) | tracked S3 points | tracked + predicted S3 points |")
+    p("|---|---|---|---|---|---|")
+    for v in ("all", "ceiling", "eye_level"):
+        for c in ("person", "forklift"):
+            st = tl["results"][v]["stages"][c]
+            n = st["references"]
+            p(f"| {v} | {c} | {n} | {f(st['s2'] / n)} ({st['s2']}) | {f(st['tracked'] / n)} ({st['tracked']}) | {f(st['tracked_predicted'] / n)} ({st['tracked_predicted']}) |")
     p("\n### Position accuracy (D-41), columns B and C\n")
     p("| column | class | evidence class | n | median (m) | P95 (m) | > 1 m | > 2 m | > 5 m |")
     p("|---|---|---|---|---|---|---|---|---|")
@@ -85,6 +113,16 @@ def main():
             if e["n"] == 0:
                 continue
             p(f"| {col} | {cls} | {evc} | {e['n']} | {f(e['median_m'])} | {f(e['p95_m'])} | {pct(e['share_gt_1m'])} | {pct(e['share_gt_2m'])} | {pct(e['share_gt_5m'])} |")
+    p("\nDenominators: column B scores every object-frame with a position (oracle tracks carry their identity). Column C scores an "
+      "object-frame only when its track is matched to an identity on that frame (A5.2 `matched`):\n")
+    p("| column | class | object-frames with a position | scored (error computed) | with a position, no matched identity (not scored) |")
+    p("|---|---|---|---|---|")
+    for col in ("B", "C"):
+        for c in ("person", "forklift"):
+            a = r["position"][col]["availability"][c]
+            pos = a.get("position", {"n": 0})["n"]
+            nm = a.get("position_without_matched_identity", {"n": 0})["n"]
+            p(f"| {col} | {c} | {pos} | {r['position'][col]['error'][f'{c}|all']['n']} | {nm} |")
     p("\nPosition availability (object-frames of the S4 run; share by null reason):\n")
     p("| column | class | object-frames | with a position | by null reason | position but no matched identity (not scored) |")
     p("|---|---|---|---|---|---|")

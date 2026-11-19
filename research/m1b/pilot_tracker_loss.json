@@ -1,0 +1,197 @@
+{
+ "bands": [
+  "[thr, 0.10)",
+  "[0.10, 0.25)",
+  ">= 0.25"
+ ],
+ "bytetrack": {
+  "track_high_thresh": 0.25,
+  "track_low_thresh": 0.1
+ },
+ "cameras": 206,
+ "matching": {
+  "iou_min": 0.3,
+  "rule": "the probe matcher (same class, one-to-one by descending IoU)"
+ },
+ "results": {
+  "all": {
+   "bands": {
+    "forklift": {
+     ">= 0.25": {
+      "matched_not_tracked": 935,
+      "matched_tracked": 5959,
+      "unmatched_not_tracked": 1,
+      "unmatched_tracked": 0
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 13482,
+      "matched_tracked": 3654,
+      "unmatched_not_tracked": 12,
+      "unmatched_tracked": 5
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 12043,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 383,
+      "unmatched_tracked": 0
+     }
+    },
+    "person": {
+     ">= 0.25": {
+      "matched_not_tracked": 305,
+      "matched_tracked": 50638,
+      "unmatched_not_tracked": 267,
+      "unmatched_tracked": 379
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 128,
+      "matched_tracked": 51,
+      "unmatched_not_tracked": 226,
+      "unmatched_tracked": 24
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 0,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 0,
+      "unmatched_tracked": 0
+     }
+    }
+   },
+   "stages": {
+    "forklift": {
+     "references": 59577,
+     "s2": 36073,
+     "tracked": 9618,
+     "tracked_predicted": 10193
+    },
+    "person": {
+     "references": 55651,
+     "s2": 51122,
+     "tracked": 50712,
+     "tracked_predicted": 50972
+    }
+   }
+  },
+  "ceiling": {
+   "bands": {
+    "forklift": {
+     ">= 0.25": {
+      "matched_not_tracked": 573,
+      "matched_tracked": 3391,
+      "unmatched_not_tracked": 0,
+      "unmatched_tracked": 0
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 9216,
+      "matched_tracked": 2244,
+      "unmatched_not_tracked": 4,
+      "unmatched_tracked": 0
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 7745,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 86,
+      "unmatched_tracked": 0
+     }
+    },
+    "person": {
+     ">= 0.25": {
+      "matched_not_tracked": 118,
+      "matched_tracked": 26813,
+      "unmatched_not_tracked": 98,
+      "unmatched_tracked": 56
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 65,
+      "matched_tracked": 22,
+      "unmatched_not_tracked": 109,
+      "unmatched_tracked": 6
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 0,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 0,
+      "unmatched_tracked": 0
+     }
+    }
+   },
+   "stages": {
+    "forklift": {
+     "references": 29536,
+     "s2": 23169,
+     "tracked": 5635,
+     "tracked_predicted": 5934
+    },
+    "person": {
+     "references": 29357,
+     "s2": 27018,
+     "tracked": 26842,
+     "tracked_predicted": 26930
+    }
+   }
+  },
+  "eye_level": {
+   "bands": {
+    "forklift": {
+     ">= 0.25": {
+      "matched_not_tracked": 362,
+      "matched_tracked": 2568,
+      "unmatched_not_tracked": 1,
+      "unmatched_tracked": 0
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 4266,
+      "matched_tracked": 1410,
+      "unmatched_not_tracked": 8,
+      "unmatched_tracked": 5
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 4298,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 297,
+      "unmatched_tracked": 0
+     }
+    },
+    "person": {
+     ">= 0.25": {
+      "matched_not_tracked": 187,
+      "matched_tracked": 23825,
+      "unmatched_not_tracked": 169,
+      "unmatched_tracked": 323
+     },
+     "[0.10, 0.25)": {
+      "matched_not_tracked": 63,
+      "matched_tracked": 29,
+      "unmatched_not_tracked": 117,
+      "unmatched_tracked": 18
+     },
+     "[thr, 0.10)": {
+      "matched_not_tracked": 0,
+      "matched_tracked": 0,
+      "unmatched_not_tracked": 0,
+      "unmatched_tracked": 0
+     }
+    }
+   },
+   "stages": {
+    "forklift": {
+     "references": 30041,
+     "s2": 12904,
+     "tracked": 3983,
+     "tracked_predicted": 4259
+    },
+    "person": {
+     "references": 26294,
+     "s2": 24104,
+     "tracked": 23870,
+     "tracked_predicted": 24042
+    }
+   }
+  }
+ },
+ "status": "T-25p revision item 2d; descriptive; synthetic SDG validation; nothing validated",
+ "thresholds": {
+  "forklift": 0.05,
+  "person": 0.2
+ }
+}
