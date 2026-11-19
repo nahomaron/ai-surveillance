@@ -148,11 +148,16 @@ def test_ref_event_target_writes_no_status(make_app, video):
 
 # --- T22.6: allocation, order, pilot ----------------------------------------------------------------------------------------
 
+def _pad(prefix: str, tag: str, k: int) -> str:
+    """A 26-character ID body: the tag, then k zero-padded (so k = 1 and k = 10 differ)."""
+    return f"{prefix}_{tag}{k:0{26 - len(tag)}d}"
+
+
 def _strata_frame(video, config_id, sizes):
     out = []
     for s, n in sizes.items():
         for k in range(n):
-            t = {"target_type": "system_episode", "target_id": f"ep_{s.lower()}{k}".ljust(29, "0"), "recording_id": f"rec_{s.lower()}{k}".ljust(30, "0"),
+            t = {"target_type": "system_episode", "target_id": _pad("ep", s.lower(), k), "recording_id": _pad("rec", s.lower(), k),
                  "config_id": config_id, "g2_label": None, "summary_label": s}
             out.append(clip_target(t, video))
     return out
@@ -184,8 +189,9 @@ def test_batches_follow_the_allocation_and_exclude_the_pilot(tmp_path, video):
     assert batch["parameters"] == P.PARAMS and batch["c_pad_s"] == 3.0  # T22.12
     raw = (tmp_path / "s" / "batches" / batch["batch_id"] / "manifest.json").read_bytes()
     assert raw.startswith(b"{") and b"\n" not in raw  # JCS JSON
-    with pytest.raises(ContractError, match="CR-028"):
-        store.create_batch(frame, 9, rev, None, pilot=False)
+    # T22.14 (c) (D-46 replaced the provisional refusal of a second batch): later batches exclude every earlier target.
+    second = store.create_batch(frame, 9, rev, None, pilot=False)
+    assert not set(second["target_ids"]) & (set(batch["target_ids"]) | set(pilot["target_ids"]))
 
 
 def test_per_reviewer_order_differs_and_is_reproducible_from_the_seed(make_app, video):
@@ -471,6 +477,8 @@ def test_end_to_end_batch_on_the_sdg_frame(tmp_path):
 def test_v02_report_follows_the_wording_rules():
     text = (ROOT / "research/review_ui/V-02_report.md").read_text(encoding="utf-8")
     assert lint(text) == []
-    assert "not a security boundary" in text and "CR-028" in text and "AR-61" in text
+    assert "not a security boundary" in text and "T22.14" in text and "AR-61" in text
+    assert not any(line.strip() == "EOF" for line in text.splitlines()) and ".venv/bin/python -c" not in text  # D-46 item 3 a
+    assert "must never be used for real review" in text  # D-46 item 3 c
     for name in re.findall(r"screenshots/([\w.]+\.png)", text):
         assert (ROOT / "research/review_ui/screenshots" / name).exists(), name

@@ -1,7 +1,7 @@
 """Appendix T T22 (contract E-1.2.20; CR-027, D-44): the C-layer blind review rules as pure functions.
 
-Nothing here reads data or writes records; `store.py` applies these rules to stored records. Readings that T22 leaves
-open and that could change a number are marked "provisional (CR-028)"; representation choices are AR-61.
+Nothing here reads data or writes records; `store.py` applies these rules to stored records. The readings of T22 are
+T22.14 (contract E-1.2.21; CR-028, D-46); representation choices are AR-61 (accepted, D-46).
 """
 from __future__ import annotations
 
@@ -104,8 +104,8 @@ def _derived_seed(seed: int, *parts: str) -> int:
 
 def allocate(sizes: dict[str, int], n: int, seed: int) -> dict[str, int]:
     """T22.6 (a): equal across the strata present, capped at stratum size, remainder by largest remainder with ties
-    broken by the batch seed. Capping is applied until no remaining stratum is below the equal share (AR-61 item 1,
-    review flag); the integer remainder then goes to the largest fractional shares, which are equal, so the seed decides."""
+    broken by the batch seed. T22.14 (e): water-filling; capping is applied until no remaining stratum is below the
+    equal share; the integer remainder then goes to the largest fractional shares, which are equal, so the seed decides."""
     present = [s for s in STRATA if sizes.get(s, 0) > 0] + sorted(s for s in sizes if s not in STRATA and sizes[s] > 0)
     alloc: dict[str, int] = {}
     open_strata, remaining = list(present), n
@@ -156,7 +156,7 @@ def reviewer_order(target_ids: list[str], seed: int, annotator_id: str) -> list[
 
 
 def audit_count(n_tier1: int, a_audit: float) -> int:
-    """Provisional (CR-028 item 1): ceil(a_audit x n_tier1), with a 1e-9 guard so 0.1 x 10 is 1, not 2."""
+    """T22.14 (a): ceil(a_audit x n_tier1), with a 1e-9 guard so 0.1 x 10 is 1, not 2."""
     return math.ceil(a_audit * n_tier1 - 1e-9) if n_tier1 else 0
 
 
@@ -177,9 +177,13 @@ def kappas(r1: list[str], r2: list[str]) -> tuple[float | None, float | None]:
     return k5, k4
 
 
+ALPHA_MIN_UNITS = 5  # T22.14 (b)
+
+
 def alpha(units: list[list[str]]) -> float | None:
-    """Krippendorff's alpha (nominal) over the audited targets' three assessments (provisional reading, CR-028 item 2)."""
-    return krippendorff_alpha_nominal(units) if units else None
+    """T22.14 (b): Krippendorff's alpha (nominal) over the audited targets only, three assessments each; not computed
+    (None) with fewer than 5 audited targets."""
+    return krippendorff_alpha_nominal(units) if len(units) >= ALPHA_MIN_UNITS else None
 
 
 def median_p90(values: list[float | None]) -> tuple[float | None, float | None]:

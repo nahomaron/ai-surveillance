@@ -157,7 +157,7 @@ def test_per_reviewer_order_differs_and_is_reproducible():
 
 @pytest.mark.parametrize("n_tier1,n_audit", [(0, 0), (1, 1), (9, 1), (10, 1), (11, 2), (40, 4), (41, 5)])
 def test_audit_count_is_ceiling_of_share(n_tier1, n_audit):
-    # Provisional reading (CR-028 item 1): ceil(a_audit x n_tier1); FX-13e needs a 1-target tier1 set to be audited.
+    # T22.14 (a): ceil(a_audit x n_tier1); FX-13e needs a 1-target tier1 set to be audited.
     ids = [f"ep_{k:026d}" for k in range(n_tier1)]
     sample = P.audit_sample(ids, 0.10, seed=5)
     assert len(sample) == n_audit and set(sample) <= set(ids) and sample == sorted(sample)

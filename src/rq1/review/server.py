@@ -39,7 +39,7 @@ a{color:var(--accent)}table{border-collapse:collapse;width:100%}td,th{border-bot
 label.opt{display:block;padding:5px 0}textarea{width:100%;min-height:80px}button,input,select,textarea{font:inherit}
 .player{position:relative;max-width:960px}.player video,.player canvas{width:100%;display:block}.player canvas{position:absolute;inset:0;pointer-events:none}
 .controls{display:flex;gap:10px;align-items:center;margin:8px 0}.controls input[type=range]{flex:1}
-.err{border-color:#b04a3a}.muted{color:var(--muted)}code,pre{font:13px ui-monospace,monospace}pre{white-space:pre-wrap}
+.card{overflow-x:auto}td code{word-break:break-all}.err{border-color:#b04a3a}.muted{color:var(--muted)}code,pre{font:13px ui-monospace,monospace}pre{white-space:pre-wrap}
 """
 
 PLAYER_JS = """
@@ -153,6 +153,7 @@ class Handler(BaseHTTPRequestHandler):
     ROUTES_GET = [
         (r"/", "get_index"), (r"/home", "get_home"), (r"/setup", "get_setup"), (r"/batches", "get_batches"),
         (r"/batch/(rvb_[0-9a-f-]+)", "get_batch"), (r"/batch/(rvb_[0-9a-f-]+)/agreement", "get_agreement"), (r"/statuslog", "get_statuslog"),
+        (r"/audit", "get_audit_list"), (r"/audit/([a-z0-9]{2,4}_[0-9a-z-]+)", "get_audit_target"),
         (r"/review/(rvb_[0-9a-f-]+)", "get_review_next"), (r"/review/(rvb_[0-9a-f-]+)/(\d+)", "get_review_item"),
         (r"/api/item/(rvb_[0-9a-f-]+)/(\d+)", "get_api_item"), (r"/clip/([A-Za-z0-9_-]+)", "get_clip"),
         (r"/adjudicate/(rvb_[0-9a-f-]+)", "get_adjudicate_list"), (r"/adjudicate/(rvb_[0-9a-f-]+)/(\d+)", "get_adjudicate_item"),
@@ -237,7 +238,7 @@ class Handler(BaseHTTPRequestHandler):
             return
         if who["role"] == "owner":
             body = ('<div class="card"><ul><li><a href="/setup">Annotators (setup)</a></li><li><a href="/batches">Batches</a></li>'
-                    '<li><a href="/statuslog">Status log check</a></li></ul></div>')
+                    '<li><a href="/audit">Audit trail (status history per target)</a></li><li><a href="/statuslog">Status log check</a></li></ul></div>')
             return self.send(page("Owner", body, who))
         rows = []
         for k, b in enumerate(self._my_batches(who["profile_id"]), 1):
@@ -340,6 +341,47 @@ class Handler(BaseHTTPRequestHandler):
         body = (f'<div class="card"><p>Hash chain (CT-E-24): {"intact" if not issues else "BROKEN: " + esc(issues[0].message)}; {len(entries)} entries.</p>'
                 f'<table><tr><th>seq</th><th>target</th><th>status</th><th>layer</th><th>basis</th></tr>{rows}</table></div>')
         self.send(page("Validation status log", body, who))
+
+    def _chain(self) -> str:
+        issues = self.store.status_log.verify()
+        return "intact" if not issues else "BROKEN: " + esc(issues[0].message)
+
+    def get_audit_list(self) -> None:
+        """Audit trail view (original V-02 item 3): every target with status entries, read-only."""
+        who = self.need("owner")
+        if not who:
+            return
+        by_target: dict[str, list[dict[str, Any]]] = {}
+        for e in self.store.status_log._entries():
+            by_target.setdefault(e["target_id"], []).append(e)
+        rows = "".join(f'<tr><td><a href="/audit/{esc(t)}">{esc(t)}</a></td><td>{esc(es[0]["target_type"])}</td><td>{len(es)}</td>'
+                       f'<td>{esc(es[-1]["status"])}</td></tr>' for t, es in sorted(by_target.items()))
+        body = (f'<div class="card"><p>Hash chain (CT-E-24): {self._chain()}.</p>'
+                f'<table><tr><th>Target</th><th>Type</th><th>Entries</th><th>Latest status</th></tr>'
+                f'{rows or "<tr><td colspan=4>No status entry yet.</td></tr>"}</table></div>')
+        self.send(page("Audit trail", body, who))
+
+    def get_audit_target(self, target_id: str) -> None:
+        """The full status history of one target, in log order, with its basis adjudications and hashes. Read-only."""
+        who = self.need("owner")
+        if not who:
+            return
+        adjs = {e["row"]["adj_id"]: e["row"] for e in self.store.adjudications()}
+        entries = [e for e in self.store.status_log._entries() if e["target_id"] == target_id]
+        rows = []
+        for e in entries:
+            basis = "; ".join(f'{esc(b)}: {esc(adjs[b]["final_label"])}, {esc(adjs[b]["tier"])}, {esc(adjs[b]["method"])}, '
+                              f'{len(adjs[b]["assessment_ids"])} assessments, {esc(adjs[b]["reference_class"])}' if b in adjs else esc(b)
+                              for b in e["basis_ids"])
+            rows.append(f'<tr class="entry"><td>{e["seq"]}</td><td>{esc(e["created_utc"])}</td><td>{esc(e["status"])}</td>'
+                        f'<td>{esc(e["layer"])} / {esc(e["namespace"])}</td><td>{esc(e["config_id"])}</td><td>{esc(e["actor_id"])}</td>'
+                        f'<td>{basis}</td></tr><tr class="hash"><td></td><td colspan="6" class="muted">prev_hash <code>{esc(e["prev_hash"])}</code><br>'
+                        f'record_hash <code>{esc(e["record_hash"])}</code></td></tr>')
+        body = (f'<div class="card"><p>Target <code>{esc(target_id)}</code>. Hash chain (CT-E-24): {self._chain()}.</p>'
+                f'<table><tr><th>seq</th><th>Created (UTC)</th><th>Status</th><th>Layer / namespace</th><th>Configuration</th><th>Actor</th>'
+                f'<th>Basis</th></tr>{"".join(rows) or "<tr><td colspan=7>No status entry for this target.</td></tr>"}</table>'
+                f'<p class="muted">Read-only. Entries are only appended; a later entry supersedes an earlier one.</p></div>')
+        self.send(page("Audit trail: one target", body, who))
 
     # --- blind review (T22.4, T22.5) -------------------------------------------------------------------------------------------------
 
@@ -522,13 +564,14 @@ def render_agreement(a: dict[str, Any]) -> str:
     times = "".join(f'<tr><td>{esc(k)}</td><td>{_fmt(v[0])}</td><td>{_fmt(v[1])}</td></tr>' for k, v in a["review_time_s_median_p90"].items())
     strata = ", ".join(f"{k} {v}" for k, v in a["targets_per_stratum"].items())
     counts = ", ".join(f"{k}: {v}" for k, v in a["counts_by_tier_method"].items())
+    alpha = (f'not computed (n &lt; {P.ALPHA_MIN_UNITS})' if a["n_audited"] < P.ALPHA_MIN_UNITS else _fmt(a["alpha_audited"])) + f' (n = {a["n_audited"]})'
     rate = "no audit" if a["audit_agreement_rate"] is None else f'{a["audit_agree"]}/{a["n_audited"]} = {a["audit_agreement_rate"]:.3f}'
     return (f'<div class="card"><p>agreement_stat_ref: <code>{esc(a["agreement_stat_ref"])}</code> · configuration {esc(a["configuration"])} · '
             f'partition {esc(a["partition"])} · {a["n_targets"]} targets</p><p>Targets per stratum: {esc(strata)}</p>'
             f'<table><tr><th>Statistic</th><th>Value</th></tr>'
             f'<tr><td>Cohen\'s kappa, two reviewers, five labels</td><td>{_fmt(a["kappa_five_labels"])}</td></tr>'
             f'<tr><td>Cohen\'s kappa, four labels (targets where either said unsure left out; n = {a["n_four_label_targets"]})</td><td>{_fmt(a["kappa_four_labels"])}</td></tr>'
-            f'<tr><td>Krippendorff\'s alpha (nominal), audited targets with three assessments (provisional reading, CR-028)</td><td>{_fmt(a["alpha_audited"])}</td></tr>'
+            f'<tr><td>Krippendorff\'s alpha (nominal), audited targets with three assessments (T22.14 b)</td><td>{alpha}</td></tr>'
             f'<tr><td>Tier-1 audit agreement rate</td><td>{esc(rate)}</td></tr>'
             f'<tr><td>Final adjudications by tier and method</td><td>{esc(counts)}</td></tr>'
             f'<tr><td>Tier-1 records superseded after the audit</td><td>{a["superseded_tier1"]}</td></tr>'

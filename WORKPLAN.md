@@ -70,7 +70,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7); (5) the not-visible run-length table per dataset and class (T18 amendment 3), for the choice of g_max; (6) a proposed per-frame stratum `forklift_turning` (|yaw rate| above a stated value; CR-023 ruling), so R3/R4 results are reported for turning and straight frames separately | M |
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
-| [x] | V-02 | **T22 blind review application, part A (Owner tooling)** — branch `v02-review-ui` only, no merge into `m0-implementation`. D-44 decided (option a): protocol = Appendix T T22 (E-1.2.20). Local app (127.0.0.1): Owner setup, seeded pilot and batches (T22.6), blind reviewer screen (T22.4, T22.5), adjudication and tier-1 audit (T22.7), status entries (T22.8), reference_class (T22.9), exposure rule (T22.2 b), agreement panel (T22.10 a). Five readings provisional (**CR-028**, open); representation AR-61 | D-44 | D-44 instructions, step 3 | every T22 fixture through the app, acceptance tests pass, suite twice, `research/review_ui/V-02_report.md` pushed | M |
+| [x] | V-02 | **T22 blind review application, part A (Owner tooling)** — branch `v02-review-ui` only, no merge into `m0-implementation`. D-44 decided (option a): protocol = Appendix T T22 (E-1.2.20). Local app (127.0.0.1): Owner setup, seeded pilot and batches (T22.6), blind reviewer screen (T22.4, T22.5), adjudication and tier-1 audit (T22.7), status entries (T22.8), reference_class (T22.9), exposure rule (T22.2 b), agreement panel (T22.10 a). T22.14 readings (CR-028 closed, D-46); AR-61 accepted; audit trail view (D-46) | D-44 | D-44 instructions, step 3 | every T22 fixture through the app, acceptance tests pass, suite twice, `research/review_ui/V-02_report.md` pushed | M |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [x] | G-M1a | **STOP — Owner reviews M1a** (D-40 DECIDED 17 Nov 2026: M1a accepted as experimental validation evidence) | T-21 | — | Owner decision recorded | — |
 
@@ -807,3 +807,26 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. D-45 still open.
 - Next: D-46 items 1 to 3 on `v02-review-ui`; then the D-45 prompt on this branch.
+
+### 2026-11-19 — D-46 on `v02-review-ui`: T22.14 implemented, CR-028 closed, AR-61 accepted, V-02 fixes
+- Did:
+  - Merged `m0-implementation` (T22.14, E-1.2.21; 4ce37cc) into `v02-review-ui`, no rebase (1c9e5c8). The Progress-log conflict was resolved by keeping both entries.
+  - **T22.14** in the application:
+    - (a) audit size ceil, unchanged;
+    - (b) α only with 5 or more audited targets, printed with its n, else "not computed (n < 5)";
+    - (c) every target of any earlier batch on the same configuration and partition is excluded; a re-draw is refused; the second-batch refusal is removed;
+    - (d) pilot as before;
+    - (e) water-filling as before, and manifests state `n_requested`, `n_drawn`, `frame_exhausted`.
+  - "Provisional" labels removed; manifests carry `readings: Appendix T T22.14 (E-1.2.21)`.
+  - **CR-028** closed as superseded by T22.14. **AR-61** accepted (all eleven items).
+  - **Fixes:**
+    - (a) stray shell text removed from the end of `V-02_report.md`. No other V-02 file had a line that is exactly "EOF" or `.venv/bin/python -c` in Markdown. The report test now pins this.
+    - (b) Owner-only **audit trail view** added: `/audit` lists targets; `/audit/<target>` shows the full status history with its basis adjudications, actors and hashes, plus the hash-chain check. Read-only; a broken chain is shown.
+    - (c) the real-frame dry run lived only in a pytest temporary store, so nothing was renamed. The report says so and states that the agent's seeds must never be used for real review.
+    - (d) the original V-02 items 3 to 7 as the agent understood them, each marked, are in the report. Item 6's round trip through the OBX export is now tested.
+  - **Test-fixture defect found and fixed:** fixture target IDs built as `f"ep_{tag}{k}".ljust(29, "0")` collided (k = 1 and k = 10 gave the same ID), so some fixture frames held fewer targets than declared. A zero-padded counter is now used in `tests/review/` and `make_demo.py`. No expected value changed; the allocation tests now run on full-size frames and pass.
+  - The one test that pinned the old second-batch refusal now checks T22.14 (c). Screenshots regenerated, with `08_owner_audit_trail.png` added.
+- Tests: 2539/2539 (full suite), twice: identical. New: `tests/review/test_d46.py` (18 tests).
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none open for V-02.
+- Next: **STOP for V-02** (no merge into `m0-implementation`, no pull request). Then the D-45 prompt in the main folder.

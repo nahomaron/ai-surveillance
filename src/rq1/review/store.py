@@ -217,11 +217,13 @@ class Store:
                 raise _spec("a pilot batch already exists for this configuration and partition (T22.6 c)")
             if not pilot and not pilots:
                 raise _spec("a pilot batch is reviewed before the first batch (T22.6 c)")
-            if not pilot and any(not m["pilot"] for m in same):
-                raise _spec("a second batch on the same frame waits for CR-028 item 3 (are earlier batch targets excluded?)")
-            excluded = sorted({t for m in pilots for t in m["target_ids"]})
+            # T22.14 (c): a target drawn into any earlier batch (pilot or reference) on this configuration and partition
+            # is excluded from every later batch.
+            excluded = sorted({t for m in same for t in m["target_ids"]})
             n = P.PARAMS["n_pilot"] if pilot else P.PARAMS["n_batch"]
             alloc, ids = P.draw(frame.episodes(), n, seed, exclude=excluded)
+            if set(ids) & set(excluded):
+                raise _spec("a target of an earlier batch was drawn again; each target is reviewed in at most one batch (T22.14 c)")
             if not ids:
                 raise _spec("the sampling frame has no targets left")
             batch_id = human_id("rvb")
@@ -232,10 +234,9 @@ class Store:
                 "batch_id": batch_id, "namespace": "reference", "pilot": pilot,
                 "configuration": {"name": frame.name, "config_id": frame.config_id}, "partition": frame.partition,
                 "dataset": frame.dataset, "strata_counts": alloc, "seed": seed, "target_ids": ids, "annotators": annotators,
-                "c_pad_s": P.PARAMS["c_pad_s"], "parameters": dict(P.PARAMS), "excluded_pilot_targets": len(excluded),
-                "provisional_readings": {"audit_count": "ceil(a_audit x n_tier1) (CR-028 item 1)",
-                                         "alpha_units": "audited targets, three assessments each (CR-028 item 2)",
-                                         "pilot": "assessments only; no adjudication or status entry (CR-028 item 4)"},
+                "c_pad_s": P.PARAMS["c_pad_s"], "parameters": dict(P.PARAMS), "excluded_earlier_targets": len(excluded),
+                "n_requested": n, "n_drawn": len(ids), "frame_exhausted": len(ids) < n,  # T22.14 (e)
+                "readings": "Appendix T T22.14 (E-1.2.21)",
                 "created_utc": _utc(self.clock()),
             }
             targets = {t: frame.describe(t) for t in ids}

@@ -43,11 +43,16 @@ def target(k: int, video: Path, prefix: str = "demo") -> dict:
     s = STRATA[k % len(STRATA)]
     start, end = P.clip_window(3.0, 5.0, 0.0, 10.0, P.PARAMS["c_pad_s"])
     b = review_video.boxes()
-    return {"target_type": "system_episode", "target_id": f"ep_{prefix}{k}".ljust(29, "0"), "recording_id": f"rec_{prefix}{k}".ljust(30, "0"),
+    return {"target_type": "system_episode", "target_id": _pad("ep", prefix, k), "recording_id": _pad("rec", prefix, k),
             "config_id": CONFIG, "g2_label": G2.get(s), "stratum": s, "video": str(video), "clip_start_s": start, "clip_end_s": end,
             "fps": float(review_video.FPS), "width": review_video.W, "height": review_video.H,
             "outlines": [{"colour": OUTLINE_COLOURS["person"], "boxes": [x for x in b["person"] if start <= x[0] < end]},
                          {"colour": OUTLINE_COLOURS["forklift"], "boxes": [x for x in b["forklift"] if start <= x[0] < end]}]}
+
+
+def _pad(prefix: str, tag: str, k: int) -> str:
+    """A 26-character ID body: the tag, then k zero-padded (so k = 1 and k = 10 differ)."""
+    return f"{prefix}_{tag}{k:0{26 - len(tag)}d}"
 
 
 class Client:
@@ -119,6 +124,9 @@ def main() -> None:
         adj.call("POST", case, {"final_label": "ud"})
     pages["06_owner_agreement"] = owner.call("GET", f"/batch/{batch}/agreement")[2]
     pages["07_owner_status_log"] = owner.call("GET", "/statuslog")[2]
+    entries = store.status_log._entries()
+    busiest = max({e["target_id"] for e in entries}, key=lambda t: (sum(e["target_id"] == t for e in entries), t))
+    pages["08_owner_audit_trail"] = owner.call("GET", f"/audit/{busiest}")[2]
     server.shutdown()
 
     SHOTS.mkdir(parents=True, exist_ok=True)
@@ -130,8 +138,9 @@ def main() -> None:
         path = folder / f"{name}.html"
         path.write_text(html, encoding="utf-8")
         tall = name in ("04_reviewer_item", "05_adjudication_case", "06_owner_agreement")
+        wide = name == "08_owner_audit_trail"
         subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--allow-file-access-from-files",
-                        "--autoplay-policy=no-user-gesture-required", f"--window-size=1100,{1750 if tall else 900}",
+                        "--autoplay-policy=no-user-gesture-required", f"--window-size={1500 if wide else 1100},{1750 if tall else 900}",
                         "--virtual-time-budget=4000", f"--screenshot={SHOTS / (name + '.png')}", path.as_uri()],
                        check=True, capture_output=True, timeout=120)
     print(json.dumps({"batch": batch, "progress": store.progress(batch), "screenshots": sorted(p.name for p in SHOTS.glob("*.png"))}, indent=1))

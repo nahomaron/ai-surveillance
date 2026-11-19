@@ -58,10 +58,15 @@ def clip_target(t: dict, video: Path, onset: float = 3.0, iplus_end: float = 5.0
 def filler(config_id: str, video: Path, n: int = 3, prefix: str = "pilot") -> list[dict]:
     out = []
     for k in range(n):
-        tid = f"ep_{prefix}{k}".ljust(29, "0")
-        out.append(clip_target({"target_type": "system_episode", "target_id": tid, "recording_id": f"rec_{prefix}{k}".ljust(30, "0"),
+        tid = _pad("ep", prefix, k)
+        out.append(clip_target({"target_type": "system_episode", "target_id": tid, "recording_id": _pad("rec", prefix, k),
                                 "config_id": config_id, "g2_label": None, "summary_label": "PC"}, video))
     return out
+
+
+def _pad(prefix: str, tag: str, k: int) -> str:
+    """A 26-character ID body: the tag, then k zero-padded (so k = 1 and k = 10 differ)."""
+    return f"{prefix}_{tag}{k:0{26 - len(tag)}d}"
 
 
 class Client:
