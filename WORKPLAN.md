@@ -852,3 +852,26 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new; no item needed a CR. One slip, corrected: importing Ultralytics without `YOLO_CONFIG_DIR` (to locate `byte_tracker.py`) created `~/Library/Application Support/Ultralytics/settings.json` at 16:01. It was deleted with its folder. Only the import ran, with no prediction, so nothing was sent.
 - Next: **STOP (D-47).**
+
+### 2026-11-19 — D-47 decided; C', N9 and CR-007 evidence done; STOP at D-49
+- Did:
+  - **D-47** recorded; AR-62 marked ACCEPTED.
+  - **C'** (item 1). Adapter: `bytetrack.aligned_params` / `cprime_params` and an optional `params_by_class`; without it the configuration equals `default_config()`, so C is unchanged.
+    - Driver: `run_pilot.py --cprime`, which reuses C's S2 artifact.
+    - Ran on all 206 cameras at `99a1306`: 1,110 s, on mains power, no other agent.
+    - Evaluation variant in `evaluate_pilot.py` and `tracker_loss.py --cprime`. After the change, column C's aggregate is byte-identical and one camera's evaluation is equal.
+    - Result: BL-6 recall 0.07 against C 0.11. Forklift tracking is worse: fuse_score (default, kept) blocks scores below 0.2 from continuing a track.
+  - **N9** (item 3): `n9_pilot.py`, rules 1-3 (FX-ID-8 / AR-42 readings). Rules 4 and 5 not evaluated, and **CR-029** opened. C: 2 tracking, 109 not attributed; C': 1 perception, 1 tracking, 118 not attributed.
+  - **CR-007 evidence** (item 2): `cr007_evidence.py`. The forklift error in column B lies along the line of sight (−1.01 m) rather than across it (0.09 m). Added to CR-007.
+  - **Operations** (item 5): `pilot_common.DET_ENV` (YOLO_CONFIG_DIR inside the repository) passed to every `.venv-det` subprocess; the frame_check docstring and the s3 detector-path test updated.
+    - **Sync check:** the in-repository Ultralytics settings had `sync: false` from 02:13 on 19 Nov (set and asserted by `zero_shot_probe.ultralytics_settings()` before any model load, the path of both the S2 run and the frame-level check). The file was last written at 15:09 with `sync: false`.
+    - **Network:** reachable during both runs (power-log network assertions at 06:32; this session online during the frame-level check). Hugging Face telemetry was off. Grounding DINO's `snapshot_download` most likely made a metadata request to huggingface.co (not verified; no project data sent).
+    - Nothing in the results changed.
+  - **Report:** "D-47 follow-up" section (`d47_report_tables.py`) and a plain-language addendum. Status line updated.
+  - **D-49** opened. D-48 is cited by the Owner but not used in this file, so D-49 avoids a collision.
+- **Hand-reasoning correction, recorded:** the first version of `test_tracking_bytetrack.py::CPrime::test_cprime_low_score_forklift_starts_but_cannot_continue` expected 10 tracked points. It omitted fuse_score. The test failed against the installed Ultralytics code, and the reasoning was redone from `matching.fuse_score` (line 145) and `byte_tracker.get_dists` (lines 529-531). The expected value became [1, 0, ..., 0], with the reasoning in the docstring, before any pilot run. The expected value comes from the tracker's documented arithmetic, not from the run's output.
+- Tests: 2481/2481 passed, 11 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 19/19, `test_zs_match` 7/7. New tests: `test_cprime_rule.py` (4), `test_det_env.py` (3), `test_n9_pilot.py` (5), `test_cr007_evidence.py` (4), `test_tracking_bytetrack.py::CPrime` (3). All D-47 results files written twice: byte-identical; the C' tracker re-run on 3 cameras gave identical output. No settings file in the home folder.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-029 opened (N9 rules 4 and 5 on the detector path).
+- Next: **STOP (D-49).**
+

@@ -563,3 +563,31 @@ Owner decision (19 Nov 2026; pasting it = approval):
    - Check and record whether Ultralytics' settings had sync enabled during the S2 and frame-check runs, and whether the network was reachable. Recorded in the Progress log; nothing in the results changes.
    - The next S2 build (pre-registration v2) carries the CLIP and Grounding DINO license_component rows inside the artifact.
 6. Tests: full suite twice; detector-environment tests. Progress log, commit, push. Report: a new section for C' and items 2-3, plus a short addendum to the plain-language page. STOP and open the next free D number for review. A part that needs a contract definition gets a CR and is skipped.
+
+## D-49 (2026-11-19) — STOP after the D-47 follow-up (C', N9, CR-007 evidence)        status: OPEN
+Task: T-25p (D-47 items 1-3)   Blocking: further detector-path work
+Numbering: D-48 is not used in this file, but the Owner cited "D-48" for the T23 agent's run during S2. D-49 is used here to avoid a collision.
+Question: the D-47 follow-up is in `reports/M1b_pilot_report.md` (section "D-47 follow-up"; addendum on the plain-language page). Results: `research/m1b/pilot_results_cprime.json`, `pilot_tracker_loss_cprime.json`, `pilot_n9.json`, `cr007_evidence.json`. Descriptive, validation only.
+- **C' (post-hoc, exploratory; the rule fixed in D-47).**
+  - BL-6 EV-M1 0.07 (21/282), EV-M2 0.15 (21/141), against C 0.11 and 0.22.
+  - Forklift: tracked-point recall 0.12 (C 0.16); tracks started 230 (171); fragments 158 (105); predicted points 1,908 (582); IDF1 0.217 (0.244).
+  - False tracks: person 49 (36), forklift 3 (0). Identity switches: 0 in both.
+  - **Mechanism:** with fuse_score on (unchanged by the rule), the first stage needs IoU × score ≥ 0.2 (`matching.py:145`, `byte_tracker.py:529-531`). A forklift detection scoring below 0.2 can start a track but cannot continue one. C's score-free second stage, which used to carry them, receives nothing under C'.
+- **N9, rules 1-3** (rules 4 and 5 not evaluated: CR-029).
+  - C: 111 unmatched BL-6 events: tracking 2, not attributed 109.
+  - C': 120 unmatched: perception 1, tracking 1, not attributed 118.
+  - In C, 110 of the 111 overlap a reference interaction of the same pair with temporal IoU between 0 and 0.3.
+- **CR-007 evidence** (column B forklift error): along the line of sight, median −1.01 m; across, 0.09 m. The event split by forklift error is confounded by viewpoint and scene (BL-2 differs too).
+- **New CR:** CR-029 (inputs of N9 rules 4 and 5 on the detector path; 5 open points).
+- **Operations:** Ultralytics sync was off during S2 and the frame-level check, and the network was reachable. `YOLO_CONFIG_DIR` is now set by every `.venv-det` command.
+
+Options: for the Owner and Architect; none of these was run.
+- (a) Define CR-029 so that rules 4 and 5 can attribute the 109 unattributed events.
+- (b) A further exploratory tracker setting, e.g. fuse_score off. This would be a new post-hoc variant, which the D-47 rule excluded.
+- (c) Decide the CR-007 anchor with this evidence.
+- (d) Revisit Grounding DINO on the detector path (D-47 item 4: "revisit after C'").
+- (e) Close the detector-path pilot here.
+
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______
+

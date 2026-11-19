@@ -1,0 +1,545 @@
+{
+ "cameras": 206,
+ "cm": {
+  "C'": {
+   "CM-01 detected": {
+    "denominator": 1855.033333333329,
+    "numerator": 1682.9333333333293,
+    "target_b": [
+     0.8888141262637317,
+     0.9229905683435933
+    ],
+    "value": 0.9072253867855025
+   },
+   "CM-01 detected_plus_inferred": {
+    "denominator": 1855.033333333329,
+    "numerator": 1690.3333333333294,
+    "target_b": [
+     0.8930029943740231,
+     0.9268200877013847
+    ],
+    "value": 0.9112145334315646
+   },
+   "CM-03 detected": {
+    "denominator": 1784.633333333329,
+    "numerator": 158.86666666666633,
+    "target_b": [
+     0.06926908535514226,
+     0.11226965247587306
+    ],
+    "value": 0.08901921963428532
+   },
+   "CM-03 detected_plus_inferred": {
+    "denominator": 1784.633333333329,
+    "numerator": 209.3333333333329,
+    "target_b": [
+     0.09286363142788498,
+     0.14385690482432076
+    ],
+    "value": 0.11729767085675867
+   },
+   "CM-08 detected": {
+    "denominator": 160.8666666666663,
+    "numerator": 0.06666666666666643,
+    "target_b": [
+     0.0,
+     0.00136833225884449
+    ],
+    "value": 0.00041442188147534134
+   },
+   "CM-08 detected_plus_inferred": {
+    "denominator": 212.8666666666662,
+    "numerator": 0.29999999999999893,
+    "target_b": [
+     0.0,
+     0.004665299197726371
+    ],
+    "value": 0.0014093329157532082
+   }
+  }
+ },
+ "contract": "E-1.2.21",
+ "detection": {
+  "all": {
+   "forklift": {
+    "detections": 36474,
+    "f1": 0.7511217998771486,
+    "fn": 23504,
+    "fp": 401,
+    "precision": 0.989005867193069,
+    "recall": 0.6054853383016936,
+    "references": 59577,
+    "tp": 36073
+   },
+   "person": {
+    "detections": 52018,
+    "f1": 0.9496140950505717,
+    "fn": 4529,
+    "fp": 896,
+    "precision": 0.9827751932023531,
+    "recall": 0.9186178145945266,
+    "references": 55651,
+    "tp": 51122
+   }
+  },
+  "ceiling": {
+   "forklift": {
+    "detections": 23259,
+    "f1": 0.8776967515863244,
+    "fn": 6367,
+    "fp": 90,
+    "precision": 0.996130530117374,
+    "recall": 0.78443255687974,
+    "references": 29536,
+    "tp": 23169
+   },
+   "person": {
+    "detections": 27287,
+    "f1": 0.9539580538097592,
+    "fn": 2339,
+    "fp": 269,
+    "precision": 0.9901418257778429,
+    "recall": 0.9203256463535102,
+    "references": 29357,
+    "tp": 27018
+   }
+  },
+  "eye_level": {
+   "forklift": {
+    "detections": 13215,
+    "f1": 0.5966339929720732,
+    "fn": 17137,
+    "fp": 311,
+    "precision": 0.9764661369655694,
+    "recall": 0.42954628674145334,
+    "references": 30041,
+    "tp": 12904
+   },
+   "person": {
+    "detections": 24731,
+    "f1": 0.9447917687408133,
+    "fn": 2190,
+    "fp": 627,
+    "precision": 0.9746472039141159,
+    "recall": 0.9167110367384194,
+    "references": 26294,
+    "tp": 24104
+   }
+  }
+ },
+ "ev": {
+  "C'": {
+   "BL-2": {
+    "EV-M1": 0.024822695035460994,
+    "EV-M1_target_b": [
+     0.0,
+     0.0509126399126399
+    ],
+    "EV-M2": 0.0875,
+    "EV-M2_target_b": [
+     0.0,
+     0.16251358695652168
+    ],
+    "counts": {
+     "a": 282,
+     "m": 7,
+     "m_s": 7,
+     "s": 80
+    },
+    "runs": {
+     "episodes": 80,
+     "events": 80
+    },
+    "unobservable_references": 2
+   },
+   "BL-3": {
+    "EV-M1": 0.07092198581560284,
+    "EV-M1_target_b": [
+     0.034745360783423065,
+     0.11152452101801544
+    ],
+    "EV-M2": 0.14705882352941177,
+    "EV-M2_target_b": [
+     0.06869706159155077,
+     0.23576405152224797
+    ],
+    "counts": {
+     "a": 282,
+     "m": 20,
+     "m_s": 20,
+     "s": 136
+    },
+    "runs": {
+     "episodes": 136,
+     "events": 136
+    },
+    "unobservable_references": 2
+   },
+   "BL-4": {
+    "EV-M1": 0.07446808510638298,
+    "EV-M1_target_b": [
+     0.03484169065293137,
+     0.11986643835616435
+    ],
+    "EV-M2": 0.15,
+    "EV-M2_target_b": [
+     0.06666666666666667,
+     0.25210084033613445
+    ],
+    "counts": {
+     "a": 282,
+     "m": 21,
+     "m_s": 21,
+     "s": 140
+    },
+    "runs": {
+     "episodes": 140,
+     "events": 140
+    },
+    "unobservable_references": 2
+   },
+   "BL-5": {
+    "EV-M1": 0.07092198581560284,
+    "EV-M1_target_b": [
+     0.034745360783423065,
+     0.11152452101801544
+    ],
+    "EV-M2": 0.14492753623188406,
+    "EV-M2_target_b": [
+     0.06818181818181818,
+     0.23232910500352358
+    ],
+    "counts": {
+     "a": 282,
+     "m": 20,
+     "m_s": 20,
+     "s": 138
+    },
+    "runs": {
+     "episodes": 138,
+     "events": 138
+    },
+    "unobservable_references": 2
+   },
+   "BL-6": {
+    "EV-M1": 0.07446808510638298,
+    "EV-M1_target_b": [
+     0.03484169065293137,
+     0.11986643835616435
+    ],
+    "EV-M2": 0.14893617021276595,
+    "EV-M2_target_b": [
+     0.06666666666666667,
+     0.2482281731474688
+    ],
+    "counts": {
+     "a": 282,
+     "m": 21,
+     "m_s": 21,
+     "s": 141
+    },
+    "runs": {
+     "episodes": 141,
+     "events": 141
+    },
+    "unobservable_references": 2
+   }
+  }
+ },
+ "labels": {
+  "C'": {
+   "BL-2": {
+    "H": {
+     "assessable": 273,
+     "matched": 0,
+     "precision": null,
+     "recall": 0.0,
+     "system": 0
+    },
+    "O": {
+     "assessable": 9,
+     "matched": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "system": 80
+    },
+    "PC": {
+     "assessable": 257,
+     "matched": 0,
+     "precision": null,
+     "recall": 0.0,
+     "system": 0
+    }
+   },
+   "BL-3": {
+    "H": {
+     "assessable": 273,
+     "matched": 19,
+     "precision": 0.17272727272727273,
+     "recall": 0.0695970695970696,
+     "system": 110
+    },
+    "O": {
+     "assessable": 9,
+     "matched": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "system": 26
+    },
+    "PC": {
+     "assessable": 257,
+     "matched": 0,
+     "precision": null,
+     "recall": 0.0,
+     "system": 0
+    }
+   },
+   "BL-4": {
+    "H": {
+     "assessable": 273,
+     "matched": 20,
+     "precision": 0.18018018018018017,
+     "recall": 0.07326007326007326,
+     "system": 111
+    },
+    "O": {
+     "assessable": 9,
+     "matched": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "system": 20
+    },
+    "PC": {
+     "assessable": 257,
+     "matched": 18,
+     "precision": 0.18947368421052632,
+     "recall": 0.07003891050583658,
+     "system": 95
+    }
+   },
+   "BL-5": {
+    "H": {
+     "assessable": 273,
+     "matched": 19,
+     "precision": 0.17117117117117117,
+     "recall": 0.0695970695970696,
+     "system": 111
+    },
+    "O": {
+     "assessable": 9,
+     "matched": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "system": 22
+    },
+    "PC": {
+     "assessable": 257,
+     "matched": 15,
+     "precision": 0.2542372881355932,
+     "recall": 0.058365758754863814,
+     "system": 59
+    }
+   },
+   "BL-6": {
+    "H": {
+     "assessable": 273,
+     "matched": 20,
+     "precision": 0.17857142857142858,
+     "recall": 0.07326007326007326,
+     "system": 112
+    },
+    "O": {
+     "assessable": 9,
+     "matched": 0,
+     "precision": 0.0,
+     "recall": 0.0,
+     "system": 20
+    },
+    "PC": {
+     "assessable": 257,
+     "matched": 18,
+     "precision": 0.1875,
+     "recall": 0.07003891050583658,
+     "system": 96
+    }
+   }
+  }
+ },
+ "leakage_groups": 24,
+ "position": {
+  "C'": {
+   "availability": {
+    "forklift": {
+     "object_frames": 9095,
+     "position": {
+      "n": 9095,
+      "share": 1.0
+     },
+     "position_without_matched_identity": {
+      "n": 22,
+      "share": 0.002418911489829577
+     }
+    },
+    "person": {
+     "null:not_observable": {
+      "n": 298,
+      "share": 0.005791805955064915
+     },
+     "object_frames": 51452,
+     "position": {
+      "n": 51154,
+      "share": 0.9942081940449351
+     },
+     "position_without_matched_identity": {
+      "n": 649,
+      "share": 0.012613698204151442
+     }
+    }
+   },
+   "error": {
+    "all|all": {
+     "median_m": 0.26258168600514775,
+     "n": 59578,
+     "p95_m": 1.1862016303127618,
+     "share_gt_1m": 0.07303031320286012,
+     "share_gt_2m": 0.009181241397831415,
+     "share_gt_5m": 0.0039947631676122055
+    },
+    "forklift|all": {
+     "median_m": 0.8166672139186558,
+     "n": 9073,
+     "p95_m": 1.4383957859329843,
+     "share_gt_1m": 0.37054998346743084,
+     "share_gt_2m": 0.0,
+     "share_gt_5m": 0.0
+    },
+    "forklift|detected": {
+     "median_m": 0.8214434469114169,
+     "n": 7182,
+     "p95_m": 1.4316490249210259,
+     "share_gt_1m": 0.3742690058479532,
+     "share_gt_2m": 0.0,
+     "share_gt_5m": 0.0
+    },
+    "forklift|inferred": {
+     "median_m": 0.7959738529297491,
+     "n": 1891,
+     "p95_m": 1.4620928217621787,
+     "share_gt_1m": 0.35642517186673717,
+     "share_gt_2m": 0.0,
+     "share_gt_5m": 0.0
+    },
+    "person|all": {
+     "median_m": 0.2338966046681024,
+     "n": 50505,
+     "p95_m": 0.5248860377939314,
+     "share_gt_1m": 0.019582219582219583,
+     "share_gt_2m": 0.010830610830610831,
+     "share_gt_5m": 0.004712404712404712
+    },
+    "person|detected": {
+     "median_m": 0.23357602758544116,
+     "n": 50286,
+     "p95_m": 0.5198817585611559,
+     "share_gt_1m": 0.01885216561269538,
+     "share_gt_2m": 0.010659030346418486,
+     "share_gt_5m": 0.004673268901881239
+    },
+    "person|inferred": {
+     "median_m": 0.3410962539163322,
+     "n": 219,
+     "p95_m": 1.9990375485625933,
+     "share_gt_1m": 0.1872146118721461,
+     "share_gt_2m": 0.0502283105022831,
+     "share_gt_5m": 0.0136986301369863
+    }
+   }
+  }
+ },
+ "preregistration": "version 1 (frozen), base values",
+ "references": {
+  "assessable": 282,
+  "g1": 284,
+  "n": 284
+ },
+ "runtime_s": {
+  "s2_detector": 22622.6,
+  "s2_wall": 23008.0,
+  "s3_track": 1018.7,
+  "s4": 30.3,
+  "s5": 46.9
+ },
+ "score_bands": {
+  "forklift": {
+   "ge_high": 6895,
+   "le_low": 12426,
+   "low_to_high": 17153,
+   "tracked_points": 7187
+  },
+  "person": {
+   "ge_high": 51589,
+   "le_low": 0,
+   "low_to_high": 429,
+   "tracked_points": 51085
+  }
+ },
+ "status": "experimental; synthetic (SDG); validation partition only; zero-shot detector; nothing validated",
+ "strata": [
+  "sdg:ceiling",
+  "sdg:eye_level"
+ ],
+ "tracking": {
+  "forklift": {
+   "IDF1": 0.21729380242311278,
+   "IDFN": 52116.0,
+   "IDFP": 1634.0,
+   "IDTP": 7461.0,
+   "bridging": {
+    "lost_long_run": 1314,
+    "predicted": 1908,
+    "predicted_degenerate": 0,
+    "runs_bridged": 575,
+    "runs_lost": 61,
+    "tracked": 7187,
+    "tracks": 230
+   },
+   "missed_identities": 73,
+   "n_switches": 0,
+   "status": {
+    "fragment": 158,
+    "id_switch": 0,
+    "one_to_one": 69,
+    "unmatched_system": 3
+   },
+   "tracks": 230
+  },
+  "person": {
+   "IDF1": 0.8324136578807316,
+   "IDFN": 11074.0,
+   "IDFP": 6875.0,
+   "IDTP": 44577.0,
+   "bridging": {
+    "lost_long_run": 135,
+    "predicted": 367,
+    "predicted_degenerate": 0,
+    "runs_bridged": 141,
+    "runs_lost": 7,
+    "tracked": 51085,
+    "tracks": 394
+   },
+   "missed_identities": 0,
+   "n_switches": 0,
+   "status": {
+    "fragment": 231,
+    "id_switch": 0,
+    "one_to_one": 114,
+    "unmatched_system": 49
+   },
+   "tracks": 394
+  }
+ },
+ "viewpoints": {
+  "ceiling": 99,
+  "eye_level": 107
+ }
+}

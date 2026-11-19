@@ -1,6 +1,6 @@
 # M1b detector-path pilot report — validation partition (T-25p)
 
-**Status: complete for D-47 review; revised on the Owner's instruction of 19 Nov 2026 (report and evaluation code only; no stage re-run, nothing tuned).** All 206 pilot cameras ran through S2 → S5 and were evaluated; the frame-level check ran on both models.
+**Status: accepted at D-47 (19 Nov 2026) as experimental validation evidence (synthetic, validation only). The D-47 follow-up (C', N9, CR-007 evidence) is added below for review (D-49).** Revised earlier on the Owner's instruction of 19 Nov 2026 (report and evaluation code only; no stage re-run, nothing tuned). All 206 pilot cameras ran through S2 → S5 and were evaluated; the frame-level check ran on both models.
 
 Every number in this report is **experimental**: synthetic data (SDG), validation partition only (D-36, D-37), one zero-shot detector at fixed thresholds, one tracker at default parameters. Nothing here is "validated", and nothing here is a claim about real footage (D-45 item 4). Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed. No acceptance criterion is registered or evaluated (D-45 item 4).
 
@@ -64,6 +64,19 @@ Neither threshold was tuned (D-45 items 0, 1 and 4).
    - Grounding DINO tiny: person 0.96, forklift 0.94 (eye level 0.93), at about 15 s per frame against 0.34 s for YOLO-World.
    - Half of these cameras share a run with a probe camera (see above).
 8. **Runtime.** Detection took 6.39 h of wall time for 61,749 frames, against an estimate of 6.7 h. Of that, 0.42 h was a slow period (7 cameras at about 215 s each) just before the machine went down. Everything after detection took 0.58 h, and the evaluation about 2 min.
+
+**Addendum (D-47, 19 Nov 2026): C', the N9 diagnosis and the CR-007 evidence.** Details in the section "D-47 follow-up" below. Column C remains the pilot result; C' is post-hoc and exploratory and never replaces it.
+- **Aligning the tracker's thresholds with the detector's (C') made forklift tracking worse, not better.**
+  - BL-6 recall 0.07 and precision 0.15, against 0.11 and 0.22 for C.
+  - Share of real forklifts covered by a tracked point: 0.12, against 0.16.
+  - The reason is in the tracker's code. With `fuse_score` on (a default the C' rule leaves unchanged), the first matching stage needs overlap × score ≥ 0.2. So a forklift detection scoring below 0.2 can start a track but cannot continue one.
+  - C' starts more forklift tracks (230 against 171) and breaks them more often (158 fragments against 105). It produces three times as many bridged points, and fewer tracked ones.
+  - Persons barely change, apart from 13 more false tracks (49 against 36). No identity switches in either column.
+- **Why the detector path raises false alerts (N9, rules 1–3).**
+  - Of the 111 unmatched BL-6 events in C, the rules attribute only 2 (both to tracking). In the other 109, both tracks are correctly matched to the scene's worker and forklift.
+  - 110 of the 111 overlap in time a reference interaction of the same pair, but with temporal IoU below 0.3: right pair, roughly right time, wrong extent.
+  - Rules 4 (geometry) and 5 (event reasoning) need definitions for the detector path first (CR-029). C' looks the same: 120 unmatched events; 1 perception, 1 tracking, 118 not attributed by rules 1–3.
+- **The forklift position offset (CR-007 evidence).** With oracle boxes and camera geometry (column B), the forklift error of about 1 m lies almost entirely along the camera's line of sight, toward the camera. Along: median −1.01 m; across: 0.09 m. This fits the box's bottom-centre marking the footprint's near edge rather than its centre. Added to CR-007 for the Architect; no rule chosen.
 
 ## Technical report
 
@@ -390,7 +403,207 @@ Every weight file loaded in the pilot has a `license_component` row and a `NOTIC
 - **Evaluation:** about 2 min for 206 cameras on 2 workers, against 0.5 h estimated. The aggregation was run twice and gave a byte-identical `pilot_results.json`.
 - **Frame-level check:** YOLO-World 0.34 s and Grounding DINO 15.2 s per frame (median).
 - **Tests:** full suite 2465 passed, 8 skipped (`.venv-det`-only tracker tests), run twice: identical. In `.venv-det`: `test_tracking_*` 16/16, `test_zs_match` 7/7. `tracker_loss.py` was run twice and gave byte-identical JSON.
-- **Wording linter** (`rq1.export.report.lint`): one W4 hit, the disclaimer sentence "Nothing here is 'validated'" itself.
+- **Wording linter** (`rq1.export.report.lint`): two W4 hits, both quoting the disclaimer: the sentence "Nothing here is 'validated'" itself, and this line.
+
+## D-47 follow-up: C' (post-hoc, exploratory), N9 diagnosis and CR-007 evidence
+
+Owner decision D-47 (19 Nov 2026). Nothing in columns A, B or C changed. The f83a241 sections above are unchanged apart from this section, the addendum to the plain-language page, and the status line.
+
+### Method
+- **C' (D-47 item 1), post-hoc and exploratory.**
+  - S3 onward was re-run on column C's stored S2 artifacts; there was no detection and no S2 rebuild, so C and C' share every S2 artifact ID.
+  - One ByteTrack per class. Per class: track_high_thresh = new_track_thresh = the detector threshold (person 0.20, forklift 0.05); track_low_thresh = min(0.10, detector threshold), i.e. person 0.10 and forklift 0.05. For forklifts, ByteTrack's low band (0.05 < s < 0.05) is empty, so its second stage receives nothing.
+  - All other parameters are the installed defaults, including fuse_score on and match_thresh 0.8. The rule was fixed by the Owner before the run, and no other value was tried.
+  - The per-class parameters are recorded in every C' S3 run configuration (`params_by_class`), so every C' S3, S4 and S5 artifact has a new ID.
+  - Run: commit `99a1306`, 206 cameras, on mains power with no other agent running. Evaluation at commit `8e7802c`, with the same functions as column C (`evaluate_pilot.py`; column C was re-checked byte-identical after the change).
+- **What the code does at low scores (installed Ultralytics 8.4.215).**
+  - With fuse_score on, the first-stage cost is 1 − IoU × score (`matching.py` `fuse_score`, line 145; `byte_tracker.py` lines 529–531), and a match needs cost ≤ match_thresh 0.8. So a detection must score ≥ 0.2 even at IoU 1.
+  - Unconfirmed tracks use the same fused cost with threshold 0.7 (lines 462ff.).
+  - Under C', a forklift detection scoring below 0.2 can therefore start a track but cannot continue one.
+  - The adapter test `test_tracking_bytetrack.py::CPrime` shows it on a one-box fixture: at score 0.06, one point on the first frame, then none. The first version of that test's hand reasoning omitted fuse_score; it was corrected from the code before the pilot run (Progress log).
+- **N9 (D-47 item 3):** `research/m1b/n9_pilot.py`, on every unmatched G1 event (false or duplicate alert) of BL-6 in C and in C'. Rules in pipeline order:
+  1. Evidence unavailable: coverage at the event's CA frame not usable.
+  2. Perception: AR-42 item 1 (one of the event's tracks has no reference object of its class with IoU ≥ 0.5 within ±5 frames of the CA frame).
+  3. Tracking: the two tracks are not both `matched` at the CA frame (FX-ID-8).
+
+  Rules 4 (geometry) and 5 (event reasoning) are `not_evaluated`: their inputs are not defined for a detector-path event (CR-029, open). Rule 7 does not apply (no reference). So "unresolved" here means "not attributed by rules 1–3". No oracle factorial (T12.3) was run.
+- **N9 descriptive cross-check (not an N9 rule):** the largest temporal IoU between the unmatched event and any G1 reference interaction of the same identity pair.
+- **CR-007 evidence (D-47 item 2):** `research/m1b/cr007_evidence.py`, column B (the stored `full_camera` S4).
+  - Forklift error = estimate − simulator footprint centre, split along and across two directions: the line of sight (camera floor point C = −Rᵀt → true position), and the optical axis projected on the floor. Hand-computed tests: `tests/m1b/test_cr007_evidence.py`.
+  - EV-M1/EV-M2 of column B for cameras whose median forklift error is below 1 m and at or above 1 m. Every pilot camera has exactly one worker and one forklift, so a camera is one pair.
+- **Reproducibility.** All four results files were written twice, byte-identical. The C' tracker was re-run on 3 cameras from the stored inputs, with identical output.
+
+### Results (generated by `research/m1b/d47_report_tables.py`)
+
+Cameras: C 206, C' 206; the same S2 artifacts; references as in the pilot (282 assessable).
+
+#### Events: EV-M1 and EV-M2 (G1, Target B intervals), C and C' (post-hoc, exploratory)
+
+| configuration | column | EV-M1 | Target B | matched / assessable | EV-M2 | Target B | matched / system | candidate events |
+|---|---|---|---|---|---|---|---|---|
+| BL-2 | C | 0.03 | [0.00, 0.06] | 9 / 282 | 0.10 | [0.02, 0.18] | 9 / 92 | 92 |
+| BL-2 | C' | 0.02 | [0.00, 0.05] | 7 / 282 | 0.09 | [0.00, 0.16] | 7 / 80 | 80 |
+| BL-3 | C | 0.11 | [0.06, 0.16] | 30 / 282 | 0.22 | [0.12, 0.34] | 30 / 137 | 137 |
+| BL-3 | C' | 0.07 | [0.03, 0.11] | 20 / 282 | 0.15 | [0.07, 0.24] | 20 / 136 | 136 |
+| BL-4 | C | 0.11 | [0.06, 0.16] | 31 / 282 | 0.22 | [0.12, 0.34] | 31 / 141 | 141 |
+| BL-4 | C' | 0.07 | [0.03, 0.12] | 21 / 282 | 0.15 | [0.07, 0.25] | 21 / 140 | 140 |
+| BL-5 | C | 0.11 | [0.06, 0.16] | 30 / 282 | 0.22 | [0.12, 0.33] | 30 / 139 | 139 |
+| BL-5 | C' | 0.07 | [0.03, 0.11] | 20 / 282 | 0.14 | [0.07, 0.23] | 20 / 138 | 138 |
+| BL-6 | C | 0.11 | [0.06, 0.16] | 31 / 282 | 0.22 | [0.12, 0.33] | 31 / 142 | 142 |
+| BL-6 | C' | 0.07 | [0.03, 0.12] | 21 / 282 | 0.15 | [0.07, 0.25] | 21 / 141 | 141 |
+
+#### Per-label recall and precision (O, H, PC; descriptive)
+
+| configuration | column | O recall | O precision | H recall | H precision | PC recall | PC precision |
+|---|---|---|---|---|---|---|---|
+| BL-2 | C | 0.00 | 0.00 | 0.00 | — | 0.00 | — |
+| BL-2 | C' | 0.00 | 0.00 | 0.00 | — | 0.00 | — |
+| BL-3 | C | 0.00 | 0.00 | 0.11 | 0.24 | 0.00 | — |
+| BL-3 | C' | 0.00 | 0.00 | 0.07 | 0.17 | 0.00 | — |
+| BL-4 | C | 0.00 | 0.00 | 0.11 | 0.24 | 0.10 | 0.24 |
+| BL-4 | C' | 0.00 | 0.00 | 0.07 | 0.18 | 0.07 | 0.19 |
+| BL-5 | C | 0.00 | 0.00 | 0.11 | 0.23 | 0.09 | 0.33 |
+| BL-5 | C' | 0.00 | 0.00 | 0.07 | 0.17 | 0.06 | 0.25 |
+| BL-6 | C | 0.00 | 0.00 | 0.11 | 0.24 | 0.10 | 0.24 |
+| BL-6 | C' | 0.00 | 0.00 | 0.07 | 0.18 | 0.07 | 0.19 |
+
+#### Tracking (T-12 association at iou_cm 0.5; IDF1 pooled over cameras by summed IDTP / IDFP / IDFN)
+
+Tracks started = tracks reported by the tracker. False tracks = tracks whose T-12 status is `unmatched_system` (never matched to an identity).
+
+| class | column | tracks started | one_to_one | fragment | id_switch (status) | false tracks | identity switches | identities never matched | IDF1 | n references / system points |
+|---|---|---|---|---|---|---|---|---|---|---|
+| person | C | 379 | 114 | 229 | 0 | 36 | 0 | 0 | 0.833 | 55651 / 51436 |
+| person | C' | 394 | 114 | 231 | 0 | 49 | 0 | 0 | 0.832 | 55651 / 51452 |
+| forklift | C | 171 | 66 | 105 | 0 | 0 | 0 | 93 | 0.244 | 59577 / 10200 |
+| forklift | C' | 230 | 69 | 158 | 0 | 3 | 0 | 73 | 0.217 | 59577 / 9095 |
+
+Bridging (g_max 15):
+
+| class | column | tracked points | predicted points | runs bridged | runs lost (> 15) | frames lost in long runs |
+|---|---|---|---|---|---|---|
+| person | C | 51092 | 344 | 129 | 8 | 151 |
+| person | C' | 51085 | 367 | 141 | 7 | 135 |
+| forklift | C | 9618 | 582 | 91 | 31 | 708 |
+| forklift | C' | 7187 | 1908 | 575 | 61 | 1314 |
+
+#### Frame-level recall stage by stage (same references and matcher as the pilot)
+
+| viewpoint | class | reference boxes | S2 detections | C tracked | C tracked + predicted | C' tracked | C' tracked + predicted |
+|---|---|---|---|---|---|---|---|
+| all | person | 55651 | 0.92 | 0.91 | 0.92 | 0.91 | 0.92 |
+| all | forklift | 59577 | 0.61 | 0.16 | 0.17 | 0.12 | 0.15 |
+| ceiling | person | 29357 | 0.92 | 0.91 | 0.92 | 0.91 | 0.92 |
+| ceiling | forklift | 29536 | 0.78 | 0.19 | 0.20 | 0.14 | 0.18 |
+| eye_level | person | 26294 | 0.92 | 0.91 | 0.91 | 0.91 | 0.91 |
+| eye_level | forklift | 30041 | 0.43 | 0.13 | 0.14 | 0.10 | 0.12 |
+
+C' detections by score band, reference match and tracking (bands as in the pilot; the C' thresholds differ from the band edges):
+
+| class | band | detections | matched, tracked | matched, not tracked | unmatched, tracked | unmatched, not tracked | share of matched that were tracked (C → C') |
+|---|---|---|---|---|---|---|---|
+| person | [0.10, 0.25) | 429 | 12 | 167 | 19 | 231 | 28.5 % → 6.7 % |
+| person | >= 0.25 | 51589 | 50655 | 288 | 399 | 247 | 99.4 % → 99.4 % |
+| forklift | [thr, 0.10) | 12426 | 25 | 12018 | 2 | 381 | 0.0 % → 0.2 % |
+| forklift | [0.10, 0.25) | 17153 | 1072 | 16064 | 0 | 17 | 21.3 % → 6.3 % |
+| forklift | >= 0.25 | 6895 | 6088 | 806 | 0 | 1 | 86.4 % → 88.3 % |
+
+#### Position (D-41), C and C' (scored on frames whose track is matched to an identity)
+
+| column | class | n scored | median (m) | P95 (m) | > 1 m | > 2 m | > 5 m | with a position, not scored |
+|---|---|---|---|---|---|---|---|---|
+| C | person | 50522 | 0.23 | 0.53 | 2.0 % | 1.1 % | 0.5 % | 620 |
+| C | forklift | 10179 | 0.81 | 1.45 | 36.9 % | 0.0 % | 0.0 % | 21 |
+| C' | person | 50505 | 0.23 | 0.52 | 2.0 % | 1.1 % | 0.5 % | 649 |
+| C' | forklift | 9073 | 0.82 | 1.44 | 37.1 % | 0.0 % | 0.0 % | 22 |
+
+#### Completeness (ratio of sums; Target B intervals)
+
+| metric | basis | C | C' |
+|---|---|---|---|
+| CM-01 | detected | 0.91 [0.89, 0.92] | 0.91 [0.89, 0.92] |
+| CM-01 | detected_plus_inferred | 0.91 [0.89, 0.93] | 0.91 [0.89, 0.93] |
+| CM-03 | detected | 0.12 [0.10, 0.15] | 0.09 [0.07, 0.11] |
+| CM-03 | detected_plus_inferred | 0.13 [0.11, 0.16] | 0.12 [0.09, 0.14] |
+| CM-08 | detected | 0.00 [0.00, 0.00] | 0.00 [0.00, 0.00] |
+| CM-08 | detected_plus_inferred | 0.00 [0.00, 0.00] | 0.00 [0.00, 0.00] |
+
+#### N9 rule tests on the unmatched BL-6 events (rules 1-3; rules 4 and 5 not evaluated, CR-029)
+
+"unresolved" here means not attributed by rules 1-3.
+
+| column | unmatched events | false_alert | duplicate_alert | evidence_unavailable | perception | tracking | unresolved | ceiling: perception / tracking / unresolved | eye level: perception / tracking / unresolved |
+|---|---|---|---|---|---|---|---|---|---|
+| C | 111 | 103 | 8 | 0 | 0 | 2 | 109 | 0 / 0 / 64 | 0 / 2 / 45 |
+| C' | 120 | 113 | 7 | 0 | 1 | 1 | 118 | 0 / 0 / 78 | 1 / 1 / 40 |
+
+Descriptive cross-check (not an N9 rule): overlap in time with a reference interaction of the same identity pair.
+
+| column | pair unresolved | no reference of the pair | reference of the pair, no overlap | overlap, temporal IoU < 0.3 (iou_m) | overlap ≥ 0.3 |
+|---|---|---|---|---|---|
+| C | 0 | 0 | 1 | 110 | 0 |
+| C' | 0 | 0 | 3 | 116 | 1 |
+
+#### CR-007 / D-8 evidence: column B forklift position error along and across the viewing direction
+
+Error = estimate − simulator footprint centre. Line of sight: from the camera's floor point to the true position; along < 0 means the estimate lies between the camera and the true centre. Optical axis: the camera's axis projected on the floor.
+
+| viewpoint | n | error median / P95 (m) | line of sight: along, signed median | along |·| median / P95 | across median / P95 | share beyond the truth | optical axis: along signed median | across median / P95 | camera-to-object distance median (m) |
+|---|---|---|---|---|---|---|---|---|---|
+| all | 59622 | 1.07 / 1.48 | -1.01 | 1.02 / 1.46 | 0.09 / 0.58 | 2.9 % | -0.96 | 0.12 / 0.88 | 6.97 |
+| ceiling | 29536 | 1.13 / 1.48 | -1.10 | 1.11 / 1.48 | 0.06 / 0.26 | 3.6 % | -1.08 | 0.08 / 0.45 | 7.95 |
+| eye_level | 30086 | 0.99 / 1.48 | -0.88 | 0.88 / 1.42 | 0.12 / 0.79 | 2.1 % | -0.73 | 0.19 / 1.09 | 5.65 |
+
+Column B events for cameras (one worker–forklift pair each: True) by median forklift error:
+
+| group | cameras (ceiling / eye level) | configuration | EV-M1 | matched / assessable | EV-M2 | matched / system |
+|---|---|---|---|---|---|---|
+| below 1m | 90 (36 / 54) | BL-2 | 0.47 | 58 / 124 | 0.41 | 58 / 142 |
+| below 1m | 90 (36 / 54) | BL-3 | 0.71 | 88 / 124 | 0.48 | 88 / 182 |
+| below 1m | 90 (36 / 54) | BL-4 | 0.73 | 90 / 124 | 0.47 | 90 / 192 |
+| below 1m | 90 (36 / 54) | BL-5 | 0.72 | 89 / 124 | 0.47 | 89 / 188 |
+| below 1m | 90 (36 / 54) | BL-6 | 0.72 | 89 / 124 | 0.47 | 89 / 191 |
+| at or above 1m | 116 (63 / 53) | BL-2 | 0.60 | 95 / 158 | 0.54 | 95 / 175 |
+| at or above 1m | 116 (63 / 53) | BL-3 | 0.76 | 120 / 158 | 0.65 | 120 / 186 |
+| at or above 1m | 116 (63 / 53) | BL-4 | 0.77 | 121 / 158 | 0.63 | 121 / 191 |
+| at or above 1m | 116 (63 / 53) | BL-5 | 0.76 | 120 / 158 | 0.63 | 120 / 189 |
+| at or above 1m | 116 (63 / 53) | BL-6 | 0.77 | 121 / 158 | 0.63 | 121 / 191 |
+
+#### C' runtime (this laptop, mains power, no other agent)
+
+| stage | total |
+|---|---|
+| s3_track | 0.28 h (1019 s) |
+| s4 | 0.01 h (30 s) |
+| s5 | 0.01 h (47 s) |
+
+### Observations (descriptive, validation only)
+- **C' lowers the event metrics at every configuration.** BL-6 recall is 0.07 (21 of 282) against 0.11 (31), and precision 0.15 against 0.22. The Target B intervals of C and C' overlap.
+- **Forklift tracking under C'.** Tracks started rose from 171 to 230. Fragments rose from 105 to 158, and bridged gaps from 91 to 575. Predicted points rose from 582 to 1,908, and tracked points fell from 9,618 to 7,187. Identities never matched fell from 93 to 73: more forklifts are touched by some track, but for less time.
+- **Of the matched forklift detections in [0.10, 0.25), 6.3 % were tracked under C', against 21.3 % under C.** C's second stage, which ignores score, used to extend tracks with them. Under C' they reach only the score-fused first stage. Detections ≥ 0.25 are tracked slightly more often (88.3 % against 86.4 %).
+- **Cost of starting tracks at low score.** False tracks: person 49 (C: 36), forklift 3 (C: 0). Identity switches: 0 in both columns. CM-03 (detected) fell from 0.12 to 0.09.
+- **Persons are almost unaffected:** per-frame recall at each stage, CM-01 0.91, IDF1 0.832 against 0.833. Only 429 person detections fall in [0.20, 0.25).
+- **N9.**
+  - C: 111 unmatched events, of which 103 are false alerts and 8 duplicates. Rule 1: 0. Rule 2 (perception): 0. Rule 3 (tracking): 2. Not attributed by rules 1–3: 109.
+  - C': 120 unmatched events; perception 1, tracking 1, not attributed 118.
+  - In C, 110 of the 111 overlap a reference interaction of the same pair with temporal IoU above 0 and below 0.3; one has no overlap. The unmatched events are therefore not phantom pairs. They are the right worker and forklift at about the right time, with an extent that does not match the reference's. Whether geometry (rule 4) or event reasoning (rule 5) causes that waits for CR-029.
+- **CR-007 evidence.**
+  - Column B forklift error lies along the line of sight: signed median −1.01 m (ceiling −1.10, eye level −0.88), against 0.09 m across. Only 2.9 % of estimates lie beyond the true centre.
+  - The camera split shows higher B event metrics for cameras with forklift error ≥ 1 m (BL-6 0.77 / 0.63) than below 1 m (0.72 / 0.47). BL-2, which uses no floor geometry, differs in the same direction (0.60 / 0.54 against 0.47 / 0.41), so the split reflects viewpoint and scene differences, not the effect of the offset.
+- **Not done (D-47 item 4):** Grounding DINO on the detector path, fine-tuning, the test partition, and any change to pre-registration v1.
+
+### Operations record (D-47 item 5)
+- **Ultralytics sync.**
+  - The repository's settings file (`out/m1b/ultralytics_config/Ultralytics/settings.json`, git-ignored) has had `"sync": false` since the T-22 probe set it at 02:13 on 19 Nov.
+  - Every detector run goes through `zero_shot_probe.ultralytics_settings()`, which sets `sync` to false and asserts it before a model is loaded. That covers the S2 run (`s2_yolo_world.py` → `zero_shot_probe.yolo_world`) and the frame-level check.
+  - Sync was therefore off during both runs. The file was last written at 15:09, during the frame-level check, still with `sync: false`.
+- **Network.** It was reachable during both runs: the power log shows network-access assertions during the S2 run (06:32), and this session was online during the frame-level check.
+  - Hugging Face telemetry was disabled (`HF_HUB_DISABLE_TELEMETRY=1`).
+  - Grounding DINO was loaded with `snapshot_download` of the pinned revision, which most likely made a metadata request to huggingface.co (not verified). That call sends no project data.
+  - Nothing in the results changes.
+- **YOLO_CONFIG_DIR.** Every `.venv-det` command now gets the in-repository folder through `pilot_common.DET_ENV`, set before any Ultralytics import. Tests: `tests/m1b/test_det_env.py`. The two earlier slips (T-23 and the f83a241 revision), which created a settings file in the home folder, came from ad hoc commands outside the run scripts; both files were deleted.
+- **Power and other agents.** The C' run was on mains power, with no other agent session running (checked before the run).
+- **License rows.** Recorded for the next S2 build (pre-registration v2): the CLIP text encoder and Grounding DINO `license_component` rows go inside the artifact (`research/m1b/pilot_license_components.json` holds them now).
 
 ## Stop
-**STOP (D-47).** The Owner and the Architect review the results, the limitations, AR-62 and the options in D-47. The test partition stays reserved (D-37).
+**D-47 decided (19 Nov 2026):** the pilot is accepted and AR-62 is accepted. **STOP (D-49)** for review of the D-47 follow-up (C', N9, CR-007 evidence) and of CR-029. The test partition stays reserved (D-37).

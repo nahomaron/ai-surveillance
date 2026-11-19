@@ -337,6 +337,16 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 **Evidence added for the T-22 decision (Architect ruling A of 14 Nov 2026, from CR-023):** on SDG the T8.2 heading fallback (yaw = direction of travel of the footprint centre) is about 77° off the body axis during pivot turns. Over the 67 runs checked, 7,860 of 16,507 moving-forklift frames (≥ 0.3 m/s) are turning frames (yaw rate ≥ 5°/s over 10 frames); on them the angle between the direction of travel and the box long axis has median 77.5°, P99 81.3°, and 74 % lie beyond 75°. On straight frames (8,647) it is within 10.5° on every frame. SmartSpaces turning frames: median 2.5°, P99 11.3°. Source: `research/datasets/part3/yaw_motion_check.json`. A camera-based path without a supplied yaw would therefore orient the forklift rectangle almost across the body during such turns; the anchor rule and the yaw fallback should be decided together.
 - Evidence added 17 Nov 2026 (G-M1a, D-40 item 7): on SDG validation the full_camera forklift position error has median 1.12 m (ceiling) and 0.99 m (eye level), P99 about 1.5 m, and no outliers (no tracked forklift above 10 m; `research/m1a/position_diagnosis_sdg.json`). This is consistent with the bottom-centre foot point lying at the near edge of the footprint rather than at its centre (forklift box 3.03 × 1.13 m). Input for the T-22 decision.
 
+- **Evidence added 19 Nov 2026 (D-47 item 2; diagnosis only, no anchor rule chosen; `research/m1b/cr007_evidence.py` → `cr007_evidence.json`).** Column B of the T-25p pilot: oracle boxes with `full_camera` geometry, 206 SDG validation cameras, 59,622 forklift object-frames. Error = estimate − simulator footprint centre, split along and across the line of sight (camera floor point → true position):
+  - **All:** along, signed median −1.01 m (|along| median 1.02 m, P95 1.46 m); across, median 0.09 m (P95 0.58 m). Only 2.9 % of estimates lie beyond the true centre.
+  - **Ceiling:** along −1.10 m; across 0.06 m (P95 0.26 m).
+  - **Eye level:** along −0.88 m; across 0.12 m (P95 0.79 m).
+  - The optical-axis split gives the same picture: along −0.96 m, across 0.12 m.
+  - So the error lies almost entirely along the line of sight, toward the camera, by about 1 m. That lies between the prior's half-width (0.58 m) and half-length (1.34 m), which fits the box's bottom-centre landing near the footprint's near edge rather than its centre (the `box_bottom_centre` → centre offset this CR asks about). It is not proof of the anchor, since the forklift's orientation to the camera varies.
+  - **EV split** (column B; one worker–forklift pair per camera, split by the camera's median forklift error):
+    - below 1 m (90 cameras; 36 ceiling, 54 eye level): BL-6 EV-M1 0.72 (89/124), EV-M2 0.47 (89/191);
+    - 1 m or more (116 cameras; 63 ceiling, 53 eye level): EV-M1 0.77 (121/158), EV-M2 0.63 (121/191).
+    - BL-2 uses no floor geometry, yet it also differs between the groups (0.47 / 0.41 against 0.60 / 0.54). The split is therefore confounded by viewpoint and scene; it does not isolate the effect of the forklift offset on events.
 ## AR-36 — Status-log and CV-SIM conventions
 - **Gaps and choices:**
   1. The status log's first `prev_hash` is 64 zeros. `status_id` uses the prefix `sts`. Entries are stored as JCS JSON lines.
