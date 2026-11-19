@@ -70,7 +70,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-20 | **Draft the pre-registration** (proposal only): parameter grids, configurations, strata, primary metrics, acceptance criteria with targets and n_min. **Does not run test-partition evaluation** | T-18, T-19 | E-1.2.1 §9.6; D.1 | `docs/preregistration_DRAFT.md`, with this checklist: (1) *k_sup* chosen from the measured frame-interval distribution of the qualified datasets, above their natural VFR jitter; (2) camera grouping basis declared explicitly for every research configuration (AR-22); (3) frame-quality rules version (AR-27); (4) w_ref and its relation to timeline lengths (D-7); (5) the not-visible run-length table per dataset and class (T18 amendment 3), for the choice of g_max; (6) a proposed per-frame stratum `forklift_turning` (|yaw rate| above a stated value; CR-023 ruling), so R3/R4 results are reported for turning and straight frames separately | M |
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
-| [S] | V-02 | **Reviewer and adjudication UI (Owner tooling)** — off the critical path, no contract change, does not unblock T-21, does not touch the frozen pre-registration; branch `v02-review-ui` only. **STOP after the compatibility audit: D-44 / CR-027** (C-layer protocol undefined) | — | V-02 task text (Owner, 16 Nov 2026) | the compatibility audit is accepted, the item 6 tests pass, the suite passes twice, and the V-02 report is pushed | M |
+| [x] | V-02 | **T22 blind review application, part A (Owner tooling)** — branch `v02-review-ui` only, no merge into `m0-implementation`. D-44 decided (option a): protocol = Appendix T T22 (E-1.2.20). Local app (127.0.0.1): Owner setup, seeded pilot and batches (T22.6), blind reviewer screen (T22.4, T22.5), adjudication and tier-1 audit (T22.7), status entries (T22.8), reference_class (T22.9), exposure rule (T22.2 b), agreement panel (T22.10 a). Five readings provisional (**CR-028**, open); representation AR-61 | D-44 | D-44 instructions, step 3 | every T22 fixture through the app, acceptance tests pass, suite twice, `research/review_ui/V-02_report.md` pushed | M |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [x] | G-M1a | **STOP — Owner reviews M1a** (D-40 DECIDED 17 Nov 2026: M1a accepted as experimental validation evidence) | T-21 | — | Owner decision recorded | — |
 
@@ -776,3 +776,27 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. D-45 is still open (T-22 STOP), as is CR-026.
 - Next: step 2 of the D-44 instructions (merge `m0-implementation` into `v02-review-ui`), then V-02 under T22 on that branch. On `m0-implementation`: **STOP (D-45)**.
+
+### 2026-11-19 — V-02 part A done: T22 blind review application (branch `v02-review-ui`); CR-028 opened, AR-61
+- Did:
+  - **Step 2:** merged `m0-implementation` (T22, E-1.2.20) into `v02-review-ui`, no rebase (e148a93). Conflicts in WORKPLAN, DECISIONS_NEEDED and CHANGE_REQUESTS were resolved by keeping both sides' entries. The D-44 / CR-027 renumbering was already on this branch (5deb106).
+  - **Step 3:** built `src/rq1/review/`:
+    - `protocol.py`: the T22 rules as pure functions;
+    - `store.py`: the validation store under `out/review/`, append-only, every row checked by `validate_row` and VR-E-053, the existing `StatusLog`;
+    - `frame.py`: the BL-6 SDG validation episodes of the T-21 run, read only;
+    - `server.py`: standard-library server on 127.0.0.1, plain HTML and inline JS;
+    - `__main__.py`: `init` and `serve`.
+  - Covered: sign-in by pseudonymous profile with salted, hashed passphrases (not a security boundary); Owner setup of annotator rows; pilot and batches; blind reviewer screen; adjudication with the tier-1 audit; consensus meeting; status entries; reference_class; exposure rule; agreement panel (Owner only, after full adjudication). Banner on every page.
+  - `src/rq1/fixtures/review_video.py`: a synthetic fixture video (shapes only).
+  - `research/review_ui/make_demo.py`: drives a fixture batch end to end through the app and renders 7 screenshots with headless Chrome (installed locally; nothing installed or downloaded).
+  - Report: `research/review_ui/V-02_report.md`.
+- Tests: 2521/2521 (full suite), twice: identical. New in `tests/review/`:
+  - 52 protocol tests (hand calculations: allocation with and without seeded ties, capping, κ five and four labels, P90);
+  - 28 application tests: FX-13 and FX-13a to FX-13f through sign-in, pages and form posts; ref_event writes no status; allocation and pilot exclusion; per-reviewer order; no system output or other person's record on a reviewer's pages or JSON; the second reviewer never sees the first assessment; clip window and ranges; 127.0.0.1 only; no network URL; banner; wording rules; Owner-only pages; static import check (no S5, S8 or pipeline entry point; κ / α functions only); 2 held-data tests on the T-21 SDG frame; the report wording.
+- Commit: this entry's commit (pushed)
+- Problems / CRs:
+  - **CR-028** (open): five T22 readings that change a number (audit size, α units, later batches, pilot records, allocation under capping). The tool runs with provisional readings, recorded in every manifest. A second non-pilot batch per configuration and partition is refused until item 3 is decided.
+  - **AR-61** (proposed): 11 representation choices.
+  - The original V-02 task text is not on this computer; its constraints were taken from the compatibility audit (noted in the report).
+  - No SDG validation recording has more than one person or forklift, so outlines are exercised on fixtures only.
+- Next: **STOP for V-02** (no merge into `m0-implementation`, no pull request). CR-028 should be decided before a real reference batch. The reporting workflow waits for T23.
