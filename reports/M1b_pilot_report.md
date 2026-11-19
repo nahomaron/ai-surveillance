@@ -1,6 +1,6 @@
 # M1b detector-path pilot report — validation partition (T-25p)
 
-**Status: accepted at D-47 (19 Nov 2026) as experimental validation evidence (synthetic, validation only). The D-47 follow-up (C', N9, CR-007 evidence) is added below for review (D-49).** Revised earlier on the Owner's instruction of 19 Nov 2026 (report and evaluation code only; no stage re-run, nothing tuned). All 206 pilot cameras ran through S2 → S5 and were evaluated; the frame-level check ran on both models.
+**Status: accepted at D-47 (19 Nov 2026) as experimental validation evidence (synthetic, validation only). The D-47 follow-up (C', N9, CR-007 evidence) and the D-50 extent table are added below. The pilot is CLOSED (D-50) as exploratory validation evidence.** Revised earlier on the Owner's instruction of 19 Nov 2026 (report and evaluation code only; no stage re-run, nothing tuned). All 206 pilot cameras ran through S2 → S5 and were evaluated; the frame-level check ran on both models.
 
 Every number in this report is **experimental**: synthetic data (SDG), validation partition only (D-36, D-37), one zero-shot detector at fixed thresholds, one tracker at default parameters. Nothing here is "validated", and nothing here is a claim about real footage (D-45 item 4). Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed. No acceptance criterion is registered or evaluated (D-45 item 4).
 
@@ -77,6 +77,7 @@ Neither threshold was tuned (D-45 items 0, 1 and 4).
   - 110 of the 111 overlap in time a reference interaction of the same pair, but with temporal IoU below 0.3: right pair, roughly right time, wrong extent.
   - Rules 4 (geometry) and 5 (event reasoning) need definitions for the detector path first (CR-029). C' looks the same: 120 unmatched events; 1 perception, 1 tracking, 118 not attributed by rules 1–3.
 - **The forklift position offset (CR-007 evidence).** With oracle boxes and camera geometry (column B), the forklift error of about 1 m lies almost entirely along the camera's line of sight, toward the camera. Along: median −1.01 m; across: 0.09 m. This fits the box's bottom-centre marking the footprint's near edge rather than its centre. Added to CR-007 for the Architect; no rule chosen.
+- **D-50: right pair, wrong extent.** Counted by any temporal overlap with the same pair (descriptive, not the N4 metric), 141 of the 142 BL-6 events in C overlap a real interaction. Half of the unmatched ones overlap it by a temporal IoU of 0.1 or less, and 38 of the 100 references found are split over two or more episodes that are rarely linked. The pilot is closed (D-50); the extent question goes to the Architect for v2.
 
 ## Technical report
 
@@ -403,7 +404,7 @@ Every weight file loaded in the pilot has a `license_component` row and a `NOTIC
 - **Evaluation:** about 2 min for 206 cameras on 2 workers, against 0.5 h estimated. The aggregation was run twice and gave a byte-identical `pilot_results.json`.
 - **Frame-level check:** YOLO-World 0.34 s and Grounding DINO 15.2 s per frame (median).
 - **Tests:** full suite 2465 passed, 8 skipped (`.venv-det`-only tracker tests), run twice: identical. In `.venv-det`: `test_tracking_*` 16/16, `test_zs_match` 7/7. `tracker_loss.py` was run twice and gave byte-identical JSON.
-- **Wording linter** (`rq1.export.report.lint`): two W4 hits, both quoting the disclaimer: the sentence "Nothing here is 'validated'" itself, and this line.
+- **Wording linter** (`rq1.export.report.lint`, run again after D-50): two W4 hits, both quoting the disclaimer: the sentence "Nothing here is 'validated'" itself, and this line. No other hit.
 
 ## D-47 follow-up: C' (post-hoc, exploratory), N9 diagnosis and CR-007 evidence
 
@@ -605,5 +606,48 @@ Column B events for cameras (one worker–forklift pair each: True) by median fo
 - **Power and other agents.** The C' run was on mains power, with no other agent session running (checked before the run).
 - **License rows.** Recorded for the next S2 build (pre-registration v2): the CLIP text encoder and Grounding DINO `license_component` rows go inside the artifact (`research/m1b/pilot_license_components.json` holds them now).
 
+## D-50: episode extent and fragmentation on the detector path (descriptive)
+
+Owner decision D-50 (19 Nov 2026). Computed from stored outputs only, with no stage re-run (`research/m1b/extent_check.py` → `pilot_extent.json`; hand-computed tests in `tests/m1b/test_extent_check.py`). N4 and every reported metric are unchanged. The pilot is closed with this table.
+
+- **Scope:** BL-6, label group G1, columns C and C'. References are the assessable G1 references, and events the deciding G1 system events, both as in N4. Pairs are resolved as for N4.
+- **Best same-pair IoU:** for each unmatched event (false or duplicate alert), the largest temporal IoU with a reference of the same identity pair (0 if there is none).
+- **Overlapping episodes:** for each reference that is N4-matched or overlapped by a same-pair BL-6 episode, the number of such episodes, and how many of them carry `continuation_of_nk`.
+- **"Any temporal overlap, same pair"** is descriptive, not the N4 metric:
+  - a reference is found when any same-pair event overlaps it;
+  - an event is supported when it overlaps any same-pair reference;
+  - there is no one-to-one rule and no iou_m.
+
+#### Unmatched BL-6 events: temporal IoU with the best same-pair reference
+
+| column | unmatched events | 0 | (0, 0.1] | (0.1, 0.2] | (0.2, 0.3) | >= 0.3 |
+|---|---|---|---|---|---|---|
+| C | 111 | 1 | 55 | 36 | 19 | 0 |
+| C' | 120 | 3 | 60 | 36 | 20 | 1 |
+
+#### References matched (N4) or overlapped by a same-pair episode: overlapping same-pair BL-6 episodes
+
+| column | references | of which N4-matched | 1 episode | 2 | 3 | 4 or more | with 2 or more | N4-matched with 2 or more | episodes overlapping | of which linked by continuation_of_nk |
+|---|---|---|---|---|---|---|---|---|---|---|
+| C | 100 | 31 | 62 | 31 | 7 | 0 | 38 | 8 | 145 | 4 |
+| C' | 97 | 21 | 62 | 28 | 6 | 1 | 35 | 6 | 140 | 5 |
+
+#### EV-M1 / EV-M2 with "any temporal overlap, same pair" (descriptive, not the N4 metric)
+
+| column | references found / assessable | recall (descriptive) | events supported / events | precision (descriptive) | N4 EV-M1 / EV-M2 (reported) |
+|---|---|---|---|---|---|
+| C | 100 / 282 | 0.35 | 141 / 142 | 0.99 | 0.11 / 0.22 |
+| C' | 97 / 282 | 0.34 | 138 / 141 | 0.98 | 0.07 / 0.15 |
+
+**Observations (descriptive, validation only).**
+- **Almost every detector-path event is about a real interaction of the right pair.** Under "any temporal overlap, same pair", 141 of the 142 BL-6 events in C overlap one (0.99; C' 0.98). Under N4 only 31 match (EV-M2 0.22).
+- **The events are much shorter than the interactions they overlap.** Half of the unmatched events in C (55 of 111) reach a temporal IoU of 0.1 or less, and none reaches 0.3.
+- **Interactions are split into several episodes, which are rarely linked.**
+  - 38 of the 100 references found by overlap are covered by two or more separate same-pair episodes.
+  - Only 4 of the 145 overlapping episodes carry `continuation_of_nk`.
+  - The cause was not diagnosed: fragmented forklift tracks (column C: 105 of 171 forklift tracks are fragments) are one candidate.
+- **Recall is limited even under overlap.** 100 of the 282 references (0.35) are overlapped at all, in line with the forklift tracking coverage (CM-03 0.12).
+- **These counts do not change N4.** The question is listed for the Architect in `docs/preregistration/v2_notes.md`.
+
 ## Stop
-**D-47 decided (19 Nov 2026):** the pilot is accepted and AR-62 is accepted. **STOP (D-49)** for review of the D-47 follow-up (C', N9, CR-007 evidence) and of CR-029. The test partition stays reserved (D-37).
+**D-47 decided (19 Nov 2026):** the pilot is accepted and AR-62 is accepted. **D-50 decided (19 Nov 2026):** the detector-path pilot is CLOSED as exploratory validation evidence. Columns A, B, C and C' stay as reported, and no further tracker variant is run on these cameras. CR-007, CR-029 and CR-026 go to the Architect as inputs for pre-registration v2 (`docs/preregistration/v2_notes.md`). **STOP.** The test partition stays reserved (D-37).

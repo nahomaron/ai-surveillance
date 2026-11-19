@@ -1,6 +1,7 @@
 """D-50 item 2: episode extent and fragmentation on the detector path, C and C' (descriptive, from stored outputs only).
 
-  PYTHONPATH=src .venv/bin/python research/m1b/extent_check.py   -> research/m1b/pilot_extent.json
+  PYTHONPATH=src .venv/bin/python research/m1b/extent_check.py            -> research/m1b/pilot_extent.json
+  PYTHONPATH=src .venv/bin/python research/m1b/extent_check.py --tables   (markdown for the report)
 
 BL-6, label group G1, as in the pilot's N4 matching (`matching.match_window`); N4 and the reported metrics are unchanged.
 - references = the assessable G1 references; events = the deciding G1 system events; pairs as resolved for N4
@@ -108,7 +109,37 @@ def run() -> dict:  # pragma: no cover
     return res
 
 
+def tables(res: dict) -> str:
+    """Markdown for the report (`extent_check.py --tables`)."""
+    cols = ("C", "C'")
+    L = ["#### Unmatched BL-6 events: temporal IoU with the best same-pair reference\n",
+         "| column | unmatched events | " + " | ".join(BANDS) + " |", "|---|---|" + "---|" * len(BANDS)]
+    for c in cols:
+        d = res["columns"][c]["unmatched_by_band"]
+        L.append(f"| {c} | {sum(d.values())} | " + " | ".join(str(d[b]) for b in BANDS) + " |")
+    L += ["\n#### References matched (N4) or overlapped by a same-pair episode: overlapping same-pair BL-6 episodes\n",
+          "| column | references | of which N4-matched | 1 episode | 2 | 3 | 4 or more | with 2 or more | N4-matched with 2 or more | episodes overlapping | of which linked by continuation_of_nk |",
+          "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for c in cols:
+        d = res["columns"][c]["references_matched_or_overlapped"]
+        k = d["by_episode_count"]
+        L.append(f"| {c} | {d['n']} | {d['matched']} | {k.get('1', 0)} | {k.get('2', 0)} | {k.get('3', 0)} | {k.get('4', 0)} | {d['refs_with_2plus_episodes']} | "
+                 f"{d['matched_refs_with_2plus_episodes']} | {d['episodes_total']} | {d['episodes_linked']} |")
+    L += ["\n#### EV-M1 / EV-M2 with \"any temporal overlap, same pair\" (descriptive, not the N4 metric)\n",
+          "| column | references found / assessable | recall (descriptive) | events supported / events | precision (descriptive) | N4 EV-M1 / EV-M2 (reported) |",
+          "|---|---|---|---|---|---|"]
+    n4 = {"C": json.load(open(os.path.join(os.path.dirname(__file__), "pilot_results.json")))["ev"]["C"]["BL-6"],
+          "C'": json.load(open(os.path.join(os.path.dirname(__file__), "pilot_results_cprime.json")))["ev"]["C'"]["BL-6"]}
+    for c in cols:
+        d = res["columns"][c]["any_overlap_same_pair"]
+        L.append(f"| {c} | {d['found']} / {d['a']} | {d['recall']:.2f} | {d['supported']} / {d['s']} | {d['precision']:.2f} | {n4[c]['EV-M1']:.2f} / {n4[c]['EV-M2']:.2f} |")
+    return "\n".join(L)
+
+
 if __name__ == "__main__":  # pragma: no cover
+    if sys.argv[1:2] == ["--tables"]:
+        print(tables(json.load(open(os.path.join(os.path.dirname(__file__), "pilot_extent.json")))))
+        sys.exit(0)
     out = run()
     p = os.path.join(os.path.dirname(__file__), "pilot_extent.json")
     with open(p, "w") as f:

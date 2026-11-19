@@ -564,9 +564,9 @@ Owner decision (19 Nov 2026; pasting it = approval):
    - The next S2 build (pre-registration v2) carries the CLIP and Grounding DINO license_component rows inside the artifact.
 6. Tests: full suite twice; detector-environment tests. Progress log, commit, push. Report: a new section for C' and items 2-3, plus a short addendum to the plain-language page. STOP and open the next free D number for review. A part that needs a contract definition gets a CR and is skipped.
 
-## D-49 (2026-11-19) — STOP after the D-47 follow-up (C', N9, CR-007 evidence)        status: OPEN
+## D-50 (2026-11-19) — STOP after the D-47 follow-up (C', N9, CR-007 evidence)        status: DECIDED (19 Nov 2026)
 Task: T-25p (D-47 items 1-3)   Blocking: further detector-path work
-Numbering: D-48 is not used in this file, but the Owner cited "D-48" for the T23 agent's run during S2. D-49 is used here to avoid a collision.
+Numbering: opened as "D-49" at `bbba908`, renumbered to D-50 by the Owner (D-50 item 0) to avoid the T23 branch's D-49. D-48 is cited by the Owner for the T23 agent's run during S2 and is not used in this file. No D-49 exists on `v02-review-ui` (pushed branch and worktree checked 19 Nov 2026), so nothing there was changed.
 Question: the D-47 follow-up is in `reports/M1b_pilot_report.md` (section "D-47 follow-up"; addendum on the plain-language page). Results: `research/m1b/pilot_results_cprime.json`, `pilot_tracker_loss_cprime.json`, `pilot_n9.json`, `cr007_evidence.json`. Descriptive, validation only.
 - **C' (post-hoc, exploratory; the rule fixed in D-47).**
   - BL-6 EV-M1 0.07 (21/282), EV-M2 0.15 (21/141), against C 0.11 and 0.22.
@@ -589,5 +589,18 @@ Options: for the Owner and Architect; none of these was run.
 - (e) Close the detector-path pilot here.
 
 Agent's recommendation: none; the Owner decides.
-Owner decision: ______
+Owner decision (19 Nov 2026; pasting it = approval):
+0. This entry is renumbered from D-49 to D-50 wherever it is cited (report, Progress log). The T23 agent's D-49, if it exists on `v02-review-ui`, stays unchanged.
+1. The detector-path pilot (T-25p) is **CLOSED** as exploratory validation evidence. No further tracker variant (including fuse_score off) is run on the 206 pilot cameras. Columns A, B, C and C' stay as reported.
+2. One more descriptive table, from stored outputs only (no stage re-run), for C and C':
+   - per unmatched BL-6 event: the temporal IoU with the best same-pair reference, as counts by IoU band 0, (0, 0.1], (0.1, 0.2], (0.2, 0.3);
+   - per matched or overlapped reference: the number of same-pair system episodes overlapping it, and how many are linked by continuation_of_nk;
+   - EV-M1/EV-M2 with "any temporal overlap, same pair" as the match condition, labelled "descriptive, not the N4 metric".
+   N4 and the reported metrics are unchanged.
+3. For pre-registration v2 (recorded in the v2 notes; v1 unchanged):
+   - detector thresholds and tracker parameters (fuse_score included) are fixed as one package, chosen only on a tuning subset: all cameras of the runs that contain a T-22 probe camera. v2 results are reported on the other validation runs and on test.
+   - The episode-extent / fragmentation question from item 2 is listed for the Architect.
+4. Architect: CR-007 (anchor rule; the evidence is now sufficient) and CR-029 (N9 rules 4-5 on the detector path), together with CR-026, as v2 inputs. No rule is implemented now.
+5. Not now: Grounding DINO on the detector path; fine-tuning (T-24); the test partition (D-37).
+6. Tests, Progress log, commit, push. STOP.
 

@@ -82,7 +82,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
 | [x] | T-23 | **Tracker adapters (WP-17)**, reduced to the D-45 pilot (item 1): Ultralytics ByteTrack per class (default parameters), S2 rows → S3 rows, bridges of ≤ g_max = 15 eligible frames predicted/inferred, longer lost; fixtures with dropouts, noise, an ineligible frame, a fragment and a swap; T-12 association; IDF1 (TrackEval port, AR-62) | T-22, D-45 | tests in `.venv-det` and main suite; HOTA not required (D-45) | M |
 | [x] | T-23s | **S2 detector stage (WP-15 adapter; D-45 item 2):** YOLO-World v2-s, Ultralytics defaults, "person" 0.20 / "forklift" 0.05, every eligible frame; `detection` rows with license_component; tolerance class | T-23 | S2 tests; runtime measured on one camera | S |
-| [S] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
+| [x] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
 
@@ -853,7 +853,7 @@ _(the agent appends entries here)_
 - Problems / CRs: none new; no item needed a CR. One slip, corrected: importing Ultralytics without `YOLO_CONFIG_DIR` (to locate `byte_tracker.py`) created `~/Library/Application Support/Ultralytics/settings.json` at 16:01. It was deleted with its folder. Only the import ran, with no prediction, so nothing was sent.
 - Next: **STOP (D-47).**
 
-### 2026-11-19 — D-47 decided; C', N9 and CR-007 evidence done; STOP at D-49
+### 2026-11-19 — D-47 decided; C', N9 and CR-007 evidence done; STOP at D-50 (opened as D-49, renumbered by the Owner)
 - Did:
   - **D-47** recorded; AR-62 marked ACCEPTED.
   - **C'** (item 1). Adapter: `bytetrack.aligned_params` / `cprime_params` and an optional `params_by_class`; without it the configuration equals `default_config()`, so C is unchanged.
@@ -868,10 +868,29 @@ _(the agent appends entries here)_
     - **Network:** reachable during both runs (power-log network assertions at 06:32; this session online during the frame-level check). Hugging Face telemetry was off. Grounding DINO's `snapshot_download` most likely made a metadata request to huggingface.co (not verified; no project data sent).
     - Nothing in the results changed.
   - **Report:** "D-47 follow-up" section (`d47_report_tables.py`) and a plain-language addendum. Status line updated.
-  - **D-49** opened. D-48 is cited by the Owner but not used in this file, so D-49 avoids a collision.
+  - **D-50** opened (first numbered D-49; renumbered to D-50 by the Owner to avoid the T23 branch's D-49).
 - **Hand-reasoning correction, recorded:** the first version of `test_tracking_bytetrack.py::CPrime::test_cprime_low_score_forklift_starts_but_cannot_continue` expected 10 tracked points. It omitted fuse_score. The test failed against the installed Ultralytics code, and the reasoning was redone from `matching.fuse_score` (line 145) and `byte_tracker.get_dists` (lines 529-531). The expected value became [1, 0, ..., 0], with the reasoning in the docstring, before any pilot run. The expected value comes from the tracker's documented arithmetic, not from the run's output.
 - Tests: 2481/2481 passed, 11 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 19/19, `test_zs_match` 7/7. New tests: `test_cprime_rule.py` (4), `test_det_env.py` (3), `test_n9_pilot.py` (5), `test_cr007_evidence.py` (4), `test_tracking_bytetrack.py::CPrime` (3). All D-47 results files written twice: byte-identical; the C' tracker re-run on 3 cameras gave identical output. No settings file in the home folder.
 - Commit: this entry's commit (pushed)
 - Problems / CRs: CR-029 opened (N9 rules 4 and 5 on the detector path).
-- Next: **STOP (D-49).**
+- Next: **STOP (D-50).**
 
+
+### 2026-11-19 — D-50 decided; T-25p CLOSED; extent table; v2 notes; STOP
+- Did:
+  - **Renumbering (item 0):** the detector-path entry opened as "D-49" at `bbba908` is now **D-50** in `DECISIONS_NEEDED.md`, the report and this log. No D-49 exists on `v02-review-ui` (pushed branch and worktree checked), so nothing there was touched.
+  - **T-25p CLOSED (item 1)** as exploratory validation evidence and ticked. Columns A, B, C and C' are unchanged, and no further tracker variant is run.
+  - **Extent table (item 2):** `research/m1b/extent_check.py` → `pilot_extent.json`, from stored outputs only, written twice byte-identical.
+    - Results: C 141/142 events overlap a same-pair reference (descriptive precision 0.99) and 100/282 references are overlapped (0.35); N4 EV-M1/EV-M2 are 0.11/0.22.
+    - 55 of 111 unmatched events have best same-pair IoU ≤ 0.1.
+    - 38 of 100 overlapped references span two or more episodes; 4 of 145 episodes carry continuation_of_nk.
+    - Report section "D-50" added, plus one addendum bullet on the plain-language page.
+  - **Pre-registration v2 notes (item 3):** new `docs/preregistration/v2_notes.md`, collecting D-41, D-47 item 5 (licence rows in S2) and D-50 item 3.
+    - Detector and tracker are fixed as one package, including fuse_score.
+    - Tuning subset: all cameras of the 13 runs with a probe camera (116 cameras). Reporting on the other 11 validation runs (110 cameras) and on test.
+    - The extent / fragmentation question is listed for the Architect. v1 is unchanged.
+  - **Architect inputs (item 4):** CR-007, CR-029 and CR-026 marked as pre-registration v2 inputs for the Architect. No rule implemented.
+- Tests: 2485/2485 passed, 11 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 19/19, `test_zs_match` 7/7. New: `tests/m1b/test_extent_check.py` (4, hand-computed). `pilot_extent.json` written twice: byte-identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. Wording linter: one W5 hit ("100 interactions") reworded to "100 references"; the remaining two W4 hits quote the disclaimer.
+- Next: **STOP.** Not now (D-50 item 5): Grounding DINO on the detector path, fine-tuning (T-24), the test partition (D-37).
