@@ -82,7 +82,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
 | [x] | T-23 | **Tracker adapters (WP-17)**, reduced to the D-45 pilot (item 1): Ultralytics ByteTrack per class (default parameters), S2 rows → S3 rows, bridges of ≤ g_max = 15 eligible frames predicted/inferred, longer lost; fixtures with dropouts, noise, an ineligible frame, a fragment and a swap; T-12 association; IDF1 (TrackEval port, AR-62) | T-22, D-45 | tests in `.venv-det` and main suite; HOTA not required (D-45) | M |
 | [x] | T-23s | **S2 detector stage (WP-15 adapter; D-45 item 2):** YOLO-World v2-s, Ultralytics defaults, "person" 0.20 / "forklift" 0.05, every eligible frame; `detection` rows with license_component; tolerance class | T-23 | S2 tests; runtime measured on one camera | S |
-| [ ] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
+| [S] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
 
@@ -812,3 +812,16 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. AR-62 open.
 - Next: T-25p (wait for S2; pipeline; frame check; evaluation; report; STOP D-47).
+
+### 2026-11-19 — T-25p done (detector-path pilot); STOP at D-47
+- Did:
+  - **S2** finished on all 206 cameras. The run stopped at 07:23 after 71 cameras (no error; cause not recorded, probably sleep or throttling) and was resumed at 10:50 under `caffeinate -i`; finished cameras were skipped. S2 commits: `ac40508` (first 71), `533d2ff` (the rest; the only difference is `pilot_report_tables.py`, which no run imports). 6.39 h wall time.
+  - **Pipeline** (`run_pilot.py`, S2 artifact → S3 ByteTrack → S4 full_camera → S5 BL-2..BL-6) on all 206 cameras at commit `533d2ff`; 0.58 h.
+  - **Frame-level check** (item 3c): 100 frames, 20 pilot cameras, seed 2026111902; YOLO-World forklift recall 0.59, Grounding DINO 0.94 (`research/m1b/pilot_frame_check.json`).
+  - **Evaluation** (`evaluate_pilot.py`, columns A/B/C) → `research/m1b/pilot_results.json`; aggregation run twice, byte-identical.
+  - **Report** `reports/M1b_pilot_report.md` (tables from `pilot_report_tables.py`). Headline (descriptive): column C recall 0.11 and precision 0.22 at BL-3..BL-6 against B 0.74 / 0.55 and A 0.97–1.00 / 0.94–0.95. Forklift tracking is the bottleneck: tracks on 16 % of forklift-visible frames, IDF1 0.24; 81 % of forklift detections score below ByteTrack's 0.25 start threshold. Nothing tuned (D-45 item 4).
+  - `research/m1b/pilot_report_tables.py` committed earlier (`533d2ff`).
+- Tests: 2460/2460 passed, 8 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 16/16, `test_zs_match` 7/7.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. AR-62 open (D-47). CR-026 open.
+- Next: **STOP (D-47).** Test partition reserved (D-37).

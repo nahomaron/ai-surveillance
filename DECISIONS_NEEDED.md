@@ -517,3 +517,18 @@ Decision:
 3. **V-02 fixes** on `v02-review-ui`: stray shell text in the report; an Owner-only audit trail view (status history per target, with the hash-chain check); the real-frame dry run, if stored outside a fixture store, renamed and marked as never for real review; the original V-02 items 3 to 7 as the agent understood them, each marked, in the report.
 4. Only the contract text goes into `m0-implementation`; the code stays on `v02-review-ui`.
 Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free: D-47, CR-029, AR-62.
+
+
+## D-47 (2026-11-19) — STOP after the T-25p detector-path pilot        status: OPEN
+Task: T-25p   Blocking: all later M1b work on the detector path
+Question: The pilot is done (`reports/M1b_pilot_report.md`; `research/m1b/pilot_results.json`, `pilot_frame_check.json`). 206 SDG validation cameras, 24 leakage groups, 282 assessable T21 references. Descriptive, validation only.
+- **Events (G1, BL-6; Target B intervals in the report):** A (oracle, simulator positions) recall 1.00, precision 0.95; B (oracle boxes, full_camera) 0.74, 0.55; C (YOLO-World + ByteTrack, full_camera) 0.11, 0.22. BL-2 in C: 0.03, 0.10.
+- **Detection (all pilot frames):** person recall 0.92, precision 0.98; forklift recall 0.61 (ceiling 0.78, eye level 0.43), precision 0.99.
+- **Tracking:** person IDF1 0.83, CM-01 0.91; forklift IDF1 0.24, tracks on 16 % of forklift-visible frames, 93 forklift identities never matched; CM-03 0.12. No identity switches; fragmentation common.
+- **Score bands:** 81 % of forklift detections score below 0.25 (ByteTrack's start threshold) and 34 % at or below 0.10 (unused by ByteTrack); persons 99 % at or above 0.25. The D-45 forklift threshold 0.05 and the ByteTrack defaults were applied as fixed.
+- **Position (D-41), where available:** C person median 0.23 m, P95 0.53 m; B 0.19 m, 0.75 m. C forklift median 0.81 m (kept forklifts only).
+- **Frame-level check (20 cameras outside the probe):** YOLO-World person 0.94 / forklift 0.59; Grounding DINO tiny 0.96 / 0.94 at 15.2 s per frame (YOLO-World 0.34 s).
+- **Review:** AR-62 (items 3, 5, 6, 7 are review flags).
+Options: for the Owner and Architect. Questions raised by the pilot, not tried (D-45 item 4): (a) make the forklift detection threshold and the tracker thresholds consistent; (b) try a stronger forklift detector on the detector path (Grounding DINO, about 44 times the cost per frame); (c) diagnose the 111 unmatched BL-6 candidate events in column C; (d) stop the detector path here. Agent's recommendation: none; the Owner decides. Nothing was tuned; the test partition was not touched.
+Owner decision: ______
+
