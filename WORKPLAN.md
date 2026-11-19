@@ -81,7 +81,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 |---|---|---|---|---|---|
 | [x] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
 | [x] | T-23 | **Tracker adapters (WP-17)**, reduced to the D-45 pilot (item 1): Ultralytics ByteTrack per class (default parameters), S2 rows → S3 rows, bridges of ≤ g_max = 15 eligible frames predicted/inferred, longer lost; fixtures with dropouts, noise, an ineligible frame, a fragment and a swap; T-12 association; IDF1 (TrackEval port, AR-62) | T-22, D-45 | tests in `.venv-det` and main suite; HOTA not required (D-45) | M |
-| [ ] | T-23s | **S2 detector stage (WP-15 adapter; D-45 item 2):** YOLO-World v2-s, Ultralytics defaults, "person" 0.20 / "forklift" 0.05, every eligible frame; `detection` rows with license_component; tolerance class | T-23 | S2 tests; runtime measured on one camera | S |
+| [x] | T-23s | **S2 detector stage (WP-15 adapter; D-45 item 2):** YOLO-World v2-s, Ultralytics defaults, "person" 0.20 / "forklift" 0.05, every eligible frame; `detection` rows with license_component; tolerance class | T-23 | S2 tests; runtime measured on one camera | S |
 | [ ] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
@@ -789,3 +789,26 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: AR-62 (open, for D-47). One slip, corrected: two test imports of Ultralytics without `YOLO_CONFIG_DIR` created a settings file in the home folder. It was deleted (no prediction ran, nothing was sent), and the adapter now sets the folder before any import.
 - Next: T-23s (S2 stage; runtime estimate on one camera before the pilot).
+
+### 2026-11-19 — T-23s done (S2 detector stage); T-25p in progress (S2 run started)
+- Did:
+  - **S2 stage.** `research/m1b/s2_frames.py` (main `.venv`, PyAV, the S1 decoder) streams the eligible frames of a recording to `research/m1b/s2_yolo_world.py` (`.venv-det`).
+    - The detector path is exactly the probe's: YOLO-World v2-s, classes "person" and "forklift", Ultralytics defaults, score floor 0.05.
+    - Raw boxes are stored per camera. The D-45 thresholds (person 0.20, forklift 0.05) are applied when `rq1.perception.s2` builds the `detection` artifact (tolerance class; `license_component` row for the weights, AR-62 item 2).
+    - The run refuses a dirty source tree and records the code commit.
+  - **Runtime estimate** (item 3e; `research/m1b/pilot_runtime_estimate.md`):
+    - one camera: 0.378 s per frame (median), 118.5 s wall time;
+    - 206 cameras, 61,749 eligible frames: about 6.7 h of detection and about 8 h in all;
+    - below 12 h, so no STOP.
+  - **Population** (item 3a): 206 cameras (99 ceiling, 107 eye-level) = 226 − 20 probe cameras (`tests/m1b/test_pilot_population.py`).
+  - **Pilot code**, committed before the run:
+    - `run_pilot.py` (S2 artifact → ByteTrack → S3 → S4 full_camera → S5 BL-2..BL-6);
+    - `evaluate_pilot.py` (columns A, B, C; EV-M1/M2 with Target B; per-label O/H/PC; detection; T-12 tracking with IDF1; D-41 position; CM-01/03/08);
+    - `frame_check.py` (item 3c: seed 2026111902, 20 pilot cameras).
+  - `zero_shot_frames.extract` and `zero_shot_probe.run` gained optional seed, exclusion and output-path arguments; their defaults are unchanged.
+  - Smoke run on one camera in a scratch folder (deleted). Finding for the report: ByteTrack's default thresholds (0.25 / 0.1 / new track 0.25) lie above the D-45 forklift threshold (0.05), so many forklift detections never reach a track. Not tuned (D-45 item 4); a descriptive score-band count is added to the evaluation.
+  - S2 run over the 206 cameras started in the background (resumable; `out/m1b/pilot/s2_run.log`).
+- Tests: 2460/2460 passed, 8 skipped (`.venv-det`-only), full suite twice: identical. The commit of the S2 run scripts (7123f5e) was made after the new test alone, before a full-suite run; the full suite then passed twice on the next commit.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. AR-62 open.
+- Next: T-25p (wait for S2; pipeline; frame check; evaluation; report; STOP D-47).
