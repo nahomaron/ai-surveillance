@@ -3,6 +3,13 @@
  "fixtures": {
   "records/FX-11.json": "1024aa6a534c268c67693ad02e31b0b5ae57ebc7c4e684fdf6bebb58cbc21551",
   "records/FX-12.json": "9a78107dac190ee561fb3f01ed45cf4dbf8f4f101518afca581e0ec060a75ec4",
+  "records/FX-13.json": "13a6f2d961322d05bafe04f55f1d81c98cd7b9c50c361af9aa3a04aa0117a5c6",
+  "records/FX-13a.json": "d3382b36970d7e96ea693f07ab822d83f757d15a4e160ddab07fc3450370fd16",
+  "records/FX-13b.json": "7a32d1bb855835449e188dc83527704b81882d965da7245472f157b3d9714853",
+  "records/FX-13c.json": "e76acb348382bab5a1a31add9c8d46853a50a164c8b4574950be56eda92d732b",
+  "records/FX-13d.json": "e88e262fe9962724f37367d016abc603fa89878b75f77bf0be4a6f00edc007e2",
+  "records/FX-13e.json": "e86ad3f89e1433e9c9749b1410515b49cae51091db4d78fb6ca0de6f94a11cc4",
+  "records/FX-13f.json": "a52f8a05fcf0e0275cb7ae20518c94ca8a6b92fbc07814f2120387b7b91267ce",
   "records/FX-A3.1.json": "cd5a2dda7169f92a9dff48c1f79ec0ae16f6baa4c3bccf61d183740c34665327",
   "records/FX-A3.json": "946798f7e78df608720ee4e7219a4f89336a3519c3b3627efdfcc3de2e58f15c",
   "records/FX-A4.json": "513ed78d1e0290d63fd0fa30aa04e5b3d6fcac137719b7644d127576aea3dd57",

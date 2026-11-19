@@ -737,8 +737,9 @@ confidence f64
 rationale str
 blind bool
 shown_system_output bool
+review_time_s? f64
 submitted_utc ts
-""", True)
+""", True)  # review_time_s: Appendix T T22.13 (E-1.2.20)
 _t("adjudication", "adj", "Val", "V4", "human", "", """
 target_type enum{ref_event,system_episode,system_event}
 target_id id

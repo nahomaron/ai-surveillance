@@ -13,7 +13,8 @@ from rq1.schema.errors import ContractError
 ROOT = Path(__file__).resolve().parents[2] / "fixtures"
 REQUIRED_IDS = {f"N1-T{i}" for i in range(1, 14)} | {"N2-G1", "N2-G2", "N2-G3", "FX-TIE", "FX-W", "FX-CM"} \
     | {f"FX-ID-{i}" for i in range(1, 9)} | {f"FX-RC-{i}" for i in range(1, 7)} \
-    | {"FX-A3.1", "FX-B1", "FX-B2", "FX-B3", "FX-C1", "FX-C2", "FX-D1", "FX-D2", "FX-A3", "FX-A4", "FX-12", "FX-11", "TEST-ONLY-PARAMETERS"}
+    | {"FX-A3.1", "FX-B1", "FX-B2", "FX-B3", "FX-C1", "FX-C2", "FX-D1", "FX-D2", "FX-A3", "FX-A4", "FX-12", "FX-11", "TEST-ONLY-PARAMETERS"} \
+    | {"FX-13", "FX-13a", "FX-13b", "FX-13c", "FX-13d", "FX-13e", "FX-13f"}  # Appendix T T22 (E-1.2.20)
 
 
 def load(fixture_id):

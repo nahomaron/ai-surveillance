@@ -59,6 +59,7 @@ Options: (a) The proposal in CR-007: box_bottom_centre is treated as the centre,
 Agent's recommendation: (a). Details are in CR-007.
 Owner decision (12 Nov 2026): DEFERRED to T-22. Reopen it with GV-03/GV-04 evidence. Until then the oracle and simulator path uses the simulator footprint centre. Kept open as deferred.
 Evidence added 14 Nov 2026 (Architect ruling A, from CR-023 / D-32), for the T-22 decision: the T8.2 heading fallback is about 77° off the forklift's body axis during SDG pivot turns (median 77.5° on 7,860 turning frames; within 10.5° on all 8,647 straight frames). Details in CR-007.
+Evidence added 17 Nov 2026 (G-M1a, D-40 item 7): on SDG validation the full_camera forklift position error has median 1.12 m (ceiling) and 0.99 m (eye level), P99 about 1.5 m, and no outliers (no tracked forklift above 10 m; `research/m1a/position_diagnosis_sdg.json`). This is consistent with the bottom-centre foot point lying at the near edge of the footprint rather than at its centre (forklift box 3.03 × 1.13 m). Input for the T-22 decision.
 
 ## D-9 (2026-11-12) — Event-engine definitions missing from §6        status: CLOSED
 Task: T-09   Blocking: T-09 part B (S5 from the pipeline), T-12 to T-16
@@ -374,7 +375,7 @@ Owner decision D-38 detail and Architect ruling on CR-025 (14 Nov 2026, pasted =
 - D. Test partition still reserved (D-37).
 - Owner session instruction: long jobs write each completed camera's results to disk, and a restart resumes without recomputing finished work.
 
-## D-39 (2026-11-15) — SmartSpaces: the T21 references are not feasible as specified; what replaces SmartSpaces EV-M in v1?        status: OPEN
+## D-39 (2026-11-15) — SmartSpaces: the T21 references are not feasible as specified; what replaces SmartSpaces EV-M in v1?        status: DECIDED (option (a) for v1; T21 amendment for v2)
 Task: T-21   Blocking: SmartSpaces EV-M1–EV-M8, CM-02 (reference-moving frames) and CM-06 (reference clearance) on SmartSpaces. Not blocking: SmartSpaces base and full_camera runs (running under D-38 A.3), SmartSpaces GV and the other CM metrics, everything on SDG.
 Question: D-38 A.3 re-measurement (machine idle; `research/m1a/runtime_estimate.md` addendum): SmartSpaces base + full_camera ≈ **8.5 h** for the 19 cameras (≤ 12 h, so they run, one camera at a time). But T21.1 builds references from "every eligible frame on which both objects exist in the truth, whatever their visibility", and the SmartSpaces truth is scene-wide: every camera's truth holds all 60 persons and 9 forklifts on every frame they exist. That gives **4.44 million reference pair-frames per camera, 84.4 million over 19 cameras** (`research/m1a/smartspaces_reference_pair_frames.json`), about **200 h** at the measured 8.7 ms per pair-frame, and more memory per camera than this 8 GB machine has. Which plan?
 Options:
@@ -383,8 +384,77 @@ Options:
 - (c) **Run T21 as written in the background** (about 8–9 days serial; one camera at a time; memory-bound, may not complete on 8 GB).
 Agent's recommendation: (a) for v1, and (b) put to the Architect for v2. Under (b), "both visible at least once in the camera" would cut the pairs to those T21.3 can ever make assessable.
 Also for review (no work waits on it): AR-58 (accepted under D-38 A.1, evidence recorded) and the four AR-59 review flags: item 2 (T21.1 reference without visibility in Q), item 5 (GV-04 at full_camera positions), item 6 (GV-07 against simulator speed at the same w_v), item 7 (GV-08 realized minimum from the same run, null past the POW end).
+Owner decision (G-M1a, 17 Nov 2026, D-40 item 3): option (a) for v1: SmartSpaces EV-M1–EV-M8, CM-02 and CM-06 are not run in v1. For v2 the Architect will amend T21 to restrict reference pairs in a camera to pairs that are jointly visible (T20.1) in that camera at least once.
 
-## D-44 (2026-11-16) — STOP: V-02 needs a written C-layer review and adjudication protocol        status: OPEN
+## D-40 (2026-11-17) — STOP at G-M1a: Owner review of the M1a validation results        status: DECIDED (M1a accepted as experimental validation evidence; rulings 1–9)
+Task: G-M1a   Blocking: T-22 and all M1b work; any test-partition work (also D-37)
+Question: The M1a validation run is complete (`reports/M1a_report.md`, plain-language page first):
+- SDG: EV-M, CM, GV, sweeps and MR-01 = 1.0.
+- SmartSpaces Warehouse_000: CM and GV.
+- The position-error diagnosis is done (Architect, 17 Nov 2026).
+Does the Owner accept M1a as reported, and in what order should the open items be decided?
+Open items for this gate:
+1. **D-39** (SmartSpaces EV-M; recommendation (a) for v1).
+2. **CR-026** (range condition for full_camera foot rays; proposal only).
+   - Rays at or above the horizon are already null (`not_observable`). Rays that meet the floor far away give numeric positions.
+   - A 50 m limit removes only wrong SDG positions, but also 239,502 SmartSpaces positions that are correct within 1 m.
+   - Recommendation: a per-site range registered with the calibration, and a new null reason.
+3. **AR-58** (accepted under D-38 A.1), **AR-59** review flags 2, 5, 6, 7, and **AR-60** (speed-only; the optional check on the two largest SmartSpaces cameras was skipped on the Architect's instruction).
+4. **Hidden feet at moderate range** (CR-026 stated limitation): whether the foot-point source on occluded bottom edges needs its own CR before M1b.
+Agent's recommendation: decide D-39 and CR-026 first. GV-01 / GV-07 / GV-08 cannot be read as calibration quality until CR-026 is settled. No acceptance criterion was evaluated (validation only).
+Owner decision (G-M1a, 17 Nov 2026):
+1. M1a ACCEPTED as experimental validation evidence, subject to item 2 (report wording).
+2. Report wording: BL-4/BL-6 vs BL-3 → "agree more closely with the BL-6 reference definition (T21.5)"; plain-language sentence on reference dependence (BL-2 vs BL-3 least reference-dependent; BL-3 vs BL-6 partly circular); note beside BL-2: R1/R2 disagreement 51 % SDG, 4 % SmartSpaces, so the BL-2 finding is viewpoint-dependent and not yet tested on SmartSpaces.
+3. D-39: option (a) for v1; T21 amendment (jointly visible pairs) for v2.
+4. AR-59 item 2 ACCEPTED; item 5 REVISED (GV-04 at simulator positions, re-report); item 6 ACCEPTED; item 7 ACCEPTED, and GV-08 also reported against simulator truth. AR-58 and AR-60 ACCEPTED.
+5. Descriptive per-label (O, H, PC) recall and precision per configuration on SDG.
+6. CR-026: no fixed range rule; kept open; pixel-sensitivity and person height-consistency diagnostics added; the Architect writes the rule for v2/M1b.
+7. D-8 / CR-007: SDG forklift full_camera median error about 1 m, no outliers.
+8. Pre-registration v2 note (recorded below as D-41).
+9. M1b feasibility: CPU detector runtime on this Intel Mac, model licences, FPS on 10 SDG frames (no download over 1 GB without approval); then STOP.
+
+## D-41 (2026-11-17) — Note for pre-registration v2: how position accuracy is stated        status: RECORDED (no change to v1)
+Source: Owner, G-M1a (D-40 item 8).
+- GV-01 RMSE is outlier-dominated on both datasets: SDG 44.8 m, of which 99.9 % of the squared error comes from 0.3 % of points; SmartSpaces 12.5 km.
+- Pre-registration v2 should state position accuracy as **median, P95 and outlier share** (share above stated distances).
+- **Position availability** (share of object-frames with a numeric position, by null reason) should be reported separately.
+- Pre-registration v1 and its frozen criteria are unchanged.
+
+## D-42 (2026-11-17) — STOP after the M1b feasibility probe: go-ahead for T-22?        status: DECIDED (19 Nov 2026)
+Task: T-22   Blocking: T-22 (detector benchmark) and all later M1b work
+Question: The D-40 item 9 probe is done (`research/m1b/feasibility.md`).
+- **Runtimes:** PyTorch 2.2.2 CPU and ONNX Runtime 1.19.2 install and run on this Intel Mac. They live in a separate Python 3.9 environment, `.venv-det`, because no wheels exist for the project's Python 3.15.
+- **Speed** on 10 SDG validation frames (1920 × 1080): YOLOX-nano 34.3 FPS; SSDlite320 7.1; YOLOX-s 3.9; Faster R-CNN MobileNetV3 1.1; Faster R-CNN ResNet50 v2 0.12.
+- **Licences:** torchvision code BSD-3 (weights trained on COCO, no separate licence stated); YOLOX Apache-2.0; Ultralytics AGPL-3.0 (not used).
+- COCO has no forklift class. On these frames the models emitted person and a few other labels (truck, tv, boat, suitcase …), not matched to objects.
+Options:
+- (a) Go ahead with T-22 (benchmark on an SDG and SmartSpaces validation frame subset with truth matching, licence table), using `.venv-det` as a pre-approved environment.
+- (b) Hold M1b until the Architect has written the CR-026 rule and pre-registration v2 has started.
+Agent's recommendation: none; the Owner decides. The weight licences need the Owner's check before any use beyond research. A separate interpreter (`.venv-det`, Python 3.9) for detector code is an environment decision; it should be recorded in WORKPLAN §0 if accepted.
+Owner decision (19 Nov 2026, with Architect instructions):
+1. **Option (a), with a revised T-22 scope: zero-shot detectors.** YOLO-World v2-s (Ultralytics) and Grounding DINO tiny (IDEA-Research), with exactly the prompts "person" and "forklift". Probe protocol fixed before any detector is run (WORKPLAN T-22 row; `research/m1b/zero_shot_probe.md`).
+2. `.venv-det` (Python 3.9, PyTorch 2.2.2 CPU) is accepted and recorded in WORKPLAN §0.
+3. New installs go into `.venv-det` only: `ultralytics` and `transformers` at the newest versions supporting Python 3.9 and torch 2.2.2, pinned in `research/m1b/requirements_detector.txt`.
+4. Downloads: each below 1 GB, into git-ignored `out/m1b/weights/`, with source URL, SHA-256 and licence recorded in `research/m1b/` and `NOTICE.md`.
+5. Not allowed: changing the frozen pre-registration or any analysis module; running S4, S5 or S8 with detector output (that waits for the Architect's detector-path pilot spec); fine-tuning; Ultralytics trackers. STOP after the probe report.
+
+Owner answers to two questions the agent asked before downloading (19 Nov 2026):
+- **Budget.** The datasets already held 29.24 GB of the 30 GB cap, and the feasibility weights 0.31 GB. The new weights (about 1.07 GB) did not fit. Owner: model weights count toward the cap, and the cap is raised to **31.5 GB** for this task.
+- **CLIP package.** YOLO-World's text encoder needs the Ultralytics CLIP fork, which is installed from git and is not on PyPI. Owner: install it into `.venv-det`, pinned by commit (`7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40`).
+
+## D-43 (2026-11-19) — Licence for the repository        status: DECIDED (19 Nov 2026)
+Source: Owner, 19 Nov 2026.
+Decision:
+- (a) `LICENSE` at the repository root: the unmodified GNU AGPL-3.0 text, from https://www.gnu.org/licenses/agpl-3.0.txt (SHA-256 `0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0`).
+- (b) `NOTICE.md` lists the third-party material the repository refers to but does not contain, each with its licence:
+  - the SDG near-miss data (OpenMDW-1.1);
+  - SmartSpaces `MTMC_Tracking_2026` (CC BY 4.0);
+  - Safe and Unsafe Behaviours (CC BY 4.0; no frames, crops or faces in this repository, D-24 c);
+  - every detector weight file used, with its source URL and SHA-256.
+  It states that no dataset files or weights are in the repository.
+- (c) Reason for the record: the working system uses an AGPL-3.0 detector (Ultralytics YOLO-World, D-42). The Owner may relicense the project's own code later.
+
+## D-44 (2026-11-16) — STOP: V-02 needs a written C-layer review and adjudication protocol        status: DECIDED (19 Nov 2026)
 Task: V-02   Blocking: V-02 only (off the critical path; nothing on `m0-implementation` waits on it)
 Question: The V-02 compatibility audit (`research/review_ui/V-02_compatibility_audit.md`, branch `v02-review-ui`) found no schema conflict: the tables, UUIDv7 IDs, the hash-chained status log, the VR-E-053 blindness guard and the κ / α functions all exist and can be reused unchanged. But the protocol the screens must enforce is not in the contract (CR-027, gaps G1–G8). Without it the agent would be inventing labels, statuses and blind rules. How should V-02 proceed?
 Options:
@@ -394,4 +464,29 @@ Options:
 Readings the agent would propose if asked (not applied): G1 (a) interval and pair may be shown, blind stays true if no system label, flag, measured value or other assessment is shown; G2 (a) two; G4 (a) [0, 1]; G5 (a) the Owner's three values; G7 tier1 iff both labels equal and neither is `unsure`, else tier2; class `independent_expert_judgment` iff both assessments blind and both reviewers attested independent. G3, G6 and G8 have no reading in the text.
 Also: Q1 time-on-task (no field; add none?), Q2 what `agreement_stat_ref` points to, Q3 build FX-13 with Architect-supplied expected values?, Q4 V-02 on real footage (D-24 b forbids labels on SmartSpaces 026/027).
 Agent's recommendation: (a), or (b) if the Owner wants the tool before the contract text. The agent recommends not starting the adjudication screen under (c), because its status entries are the part most likely to be reported.
+Owner decision (19 Nov 2026): **option (a).** The Architect's C-layer protocol is Appendix T section **T22** (contract **E-1.2.20**), appended verbatim; pasting it was the Owner's approval of T22 and of the steps that follow.
+- On `m0-implementation`: T22 appended to Appendix T; CLAUDE.md contract line updated to E-1.2.20; T22.13 schema change (`reviewer_assessment.review_time_s · f64 · nullable`) in the schema source with its validator test; fixtures FX-13 and FX-13a to FX-13f with the expected values T22 states. No other code change on this branch.
+- On `v02-review-ui`: merge `m0-implementation` (no rebase), then build V-02 as the T22 blind review application (part A). The original V-02 items 3 to 7 still apply; where they differ, T22 wins. No merge back into `m0-implementation`, no pull request.
+- Not in this decision: the reporting workflow (candidate_review procedures); the Architect issues it as T23.
+- Entry copied from branch `v02-review-ui` on 19 Nov 2026 so both branches agree.
+
+Note on numbering: D-44 and CR-027 were opened on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026) and are copied here with their decision (19 Nov 2026). The next free numbers are D-46 and CR-028 on both branches.
+
+## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: OPEN
+Task: T-22   Blocking: the detector-path pilot (S4/S5/S8 with detector output), T-23 and all later M1b work
+Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.json`).
+- Data: 100 SDG validation frames; 93 person and 97 forklift reference boxes; IoU ≥ 0.3; best-F1 threshold. Descriptive only.
+- **Grounding DINO tiny:**
+  - person: recall 0.95, precision 1.00 (threshold 0.45);
+  - forklift: recall 0.89, precision 0.96 (threshold 0.45);
+  - speed: 16.5 s per frame (median), P90 19.7 s; peak memory 2.3 GB.
+- **YOLO-World v2-s:**
+  - person: recall 0.90, precision 0.98 (threshold 0.20);
+  - forklift: recall 0.63, precision 0.92 (threshold 0.05, the lowest tested; recall 0.38 at 0.10);
+  - speed: 0.35 s per frame, P90 0.37 s; peak memory 1.8 GB.
+- Forklifts on eye-level cameras are the weak case for both models: recall 0.51 for YOLO-World and 0.83 for Grounding DINO.
+- **Scale.** All 67,800 SDG validation frames would take about 6.6 h with YOLO-World and about 13 days of serial CPU time with Grounding DINO on this laptop.
+- **Choices to review.** The instruction did not fix seven choices (draw procedure, frame spacing, model settings, Grounding DINO class assignment without NMS, tie rules, timing). They are listed in the report for the Architect.
+Options: for the Owner and Architect (detector-path pilot spec, choice of detector, prompts or thresholds for the pilot). The agent makes no recommendation. Nothing was fine-tuned or tracked, and no detector output entered the pipeline.
 Owner decision: ______
+

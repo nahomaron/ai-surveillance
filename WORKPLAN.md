@@ -19,6 +19,8 @@ How to use this file:
 | After M0 is accepted: download one SDG-Warehouse near-miss shard and selected synthetic SmartSpaces scenes, **22 GB cap in total, outside git**, **after** recording source authenticity and licence terms in T-17. Real-world scenes (`Warehouse_026`, `Warehouse_027` and any other real footage) are excluded (Owner decision D-3, 9 Nov 2026) | [-] |
 | Install CPU-only PyTorch or ONNX Runtime for the detector benchmark (T-22), if available for this platform | [-] |
 | **Amendment D-21 (12 Nov 2026):** download cap raised to **30 GB in total**, outside git. Real-world footage is permitted **for testing only** (no training or fine-tuning), stored under `data/raw/real/`, after it is recorded in `qualification.md` Part 3 and the Owner approves the selection (D-24); no processing of real footage before G-FQ (D-25) | [-] |
+| **D-42 (19 Nov 2026):** detector environment `.venv-det` (macOS system Python 3.9.6, PyTorch 2.2.2 CPU; git-ignored; outside `requirements.lock`) accepted. New installs into `.venv-det` only, pinned in `research/m1b/requirements_detector.txt`: `ultralytics` and `transformers` (newest versions supporting Python 3.9 and torch 2.2.2: 8.4.215 and 4.57.6, with their dependencies), and the Ultralytics CLIP fork from git pinned by commit (Owner answer, 19 Nov 2026). Downloads: YOLO-World v2-s weights with the CLIP ViT-B/32 text encoder, and IDEA-Research/grounding-dino-tiny (safetensors), each below 1 GB, into git-ignored `out/m1b/weights/` | [-] |
+| **D-42 budget (Owner answer, 19 Nov 2026):** model weights count toward the download cap; the cap is raised from 30 GB to **31.5 GB** in total for this task | [-] |
 
 Never pre-approved: paid services, cloud upload of data, real worker footage (except the D-21 testing-only exception above), fine-tuning compute purchases, any contract change.
 
@@ -70,7 +72,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
 | [S] | V-02 | **Reviewer and adjudication UI (Owner tooling)** — off the critical path, no contract change, does not unblock T-21, does not touch the frozen pre-registration; branch `v02-review-ui` only. **STOP after the compatibility audit: D-44 / CR-027** (C-layer protocol undefined) | — | V-02 task text (Owner, 16 Nov 2026) | the compatibility audit is accepted, the item 6 tests pass, the suite passes twice, and the V-02 report is pushed | M |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
-| [S] | G-M1a | **STOP — Owner reviews M1a** | T-21 | — | Owner decision recorded | — |
+| [x] | G-M1a | **STOP — Owner reviews M1a** (D-40 DECIDED 17 Nov 2026: M1a accepted as experimental validation evidence) | T-21 | — | Owner decision recorded | — |
 
 ---
 
@@ -78,7 +80,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 
 | ✓ | ID | Task | Needs | Done when | Size |
 |---|---|---|---|---|---|
-| [ ] | T-22 | **Detector benchmark (WP-15).** Check whether CPU PyTorch or ONNX Runtime installs on this Mac. If it doesn't → **STOP** with options. Benchmark pretrained detectors on a small frame subset; record what COCO models output on forklifts (not assumed zero); licence table | G-M1a; §0 approval | Benchmark report | M |
+| [S] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
 | [ ] | T-23 | **Tracker adapters (WP-17)** with evidence classes; identity-association fixtures | T-22 | HOTA/IDF1 against simulator IDs | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
@@ -671,6 +673,90 @@ _(the agent appends entries here)_
 - Commit: e4388c4 (pushed)
 - Next: STOP on D-44. No merge, rebase or pull request (Owner decides).
 
+### 2026-11-17 — T-21: SmartSpaces evaluation stopped by the Owner; speed-only fix (AR-60); not restarted
+- Did: the SmartSpaces evaluation had finished 6 of 19 cameras; camera 7 (`rec_gbhz7…`) ran about 34 h without finishing (time grew much faster than camera size). On the Owner's instruction the evaluator and `finish_smartspaces.sh` were stopped (17 Nov, 04:30); camera 7's partial work is lost, the 6 finished `eval.pkl.gz` and all 19 truth tables are kept. Stale watcher shells from earlier sessions also killed. Cause found in S8 helpers that rescan whole tables per frame or per pair (`completeness`, `association.summarize`, `gv.realized_min`); fixed with per-window indexes, same computation order (**AR-60**).
+- Equivalence: 501 seeded random cases repr-identical to frozen pre-AR-60 copies (`tests/evaluation/test_ar60_eval_index.py`); real data, 3 SDG and 2 SmartSpaces cameras re-evaluated into a scratch folder, outputs repr-identical to the stored ones (`research/m1a/ar60_equivalence.jsonl`); `rec_a4xz…` 7 min → 25 s. The check on the two largest finished cameras (`rec_dazuru…`, `rec_bg7m…`) was not run (laptop resting).
+- Tests: 2391/2391 (full suite), determinism re-run: identical (2391/2391)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: AR-60 (proposed). D-39 open.
+- Next: (optional) AR-60 check on `rec_dazuru…` and `rec_bg7m…`; restart with `PYTHONPATH=src .venv/bin/python research/m1a/evaluate_m1a.py smartspaces run1 cameras 1 && … aggregate` (finished cameras are skipped); then the SmartSpaces part of the report; then STOP at G-M1a.
+
+### 2026-11-17 — T-21: SmartSpaces evaluation resumed and complete (AR-60 code)
+- Did: restarted `evaluate_m1a.py smartspaces run1 cameras 1` then `aggregate` at code 7812832 (AR-60). The 6 finished cameras were skipped; the other 13 (including `rec_gbhz7…`, which had run 34 h before AR-60) were evaluated in about 1 h in all (05:47). `research/m1a/results_smartspaces.json`: 19 cameras, 190 windows, one leakage group (Target B not informative), status experimental (synthetic, oracle perception, validation partition); EV-M, CM-02, CM-06 not run (D-39); sweeps not run (D-38 A.3).
+- Results (headline): CM-01 1.000; CM-03 0.567; CM-04 0.632; CM-05 0.000 detected / 0.017 detected+inferred; CM-08 0.000; CM-10 0.000. BL-6: 574 episodes (H 297, PC 466, NM 158, UD 116, O 52, IE 50). GV-04 1.87×1.13 m prior bias −0.28 m, 2.68×1.16 m −0.001 m. GV-06 ρ 0.35, R1/R2 disagreement 4 %.
+- **For review, GV-01 / GV-07 / GV-08 on full_camera:** heavy-tailed. GV-01 RMSE: forklift 33,275 m (P95 103 m); person 53 m (P95 99 m); pallet truck 17 m. The inferred points are small (RMSE 0.68–0.88 m), but the detected points are large. This matches the first-camera check (20 % of person errors above 10 m). Cause not verified. A likely candidate is the ground projection of box foot points near the horizon on SmartSpaces cameras. Nothing was changed.
+- Tests: 2391/2391 (full suite)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: D-39 open; AR-60 proposed (optional check on `rec_dazuru…`, `rec_bg7m…` still not run).
+- Next: diagnose the full_camera GV-01 tail (counts only, no rule change); SmartSpaces part of `reports/M1a_report.md`; then STOP at G-M1a.
+
+### 2026-11-17 — T-21: position-error diagnosis; SmartSpaces report section; CR-026; STOP at G-M1a (D-40)
+- Did (Architect instruction of 17 Nov 2026; validation only, statistics only, nothing decoded, no definition or frozen value changed):
+  - `research/m1a/position_diagnosis.py`: per full_camera point (tracked or predicted) on all 226 SDG and 19 SmartSpaces validation cameras. Recomputed positions equal the stored ones (0 mismatches on 2,071,041 points). Breakdown by state, class × viewpoint, bottom-edge offset, border, ray angle and outcome, range, and true distance → `research/m1a/position_diagnosis_{sdg,smartspaces}.json`.
+  - `research/m1a/position_cutoffs.py`: range and angle limits as evidence → `position_cutoffs.json`.
+  - The optional AR-60 check on the two largest cameras was skipped (Architect).
+- Findings:
+  - Predicted points: P99 ≤ 1.71 m on both datasets.
+  - Tracked points with the bottom edge within 2 px and not on a border: SmartSpaces P99 0.93 m.
+  - The errors come from visible boxes ending above the 3D box bottom, on shallow rays (median error 111 m below 1°, 35 m at 1–2°).
+  - Rays at or above the horizon (SDG 611, SmartSpaces 8,895) are already null (`not_observable`). Rays meeting the floor beyond 50 m give numbers (SDG 386 = 99.9 % of the squared error; SmartSpaces 974,217 = 50 %, and 37 % of SmartSpaces objects are truly beyond 50 m).
+- Raised: **CR-026** (range condition for foot rays; proposal only, not implemented); **D-40** (G-M1a stop).
+- Report: `reports/M1a_report.md`: status, plain-language page (SmartSpaces and the diagnosis summary), SmartSpaces technical section, diagnosis section, Stop.
+- Tests: 2391/2391 (full suite; no src change)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: D-39, CR-026, D-40 open; AR-58 / AR-59 flags / AR-60 for review.
+- Next: **STOP at G-M1a (D-40).** T-22 and all M1b work need G-M1a; test partition reserved (D-37). No independent task remains.
+
+### 2026-11-17 — G-M1a decided (D-40); rulings 1–9 carried out; M1b feasibility probe; STOP (D-42)
+- Decisions recorded:
+  - D-40 (M1a accepted as experimental validation evidence);
+  - D-39 (option (a) for v1; T21 amendment for v2);
+  - AR-58 and AR-60 ACCEPTED; AR-59 items 2, 6 and 7 ACCEPTED, item 5 REVISED;
+  - D-41 (pre-registration v2 note on GV-01 reporting);
+  - D-8 / CR-007 evidence (SDG forklift full_camera median about 1 m, no outliers).
+- Did:
+  - **Report wording** (item 2): BL-4/BL-6 vs BL-3 now "agree more closely with the BL-6 reference definition (T21.5)"; added the sentence on reference dependence and the BL-2 viewpoint note (R1/R2 disagreement 51 % SDG, 4 % SmartSpaces).
+  - **AR-59 item 5 revised / item 7 addition** (`research/m1a/gv_revised.py` → `gv_revised_{sdg,smartspaces}.json`):
+    - GV-04 at simulator positions: SDG +0.0004 m; SmartSpaces −0.0009 m (2.68 × 1.16 m) and −0.279 m (pallet trucks under the forklift prior). The prior clearance equals the stored base clearance on all 3,252,035 pair-frames.
+    - GV-08 against simulator truth: SDG bias 0.69 m (P5 −1.12, P95 2.19 m). The earlier GV-04 values are superseded in the report.
+  - **Per-label (O, H, PC) recall and precision on SDG** (item 5; `research/m1a/ev_by_label.py` → `ev_by_label_sdg.json`; descriptive). BL-2 never labels H or PC; PC appears only with R4; BL-4 = BL-6 (PC 0.996 / 0.945).
+  - **CR-026 diagnostics** (item 6; `research/m1a/position_sensitivity.py` → `position_sensitivity_{sdg,smartspaces}.json`; rows checked against posdiag; Jacobian checked by finite differences):
+    - (a) Sensitivity at 0.1 m/px: SDG catches 96.8 % of errors > 10 m and loses 0.02 % of points within 1 m. On SmartSpaces, 0.5 m/px catches 90.3 % and loses 18.1 %.
+    - (b) The head-height check separates weakly.
+    - CR-026 stays open; no rule implemented.
+  - **M1b feasibility** (item 9; `research/m1b/feasibility.md`, `detector_probe.py`, `detector_probe.json`, `requirements_detector.txt`):
+    - Environment: `.venv-det` from system Python 3.9.6 (no wheels for 3.14 / 3.15), git-ignored; PyTorch 2.2.2 CPU and ONNX Runtime 1.19.2 run.
+    - Weights: 310 MB in git-ignored `out/m1b/weights/`; no download over 1 GB.
+    - FPS on 10 SDG validation frames: YOLOX-nano 34.3, SSDlite 7.1, YOLOX-s 3.9, FRCNN-MobileNet 1.1, FRCNN-R50 0.12.
+- Tests: 2391/2391 (full suite; no src change)
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-026 open (Architect, v2/M1b); D-42 open.
+- Next: **STOP (D-42).** T-22 proper waits for the Owner's go-ahead; test partition reserved (D-37).
+
+
+### 2026-11-19 — D-43 licence; D-42 decided; T-22 zero-shot probe; STOP (D-45)
+- **D-43 (item 1):** `LICENSE` holds the unmodified AGPL-3.0 text from gnu.org (SHA-256 `0d96a4ff…abcb0`). `NOTICE.md` lists, without containing any of them:
+  - SDG (OpenMDW-1.1), SmartSpaces `MTMC_Tracking_2026` (CC BY 4.0) and Safe and Unsafe Behaviours (CC BY 4.0; no frames, crops or faces, D-24 c);
+  - all 8 detector and text-encoder weight files used, with source URL, SHA-256 and licence.
+- **D-42 (item 2):** decided, option (a); T-22 row revised (zero-shot scope); `.venv-det` recorded in WORKPLAN §0.
+  - Installs, `.venv-det` only: ultralytics 8.4.215 and transformers 4.57.6 (newest for Python 3.9 + torch 2.2.2). `opencv-python` pinned to 4.10.0.84, because 4.11 has no macOS 12 x86_64 wheel. Pinned in `requirements_detector.txt`; no existing package changed.
+  - Two Owner answers before downloading (recorded in D-42 and §0):
+    - the 30 GB cap would have been exceeded, so the Owner raised it to 31.5 GB, with weights counted;
+    - the Ultralytics CLIP fork is installed from git, pinned at `7ffa84b`.
+  - Downloads: 1,070,205,099 bytes (YOLO-World v2-s, CLIP ViT-B/32, Grounding DINO tiny), hashes checked. Held total 30.62 GB of 31.5 GB.
+  - One slip, corrected: CLIP first landed in an un-ignored `./weights/` folder. It was moved to `out/m1b/weights/` before any commit; Ultralytics now reads its settings from `out/m1b/ultralytics_config`.
+- **Probe:**
+  - Scripts: `research/m1b/zero_shot_frames.py` (seeded selection 2026111901 and reference boxes, main `.venv`), `zero_shot_probe.py` (`.venv-det`), `zs_match.py`.
+  - Data: 100 frames from 20 SDG validation cameras (10 ceiling, 10 eye-level); 93 person and 97 forklift references.
+  - Best-F1, descriptive:
+    - Grounding DINO: person recall 0.95 / precision 1.00, forklift 0.89 / 0.96, at 16.5 s per frame;
+    - YOLO-World: person 0.90 / 0.98, forklift 0.63 / 0.92 at the lowest threshold (0.05), at 0.35 s per frame.
+  - Report: `research/m1b/zero_shot_probe.md`, plain-language summary first, with 7 choices for Architect review. Nothing validated; no S4, S5 or S8 run, no fine-tuning, no tracker, no other prompt; pre-registration and analysis modules untouched.
+- Tests: 2406/2406 (full suite, main `.venv`), twice: identical. Probe matcher tests 7/7 in `.venv-det`. New tests: `tests/m1b/test_zs_frames.py` (seed reproducibility, committed record, refusal of test-partition recordings) and `tests/m1b/test_zs_match.py` (hand-computed 3-box toy case).
+- **Item 4:** done on `v02-review-ui` (commit 5deb106, pushed): D-40 → D-44 and CR-026 → CR-027, in the new `../rq1-v02` worktree.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. D-45 open (STOP). CR-026 still open.
+- Next: **STOP (D-45).** The detector-path pilot waits for the Architect's spec; test partition reserved (D-37).
 
 ### 2026-11-19 — V-02 numbering: D-40 → D-44, CR-026 → CR-027 (Owner instruction of 19 Nov 2026, item 4)
 - Did: the V-02 decision request and change request on this branch had the same numbers as D-40 (G-M1a) and CR-026 (foot-ray range rule) on `m0-implementation`. Renamed them to **D-44** and **CR-027**, with every reference updated: `DECISIONS_NEEDED.md`, `docs/CHANGE_REQUESTS.md`, the WORKPLAN V-02 row, `research/review_ui/V-02_compatibility_audit.md` and the V-02 Progress log entry (13 references in all). The base commit 636b311 contains none of the four numbers, so every replaced occurrence was a V-02 one. Nothing else changed.
@@ -678,3 +764,15 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: CR-027 / D-44 still open. V-02 stays STOPPED (the Architect is rewriting its protocol).
 - Next: STOP on D-44.
+
+### 2026-11-19 — D-44 decided: Appendix T T22 recorded (contract E-1.2.20), step 1 of the D-44 instructions done
+- Did:
+  - **D-44:** decided, option (a). The Architect's C-layer blind review and adjudication protocol is appended verbatim to Appendix T as section **T22**, contract **E-1.2.20**. The CLAUDE.md contract line is updated.
+  - D-44 is recorded as decided and CR-027 is closed as superseded by T22, in `DECISIONS_NEEDED.md` and `docs/CHANGE_REQUESTS.md`. Both entries were copied from `v02-review-ui` with their decision, so the two branches agree. Next free numbers on both branches: D-46, CR-028.
+  - **T22.13:** `reviewer_assessment.review_time_s · f64 · nullable` added to the schema source (`src/rq1/schema/tables.py`), with its `_null_reason` sibling (section 1.1 rule). Test: `tests/schema/test_t22_review_time.py`, which also pins the annotator, adjudication and validation_status_log fields as unchanged.
+  - **Fixtures FX-13 and FX-13a to FX-13f:** generated by `src/rq1/fixtures/records.py`, with the expected values T22 states and a hand calculation in each fixture. `check_fixture` recomputes the T22.8 (b) status mapping and the T22.7 tier and method pairs from each fixture's inputs. Test: `tests/fixtures_t03/test_t22_fixtures.py`, with expected values retyped from T22. Every annotator and assessment row is schema-valid, and the existing VR-E-053 check flags only the FX-13d row. FX-13e's re-adjudication final label (ud) is a fixture input. Its status entry (rejected) follows from T22.8 (b) and (c). The existing fixtures are byte-unchanged.
+  - No other code change on this branch. V-02 is built on `v02-review-ui` (steps 2 and 3).
+- Tests: 2441/2441 (full suite), twice: identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. D-45 is still open (T-22 STOP), as is CR-026.
+- Next: step 2 of the D-44 instructions (merge `m0-implementation` into `v02-review-ui`), then V-02 under T22 on that branch. On `m0-implementation`: **STOP (D-45)**.

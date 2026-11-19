@@ -1,0 +1,158 @@
+{
+ "expected": {
+  "adjudications": [
+   {
+    "agreement_stat_ref": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+    "assessment_ids": [
+     "rva_fx13e100000000000000000000",
+     "rva_fx13e200000000000000000000"
+    ],
+    "final_label": "nm",
+    "method": "agreement",
+    "namespace": "reference",
+    "prov_class": "human_adjudicated",
+    "reference_class": "independent_expert_judgment",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode",
+    "tier": "tier1"
+   },
+   {
+    "agreement_stat_ref": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+    "assessment_ids": [
+     "rva_fx13e100000000000000000000",
+     "rva_fx13e200000000000000000000",
+     "rva_fx13e300000000000000000000"
+    ],
+    "final_label": "ud",
+    "method": "adjudicator",
+    "namespace": "reference",
+    "prov_class": "human_adjudicated",
+    "reference_class": "independent_expert_judgment",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode",
+    "tier": "tier2"
+   }
+  ],
+  "audit": {
+   "agreement_rate": 0.0,
+   "n_agree": 0,
+   "n_audited": 1
+  },
+  "mapped_system_label": "nm",
+  "refused": false,
+  "status_entries": [
+   {
+    "basis_adjudication": 0,
+    "config_id": "rcf_bl6fx130000000000000000000",
+    "layer": "C",
+    "namespace": "reference",
+    "status": "confirmed",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode"
+   },
+   {
+    "basis_adjudication": 1,
+    "config_id": "rcf_bl6fx130000000000000000000",
+    "layer": "C",
+    "namespace": "reference",
+    "status": "rejected",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ],
+  "tier1_record_remains": true
+ },
+ "hand_calculation": "T22.7 (a): nm, nm -> tier1 agreement; T22.8: nm == nm -> confirmed. T22.7 (d): audit label ud != nm -> adjudicator re-adjudicates under (b): tier2, final ud (input), assessment_ids = all three (T22.7 e); tier1 record stays. T22.8 (c): status written with the new adjudication: ud != nm -> rejected. Audit rate 0/1 = 0.0.",
+ "id": "FX-13e",
+ "inputs": {
+  "adjudicator_decision": {
+   "annotator_id": "anr_fx13eadj000000000000000000",
+   "final_label": "ud"
+  },
+  "annotators": [
+   {
+    "anr_id": "anr_fx13era0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-A",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13erb0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-B",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13eadj000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "ADJ",
+    "qualification_ref": "EHS professional, 10 years",
+    "role": "adjudicator"
+   }
+  ],
+  "assessments": [
+   {
+    "annotator_id": "anr_fx13era0000000000000000000",
+    "blind": true,
+    "confidence": 3.0,
+    "label": "nm",
+    "namespace": "reference",
+    "rationale": "The person jumps back as the forks pass.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13e100000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode"
+   },
+   {
+    "annotator_id": "anr_fx13erb0000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "nm",
+    "namespace": "reference",
+    "rationale": "The forklift passes very close and the person steps back.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13e200000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode"
+   },
+   {
+    "annotator_id": "anr_fx13eadj000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "ud",
+    "namespace": "reference",
+    "rationale": "The person leaves the frame just before the forks reach them.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13e300000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13e000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ],
+  "audit_sample": [
+   "ep_fx13e000000000000000000000"
+  ],
+  "batch_id": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+  "c_pad_s": 3.0,
+  "target": {
+   "config_id": "rcf_bl6fx130000000000000000000",
+   "g2_label": "lbl_nm",
+   "recording_id": "rec_fx13e000000000000000000000",
+   "summary_label": "NM",
+   "target_id": "ep_fx13e000000000000000000000",
+   "target_type": "system_episode"
+  }
+ },
+ "source": "Appendix T T22 (E-1.2.20), FX-13e",
+ "version_label": "TEST-ONLY"
+}

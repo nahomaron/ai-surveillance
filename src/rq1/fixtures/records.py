@@ -226,6 +226,152 @@ for _fixture_id, _record in _T4.items():
     _add(_fixture_id, "Appendix T section T4 (verbatim)", record=_record)
 
 
+# --- Appendix T T22 (E-1.2.20; CR-027, D-44): C-layer blind review fixtures FX-13, FX-13a to FX-13f -----------------
+_T22_BATCH = "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13"
+_T22_CONFIG = "rcf_" + "bl6fx13".ljust(26, "0")
+_T22_TIME = "2026-11-19T10:00:00.000000Z"
+_T22_MAP = {"lbl_nm": "nm", "lbl_ud": "ud", "lbl_ct": "ct", None: "not_hazardous"}  # T22.8 (b)
+
+
+def _fid(prefix: str, tag: str) -> str:
+    return f"{prefix}_{tag.ljust(26, '0')}"
+
+
+def _annotator(fx: str, pseudonym: str, role: str, attested: bool = True) -> dict[str, Any]:
+    qual = "EHS professional, 10 years" if role == "adjudicator" else "completed T22 handbook training and pilot batch, 2026-11-19"
+    return {"anr_id": _fid("anr", f"{fx}{pseudonym}".replace("-", "").lower()), "role": role, "qualification_ref": qual,
+            "independence_attestation": attested, "pseudonym": pseudonym}
+
+
+def _assessment(fx: str, n: int, annotator: dict[str, Any], target: dict[str, Any], label: str, confidence: float,
+                rationale: str, namespace: str = "reference", shown: bool = False) -> dict[str, Any]:
+    return {"rva_id": _fid("rva", f"{fx}{n}"), "annotator_id": annotator["anr_id"], "namespace": namespace,
+            "target_type": target["target_type"], "target_id": target["target_id"], "label": label, "confidence": confidence,
+            "rationale": rationale, "blind": namespace == "reference", "shown_system_output": shown,
+            "review_time_s": None, "review_time_s_null_reason": "not_supplied", "submitted_utc": _T22_TIME}
+
+
+def _target(fx: str, g2: str | None, summary: str, rec: str = "") -> dict[str, Any]:
+    return {"target_type": "system_episode", "target_id": _fid("ep", fx), "recording_id": _fid("rec", rec or fx),
+            "config_id": _T22_CONFIG, "g2_label": g2, "summary_label": summary}
+
+
+def _adjudication(target: dict[str, Any], final: str, tier: str, method: str, ids: list[str]) -> dict[str, Any]:
+    return {"target_type": target["target_type"], "target_id": target["target_id"], "namespace": "reference", "final_label": final,
+            "tier": tier, "method": method, "assessment_ids": ids, "agreement_stat_ref": _T22_BATCH, "prov_class": "human_adjudicated",
+            "reference_class": "independent_expert_judgment"}
+
+
+def _status(target: dict[str, Any], status: str, basis: int) -> dict[str, Any]:
+    return {"target_type": target["target_type"], "target_id": target["target_id"], "config_id": target["config_id"], "status": status,
+            "layer": "C", "namespace": "reference", "basis_adjudication": basis}
+
+
+def _t22(fixture_id: str, target, annotators, assessments, decision, expected, hand: str, **inputs: Any) -> None:
+    _add(fixture_id, f"Appendix T T22 (E-1.2.20), {fixture_id}",
+         inputs={"batch_id": _T22_BATCH, "c_pad_s": 3.0, "target": target, "annotators": annotators, "assessments": assessments,
+                 "adjudicator_decision": decision, **inputs},
+         expected=expected, hand_calculation=hand)
+
+
+def _fx13() -> None:
+    # FX-13: two reviewers disagree, Tier 2 adjudication.
+    t = _target("fx13", "lbl_nm", "NM")
+    a, b, j = _annotator("fx13", "R-A", "c_layer_reviewer"), _annotator("fx13", "R-B", "c_layer_reviewer"), _annotator("fx13", "ADJ", "adjudicator")
+    rows = [_assessment("fx13", 1, a, t, "nm", 2.0, "The forklift brakes hard as the person steps into the aisle."),
+            _assessment("fx13", 2, b, t, "ud", 3.0, "The racking hides the person at the closest moment.")]
+    _t22("FX-13", t, [a, b, j], rows, {"annotator_id": j["anr_id"], "final_label": "ud"},
+         {"refused": False, "mapped_system_label": "nm", "adjudications": [_adjudication(t, "ud", "tier2", "adjudicator", [r["rva_id"] for r in rows])],
+          "status_entries": [_status(t, "rejected", 0)]},
+         "T22.7 (b): labels differ -> tier2, method adjudicator, final_label ud (adjudicator). T22.9: both assessments blind and "
+         "not shown output, all three annotators attested and qualified, none exposed -> independent_expert_judgment. "
+         "T22.8 (b): lbl_nm -> nm; ud != nm -> rejected; basis = the adjudication.")
+    # FX-13a: both not_hazardous on an episode with no G2 label.
+    t = _target("fx13a", None, "H")
+    a, b = _annotator("fx13a", "R-A", "c_layer_reviewer"), _annotator("fx13a", "R-B", "c_layer_reviewer")
+    rows = [_assessment("fx13a", 1, a, t, "not_hazardous", 3.0, "The forklift is parked with forks down while the person walks past."),
+            _assessment("fx13a", 2, b, t, "not_hazardous", 2.0, "The forklift does not move while the person is near it.")]
+    _t22("FX-13a", t, [a, b], rows, None,
+         {"refused": False, "mapped_system_label": "not_hazardous",
+          "adjudications": [_adjudication(t, "not_hazardous", "tier1", "agreement", [r["rva_id"] for r in rows])],
+          "status_entries": [_status(t, "confirmed", 0)]},
+         "T22.7 (a): same label, neither unsure -> tier1, agreement, no adjudicator. T22.8 (b): no G2 label -> not_hazardous; "
+         "equal -> confirmed.")
+    # FX-13b: one reviewer unsure, the other nm; adjudicator unsure.
+    t = _target("fx13b", "lbl_nm", "NM")
+    a, b, j = _annotator("fx13b", "R-A", "c_layer_reviewer"), _annotator("fx13b", "R-B", "c_layer_reviewer"), _annotator("fx13b", "ADJ", "adjudicator")
+    rows = [_assessment("fx13b", 1, a, t, "unsure", 1.0, "I can see both paths but cannot tell whether the forklift had to stop."),
+            _assessment("fx13b", 2, b, t, "nm", 2.0, "The forklift stops sharply about a metre from the person.")]
+    _t22("FX-13b", t, [a, b, j], rows, {"annotator_id": j["anr_id"], "final_label": "unsure"},
+         {"refused": False, "mapped_system_label": "nm",
+          "adjudications": [_adjudication(t, "unsure", "tier2", "adjudicator", [r["rva_id"] for r in rows])],
+          "status_entries": [_status(t, "disputed", 0)], "ev_m12": {"in_kappa": False, "counted_under": "unsure"}},
+         "T22.7 (a) fails (one unsure) -> (b) tier2, adjudicator, final unsure. T22.8 (b): final unsure -> disputed. "
+         "T22.10 (b): final unsure reported separately, not in kappa.")
+    # FX-13c: exposure rule (T22.2 b).
+    t = _target("fx13c", "lbl_nm", "NM", rec="fx13c")
+    other = _target("fx13cx", "lbl_ud", "UD", rec="fx13c")
+    a, b = _annotator("fx13c", "R-A", "c_layer_reviewer"), _annotator("fx13c", "R-B", "c_layer_reviewer")
+    prior = _assessment("fx13c", 9, a, other, "ud", 2.0, "Reviewed with the system label shown; the mast hides the contact point.",
+                        namespace="candidate_review", shown=True)
+    rows = [_assessment("fx13c", 1, a, t, "nm", 2.0, "The forklift swerves away from the person at the aisle end.")]
+    _t22("FX-13c", t, [a, b], rows, None,
+         {"refused": True, "rule": "T22.2 (b)", "stored_assessments": 0, "adjudications": [], "status_entries": []},
+         "R-A holds a candidate_review assessment on another target of the same recording -> excluded from reference "
+         "assessment of every target of that recording (T22.2 b).", prior_records=[prior], other_targets=[other])
+    # FX-13d: a reference assessment with shown_system_output = true.
+    t = _target("fx13d", "lbl_nm", "NM")
+    a, b = _annotator("fx13d", "R-A", "c_layer_reviewer"), _annotator("fx13d", "R-B", "c_layer_reviewer")
+    rows = [_assessment("fx13d", 1, a, t, "nm", 2.0, "The forklift stops close to the person.", shown=True)]
+    _t22("FX-13d", t, [a, b], rows, None,
+         {"refused": True, "rule": "VR-E-053", "stored_assessments": 0, "adjudications": [], "status_entries": []},
+         "T22.1 (a): reference assessments have blind = true and shown_system_output = false (VR-E-053); this one was shown output.")
+    # FX-13e: tier-1 audit disagreement.
+    t = _target("fx13e", "lbl_nm", "NM")
+    a, b, j = _annotator("fx13e", "R-A", "c_layer_reviewer"), _annotator("fx13e", "R-B", "c_layer_reviewer"), _annotator("fx13e", "ADJ", "adjudicator")
+    rows = [_assessment("fx13e", 1, a, t, "nm", 3.0, "The person jumps back as the forks pass."),
+            _assessment("fx13e", 2, b, t, "nm", 2.0, "The forklift passes very close and the person steps back."),
+            _assessment("fx13e", 3, j, t, "ud", 2.0, "The person leaves the frame just before the forks reach them.")]
+    ids = [r["rva_id"] for r in rows]
+    _t22("FX-13e", t, [a, b, j], rows, {"annotator_id": j["anr_id"], "final_label": "ud"},
+         {"refused": False, "mapped_system_label": "nm", "tier1_record_remains": True,
+          "adjudications": [_adjudication(t, "nm", "tier1", "agreement", ids[:2]), _adjudication(t, "ud", "tier2", "adjudicator", ids)],
+          "status_entries": [_status(t, "confirmed", 0), _status(t, "rejected", 1)],
+          "audit": {"n_audited": 1, "n_agree": 0, "agreement_rate": 0.0}},
+         "T22.7 (a): nm, nm -> tier1 agreement; T22.8: nm == nm -> confirmed. T22.7 (d): audit label ud != nm -> adjudicator "
+         "re-adjudicates under (b): tier2, final ud (input), assessment_ids = all three (T22.7 e); tier1 record stays. "
+         "T22.8 (c): status written with the new adjudication: ud != nm -> rejected. Audit rate 0/1 = 0.0.",
+         audit_sample=[t["target_id"]])
+    # FX-13f: unattested adjudicator.
+    t = _target("fx13f", "lbl_ct", "CT")
+    a, b, j = _annotator("fx13f", "R-A", "c_layer_reviewer"), _annotator("fx13f", "R-B", "c_layer_reviewer"), _annotator("fx13f", "ADJ", "adjudicator", attested=False)
+    rows = [_assessment("fx13f", 1, a, t, "nm", 2.0, "The forklift stops just short of the person."),
+            _assessment("fx13f", 2, b, t, "ct", 2.0, "The forks appear to touch the person's leg.")]
+    _t22("FX-13f", t, [a, b, j], rows, {"annotator_id": j["anr_id"], "final_label": "ct"},
+         {"refused": True, "code": "ERR-SPEC", "rule": "T22.9", "adjudications": [], "status_entries": []},
+         "T22.9: the adjudicator has independence_attestation = false -> the adjudication is refused in reference (ERR-SPEC); "
+         "no adjudication, so no status entry (T22.8 c).")
+
+
+_fx13()
+
+
+def _check_t22(fixture: dict[str, Any]) -> None:
+    """T22.8 (b) status mapping and T22.7 tier rule, recomputed from the fixture's own inputs."""
+    target, expected = fixture["inputs"]["target"], fixture["expected"]
+    mapped = _T22_MAP.get(target["g2_label"], "not_hazardous")
+    if "mapped_system_label" in expected and expected["mapped_system_label"] != mapped:
+        _refuse(fixture["id"], f"mapped label should be {mapped}")
+    for status in expected["status_entries"]:
+        final = expected["adjudications"][status["basis_adjudication"]]["final_label"]
+        want = "disputed" if final == "unsure" else ("confirmed" if final == mapped else "rejected")
+        if status["status"] != want:
+            _refuse(fixture["id"], f"status should be {want}")
+    for adj in expected["adjudications"]:
+        if (adj["tier"], adj["method"]) not in {("tier1", "agreement"), ("tier2", "adjudicator"), ("tier2", "consensus_meeting")}:
+            _refuse(fixture["id"], "tier and method do not match T22.7")
+
+
 def _refuse(fixture_id: str, message: str) -> None:
     raise ContractError("ERR-INVARIANT", f"{fixture_id}: {message}")
 
@@ -260,6 +406,8 @@ def check_fixture(fixture: dict[str, Any]) -> None:
         for got, want in ((recall, "weighted_recall"), (plain, "unweighted_recall"), (n_eff, "n_eff")):
             if abs(got - fixture["expected"][want]) > 1e-9:
                 _refuse(fixture_id, f"{want} should be {got}")
+    if fixture_id.startswith("FX-13"):
+        _check_t22(fixture)
     if fixture_id == "FX-C1":
         r = fixture["record"]
         if abs(r["t_occupied_detected_s"] + r["t_occupied_inferred_s"] + r["t_not_occupied_s"] + r["t_occupancy_unknown_s"] - r["t_coobserved_s"]) > 1e-6:

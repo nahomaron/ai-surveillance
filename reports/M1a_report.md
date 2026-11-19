@@ -1,8 +1,8 @@
 # M1a report — validation partition (T-21)
 
-**Status: INTERIM.** SDG validation complete, including MR-01. SmartSpaces Warehouse_000 base and full_camera runs in progress. SmartSpaces EV-M waits for D-39. Every number below is **experimental**: synthetic data, oracle perception, validation partition only (D-36, D-37). Nothing here is "validated". Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed.
+**Status: complete for G-M1a review.** SDG validation complete, including MR-01. SmartSpaces Warehouse_000 complete (base and full_camera; CM and GV). SmartSpaces EV-M waits for D-39. Position-error diagnosis done; the proposed range rule is CR-026 (not implemented). Every number below is **experimental**: synthetic data, oracle perception, validation partition only (D-36, D-37). Nothing here is "validated". Automated outputs are **candidate** events and **scenario counts**. No test-partition recording was processed.
 
-Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`). Run code: commit `d800a5c` (phase 1, artifacts); evaluation code in `research/m1a/` (commit `59e31f0` and later). Results file: `research/m1a/results_sdg.json`.
+Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`). Run code: commit `d800a5c` (phase 1, artifacts); evaluation code in `research/m1a/` (commit `59e31f0` and later). Results files: `research/m1a/results_sdg.json`, `research/m1a/results_smartspaces.json` (SmartSpaces evaluation at commit `7812832`, AR-60); diagnosis `research/m1a/position_diagnosis_{sdg,smartspaces}.json`, `research/m1a/position_cutoffs.json`.
 
 ## Plain-language summary (one page)
 
@@ -15,6 +15,8 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
 
 **What they were compared with.** The yardstick is not human labelling. It is BL-6 applied to the simulator's complete ground truth (Appendix T, T21). The comparison therefore shows how much is lost through what a camera can see and through each configuration's simpler rules. It says nothing about how well a real detector would do.
 
+**How much the comparisons depend on the yardstick.** The BL-2 vs BL-3 contrast is the least reference-dependent comparison. BL-3 vs BL-6 is partly circular, because the reference is BL-6 itself (T21.5).
+
 **Repeatability.** Re-running everything from the same code reproduced all 56,726 artifact IDs exactly (MR-01 = 1.0).
 
 **Main findings (SDG, validation).**
@@ -22,12 +24,13 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
    - BL-2 finds 54 % of the reference interactions (recall 0.54).
    - Only 47 % of its candidate events correspond to one (precision 0.47).
    - It produces about 300 false candidate events per hour of video.
+   - This finding depends on the viewpoint. R1 (image boxes) and R2 (floor distance) disagree on 51 % of pair-frames on SDG but only 4 % on SmartSpaces (GV-06), and BL-2 has not yet been scored on SmartSpaces (D-39).
 2. **Floor geometry fixes most of this.**
    - BL-3: recall 0.97, precision 0.93.
    - The BL-2 vs BL-3 gap (−0.43 in recall) is far outside its 95 % interval.
-3. **Adding the prediction rule helps a little more.**
+3. **With the prediction rule, results agree more closely with the BL-6 reference definition (T21.5).**
    - BL-4 and BL-6: recall 0.997, precision 0.95, about 27 false candidates per hour.
-   - BL-3 to BL-6: +0.02 in recall and precision. The interval excludes zero when windows are resampled, but not when whole scenes are resampled.
+   - BL-3 to BL-6: +0.02 in recall and precision, as agreement with the BL-6 reference definition. The interval excludes zero when windows are resampled, but not when whole scenes are resampled.
 4. **R4 and R5 change labels inside an interaction, not whether it is found.**
    - BL-5 equals BL-3, and BL-6 equals BL-4, on every interaction-level count.
    - R4 does add the "predicted conflict" (PC) label to 275 of 319 episodes (BL-5 against BL-3), and R5 raises the near-miss (NM) labels from 21 to 30 (BL-6 against BL-4).
@@ -35,6 +38,7 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
 5. **Camera geometry is the weak spot.**
    - Using the dataset calibration and the bottom of each box, object positions are typically within 1.5 m (95th percentile).
    - On eye-level cameras, 0.65 % of person positions are wildly wrong (tens of metres to about 5 km). They dominate the root-mean-square error (94 m for persons at eye level, 0.41 m from the ceiling).
+   - The diagnosis (below) found the cause. Those are points where the visible box ends above the person's feet, on a camera ray only a few degrees below the horizon. There, a few pixels become tens of metres.
    - The pre-registered acceptance target (RMSE ≤ 0.25 m) applies to the test partition only and was not evaluated. These validation numbers suggest it will not be met as the metric is defined.
    - Speeds derived from these positions inherit the same outliers.
 6. **Results depend on some thresholds.**
@@ -43,9 +47,29 @@ Contract E-1.2.19. Pre-registration version 1 (`docs/preregistration_FROZEN.md`)
    - Most other parameters change little.
 7. **Some quantities could not be computed on these data** (positional uncertainty coverage, calibration perturbation), because the datasets supply no uncertainty.
 
-**What is not here yet.**
-- SmartSpaces results (running).
-- SmartSpaces interaction metrics: the reference construction needs about 200 hours there (decision D-39).
+**SmartSpaces (one simulated warehouse, 19 cameras, 190 windows of validation).**
+- Only coverage (CM) and geometry (GV) results are available. The interaction metrics (EV-M) need a reference that would take about 200 hours to build there (decision D-39, open).
+- **Coverage on the oracle path:** CM-01 = 1.00. CM-03 = 0.57 and CM-04 = 0.63: much of the time, objects that exist in the scene are not seen by a given camera. CM-05 = 0.017 (inferred frames without a reference-visible counterpart).
+- **Candidate episodes (BL-6):** 574. Of these, 297 are labelled H, 466 PC, 158 NM and 116 undetermined (UD). These are scenario counts, not verified events.
+- **Camera positions are unusable as they stand.**
+  - The median error is 0.76 m, but 34 % of positions are more than 10 m off, and the root-mean-square error is about 12.5 km.
+  - The forklift footprint prior is close to the simulator box (GV-04 bias −0.001 m, at simulator positions). The 1.87 × 1.13 m pallet trucks are measured with the 2.68 × 1.16 m forklift prior (bias −0.28 m).
+
+**Why the camera positions fail (diagnosis, both datasets).** A position is found by following the camera ray through the bottom of the object's box down to the floor.
+- **When the bottom of the box is the object's floor contact, this works.** Feet visible and box away from the image edge: median 0.30 m and P99 0.93 m on SmartSpaces. Points filled in from the simulator's 3D box ("predicted"): P99 1.6 m on both datasets.
+- **It fails when the feet or wheels are hidden.** Then the visible box ends higher in the image, at something like a rack, a pallet or another person. On a ray only a few degrees below the horizon, a box bottom 10–50 pixels too high moves the point tens of metres away (SmartSpaces median 20 m).
+- **The two datasets differ.**
+  - SmartSpaces cameras look far across a large hall: 37 % of objects are more than 50 m away, and half of all rays meet the floor beyond 50 m.
+  - SDG cameras look down at a small area, so only 0.3 % are affected. Those few points still carry 99.9 % of the SDG squared error.
+- **Rays at or above the horizon (9,506 points) already get no position.** Rays that meet the floor far away do get one: there is no distance limit.
+- **CR-026 asks the Architect for a rule.** A fixed range rule was not adopted (D-40): 50 m removes only wrong SDG positions, but also 239,502 correct SmartSpaces positions.
+- **Two candidate signals were tested.**
+  - *How many metres one pixel of error is worth at the foot point.* On SDG this separates almost perfectly: a 0.1 m/px limit catches 97 % of the errors above 10 m and loses 0.02 % of good points. On SmartSpaces, a limit catching 90 % also loses 18 % of good points.
+  - *A second position from the head, assuming a 1.75 m height.* It is a weak check, because the head ray is even shallower than the foot ray.
+- The Architect will write the rule for v2/M1b.
+- Nothing was changed; the GV numbers are reported as computed.
+
+**Decisions (G-M1a, 17 Nov 2026, D-40).** M1a is accepted as experimental validation evidence. D-39: SmartSpaces EV-M is not run in v1. AR-58, AR-60 and AR-59 items 2, 6 and 7 are accepted; AR-59 item 5 is revised (GV-04 now at simulator positions, below). CR-026 stays open with added diagnostics; the Architect will write the rule for v2/M1b.
 
 ## Technical report — SDG validation
 
@@ -144,13 +168,13 @@ GV-01 position error (m):
 | person|inferred|ceiling | 137 | 0.499 [0.449, 0.552] | 0.669 | -0.336 | 0.167 |
 | person|inferred|eye_level | 207 | 0.556 [0.496, 0.614] | 0.797 | -0.060 | 0.074 |
 
-GV-04 (m):
+GV-04 (m), **revised under D-40 item 4 (AR-59 item 5)**: at simulator positions, prior footprint minus simulator 3D-box footprint, on the measured pair-frames of the simulator_truth run (`research/m1a/gv_revised_sdg.json`). The earlier values, at full_camera positions (bias 0.0003 m, n 58,635), are superseded.
 
 | stratum | n | bias [B] | RMSE | SD | P5 | P95 |
 |---|---|---|---|---|---|---|
-| 3.03x1.13|all | 58635 | 0.0003 [0.0002, 0.0003] | 0.0004 | 0.0003 | -0.0001 | 0.0006 |
-| 3.03x1.13|detected | 58287 | 0.0003 [0.0002, 0.0003] | 0.0004 | 0.0003 | -0.0001 | 0.0006 |
-| 3.03x1.13|inferred | 348 | 0.0002 [0.0001, 0.0002] | 0.0004 | 0.0003 | -0.0001 | 0.0006 |
+| 3.03x1.13|all | 59246 | 0.0004 [0.0003, 0.0004] | 0.0005 | 0.0003 | -0.0001 | 0.0006 |
+| 3.03x1.13|detected | 58898 | 0.0004 [0.0003, 0.0004] | 0.0005 | 0.0003 | -0.0001 | 0.0006 |
+| 3.03x1.13|inferred | 348 | 0.0001 [0.0000, 0.0002] | 0.0003 | 0.0003 | -0.0001 | 0.0006 |
 
 GV-07 (m/s):
 
@@ -185,6 +209,14 @@ GV-08 (m):
 | all | 44468 | 0.5987 [0.4254, 0.8065] | 12.6101 | 12.5960 | -0.5732 | 1.6346 |
 | detected | 44184 | 0.6046 [0.4297, 0.8139] | 12.6504 | 12.6361 | -0.5599 | 1.6400 |
 | inferred | 284 | -0.3135 [-0.4632, -0.0998] | 0.8503 | 0.7918 | -1.9126 | 0.3234 |
+
+GV-08 against simulator truth (m), **added under D-40 item 4 (AR-59 item 7)**. Full_camera constant-velocity predicted minimum minus the realised minimum of the simulator_truth clearance series (simulator positions, prior footprint) on the same tracks and frames (`gv_revised_sdg.json`). The same-run GV-08 above is kept.
+
+| stratum | n | bias [B] | RMSE | SD | P5 | P95 |
+|---|---|---|---|---|---|---|
+| all | 44468 | 0.6945 [0.3998, 1.0415] | 26.5770 | 26.5682 | -1.1202 | 2.1874 |
+| detected | 44184 | 0.6997 [0.4026, 1.0498] | 26.6622 | 26.6533 | -1.1194 | 2.1962 |
+| inferred | 284 | -0.1220 [-0.2596, -0.0146] | 0.7512 | 0.7425 | -1.3236 | 1.2850 |
 
 GV-05 / MR-11: not computable: the full_camera positions carry no positional covariance (pos_cov_m2 null, not_supplied). GV-06: Spearman ρ(image_gap_norm, clearance_m) = 0.150 over 58635 pair-frames; R1-P vs R2-P disagreement 0.513 (30093 of 58635).
 
@@ -265,6 +297,27 @@ GV-03 footprint sweep: label flip rate per configuration; Δclearance (m):
 
 MR-10: not computable: no calibration covariance is supplied for the dataset calibrations (calibration_tier supplied_unvalidated).
 
+### Per-label agreement with the BL-6 reference definition (descriptive; D-40 item 5)
+
+Source: `research/m1a/ev_by_label_sdg.json` (`research/m1a/ev_by_label.py`).
+- **Method:** for each label L, the references carrying L are matched with the system candidate events carrying L. The matcher is the same (pair condition, iou_m 0.3, N4 assignment).
+- **Measures:** recall_L = matched / assessable references with L; precision_L = matched / events with L.
+- **Status:** descriptive, not pre-registered, no decision.
+- **Intervals:** Target A only. They are not computable (—) when resamples contain no reference with the label (O: 9 references).
+- **Reading (T21.5):** values measure agreement with the BL-6 reference definition, not correctness.
+
+| Config | O recall | O precision | H recall | H precision | PC recall | PC precision |
+|---|---|---|---|---|---|---|
+| BL-2 | 0.222 (2/9) | 0.006 [0.000, 0.015] (2/351) | 0.000 (0/294) | — (0/0) | 0.000 (0/278) | — (0/0) |
+| BL-3 | 1.000 (9/9) | 1.000 (9/9) | 0.973 [0.954, 0.990] (286/294) | 0.923 [0.892, 0.951] (286/310) | 0.000 (0/278) | — (0/0) |
+| BL-4 | 1.000 (9/9) | 1.000 (9/9) | 0.997 [0.989, 1.000] (293/294) | 0.945 [0.919, 0.968] (293/310) | 0.996 [0.989, 1.000] (277/278) | 0.945 [0.920, 0.969] (277/293) |
+| BL-5 | 1.000 (9/9) | 1.000 (9/9) | 0.973 [0.954, 0.990] (286/294) | 0.923 [0.892, 0.951] (286/310) | 0.932 [0.903, 0.959] (259/278) | 0.942 [0.913, 0.969] (259/275) |
+| BL-6 | 1.000 (9/9) | 1.000 (9/9) | 0.997 [0.989, 1.000] (293/294) | 0.945 [0.919, 0.968] (293/310) | 0.996 [0.989, 1.000] (277/278) | 0.945 [0.920, 0.969] (277/293) |
+
+- **BL-2:** labels every candidate O and never H or PC. Its H and PC recall is 0 by construction, and its 351 O events match 2 of the 9 O references.
+- **PC:** appears only with R4 (BL-4, BL-5, BL-6). BL-5's PC agreement (0.93) is below BL-4/BL-6 (0.996).
+- Most references carry H (294 of 303 assessable) and PC (278); O is rare (9).
+
 ### Observations (descriptive, validation only)
 
 - **EV-M4 = 1, and EV-M3 is high.**
@@ -275,10 +328,13 @@ MR-10: not computable: no calibration covariance is supplied for the dataset cal
   - The oracle tracks are the reference-visible objects.
   - CM-05 (detected + inferred) 0.006 is the share of predicted (inferred) POW frames that have no reference-visible counterpart.
   - CM-09 = 0 because predicted oracle points have no reference box (T17.6).
-- **GV-04 ≈ 0.0003 m.** The SDG prior footprint equals the simulator box (3.03 × 1.13 m). The residual is the rounding of the box dimensions read from the 3D corners.
+- **GV-04 ≈ 0.0004 m (revised, at simulator positions).** The SDG prior footprint equals the simulator box (3.03 × 1.13 m). The residual is the rounding of the box dimensions read from the 3D corners.
+- **GV-08 against simulator truth:** bias 0.69 m, P5 −1.12 m, P95 2.19 m. The RMSE (26.6 m) comes from the predictions, which use the full_camera positions and their outliers.
 - **GV-01 extremes:**
   - 816 object-frames (0.65 %) exceed 5 m. All are persons on eye-level cameras, in 44 cameras.
-  - This pattern fits a box bottom edge near the horizon line (for example a lower body hidden behind something, since the visible box is used). The cause has not been checked frame by frame.
+  - Cause (position-error diagnosis below): shallow foot rays combined with a visible box that ends above the 3D box bottom.
+    - All 480 SDG positions on rays less than 2° below the horizon, and all 386 beyond 50 m, are more than 10 m off.
+    - Tracked points whose box ends more than 200 px above the 3D box bottom have a median error of 2.9 m and P90 100 m.
   - Forklift positions: RMSE about 1.0–1.1 m, P95 1.48 m, with no extremes.
 - **GV-07:** forklift speed error RMSE 0.28–0.34 m/s, decreasing with w_v. The person values carry the GV-01 extremes.
 - **Label counts** (episodes, all 226 cameras): BL-3 H 310 / PC 0 / NM 24; BL-4 H 310 / PC 293 / NM 21; BL-5 H 310 / PC 275 / NM 24; BL-6 H 310 / PC 293 / NM 30. From BL-3 on, every configuration puts the same episodes in G1, so EV-M (G1) cannot separate them.
@@ -294,3 +350,145 @@ MR-10: not computable: no calibration covariance is supplied for the dataset cal
   - pet_pred_s within 9.35e-7 s;
   - every flag, label and episode boundary identical.
 - **Runtime:** SDG phase 1 took 62 min for 226 cameras (2 workers); evaluation took about 30 min.
+
+## Technical report — SmartSpaces validation (Warehouse_000)
+
+### Scope and method
+- **Population:** `m1a-smartspaces_000-validation` (V0 `art_rvcgsenmz4onjnq5jbfu4n6wax`): 190 windows over 19 cameras (9,000 frames each), one leakage group (Warehouse_000; D-34 B.10), stratum `smartspaces_000:other`.
+- **Perception:** ORACLE-S3 (T17–T20, g_max 15). Classes person, forklift, pallet_truck (D-22). Pallet trucks use the forklift prior 2.68 × 1.16 m.
+- **Runs:** base (S3, S4 simulator_truth, S5 BL-2..BL-6) and full_camera (S4 + S5), code `ddfac38`. Evaluation at `7812832` (AR-60: speed only, outputs identical).
+- **Not run:** EV-M1–EV-M8, CM-02 and CM-06 (no T21 reference; D-39 open), sweeps (D-38 A.3), and MR-01 (one run only). Also GV-07 at w_v 0.33 / 1.0: the simulator-side speeds at those values come from the sweeps.
+- **Intervals:** there is one leakage group, so Target B intervals are degenerate and not informative. Target A resamples the 190 windows.
+
+### Results (`research/m1a/results_smartspaces.json`)
+
+**Completeness** (oracle path; detected = detected only, +inf = detected + inferred; Target A 95 % interval):
+
+| metric | detected | +inf |
+|---|---|---|
+| CM-01 | 1.000 [1.000, 1.000] | 1.000 |
+| CM-03 | 0.567 [0.557, 0.577] | 0.567 |
+| CM-04 | 0.632 [0.602, 0.665] | 0.632 |
+| CM-05 | 0.000 | 0.017 [0.015, 0.021] |
+| CM-07 (pair-window fidelity) | 0.610 (27,300 one-to-one, 17,475 none, 0 several) | same |
+| CM-08 | 0.000 | 0.000 |
+| CM-09 | not computable (denominator 0) | 0.000 |
+| CM-10 | 0.000 | — |
+
+**Scenario counts** (episodes; all 19 cameras; candidates, not verified):
+
+| config | episodes | O | H | PC | NM | UD | IE |
+|---|---|---|---|---|---|---|---|
+| BL-2 | 1,692 | 1,692 | 0 | 0 | 0 | 0 | 211 |
+| BL-3 | 427 | 131 | 296 | 0 | 42 | 107 | 32 |
+| BL-4 | 564 | 52 | 297 | 456 | 78 | 116 | 40 |
+| BL-5 | 484 | 102 | 297 | 255 | 61 | 115 | 35 |
+| BL-6 | 574 | 52 | 297 | 466 | 158 | 116 | 50 |
+
+**Geometry (full_camera):**
+
+| GV-01 | n | RMSE | P95 | bias x / y |
+|---|---|---|---|---|
+| person, detected | 1,407,444 | 53.0 m | 99.6 m | 4.66 / −5.32 m |
+| person, inferred | 15,225 | 0.88 m | 1.32 m | −0.06 / 0.29 m |
+| forklift, detected | 272,221 | 33,382 m | 103 m | −134 / −355 m |
+| forklift, inferred | 1,761 | 0.68 m | 1.18 m | −0.12 / 0.17 m |
+| pallet truck, detected | 236,396 | 16.7 m | 45.8 m | −0.37 / −0.78 m |
+| pallet truck, inferred | 2,123 | 0.82 m | 1.12 m | 0.15 / 0.03 m |
+
+- **GV-04** (revised under D-40 item 4: at simulator positions, prior footprint − simulator box footprint; `research/m1a/gv_revised_smartspaces.json`): 2.68 × 1.16 m boxes bias -0.0009 m (n 360,398); 1.87 × 1.13 m boxes (pallet trucks under the forklift prior) bias -0.279 m, P5 -0.40, P95 -0.03 m (n 2,833,391). The earlier values at full_camera positions (−0.0007 m and −0.281 m) are superseded.
+- **GV-05 / MR-11:** not computable (no positional covariance supplied).
+- **GV-06:** Spearman ρ 0.35 between normalised image gap and floor clearance; R1-P and R2-P disagree on 4.0 % of 3,137,274 pair-frames.
+- **GV-07** (w_v 0.5, speed minus simulator speed): RMSE person 60.6 m/s, pallet truck 15.6 m/s, forklift 76,472 m/s. The GV-01 outliers carry over into speed.
+- **GV-08** (predicted minus realised minimum clearance): bias 54.1 m, P5 −11.4 m, P95 30.7 m, RMSE 12,249 m. Against simulator truth (D-40 item 4): bias 67.6 m, P5 -11.1 m, P95 83.0 m, RMSE 12,250 m (n 2,511,500); the predictions carry the full_camera outliers.
+- **Intervals:** all GV intervals on SmartSpaces are degenerate (one stratum, one leakage group, summed per cluster).
+
+### Observations (descriptive, validation only)
+- **CM-03 and CM-04 are well below 1.** SmartSpaces truth is scene-wide, so each camera's truth holds every object in the warehouse, and most of them are out of that camera's view at any time. CM-08 = CM-10 = 0 and CM-01 = 1 hold by construction on the oracle path, as on SDG.
+- **BL-2 vs BL-3:** BL-2 opens 1,692 episodes against 427 for BL-3, although R1-P and R2-P disagree on only 4 % of all pair-frames (GV-06). Without a reference (D-39), these counts cannot be scored.
+- **The full_camera geometry fails on detected points and works on inferred ones.** The next section explains why.
+
+## Position-error diagnosis (validation, SDG and SmartSpaces; Architect, 17 Nov 2026)
+
+**Method.**
+- The script `research/m1a/position_diagnosis.py` covers every full_camera S4 object_state row whose S3 point is tracked or predicted. It reads stored statistics only: no pixel is decoded and nothing is changed.
+- Each position is recomputed from the foot point and the calibration. All 2,071,041 recomputed positions equal the stored ones (0 mismatches).
+- The error statistics are on the GV-01 population: a numeric position and a truth pose on that frame. SDG has 126,365 such points, SmartSpaces 1,935,170.
+- The rule evidence is in `research/m1a/position_cutoffs.py`.
+- **Definitions:**
+  - **Bottom-edge offset:** the bottom edge of the image-clipped reprojected 3D box minus the bottom edge of the visible box, in CF-IMG pixels, on tracked points.
+  - **Border:** the box is within 1 px of an image edge.
+  - **Ray angle:** the foot ray's angle below the horizon.
+  - **Range:** the horizontal distance from the camera centre to where the ray meets the floor.
+
+**1. Point state** (median / P90 / P99 / share > 2 m / share > 10 m):
+
+| | SDG | SmartSpaces |
+|---|---|---|
+| tracked | 0.56 / 1.40 / 2.60 m / 1.3 % / 0.49 % (n 125,970) | 0.76 / 59.2 / 210 m / 44 % / 35 % (n 1,916,061) |
+| predicted | 0.53 / 1.05 / 1.71 m / 0 / 0 (n 395) | 0.78 / 1.16 / 1.58 m / 0.35 % / 0 (n 19,109) |
+
+**2. Class and viewpoint** (tracked; median / P99 / share > 10 m):
+- SDG person ceiling 0.20 / 1.85 m / 0. SDG person eye_level 0.17 / 85.1 m / 2.2 %.
+- SDG forklift ceiling 1.12 / 1.53 m / 0. SDG forklift eye_level 0.99 / 1.56 m / 0.
+- The forklift medians near 1 m reflect where the foot point sits: the bottom-centre of the box is not the footprint centre.
+- SmartSpaces (`other`): person 0.50 / 207 m / 33 %; forklift 6.70 / 220 m / 45 %; pallet truck 0.72 / 64.6 m / 31 %.
+- Predicted points of every class: P99 ≤ 2.44 m, none above 10 m.
+
+**3. Bottom-edge offset** (tracked; median / P99 / share > 10 m):
+
+| offset | SDG | SmartSpaces |
+|---|---|---|
+| −2 to 2 px | 0.52 / 1.99 m / 0 (7,234) | 0.31 / 2.36 m / 0 (492,362) |
+| 2–10 px | 0.31 / 1.44 m / 0 (17,671) | 0.26 / 16.0 m / 3.3 % (531,789) |
+| 10–50 px | 0.57 / 1.51 m / 0 (73,063) | 20.3 / 249 m / 68 % (671,750) |
+| 50–200 px | 0.74 / 4.18 m / 0.5 % (26,404) | 33.9 / 259 m / 86 % (217,546) |
+| > 200 px | 2.89 / 761 m / 30 % (1,597) | 9.4 / 33.5 m / 37 % (2,614) |
+
+- A person's 3D box extends beyond the body, so its lowest projected corner usually lies a few pixels below the feet even when they are visible. Offsets of a few pixels therefore do not mean the feet are hidden.
+- On steep SDG views a 10–50 px offset costs little; on SmartSpaces' shallow views it costs tens of metres.
+- Tracked points with an offset under 2 px and not on a border: SmartSpaces median 0.30 m, P99 0.93 m (469,218 points); SDG 0.25 m / 0.41 m (912).
+
+**4. Box touching an image border** (tracked; median / P99 / share > 10 m): SDG touching 0.83 / 2.85 m / 0.55 %, not touching 0.26 / 2.45 m / 0.42 %. SmartSpaces touching 0.99 / 82.9 m / 11 %, not touching 0.76 / 212 m / 36 %. Border contact is not the driver.
+
+**5. Ray geometry at the foot point:**
+
+| | SDG | SmartSpaces |
+|---|---|---|
+| rays at or above the horizon (floor met behind the camera) | 611 | 8,895 |
+| parallel to the floor | 0 | 0 |
+| met in front beyond 50 m / 100 m / 1 km | 386 / 230 / 17 | 974,217 / 303,325 / 493 |
+| met in front less than 1° below the horizon | 350 | 136,944 |
+
+- **By ray angle** (median error): SDG below 1° 100 m, 1–2° 36 m, 2–5° 5.4 m, 5° and above ≤ 0.9 m. SmartSpaces below 1° 111 m, 1–2° 35 m, 2–5° 1.0 m, 5–10° 0.28 m. No SmartSpaces ray is steeper than 45°.
+- All rays at or above the horizon are tracked points.
+- SDG: positions beyond 50 m are 0.31 % of GV-01 points and carry 99.9 % of the squared error. RMSE is 44.8 m with them and 1.34 m without.
+
+**6. Distance from the camera to the true position** (median / P99 / share > 10 m):
+- SDG: every object is within 20 m. 0–5 m 0.52 / 2.31 m / 0.46 %; 5–10 m 0.56 / 2.83 m / 0.52 %; 10–20 m 0.75 / 2.23 m / 0.37 %.
+- SmartSpaces: 0–5 m 1.46 / 3.84 m / 0; 5–10 m 0.24 / 9.5 m / 0.9 %; 10–20 m 0.24 / 32.8 m / 3.7 %; 20–50 m 0.50 / 98.2 m / 27 %; over 50 m 15.5 / 265 m / 56 % (725,201 points, 37 %).
+
+**How the code handles rays that do not meet the floor in front of the camera** (`geometry.full_camera_to_floor`, `builder._object_states`):
+- A ray parallel to the floor (|d_z| < 1e-12), or one meeting it at s ≤ 0 (behind the camera), returns None.
+- The builder then writes x_m = y_m = null with null reason `not_observable`. In this run that is 611 SDG and 8,895 SmartSpaces points, all at or above the horizon.
+- **There is no range limit.** Every ray below the horizon gives a numeric position; 17 SDG and 493 SmartSpaces rays meet the floor more than 1 km away.
+
+**Conclusion.**
+- The large errors come from tracked points whose visible box ends above the object's floor contact, on shallow rays where a pixel corresponds to metres. This is what happens when the visible box is used as the foot point.
+- Rays at or above the horizon are already null. Rays that meet the floor far away produce numbers.
+- **CR-026** proposes a range condition (not implemented). The evidence there shows that one fixed range does not suit both datasets, and that hidden feet at moderate range are a separate question.
+- Status: experimental (synthetic, oracle perception, validation only).
+
+### Further diagnostics for CR-026 (D-40 item 6)
+Source: `research/m1a/position_sensitivity.py` → `research/m1a/position_sensitivity_{sdg,smartspaces}.json`. Validation only, statistics only; nothing in the pipeline changed. The full tables are in CR-026.
+- **(a) Pixel sensitivity** (largest singular value of the floor-intersection Jacobian, m per px of foot-point error):
+  - SDG median 0.009, P99 0.07 m/px. SmartSpaces median 0.45, P99 19 m/px.
+  - SDG errors stay small below 0.1 m/px (median ≤ 0.62 m) and grow steeply above it (median 96 m at ≥ 1 m/px).
+  - On SmartSpaces, a limit of 0.1 / 0.2 / 0.5 m/px catches 99.9 / 99.5 / 90.3 % of errors > 10 m but nulls 66.8 / 47.3 / 18.1 % of the points that are within 1 m. On SDG, 0.1 m/px catches 96.8 % for 0.02 %.
+- **(b) Height consistency** (persons; head ray at H = 1.75 m, also 1.6 and 1.9 m):
+  - At a 2 m cut-off it flags 5.6 % of SDG persons with bottom offset ≤ 2 px against 28.4 % with > 10 px. On SmartSpaces it flags 72.9 % against 88.0 %.
+  - The head-based estimate itself has a median error of 0.47 m on SDG and 3.6 m on SmartSpaces.
+  - Not a usable stand-alone rule on these data.
+
+## Stop
+**G-M1a decided (D-40, 17 Nov 2026):** M1a is accepted as experimental validation evidence. Open: CR-026 (rule for v2/M1b, Architect). Test partition reserved (D-37). M1b feasibility: see `research/m1b/feasibility.md`.

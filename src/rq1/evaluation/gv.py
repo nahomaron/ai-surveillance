@@ -82,7 +82,13 @@ def realized_min(series: list[tuple[float, float | None]], k: int, tau: float, e
     t0 = series[k][0]
     if t0 + tau > series[-1][0] + eps:
         return None
-    values = [c for t, c in series[k:] if t <= t0 + tau + eps and c is not None]
+    values = []
+    for j in range(k, len(series)):  # time order: stop at the first frame past the horizon (AR-60)
+        t, c = series[j]
+        if t > t0 + tau + eps:
+            break
+        if c is not None:
+            values.append(c)
     return min(values) if values else None
 
 
