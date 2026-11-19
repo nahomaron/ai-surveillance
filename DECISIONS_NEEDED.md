@@ -454,7 +454,23 @@ Decision:
   It states that no dataset files or weights are in the repository.
 - (c) Reason for the record: the working system uses an AGPL-3.0 detector (Ultralytics YOLO-World, D-42). The Owner may relicense the project's own code later.
 
-Note on numbering: D-44 and CR-027 are used on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026). The next free numbers on this branch are D-45 and CR-028.
+## D-44 (2026-11-16) — STOP: V-02 needs a written C-layer review and adjudication protocol        status: DECIDED (19 Nov 2026)
+Task: V-02   Blocking: V-02 only (off the critical path; nothing on `m0-implementation` waits on it)
+Question: The V-02 compatibility audit (`research/review_ui/V-02_compatibility_audit.md`, branch `v02-review-ui`) found no schema conflict: the tables, UUIDv7 IDs, the hash-chained status log, the VR-E-053 blindness guard and the κ / α functions all exist and can be reused unchanged. But the protocol the screens must enforce is not in the contract (CR-027, gaps G1–G8). Without it the agent would be inventing labels, statuses and blind rules. How should V-02 proceed?
+Options:
+- (a) The Owner / Architect supply the C-layer protocol as contract text (Appendix T section), covering G1–G8; V-02 then resumes as specified.
+- (b) The Owner rules on G1–G8 directly in this entry for V-02 fixture use only (a tooling decision, not a contract change), records marked "fixture; protocol provisional"; the contract text follows later.
+- (c) Narrow V-02 to what needs no protocol: reviewer screen writing `reviewer_assessment` only (G1, G4, G8 still needed), no adjudication or status entries; or (d) hold V-02.
+Readings the agent would propose if asked (not applied): G1 (a) interval and pair may be shown, blind stays true if no system label, flag, measured value or other assessment is shown; G2 (a) two; G4 (a) [0, 1]; G5 (a) the Owner's three values; G7 tier1 iff both labels equal and neither is `unsure`, else tier2; class `independent_expert_judgment` iff both assessments blind and both reviewers attested independent. G3, G6 and G8 have no reading in the text.
+Also: Q1 time-on-task (no field; add none?), Q2 what `agreement_stat_ref` points to, Q3 build FX-13 with Architect-supplied expected values?, Q4 V-02 on real footage (D-24 b forbids labels on SmartSpaces 026/027).
+Agent's recommendation: (a), or (b) if the Owner wants the tool before the contract text. The agent recommends not starting the adjudication screen under (c), because its status entries are the part most likely to be reported.
+Owner decision (19 Nov 2026): **option (a).** The Architect's C-layer protocol is Appendix T section **T22** (contract **E-1.2.20**), appended verbatim; pasting it was the Owner's approval of T22 and of the steps that follow.
+- On `m0-implementation`: T22 appended to Appendix T; CLAUDE.md contract line updated to E-1.2.20; T22.13 schema change (`reviewer_assessment.review_time_s · f64 · nullable`) in the schema source with its validator test; fixtures FX-13 and FX-13a to FX-13f with the expected values T22 states. No other code change on this branch.
+- On `v02-review-ui`: merge `m0-implementation` (no rebase), then build V-02 as the T22 blind review application (part A). The original V-02 items 3 to 7 still apply; where they differ, T22 wins. No merge back into `m0-implementation`, no pull request.
+- Not in this decision: the reporting workflow (candidate_review procedures); the Architect issues it as T23.
+- Entry copied from branch `v02-review-ui` on 19 Nov 2026 so both branches agree.
+
+Note on numbering: D-44 and CR-027 were opened on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026) and are copied here with their decision (19 Nov 2026). The next free numbers are D-46 and CR-028 on both branches.
 
 ## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: OPEN
 Task: T-22   Blocking: the detector-path pilot (S4/S5/S8 with detector output), T-23 and all later M1b work

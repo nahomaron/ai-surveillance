@@ -1,0 +1,59 @@
+{
+ "expected": {
+  "adjudications": [],
+  "refused": true,
+  "rule": "VR-E-053",
+  "status_entries": [],
+  "stored_assessments": 0
+ },
+ "hand_calculation": "T22.1 (a): reference assessments have blind = true and shown_system_output = false (VR-E-053); this one was shown output.",
+ "id": "FX-13d",
+ "inputs": {
+  "adjudicator_decision": null,
+  "annotators": [
+   {
+    "anr_id": "anr_fx13dra0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-A",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13drb0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-B",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   }
+  ],
+  "assessments": [
+   {
+    "annotator_id": "anr_fx13dra0000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "nm",
+    "namespace": "reference",
+    "rationale": "The forklift stops close to the person.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13d100000000000000000000",
+    "shown_system_output": true,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13d000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ],
+  "batch_id": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+  "c_pad_s": 3.0,
+  "target": {
+   "config_id": "rcf_bl6fx130000000000000000000",
+   "g2_label": "lbl_nm",
+   "recording_id": "rec_fx13d000000000000000000000",
+   "summary_label": "NM",
+   "target_id": "ep_fx13d000000000000000000000",
+   "target_type": "system_episode"
+  }
+ },
+ "source": "Appendix T T22 (E-1.2.20), FX-13d",
+ "version_label": "TEST-ONLY"
+}

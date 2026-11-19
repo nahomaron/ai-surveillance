@@ -1,0 +1,99 @@
+{
+ "expected": {
+  "adjudications": [
+   {
+    "agreement_stat_ref": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+    "assessment_ids": [
+     "rva_fx13a100000000000000000000",
+     "rva_fx13a200000000000000000000"
+    ],
+    "final_label": "not_hazardous",
+    "method": "agreement",
+    "namespace": "reference",
+    "prov_class": "human_adjudicated",
+    "reference_class": "independent_expert_judgment",
+    "target_id": "ep_fx13a000000000000000000000",
+    "target_type": "system_episode",
+    "tier": "tier1"
+   }
+  ],
+  "mapped_system_label": "not_hazardous",
+  "refused": false,
+  "status_entries": [
+   {
+    "basis_adjudication": 0,
+    "config_id": "rcf_bl6fx130000000000000000000",
+    "layer": "C",
+    "namespace": "reference",
+    "status": "confirmed",
+    "target_id": "ep_fx13a000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ]
+ },
+ "hand_calculation": "T22.7 (a): same label, neither unsure -> tier1, agreement, no adjudicator. T22.8 (b): no G2 label -> not_hazardous; equal -> confirmed.",
+ "id": "FX-13a",
+ "inputs": {
+  "adjudicator_decision": null,
+  "annotators": [
+   {
+    "anr_id": "anr_fx13ara0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-A",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13arb0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-B",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   }
+  ],
+  "assessments": [
+   {
+    "annotator_id": "anr_fx13ara0000000000000000000",
+    "blind": true,
+    "confidence": 3.0,
+    "label": "not_hazardous",
+    "namespace": "reference",
+    "rationale": "The forklift is parked with forks down while the person walks past.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13a100000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13a000000000000000000000",
+    "target_type": "system_episode"
+   },
+   {
+    "annotator_id": "anr_fx13arb0000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "not_hazardous",
+    "namespace": "reference",
+    "rationale": "The forklift does not move while the person is near it.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13a200000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13a000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ],
+  "batch_id": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+  "c_pad_s": 3.0,
+  "target": {
+   "config_id": "rcf_bl6fx130000000000000000000",
+   "g2_label": null,
+   "recording_id": "rec_fx13a000000000000000000000",
+   "summary_label": "H",
+   "target_id": "ep_fx13a000000000000000000000",
+   "target_type": "system_episode"
+  }
+ },
+ "source": "Appendix T T22 (E-1.2.20), FX-13a",
+ "version_label": "TEST-ONLY"
+}

@@ -1,0 +1,84 @@
+{
+ "expected": {
+  "adjudications": [],
+  "code": "ERR-SPEC",
+  "refused": true,
+  "rule": "T22.9",
+  "status_entries": []
+ },
+ "hand_calculation": "T22.9: the adjudicator has independence_attestation = false -> the adjudication is refused in reference (ERR-SPEC); no adjudication, so no status entry (T22.8 c).",
+ "id": "FX-13f",
+ "inputs": {
+  "adjudicator_decision": {
+   "annotator_id": "anr_fx13fadj000000000000000000",
+   "final_label": "ct"
+  },
+  "annotators": [
+   {
+    "anr_id": "anr_fx13fra0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-A",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13frb0000000000000000000",
+    "independence_attestation": true,
+    "pseudonym": "R-B",
+    "qualification_ref": "completed T22 handbook training and pilot batch, 2026-11-19",
+    "role": "c_layer_reviewer"
+   },
+   {
+    "anr_id": "anr_fx13fadj000000000000000000",
+    "independence_attestation": false,
+    "pseudonym": "ADJ",
+    "qualification_ref": "EHS professional, 10 years",
+    "role": "adjudicator"
+   }
+  ],
+  "assessments": [
+   {
+    "annotator_id": "anr_fx13fra0000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "nm",
+    "namespace": "reference",
+    "rationale": "The forklift stops just short of the person.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13f100000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13f000000000000000000000",
+    "target_type": "system_episode"
+   },
+   {
+    "annotator_id": "anr_fx13frb0000000000000000000",
+    "blind": true,
+    "confidence": 2.0,
+    "label": "ct",
+    "namespace": "reference",
+    "rationale": "The forks appear to touch the person's leg.",
+    "review_time_s": null,
+    "review_time_s_null_reason": "not_supplied",
+    "rva_id": "rva_fx13f200000000000000000000",
+    "shown_system_output": false,
+    "submitted_utc": "2026-11-19T10:00:00.000000Z",
+    "target_id": "ep_fx13f000000000000000000000",
+    "target_type": "system_episode"
+   }
+  ],
+  "batch_id": "rvb_0193a1b2-c3d4-7e5f-8a6b-7c8d9e0f1a13",
+  "c_pad_s": 3.0,
+  "target": {
+   "config_id": "rcf_bl6fx130000000000000000000",
+   "g2_label": "lbl_ct",
+   "recording_id": "rec_fx13f000000000000000000000",
+   "summary_label": "CT",
+   "target_id": "ep_fx13f000000000000000000000",
+   "target_type": "system_episode"
+  }
+ },
+ "source": "Appendix T T22 (E-1.2.20), FX-13f",
+ "version_label": "TEST-ONLY"
+}
