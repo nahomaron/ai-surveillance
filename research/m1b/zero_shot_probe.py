@@ -150,7 +150,8 @@ def fetch():
     print(json.dumps(rec, indent=1))
 
 
-def run(name, frames_dir):
+def run(name, frames_dir, out_path=None):
+    """`out_path`: another output file (T-25p frame-level check); default out/m1b/zs_det_<name>.json (the probe)."""
     import torch
     frames_dir = Path(frames_dir)
     meta = json.load(open(frames_dir / "frames.json"))
@@ -170,7 +171,7 @@ def run(name, frames_dir):
     out = {"model": name, "frames": [m["file"] for m in meta], "seconds": [round(t, 4) for t in times], "peak_rss_bytes": int(peak),
            "torch": torch.__version__, "torch_threads": torch.get_num_threads(), "ultralytics": ultralytics.__version__,
            "transformers": transformers.__version__, "python": platform.python_version(), "detections": dets}
-    p = ROOT / f"out/m1b/zs_det_{name}.json"
+    p = Path(out_path) if out_path else ROOT / f"out/m1b/zs_det_{name}.json"
     p.write_text(json.dumps(out) + "\n")
     print("wrote", p)
 
@@ -223,6 +224,6 @@ if __name__ == "__main__":
     if cmd == "fetch":
         fetch()
     elif cmd == "run":
-        run(sys.argv[2], sys.argv[3])
+        run(sys.argv[2], sys.argv[3], sys.argv[4] if len(sys.argv) > 4 else None)
     elif cmd == "evaluate":
         evaluate(sys.argv[2])

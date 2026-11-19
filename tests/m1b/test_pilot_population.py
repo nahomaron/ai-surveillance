@@ -31,3 +31,14 @@ def test_test_partition_refused():
     other = next(c for c in ctx.counts["cameras"] if not ctx.is_validation(c))
     with pytest.raises(ContractError):
         ctx.camera(other["rec_id"])
+
+
+def test_frame_check_selection():
+    """D-45 item 3c: 20 pilot cameras (10 ceiling, 10 eye-level), seed 2026111902, none from the probe; reproducible."""
+    import frame_check as fc
+    import pilot_common as pc
+    a, b = fc.selection(), fc.selection()
+    assert a == b and len(a) == 20
+    assert sorted(c["viewpoint"] for c in a).count("ceiling") == 10
+    pilot = {c["rec_id"] for c in pc.pilot_cameras()}
+    assert {c["rec_id"] for c in a} <= pilot and not {c["rec_id"] for c in a} & set(pc.probe_cameras())

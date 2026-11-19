@@ -85,7 +85,9 @@ def committed_inputs():
     return counts["cameras"], freeze["split"]["sdg_validation_runs"]
 
 
-def extract(out_dir: Path) -> None:
+def extract(out_dir: Path, seed: int = SEED, exclude: frozenset = frozenset()) -> None:
+    """`seed` and `exclude` (rec_ids left out of the pool) are used by the T-25p frame-level check (D-45 item 3c:
+    seed 2026111902, probe cameras excluded); the probe itself used the defaults."""
     import av
     sys.path.insert(0, str(ROOT / "research/m1a"))
     import m1a_common as m
@@ -95,7 +97,7 @@ def extract(out_dir: Path) -> None:
     ctx = m.Context("sdg")
     out_dir.mkdir(parents=True, exist_ok=True)
     meta = []
-    for cam in select(cameras, validation_runs):
+    for cam in select([c for c in cameras if c["rec_id"] not in exclude], validation_runs, seed):
         ctx.camera(cam["rec_id"])  # second guard: the M1a driver's own ERR-LEAKAGE refusal
         data = m.load(ctx, cam["rec_id"])
         entry = ctx.index[cam["rec_id"]]

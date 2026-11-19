@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "research/m1a"))
 import m1a_common as m  # noqa: E402
 
-OUT = ROOT / "out/m1b/pilot"
-RAW = OUT / "s2raw"  # raw detector output per camera (`.venv-det`)
+OUT = Path(os.environ.get("PILOT_OUT", str(ROOT / "out/m1b/pilot")))  # PILOT_OUT: smoke runs only
+RAW = ROOT / "out/m1b/pilot/s2raw"  # raw detector output per camera (`.venv-det`)
 CONTRACT = "E-1.2.21"
 FRAME_CHECK_SEED = 2026111902  # D-45 item 3c
 
