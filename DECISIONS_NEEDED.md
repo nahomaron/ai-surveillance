@@ -490,3 +490,12 @@ Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.j
 Options: for the Owner and Architect (detector-path pilot spec, choice of detector, prompts or thresholds for the pilot). The agent makes no recommendation. Nothing was fine-tuned or tracked, and no detector output entered the pipeline.
 Owner decision: ______
 
+
+## D-46 (2026-11-19) — Architect rulings on CR-028 and AR-61; two V-02 fixes        status: DECIDED (19 Nov 2026)
+Source: Owner, 19 Nov 2026 (pasting the instruction = approval).
+Decision:
+1. **CR-028** (opened on `v02-review-ui`): decided. The readings are Appendix T section **T22.14**, contract **E-1.2.21**, appended verbatim on this branch: (a) audit size ceil(a_audit × tier-1 targets); (b) α over the audited targets only, "not computed (n < 5)" below 5; (c) a target drawn into any batch on the same configuration and partition is excluded from every later batch; (d) pilot assessments stored in reference, with no adjudication, status entry or audit; (e) water-filling allocation, with a batch below n_batch stated in the manifest. CR-028 is closed on `v02-review-ui` as superseded by T22.14.
+2. **AR-61** (on `v02-review-ui`): all eleven items accepted as written.
+3. **V-02 fixes** on `v02-review-ui`: stray shell text in the report; an Owner-only audit trail view (status history per target, with the hash-chain check); the real-frame dry run, if stored outside a fixture store, renamed and marked as never for real review; the original V-02 items 3 to 7 as the agent understood them, each marked, in the report.
+4. Only the contract text goes into `m0-implementation`; the code stays on `v02-review-ui`.
+Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free: D-47, CR-029, AR-62.

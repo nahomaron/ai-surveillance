@@ -759,3 +759,10 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. D-45 is still open (T-22 STOP), as is CR-026.
 - Next: step 2 of the D-44 instructions (merge `m0-implementation` into `v02-review-ui`), then V-02 under T22 on that branch. On `m0-implementation`: **STOP (D-45)**.
+
+### 2026-11-19 — D-46: Appendix T T22.14 recorded (contract E-1.2.21)
+- Did: the Architect's CR-028 rulings appended verbatim to Appendix T as **T22.14** (contract **E-1.2.21**); CLAUDE.md contract line updated; D-46 recorded as decided. No code change on this branch: the T22.14 tests belong to the review application on `v02-review-ui`, where the code is. FX-13e is unchanged (the byte-identical fixture regeneration test passes).
+- Tests: 2441/2441 (full suite), twice: identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. D-45 still open.
+- Next: D-46 items 1 to 3 on `v02-review-ui`; then the D-45 prompt on this branch.
