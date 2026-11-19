@@ -384,9 +384,9 @@ Options:
 Agent's recommendation: (a) for v1, and (b) put to the Architect for v2. Under (b), "both visible at least once in the camera" would cut the pairs to those T21.3 can ever make assessable.
 Also for review (no work waits on it): AR-58 (accepted under D-38 A.1, evidence recorded) and the four AR-59 review flags: item 2 (T21.1 reference without visibility in Q), item 5 (GV-04 at full_camera positions), item 6 (GV-07 against simulator speed at the same w_v), item 7 (GV-08 realized minimum from the same run, null past the POW end).
 
-## D-40 (2026-11-16) — STOP: V-02 needs a written C-layer review and adjudication protocol        status: OPEN
+## D-44 (2026-11-16) — STOP: V-02 needs a written C-layer review and adjudication protocol        status: OPEN
 Task: V-02   Blocking: V-02 only (off the critical path; nothing on `m0-implementation` waits on it)
-Question: The V-02 compatibility audit (`research/review_ui/V-02_compatibility_audit.md`, branch `v02-review-ui`) found no schema conflict: the tables, UUIDv7 IDs, the hash-chained status log, the VR-E-053 blindness guard and the κ / α functions all exist and can be reused unchanged. But the protocol the screens must enforce is not in the contract (CR-026, gaps G1–G8). Without it the agent would be inventing labels, statuses and blind rules. How should V-02 proceed?
+Question: The V-02 compatibility audit (`research/review_ui/V-02_compatibility_audit.md`, branch `v02-review-ui`) found no schema conflict: the tables, UUIDv7 IDs, the hash-chained status log, the VR-E-053 blindness guard and the κ / α functions all exist and can be reused unchanged. But the protocol the screens must enforce is not in the contract (CR-027, gaps G1–G8). Without it the agent would be inventing labels, statuses and blind rules. How should V-02 proceed?
 Options:
 - (a) The Owner / Architect supply the C-layer protocol as contract text (Appendix T section), covering G1–G8; V-02 then resumes as specified.
 - (b) The Owner rules on G1–G8 directly in this entry for V-02 fixture use only (a tooling decision, not a contract change), records marked "fixture; protocol provisional"; the contract text follows later.

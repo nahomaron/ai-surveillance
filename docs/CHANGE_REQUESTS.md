@@ -936,7 +936,7 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 - **Files/tests:** `research/m1a/run_m1a.py` (`unit_reference`), `research/m1a/m1a_common.py` (`reference_tracks`, `visible_frames`, `truth_table`), `research/m1a/evaluate_m1a.py`, `research/m1a/aggregate_m1a.py`, `src/rq1/evaluation/gv.py`; `tests/m1a/test_t21_references.py` (the four T21 tests), `tests/m1a/test_m1a_driver.py`, `tests/evaluation/test_gv.py`.
 - **Reverse:** per item, in the named function.
 
-## CR-026 (2026-11-16) — The C-layer review and adjudication protocol is not defined (V-02)   status: OPEN
+## CR-027 (2026-11-16) — The C-layer review and adjudication protocol is not defined (V-02)   status: OPEN
 **Raised by:** implementation agent. **Task:** V-02 (Reviewer and adjudication UI, Owner tooling; branch `v02-review-ui`). **Contract sections:** E-1.2.1 §5.8 (`reviewer_assessment`, `adjudication`, `validation_status_log`), §6 (label rules), §6.0 wording line ("reviewer-confirmed" only for adjudicated labels), §9 (ambiguous references "Tier 2 or unsure"; CV2), §11 item 5; F.1 A5.1 (`independent_expert_judgment`, RV-03), Appendix N4 (EV-M12, Tier 1 and Tier 2 separately); Appendix T T1 VR-E-053, FX-13 ("Two reviewers disagree — Tier 2 adjudication", active).
 **Meaning-affecting:** yes. Each item decides a label, a status, a blind flag or which targets enter the EV-M12 denominator.
 **Problem.** The tables exist and are implemented (T-01, T-11), but the procedure that fills them is not in the contract. V-02's reviewer and adjudication screens would have to enforce it. Details and readings: `research/review_ui/V-02_compatibility_audit.md`, section "Gaps".
@@ -950,4 +950,4 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 - G8. Reviewer-facing definitions of nm, ud, ct, not_hazardous and unsure (the contract defines NM/UD/CT only as automated rules over system states).
 **Not blocked by this CR:** everything on `m0-implementation`; the V-02 parts that need no protocol (status-log viewer and chain check, agreement arithmetic) are implemented already and are not worth building alone.
 **Also noted (not blocking):** FX-13 is active and listed under WP-08 tests (Package F), but has no fixture or test; Q1 time-on-task has no field; Q2 `agreement_stat_ref` target undefined; Q4 V-02 on real footage needs its own decision.
-**Agent's recommendation:** see D-40. Readings (a) in each row of the audit's gap table are the most direct readings of the text, but G3, G6 and G8 have no reading in the text at all and need Architect wording.
+**Agent's recommendation:** see D-44. Readings (a) in each row of the audit's gap table are the most direct readings of the text, but G3, G6 and G8 have no reading in the text at all and need Architect wording.

@@ -3,7 +3,7 @@
 Branch `v02-review-ui` (from `m0-implementation` at 636b311). Owner decision of 16 Nov 2026 (V-02 task text). Contract E-1.2.11 as listed in CLAUDE.md, with the later Appendix T sections T14–T21 already in the repository.
 Written before any UI code, as item 2 requires.
 
-**Result: STOP.** The schemas, the ID rules, the hash chain, the blindness guard and the κ / α functions already exist and V-02 can reuse them unchanged. But the protocol V-02 has to enforce is not in the contract. Seven rules that the reviewer and adjudication screens need are undefined, and each one changes a label, a status, a denominator or the blind flag (points a, c, d, e and i below). They are raised as **CR-026** and decision request **D-40**. No UI code, tests or records were written. The audit is pushed and work on V-02 stops until D-40 is decided.
+**Result: STOP.** The schemas, the ID rules, the hash chain, the blindness guard and the κ / α functions already exist and V-02 can reuse them unchanged. But the protocol V-02 has to enforce is not in the contract. Seven rules that the reviewer and adjudication screens need are undefined, and each one changes a label, a status, a denominator or the blind flag (points a, c, d, e and i below). They are raised as **CR-027** and decision request **D-44**. No UI code, tests or records were written. The audit is pushed and work on V-02 stops until D-44 is decided.
 
 Citation note: the task text calls the tables E-37, E-42, E-43 and E-44. No document in the repository uses those labels (checked by search over `docs/`, `research/`, `reports/`, `src/`). This audit identifies the tables by name, from E-1.2.1 §5.8: E-37 = `annotation_record`, E-42 = `reviewer_assessment`, E-43 = `adjudication`, E-44 = `validation_status_log`.
 
@@ -22,7 +22,7 @@ Citation note: the task text calls the tables E-37, E-42, E-43 and E-44. No docu
 | i. Wording | E-1.2.1 §6 label table, §6.0 wording line; CLAUDE.md "Never"; `report.py` W1–W6 | `export/report.py` `WORDING`, `lint`, `BANNER` | Yes | Codes can be shown. **Gap G8: no reviewer-facing definition of the five reviewer labels exists** |
 | j. Real-data rules | D-21, D-24, D-26, G-FQ (D-25), VR-E-070; access log (AR-54 item 5) | `registry/access_log.py` `AccessLog`; `schema/vr_rules.py` `check_retention`, `check_real_clip_access` | n/a for fixtures | None at fixture scope. Use on real data needs its own Owner decision (Q4) |
 
-Gaps G1–G8 are listed under "Gaps" below and in CR-026.
+Gaps G1–G8 are listed under "Gaps" below and in CR-027.
 
 ## a. Schemas
 
@@ -54,7 +54,7 @@ Single schema source: `src/rq1/schema/tables.py`. Field lists below are copied f
 Validators: `validate.validate_row(table, row)` / `validate_rows(…, raise_fatal=True)` check types, enums, nullability, ID patterns and the UTC form. They do **not** check VR-E-053 for `reviewer_assessment`; that is `vr_rules.check_blind_reference` (point d).
 
 Findings:
-- No new field, table or enum value is needed for the screens as specified, **except** where the task asks for a `method` set {agreement, consensus_meeting, adjudicator}: the contract types `method` as free `str`, so these values would be written as strings without a schema change. They are the Owner's values in the V-02 text, not contract values, and they differ from the only related contract enum (`consensus_method` {agreement, third_annotator, adjudicated, simulator} on the reference tables). Whether they are the protocol's method values is part of D-40 (G5).
+- No new field, table or enum value is needed for the screens as specified, **except** where the task asks for a `method` set {agreement, consensus_meeting, adjudicator}: the contract types `method` as free `str`, so these values would be written as strings without a schema change. They are the Owner's values in the V-02 text, not contract values, and they differ from the only related contract enum (`consensus_method` {agreement, third_annotator, adjudicated, simulator} on the reference tables). Whether they are the protocol's method values is part of D-44 (G5).
 - `confidence` has a type and no scale or range (G4).
 - Time-on-task: `reviewer_assessment` has no field for it. None is added. Raised as question Q1.
 
@@ -119,7 +119,7 @@ Related gap: D-23's subset rule is for annotation, and nothing in the contract o
 - V-02 as specified is fixture-only: no real data is read, no access log entry is needed, no `evidence_clip` is written. No conflict.
 - Question Q4: using V-02 later on real footage would need an Owner decision (D-24 b forbids labels on SmartSpaces 026/027 outright; for Safe and Unsafe Behaviours, C-layer labels are "reference labels" in the sense of D-24 and would need the access log, `evidence_clip` with redaction state, and the D-26 "experimental" wording).
 
-## Gaps (CR-026) — each one affects measurement meaning
+## Gaps (CR-027) — each one affects measurement meaning
 
 | # | Gap | Why it affects meaning | Readings |
 |---|---|---|---|
@@ -140,4 +140,4 @@ Questions that do not block on their own: **Q1** time-on-task (no field in `revi
 
 ## Outcome
 
-Conflict and gaps found → CR-026 opened in `docs/CHANGE_REQUESTS.md`, decision request D-40 in `DECISIONS_NEEDED.md`, V-02 marked STOP in `WORKPLAN.md`. No UI code, tests or records written; no schema, enum, ID rule, guard or analysis function touched; `docs/preregistration_FROZEN.md` untouched.
+Conflict and gaps found → CR-027 opened in `docs/CHANGE_REQUESTS.md`, decision request D-44 in `DECISIONS_NEEDED.md`, V-02 marked STOP in `WORKPLAN.md`. No UI code, tests or records written; no schema, enum, ID rule, guard or analysis function touched; `docs/preregistration_FROZEN.md` untouched.
