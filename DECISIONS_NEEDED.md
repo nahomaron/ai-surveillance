@@ -472,7 +472,7 @@ Owner decision (19 Nov 2026): **option (a).** The Architect's C-layer protocol i
 
 Note on numbering: D-44 and CR-027 were opened on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026) and are copied here with their decision (19 Nov 2026). The next free numbers are D-46 and CR-028 on both branches.
 
-## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: OPEN
+## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: DECIDED (19 Nov 2026)
 Task: T-22   Blocking: the detector-path pilot (S4/S5/S8 with detector output), T-23 and all later M1b work
 Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.json`).
 - Data: 100 SDG validation frames; 93 person and 97 forklift reference boxes; IoU ≥ 0.3; best-F1 threshold. Descriptive only.
@@ -488,7 +488,25 @@ Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.j
 - **Scale.** All 67,800 SDG validation frames would take about 6.6 h with YOLO-World and about 13 days of serial CPU time with Grounding DINO on this laptop.
 - **Choices to review.** The instruction did not fix seven choices (draw procedure, frame spacing, model settings, Grounding DINO class assignment without NMS, tie rules, timing). They are listed in the report for the Architect.
 Options: for the Owner and Architect (detector-path pilot spec, choice of detector, prompts or thresholds for the pilot). The agent makes no recommendation. Nothing was fine-tuned or tracked, and no detector output entered the pipeline.
-Owner decision: ______
+Owner decision (19 Nov 2026, with the Architect's detector-path pilot spec; pasting it = approval):
+0. **Rulings on the probe.**
+   - The seven agent choices in `zero_shot_probe.md` are ACCEPTED as recorded. The probe is not re-run.
+   - The probe thresholds are the pilot's fixed values, with no further tuning: YOLO-World v2-s person 0.20 and forklift 0.05; Grounding DINO tiny 0.45 for both.
+   - The 20 probe cameras are excluded from everything in the pilot, so the pilot results do not depend on the threshold choice.
+   - Grounding DINO is not run at scale; it is used only in the frame-level check (item 3c).
+1. **T-23 tracker adapter** (WP-17, reduced to the pilot):
+   - ByteTrack via `trackers` if it installs in `.venv-det`, otherwise Ultralytics' built-in ByteTrack; default parameters, recorded, not tuned.
+   - Input: S2 rows; output: S3 rows. Matched → tracked/detected. A bridge of at most g_max = 15 eligible frames → predicted/inferred; longer → lost. No point on ineligible frames. Foot point = bottom-centre.
+   - One track class per detection class.
+   - Tests: fixtures; IDF1 against simulator IDs; switches and fragments via the T-12 association.
+2. **S2 stage:** YOLO-World v2-s, Ultralytics defaults, classes "person" and "forklift", the item 0 thresholds, every eligible frame; reproducibility class tolerance; no MR-01 run.
+3. **T-25p pilot** on the SDG validation cameras with an ORACLE-S3, minus the 20 probe cameras (expected 206):
+   - pipeline S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 against the T21 references; no yaw, T8.2 fallbacks; no forklift_turning stratum;
+   - frame-level check: 100 frames, seed 2026111902, both models;
+   - report `reports/M1b_pilot_report.md` with columns A / B / C;
+   - runtime estimate first; STOP if over 12 h.
+4. **Do not:** change the frozen pre-registration or any analysis module beyond the new S2/S3 adapters; tune any threshold or tracker parameter; touch the test partition; register an acceptance criterion; claim transfer to real footage. A contract gap on the detector path → CR, and that part stops.
+5. Full suite twice in the main `.venv`; detector and tracker tests in `.venv-det`. Progress log, commit and push after T-23, the S2 stage and T-25p. STOP at the end (D-47).
 
 
 ## D-46 (2026-11-19) — Architect rulings on CR-028 and AR-61; two V-02 fixes        status: DECIDED (19 Nov 2026)

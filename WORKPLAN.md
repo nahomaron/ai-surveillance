@@ -79,8 +79,10 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 
 | ✓ | ID | Task | Needs | Done when | Size |
 |---|---|---|---|---|---|
-| [S] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
-| [ ] | T-23 | **Tracker adapters (WP-17)** with evidence classes; identity-association fixtures | T-22 | HOTA/IDF1 against simulator IDs | M |
+| [x] | T-22 | **Detector benchmark (WP-15) — revised scope (D-42 option (a), 19 Nov 2026): zero-shot detectors.** Runtime check done (`feasibility.md`). Probe YOLO-World v2-s and Grounding DINO tiny, prompts exactly "person" and "forklift", on 100 SDG validation frames (5 from each of 20 validation cameras, 10 ceiling and 10 eye-level, seeded draw 2026111901), against the oracle-path simulator boxes (visible objects, clipped). Same-class matching at IoU ≥ 0.3, one-to-one by descending IoU. Recall and precision at score thresholds 0.05–0.50, the best-F1 threshold, per viewpoint, s/frame and peak memory. No S4/S5/S8 with detector output, no fine-tuning, no Ultralytics trackers, no change to the pre-registration or any analysis module. **STOP after the report** (D-45) | G-M1a; §0 approval (D-42) | `research/m1b/zero_shot_probe.md` and `.json` | M |
+| [x] | T-23 | **Tracker adapters (WP-17)**, reduced to the D-45 pilot (item 1): Ultralytics ByteTrack per class (default parameters), S2 rows → S3 rows, bridges of ≤ g_max = 15 eligible frames predicted/inferred, longer lost; fixtures with dropouts, noise, an ineligible frame, a fragment and a swap; T-12 association; IDF1 (TrackEval port, AR-62) | T-22, D-45 | tests in `.venv-det` and main suite; HOTA not required (D-45) | M |
+| [ ] | T-23s | **S2 detector stage (WP-15 adapter; D-45 item 2):** YOLO-World v2-s, Ultralytics defaults, "person" 0.20 / "forklift" 0.05, every eligible frame; `detection` rows with license_component; tolerance class | T-23 | S2 tests; runtime measured on one camera | S |
+| [ ] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
 
@@ -766,3 +768,24 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. D-45 still open.
 - Next: D-46 items 1 to 3 on `v02-review-ui`; then the D-45 prompt on this branch.
+
+### 2026-11-19 — D-45 decided; T-23 done (tracker adapter)
+- **D-45** decided (Owner, with the Architect's detector-path pilot spec): recorded in `DECISIONS_NEEDED.md` and in `research/m1b/zero_shot_probe.md` (rulings section). The seven probe choices are accepted; the probe thresholds become the pilot's fixed values; the 20 probe cameras are excluded from the pilot. T-22 ticked; rows T-23s (S2 stage) and T-25p (pilot) added.
+- **T-23:**
+  - `trackers` (Apache-2.0) does not install: every release needs numpy ≥ 2.0.2, which breaks torch 2.2.2 in `.venv-det`. Nothing was installed. Following the D-45 fallback, the adapter uses Ultralytics' built-in ByteTrack with the installed `bytetrack.yaml` defaults, recorded in the run configuration.
+  - `lap` is not installed, so Ultralytics' NumPy assignment path is used (AR-62 item 5).
+  - Code:
+    - `src/rq1/tracking/bytetrack.py` (`.venv-det`; one tracker per class; the tracker steps per eligible frame; it logs matched and lost-predicted boxes);
+    - `bridging.py` (pure; the D-45 rule at g_max = 15, counted in eligible frames);
+    - `s3.py` (main env; `track` / `track_point` rows with `detection_id`; foot point = bottom-centre).
+  - The S2 row builder `src/rq1/perception/s2.py` is included because the S3 tests use it; the detector run itself is T-23s.
+  - Fixtures: `src/rq1/fixtures/oracle_detections.py`, TEST-ONLY. FX-TRK-1 has dropouts of 5, 15 eligible frames (with an ineligible frame inside), 20 and 40 frames, plus 1 px seeded noise. FX-TRK-2 is a position swap.
+  - IDF1: `research/m1b/idf1.py`, a port of TrackEval's Identity metric (TrackEval is not installed; AR-62 item 6).
+  - **AR-62** opened (9 items; items 3, 5, 6 and 7 are review flags).
+- Tests:
+  - 2457/2457 passed, 8 skipped (the ByteTrack unit tests, which run only in `.venv-det`), full suite twice: identical.
+  - `.venv-det`: `test_tracking_*` 16/16 and `test_zs_match` OK.
+  - New tests in `tests/m1b/`: `test_tracking_bridging.py`, `test_tracking_bytetrack.py`, `test_s3_detector_path.py` (runs the tracker through `.venv-det` and checks the T-12 association: one_to_one, fragment, id_switch; IDF1 toy 0.444444 and swap 0.5 by hand), `test_s2_detector.py`.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: AR-62 (open, for D-47). One slip, corrected: two test imports of Ultralytics without `YOLO_CONFIG_DIR` created a settings file in the home folder. It was deleted (no prediction ran, nothing was sent), and the adapter now sets the folder before any import.
+- Next: T-23s (S2 stage; runtime estimate on one camera before the pilot).
