@@ -1176,3 +1176,28 @@ T22.13 Schema change (minor). reviewer_assessment gains review_time_s · f64 · 
 Fixtures and tests: FX-13 (two reviewers disagree, Tier 2 adjudication): a system_episode with lbl_nm; reviewer A nm (2.0), reviewer B ud (3.0), both blind and attested; adjudicator ud → tier2, method adjudicator, final_label ud, reference_class independent_expert_judgment; status entry rejected; basis = the adjudication. FX-13a: both reviewers not_hazardous on an episode with no G2 label → tier1, agreement, status confirmed, written without an adjudicator. FX-13b: one reviewer unsure, the other nm; adjudicator unsure → tier2, status disputed; excluded from EV-M12 κ and counted under unsure. FX-13c: a reviewer with a candidate_review assessment on the same recording submits a reference assessment → refused (T22.2 b). FX-13d: a reference assessment with shown_system_output = true → refused (VR-E-053). FX-13e: a tier1 target in the audit sample where the adjudicator disagrees → a new tier2 adjudication; the tier1 record remains; audit agreement rate 0/1. FX-13f: an adjudicator with independence_attestation = false → adjudication refused in reference (T22.9). Also: batch allocation by largest remainder on a hand-made stratum table; per-reviewer order differs and is reproducible from the seed; a ref_event target writes no status.
 
 Source: Architect protocol for CR-027 (Owner decision D-44, option (a), 19 Nov 2026; Owner approval by pasting it), appended verbatim.
+
+## T22.14 Readings of T22 (E-1.2.21; CR-028, D-46)
+
+T22.14 Readings of T22 (CR-028, D-46).
+ (a) Audit size (T22.7 d): ceil(a_audit × number of tier1 targets of the batch).
+ (b) α units (T22.10 a): Krippendorff's α (nominal) over the audited targets only, three
+     assessments each. The number of audited targets is printed beside α. With fewer
+     than 5 audited targets α is printed as "not computed (n < 5)".
+ (c) Earlier batches (T22.6 a): a target already drawn into any batch (pilot or
+     reference) on the same configuration and partition is excluded from every later
+     batch. Each target is reviewed in at most one batch.
+ (d) Pilot records (T22.6 c): pilot assessments are stored in reference with the batch
+     flagged pilot. No adjudication, status entry or audit is written for pilot targets,
+     and pilot assessments never count toward reference_class, EV-M12 or agreement.
+ (e) Allocation under capping (T22.6 a): water-filling. Strata smaller than the equal
+     share take their whole size; the freed places are shared equally among the other
+     strata, repeated until no remaining stratum is below its share; the integer
+     remainder goes by largest remainder with ties broken by the batch seed. If all
+     strata are exhausted, the batch holds fewer than n_batch targets and the manifest
+     says so.
+ Tests: the five CR-028 examples, with the expected values stated in CR-028 for (e)
+ (CT 7, UD 11, NM 11, PC 11, H 11, O 9); FX-13e unchanged; a re-draw of a target from an
+ earlier batch is refused; α with 4 audited targets prints "not computed (n < 5)".
+
+Source: Architect ruling on CR-028 (Owner decision D-46, 19 Nov 2026; Owner approval by pasting it), appended verbatim.

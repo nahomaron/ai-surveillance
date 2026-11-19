@@ -800,3 +800,10 @@ _(the agent appends entries here)_
   - The original V-02 task text is not on this computer; its constraints were taken from the compatibility audit (noted in the report).
   - No SDG validation recording has more than one person or forklift, so outlines are exercised on fixtures only.
 - Next: **STOP for V-02** (no merge into `m0-implementation`, no pull request). CR-028 should be decided before a real reference batch. The reporting workflow waits for T23.
+
+### 2026-11-19 — D-46: Appendix T T22.14 recorded (contract E-1.2.21)
+- Did: the Architect's CR-028 rulings appended verbatim to Appendix T as **T22.14** (contract **E-1.2.21**); CLAUDE.md contract line updated; D-46 recorded as decided. No code change on this branch: the T22.14 tests belong to the review application on `v02-review-ui`, where the code is. FX-13e is unchanged (the byte-identical fixture regeneration test passes).
+- Tests: 2441/2441 (full suite), twice: identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none new. D-45 still open.
+- Next: D-46 items 1 to 3 on `v02-review-ui`; then the D-45 prompt on this branch.
