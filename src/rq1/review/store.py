@@ -220,8 +220,11 @@ class Store:
             # T22.14 (c): a target drawn into any earlier batch (pilot or reference) on this configuration and partition
             # is excluded from every later batch.
             excluded = sorted({t for m in same for t in m["target_ids"]})
+            # T23.11 (b), amending T22.6 (a): every episode of a demo run (all of its cameras) leaves the sampling frame.
+            demo_recs = self.demo_recordings()
+            demo_targets = sorted(t["target_id"] for t in frame.episodes() if t.get("recording_id") in demo_recs)
             n = P.PARAMS["n_pilot"] if pilot else P.PARAMS["n_batch"]
-            alloc, ids = P.draw(frame.episodes(), n, seed, exclude=excluded)
+            alloc, ids = P.draw(frame.episodes(), n, seed, exclude=excluded + demo_targets)
             if set(ids) & set(excluded):
                 raise _spec("a target of an earlier batch was drawn again; each target is reviewed in at most one batch (T22.14 c)")
             if not ids:
@@ -236,6 +239,7 @@ class Store:
                 "dataset": frame.dataset, "strata_counts": alloc, "seed": seed, "target_ids": ids, "annotators": annotators,
                 "c_pad_s": P.PARAMS["c_pad_s"], "parameters": dict(P.PARAMS), "excluded_earlier_targets": len(excluded),
                 "n_requested": n, "n_drawn": len(ids), "frame_exhausted": len(ids) < n,  # T22.14 (e)
+                "excluded_demo_targets": len(demo_targets),  # T23.11 (b)
                 "readings": "Appendix T T22.14 (E-1.2.21)",
                 "created_utc": _utc(self.clock()),
             }
@@ -245,6 +249,17 @@ class Store:
             (folder / "targets.json").write_bytes(canonical_json(targets))
             (folder / "manifest.json").write_bytes(canonical_json(manifest))  # written last: the batch exists once this does
             return manifest
+
+    def demo_recordings(self) -> set[str]:
+        """T23.11 (b): the recordings of every camera of every demo run in this store's demo manifest."""
+        path = self.root / "demo_manifest.json"
+        if not path.exists():
+            return set()
+        return {r for run in json.loads(path.read_text(encoding="utf-8"))["runs"] for r in run["camera_rec_ids"]}
+
+    def batch_recordings(self) -> set[str]:
+        """Recordings with a target in any T22 batch of this store."""
+        return {t["recording_id"] for b in self.batch_ids() for t in self.targets(b).values()}
 
     def role_in(self, batch_id: str, annotator_id: str) -> str | None:
         return next((a["role"] for a in self.manifest(batch_id)["annotators"] if a["annotator_id"] == annotator_id), None)

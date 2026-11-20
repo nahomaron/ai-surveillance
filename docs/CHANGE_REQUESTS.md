@@ -1058,3 +1058,62 @@ Representation and engineering only; no label, status, tier, reference class, de
 11. **Consensus meeting (T22.7 c).** It is offered only when the batch has no adjudicator, and only after both reviewers have finished the batch, so that neither sees the other's assessments while still reviewing.
 **Reverse:** each item is local to `src/rq1/review/`; changing it changes no stored contract field.
 - **Accepted (D-46, 19 Nov 2026):** the Architect accepted all eleven items as written. Item 1's reference to CR-028 item 5 is now T22.14 (e).
+
+## CR-030 (2026-11-19) — T23 points that change a count, a state or a statistic (W-01, D-48)   status: OPEN
+Numbered CR-030 / AR-63 on `v02-review-ui` to avoid the numbers used on `m0-implementation` (CR-029, AR-62). Opened on `v02-review-ui`; contract E-1.2.22 (Appendix T T23) exists only on this branch until the Owner merges it. **Nothing below was chosen.** Where an indicator depends on an item, the application computes every reading listed and prints the value only when all readings agree; otherwise it prints "not determined: readings differ (CR-030 item n; ...)" with each reading's value (`rules.Readings`). Where a state or record depends on an item, the action is refused (ERR-SPEC, naming the item) or the record is not written.
+1. **candidate_review adjudications cannot be stored (blocks part of T23.5 c, d).** T23.5 (c) writes one adjudication per member in candidate_review after sm_uphold, sm_overturn and sm_reclassify. T22.1 (b): candidate_review is "never given a reference_class". The schema source has `adjudication.reference_class` non-null (F.1 A5.1 field addition; nullability inferred, AR-era `True` flag), and `tests/schema/test_t22_review_time.py` pins the adjudication field list. Making it nullable would add a `reference_class_null_reason` column and change that pinned list, so the agent did not do it (CLAUDE.md: a mismatch with a test is a CR, never an edited expectation). **Now:** the SM actions change the state and write the report-log entry; no adjudication and no status entry is written; the report page says so (`store.CR030_1`). The FX-14a "then rejected" and FX-14b "status confirmed" checks are strict xfails. **Options:** (a) `adjudication.reference_class` nullable, null with `not_applicable` outside reference, required non-null in reference (VR check), the pinned list updated by the ruling; (b) a reference_class value for manager adjudications (none of the three fits A5.1); (c) another table for candidate_review adjudications.
+2. **I4 scope and unit.** I2 says "over AI reports", I4 does not: (a) AI reports only, (b) all reports. After sm_reopen a report can be decided twice by the SM: (c) count actions, (d) the latest decision per report.
+3. **I5 denominator and unit.** "recorded AI reports": (a) AI reports that reached `recorded` in P, (b) AI reports in `recorded` now (only sm_reclassify leaves `recorded`, so (b) excludes every reclassified report); numerator (c) reports reclassified, (d) reclassify actions. The readings agree when no report was reclassified.
+4. **I6 age.** Pending since (a) the report's creation, (b) entering the current pending state. Also: the age is measured on the computer clock; demo reports are created at wall time (their occurred_at is on the simulated calendar), so no demo report is stale until 7 real days pass.
+5. **I7 "recorded near misses".** (a) state recorded and kind near_miss, (b) state recorded and label nm (T23.12 names "recorded near miss" by label). They differ when a near_miss is approved with ct or an incident with nm.
+6. **Monitored time (I7 rate, I8, share of areas with any monitoring).** "assessable footage": (a) coverage_state usable, (b) usable and usable_degraded. Cameras of an area with no S5 output of `wf_source_config`, e.g. the 20 T-22 probe cameras that the D-45 pilot did not process: (c) monitored (they have footage), (d) not monitored (the AI did not watch them; "unmonitored time is never counted as zero events"). In the demo, 8 of 9 areas include such cameras, so the I7 rate and I8 print as not determined where the readings differ.
+7. **Alert grouping (T23.2 b).** (a) Whether widened intervals that only touch (end = start) overlap: such inputs are refused. (b) The time axis across cameras. SDG cameras have `recording_local` timelines; the demo places every camera of a run on the simulated calendar with the run's one offset (T23.11 a) and groups on that axis. The agent reads T23.11 (a) this way, but it is a timebase question: please confirm. Outside the demo, intake refuses an area whose episodes are on more than one timeline.
+8. **I9 after reclassification.** An incident set recordable = yes and later reclassified (closed_rejected): (a) count only incidents now recorded, (b) count every incident whose latest recordability is yes. The same for the incidence rate.
+9. **sm_uphold without an area-manager rejection.** After sm_reopen of a closed_duplicate (no AM label) or of a reclassified approval (the AM label is an approval), "final_label = the area manager's label" is undefined or would close an approved report as upheld. **Now:** sm_uphold is refused unless the area manager's latest decision is am_reject.
+10. **Wording and VR-E-041 (for the Architect).** VR-E-041 lists "OSHA/NAICS/establishment identifiers" among forbidden fields; T23.15 adds `est_id` and `wf_establishment`. The name check passes (the demo manifest field is named `est_records`, not `establishments`, for that reason). Please confirm that VR-E-041 applies to Observation-store, E2 and RQ2 outputs and not to the T23 workflow tables. The CLAUDE.md "Never" list (OSHA linkage, establishment rankings) also overlaps with T23.7 (301-style fields) and I9. The agent implemented exactly what T23 states and nothing more (no ranking across establishments; the 301 banner says it is not a submission). The Owner may want the CLAUDE.md wording updated.
+
+## AR-63 — Representation choices of the T23 reporting workflow (W-01, D-48)   status: OPEN (review at D-49)
+Representation and engineering only; no label, state, status, denominator, count or statistic depends on them (those are CR-030). Code: `src/rq1/workflow/`, small changes in `src/rq1/review/`; tests: `tests/workflow/`, `tests/fixtures_t03/test_t23_fixtures.py`. Evidence read: none beyond E-1.2.22. Items marked **REVIEW** change displayed wording.
+1. **Store.** The workflow store is the V-02 store folder (one sign-in). T23.15 tables are JSONL files `wf_*.jsonl` and `demo_manifest.json` (JCS), each row validated before writing. candidate_review assessments go into the V-02 `reviewer_assessment.jsonl` with the envelope {batch_id: null, report_id, recording_id, row}, so the T22.2 (b) exposure rule sees them (T23.11 c). Status entries go into the V-02 status log. Helper files that are not contract tables: `wf_episode.jsonl` (member episode descriptions for clips and status entries), `wf_monitoring.jsonl` (calendar-placed S1 coverage per camera, with whether the camera has source output), `wf_displays.jsonl` (first display of a report to a person). `evidence_clip.jsonl` and `retention_policy.jsonl` hold E-1.2.1 rows.
+2. **Schema types (inferred).** No table prefix. ID columns are named as T23.15 names them, with UUIDv7 values and the prefixes `est_`, `area_`, `usr_`, `rpt_`, `wfe_`, `wfc_` and `dmo_`. wf_config adds `wfc_id` and `store_version`. demo_manifest fields: `demo_id, seed, source_configuration, source_path, source_root, runs[], est_records[], areas[], calendar_start_utc, calendar_days, created_utc`.
+3. **field_changes.** map<str, struct{before: str, after: str}>, each value its canonical JSON text. A creation entry lists every field it sets (before = null).
+4. **Kinds.** `kind_initial` ∈ {near_miss, incident_draft, incident}. The current `kind` field of an incident_draft report is `incident` (an AI-drafted incident), so set_recordability applies once it is recorded (FX-14c).
+5. **REVIEW: ai_label of a group and the description.** A group whose members have different G2 labels shows every distinct label in CT, NM, UD order, joined by " and " (no precedence chosen). In the template, <label> is the ai_label with its leading "candidate" written once ("a candidate, undetermined between …").
+6. **REVIEW: pre-filled values of a group.**
+   - min_clearance_m is the smallest non-null member value.
+   - The geometry method is the single `object_state.geometry_method` of the member's S4 artifact.
+   - A null clearance reads "Minimum measured separation not available (<null reasons>)".
+   - evasive_action_observed is true if any member's E_ep is true, unknown if any is unknown, otherwise false.
+   - duration_s is the latest end minus the earliest onset.
+7. **Evidence clips.** One `evidence_clip` row per member, purpose review, over the T22.4 clip window of the episode (c_pad_s = 3.0). decoded_frame_sha256 is the SHA-256 of each decoded frame's luma plane (as S1). access_class is publishable_synthetic_only, redaction none, with one retention_policy row for the store. The browser gets a random token, as in AR-61 item 10.
+8. **REVIEW: human text.** Free text that would break W1–W6 or T23.12 on a page ("near miss" unqualified, "recordable", "collision", …) is refused at entry with a message, so no workflow page can show it.
+9. **Recordability input.** Days counts are asked for days_away and restricted_or_transfer. A note is required. decided_by is the safety manager's user ID.
+10. **Manager annotator rows.** An area manager's candidate_review assessments use an annotator row with role c_layer_reviewer; a safety manager's would use role adjudicator. Both have independence_attestation = false, qualification_ref "workflow area_manager (T23): manager decision record, not a reference reviewer", and the person's pseudonym. An existing row with the same pseudonym and role is reused (AR-61 item 4). These rows have no passphrase and are not offered at sign-in.
+11. **Demo draw.**
+    - One numpy PCG64 generator seeded with the demo seed draws 3 runs per D-35 family without replacement (runs sorted, families sorted). It then draws one offset per run, in whole seconds in [0, 28 days − 1 h).
+    - The calendar starts on Monday 2026-11-02 00:00 UTC (ISO weeks 2026-W45 to W48).
+    - Establishments are named "Simulated warehouse North/South/East".
+    - An area holds every camera of its run.
+    - Family = first path element of `session.lineage.generation_batch`.
+    - The workflow parameters are the T23.14 defaults (the demo store does not lower n_flag_min).
+12. **Permissions details.**
+    - A report page is visible to the area managers of its area, the safety manager of its establishment, its filer and the Owner.
+    - The Owner may file a report (actor `owner`).
+    - T22 annotator profiles have no workflow pages.
+    - A person who decided a report as area manager can take no safety-manager action on it, notes and edits included.
+    - Edits may change area or establishment; permissions follow the current fields (the fold).
+    - am_approve and am_reject on AI reports require a rationale, because the assessment needs one (T22.5 c).
+    - review_time_s runs from the person's first display of the report page.
+13. **Wording linter.**
+    - It checks the visible text of each workflow page, and the string values of JSON exports (keys are field names).
+    - The T23 fixed texts and the two "recorded near miss (…)" forms are exempt. "Recordable" is accepted only inside the `recordable-yes` badge, which is printed only for recordable = yes set by the safety manager.
+    - A workflow response that fails is not sent (HTTP 500).
+14. **V-02 changes.**
+    - `FixtureFrame`/`SdgFrame.episodes()` also return `recording_id`.
+    - `Store.create_batch` excludes demo-run targets (T23.11 b) and records `excluded_demo_targets` in the manifest.
+    - `ReviewServer` takes a handler class.
+    - Video streaming is a helper (`_stream`).
+    - `python -m rq1.review serve` serves the workflow too, on a `WorkflowStore`.
+    - Annotator rows without a passphrase are not listed at sign-in.
+
+**Reverse:** each item is local to `src/rq1/workflow/` (items 1 to 13) or a few lines in `src/rq1/review/` (item 14). No stored contract field of an existing table changes.

@@ -1,7 +1,8 @@
 """V-02 command line. `python -m rq1.review init|serve` from the repository root (PYTHONPATH=src).
 
   init   create the Owner profile of a validation store (asks for the passphrase on the terminal)
-  serve  run the review application on http://127.0.0.1:<port>/ (SDG validation episodes of the T-21 run)
+  serve  run the review application, with the T23 reporting workflow, on http://127.0.0.1:<port>/
+         (SDG validation episodes of the T-21 run for T22 batches)
 """
 from __future__ import annotations
 
@@ -10,8 +11,9 @@ import getpass
 from pathlib import Path
 
 from rq1.review.frame import SdgFrame
-from rq1.review.server import make_server
-from rq1.review.store import Store
+from rq1.workflow.demo import SdgDemoSource
+from rq1.workflow.server import make_server
+from rq1.workflow.store import WorkflowStore
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -26,7 +28,7 @@ def main(argv: list[str] | None = None) -> None:
     serve.add_argument("--root", default=".", help="repository root holding out/ and data/")
     serve.add_argument("--configuration", default="BL-6")
     args = parser.parse_args(argv)
-    store = Store(Path(args.store))
+    store = WorkflowStore(Path(args.store))
     if args.command == "init":
         first = getpass.getpass("Owner passphrase: ")
         if first != getpass.getpass("Repeat: "):
@@ -35,7 +37,7 @@ def main(argv: list[str] | None = None) -> None:
         print(f"Owner profile created in {args.store}.")
         return
     frames = {args.configuration: SdgFrame(args.root, args.configuration)}
-    server = make_server(store, frames, port=args.port)
+    server = make_server(store, frames, port=args.port, demo_source=lambda: SdgDemoSource(args.root))
     print(f"Review application on http://127.0.0.1:{server.server_address[1]}/  (Ctrl-C stops it)")
     try:
         server.serve_forever()

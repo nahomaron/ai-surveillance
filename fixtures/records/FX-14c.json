@@ -1,0 +1,195 @@
+{
+ "expected": {
+  "I9_by_criterion": {
+   "medical_treatment_beyond_first_aid": 1
+  },
+  "I9_cases": 1,
+  "export_banner": "Equivalent-form data for manual transcription. Not a submission to OSHA.",
+  "hours_worked": 200000.0,
+  "incidence_rate": 1.0,
+  "incident_fields": [
+   "date_of_death",
+   "date_of_injury_or_illness",
+   "doing_just_before",
+   "employee_pseudonym",
+   "health_care_professional",
+   "hospitalized_overnight",
+   "injury_or_illness",
+   "object_or_substance",
+   "time_employee_began_work",
+   "time_of_event",
+   "treated_in_emergency_room",
+   "what_happened"
+  ],
+  "kind": "incident",
+  "kind_initial": "incident_draft",
+  "reports": 1,
+  "state": "recorded",
+  "statuses": [
+   "confirmed"
+  ]
+ },
+ "hand_calculation": "T23.2 (c): a CT member -> incident_draft. T23.5 (d): lbl_ct -> ct; ct == ct -> confirmed. T23.8 I9: rate = cases x 200,000 / hours = 1 x 200,000 / 200,000 = 1.0. T23.7 (c): banner fixed; T23.7 (a): twelve fields.",
+ "id": "FX-14c",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14ct00000000000000000000",
+    "g2_label": "lbl_ct",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "CT",
+    "t_end_tl_s": 201.0,
+    "t_start_tl_s": 200.0
+   }
+  ],
+  "incident": {
+   "date_of_death": "",
+   "date_of_injury_or_illness": "2026-11-16",
+   "doing_just_before": "Walking along the pedestrian route to rack 4.",
+   "employee_pseudonym": "EMP-7",
+   "health_care_professional": "HCP-2",
+   "hospitalized_overnight": "no",
+   "injury_or_illness": "Bruised shin.",
+   "object_or_substance": "Forklift forks.",
+   "time_employee_began_work": "07:00",
+   "time_of_event": "08:03",
+   "treated_in_emergency_room": "no",
+   "what_happened": "The forks struck the employee's shin."
+  },
+  "steps": [
+   {
+    "action": "am_approve",
+    "as": "AM-1",
+    "label": "ct",
+    "rationale": "The forks reach the person's leg."
+   },
+   {
+    "action": "edit_fields",
+    "as": "SM-1",
+    "fields": {
+     "date_of_death": "",
+     "date_of_injury_or_illness": "2026-11-16",
+     "doing_just_before": "Walking along the pedestrian route to rack 4.",
+     "employee_pseudonym": "EMP-7",
+     "health_care_professional": "HCP-2",
+     "hospitalized_overnight": "no",
+     "injury_or_illness": "Bruised shin.",
+     "object_or_substance": "Forklift forks.",
+     "time_employee_began_work": "07:00",
+     "time_of_event": "08:03",
+     "treated_in_emergency_room": "no",
+     "what_happened": "The forks struck the employee's shin."
+    }
+   },
+   {
+    "action": "set_recordability",
+    "as": "SM-1",
+    "criteria": [
+     "medical_treatment_beyond_first_aid"
+    ],
+    "note": "Treated by HCP-2 beyond first aid.",
+    "recordable": "yes"
+   },
+   {
+    "action": "hours",
+    "as": "OWNER",
+    "hours_worked": 200000.0
+   }
+  ],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": false,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23 (E-1.2.22), FX-14c",
+ "version_label": "TEST-ONLY"
+}

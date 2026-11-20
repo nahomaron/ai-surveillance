@@ -1,0 +1,118 @@
+{
+ "expected": {
+  "F4_k_miss_1": true,
+  "F4_k_miss_2": false,
+  "I8": 1,
+  "reports": 1,
+  "state": "recorded",
+  "statuses": []
+ },
+ "hand_calculation": "T23.8 I8: one recorded human-started near_miss at +1800 s, inside the area's monitored coverage [0, 3600) s, and no AI alert report in the area within +-60 s -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. T23.5 (e): no assessment, adjudication or status entry.",
+ "id": "FX-14d",
+ "inputs": {
+  "episodes": [],
+  "steps": [
+   {
+    "action": "create_human",
+    "as": "W-1",
+    "description": "A forklift reversed out of aisle 3 while I was crossing; I stepped back.",
+    "kind": "near_miss",
+    "offset_s": 1800.0
+   },
+   {
+    "action": "am_approve",
+    "as": "AM-1",
+    "label": "nm"
+   }
+  ],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": false,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23 (E-1.2.22), FX-14d",
+ "version_label": "TEST-ONLY"
+}

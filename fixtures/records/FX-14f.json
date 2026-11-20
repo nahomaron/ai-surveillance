@@ -1,0 +1,286 @@
+{
+ "expected": {
+  "n_flag_min": 10,
+  "rejected_10": {
+   "F1": true,
+   "I3": [
+    10,
+    12
+   ],
+   "wilson_lower_approx": 0.552
+  },
+  "rejected_6": {
+   "F1": false,
+   "I3": [
+    6,
+    12
+   ]
+  },
+  "reports": 12,
+  "theta_rej": 0.5
+ },
+ "hand_calculation": "Onsets 100 s apart, widened intervals do not overlap -> 12 reports. F1: n = 12 >= 10; Wilson lower bound of 10/12 (z = 1.959964) = 0.55197... > 0.5 -> raised (exact value derived with decimal arithmetic in the test); 6/12: lower bound 0.2538... <= 0.5 -> not raised.",
+ "id": "FX-14f",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f010000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 101.0,
+    "t_start_tl_s": 100.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f020000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 201.0,
+    "t_start_tl_s": 200.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f030000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 301.0,
+    "t_start_tl_s": 300.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f040000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 401.0,
+    "t_start_tl_s": 400.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f050000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 501.0,
+    "t_start_tl_s": 500.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f060000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 601.0,
+    "t_start_tl_s": 600.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f070000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 701.0,
+    "t_start_tl_s": 700.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f080000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 801.0,
+    "t_start_tl_s": 800.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f090000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 901.0,
+    "t_start_tl_s": 900.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f100000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 1001.0,
+    "t_start_tl_s": 1000.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f110000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 1101.0,
+    "t_start_tl_s": 1100.0
+   },
+   {
+    "E_ep": 1,
+    "camera_id": "cam_fx14c100000000000000000000",
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14f120000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "recording_id": "rec_fx14c100000000000000000000",
+    "summary_label": "NM",
+    "t_end_tl_s": 1201.0,
+    "t_start_tl_s": 1200.0
+   }
+  ],
+  "steps": [],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": false,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23 (E-1.2.22), FX-14f",
+ "version_label": "TEST-ONLY"
+}

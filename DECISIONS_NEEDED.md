@@ -499,3 +499,30 @@ Decision:
 3. **V-02 fixes** on `v02-review-ui`: stray shell text in the report; an Owner-only audit trail view (status history per target, with the hash-chain check); the real-frame dry run, if stored outside a fixture store, renamed and marked as never for real review; the original V-02 items 3 to 7 as the agent understood them, each marked, in the report.
 4. Only the contract text goes into `m0-implementation`; the code stays on `v02-review-ui`.
 Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free: D-47, CR-029, AR-62.
+
+## D-48 (2026-11-19) — Reporting workflow, indicators and simulated regulator view (T23)        status: DECIDED (19 Nov 2026)
+Source: Owner, 19 Nov 2026 (pasting the instruction = approval of T23 and of its steps).
+Decision: Appendix T section **T23** appended verbatim on `v02-review-ui` as contract **E-1.2.22**. Build the workflow (`src/rq1/workflow/`) in the V-02 application, with the T23.15 tables and the FX-14 to FX-14i fixtures. Run the T23.11 demo draw with seed 2026111903 on a new store, using the D-45 pilot BL-6 S5 artifacts if they exist, otherwise the T-21 oracle ones. Write W-01_report.md; STOP at D-49. No merge into `m0-implementation`. Undefined points that change a count, a state or a statistic go to a CR; nothing is chosen.
+Numbering on this branch: D-48 (this), D-49 (the STOP), CR-030 and AR-63 (CR-029 and AR-62 are used on `m0-implementation`).
+
+## D-49 (2026-11-19) — STOP after W-01: Owner review of the T23 reporting workflow        status: OPEN
+Task: W-01 (D-48)   Blocking: further workflow work; the merge of E-1.2.22 into `m0-implementation`
+Question: the T23 workflow is implemented and verified on fixtures. Report: `research/workflow/W-01_report.md`; screenshots in `research/workflow/screenshots/` (fixtures only).
+- **Demo** (seed 2026111903, source the D-45 detector-path pilot, column C):
+  - new store `out/review/demo_20261119/`;
+  - 3 simulated establishments, 9 areas, 8 AI reports (15 member episodes);
+  - no manager decision has been taken;
+  - the store has no Owner profile yet: run `python -m rq1.review init --store out/review/demo_20261119 --owner <pseudonym>`, then serve; steps in the report.
+- **CR-030** (10 items) lists what T23 leaves undefined. Nothing was chosen.
+  - Item 1 **blocks** the adjudications and status entries of safety-manager decisions on AI reports (T23.5 c, d). The schema requires adjudication.reference_class, and T22.1 (b) says candidate_review has none. Two FX checks are strict xfails until it is ruled.
+  - Items 2 to 9: indicators print "not determined" with every reading's value where the readings differ, or the action is refused.
+  - Item 10: VR-E-041 and the CLAUDE.md "Never" list against T23's establishment IDs and 301-style fields.
+- **AR-63** (14 items) are representation choices for review. Items 5, 6 and 8 change displayed wording or pre-filled values: the mixed-label ai_label, the group aggregation of clearance and evasive action, and the refusal of human text with unqualified wording.
+- **Pinned test lists updated for contract additions:** `EXPECTED_TABLES` (+8 T23.15 tables) and `REQUIRED_IDS` (+FX-14 to FX-14i), as was done for T22.
+
+Options: for the Owner and Architect.
+- (a) Rule on CR-030 (item 1 first), then a follow-up implements the rulings.
+- (b) Accept or reverse AR-63 items.
+- (c) Merge E-1.2.22 (contract text only) into `m0-implementation`.
+- (d) Play the demo roles and give feedback.
+Agent's recommendation: none; the Owner decides.

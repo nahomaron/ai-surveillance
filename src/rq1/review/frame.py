@@ -32,7 +32,7 @@ class FixtureFrame:
         self._targets = {t["target_id"]: t for t in targets}
 
     def episodes(self) -> list[dict[str, Any]]:
-        return [{"target_id": t["target_id"], "stratum": t["stratum"]} for t in self._targets.values()]
+        return [{"target_id": t["target_id"], "stratum": t["stratum"], "recording_id": t["recording_id"]} for t in self._targets.values()]
 
     def describe(self, target_id: str) -> dict[str, Any]:
         return dict(self._targets[target_id])
@@ -72,7 +72,7 @@ class SdgFrame:
         self.config_id = config_ids.pop()
 
     def episodes(self) -> list[dict[str, Any]]:
-        return [{"target_id": k, "stratum": v["row"]["summary_label"]} for k, v in sorted(self._episodes.items())]
+        return [{"target_id": k, "stratum": v["row"]["summary_label"], "recording_id": v["rec"]} for k, v in sorted(self._episodes.items())]
 
     def describe(self, target_id: str) -> dict[str, Any]:
         ep = self._episodes[target_id]

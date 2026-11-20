@@ -356,6 +356,109 @@ def _fx13() -> None:
 _fx13()
 
 
+# --- Appendix T T23 (E-1.2.22; D-48): reporting-workflow fixtures FX-14, FX-14a to FX-14i -----------------------------
+# One fixture establishment and area with three cameras; calendar start Monday 2026-11-16 08:00 UTC (ISO week 2026-W47);
+# every camera monitored (usable S1 coverage) for [0, 3600) s from the calendar start.
+_T23_CONFIG = "rcf_" + "bl6fx14".ljust(26, "0")
+_T23_EST = _fid("est", "fx14")
+_T23_AREA = _fid("area", "fx14a1")
+_T23_CAMS = [_fid("cam", f"fx14c{k}") for k in (1, 2, 3)]
+_T23_WORLD = {
+    "calendar_start_utc": "2026-11-16T08:00:00.000000Z", "period": "2026-W47",
+    "establishment": {"est_id": _T23_EST, "name": "Fixture establishment", "demo": False},
+    "area": {"area_id": _T23_AREA, "est_id": _T23_EST, "name": "Fixture area 1", "camera_ids": _T23_CAMS},
+    "users": [{"pseudonym": "AM-1", "roles": ["area_manager"], "est_id": None, "area_ids": [_T23_AREA]},
+              {"pseudonym": "SM-1", "roles": ["safety_manager"], "est_id": _T23_EST, "area_ids": []},
+              {"pseudonym": "W-1", "roles": ["worker"], "est_id": None, "area_ids": []},
+              {"pseudonym": "OV-1", "roles": ["oversight"], "est_id": None, "area_ids": []}],
+    "monitoring": [{"camera_id": c, "segments": [{"t_start_s": 0.0, "t_end_s": 3600.0, "coverage_state": "usable"}]} for c in _T23_CAMS],
+}
+
+
+def _ep23(tag: str, g2: str | None, onset: float, duration: float = 1.0, cam: int = 0) -> dict[str, Any]:
+    summary = {"lbl_nm": "NM", "lbl_ud": "UD", "lbl_ct": "CT", None: "H"}[g2]
+    return {"ep_id": _fid("ep", f"fx14{tag}"), "recording_id": _fid("rec", f"fx14c{cam + 1}"), "camera_id": _T23_CAMS[cam],
+            "config_id": _T23_CONFIG, "g2_label": g2, "summary_label": summary, "t_start_tl_s": onset,
+            "t_end_tl_s": onset + duration, "minclr_m": 0.4, "minclr_m_null_reason": None, "geometry_method": "full_camera", "E_ep": 1}
+
+
+def _t23(fixture_id: str, episodes, steps, expected, hand: str, **inputs: Any) -> None:
+    _add(fixture_id, f"Appendix T T23 (E-1.2.22), {fixture_id}",
+         inputs={"world": _T23_WORLD, "episodes": episodes, "steps": steps, **inputs}, expected=expected, hand_calculation=hand)
+
+
+def _fx14() -> None:
+    nm = _ep23("nm", "lbl_nm", 100.0)
+    why = "The forklift brakes hard as the person steps out from the rack end."
+    _t23("FX-14", [nm], [{"as": "AM-1", "action": "am_approve", "label": "nm", "rationale": why}],
+         {"reports": 1, "state": "recorded", "wording": "recorded near miss (manager-approved)",
+          "assessments": [{"label": "nm", "confidence": 3.0, "namespace": "candidate_review", "blind": False, "shown_system_output": True}],
+          "statuses": ["confirmed"], "I2": [1, 1]},
+         "T23.4: am_approve pending_am -> recorded. T23.5 (a): one assessment per member (1), label nm, confidence 3.0. "
+         "T23.5 (d) with T22.8 (b): lbl_nm -> nm; nm == nm -> confirmed. I2 = am_approve / (am_approve + am_reject) = 1/(1+0) = 1/1.")
+    rej = {"as": "AM-1", "action": "am_reject", "reason": "not_hazardous", "rationale": "The forklift is parked; the person walks past."}
+    _t23("FX-14a", [nm], [rej, {"as": "SM-1", "action": "sm_uphold", "note": "Agree: the forks were down and the truck was parked."}],
+         {"reports": 1, "state": "closed_rejected", "assessments": [{"label": "not_hazardous", "confidence": 3.0, "namespace": "candidate_review",
+                                                                   "blind": False, "shown_system_output": True}],
+          "adjudications": [{"final_label": "not_hazardous", "tier": "tier2", "method": "adjudicator", "namespace": "candidate_review"}],
+          "statuses": ["disputed", "rejected"], "I3": [1, 1], "I4": [0, 1]},
+         "T23.5 (b): reason not_hazardous -> assessment label not_hazardous; (d) after am_reject -> disputed. T23.4: am_reject -> "
+         "pending_sm; sm_uphold -> closed_rejected. T23.5 (c): final_label = the area manager's label = not_hazardous; (d) "
+         "T22.8 (b): lbl_nm -> nm; not_hazardous != nm -> rejected. I3 = 1/(0+1); I4 = sm_overturn/(sm_overturn+sm_uphold) = 0/(0+1).")
+    _t23("FX-14b", [nm], [rej, {"as": "SM-1", "action": "sm_overturn", "label": "nm", "note": "The person had to step back; the truck was moving."}],
+         {"reports": 1, "state": "recorded", "wording": "recorded near miss (safety-manager overturn)",
+          "adjudications": [{"final_label": "nm", "tier": "tier2", "method": "adjudicator", "namespace": "candidate_review"}],
+          "statuses": ["disputed", "confirmed"], "I4": [1, 1]},
+         "As FX-14a to pending_sm; sm_overturn nm -> recorded. T23.5 (c): final_label = the safety manager's label nm; "
+         "T22.8 (b): nm == nm -> confirmed. I4 = 1/(1+0).")
+    ct = _ep23("ct", "lbl_ct", 200.0)
+    incident = {"date_of_injury_or_illness": "2026-11-16", "time_employee_began_work": "07:00", "time_of_event": "08:03",
+                "doing_just_before": "Walking along the pedestrian route to rack 4.", "what_happened": "The forks struck the employee's shin.",
+                "injury_or_illness": "Bruised shin.", "object_or_substance": "Forklift forks.", "date_of_death": "",
+                "treated_in_emergency_room": "no", "hospitalized_overnight": "no", "employee_pseudonym": "EMP-7",
+                "health_care_professional": "HCP-2"}
+    _t23("FX-14c", [ct], [{"as": "AM-1", "action": "am_approve", "label": "ct", "rationale": "The forks reach the person's leg."},
+                          {"as": "SM-1", "action": "edit_fields", "fields": incident},
+                          {"as": "SM-1", "action": "set_recordability", "recordable": "yes", "criteria": ["medical_treatment_beyond_first_aid"],
+                           "note": "Treated by HCP-2 beyond first aid."},
+                          {"as": "OWNER", "action": "hours", "hours_worked": 200000.0}],
+         {"reports": 1, "kind_initial": "incident_draft", "kind": "incident", "state": "recorded", "statuses": ["confirmed"],
+          "I9_cases": 1, "I9_by_criterion": {"medical_treatment_beyond_first_aid": 1}, "hours_worked": 200000.0, "incidence_rate": 1.0,
+          "export_banner": "Equivalent-form data for manual transcription. Not a submission to OSHA.", "incident_fields": sorted(incident)},
+         "T23.2 (c): a CT member -> incident_draft. T23.5 (d): lbl_ct -> ct; ct == ct -> confirmed. T23.8 I9: rate = cases x 200,000 / "
+         "hours = 1 x 200,000 / 200,000 = 1.0. T23.7 (c): banner fixed; T23.7 (a): twelve fields.", incident=incident)
+    human = {"as": "W-1", "action": "create_human", "kind": "near_miss", "offset_s": 1800.0,
+             "description": "A forklift reversed out of aisle 3 while I was crossing; I stepped back."}
+    _t23("FX-14d", [], [human, {"as": "AM-1", "action": "am_approve", "label": "nm"}],
+         {"reports": 1, "state": "recorded", "I8": 1, "F4_k_miss_2": False, "F4_k_miss_1": True, "statuses": []},
+         "T23.8 I8: one recorded human-started near_miss at +1800 s, inside the area's monitored coverage [0, 3600) s, and no AI "
+         "alert report in the area within +-60 s -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. "
+         "T23.5 (e): no assessment, adjudication or status entry.")
+    trio = [_ep23("e1", "lbl_nm", 0.0, cam=0), _ep23("e2", "lbl_nm", 1.5, cam=1), _ep23("e3", "lbl_nm", 3.2, cam=2)]
+    _t23("FX-14e", trio, [{"as": "AM-1", "action": "am_approve", "label": "nm", "rationale": "All three views show the truck stopping hard."}],
+         {"reports": 1, "members": 3, "assessments_n": 3, "statuses": ["confirmed", "confirmed", "confirmed"]},
+         "Widened by 2.0 s: [-2.0, 3.0], [-0.5, 4.5], [1.2, 6.2]; 1 and 2 overlap, 2 and 3 overlap -> one group of three "
+         "(transitive). One assessment and one status entry per member (T23.5 a, d).")
+    twelve = [_ep23(f"f{k:02d}", "lbl_nm", 100.0 * k) for k in range(1, 13)]
+    _t23("FX-14f", twelve, [], {"reports": 12, "theta_rej": 0.5, "n_flag_min": 10,
+                                "rejected_10": {"I3": [10, 12], "F1": True, "wilson_lower_approx": 0.552},
+                                "rejected_6": {"I3": [6, 12], "F1": False}},
+         "Onsets 100 s apart, widened intervals do not overlap -> 12 reports. F1: n = 12 >= 10; Wilson lower bound of 10/12 "
+         "(z = 1.959964) = 0.55197... > 0.5 -> raised (exact value derived with decimal arithmetic in the test); 6/12: lower "
+         "bound 0.2538... <= 0.5 -> not raised.")
+    _t23("FX-14g", [nm], [{"as": "AM-1", "action": "am_approve", "label": "nm", "rationale": why}],
+         {"tamper": "one byte of the last report-log entry", "verified": False, "page_shows": "BROKEN"},
+         "T23.15: the report log is hash-chained like validation_status_log; a changed byte breaks the record hash.")
+    _t23("FX-14h", [nm], [], {"ai_label": "candidate near miss", "refused_phrase": "near miss", "accepted": list(RECORDED_NM_PHRASES)},
+         "T23.12: automated outputs read 'candidate near miss'; unqualified 'near miss' is refused; the two recorded forms are accepted.")
+    _t23("FX-14i", [], [], {"draw_after_batch": "refused (ERR-SPEC)", "batch_after_draw": "no episode of a demo run"},
+         "T23.11 (b): demo runs leave the T22 frame; a demo draw over a recording already in a batch is refused, nothing written.")
+
+
+RECORDED_NM_PHRASES = ("recorded near miss (manager-approved)", "recorded near miss (safety-manager overturn)")
+_fx14()
+
+
 def _check_t22(fixture: dict[str, Any]) -> None:
     """T22.8 (b) status mapping and T22.7 tier rule, recomputed from the fixture's own inputs."""
     target, expected = fixture["inputs"]["target"], fixture["expected"]

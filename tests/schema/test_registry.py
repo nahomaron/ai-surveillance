@@ -31,6 +31,8 @@ EXPECTED_TABLES = {
     "track_identity_assoc", "track_identity_summary",
     "decode_config", "geometry_config", "sampling_plan_config",  # F.1 A1.2, fields per AR-5
     "execution", "evidence_clip", "retention_policy", "access_log", "stage_error",
+    # Appendix T T23.15 (E-1.2.22; D-48): reporting-workflow tables.
+    "wf_config", "wf_establishment", "wf_area", "wf_user", "wf_report", "wf_report_log", "wf_hours", "demo_manifest",
 }
 
 # Section 2.4 prefixes, with None for the two keyed tables that have no ID.

@@ -71,6 +71,7 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | G-PR | **STOP — Owner approves and freezes the pre-registration** (the Owner, not the agent, chooses scientific thresholds) — frozen 14 Nov 2026 (D-34, D-35; written by the agent with the Owner's values, on the Owner's instruction) | T-20 | — | `docs/preregistration_FROZEN.md` committed by the Owner | — |
 | [x] | G-VAL | **STOP — Owner go-ahead for the M1a validation run (D-36).** Approved for validation only (14 Nov 2026); test reserved (D-37) | G-PR | — | Owner decision in D-36 | — |
 | [x] | V-02 | **T22 blind review application, part A (Owner tooling)** — branch `v02-review-ui` only, no merge into `m0-implementation`. D-44 decided (option a): protocol = Appendix T T22 (E-1.2.20). Local app (127.0.0.1): Owner setup, seeded pilot and batches (T22.6), blind reviewer screen (T22.4, T22.5), adjudication and tier-1 audit (T22.7), status entries (T22.8), reference_class (T22.9), exposure rule (T22.2 b), agreement panel (T22.10 a). T22.14 readings (CR-028 closed, D-46); AR-61 accepted; audit trail view (D-46) | D-44 | D-44 instructions, step 3 | every T22 fixture through the app, acceptance tests pass, suite twice, `research/review_ui/V-02_report.md` pushed | M |
+| [x] | W-01 | **T23 reporting workflow (D-48)** — branch `v02-review-ui` only, no merge. Contract E-1.2.22 (Appendix T T23) on this branch. Workflow in the V-02 app (`src/rq1/workflow/`): AI intake and grouping, two-level review, report log, indicators and flags, simulated regulator view, Owner setup, demo draw (seed 2026111903; D-45 pilot column C). CR-030 (item 1 blocks SM adjudications), AR-63 | D-48 | D-48 steps 1-5 | every T23 fixture through the app, suite twice, `research/workflow/W-01_report.md` pushed; STOP D-49 | M |
 | [~] | T-21 | **M1a run (WP-14)** (validation only, D-36, D-37; D-38 option A and T21 / CR-025 decided 14 Nov; SmartSpaces EV-M waits for D-39). Validation partition first, then test. GV-01, GV-03–08; MR-01, MR-08–12; CM-01–10; EV-M1–M8; BL-2 vs BL-3 and BL-3 vs BL-6 on oracle perception. Report rule-conformance results separately as "implementation conformance" | G-PR | Package F WP-14; Appendix N | `reports/M1a_report.md`; tag `m1a-complete` | L |
 | [x] | G-M1a | **STOP — Owner reviews M1a** (D-40 DECIDED 17 Nov 2026: M1a accepted as experimental validation evidence) | T-21 | — | Owner decision recorded | — |
 
@@ -830,3 +831,31 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none open for V-02.
 - Next: **STOP for V-02** (no merge into `m0-implementation`, no pull request). Then the D-45 prompt in the main folder.
+
+### 2026-11-19 — W-01 done (D-48: T23 reporting workflow, contract E-1.2.22 on `v02-review-ui`); STOP at D-49
+- Did:
+  - **Contract:** Appendix T **T23** appended verbatim as **E-1.2.22**, and the CLAUDE.md contract line updated, **on `v02-review-ui` only**. E-1.2.22 exists on this branch until the Owner merges it into `m0-implementation`. D-48 recorded as decided.
+  - **Schema:** the T23.15 tables (wf_config, wf_establishment, wf_area, wf_user, wf_report, wf_report_log, wf_hours, demo_manifest) in the single schema source, with validators.
+    - Contract-driven test list updates: `EXPECTED_TABLES` (+8) and `REQUIRED_IDS` (+FX-14 to FX-14i), as for T22.
+    - No existing table changed. An attempt to make `adjudication.reference_class` nullable was reverted, because it changed a pinned field list; it is now CR-030 item 1.
+  - **Fixtures:** FX-14 and FX-14a to FX-14i, with T23 expected values and hand calculations. FX-14f's Wilson bound is derived in decimal arithmetic in the test (10/12: 0.5519691…; 6/12: 0.2537815…).
+  - **Workflow** (`src/rq1/workflow/`), served by the V-02 application with one sign-in:
+    - AI intake with transitive grouping;
+    - pre-filled fields and evidence_clip rows;
+    - the T23.4 state machine with role permissions and the two-level rule;
+    - candidate_review assessments and status entries for area-manager decisions;
+    - hash-chained report log;
+    - human-started reports;
+    - recordability and 301-style export;
+    - indicators I1–I9 and flags F1–F4 (each view prints the log length and head hash);
+    - simulated regulator view with JSON and CSV export;
+    - Owner setup and demo draw.
+    - Every workflow page and export passes the T23.12 linter before it is sent; 127.0.0.1 only.
+  - **V-02 changes:** T23.11 (b) demo exclusion in `create_batch`; the handler class is a parameter; `serve` uses the workflow store (AR-63 item 14).
+  - **Demo:** seed 2026111903 on the new store `out/review/demo_20261119/`. Source: the **D-45 detector-path pilot BL-6 S5 artifacts (column C)**, which existed when the step started; recorded in the demo manifest. Result: 9 runs, 3 establishments, 8 AI reports, 15 members; both logs intact. No manager decision was taken; the Owner plays the roles.
+  - **Records:** `research/workflow/W-01_report.md` with fixture-only screenshots.
+  - **CR-030** opened (10 items; item 1 blocks the safety-manager adjudications and status entries). **AR-63** written (14 items).
+- Tests: 2624 passed, 2 xfailed (strict; CR-030 item 1), 0 failed (full suite), twice: identical. The fixture regeneration is byte-identical. New: `tests/workflow/` (40 tests, 2 of them strict xfails), `tests/fixtures_t03/test_t23_fixtures.py`.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-030 (open), AR-63 (open, review at D-49). Ordering note: the T23 fixtures and tests were written alongside the workflow modules, not strictly before them; every expected value comes from T23 or a recorded hand calculation.
+- Next: **STOP (D-49).** No merge into `m0-implementation`.

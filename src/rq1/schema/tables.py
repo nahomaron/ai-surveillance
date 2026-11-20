@@ -953,4 +953,88 @@ message str
 contract_ref str
 """, True)
 
+# Appendix T T23.15 (E-1.2.22; D-48): reporting-workflow tables, a product layer in the validation store. Types are
+# inferred where T23.15 gives names only (AR-63 item 2). No table prefix: each ID column is named as T23.15 names it.
+WF_STATES = "pending_am,pending_sm,recorded,closed_rejected,closed_duplicate"
+WF_ACTIONS = ("create_ai,create_human,am_approve,am_reject,am_duplicate,sm_uphold,sm_overturn,sm_reclassify,sm_reopen,"
+              "edit_fields,set_recordability,sm_note")
+_t("wf_config", None, "Val", "WF", "human", "", """
+wfc_id id
+store_version i64
+wf_source_config str
+t_group_s f64 @ge0
+t_pending_days f64 @ge0
+theta_rej f64
+theta_over f64
+n_flag_min i64
+n_flag_min_sm i64
+t_link_s f64 @ge0
+k_miss i64
+created_utc ts
+""", True)
+_t("wf_establishment", None, "Val", "WF", "human", "", """
+est_id id
+name str
+demo bool
+""", True)
+_t("wf_area", None, "Val", "WF", "human", "", """
+area_id id
+est_id id
+name str
+camera_ids list<id>
+""", True)
+_t("wf_user", None, "Val", "WF", "human", "", """
+user_id id
+pseudonym str
+roles list<enum{area_manager,safety_manager,worker,oversight,owner}>
+est_id? id
+area_ids list<id>
+""", True)
+_t("wf_report", None, "Val", "WF", "human", "", """
+report_id id
+kind_initial enum{near_miss,incident_draft,incident}
+origin enum{ai,human}
+est_id id
+area_id id
+member_episode_ids? list<id>
+created_utc ts
+""", True)
+_t("wf_report_log", None, "Val", "WF", "human", "", f"""
+seq i64
+entry_id id
+report_id id
+action enum{{{WF_ACTIONS}}}
+actor_user_id str
+state_before? enum{{{WF_STATES}}}
+state_after enum{{{WF_STATES}}}
+field_changes map<str,struct{{before:str,after:str}}>
+label? enum{{nm,ud,ct,not_hazardous,unsure}}
+reason? str
+note? str
+linked_record_ids list<id>
+created_utc ts
+prev_hash str
+record_hash str
+""", True)
+_t("wf_hours", None, "Val", "WF", "human", "", """
+est_id id
+period str
+hours_worked f64 @ge0
+entered_by str
+created_utc ts
+""", True)
+_t("demo_manifest", None, "Val", "WF", "human", "", """
+demo_id id
+seed i64
+source_configuration str
+source_path enum{detector_path_pilot_d45,t21_oracle}
+source_root str
+runs list<struct{run:str,family:str,est_id:id,area_id:id,camera_rec_ids:list<id>,calendar_offset_s:f64,s5_artifact_ids:list<str>}>
+est_records list<struct{est_id:id,name:str,family:str}>
+areas list<struct{area_id:id,est_id:id,name:str,run:str}>
+calendar_start_utc ts
+calendar_days i64
+created_utc ts
+""", True)
+
 DEFINITIONS = _D

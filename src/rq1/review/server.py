@@ -92,10 +92,10 @@ def confidence_options() -> str:
 class ReviewServer(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, store: Store, frames: dict[str, Any], port: int = 0, host: str = HOST) -> None:
+    def __init__(self, store: Store, frames: dict[str, Any], port: int = 0, host: str = HOST, handler: type | None = None) -> None:
         if host != HOST:
             raise ContractError("ERR-SPEC", "the review server binds to 127.0.0.1 only")
-        super().__init__((host, port), Handler)
+        super().__init__((host, port), handler or Handler)
         self.store, self.frames = store, frames
         self.sessions: dict[str, dict[str, str]] = {}
         self.clips: dict[str, tuple[str, str, str]] = {}
@@ -469,7 +469,10 @@ class Handler(BaseHTTPRequestHandler):
         entry = self.server.clips.get(token)
         if not who or not entry or entry[2] != who["profile_id"]:
             return self.send(b"", HTTPStatus.NOT_FOUND, "text/plain")
-        path = Path(self.store.targets(entry[0])[entry[1]]["video"])
+        self._stream(Path(self.store.targets(entry[0])[entry[1]]["video"]))
+
+    def _stream(self, path: Path) -> None:
+        """Serve a video file with HTTP byte ranges (chunked to CHUNK)."""
         size = path.stat().st_size
         m = re.fullmatch(r"bytes=(\d*)-(\d*)", self.headers.get("Range", "").strip())
         if m and (m.group(1) or m.group(2)):
