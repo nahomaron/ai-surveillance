@@ -30,7 +30,7 @@ from rq1.validation.status_log import StatusLog
 
 ROLES = ("c_layer_reviewer", "adjudicator")
 KDF_ITERATIONS = 200_000
-CONTRACT = "E-1.2.23"  # the contract this store code implements (D-49.1 section 4.2; AR-64 version guard)
+CONTRACT = "E-1.2.24"  # the contract this store code implements (D-49.1 section 4.2; AR-64 version guard; AR-65: wf_report_log.actor_role)
 WORKFLOW_QUAL = "workflow "  # T23.25 (d): annotator rows created for workflow managers
 
 

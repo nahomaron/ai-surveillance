@@ -71,7 +71,7 @@ def test_fx14q_simultaneous_interactions_split_into_two_reports(make_wf):
     refused(app.act("AM-1", rid, "am_approve", label="nm", rationale=WHY), b"group_resolution")
     assert app.store.report(rid).state == "pending_am"
     e1, e2 = (e["ep_id"] for e in app.fixture["inputs"]["episodes"])
-    ok(app.act("AM-1", rid, "am_split", note="Two different pairs at the same time.", **{f"part_{e1}": "1", f"part_{e2}": "2"}))
+    ok(app.act("AM-1", rid, "split", note="Two different pairs at the same time.", **{f"part_{e1}": "1", f"part_{e2}": "2"}))
     assert app.store.report(rid).state == exp["original_state"]
     parts = [r for r in app.store.reports() if r.fields.get("split_from") == rid]
     assert len(parts) == exp["new_reports"] and {r.state for r in parts} == {exp["new_state"]}
@@ -96,7 +96,7 @@ def test_fx14r_one_interaction_seen_by_two_cameras(make_wf):
     assert (r.state, r.fields["group_resolution"]) == (exp["state"], exp["group_resolution"])
     ind = app.indicators()["ind"]
     assert ind["I7_ai"].value == exp["I7"] and ind["I7_ai"].notes["group_resolution = cannot_tell"] == exp["cannot_tell"]
-    refused(app.act("AM-1", rid, "am_split", note="x"), b"am_split is taken from pending_am")
+    refused(app.act("AM-1", rid, "split", note="x"), b"split is taken from pending_am, pending_sm")  # T23.28 (a): the action is `split`
 
 
 def test_group_resolution_values_are_checked(make_wf):
@@ -158,16 +158,18 @@ def test_fx14u_duplicate_lifecycle(make_wf):
     page = app.client("SM-1").text(f"/wf/report/{a}")[1]
     assert "duplicates: 1" in page and f'href="/wf/report/{b}"' in page
     ok(app.act("SM-1", b, "sm_reopen", note=NOTE))
-    refused(app.act("SM-1", b, "sm_overturn", label="nm", note=NOTE), b"group_resolution")
-    ok(app.act("SM-1", b, "sm_overturn", label="nm", note="A separate pass of the truck.", group_resolution="one_interaction"))
+    # T23.28 (b) (D-51 item 2): B has one member, so the overturn needs no group_resolution, and one is refused
+    assert len(app.store.headers()[b]["member_episode_ids"]) == 1
+    refused(app.act("SM-1", b, "sm_overturn", label="nm", note=NOTE, group_resolution="one_interaction"), b"two or more members")
+    ok(app.act("SM-1", b, "sm_overturn", label="nm", note="A separate pass of the truck."))
     rb = app.store.report(b)
     assert rb.state == "recorded" and rb.fields["duplicate_of"] is exp["B_duplicate_of_after_overturn"]
     ind = app.indicators()["ind"]
     assert ind["I7_ai"].value == exp["I7_after_overturn"]
     assert ind["I4"].value.n == exp["I4_n"]
-    # beside I4, outside n; both units are printed (CR-031 item 4): B's latest decision is the overturn; one confirm action
-    assert ind["I4"].notes["sm_confirm_duplicate"] == {"reports (latest decision)": 0, "actions": 1}
-    assert ind["I4"].notes["overturn of a duplicate"] == {"reports (latest decision)": 1, "actions": 1}
+    # beside I4, outside n; unit = report by its latest SM decision (D-51 item 4): B's latest decision is the overturn
+    assert ind["I4"].notes["sm_confirm_duplicate (reports)"] == 0
+    assert ind["I4"].notes["overturn of a duplicate (reports)"] == 1
 
 
 def test_duplicate_of_must_be_same_establishment_and_not_split(make_wf):
@@ -195,7 +197,7 @@ def test_fx14v_refused_actions_change_no_file(make_wf):
     ok(app.act("AM-1", r2, "am_approve", label="ct", rationale="The forks reach the leg."))
     ok(app.act("SM-1", r2, "set_recordability", recordable="yes", criteria="medical_treatment_beyond_first_aid", note="Treated."))
     cases = [(r1, "SM-1", "sm_uphold", {"note": NOTE}), (r2, "SM-1", "sm_reclassify", {"reason": "Not work related", "note": NOTE}),
-             (r3, "AM-1", "am_split", {"note": NOTE, **{f"part_{m}": "1" for m in app.store.headers()[r3]["member_episode_ids"]}})]
+             (r3, "AM-1", "split", {"note": NOTE, **{f"part_{m}": "1" for m in app.store.headers()[r3]["member_episode_ids"]}})]
     states = {r: app.store.report(r).state for r in (r1, r2, r3)}
     for rid, who, action, form in cases:
         (status, _, body), before = post_only(app, who, rid, action, **form)

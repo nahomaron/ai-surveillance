@@ -960,7 +960,7 @@ contract_ref str
 # E-1.2.23 (D-49.1 section 4.1): + closed_split; + sm_confirm_duplicate, am_split, withdraw_recordability.
 WF_STATES = "pending_am,pending_sm,recorded,closed_rejected,closed_duplicate,closed_split"
 WF_ACTIONS = ("create_ai,create_human,am_approve,am_reject,am_duplicate,sm_uphold,sm_overturn,sm_reclassify,sm_reopen,"
-              "edit_fields,set_recordability,sm_note,sm_confirm_duplicate,am_split,withdraw_recordability")
+              "edit_fields,set_recordability,sm_note,sm_confirm_duplicate,am_split,withdraw_recordability,split")
 _t("wf_config", None, "Val", "WF", "human", "", """
 wfc_id id
 store_version i64
@@ -1008,6 +1008,7 @@ entry_id id
 report_id id
 action enum{{{WF_ACTIONS}}}
 actor_user_id str
+actor_role? enum{{area_manager,safety_manager}}
 state_before? enum{{{WF_STATES}}}
 state_after enum{{{WF_STATES}}}
 field_changes map<str,struct{{before:str,after:str}}>

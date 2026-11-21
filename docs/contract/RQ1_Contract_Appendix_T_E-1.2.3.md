@@ -1768,3 +1768,56 @@ The flag text of T23.9 is unchanged. The linter refuses "false positive", "false
 ---
 
 Source: Owner decision D-49 (20 Nov 2026), the Architect's D-49.1 addendum approved by the Owner as proposed (Owner approval by pasting it), appended verbatim.
+
+## T23.28 Readings of E-1.2.23 (E-1.2.24; D-51; CR-031)
+
+T23.28 Readings of E-1.2.23 (CR-031, D-51). These amend T23.16 to T23.27; everything else stays as written.
+
+ (a) *Split by the safety manager* (CR-031 item 1; amends T23.20 (e) and T23.21 (d)). The split action may also be
+     taken by the safety_manager from pending_sm. Its effects are the same as `am_split` from pending_am:
+     - the original goes to `closed_split`;
+     - one new AI report per part is created in pending_am, carrying `split_from`;
+     - no assessment, adjudication or status entry is written for the original; existing ones stay.
+
+     The action is named `split` in the log, with `actor_role` area_manager or safety_manager. The T23.21 (d) sentence
+     "A safety manager acting on such a report from `pending_sm` sends it back to the area manager with `sm_reopen`; the
+     agent confirms this path in CR-031." is replaced by: "a safety manager who finds several interactions in a pending_sm
+     report uses `split`". Closed_split originals stay excluded everywhere (section 5), so the original's area-manager
+     decision leaves I2/I3. Each new part is a new report with its own decisions.
+
+ (b) *group_resolution after reopening a duplicate* (CR-031 item 2; amends T23.20 (d)). `group_resolution` on an
+     overturn after reopening a duplicate is required only when the report has two or more members, as in T23.21 (d).
+
+ (c) *FX-14d and FX-14e setups* (CR-031 item 3; confirmed). They add inputs that E-1.2.23 requires and change no
+     expected value.
+     - FX-14d. Setup under E-1.2.23: the area manager's approval records `camera_observability = observable` for camera 1.
+     - FX-14e. Setup under E-1.2.23: the approval gives `group_resolution = one_interaction`.
+
+ (d) *Withdrawing a recordability determination* (CR-031 item 5; amends T23.19 (c)). "From: any state." is replaced
+     by: "From any state in which a determination `yes`, `no` or `undetermined` is current." Withdrawing from
+     `not_set` or `withdrawn` is refused.
+
+ (e) *Namespace enum* (CR-031 item 6; amends T23.16 (b)). The first sentence and the [V] tag are replaced by: "across
+     all namespaces: the two in use (`reference`, `candidate_review`) as stated; an adjudication in a reserved namespace
+     is refused." The enum has four values; `study_d6` and `pseudo_label` are reserved. VR-E-056 refuses an adjudication
+     in a reserved namespace.
+
+ (f) *The T23.26 banner and the linter* (CR-031 item 7; amends section 5). The banner of T23.26 is a fixed text and is
+     exempt from the linter. The last sentence of section 5 reads: "The linter refuses "false positive", "false
+     negative", "precision", "recall", "accuracy" and "miss rate" on workflow pages, except inside the fixed T23.9,
+     T23.23 (d) and T23.26 texts."
+
+ (g) *prov_class of the combined value* (CR-031 item 8; T23.24 (b)).
+     - `geometry_estimated` when the source episodes' positions come from the camera path (`full_camera` or homography);
+     - `simulator_truth` when they come from simulator positions (the T-21 oracle source).
+
+     This is a statement about the source path, so it is printed from the path recorded in the demo manifest. It is
+     never stored as a measurement (T23.24 (d)).
+
+ Tests: the safety manager's split from pending_sm (two members: `split` → original closed_split, two new pending_am
+ reports, the original's am_reject no longer in I2/I3 n); the single-member overturn of a reopened duplicate without
+ `group_resolution` (accepted); withdraw from `not_set` (refused); prov_class printed per source path. FX-14d and FX-14e
+ unchanged.
+
+Source: Owner decision D-51 (21 Nov 2026), rulings on CR-031 from the Architect's review of W-02 (commit 748bafc),
+approved by the Owner (Owner approval by pasting it). Items 1, 2, 3, 5, 6, 7 and 8 of the rulings, worded as stated.

@@ -26,7 +26,8 @@ ROLES = ("area_manager", "safety_manager", "worker", "oversight", "owner")  # T2
 STATES = ("pending_am", "pending_sm", "recorded", "closed_rejected", "closed_duplicate", "closed_split")  # T23.4, T23.20 (e)
 PENDING = ("pending_am", "pending_sm")
 
-# T23.4 with T23.19 (c), T23.20 (c), (e): action -> (who, allowed from-states or None for "any", to-state or None for "same")
+# T23.4 with T23.19 (c), T23.20 (c), (e) and T23.28 (a): action -> (who, allowed from-states or None for "any", to-state or
+# None for "same"). `split` is taken by the area manager from pending_am or by the safety manager from pending_sm (SPLIT_FROM).
 TRANSITIONS: dict[str, tuple[str, tuple[str, ...] | None, str | None]] = {
     "create_ai": ("system", (), "pending_am"),
     "create_human": ("any", (), "pending_am"),
@@ -41,13 +42,15 @@ TRANSITIONS: dict[str, tuple[str, tuple[str, ...] | None, str | None]] = {
     "set_recordability": ("safety_manager", ("recorded",), None),
     "sm_note": ("safety_manager", None, None),
     "sm_confirm_duplicate": ("safety_manager", ("pending_sm",), "closed_duplicate"),
-    "am_split": ("area_manager", ("pending_am",), "closed_split"),
+    "split": ("area_manager|safety_manager", ("pending_am", "pending_sm"), "closed_split"),
     "withdraw_recordability": ("safety_manager", None, None),
 }
-AM_DECISIONS = ("am_approve", "am_reject", "am_duplicate", "am_split")
+SPLIT_FROM = {"area_manager": "pending_am", "safety_manager": "pending_sm"}  # T23.28 (a)
+SPLITS = ("split", "am_split")  # am_split: the E-1.2.23 name, read (never written) as a split by an area manager
+AM_DECISIONS = ("am_approve", "am_reject", "am_duplicate")  # with a split whose actor_role is area_manager (Report.am_entries)
 SM_ACTIONS = ("sm_uphold", "sm_overturn", "sm_reclassify", "sm_reopen", "set_recordability", "sm_note", "sm_confirm_duplicate",
               "withdraw_recordability")
-DECISIONS = AM_DECISIONS + ("sm_uphold", "sm_overturn", "sm_reclassify", "sm_reopen", "sm_confirm_duplicate")  # T23.18 (c)
+DECISIONS = AM_DECISIONS + SPLITS + ("sm_uphold", "sm_overturn", "sm_reclassify", "sm_reopen", "sm_confirm_duplicate")  # T23.18 (c)
 REJECT_REASONS = {"not_hazardous": "not_hazardous", "no_person_or_no_forklift": "not_hazardous",
                   "cannot_tell_from_video": "ud", "other": "unsure"}  # T23.5 (b)
 APPROVE_LABELS = ("nm", "ct")
@@ -107,6 +110,12 @@ MISS_CAPTION = ("Descriptive workflow measure. A human report without a matching
                 "miss rates require the T22 reference method.")
 DEMO_DATA_NOTE = "Simulated demo data. Descriptive workflow measure, not a validated safety-performance measure."
 NO_SOURCE_FIGURE = "accuracy of the alert source: not reported"
+# D-51 item 9: the banner line of a pilot column C store drawn before E-1.2.23 (its manifest records no source_quality).
+OLD_PILOT_FIGURES = ("Reported figures for this source exist: CM-03 0.12, EV-M1 0.11, EV-M2 0.22 (reports/M1b_pilot_report.md); "
+                     "not recorded in this store's manifest.")
+# T23.28 (g): prov_class of the combined value, a statement about the source path recorded in the demo manifest.
+PROV_CLASS_OF_PATH = {"detector_path_pilot_d45": "geometry_estimated", "t21_oracle": "simulator_truth"}
+PROV_NOT_RECORDED = "not recorded (no source path in a demo manifest)"
 COMBINED_LABEL = "smallest estimated separation among members (estimate from camera geometry, not a verified measurement)"
 NOT_COMBINED = "not combined: members use different geometry methods"
 NOT_RECORDED = "not combined: the geometry method or calibration tier is not recorded for every member"
@@ -216,6 +225,30 @@ MEMBER_KEYS = ("ep_id", "camera_id", "minclr_m", "minclr_m_null_reason", "geomet
                "clearance_sigma_m", "sigma_status", "q_state", "q_reasons", "prov_class", "s4_artifact_id")
 
 
+def prov_class_of(source_path: str | None) -> str | None:
+    """T23.28 (g): geometry_estimated when the source episodes' positions come from the camera path (full_camera or
+    homography: the D-45 detector-path pilot), simulator_truth when they come from simulator positions (the T-21 oracle
+    source). Printed only; never stored as a measurement (T23.24 d)."""
+    return PROV_CLASS_OF_PATH.get(source_path) if source_path else None
+
+
+def entry_role(e: dict[str, Any]) -> str | None:
+    """The role under which a log entry was taken: a split records it in actor_role (T23.28 a); a stored am_split (E-1.2.23)
+    is an area manager's."""
+    a = e["action"]
+    if a == "split":
+        return e.get("actor_role")
+    if a == "am_split" or a in AM_DECISIONS:
+        return "area_manager"
+    if a in SM_ACTIONS:
+        return "safety_manager"
+    return None
+
+
+def is_split(e: dict[str, Any]) -> bool:
+    return e["action"] in SPLITS
+
+
 def combined(members: list[dict[str, Any]]) -> dict[str, Any]:
     """T23.24 (a)-(c): member clearances are combined only if every non-null value has the same geometry_method and the
     same calibration tier; the combined value is the smallest, with its provenance. Each member's values are listed.
@@ -301,9 +334,13 @@ class Report:
     def actions(self, *names: str) -> list[dict[str, Any]]:
         return [e for e in self.entries if e["action"] in names]
 
+    def am_entries(self) -> list[dict[str, Any]]:
+        """The area manager's decisions: am_approve, am_reject, am_duplicate and a split taken as area manager."""
+        return [e for e in self.entries if e["action"] in AM_DECISIONS or (is_split(e) and entry_role(e) == "area_manager")]
+
     def deciders(self, level: str) -> set[str]:
-        names = AM_DECISIONS if level == "am" else SM_ACTIONS
-        return {e["actor_user_id"] for e in self.actions(*names)}
+        role = "area_manager" if level == "am" else "safety_manager"
+        return {e["actor_user_id"] for e in self.entries if entry_role(e) == role}
 
     def entered_state_at(self) -> str:
         last = [e for e in self.entries if e["state_before"] != e["state_after"]]
@@ -526,8 +563,8 @@ def _in_scope(r: Report, est_id: str, area_id: str | None, period: str, splits: 
 
 
 def _am_decision(r: Report) -> str | None:
-    am = r.actions(*AM_DECISIONS)
-    return am[0]["action"] if am else None  # the area manager decides once per report
+    am = r.am_entries()
+    return ("split" if is_split(am[0]) else am[0]["action"]) if am else None  # the area manager decides once per report
 
 
 def indicators(reports: list[Report], est_id: str, area_id: str | None, period: str, areas: dict[str, dict[str, Any]],
@@ -547,14 +584,13 @@ def indicators(reports: list[Report], est_id: str, area_id: str | None, period: 
     approve = sum(1 for r in decided if am[r.report_id] == "am_approve")
     side = {"undecided": sum(1 for r in ai if r.state == "pending_am"),
             "am_duplicate": sum(1 for r in ai if am[r.report_id] == "am_duplicate"),
-            "am_split": sum(1 for r in reports if r.origin == "ai" and r.state == "closed_split" and _in_scope(r, est_id, area_id, period, True)),
+            # closed_split originals, split by the area manager or the safety manager (T23.28 a)
+            "split": sum(1 for r in reports if r.origin == "ai" and r.state == "closed_split" and _in_scope(r, est_id, area_id, period, True)),
             "revised after first decision": rev(decided)}
     out["I2"] = Cell(Share(approve, len(decided)), dict(side))
     out["I3"] = Cell(Share(len(decided) - approve, len(decided)), dict(side))
     # I4: the latest SM decision per AI report; confirmations and overturns of duplicates are counted beside.
     in4, confirm, dup_over = [], 0, 0
-    acts = {"sm_confirm_duplicate": sum(len(r.actions("sm_confirm_duplicate")) for r in ai),
-            "overturn of a duplicate": sum(1 for r in ai for e in r.actions("sm_overturn") if _from_reopened_duplicate(r, e))}
     for r in ai:
         dec = r.actions("sm_uphold", "sm_overturn", "sm_confirm_duplicate")
         if not dec:
@@ -568,9 +604,9 @@ def indicators(reports: list[Report], est_id: str, area_id: str | None, period: 
             in4.append((r, last["action"]))
     out["I4"] = Cell(Share(sum(1 for _, a in in4 if a == "sm_overturn"), len(in4)),
                      {"undecided": sum(1 for r in ai if r.state == "pending_sm"),
-                      # counted beside, outside n; the unit is not stated for these side counts (CR-031 item 4): both are printed
-                      "sm_confirm_duplicate": {"reports (latest decision)": confirm, "actions": acts["sm_confirm_duplicate"]},
-                      "overturn of a duplicate": {"reports (latest decision)": dup_over, "actions": acts["overturn of a duplicate"]},
+                      # counted beside, outside n; unit = report, by its latest safety-manager decision (D-51 item 4)
+                      "sm_confirm_duplicate (reports)": confirm,
+                      "overturn of a duplicate (reports)": dup_over,
                       "revised after first decision": rev([r for r, _ in in4])})
     ever = [r for r in ai if any(e["state_after"] == "recorded" for e in r.entries)]
     out["I5"] = Cell(Share(sum(1 for r in ever if r.actions("sm_reclassify")), len(ever)),
@@ -656,11 +692,16 @@ def source_name(sq: dict[str, Any]) -> str:
     return f"configuration {sq['config']} ({sq['path']})"
 
 
-def source_banner(sq: dict[str, Any] | None) -> str:
-    """T23.26: the banner on every page that shows AI alerts, the regulator view and W-01."""
+def source_banner(sq: dict[str, Any] | None, manifest: dict[str, Any] | None = None) -> str:
+    """T23.26: the banner on every page that shows AI alerts, the regulator view and W-01. A pilot column C store drawn
+    before E-1.2.23 (no source_quality in its manifest) gets the D-51 item 9 line."""
     if not sq or sq.get("cm03") is None:
         src = source_name(sq) if sq else "a source this store does not name"
-        return f"AI alerts in this demo come from {src}; {NO_SOURCE_FIGURE}. Workflow measures describe the workflow, not the system's accuracy."
+        text = f"AI alerts in this demo come from {src}; {NO_SOURCE_FIGURE}. Workflow measures describe the workflow, not the system's accuracy."
+        if (manifest and not manifest.get("source_quality") and manifest.get("source_path") == "detector_path_pilot_d45"
+                and manifest.get("source_configuration") == "BL-6"):
+            text += " " + OLD_PILOT_FIGURES
+        return text
     figs = ", ".join(f"{k} {sq[v]:.2f}" for k, v in (("CM-03", "cm03"), ("EV-M1", "ev_m1"), ("EV-M2", "ev_m2")) if sq.get(v) is not None)
     return (f"AI alerts in this demo come from {source_name(sq)}. On SDG validation that source covers {sq['cm03'] * 100:.0f} % of "
             "worker–forklift co-visible frames (CM-03); most interactions produce no alert. Workflow measures describe the "
@@ -683,8 +724,8 @@ def user_block(pseudonym: str, text: Any) -> str:
             f'{_html.escape(value)}</blockquote>')
 
 
-def banner_block(sq: dict[str, Any] | None) -> str:
-    return f'<div class="source-banner"><p><strong>{_html.escape(source_banner(sq), quote=False)}</strong></p></div>'
+def banner_block(sq: dict[str, Any] | None, manifest: dict[str, Any] | None = None) -> str:
+    return f'<div class="source-banner"><p><strong>{_html.escape(source_banner(sq, manifest), quote=False)}</strong></p></div>'
 
 
 def visible_text(page: str) -> str:

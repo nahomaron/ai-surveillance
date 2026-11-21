@@ -12,6 +12,10 @@ play a member's clip and write its status entry), `wf_monitoring.jsonl` (calenda
 
 E-1.2.23: safety-manager decisions on AI reports write candidate_review adjudications (reference_class null, T23.16) and
 status entries; every successful action is one hash-chained log entry and a refused action writes nothing (T23.20 f).
+
+E-1.2.24 (T23.28; D-51): `split` is taken by the area manager from pending_am or by the safety manager from pending_sm; the
+log entry records `actor_role`. Entries written before E-1.2.24 have no actor_role column and are read through
+`read_log_row` (AR-65); they are never rewritten.
 """
 from __future__ import annotations
 
@@ -45,6 +49,14 @@ def _spec(message: str) -> ContractError:
 
 def _forbidden(message: str) -> ContractError:
     return ContractError("ERR-SPEC", "not permitted: " + message)
+
+
+def read_log_row(row: dict[str, Any]) -> dict[str, Any]:
+    """A wf_report_log row as the E-1.2.24 reader sees it: a row written before E-1.2.24 has no actor_role column, read as
+    null with reason not_applicable (its role follows from its action, `rules.entry_role`). Returns a copy (AR-65)."""
+    if "actor_role" in row:
+        return row
+    return {**row, "actor_role": None, "actor_role_null_reason": "not_applicable"}
 
 
 class HashLog:
@@ -302,9 +314,18 @@ class WorkflowStore(Store):
         return (m or {}).get("source_quality")
 
     def combined(self, report: R.Report) -> dict[str, Any]:
-        """T23.24: the view-time combined clearance of an AI report's members (never stored)."""
+        """T23.24: the view-time combined clearance of an AI report's members (never stored). prov_class is printed from
+        the source path of the demo manifest (T23.28 g)."""
         eps = self.episodes()
-        return R.combined([eps[m] for m in report.members if m in eps])
+        pc = R.prov_class_of((self.demo_manifest() or {}).get("source_path"))
+        return R.combined([{**eps[m], "prov_class": eps[m].get("prov_class") or pc} for m in report.members if m in eps])
+
+    def banner(self) -> str:
+        """T23.26 with D-51 item 9."""
+        return R.source_banner(self.source_quality(), self.demo_manifest())
+
+    def banner_block(self) -> str:
+        return R.banner_block(self.source_quality(), self.demo_manifest())
 
     def report(self, report_id: str) -> R.Report:
         h = self.headers().get(report_id)
@@ -314,8 +335,9 @@ class WorkflowStore(Store):
 
     def _log(self, report: R.Report | None, report_id: str, action: str, actor: str, state_after: str,
              field_changes: dict[str, Any], label: str | None = None, reason: str | None = None, note: str | None = None,
-             linked: list[str] | None = None) -> dict[str, Any]:
+             linked: list[str] | None = None, actor_role: str | None = None) -> dict[str, Any]:
         row = {"entry_id": human_id("wfe"), "report_id": report_id, "action": action, "actor_user_id": actor,
+               "actor_role": actor_role, "actor_role_null_reason": None if actor_role else "not_applicable",
                "state_before": report.state if report else None,
                "state_before_null_reason": None if report else "not_applicable", "state_after": state_after,
                "field_changes": field_changes, "label": label, "label_null_reason": None if label else "not_applicable",
@@ -460,8 +482,16 @@ class WorkflowStore(Store):
         if action in R.AM_DECISIONS:
             if not is_am:
                 return "only an area manager of the report's area"
-            if action == "am_split" and (report.origin != "ai" or len(report.members) < 2):
-                return "am_split is for an AI report with at least two members (T23.20 e)"
+            return None
+        if action == "split":  # T23.20 (e) with T23.28 (a)
+            if report.origin != "ai" or len(report.members) < 2:
+                return "split is for an AI report with at least two members (T23.20 e)"
+            if report.state == R.SPLIT_FROM["area_manager"]:
+                return None if is_am else "in pending_am, only an area manager of the report's area splits the report"
+            if not is_sm:
+                return "in pending_sm, only the safety manager of the report's establishment splits the report (an area manager splits from pending_am)"
+            if user["user_id"] in report.deciders("am"):
+                return "this person decided the report as area manager and cannot act on it as its safety manager (T23.1 b)"
             return None
         if action in R.SM_ACTIONS:
             if not is_sm:
@@ -522,10 +552,10 @@ class WorkflowStore(Store):
                 ch_after: dict[str, Any] = {"kind": R.KIND_OF_LABEL[label]}  # T23.18 (e)
                 dup = action == "sm_overturn" and report.reopened_duplicate()
                 gr = form.get("group_resolution") or None
-                if multi or dup:  # T23.21 (d), T23.20 (d)
+                if multi:  # T23.21 (d); T23.20 (d) as read in T23.28 (b): only for two or more members
                     if gr not in R.GROUP_RESOLUTIONS:
                         raise _spec(f"{action} on this report requires group_resolution one_interaction or cannot_tell; if the "
-                                    "members show several interactions, the area manager uses am_split first (T23.21 d)")
+                                    "members show several interactions, the report is split first (T23.21 d, T23.28 a)")
                     ch_after["group_resolution"] = gr
                 elif gr:
                     raise _spec("group_resolution is given for an AI report with two or more members (T23.21 d)")
@@ -563,7 +593,7 @@ class WorkflowStore(Store):
             if action in ("sm_uphold", "sm_reclassify", "sm_reopen", "sm_note", "sm_confirm_duplicate", "withdraw_recordability") and not note:
                 raise _spec(f"{action} requires a note (T23.4)")
             if action == "sm_uphold":
-                am = report.actions(*R.AM_DECISIONS)
+                am = report.am_entries()
                 if not am or am[-1]["action"] != "am_reject":
                     raise _spec("sm_uphold requires that the latest area-manager decision is am_reject; rule T23.20 (a)")
                 label = am[-1]["label"]
@@ -588,7 +618,7 @@ class WorkflowStore(Store):
                 if reason not in R.WITHDRAW_REASONS:
                     raise _spec(f"withdraw_recordability requires a reason from {', '.join(R.WITHDRAW_REASONS)} (T23.19 c)")
                 return self._log(report, report_id, action, user["user_id"], to, {}, reason=reason, note=note)
-            if action == "am_split":
+            if action == "split":
                 return self._split(user, report, form, note)
             if action == "edit_fields":
                 raw = {k: v for k, v in form.items() if k in R.EDITABLE}
@@ -625,24 +655,26 @@ class WorkflowStore(Store):
         return sorted(r.report_id for r in self.reports() if r.fields.get("duplicate_of") == report_id)
 
     def _split(self, user: dict[str, Any], report: R.Report, form: dict[str, Any], note: str | None) -> dict[str, Any]:
-        """T23.20 (e): a partition of the members into two or more non-empty parts; one new pending_am AI report per part
-        (a create_ai entry carrying split_from); no assessment, adjudication or status entry for the original."""
+        """T23.20 (e) with T23.28 (a): a partition of the members into two or more non-empty parts; one new pending_am AI
+        report per part (a create_ai entry carrying split_from); no assessment, adjudication or status entry for the original
+        (existing ones stay). The entry is `split` with actor_role area_manager (from pending_am) or safety_manager (from
+        pending_sm)."""
         if not note:
-            raise _spec("am_split requires a note (T23.20 e)")
+            raise _spec("split requires a note (T23.20 e)")
         parts = form.get("parts")
         if parts is None:
             by: dict[str, list[str]] = {}
             for m in report.members:
                 k = str(form.get(f"part_{m}", "")).strip()
                 if not k:
-                    raise _spec("am_split assigns every member episode to a part (T23.20 e)")
+                    raise _spec("split assigns every member episode to a part (T23.20 e)")
                 by.setdefault(k, []).append(m)
             parts = [by[k] for k in sorted(by)]
         flat = [m for part in parts for m in part]
         if sorted(flat) != sorted(report.members) or len(set(flat)) != len(flat) or any(not part for part in parts):
-            raise _spec("am_split requires a partition of the member episodes (T23.20 e)")
+            raise _spec("split requires a partition of the member episodes (T23.20 e)")
         if len(parts) < 2:
-            raise _spec("am_split requires two or more non-empty parts (T23.20 e)")
+            raise _spec("split requires two or more non-empty parts (T23.20 e)")
         eps, area = self.episodes(), self.areas()[report.fields["area_id"]]
         est = self.establishments()[report.fields["est_id"]]
         clip_of = dict(zip(sorted(report.members), report.fields.get("evidence_clip_ids", [])))
@@ -656,8 +688,9 @@ class WorkflowStore(Store):
                                report.fields.get("grouping_basis") or R.PER_CAMERA)
             fields["split_from"] = report.report_id
             prepared.append((group, fields))
-        entry = self._log(report, report.report_id, "am_split", user["user_id"], "closed_split", {},
-                          reason=f"split into {len(parts)} parts", note=note)
+        role = "area_manager" if report.state == R.SPLIT_FROM["area_manager"] else "safety_manager"
+        entry = self._log(report, report.report_id, "split", user["user_id"], "closed_split", {},
+                          reason=f"split into {len(parts)} parts", note=note, actor_role=role)
         for group, fields in prepared:
             self._create_ai(group, est["est_id"], area["area_id"], fields)
         return entry

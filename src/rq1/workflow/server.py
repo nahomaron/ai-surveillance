@@ -81,7 +81,7 @@ class WorkflowHandler(Handler):
         top = (f'<div class="card"><strong>{esc(WF_BANNER)}</strong> <a href="/wf">Workflow home</a>'
                f'<p class="muted">{esc(R.DEMO_DATA_NOTE)}</p></div>')
         if alerts:
-            top += f'<div class="card">{R.banner_block(self.wstore.source_quality())}</div>'
+            top += f'<div class="card">{self.wstore.banner_block()}</div>'
         html_text = page(title, top + body, who)
         issues = R.lint_workflow(html_text)
         if issues:
@@ -90,7 +90,7 @@ class WorkflowHandler(Handler):
         self.send(html_text)
 
     def wexport(self, data: Any, ctype: str, text: str | None = None, lint_text: str | None = None) -> None:
-        exempt = (R.source_banner(self.wstore.source_quality()),)
+        exempt = (self.wstore.banner(),)
         issues = lint_json(data, exempt) if text is None else R.lint_workflow(lint_text if lint_text is not None else text,
                                                                            html_page=False, exempt=exempt)
         if issues:
@@ -285,7 +285,7 @@ class WorkflowHandler(Handler):
             f'<td>{esc(m["geometry_method"] or "not recorded")}</td><td>{esc(m["calibration_tier"] or "not recorded")}</td>'
             f'<td>{esc(m["clearance_sigma_m"] if m["clearance_sigma_m"] is not None else "none")} / {esc(m["sigma_status"] or "not recorded")}</td>'
             f'<td>{esc(m["q_state"] or "not recorded")} {esc(", ".join(m["q_reasons"] or []))}</td>'
-            f'<td>{esc(m["prov_class"] or "not recorded on the S4 rows")}</td><td><code>{esc(m["s4_artifact_id"] or "not recorded")}</code></td></tr>'
+            f'<td>{esc(m["prov_class"] or R.PROV_NOT_RECORDED)}</td><td><code>{esc(m["s4_artifact_id"] or "not recorded")}</code></td></tr>'
             for m in c["members"])
         if c["combined"] is not None:
             b = c["combined"]
@@ -293,7 +293,7 @@ class WorkflowHandler(Handler):
                     f'<code>{esc(b["camera_id"])}</code>, geometry_method {esc(b["geometry_method"])}, clearance_sigma_m '
                     f'{esc(b["clearance_sigma_m"] if b["clearance_sigma_m"] is not None else "none")}, sigma_status {esc(b["sigma_status"] or "not recorded")}, '
                     f'evidence sufficiency {esc(b["q_state"] or "not recorded")} {esc(", ".join(b["q_reasons"] or []))}, prov_class '
-                    f'{esc(b["prov_class"] or "not recorded on the S4 rows")}, S4 artifact <code>{esc(b["s4_artifact_id"] or "not recorded")}</code>. '
+                    f'{esc(b["prov_class"] or R.PROV_NOT_RECORDED)}, S4 artifact <code>{esc(b["s4_artifact_id"] or "not recorded")}</code>. '
                     'A review aid: never stored as a measurement (T23.24 d).</p>')
         else:
             head = f'<p><strong>Smallest estimated separation</strong>: {esc(c["text"])}.</p>'
@@ -430,13 +430,13 @@ class WorkflowHandler(Handler):
         if multi:
             sel = "".join(f'<p>Member <code>{esc(m)}</code>: part <select name="part_{esc(m)}">' +
                           "".join(f'<option>{k}</option>' for k in range(1, len(r.members) + 1)) + '</select></p>' for m in r.members)
-            form("am_split", "Split into separate reports (T23.20 e)", sel + note)
+            form("split", "Split into separate reports (T23.20 e, T23.28 a)", sel + note)
         others = [x for x in store.reports() if x.report_id != r.report_id and x.fields.get("est_id") == r.fields.get("est_id")
                   and x.state not in ("closed_duplicate", "closed_split")]
         form("am_duplicate", "Mark duplicate", '<p>Duplicate of <select name="duplicate_of">' +
              "".join(f'<option value="{x.report_id}">{x.report_id[-12:]}</option>' for x in others) + '</select></p>' + privacy)
         form("sm_uphold", "Uphold the rejection", note)
-        form("sm_overturn", "Overturn (record the report)", labels + (group if multi or r.reopened_duplicate() else "") + note)
+        form("sm_overturn", "Overturn (record the report)", labels + (group if multi else "") + note)
         form("sm_confirm_duplicate", "Confirm the duplicate", note)
         form("sm_reclassify", "Reclassify (close as rejected)", privacy + '<p><label>Reason <input name="reason" required size="50"></label></p>'
              '<p>Label <select name="label"><option value="not_hazardous">not_hazardous</option><option value="ud">ud</option></select></p>' + note)
@@ -634,7 +634,7 @@ class WorkflowHandler(Handler):
         c = self.compute(est, None, period, as_of)
         ind, ver = c["indicators"], self.wstore.verify()
         out: dict[str, Any] = {"banner": R.REGULATOR_BANNER, "statement": R.DEMO_DATA_NOTE,
-                               "source_banner": R.source_banner(self.wstore.source_quality()),
+                               "source_banner": self.wstore.banner(),
                                "establishment": self.wstore.establishments()[est]["name"], "period": period,
                                "demo": self.wstore.establishments()[est]["demo"], "as_of": c["as_of"],
                                "report_log": {"length": c["log_length"], "head_hash": c["head_hash"], "verification": "intact" if not ver["report_log"] else "broken"},

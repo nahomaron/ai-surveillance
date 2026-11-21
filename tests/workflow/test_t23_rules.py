@@ -35,13 +35,14 @@ def test_e1223_new_actions_and_state():
     """T23.19 (c), T23.20 (c), (e); D-49.1 section 4.1."""
     t = R.TRANSITIONS
     assert t["sm_confirm_duplicate"] == ("safety_manager", ("pending_sm",), "closed_duplicate")
-    assert t["am_split"] == ("area_manager", ("pending_am",), "closed_split")
+    # T23.28 (a) (D-51 item 1): am_split became `split`, by the area manager or the safety manager
+    assert t["split"] == ("area_manager|safety_manager", ("pending_am", "pending_sm"), "closed_split")
     assert t["withdraw_recordability"] == ("safety_manager", None, None)
     assert "closed_split" in R.STATES and R.WITHDRAW_REASONS == ("classification_changed", "entered_in_error",
                                                                  "event_not_work_related", "other")
     assert R.GROUP_RESOLUTIONS == ("one_interaction", "cannot_tell")
     enum = {f.name: f for f in registry.TABLES["wf_report_log"].fields}["action"].type.values
-    assert {"sm_confirm_duplicate", "am_split", "withdraw_recordability"} <= set(enum)
+    assert {"sm_confirm_duplicate", "am_split", "split", "withdraw_recordability"} <= set(enum)
 
 
 def test_t23_5_b_reject_labels():
@@ -123,6 +124,7 @@ def test_schema_tables_present_and_rows_validate():
 def test_report_log_chain(tmp_path):
     log = HashLog(tmp_path / "log.jsonl", "wf_report_log")
     row = {"entry_id": "wfe_" + "a" * 26, "report_id": "rpt_" + "a" * 26, "action": "create_human", "actor_user_id": "system",
+           "actor_role": None, "actor_role_null_reason": "not_applicable",  # T23.28 (a) column (AR-65)
            "state_before": None, "state_before_null_reason": "not_applicable", "state_after": "pending_am", "field_changes": {},
            "label": None, "label_null_reason": "not_applicable", "reason": None, "reason_null_reason": "not_applicable",
            "note": None, "note_null_reason": "not_applicable", "linked_record_ids": [], "created_utc": U}
