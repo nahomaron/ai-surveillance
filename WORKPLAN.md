@@ -1017,3 +1017,14 @@ _(the agent appends entries here)_
 - Commit: 6b949b5, 0cbc5ee, 5b2f605 (m0), 13ea512, and this entry's commit (pushed)
 - Problems / CRs: no CR-032 needed. AR-65 open (D-52). **Slip recorded:** the step 1 commit was chained after `pytest | tail -1`, which does not stop on a failed run; the suite had passed (2735), and every later commit checks the exit status explicitly.
 - Next: **STOP (D-52).** Reference sampling held (D-51 item 13).
+
+### 2026-11-21 — D-52 decided; det_env test fixed for a symlinked out/ (both branches)
+- Did:
+  - **D-52** recorded DECIDED, with its amendment (option (a)); **AR-65** accepted (items 1–7).
+  - `tests/m1b/test_det_env.py` (test-only, no other file): the configuration folder is compared as resolved paths, and `git check-ignore` runs on the deepest part of `out/m1b/ultralytics_config/Ultralytics/settings.json` that lies inside the working tree (`out` in this worktree, where `out/` is a symlink; the full path in the main folder). The D-52 STEP 1 wording (a relative path) was tried first and still exited 128 ("beyond a symbolic link"); the Owner chose option (a) in the amendment.
+  - Started on battery; waited for mains power, as D-52 requires.
+- Tests: see the commit messages (v02 suite twice, then m0 suite twice, then the merged suite twice).
+- Commit: this entry's commit, the m0 commit and the merge commit (pushed)
+- Problems / CRs: none.
+- Next: **STOP.** Reference sampling stays on hold (D-51 item 13).
+

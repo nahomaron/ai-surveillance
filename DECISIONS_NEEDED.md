@@ -664,7 +664,7 @@ Owner decision D-51 (21 Nov 2026): rulings on CR-031 and AR-64, the T22 frame fi
 - Hard limits unchanged from D-49: no S5 or S8 run, no new evaluation result, nothing on the test partition; no T22 batch, reference assessment, adjudication or manager decision; no demo draw; no stored record deleted, rewritten or reordered; no force-push, history rewrite or pull request. Undefined points that change a count, a state or a statistic go to CR-032.
 Numbering: the CR-007/CR-026 v2 draft moves to E-1.2.25. Next free on this branch: D-52, CR-032, AR-66 (AR-65 is the D-51 implementation).
 
-## D-52 (2026-11-21) — STOP after W-03: read-back result and merge result        status: OPEN
+## D-52 (2026-11-21) — STOP after W-03: read-back result and merge result        status: DECIDED (21 Nov 2026)
 Task: W-03 (D-51 STEPS 0-5)   Blocking: further work on both branches under D-51
 - **Read-back** (D-51 STEP 2; `research/workflow/w02_readback.jsonl`, W-02 report section 7): every stored artifact folder under `out/m1a/` and `out/m1b/pilot/`, with the E-1.2.24 schema: **7,473 of 7,473 pass**, 0 fail, 0 skip. Peak worker memory 4,380.9 MB; 7,233 s, one run, on mains power, alone.
 - **Merge** (D-51 STEP 4):
@@ -672,4 +672,9 @@ Task: W-03 (D-51 STEPS 0-5)   Blocking: further work on both branches under D-51
   - `v02-review-ui` 13ea512: `m0-implementation` merged, no rebase, both sides' entries kept. Suite 2776 passed, 13 skipped, 1 failed, twice, identical; the failure (`tests/m1b/test_det_env.py`, `git check-ignore` through this worktree's `out/` symlink) is the worktree setup and passes in the main folder.
 
 Agent's recommendation: none; the Owner decides.
-
+Owner decision (21 Nov 2026; pasting it = approval):
+- Decided: the read-back result and the scoped merge are accepted, including applying only the adjudication lines of `tables.py`. AR-65 items 1–7 accepted.
+- STEP 1 (`v02-review-ui`): `tests/m1b/test_det_env.py` compares resolved paths and runs `git check-ignore` on the path relative to ROOT, so it passes in a worktree whose `out/` is a symlink. Test-only change; no other file. Full suite twice (expect 0 failed). Record D-52 DECIDED and AR-65 accepted; Progress log; commit, push.
+- STEP 2 (main folder, `m0-implementation`): the same test change, suite twice, commit, push. Then merge `m0-implementation` into `v02-review-ui` (no rebase), suite twice, push.
+- STOP. No other work; reference sampling stays on hold. Mains power.
+- **Amendment (21 Nov 2026; pasting it = approval):** the agent reported that git refuses any path beyond a symbolic link, relative or absolute (exit 128), so the STEP 1 wording would still fail. **Option (a):** compare resolved paths; run `git check-ignore` on the deepest part of the path that lies inside the working tree: the settings path itself where `out/` is a real folder, `out` where `out/` is a symlink. Test-only change, no other file. Then STEP 1 and STEP 2 as written, on mains power.

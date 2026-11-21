@@ -1257,7 +1257,7 @@ Opened on `v02-review-ui` (D-49 asked for it in any case for the T23.21 (d) path
 12. Unregistered fixture stores: **left unregistered** (throwaway fixture output, rebuilt by their scripts with their own registry).
 13. **Option (d): hold reference sampling.** No T22 batch until a later Owner decision; option (a) refused; option (b) preferred when sampling resumes.
 
-## AR-65 — Representation choices of the D-51 implementation (T23.28, E-1.2.24)   status: OPEN (review at D-52)
+## AR-65 — Representation choices of the D-51 implementation (T23.28, E-1.2.24)   status: ACCEPTED (D-52, 21 Nov 2026: items 1–7)
 Representation and engineering only; every count, state and statistic follows the D-51 rulings. Code: `src/rq1/workflow/{rules,store,server}.py`, `src/rq1/schema/tables.py` (wf_report_log), `src/rq1/review/store.py` (CONTRACT). Tests: `tests/workflow/test_t23_28_d51.py`; `tests/workflow/test_t23_e1223.py` and `tests/workflow/test_t23_rules.py` updated for the action name and the two amended readings (no fixture expected value changed). Evidence read: none beyond E-1.2.24.
 1. **`actor_role` column.** `wf_report_log` gains `actor_role? enum{area_manager, safety_manager}` with `actor_role_null_reason`. It is set on `split` entries; every other new entry has null with reason not_applicable (the role follows from the action). Options considered: a column on split entries only (chosen; the ruling names it for split), a role on every entry (more change, no use), the role in `reason` (not the field the ruling names).
 2. **Old rows.** Entries written before E-1.2.24 have no actor_role column. `workflow.store.read_log_row` returns a copy with null / not_applicable; no row is rewritten, so the hash chains are untouched. A stored `am_split` entry (the E-1.2.23 name; none exists in a registered store) stays in the action enum and is read as a split by an area manager (`rules.entry_role`).
@@ -1268,3 +1268,4 @@ Representation and engineering only; every count, state and statistic follows th
 7. **D-51 item 9 line.** Appended to the banner when the store's manifest has no `source_quality`, its `source_path` is `detector_path_pilot_d45` and its configuration is BL-6: in the registered stores, only `out/review/demo_20261119`. The banner block stays linter-exempt (T23.28 f).
 
 **Reverse:** items 1–3 are a schema column, a reader and a constant; items 4–7 are local to `src/rq1/workflow/`. No stored row of any store is changed.
+- **Accepted (D-52, 21 Nov 2026):** items 1–7 accepted by the Owner.

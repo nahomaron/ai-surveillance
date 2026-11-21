@@ -10,10 +10,18 @@ sys.path.insert(0, str(ROOT / "research/m1b"))
 def test_det_env_points_inside_the_repository_and_is_ignored():
     import pilot_common as pc
     d = Path(pc.DET_ENV["YOLO_CONFIG_DIR"])
-    assert d == ROOT / "out/m1b/ultralytics_config"
+    assert d.resolve() == (ROOT / "out/m1b/ultralytics_config").resolve()
     assert pc.DET_ENV["YOLO_AUTOINSTALL"] == "false"
-    r = subprocess.run(["git", "check-ignore", "-q", str(d / "Ultralytics/settings.json")], cwd=ROOT)
-    assert r.returncode == 0, "the settings folder must be git-ignored"
+    # D-52 amendment: check the deepest part of the path that lies inside the working tree: the settings path itself
+    # where out/ is a real folder, out where out/ is a symlink (git refuses a path beyond a symbolic link).
+    rel = Path("out/m1b/ultralytics_config/Ultralytics/settings.json")
+    probe = Path()
+    for part in rel.parts:
+        probe = probe / part
+        if (ROOT / probe).is_symlink():
+            break
+    r = subprocess.run(["git", "check-ignore", "-q", str(probe)], cwd=ROOT)
+    assert r.returncode == 0, f"the settings folder must be git-ignored ({probe})"
 
 
 def test_detector_entry_points_set_the_folder_before_importing_ultralytics():
