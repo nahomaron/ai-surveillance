@@ -750,8 +750,10 @@ method str
 assessment_ids list<id>
 agreement_stat_ref? str
 prov_class enum{human_adjudicated}
-reference_class reference_class
+reference_class? reference_class
 """, True)
+# Appendix T T23.16 (b) (E-1.2.23; D-49): reference_class is nullable, with its reference_class_null_reason sibling
+# (section 1.1); VR-E-056 (schema/validate.py) fixes which namespace takes which combination.
 _t("validation_status_log", None, "Val", "V4", "human", "", """
 seq i64
 status_id id

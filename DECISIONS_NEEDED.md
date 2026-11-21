@@ -604,3 +604,63 @@ Owner decision (19 Nov 2026; pasting it = approval):
 5. Not now: Grounding DINO on the detector path; fine-tuning (T-24); the test partition (D-37).
 6. Tests, Progress log, commit, push. STOP.
 
+<!-- D-51 STEP 4 (c), 21 Nov 2026: the entries below are copied unchanged from `v02-review-ui`, with their decisions. Numbers D-48, D-49, D-51, CR-030, CR-031, AR-63 and AR-64 are shared by both branches; D-50, CR-029 and AR-62 are this branch's. Next free numbers on both branches: D-52, CR-032, AR-66. -->
+
+## D-48 (2026-11-19) — Reporting workflow, indicators and simulated regulator view (T23)        status: DECIDED (19 Nov 2026)
+Source: Owner, 19 Nov 2026 (pasting the instruction = approval of T23 and of its steps).
+Decision: Appendix T section **T23** appended verbatim on `v02-review-ui` as contract **E-1.2.22**. Build the workflow (`src/rq1/workflow/`) in the V-02 application, with the T23.15 tables and the FX-14 to FX-14i fixtures. Run the T23.11 demo draw with seed 2026111903 on a new store, using the D-45 pilot BL-6 S5 artifacts if they exist, otherwise the T-21 oracle ones. Write W-01_report.md; STOP at D-49. No merge into `m0-implementation`. Undefined points that change a count, a state or a statistic go to a CR; nothing is chosen.
+Numbering on this branch: D-48 (this), D-49 (the STOP), CR-030 and AR-63 (CR-029 and AR-62 are used on `m0-implementation`).
+
+## D-49 (2026-11-19) — STOP after W-01: Owner review of the T23 reporting workflow        status: DECIDED (20 Nov 2026)
+Task: W-01 (D-48)   Blocking: further workflow work; the merge of E-1.2.22 into `m0-implementation`
+Question: the T23 workflow is implemented and verified on fixtures. Report: `research/workflow/W-01_report.md`; screenshots in `research/workflow/screenshots/` (fixtures only).
+- **Demo** (seed 2026111903, source the D-45 detector-path pilot, column C):
+  - new store `out/review/demo_20261119/`;
+  - 3 simulated establishments, 9 areas, 8 AI reports (15 member episodes);
+  - no manager decision has been taken;
+  - the store has no Owner profile yet: run `python -m rq1.review init --store out/review/demo_20261119 --owner <pseudonym>`, then serve; steps in the report.
+- **CR-030** (10 items) lists what T23 leaves undefined. Nothing was chosen.
+  - Item 1 **blocks** the adjudications and status entries of safety-manager decisions on AI reports (T23.5 c, d). The schema requires adjudication.reference_class, and T22.1 (b) says candidate_review has none. Two FX checks are strict xfails until it is ruled.
+  - Items 2 to 9: indicators print "not determined" with every reading's value where the readings differ, or the action is refused.
+  - Item 10: VR-E-041 and the CLAUDE.md "Never" list against T23's establishment IDs and 301-style fields.
+- **AR-63** (14 items) are representation choices for review. Items 5, 6 and 8 change displayed wording or pre-filled values: the mixed-label ai_label, the group aggregation of clearance and evasive action, and the refusal of human text with unqualified wording.
+- **Pinned test lists updated for contract additions:** `EXPECTED_TABLES` (+8 T23.15 tables) and `REQUIRED_IDS` (+FX-14 to FX-14i), as was done for T22.
+
+Options: for the Owner and Architect.
+- (a) Rule on CR-030 (item 1 first), then a follow-up implements the rulings.
+- (b) Accept or reverse AR-63 items.
+- (c) Merge E-1.2.22 (contract text only) into `m0-implementation`.
+- (d) Play the demo roles and give feedback.
+Agent's recommendation: none; the Owner decides.
+
+Owner decision D-49 (20 Nov 2026): rulings on CR-030 and AR-63, contract **E-1.2.23** (Appendix T T23.16 to T23.27). Source: the Architect's D-49.1 addendum, approved by the Owner as proposed (pasting it = approval of the contract text and of the steps), including (1) only `usable` coverage counts as monitored, with `usable_degraded` shown separately, and (2) the `am_split` action and the `group_resolution` field.
+- On `v02-review-ui`: T23.16–T23.27 appended verbatim to Appendix T; CLAUDE.md contract line, the "Never" line on safety scores (D-49.1 §8) and a new "Still raise a CR" item.
+- CR-030 closed and AR-63 decided item by item (D-49.1 §7): AR-63 item 6 revised (T23.24), item 8 reversed (T23.22), items 1, 9, 10, 11, 12, 13, 14 accepted with additions, items 2, 3, 4, 5, 7 accepted.
+- Tests first (FX-14a/b xfails removed; FX-14j–FX-14ad), then the T23.16–T23.27 implementation; the store registry with `out/review/main` and `out/review/demo_20261119`; re-render of the demo views (read-only); W-02 regression and reference-protection evidence (§6.2, §6.3) in `research/workflow/W-02_report.md`.
+- Limits: no merge into `m0-implementation`, no pull request, no force-push or history rewrite; no stored record rewritten; no T22 batch, reference assessment, adjudication or manager decision; no S5/S8 run, no evaluation result, nothing on the test partition. The scoped merge is asked at D-51.
+- Undefined points that change a count, a state or a statistic go to CR-031 (opened in any case for the T23.21 (d) path).
+Numbering: the next STOP is D-51 (D-50 is used on `m0-implementation`); the next CR is CR-031.
+
+## D-51 (2026-11-20) — STOP after W-02: E-1.2.23 implemented; reference-protection finding; scoped merge?        status: DECIDED (21 Nov 2026)
+Task: W-02 (D-49)   Blocking: any further reference sampling or annotation (D-49.1 section 6.3); the scoped merge into `m0-implementation`; further workflow work
+Question: E-1.2.23 (T23.16–T23.27) is implemented and verified on fixtures on `v02-review-ui`. Report: `research/workflow/W-02_report.md`.
+- **Tests:** v02 full suite twice, identical; FX-14a/b pass (xfails removed); FX-14j–FX-14ad pass. No expected value edited; FX-14d and FX-14e setups gained one step each (CR-031 item 3).
+- **Section 6.2:** M0 determinism reproduced at e6072ef with and without the adjudication change (12 IDs equal the M0 report); read-back of the stored M1a and pilot artifacts **incomplete** (stopped by low memory after 4,000 of 7,473 folders; 36 spot checks pass; rerun needed); every stored record of every store under `out/review/` validates under the new reader and every chain verifies, except the deliberately tampered W-01 fixture store. The S0–S5 rebuild of three SDG cameras was **not done** (an S5 run; forbidden by the D-49 limits; CR-031 item 10).
+- **Section 6.3 finding (STOP):** the 9 demo runs of `out/review/demo_20261119` hold every CT (7) and every O (9) episode of the BL-6 T22 frame. After the T23.25 (b) exclusion the frame has CT 0, UD 31, NM 24, PC 151, H 15, O 0, so a batch of 60 would have four strata of 15 and no CT or O target. No existing batch is affected (the only batches are fixture batches); no annotator is exposed.
+- **CR-031** (13 items, for the Owner and Architect), including item 1, the T23.21 (d) path a safety manager cannot take (sm_reopen does not leave pending_sm). **AR-64** (17 representation items, two marked REVIEW).
+- The re-rendered demo pages show "accuracy of the alert source: not reported", because the demo store's manifest predates T23.26 (CR-031 item 9).
+Options:
+- (a) Rule on the frame finding (CR-031 item 13): accept a four-stratum batch, redraw the demo on a new store so CT and O stay in the frame, another frame, or hold.
+- (b) Rule on CR-031 items 1–12; accept or reverse AR-64 items.
+- (c) **Scoped merge** into `m0-implementation`: the contract text (T23 and T23.16–T23.27), CLAUDE.md, the adjudication schema change, VR-E-056, `src/rq1/validation/reference.py` and their tests only; no `src/rq1/workflow/` file and no `wf_*` table (file list in the report, section 4). Yes / no.
+- (d) Authorise or drop the S0–S5 rebuild of three SDG cameras (§6.2 item 3).
+Agent's recommendation: none; the Owner decides.
+Numbering: D-51 here (D-50 is used on `m0-implementation`); CR-031 and AR-64 on `v02-review-ui`. Next free on this branch: D-52, CR-032, AR-65.
+
+Owner decision D-51 (21 Nov 2026): rulings on CR-031 and AR-64, the T22 frame finding, the artifact read-back rerun and the scoped merge. Source: the Architect's review of W-02 (commit 748bafc), approved by the Owner (pasting it = approval of the rulings and of the steps).
+- **Frame finding (CR-031 item 13): option (d), hold reference sampling.** No T22 batch is drawn until a later Owner decision. A four-stratum batch (option a) is refused: it would change what EV-M12 can say. When sampling resumes, the preferred route is option (b), a new demo draw on a new store whose runs leave CT and O episodes in the frame; the old demo store's runs may leave the exclusion list only if no person has acted on or viewed that store (STEP 3 c).
+- **CR-031** closed item by item (CHANGE_REQUESTS.md): items 1, 2, 3, 5, 6, 7 and 8 become Appendix T **T23.28** (contract **E-1.2.24**); item 4 unit = report; item 9 keep the old demo store, one banner line added; item 10 the S0–S5 rebuild is dropped from section 6.2 item 3, the read-back must be completed; item 11 guard confirmed, CLAUDE.md "Never" line added; item 12 fixture stores stay unregistered.
+- **AR-64:** all 17 items accepted, including items 14 and 15 (REVIEW).
+- **Scoped merge into `m0-implementation`: approved, gated** on the read-back rerun passing in full (STEP 2).
+- Hard limits unchanged from D-49: no S5 or S8 run, no new evaluation result, nothing on the test partition; no T22 batch, reference assessment, adjudication or manager decision; no demo draw; no stored record deleted, rewritten or reordered; no force-push, history rewrite or pull request. Undefined points that change a count, a state or a statistic go to CR-032.
+Numbering: the CR-007/CR-026 v2 draft moves to E-1.2.25. Next free on this branch: D-52, CR-032, AR-66 (AR-65 is the D-51 implementation).

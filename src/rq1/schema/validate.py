@@ -169,7 +169,21 @@ def validate_row(table: str, row: dict[str, Any]) -> list[Issue]:
         issues.append(Issue("VR-E-055", "ERR-NAMESPACE", table, "label_source", "not a permitted reference source"))
     if table == "annotation_record" and row.get("namespace") == "reference" and row.get("label_source") not in _REFERENCE_SOURCES:
         issues.append(Issue("VR-E-055", "ERR-NAMESPACE", table, "label_source", "not a permitted reference source"))
+    if table == "adjudication":
+        issues += check_adjudication_class(row)
     return issues
+
+
+def check_adjudication_class(row: dict[str, Any]) -> list[Issue]:
+    """VR-E-056 (Appendix T T23.16 b, E-1.2.23): in reference, reference_class is non-null and its null reason null; in
+    candidate_review, reference_class is null with reason not_applicable; any other combination is refused."""
+    ns, cls, reason = row.get("namespace"), row.get("reference_class"), row.get("reference_class_null_reason")
+    if ns == "reference" and cls is not None and reason is None:
+        return []
+    if ns == "candidate_review" and cls is None and reason == "not_applicable":
+        return []
+    return [Issue("VR-E-056", "ERR-NAMESPACE", "adjudication", "reference_class",
+                  f"namespace {ns!r} with reference_class {cls!r} and null reason {reason!r} is refused (T23.16 b)")]
 
 
 def validate_rows(table: str, rows: list[dict[str, Any]], raise_fatal: bool = False) -> list[Issue]:
