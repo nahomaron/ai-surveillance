@@ -32,3 +32,9 @@ datasets/
 *.avi
 *.mov
 *.parquet
+
+# Model weights and notebook artefacts
+weights/
+*.pt
+*.onnx
+.ipynb_checkpoints/
