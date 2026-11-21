@@ -159,6 +159,15 @@ The Python packages installed for this task (0.43 GB on disk; download size not 
 - Hugging Face telemetry was switched off.
 - Ultralytics automatic package installation was switched off.
 
+## Rulings (D-45, Owner, 19 Nov 2026)
+
+- The seven choices above are ACCEPTED as recorded. The probe is not re-run.
+- The probe thresholds are the fixed values of the detector-path pilot (T-25p), with no further tuning:
+  - YOLO-World v2-s: person 0.20, forklift 0.05;
+  - Grounding DINO tiny: 0.45 for both.
+- These thresholds were chosen on the 20 probe cameras above, so those cameras are excluded from everything in the pilot.
+- Grounding DINO is not run at scale (about 13 days on this laptop). It is used only in the pilot's 100-frame check on other cameras.
+
 ## Not done (STOP, D-45)
 
 - Detector output did not enter S4, S5 or S8. The detector-path pilot spec comes from the Architect first.

@@ -1,0 +1,208 @@
+{
+ "cameras": 206,
+ "decomposition": {
+  "all": {
+   "axis": {
+    "across_median_m": 0.12291295610319447,
+    "across_p95_m": 0.8838808174834685,
+    "along_abs_median_m": 0.9767351601763277,
+    "along_abs_p95_m": 1.4543591251835015,
+    "along_signed_median_m": -0.9609935680661224,
+    "share_along_beyond_truth": 0.04597296300023481
+   },
+   "distance_median_m": 6.970258633872045,
+   "error_median_m": 1.0731412906052384,
+   "error_p95_m": 1.4802302768217106,
+   "los": {
+    "across_median_m": 0.0855792400127661,
+    "across_p95_m": 0.5840597963135277,
+    "along_abs_median_m": 1.0243035925442736,
+    "along_abs_p95_m": 1.4637585699350342,
+    "along_signed_median_m": -1.0112912964279774,
+    "share_along_beyond_truth": 0.028529737345275235
+   },
+   "n": 59622
+  },
+  "ceiling": {
+   "axis": {
+    "across_median_m": 0.08149806438562922,
+    "across_p95_m": 0.45459951713115493,
+    "along_abs_median_m": 1.1012901534963018,
+    "along_abs_p95_m": 1.471668185725035,
+    "along_signed_median_m": -1.0844346698958462,
+    "share_along_beyond_truth": 0.03666711809317443
+   },
+   "distance_median_m": 7.945620651876511,
+   "error_median_m": 1.1252070190129393,
+   "error_p95_m": 1.481999742414284,
+   "los": {
+    "across_median_m": 0.06427777371192067,
+    "across_p95_m": 0.26476294127086014,
+    "along_abs_median_m": 1.1120152627185338,
+    "along_abs_p95_m": 1.4753302937471142,
+    "along_signed_median_m": -1.099845520317822,
+    "share_along_beyond_truth": 0.03649783315276273
+   },
+   "n": 29536
+  },
+  "eye_level": {
+   "axis": {
+    "across_median_m": 0.18511817989094229,
+    "across_p95_m": 1.0914215509818368,
+    "along_abs_median_m": 0.7641794549048395,
+    "along_abs_p95_m": 1.3878885491905921,
+    "along_signed_median_m": -0.7319086582793248,
+    "share_along_beyond_truth": 0.05510868842651067
+   },
+   "distance_median_m": 5.65197885439439,
+   "error_median_m": 0.9912662320510752,
+   "error_p95_m": 1.4756429846418602,
+   "los": {
+    "across_median_m": 0.12072196769599677,
+    "across_p95_m": 0.7867146542203484,
+    "along_abs_median_m": 0.877397942560495,
+    "along_abs_p95_m": 1.4247176962955614,
+    "along_signed_median_m": -0.8751730086619387,
+    "share_along_beyond_truth": 0.02070730572359237
+   },
+   "n": 30086
+  }
+ },
+ "definitions": {
+  "axis": "camera optical axis (third row of R_cam_from_world) projected on the floor",
+  "error": "estimate minus simulator footprint centre (floor, metres)",
+  "los": "unit vector from the camera centre's floor point to the true position; along > 0 = estimate beyond the truth",
+  "pair_split": "per camera (one worker and one forklift per camera): median forklift error over its object-frames, < 1 m vs >= 1 m"
+ },
+ "ev_split": {
+  "at_or_above_1m": {
+   "by_viewpoint": {
+    "ceiling": 63,
+    "eye_level": 53
+   },
+   "cameras": 116,
+   "ev_B": {
+    "BL-2": {
+     "EV-M1": 0.6012658227848101,
+     "EV-M2": 0.5428571428571428,
+     "counts": {
+      "a": 158,
+      "m": 95,
+      "m_s": 95,
+      "s": 175
+     }
+    },
+    "BL-3": {
+     "EV-M1": 0.759493670886076,
+     "EV-M2": 0.6451612903225806,
+     "counts": {
+      "a": 158,
+      "m": 120,
+      "m_s": 120,
+      "s": 186
+     }
+    },
+    "BL-4": {
+     "EV-M1": 0.7658227848101266,
+     "EV-M2": 0.6335078534031413,
+     "counts": {
+      "a": 158,
+      "m": 121,
+      "m_s": 121,
+      "s": 191
+     }
+    },
+    "BL-5": {
+     "EV-M1": 0.759493670886076,
+     "EV-M2": 0.6349206349206349,
+     "counts": {
+      "a": 158,
+      "m": 120,
+      "m_s": 120,
+      "s": 189
+     }
+    },
+    "BL-6": {
+     "EV-M1": 0.7658227848101266,
+     "EV-M2": 0.6335078534031413,
+     "counts": {
+      "a": 158,
+      "m": 121,
+      "m_s": 121,
+      "s": 191
+     }
+    }
+   }
+  },
+  "below_1m": {
+   "by_viewpoint": {
+    "ceiling": 36,
+    "eye_level": 54
+   },
+   "cameras": 90,
+   "ev_B": {
+    "BL-2": {
+     "EV-M1": 0.46774193548387094,
+     "EV-M2": 0.4084507042253521,
+     "counts": {
+      "a": 124,
+      "m": 58,
+      "m_s": 58,
+      "s": 142
+     }
+    },
+    "BL-3": {
+     "EV-M1": 0.7096774193548387,
+     "EV-M2": 0.4835164835164835,
+     "counts": {
+      "a": 124,
+      "m": 88,
+      "m_s": 88,
+      "s": 182
+     }
+    },
+    "BL-4": {
+     "EV-M1": 0.7258064516129032,
+     "EV-M2": 0.46875,
+     "counts": {
+      "a": 124,
+      "m": 90,
+      "m_s": 90,
+      "s": 192
+     }
+    },
+    "BL-5": {
+     "EV-M1": 0.717741935483871,
+     "EV-M2": 0.4734042553191489,
+     "counts": {
+      "a": 124,
+      "m": 89,
+      "m_s": 89,
+      "s": 188
+     }
+    },
+    "BL-6": {
+     "EV-M1": 0.717741935483871,
+     "EV-M2": 0.46596858638743455,
+     "counts": {
+      "a": 124,
+      "m": 89,
+      "m_s": 89,
+      "s": 191
+     }
+    }
+   }
+  },
+  "no_forklift_position": {
+   "by_viewpoint": {
+    "ceiling": 0,
+    "eye_level": 0
+   },
+   "cameras": 0,
+   "ev_B": {}
+  }
+ },
+ "identity_counts_not_one_pair": [],
+ "one_pair_per_camera": true,
+ "status": "D-47 item 2: CR-007 / D-8 evidence; column B (oracle boxes, full_camera); diagnosis only; synthetic SDG validation"
+}

@@ -1,0 +1,70 @@
+{
+ "columns": {
+  "C": {
+   "any_overlap_same_pair": {
+    "a": 282,
+    "found": 100,
+    "label": "descriptive, not the N4 metric",
+    "precision": 0.9929577464788732,
+    "recall": 0.3546099290780142,
+    "s": 142,
+    "supported": 141
+   },
+   "cameras": 206,
+   "references_matched_or_overlapped": {
+    "by_episode_count": {
+     "1": 62,
+     "2": 31,
+     "3": 7
+    },
+    "episodes_linked": 4,
+    "episodes_total": 145,
+    "matched": 31,
+    "matched_refs_with_2plus_episodes": 8,
+    "n": 100,
+    "refs_with_2plus_episodes": 38
+   },
+   "unmatched_by_band": {
+    "(0, 0.1]": 55,
+    "(0.1, 0.2]": 36,
+    "(0.2, 0.3)": 19,
+    "0": 1,
+    ">= 0.3": 0
+   }
+  },
+  "C'": {
+   "any_overlap_same_pair": {
+    "a": 282,
+    "found": 97,
+    "label": "descriptive, not the N4 metric",
+    "precision": 0.9787234042553191,
+    "recall": 0.34397163120567376,
+    "s": 141,
+    "supported": 138
+   },
+   "cameras": 206,
+   "references_matched_or_overlapped": {
+    "by_episode_count": {
+     "1": 62,
+     "2": 28,
+     "3": 6,
+     "4": 1
+    },
+    "episodes_linked": 5,
+    "episodes_total": 140,
+    "matched": 21,
+    "matched_refs_with_2plus_episodes": 6,
+    "n": 97,
+    "refs_with_2plus_episodes": 35
+   },
+   "unmatched_by_band": {
+    "(0, 0.1]": 60,
+    "(0.1, 0.2]": 36,
+    "(0.2, 0.3)": 20,
+    "0": 3,
+    ">= 0.3": 1
+   }
+  }
+ },
+ "status": "D-50 item 2: descriptive, not the N4 metric; BL-6, G1; synthetic SDG validation; nothing validated"
+}

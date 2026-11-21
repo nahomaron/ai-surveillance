@@ -1,0 +1,259 @@
+{
+ "cameras": [
+  [
+   "rec_3btoynxrpc4txdfiafuqr23cyb",
+   "eye_level"
+  ],
+  [
+   "rec_3qr4nvhqb2uvhpw6teotbobffi",
+   "ceiling"
+  ],
+  [
+   "rec_3yphwqiabbzwjm6hw3uo6iiy5l",
+   "eye_level"
+  ],
+  [
+   "rec_5y7nbc6ipbu7wcta5h7pkcfx2b",
+   "ceiling"
+  ],
+  [
+   "rec_b47zgi6ibkywjr6bs37jedv5uc",
+   "ceiling"
+  ],
+  [
+   "rec_c4bzvsmjv557nn6gxkliaxo45c",
+   "eye_level"
+  ],
+  [
+   "rec_cs2hpetppvjiqxf5es445qpwsx",
+   "eye_level"
+  ],
+  [
+   "rec_f5ftg2jrikmsdnv4coktk4cxtl",
+   "eye_level"
+  ],
+  [
+   "rec_gth25h6kp56qygeibgajfzkgfc",
+   "ceiling"
+  ],
+  [
+   "rec_gvcxxkn6okgo6qcgxgb4mpeop6",
+   "eye_level"
+  ],
+  [
+   "rec_hhzb3wgwqxwvtx3awnjwduag4f",
+   "eye_level"
+  ],
+  [
+   "rec_i7dalu5bvx6xri6xnbqzfu6tae",
+   "eye_level"
+  ],
+  [
+   "rec_lo34s5c6knz2ubnhcn22wzyohk",
+   "eye_level"
+  ],
+  [
+   "rec_n6o5cvpjbomjjnfd7l5aj7p5em",
+   "ceiling"
+  ],
+  [
+   "rec_nbzpugc62qtcgrwrja3jjeya6b",
+   "ceiling"
+  ],
+  [
+   "rec_pyt3xletgxufdu7iresvwmvkzh",
+   "ceiling"
+  ],
+  [
+   "rec_uqsne4mo5zi2vhkpqjbfl574x7",
+   "ceiling"
+  ],
+  [
+   "rec_wpkwepaxiuwxxplxws3kfmyrpc",
+   "eye_level"
+  ],
+  [
+   "rec_yju2kydcmvacuawqkxvictumqx",
+   "ceiling"
+  ],
+  [
+   "rec_ywtnec4kiokf6xqn2wbw6s2yt2",
+   "ceiling"
+  ]
+ ],
+ "frames": 100,
+ "matching": {
+  "iou_min": 0.3,
+  "rule": "same class, one-to-one by descending IoU (the probe matcher)"
+ },
+ "models": {
+  "grounding_dino": {
+   "results": {
+    "all": {
+     "forklift": {
+      "detections": 92,
+      "f1": 0.9518716577540107,
+      "fn": 6,
+      "fp": 3,
+      "precision": 0.967391304347826,
+      "recall": 0.9368421052631579,
+      "references": 95,
+      "tp": 89
+     },
+     "person": {
+      "detections": 86,
+      "f1": 0.9714285714285714,
+      "fn": 4,
+      "fp": 1,
+      "precision": 0.9883720930232558,
+      "recall": 0.9550561797752809,
+      "references": 89,
+      "tp": 85
+     }
+    },
+    "ceiling": {
+     "forklift": {
+      "detections": 47,
+      "f1": 0.9690721649484536,
+      "fn": 3,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 0.94,
+      "references": 50,
+      "tp": 47
+     },
+     "person": {
+      "detections": 49,
+      "f1": 0.9696969696969697,
+      "fn": 2,
+      "fp": 1,
+      "precision": 0.9795918367346939,
+      "recall": 0.96,
+      "references": 50,
+      "tp": 48
+     }
+    },
+    "eye_level": {
+     "forklift": {
+      "detections": 45,
+      "f1": 0.9333333333333333,
+      "fn": 3,
+      "fp": 3,
+      "precision": 0.9333333333333333,
+      "recall": 0.9333333333333333,
+      "references": 45,
+      "tp": 42
+     },
+     "person": {
+      "detections": 37,
+      "f1": 0.9736842105263158,
+      "fn": 2,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 0.9487179487179487,
+      "references": 39,
+      "tp": 37
+     }
+    }
+   },
+   "seconds_per_frame_median": 15.1777
+  },
+  "yolo_world": {
+   "results": {
+    "all": {
+     "forklift": {
+      "detections": 57,
+      "f1": 0.7368421052631579,
+      "fn": 39,
+      "fp": 1,
+      "precision": 0.9824561403508771,
+      "recall": 0.5894736842105263,
+      "references": 95,
+      "tp": 56
+     },
+     "person": {
+      "detections": 85,
+      "f1": 0.9655172413793104,
+      "fn": 5,
+      "fp": 1,
+      "precision": 0.9882352941176471,
+      "recall": 0.9438202247191011,
+      "references": 89,
+      "tp": 84
+     }
+    },
+    "ceiling": {
+     "forklift": {
+      "detections": 35,
+      "f1": 0.8235294117647058,
+      "fn": 15,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 0.7,
+      "references": 50,
+      "tp": 35
+     },
+     "person": {
+      "detections": 48,
+      "f1": 0.9591836734693877,
+      "fn": 3,
+      "fp": 1,
+      "precision": 0.9791666666666666,
+      "recall": 0.94,
+      "references": 50,
+      "tp": 47
+     }
+    },
+    "eye_level": {
+     "forklift": {
+      "detections": 22,
+      "f1": 0.6268656716417911,
+      "fn": 24,
+      "fp": 1,
+      "precision": 0.9545454545454546,
+      "recall": 0.4666666666666667,
+      "references": 45,
+      "tp": 21
+     },
+     "person": {
+      "detections": 37,
+      "f1": 0.9736842105263158,
+      "fn": 2,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 0.9487179487179487,
+      "references": 39,
+      "tp": 37
+     }
+    }
+   },
+   "seconds_per_frame_median": 0.3437
+  }
+ },
+ "references": {
+  "all": {
+   "forklift": 95,
+   "person": 89
+  },
+  "ceiling": {
+   "forklift": 50,
+   "person": 50
+  },
+  "eye_level": {
+   "forklift": 45,
+   "person": 39
+  }
+ },
+ "seed": 2026111902,
+ "status": "T-25p frame-level check (D-45 item 3c); synthetic SDG validation; descriptive; nothing validated",
+ "thresholds": {
+  "grounding_dino": {
+   "forklift": 0.45,
+   "person": 0.45
+  },
+  "yolo_world": {
+   "forklift": 0.05,
+   "person": 0.2
+  }
+ }
+}

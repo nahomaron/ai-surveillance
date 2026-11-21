@@ -472,7 +472,7 @@ Owner decision (19 Nov 2026): **option (a).** The Architect's C-layer protocol i
 
 Note on numbering: D-44 and CR-027 were opened on branch `v02-review-ui` (the V-02 entries, renumbered from D-40 and CR-026 on 19 Nov 2026) and are copied here with their decision (19 Nov 2026). The next free numbers are D-46 and CR-028 on both branches.
 
-## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: OPEN
+## D-45 (2026-11-19) — STOP after the T-22 zero-shot probe        status: DECIDED (19 Nov 2026)
 Task: T-22   Blocking: the detector-path pilot (S4/S5/S8 with detector output), T-23 and all later M1b work
 Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.json`).
 - Data: 100 SDG validation frames; 93 person and 97 forklift reference boxes; IoU ≥ 0.3; best-F1 threshold. Descriptive only.
@@ -488,7 +488,25 @@ Question: The zero-shot probe is done (`research/m1b/zero_shot_probe.md` and `.j
 - **Scale.** All 67,800 SDG validation frames would take about 6.6 h with YOLO-World and about 13 days of serial CPU time with Grounding DINO on this laptop.
 - **Choices to review.** The instruction did not fix seven choices (draw procedure, frame spacing, model settings, Grounding DINO class assignment without NMS, tie rules, timing). They are listed in the report for the Architect.
 Options: for the Owner and Architect (detector-path pilot spec, choice of detector, prompts or thresholds for the pilot). The agent makes no recommendation. Nothing was fine-tuned or tracked, and no detector output entered the pipeline.
-Owner decision: ______
+Owner decision (19 Nov 2026, with the Architect's detector-path pilot spec; pasting it = approval):
+0. **Rulings on the probe.**
+   - The seven agent choices in `zero_shot_probe.md` are ACCEPTED as recorded. The probe is not re-run.
+   - The probe thresholds are the pilot's fixed values, with no further tuning: YOLO-World v2-s person 0.20 and forklift 0.05; Grounding DINO tiny 0.45 for both.
+   - The 20 probe cameras are excluded from everything in the pilot, so the pilot results do not depend on the threshold choice.
+   - Grounding DINO is not run at scale; it is used only in the frame-level check (item 3c).
+1. **T-23 tracker adapter** (WP-17, reduced to the pilot):
+   - ByteTrack via `trackers` if it installs in `.venv-det`, otherwise Ultralytics' built-in ByteTrack; default parameters, recorded, not tuned.
+   - Input: S2 rows; output: S3 rows. Matched → tracked/detected. A bridge of at most g_max = 15 eligible frames → predicted/inferred; longer → lost. No point on ineligible frames. Foot point = bottom-centre.
+   - One track class per detection class.
+   - Tests: fixtures; IDF1 against simulator IDs; switches and fragments via the T-12 association.
+2. **S2 stage:** YOLO-World v2-s, Ultralytics defaults, classes "person" and "forklift", the item 0 thresholds, every eligible frame; reproducibility class tolerance; no MR-01 run.
+3. **T-25p pilot** on the SDG validation cameras with an ORACLE-S3, minus the 20 probe cameras (expected 206):
+   - pipeline S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 against the T21 references; no yaw, T8.2 fallbacks; no forklift_turning stratum;
+   - frame-level check: 100 frames, seed 2026111902, both models;
+   - report `reports/M1b_pilot_report.md` with columns A / B / C;
+   - runtime estimate first; STOP if over 12 h.
+4. **Do not:** change the frozen pre-registration or any analysis module beyond the new S2/S3 adapters; tune any threshold or tracker parameter; touch the test partition; register an acceptance criterion; claim transfer to real footage. A contract gap on the detector path → CR, and that part stops.
+5. Full suite twice in the main `.venv`; detector and tracker tests in `.venv-det`. Progress log, commit and push after T-23, the S2 stage and T-25p. STOP at the end (D-47).
 
 
 ## D-46 (2026-11-19) — Architect rulings on CR-028 and AR-61; two V-02 fixes        status: DECIDED (19 Nov 2026)
@@ -499,6 +517,93 @@ Decision:
 3. **V-02 fixes** on `v02-review-ui`: stray shell text in the report; an Owner-only audit trail view (status history per target, with the hash-chain check); the real-frame dry run, if stored outside a fixture store, renamed and marked as never for real review; the original V-02 items 3 to 7 as the agent understood them, each marked, in the report.
 4. Only the contract text goes into `m0-implementation`; the code stays on `v02-review-ui`.
 Numbering: D-46 is used here; CR-028 and AR-61 are on `v02-review-ui`. Next free: D-47, CR-029, AR-62.
+
+## D-47 (2026-11-19) — STOP after the T-25p detector-path pilot        status: DECIDED (19 Nov 2026)
+Task: T-25p   Blocking: all later M1b work on the detector path
+Question: The pilot is done and revised on the Owner's instruction of 19 Nov 2026 (`reports/M1b_pilot_report.md`; `research/m1b/pilot_results.json`, `pilot_frame_check.json`, `pilot_tracker_loss.json`, `pilot_license_components.json`). 206 SDG validation cameras, 24 leakage groups, 282 assessable T21 references. Descriptive, validation only.
+- **Events (G1, BL-6; Target B intervals in the report).** Columns A and B are re-aggregated on the same 206 cameras.
+  - A (oracle, simulator positions): recall 1.00, precision 0.95.
+  - B (oracle boxes, full_camera): 0.74, 0.55.
+  - C (YOLO-World + ByteTrack together, full_camera): 0.11, 0.22. BL-2 in C: 0.03, 0.10.
+- **Where recall is lost (frame level, same references and matcher).**
+  - Forklift: S2 0.61 → tracked points 0.16 → with predicted points 0.17.
+  - Person: 0.92 → 0.91 → 0.92.
+  - 99 % of forklift detections match a forklift; 27 % of those became tracked points.
+- **Tracker threshold coupling** (installed `byte_tracker.py`): new tracks need ≥ 0.25 (line 500); the low-score second stage only continues tracks in the Tracked state (line 448); a lost track is revived only by a detection ≥ 0.25. Share of matched detections that were tracked, by band:
+  - forklift: ≥ 0.25 86 %; [0.10, 0.25) 21 %; [0.05, 0.10) 0 %;
+  - person: ≥ 0.25 99 %; [0.20, 0.25) 28 %.
+- **Tracking.** Person IDF1 0.83, CM-01 0.91. Forklift IDF1 0.24, 93 identities never matched. CM-03 0.12.
+- **Probe overlap.** 96 of the 206 pilot cameras, and 10 of the 20 frame-check cameras, share a run with a probe camera.
+- **Frame-level check.** YOLO-World person 0.94, forklift 0.59. Grounding DINO tiny 0.96, 0.94, at 15.2 s per frame (YOLO-World 0.34 s).
+- **Licence records.** The CLIP text encoder had no `license_component` row in the S2 artifact; the row is now recorded only (`pilot_license_components.json`). Adding it to the artifact would change the S2 artifact IDs.
+- **Review:** AR-62 (items 3, 5, 6, 7 are review flags).
+
+Options: for the Owner and Architect. None of these was run.
+- (a) A post-hoc **exploratory** S3-onward re-run, with the tracker thresholds aligned to the detector thresholds. It would be reported beside column C, never replacing it. It needs no new detection: about 40 min.
+- (b) Fix the detector and tracker thresholds **as a pair** in pre-registration v2.
+- (c) Try a stronger forklift detector on the detector path. Grounding DINO costs about 44 times as much per frame.
+- (d) Diagnose the 111 unmatched BL-6 candidate events in column C.
+- (e) Stop the detector path here.
+
+Agent's recommendation: none; the Owner decides. Nothing was tuned; the test partition was not touched.
+Owner decision (19 Nov 2026; pasting it = approval):
+0. Pilot report `f83a241` ACCEPTED as experimental validation evidence (synthetic, validation only). AR-62: all nine items ACCEPTED, with the report additions already made (IDF1 pooling stated; birth-frame and score-band counts reported).
+1. **C' exploratory re-run** (S3 onward only; C's stored S2 reused, no S2 re-run).
+   - One ByteTrack per class, as in C. Per class: track_high_thresh = new_track_thresh = the class's detector threshold (person 0.20, forklift 0.05); track_low_thresh = min(0.10, detector threshold), so for forklifts the second stage receives nothing. All other parameters are the installed defaults.
+   - The rule is fixed before the run; no other value is tried.
+   - Reported as "C' (post-hoc, exploratory)" beside C, never replacing it. Same tables as C, plus tracks started, tracks with no matched identity (false tracks) and identity switches.
+   - The new tracker configuration is recorded in every S3 run configuration (new S3 IDs).
+2. **CR-007 / D-8 evidence** (diagnosis only): on column B, the forklift position error decomposed along and across the camera's viewing direction on the floor (median, P95, by viewpoint); B's EV-M1/EV-M2 for pairs with forklift error below and above 1 m. Added to CR-007 for the Architect. No anchor rule is chosen.
+3. **N9 diagnosis** of the 111 unmatched BL-6 events in C (and in C'): rule tests in pipeline order; primary stage counts. Descriptive only.
+4. **Not now:** Grounding DINO on the detector path (revisit after C'); fine-tuning (T-24 stays blocked); any test-partition work (D-37); any change to the frozen pre-registration v1.
+5. **Operations.**
+   - Long runs only on mains power, with no other agent running on the laptop.
+   - Every `.venv-det` command sets YOLO_CONFIG_DIR to a git-ignored folder in the repository; added to the run scripts.
+   - Check and record whether Ultralytics' settings had sync enabled during the S2 and frame-check runs, and whether the network was reachable. Recorded in the Progress log; nothing in the results changes.
+   - The next S2 build (pre-registration v2) carries the CLIP and Grounding DINO license_component rows inside the artifact.
+6. Tests: full suite twice; detector-environment tests. Progress log, commit, push. Report: a new section for C' and items 2-3, plus a short addendum to the plain-language page. STOP and open the next free D number for review. A part that needs a contract definition gets a CR and is skipped.
+
+## D-50 (2026-11-19) — STOP after the D-47 follow-up (C', N9, CR-007 evidence)        status: DECIDED (19 Nov 2026)
+Task: T-25p (D-47 items 1-3)   Blocking: further detector-path work
+Numbering: opened as "D-49" at `bbba908`, renumbered to D-50 by the Owner (D-50 item 0) to avoid the T23 branch's D-49. D-48 is cited by the Owner for the T23 agent's run during S2 and is not used in this file. No D-49 exists on `v02-review-ui` (pushed branch and worktree checked 19 Nov 2026), so nothing there was changed.
+Question: the D-47 follow-up is in `reports/M1b_pilot_report.md` (section "D-47 follow-up"; addendum on the plain-language page). Results: `research/m1b/pilot_results_cprime.json`, `pilot_tracker_loss_cprime.json`, `pilot_n9.json`, `cr007_evidence.json`. Descriptive, validation only.
+- **C' (post-hoc, exploratory; the rule fixed in D-47).**
+  - BL-6 EV-M1 0.07 (21/282), EV-M2 0.15 (21/141), against C 0.11 and 0.22.
+  - Forklift: tracked-point recall 0.12 (C 0.16); tracks started 230 (171); fragments 158 (105); predicted points 1,908 (582); IDF1 0.217 (0.244).
+  - False tracks: person 49 (36), forklift 3 (0). Identity switches: 0 in both.
+  - **Mechanism:** with fuse_score on (unchanged by the rule), the first stage needs IoU × score ≥ 0.2 (`matching.py:145`, `byte_tracker.py:529-531`). A forklift detection scoring below 0.2 can start a track but cannot continue one. C's score-free second stage, which used to carry them, receives nothing under C'.
+- **N9, rules 1-3** (rules 4 and 5 not evaluated: CR-029).
+  - C: 111 unmatched BL-6 events: tracking 2, not attributed 109.
+  - C': 120 unmatched: perception 1, tracking 1, not attributed 118.
+  - In C, 110 of the 111 overlap a reference interaction of the same pair with temporal IoU between 0 and 0.3.
+- **CR-007 evidence** (column B forklift error): along the line of sight, median −1.01 m; across, 0.09 m. The event split by forklift error is confounded by viewpoint and scene (BL-2 differs too).
+- **New CR:** CR-029 (inputs of N9 rules 4 and 5 on the detector path; 5 open points).
+- **Operations:** Ultralytics sync was off during S2 and the frame-level check, and the network was reachable. `YOLO_CONFIG_DIR` is now set by every `.venv-det` command.
+
+Options: for the Owner and Architect; none of these was run.
+- (a) Define CR-029 so that rules 4 and 5 can attribute the 109 unattributed events.
+- (b) A further exploratory tracker setting, e.g. fuse_score off. This would be a new post-hoc variant, which the D-47 rule excluded.
+- (c) Decide the CR-007 anchor with this evidence.
+- (d) Revisit Grounding DINO on the detector path (D-47 item 4: "revisit after C'").
+- (e) Close the detector-path pilot here.
+
+Agent's recommendation: none; the Owner decides.
+Owner decision (19 Nov 2026; pasting it = approval):
+0. This entry is renumbered from D-49 to D-50 wherever it is cited (report, Progress log). The T23 agent's D-49, if it exists on `v02-review-ui`, stays unchanged.
+1. The detector-path pilot (T-25p) is **CLOSED** as exploratory validation evidence. No further tracker variant (including fuse_score off) is run on the 206 pilot cameras. Columns A, B, C and C' stay as reported.
+2. One more descriptive table, from stored outputs only (no stage re-run), for C and C':
+   - per unmatched BL-6 event: the temporal IoU with the best same-pair reference, as counts by IoU band 0, (0, 0.1], (0.1, 0.2], (0.2, 0.3);
+   - per matched or overlapped reference: the number of same-pair system episodes overlapping it, and how many are linked by continuation_of_nk;
+   - EV-M1/EV-M2 with "any temporal overlap, same pair" as the match condition, labelled "descriptive, not the N4 metric".
+   N4 and the reported metrics are unchanged.
+3. For pre-registration v2 (recorded in the v2 notes; v1 unchanged):
+   - detector thresholds and tracker parameters (fuse_score included) are fixed as one package, chosen only on a tuning subset: all cameras of the runs that contain a T-22 probe camera. v2 results are reported on the other validation runs and on test.
+   - The episode-extent / fragmentation question from item 2 is listed for the Architect.
+4. Architect: CR-007 (anchor rule; the evidence is now sufficient) and CR-029 (N9 rules 4-5 on the detector path), together with CR-026, as v2 inputs. No rule is implemented now.
+5. Not now: Grounding DINO on the detector path; fine-tuning (T-24); the test partition (D-37).
+6. Tests, Progress log, commit, push. STOP.
+
+<!-- D-47 and D-50 above come from `m0-implementation`, merged into this branch at D-51 STEP 4 (e), 21 Nov 2026. -->
 
 ## D-48 (2026-11-19) — Reporting workflow, indicators and simulated regulator view (T23)        status: DECIDED (19 Nov 2026)
 Source: Owner, 19 Nov 2026 (pasting the instruction = approval of T23 and of its steps).
