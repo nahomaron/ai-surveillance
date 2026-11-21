@@ -42,7 +42,7 @@ What changed on the pages:
 |---|---|---|
 | 1 | full suite twice on each branch (section 2) | **pass** on v02 (2715, twice) and on m0-implementation (2485 + 11 skipped, twice). m0 + scoped change: pass except the scratch-setup failure explained in section 2 |
 | 2 | clean clones of e6072ef: (a) as committed, (b) with only the adjudication schema change, VR-E-056, the minimal-row line and the accessor applied (uncommitted, so `git rev-parse HEAD` is still e6072ef); `python -m rq1.pipeline.m0 <dir>` twice in each | **pass.** All 12 artifact IDs and payload SHA-256 prefixes equal the `reports/M0_report.md` table in all four runs; (b) equals (a) on every ID, payload hash and exported file (48 files, execution records excluded) |
-| 3 | `ids.artifact.verify` (CT-FK-05 read-back) on every artifact folder under `out/m1a/` and `out/m1b/pilot/` with the E-1.2.23 schema (`research/workflow/w02_checks.py`) | **incomplete.** The full run (7,473 artifact folders, 3.8 GB; 36 SmartSpaces artifacts over 10 MB take up to 3.7 min each) was stopped by Claude Code because the computer ran low on memory, after 4,000 of 7,473 folders; its counts are written only at the end, so no full result exists. Spot checks before it, all **pass**: 20 pilot artifacts, 15 random M1a artifacts and the largest SmartSpaces artifact (`art_2f4i5s2afniuqjskvxg7klqugl`). To finish: rerun `w02_checks.py` on mains power with memory free (it uses one process per core; a run with fewer workers needs less memory). **Not done either:** the S0–S5 rebuild of three SDG cameras, because rebuilding S5 is an S5 run, which the D-49 hard limits forbid (CR-031 item 10) |
+| 3 | **Completed under D-51 STEP 2, see section 7: 7,473 of 7,473 pass.** Original entry: `ids.artifact.verify` (CT-FK-05 read-back) on every artifact folder under `out/m1a/` and `out/m1b/pilot/` with the E-1.2.23 schema (`research/workflow/w02_checks.py`) | **incomplete.** The full run (7,473 artifact folders, 3.8 GB; 36 SmartSpaces artifacts over 10 MB take up to 3.7 min each) was stopped by Claude Code because the computer ran low on memory, after 4,000 of 7,473 folders; its counts are written only at the end, so no full result exists. Spot checks before it, all **pass**: 20 pilot artifacts, 15 random M1a artifacts and the largest SmartSpaces artifact (`art_2f4i5s2afniuqjskvxg7klqugl`). To finish: rerun `w02_checks.py` on mains power with memory free (it uses one process per core; a run with fewer workers needs less memory). **Not done either:** the S0–S5 rebuild of three SDG cameras, because rebuilding S5 is an S5 run, which the D-49 hard limits forbid (CR-031 item 10) |
 | 4 | every adjudication, assessment, status entry and report-log entry of every store under `out/review/`, read with the E-1.2.23 reader, validated; every hash chain verified (`w02_checks.py`, read-only) | **pass**, with one expected exception, see the table below |
 | 5 | FX-14j–m on the m0 clone with the scoped change; FX-14j–p on v02 | **pass** (FX-14l on m0: the accessor and EV-M12 population part; its kappa and batch-draw parts need the V-02 store, which is not on m0) |
 | 6 | files a scoped merge would carry | listed below; **not merged** |
@@ -88,3 +88,21 @@ With four strata the equal share is 15; no present stratum is below it, so the w
 ## 6. Open points
 
 CR-031 (13 items, nothing chosen where marked) and AR-64 (17 representation items) are in `docs/CHANGE_REQUESTS.md`; the decision request is D-51 in `DECISIONS_NEEDED.md`.
+
+## 7. D-51 (21 Nov 2026): read-back completed and CR-031 rulings
+
+**Read-back (section 4 item 3, D-51 STEP 2).** Rerun alone, on mains power (`caffeinate -i`), with the E-1.2.24 schema, by `research/workflow/w02_readback.py`: every directory holding a `manifest.json` under `out/m1a/` and `out/m1b/pilot/`, sorted; a parent process starts one fresh worker process per 100 folders; a worker checks one folder at a time (`ids.artifact.verify`, compare with the manifest's `artifact_id`) and appends one line per folder to `research/workflow/w02_readback.jsonl` (flushed and fsynced); a restart skips folders already recorded. Read-only; no stage ran.
+
+| Tree | Folders | Pass |
+|---|---|---|
+| `out/m1a/measure/smartspaces/artifacts` | 30 | 30 |
+| `out/m1a/run1/sdg/artifacts` | 4,068 | 4,068 |
+| `out/m1a/run1/smartspaces/artifacts` | 285 | 285 |
+| `out/m1b/pilot/artifacts` | 3,090 | 3,090 |
+| **total** | **7,473** (7,473 expected) | **7,473**; fail 0, skip 0 |
+
+Failures: none. Peak resident memory of a worker: 4,380.9 MB (in the workers holding the large `out/m1a/run1/smartspaces` artifacts; median over all lines 68.6 MB). Wall time 7,233 s, in one run (no restart was needed).
+
+**CR-031 rulings (D-51).** Item 13 (frame finding): option (d), reference sampling held; no batch drawn. Items 1, 2, 3, 5, 6, 7 and 8 are written as T23.28 (E-1.2.24) and implemented (W-03; AR-65). Item 4: the I4 side counts are counted in reports. Item 9: the old demo store is kept as it is, with one banner line naming the reported pilot figures. Item 10: the S0–S5 rebuild of section 4 item 3 is dropped; the read-back above completes the item. Item 11: the store guard is confirmed and CLAUDE.md has the Never line "Run code from before E-1.2.23 against `out/review/`." AR-64: all 17 items accepted.
+
+**Item 12: fixture stores stay unregistered.** `out/review/demo/store` (V-02 fixture store) and `out/review/w01_fixtures/a/store` (W-01 fixture store) are fixture output and are not in `out/review/registry.json`; by D-51 item 12 they stay unregistered.
