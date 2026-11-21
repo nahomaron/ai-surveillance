@@ -663,3 +663,13 @@ Owner decision D-51 (21 Nov 2026): rulings on CR-031 and AR-64, the T22 frame fi
 - **Scoped merge into `m0-implementation`: approved, gated** on the read-back rerun passing in full (STEP 2).
 - Hard limits unchanged from D-49: no S5 or S8 run, no new evaluation result, nothing on the test partition; no T22 batch, reference assessment, adjudication or manager decision; no demo draw; no stored record deleted, rewritten or reordered; no force-push, history rewrite or pull request. Undefined points that change a count, a state or a statistic go to CR-032.
 Numbering: the CR-007/CR-026 v2 draft moves to E-1.2.25. Next free on this branch: D-52, CR-032, AR-66 (AR-65 is the D-51 implementation).
+
+## D-52 (2026-11-21) — STOP after W-03: read-back result and merge result        status: OPEN
+Task: W-03 (D-51 STEPS 0-5)   Blocking: further work on both branches under D-51
+- **Read-back** (D-51 STEP 2; `research/workflow/w02_readback.jsonl`, W-02 report section 7): every stored artifact folder under `out/m1a/` and `out/m1b/pilot/`, with the E-1.2.24 schema: **7,473 of 7,473 pass**, 0 fail, 0 skip. Peak worker memory 4,380.9 MB; 7,233 s, one run, on mains power, alone.
+- **Merge** (D-51 STEP 4):
+  - `m0-implementation` 5b2f605: the scoped change (Appendix T, CLAUDE.md, the adjudication hunk of `tables.py`, VR-E-056, the minimal-row line, the reference accessor and their tests; no workflow or `wf_*` file); records copied. Suite 2507 passed, 11 skipped, twice, identical. M0 determinism: 12 of 12 IDs equal the M0 report, with and without the change. `tables.py` was applied as its adjudication hunk, not by whole-file checkout, because v02's file holds the `wf_*` tables.
+  - `v02-review-ui` 13ea512: `m0-implementation` merged, no rebase, both sides' entries kept. Suite 2776 passed, 13 skipped, 1 failed, twice, identical; the failure (`tests/m1b/test_det_env.py`, `git check-ignore` through this worktree's `out/` symlink) is the worktree setup and passes in the main folder.
+
+Agent's recommendation: none; the Owner decides.
+
