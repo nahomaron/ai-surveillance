@@ -1059,7 +1059,7 @@ Representation and engineering only; no label, status, tier, reference class, de
 **Reverse:** each item is local to `src/rq1/review/`; changing it changes no stored contract field.
 - **Accepted (D-46, 19 Nov 2026):** the Architect accepted all eleven items as written. Item 1's reference to CR-028 item 5 is now T22.14 (e).
 
-## CR-030 (2026-11-19) — T23 points that change a count, a state or a statistic (W-01, D-48)   status: OPEN
+## CR-030 (2026-11-19) — T23 points that change a count, a state or a statistic (W-01, D-48)   status: CLOSED (superseded by Appendix T T23.16–T23.27, E-1.2.23; Owner decision D-49, 20 Nov 2026)
 Numbered CR-030 / AR-63 on `v02-review-ui` to avoid the numbers used on `m0-implementation` (CR-029, AR-62). Opened on `v02-review-ui`; contract E-1.2.22 (Appendix T T23) exists only on this branch until the Owner merges it. **Nothing below was chosen.** Where an indicator depends on an item, the application computes every reading listed and prints the value only when all readings agree; otherwise it prints "not determined: readings differ (CR-030 item n; ...)" with each reading's value (`rules.Readings`). Where a state or record depends on an item, the action is refused (ERR-SPEC, naming the item) or the record is not written.
 1. **candidate_review adjudications cannot be stored (blocks part of T23.5 c, d).** T23.5 (c) writes one adjudication per member in candidate_review after sm_uphold, sm_overturn and sm_reclassify. T22.1 (b): candidate_review is "never given a reference_class". The schema source has `adjudication.reference_class` non-null (F.1 A5.1 field addition; nullability inferred, AR-era `True` flag), and `tests/schema/test_t22_review_time.py` pins the adjudication field list. Making it nullable would add a `reference_class_null_reason` column and change that pinned list, so the agent did not do it (CLAUDE.md: a mismatch with a test is a CR, never an edited expectation). **Now:** the SM actions change the state and write the report-log entry; no adjudication and no status entry is written; the report page says so (`store.CR030_1`). The FX-14a "then rejected" and FX-14b "status confirmed" checks are strict xfails. **Options:** (a) `adjudication.reference_class` nullable, null with `not_applicable` outside reference, required non-null in reference (VR check), the pinned list updated by the ruling; (b) a reference_class value for manager adjudications (none of the three fits A5.1); (c) another table for candidate_review adjudications.
 2. **I4 scope and unit.** I2 says "over AI reports", I4 does not: (a) AI reports only, (b) all reports. After sm_reopen a report can be decided twice by the SM: (c) count actions, (d) the latest decision per report.
@@ -1072,7 +1072,19 @@ Numbered CR-030 / AR-63 on `v02-review-ui` to avoid the numbers used on `m0-impl
 9. **sm_uphold without an area-manager rejection.** After sm_reopen of a closed_duplicate (no AM label) or of a reclassified approval (the AM label is an approval), "final_label = the area manager's label" is undefined or would close an approved report as upheld. **Now:** sm_uphold is refused unless the area manager's latest decision is am_reject.
 10. **Wording and VR-E-041 (for the Architect).** VR-E-041 lists "OSHA/NAICS/establishment identifiers" among forbidden fields; T23.15 adds `est_id` and `wf_establishment`. The name check passes (the demo manifest field is named `est_records`, not `establishments`, for that reason). Please confirm that VR-E-041 applies to Observation-store, E2 and RQ2 outputs and not to the T23 workflow tables. The CLAUDE.md "Never" list (OSHA linkage, establishment rankings) also overlaps with T23.7 (301-style fields) and I9. The agent implemented exactly what T23 states and nothing more (no ranking across establishments; the 301 banner says it is not a submission). The Owner may want the CLAUDE.md wording updated.
 
-## AR-63 — Representation choices of the T23 reporting workflow (W-01, D-48)   status: OPEN (review at D-49)
+**Rulings (D-49, 20 Nov 2026; D-49.1 §7):**
+1. candidate_review adjudication class → `reference_class` nullable with null reason `not_applicable`; namespace isolation (T23.16). Tests FX-14a, b, j–n.
+2. I4 scope and unit → AI reports only; the latest SM decision per report (T23.17, §5). FX-14a, b, u.
+3. I5 → AI reports ever recorded by `as_of`; report unit (T23.18, §5). FX-14w, x.
+4. I6 → age since entering the current pending state, at `as_of`; age since creation in a second column. Demo ages run on log time, so demo reports become stale only after 7 real days: accepted as a known demo limit (§5). FX-14w.
+5. I7 → by kind; the kind follows the label at decision (T23.18 e). FX-14q, r.
+6. Monitored time → `usable` only (`usable_degraded` shown apart); an unprocessed camera is not monitored; area time is the union; observability categories (T23.23). FX-14z, aa.
+7. Grouping → closed intervals (touching merges); demo axis with a stated evidence reference, otherwise per camera; grouping is not linkage (T23.21). FX-14q–t.
+8. I9 after reclassify → recordability lifecycle; definitive cases only (T23.19). FX-14x, y.
+9. sm_uphold without a rejection → refused; `sm_confirm_duplicate` added (T23.20). FX-14u, v.
+10. VR-E-041 and CLAUDE.md → scope stated; demo-only limits; CLAUDE.md text of D-49.1 §8 (T23.27). FX-14ac.
+
+## AR-63 — Representation choices of the T23 reporting workflow (W-01, D-48)   status: DECIDED (D-49, 20 Nov 2026: item 6 revised, item 8 reversed, the rest accepted; see the ruling list at the end of this entry)
 Representation and engineering only; no label, state, status, denominator, count or statistic depends on them (those are CR-030). Code: `src/rq1/workflow/`, small changes in `src/rq1/review/`; tests: `tests/workflow/`, `tests/fixtures_t03/test_t23_fixtures.py`. Evidence read: none beyond E-1.2.22. Items marked **REVIEW** change displayed wording.
 1. **Store.** The workflow store is the V-02 store folder (one sign-in). T23.15 tables are JSONL files `wf_*.jsonl` and `demo_manifest.json` (JCS), each row validated before writing. candidate_review assessments go into the V-02 `reviewer_assessment.jsonl` with the envelope {batch_id: null, report_id, recording_id, row}, so the T22.2 (b) exposure rule sees them (T23.11 c). Status entries go into the V-02 status log. Helper files that are not contract tables: `wf_episode.jsonl` (member episode descriptions for clips and status entries), `wf_monitoring.jsonl` (calendar-placed S1 coverage per camera, with whether the camera has source output), `wf_displays.jsonl` (first display of a report to a person). `evidence_clip.jsonl` and `retention_policy.jsonl` hold E-1.2.1 rows.
 2. **Schema types (inferred).** No table prefix. ID columns are named as T23.15 names them, with UUIDv7 values and the prefixes `est_`, `area_`, `usr_`, `rpt_`, `wfe_`, `wfc_` and `dmo_`. wf_config adds `wfc_id` and `store_version`. demo_manifest fields: `demo_id, seed, source_configuration, source_path, source_root, runs[], est_records[], areas[], calendar_start_utc, calendar_days, created_utc`.
@@ -1117,3 +1129,19 @@ Representation and engineering only; no label, state, status, denominator, count
     - Annotator rows without a passphrase are not listed at sign-in.
 
 **Reverse:** each item is local to `src/rq1/workflow/` (items 1 to 13) or a few lines in `src/rq1/review/` (item 14). No stored contract field of an existing table changes.
+
+**Rulings (D-49, 20 Nov 2026; D-49.1 §7):**
+1. Store layout: accepted, plus the store registry (T23.25). FX-14o, p.
+2. Schema types: accepted.
+3. field_changes: accepted.
+4. Kinds: accepted (consistent with T23.18 e). FX-14c.
+5. Mixed ai_label: accepted (the CT, NM, UD order is presentational).
+6. Combined values: **revised** by T23.24 (comparable-only, smallest estimated separation with its provenance). FX-14ab.
+7. Evidence clips: accepted.
+8. Refusal of human text: **reversed** by T23.22 (stored verbatim, escaped, shown in an "entered by" block; never refused for wording). FX-14ad.
+9. Recordability input: accepted, plus `withdraw_recordability` (T23.19). FX-14x.
+10. Manager annotator rows: accepted, plus the early guard of T23.25 (d). FX-14n.
+11. Demo draw: accepted, plus `timebase_evidence_ref` and `source_quality` (T23.21 c, T23.26). FX-14t, ac.
+12. Permissions: accepted; the Owner of a demo store is exposed for its runs (T23.25 c). FX-14p.
+13. Linter: accepted, amended by T23.22 and the §5 term list. FX-14ad.
+14. V-02 changes: accepted; the batch exclusion becomes cross-store (T23.25 b). FX-14o.

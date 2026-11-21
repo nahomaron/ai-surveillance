@@ -1435,3 +1435,336 @@ Fixtures and tests:
  as safety manager; set_recordability on a near_miss is refused.
 
 Source: Owner decision D-48 (19 Nov 2026; Owner approval by pasting it), appended verbatim.
+
+## T23.16–T23.27. Corrections to T23: namespace isolation, lifecycle, monitoring, grouping and reference protection (E-1.2.23; D-49)
+
+### 2. Governing separation (Owner §4)
+
+| Workstream | What it is | Evidence it may produce | Claims it may support |
+|---|---|---|---|
+| **A. Scientific instrument** | S0–S8, T21 references, T22 reference namespace, pre-registration | Measurements with uncertainty and coverage; EV, CM, GV metrics; EV-M12 | Detection, tracking, measurement and event-level reliability, within the scope of the data |
+| **B. Operational reporting prototype** | T23 workflow, `candidate_review` namespace, `wf_*` tables | Records of human decisions, descriptive workflow measures | That the workflow can be operated and audited. Nothing about CV accuracy, true event rates or establishment safety |
+| **C. Safety-performance measurement research** | Future, separately authorised (RQ2/RQ3) | none yet | none yet |
+
+Rules that follow from the table:
+- **B never feeds A.** This is enforced in T23.16 and T23.25.
+- **Only exports cross from A to B.** A reads none of B's records.
+- **C uses neither A nor B until it is authorised.**
+
+The CM-03 forklift coverage limitation of the alert source (0.12 on pilot column C) must appear on every B page that shows AI alerts (T23.26). E2 is not affected by anything in this addendum: no E2 table, rule or plan changes.
+
+---
+
+### 3. Normative contract amendments (E-1.2.23)
+
+**T23.16 Namespace isolation of adjudications** (CR-030 item 1; approved, strengthened).
+
+(a) *Namespace.* An adjudication's namespace equals the namespace of every assessment in its `assessment_ids`. A mix is refused with ERR-SPEC.
+
+(b) *Nullability.* This holds across all namespaces. The enum has exactly two values, `reference` and `candidate_review` [V].
+- `reference_class` is nullable, with `reference_class_null_reason`.
+- In `reference`, `reference_class` is required, set by T22.9, and its null reason is null.
+- In `candidate_review`, `reference_class` is null and `reference_class_null_reason = not_applicable`.
+- Any other combination is refused (new validation rule VR-E-056).
+
+(c) *Tier and method semantics.* In `reference`, `tier` and `method` have the T22.7 meaning: inter-reviewer agreement or adjudication. In `candidate_review` they mean only that the record is a second-level manager decision.
+- `tier2` there does not mean disagreement between independent reviewers.
+- No report, page or statistic may group, count or print `tier` without first filtering on namespace.
+- Pages print a `candidate_review` adjudication as "safety-manager decision", never as "Tier 2".
+
+(d) *Exclusion.* Records of the `candidate_review` namespace must never enter:
+- EV-M12;
+- κ, α or any other agreement statistic (T22.10);
+- an `acceptance_criterion` evaluation or a `measurement_fitness` record (§9.6);
+- a reference set, `ref_*` table or reference label;
+- a T22 batch;
+- any S8 artifact.
+
+(e) *Enforcement.*
+- Evaluation code obtains adjudications only through one accessor, `reference_adjudications(...)`. It returns rows with `namespace = reference` and `reference_class = independent_expert_judgment`, excluding pilot targets.
+- A static test fails if any module under `src/rq1/evaluation/`, `src/rq1/pipeline/` or `src/rq1/review/protocol.py` reads the adjudication or assessment files in any other way.
+
+(f) *Stored rows.* No stored row is rewritten. A reader treats a missing `reference_class_null_reason` as null; this is valid only for `namespace = reference` rows with a non-null class. A stored `candidate_review` adjudication without a null reason is ERR-INVARIANT (none should exist under CR-030's current behaviour [V]).
+
+**T23.17 Review indicators by report origin** (approved). I2 to I5 and flags F1 and F2 cover AI-started reports only. Human-started reports have their own line, which feeds no flag. The full specifications are in §5.
+
+**T23.18 Period, as-of and revision** (approved (a), (b), (d) and (e); (c) and (f) replaced by T23.19 and T23.23).
+
+(a) *Occurrence period.* A report belongs to the ISO week of its current `occurred_at`. The demo uses the simulated calendar.
+
+(b) *As-of cutoff.* Every indicator, flag and regulator-view figure is computed from the report log truncated at `as_of`.
+- The truncated log is the entries whose `created_utc` ≤ `as_of`.
+- The log must be non-decreasing in `created_utc`; otherwise verification fails with ERR-INVARIANT.
+- A view prints `as_of`, the truncated log length and its head hash. The same log, `as_of` and parameters give the same view (test FX-14w).
+
+(c) *Revision against occurrence.* Moving a report between periods, kinds or states after its first decision is a **revision**: a log event about the record, not a change in what happened.
+- Each cell prints "revised after first decision: n", the reports in the cell with a field, state or recordability entry after their first manager decision.
+- Comparing the same cell at two `as_of` values shows revisions. It never shows new occurrences unless new reports were created.
+
+(d) *Reports still under review.* Each share prints beside its n the number of reports in the population that are still pending in the relevant state, as "undecided: n". So a difference in completed reviews is visible and is never folded into a share.
+
+(e) *Kind and label.* At `am_approve` and `sm_overturn`, the kind follows the label: nm → `near_miss`, ct → `incident`. The change goes in the same entry's `field_changes`.
+
+**T23.19 Recordability lifecycle** (replaces the D-49 draft's T23.18 (c); Owner §2.3).
+
+(a) *Separate concepts.*
+- The **workflow state** is pending, recorded or closed.
+- The **classification** is kind and label.
+- The **recordability determination** is a human decision with its own history in the log.
+
+None of these changes another implicitly.
+
+(b) *Determination status.* The current determination of an incident report is the fold of its recordability entries:
+- `not_set` (no entry);
+- `yes` with criteria;
+- `no`;
+- `undetermined`;
+- `withdrawn`.
+
+(c) *New action `withdraw_recordability`.* Who: safety_manager. From: any state. Required: a reason from {classification_changed, entered_in_error, event_not_work_related, other} and a note. The previous determination stays in the log. Status becomes `withdrawn`. A later `set_recordability` may set it again.
+
+(d) *Reopening.* `sm_reopen` leaves the determination unchanged.
+
+(e) *Reclassifying.* `sm_reclassify` of a report whose determination is `yes` or `no` is refused (ERR-SPEC). The safety manager must first either withdraw the determination or edit the kind or label. A determination therefore never silently disagrees with a closed or reclassified report.
+
+(f) *Effect on I9.* Only definitive cases count: current state `recorded`, current kind `incident`, and determination `yes`. The page prints these beside I9 and outside the rate:
+- `not_set`;
+- `undetermined`;
+- `withdrawn`;
+- `yes` on reports not currently recorded.
+
+The incidence rate is labelled **provisional** whenever any incident report in the period is `not_set` or `undetermined`.
+
+**T23.20 Duplicate and split lifecycle** (approved T23.20 of the D-49 draft, plus Owner §2.4 and §2.6).
+
+(a) `sm_uphold` requires that the latest area-manager decision on the report is `am_reject`. Its `final_label` is the label of that assessment. Otherwise it is refused.
+
+(b) *`am_duplicate` requires `duplicate_of`*, which must be a different report of the same establishment whose current state is not `closed_duplicate` or `closed_split`. This prevents chains and cycles.
+- The link is stored in `field_changes`.
+- The original report shows "duplicates: n" with links.
+
+(c) *New action `sm_confirm_duplicate`.* Who: safety_manager. From: `pending_sm`, after `sm_reopen` of a `closed_duplicate`. To: `closed_duplicate`. Required: a note. `duplicate_of` is unchanged.
+
+(d) *After reopening a duplicate*, the safety manager can either confirm the duplicate or overturn it. `sm_overturn` from that state:
+- sets `duplicate_of` to null in `field_changes`;
+- requires a `group_resolution` (T23.21 (d));
+- records the report as its own event.
+
+A report counts in I7 or I9 only while its current state is `recorded`, so a report never counts twice.
+
+(e) *New action `am_split`.* Who: area_manager of the area. From: `pending_am`, on an AI report with at least two members. To: new terminal state `closed_split`. Required: a partition of the member episodes into two or more non-empty parts, and a note.
+- One new AI report is created per part, pending_am, through a `create_ai` entry carrying `split_from`.
+- No assessment, adjudication or status entry is written for the original.
+
+(f) *Logging and failure.* Every successful action, including the three that write no scientific record, is one hash-chained log entry. A refused action writes nothing to any file and leaves state unchanged (test FX-14v).
+
+**T23.21 Alert grouping, physical-event identity and timebase** (replaces T23.19 of the D-49 draft; (a) is approved).
+
+(a) *Three levels.* They are kept distinct:
+1. **Alert grouping** (T23.2 b): a review convenience. One group is one report, with no claim that the members show one interaction.
+2. **Evidence-supported linkage**: the M2 contract (`gpw`, `aligned_session` timelines). It is not used by the workflow. Workflow grouping never writes, reads or replaces linkage records.
+3. **Human resolution** (T23.20 (e), T23.21 (d)): the manager's statement of how many interactions a report shows.
+
+(b) *Closed intervals* (approved): widened intervals that only touch are merged.
+
+(c) *Timebase.* Episodes on different cameras are grouped only on a declared common axis.
+- In the demo, the axis is the run's calendar offset plus recording-local time. The demo manifest must name the evidence: `timebase_evidence_ref = "qualification.md §2.7: one simulator clock per SDG run (dataset card); equal frame counts"` [V]. The tag is `workflow_timebase_declared`; it is not a `clock_alignment` and has no σ.
+- Outside the demo, a common axis exists only through an `aligned_session` timeline. Otherwise each camera's episodes form groups on their own, and the report says "grouped per camera: no common clock".
+- If the demo intake meets a run that has no evidence reference, it groups per camera.
+
+(d) *`group_resolution` at decision.* For an AI report with two or more members, `am_approve` and `sm_overturn` require `group_resolution` ∈ {one_interaction, cannot_tell}. If the members show several interactions, the area manager uses `am_split` before deciding. A safety manager acting on such a report from `pending_sm` sends it back to the area manager with `sm_reopen`; the agent confirms this path in CR-031.
+
+**T23.22 User-entered text** (approved; the Architect's D-49 text unchanged, with the Owner's safeguards).
+- User text is stored verbatim and HTML-escaped.
+- It is shown in a block marked "entered by <pseudonym>".
+- It is never used as a label, a classifier input or a pre-filled field.
+- The linter skips only fields marked user-entered.
+- A report is never refused for its wording.
+- The privacy notice (T23.13) is shown on every free-text field.
+
+**T23.23 Monitoring and observability** (replaces the D-49 draft's T23.18 (f); Owner §2.2; CR-030 item 6).
+
+(a) *Coverage levels, per camera and interval:*
+- **usable footage:** S1 coverage state `usable`;
+- **processed:** covered by exactly one S5 artifact of `wf_source_config` named in the store's source manifest. Two artifacts of that configuration covering the same camera and window give ERR-SPEC;
+- **monitored:** usable and processed.
+
+`usable_degraded` footage is reported in its own column and is not monitored. A camera with no S5 output of the source configuration is never monitored [answers CR-030 item 6 (a) and (d)].
+
+(b) *Monitored area time.* For an area and period, this is the duration of the **union** over the area's cameras of their monitored intervals. Several cameras watching at once, or repeated processing, therefore add no time. Camera-hours (the sum) are printed as a descriptive column only and never used as a denominator.
+
+(c) *Observability of a human-reported event.* Each human-started report gets one category:
+1. **unmonitored:** no camera of the area is monitored at any instant in [occurred_at − t_link_s, occurred_at + t_link_s].
+2. **monitored, not observable:** monitored, but the area manager recorded `camera_observability = not_observable` (the event was outside every camera's view, or occluded) for the cameras checked.
+3. **observability undetermined:** monitored, and `camera_observability` is `undetermined` or not set. This is the default.
+4. **observable, matched:** `camera_observability = observable` for at least one camera c, and some AI report of the area (any state other than `closed_split`) has a member episode on c that overlaps the window.
+5. **observable, no matching AI alert:** `observable` for at least one camera, and no such member episode.
+
+`camera_observability` is set by the area manager on a human-started report, with the camera IDs checked. It is a field of the report, not an assessment.
+
+(d) *Interpretation.* Only category 5 is a **potential AI miss**. It is printed as a count with the reports listed and the caption "Descriptive workflow measure. A human report without a matching alert is not evidence of a detector miss; miss rates require the T22 reference method." No recall or false-negative rate is ever computed from human reports.
+
+(e) *Zero and missing.* A rate with zero monitored time prints "not computable: no monitored time", never 0. A zero numerator prints "0 in <h> monitored area-hours. Absence of an alert is not absence of an event." Every rate prints its numerator, denominator and the unprocessed-camera count of the area.
+
+**T23.24 Combined pre-filled values** (replaces the D-49 draft's T23.21 (b) and (c); Owner §2.5; AR-63 item 6).
+
+(a) *Comparability.* Member clearances are combined only if every non-null member value has the same `geometry_method` and the same calibration tier. Otherwise no combined value is shown; the form says "not combined: members use different geometry methods" and lists each member's value.
+
+(b) *The combined value.* It is the smallest comparable member clearance, labelled "smallest estimated separation among members (estimate from camera geometry, not a verified measurement)". With it the form shows:
+- the source episode and camera;
+- the `geometry_method`;
+- `clearance_sigma_m` and `sigma_status`;
+- the evidence sufficiency (`q_state` and reasons) at that pair-frame;
+- `prov_class`;
+- the S4 artifact ID.
+
+(c) Each member's own values are always listed.
+
+(d) *Use.* The combined value is a review aid. It is never stored as a measurement, never used in an indicator, flag, score, severity or ranking, never written to a reference or `ref_*` row, and never exported except as a copy of the member values with their provenance.
+
+(e) *Template wording.* The T23.2 (d) template changes to "Smallest estimated separation <x> m (<method>, <sigma status>)". `evasive_action_observed` reads "observed by the system in at least one member" when true. `duration_s` is labelled "span of member episodes".
+
+**T23.25 Reference protection across stores** (Owner §5; finding 1).
+
+(a) *Store registry.* Every V-02/T23 store is listed in a registry file at `out/review/registry.json`, git-ignored and JCS. A store that is not registered refuses to open.
+
+(b) *Demo exclusion is global.* `create_batch` in any store excludes every recording of every demo run listed by any registered store (amends T22.6 (a), T23.11 (b)). A demo draw is refused if any recording of a drawn run has a target in a batch of any registered store.
+
+(c) *Exposure is per person, across stores and all actions.* A person (by pseudonym) is exposed for a recording when any registered store holds any of the following:
+1. a `candidate_review` assessment or adjudication on a target of that recording;
+2. a workflow report-log entry by that person on a report whose members include that recording;
+3. a `wf_displays` entry (first display of a report page) by that person for such a report;
+4. an Owner role over a store whose demo manifest includes that recording. The Owner sees every report there.
+
+T22.2 (b) applies to every exposed person, across stores. Exposure that no store records, such as reading per-run report rows, remains under the self-attestation of T22.2 (a). The attestation text is extended to name workflow pages and W-01 per-run tables.
+
+(d) Annotator rows created for workflow managers carry `qualification_ref` starting "workflow ". They are refused at once for any `reference` assessment or adjudication, before T22.9 applies.
+
+(e) *Existing batches.* Before any further reference sampling or annotation, the agent runs the checks of §6.3 and reports. No batch is redrawn and no quota or estimand is changed without an Owner decision.
+
+**T23.26 Source-quality disclosure** (Owner §4).
+- The demo manifest records the alert source's configuration and path, and copies its reported coverage and event figures with their report reference. For pilot column C these are CM-03 0.12, BL-6 EV-M1 0.11 and EV-M2 0.22 (`reports/M1b_pilot_report.md`).
+- Every workflow page that shows AI alerts, the regulator view and W-01 print: "AI alerts in this demo come from <source>. On SDG validation that source covers 12 % of worker–forklift co-visible frames (CM-03); most interactions produce no alert. Workflow measures describe the workflow, not the system's accuracy."
+- If the source has no recorded figure, the banner says "accuracy of the alert source: not reported".
+
+**T23.27 Scope of forbidden fields and of the demo** (CR-030 item 10; Owner §4).
+
+(a) VR-E-041 applies to:
+- E2 tables and exports (E-1.2.1);
+- RQ2 observation exports;
+- every A-workstream table and artifact.
+
+It does not apply to `wf_*` tables, which are B-workstream records.
+
+(b) `wf_establishment` with `demo = false` is refused.
+
+(c) 301-style fields, establishment IDs and the incidence rate exist only for demo establishments.
+
+(d) The incidence rate is computed at view time from human-entered hours and is never stored. Monitored time is never used as hours worked.
+
+(e) No page or export sorts, scores, ranks or compares establishments.
+
+(f) Every workflow page and export carries "Simulated demo data. Descriptive workflow measure, not a validated safety-performance measure."
+
+(g) These limits govern the present RQ1 work only. They do not rule out separately authorised work in workstream C.
+
+---
+
+### 4. Schemas, interfaces and compatibility (Owner §6)
+
+#### 4.1 Changes
+| Object | Change | Branch | Class |
+|---|---|---|---|
+| `adjudication` | `reference_class?` + `reference_class_null_reason`; VR-E-056 | `m0-implementation` and `v02-review-ui` | minor schema change |
+| VR-E-056 | new rule (T23.16 b) | both | contract |
+| `wf_report_log.action` | + `sm_confirm_duplicate`, `am_split`, `withdraw_recordability` | `v02-review-ui` only | workflow |
+| report states | + `closed_split` | `v02-review-ui` | workflow |
+| report fields | `duplicate_of?`, `split_from?`, `group_resolution?`, `camera_observability?` with `observability_cameras` list, recordability `reason?` | `v02-review-ui` | workflow |
+| `demo_manifest` | `timebase_evidence_ref`, `source_quality` {config, path, CM-03, EV-M1, EV-M2, report_ref} | `v02-review-ui` | workflow |
+| `out/review/registry.json` | new (T23.25) | `v02-review-ui` | tooling file, not a contract table |
+| `reference_adjudications()` | single accessor (T23.16 e) | both | interface |
+
+#### 4.2 Readers and writers
+- **Old rows, new reader:** a missing null-reason column is read as null (T23.16 f). Every stored `reference` adjudication stays valid. Nothing is rewritten, so the hash chains of `validation_status_log` and `wf_report_log` are untouched.
+- **New rows, old reader:** a `candidate_review` adjudication with a null class fails the old non-null check. The `v02-review-ui` code before this change must not open a store written after it. The store records its contract version, and an older reader refuses a newer store (VR-E-001 major/minor rule [U: confirm VR-E-001 handles a minor-ahead store; if not, a version guard in the store is needed]).
+- **Status log:** `candidate_review` status entries were never written under CR-030's current behaviour [V], so no existing entry is affected.
+
+#### 4.3 Artifact identity
+- **What the code does [V]:** an artifact ID depends on the artifact spec ID and the payload digest only. Adjudication rows are `human` class and cannot be built into an artifact. `SCHEMA_VERSION` appears only in artifact metadata. The contract version has never been in an artifact ID (the constant has stayed "E-1.2.4" through E-1.2.21).
+- **Consequence for this change [D]:** adding a nullable column to `adjudication` cannot change any S0–S8 artifact ID or payload hash, provided no artifact table gains a column. Section 6.2 tests this; it is not taken on trust.
+- **Pinned contract against a version change:** reproducibility means the same contract, code and inputs give the same IDs (MR-01). An intended version change could change identity only through the payload, which this change does not touch. If a later change does alter an artifact table, its IDs change on purpose. That change must name the affected stages and re-run them; it is never presented as reproducibility.
+- **Observation, outside D-49.1:** a `SCHEMA_VERSION` constant that never changes makes artifact metadata wrong about the contract that built it. The Architect recommends a separate engineering item: record the contract version in the execution record instead, and leave the ID rule unchanged. **No change in this merge.**
+
+---
+
+### 5. Indicator and flag specifications (Owner §3)
+
+**Common to every row:**
+- **Type:** a descriptive workflow measure about manager decisions or recorded reports, never a measure of CV accuracy or of true event rates.
+- **Period and cutoff:** P is the ISO week of `occurred_at`, and the log is truncated at `as_of` (T23.18).
+- **Shares:** every share prints n, its Wilson 95 % interval and "undecided: n".
+- **Exclusions:** `closed_split` originals are excluded everywhere. Their parts are counted as reports.
+
+| ID | Intended reading | Unit | Population | Numerator / denominator | Duplicates | Reopen / reclassify | Missing or zero | Must not be read as |
+|---|---|---|---|---|---|---|---|---|
+| I1 | AI alert volume | report | AI reports created in P | count; also "excluding closed_duplicate" | counted, with a duplicate count beside | no effect | 0 is a count | event or hazard frequency |
+| I2 / I3 | area-manager approval / rejection of AI alerts | report | AI reports in P with an area-manager decision | am_approve (I2) or am_reject (I3) / (am_approve + am_reject). `am_duplicate` and `am_split` are excluded and counted beside | excluded from n | the area manager decides once per report; later SM actions do not change I2/I3 | n = 0: "no decided reports" | precision; a false-positive rate (I3 is not a verified false positive) |
+| I4 | safety-manager overturn of rejections | report | AI reports in P whose latest SM decision is uphold or overturn | latest = overturn / latest ∈ {uphold, overturn} [CR-030 item 2 (a), (d)] | `sm_confirm_duplicate` and overturns of duplicates counted beside, outside n | latest decision per report counts | n = 0 → "none" | AI correctness |
+| I5 | reclassification of recorded AI reports | report | AI reports in P ever `recorded` by `as_of` | reports with ≥ 1 `sm_reclassify` / that population | duplicates never recorded → outside | a report counts once however often it is reopened | n = 0 → "none" | error rate |
+| I6 | reports waiting for a decision | report | reports in a pending state at `as_of` | count with age > t_pending_days since entering the current pending state; age since creation in a second column | included | reset on each new pending state | none | backlog of hazards |
+| I7 | recorded near-miss reports, by origin | report | reports with current state `recorded` and kind `near_miss`, in P | AI and human counts separately. AI rate = AI count / monitored area-hours (T23.23 b). Columns: `group_resolution = cannot_tell` count, usable, processed and monitored hours, unprocessed cameras | only `recorded` counts | follows the current state | zero time → "not computable"; zero count → "0 … absence of alert ≠ absence of event" | true near-miss frequency; a site safety level; comparable across sites |
+| I8 | human reports with no matching alert on an observable camera | report | recorded human-started near_miss and incident reports in P | counts in the five T23.23 (c) categories; I8 = category 5 | only `recorded` counts | follows the current state | category 3 is shown and never folded into 4 or 5 | detector recall or miss rate |
+| I9 | definitive recordable cases and their rate | case (report) | T23.19 (f) definitive cases in P | count by criterion; rate = cases × 200,000 / hours worked entered for P; labelled provisional per T23.19 (f) | duplicates never `recorded` → outside | see T23.19 | no hours → "rate not computable: hours not entered" | a validated site safety measure; comparable across establishments |
+| F1 | many rejections | flag | as I3 | n(I3) ≥ n_flag_min and Wilson lower bound(I3) > θ_rej | as I3 | as I3 | not evaluated if n is below the minimum ("insufficient n") | evidence of a bad detector |
+| F2 | many overturns | flag | as I4 | n(I4) ≥ n_flag_min_sm and lower bound(I4) > θ_over | as I4 | as I4 | as F1 | evidence of bad area managers |
+| F3 | stale reports | flag | as I6 | I6 > 0 | | | | |
+| F4 | human reports without a matching alert | flag | as I8 | I8 ≥ k_miss | | | | AI misses established |
+
+The flag text of T23.9 is unchanged. The linter refuses "false positive", "false negative", "precision", "recall", "accuracy" and "miss rate" on workflow pages, except inside the fixed T23.9 and T23.23 (d) texts.
+
+---
+
+### 6. Acceptance tests and regression evidence
+
+#### 6.1 New fixtures (tests first; expected values hand-computed)
+| ID | Setup | Expected |
+|---|---|---|
+| FX-14a/b | as T23 | now pass. The strict-xfail marks are removed by this ruling |
+| FX-14j | write a `candidate_review` adjudication with reference_class `independent_expert_judgment` | refused, VR-E-056 |
+| FX-14k | `reference` adjudication with a null class | refused, VR-E-056 |
+| FX-14l | store holding 1 reference adjudication (agreement) and 3 `candidate_review` adjudications | EV-M12 and κ are computed on 1 target; `reference_adjudications()` returns 1 row; a T22 batch draw ignores the 3 |
+| FX-14m | static test: an evaluation module that opens `adjudication.jsonl` directly | test fails |
+| FX-14n | a workflow manager annotator row submits a reference assessment | refused (T23.25 d) |
+| FX-14o | stores S1 (demo with run R) and S2 (main), both registered; `create_batch` in S2 | no target of R. Demo draw in S1 after a batch in S2 holding a target of R → refused |
+| FX-14p | person P approves a demo report in S1 (member recording r). In S2, P submits a reference assessment on a target of r | refused (T22.2 b across stores). Also for a P with only a `wf_displays` entry, and for the Owner of S1 |
+| FX-14q | simultaneous unrelated interactions: area cameras c1 and c2, episodes [10, 12] s and [10.5, 12.5] s, different pairs | one report with 2 members. am_approve without group_resolution → refused. am_split into {c1}, {c2} → original closed_split; 2 new pending reports; after both approved nm, I7 = 2 |
+| FX-14r | multiple views: same as FX-14q, approve with one_interaction | one recorded report, I7 = 1 |
+| FX-14s | touching: widened intervals [0, 3] and [3, 5] | one group (closed intervals) |
+| FX-14t | unaligned: two cameras of one area, recording_local timelines, no demo evidence ref, overlapping local times | two reports, each saying "grouped per camera: no common clock" |
+| FX-14u | duplicate: B marked duplicate of A; reopen B; sm_confirm_duplicate | B closed_duplicate, duplicate_of = A. I7 counts A only. Marking A a duplicate of B while B is closed_duplicate → refused. Overturning B after reopen sets duplicate_of to null; I7 = 2 |
+| FX-14v | each refused action (sm_uphold without am_reject; sm_reclassify with recordability yes; am_split with one part) | no file changes (byte-compare the store), state unchanged |
+| FX-14w | log of 20 entries; view at as_of = time of entry 12; then 8 more entries, including a reclassify of a report in P | the view at the same as_of is identical (head hash of entry 12); the later view shows "revised after first decision: 1" |
+| FX-14x | recordable yes; sm_reclassify → refused; withdraw_recordability (classification_changed) then reclassify → closed_rejected | I9 = 0, withdrawn = 1, history keeps both entries. Then reopen and overturn: determination stays `withdrawn` until set again |
+| FX-14y | 2 incidents in P: one yes (definitive), one not_set; hours 100,000 | I9 = 1, rate 2.0, labelled provisional |
+| FX-14z | human report in an area: (i) no monitored camera → unmonitored; (ii) monitored, observability unset → undetermined; (iii) observable c1, AI member on c1 at +30 s → matched; (iv) observable c1, AI member only on c2 → category 5, I8 = 1 | as stated |
+| FX-14aa | two cameras of one area, both monitored over the same 1 h | monitored area-hours 1.0, camera-hours 2.0, rate denominator 1.0. Two S5 artifacts of the source config on one camera window → ERR-SPEC |
+| FX-14ab | members with clearances 1.2 m (full_camera) and 0.8 m (homography) | not combined; both listed. Same method → 0.8 m with its source episode, camera, σ status, q_state and artifact ID |
+| FX-14ac | page with AI alerts from pilot column C | banner with CM-03 0.12 and the report reference. A `wf_establishment` with demo = false → refused. No page sorts establishments (static and rendered check) |
+| FX-14ad | linter: "precision 0.8" on a workflow page | page refused; the same text in a user-entered block is accepted and escaped |
+
+#### 6.2 Regression and compatibility evidence required before the scoped merge
+1. Full suite twice on both branches, with identical results.
+2. M0 determinism from a clean clone: the artifact-ID table equals `reports/M0_report.md` (commit e6072ef table).
+3. The reconstruction check (`ids.artifact` read-back) passes on every stored M1a and pilot artifact under the new schema. Three SDG cameras have S0–S5 rebuilt, and their IDs equal the stored ones.
+4. Every stored adjudication, assessment and status entry in every store under `out/review/` validates under the new reader without being rewritten, and every hash chain verifies.
+5. FX-14j–FX-14p pass on `m0-implementation` where they need no workflow code (FX-14j–m); all of them pass on `v02-review-ui`.
+6. A diff of the merge shows only Appendix T, CLAUDE.md, `tables.py` (adjudication), the VR-E-056 validator, the accessor, and tests. No `src/rq1/workflow/` file and no `wf_*` table.
+
+#### 6.3 Reference-protection checks (before any further reference sampling or annotation)
+1. List every store under `out/review/`, its batches and their manifests. Report whether any existing batch holds a target from a demo run, and whether any annotator in a batch is exposed under T23.25 (c).
+2. Count the BL-6 episodes of the T22 frame (T-21 oracle run) left after excluding the 9 demo runs, per summary label. Compare each with T22.6's equal allocation for n_batch = 60 and with T22.14 (e).
+3. Report only: no batch is redrawn, discarded or resized, and no quota is changed. If an existing batch is affected, or a stratum falls short of its share, STOP for an Owner decision.
+
+---
+
+Source: Owner decision D-49 (20 Nov 2026), the Architect's D-49.1 addendum approved by the Owner as proposed (Owner approval by pasting it), appended verbatim.

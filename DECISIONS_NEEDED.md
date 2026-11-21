@@ -505,7 +505,7 @@ Source: Owner, 19 Nov 2026 (pasting the instruction = approval of T23 and of its
 Decision: Appendix T section **T23** appended verbatim on `v02-review-ui` as contract **E-1.2.22**. Build the workflow (`src/rq1/workflow/`) in the V-02 application, with the T23.15 tables and the FX-14 to FX-14i fixtures. Run the T23.11 demo draw with seed 2026111903 on a new store, using the D-45 pilot BL-6 S5 artifacts if they exist, otherwise the T-21 oracle ones. Write W-01_report.md; STOP at D-49. No merge into `m0-implementation`. Undefined points that change a count, a state or a statistic go to a CR; nothing is chosen.
 Numbering on this branch: D-48 (this), D-49 (the STOP), CR-030 and AR-63 (CR-029 and AR-62 are used on `m0-implementation`).
 
-## D-49 (2026-11-19) — STOP after W-01: Owner review of the T23 reporting workflow        status: OPEN
+## D-49 (2026-11-19) — STOP after W-01: Owner review of the T23 reporting workflow        status: DECIDED (20 Nov 2026)
 Task: W-01 (D-48)   Blocking: further workflow work; the merge of E-1.2.22 into `m0-implementation`
 Question: the T23 workflow is implemented and verified on fixtures. Report: `research/workflow/W-01_report.md`; screenshots in `research/workflow/screenshots/` (fixtures only).
 - **Demo** (seed 2026111903, source the D-45 detector-path pilot, column C):
@@ -526,3 +526,11 @@ Options: for the Owner and Architect.
 - (c) Merge E-1.2.22 (contract text only) into `m0-implementation`.
 - (d) Play the demo roles and give feedback.
 Agent's recommendation: none; the Owner decides.
+
+Owner decision D-49 (20 Nov 2026): rulings on CR-030 and AR-63, contract **E-1.2.23** (Appendix T T23.16 to T23.27). Source: the Architect's D-49.1 addendum, approved by the Owner as proposed (pasting it = approval of the contract text and of the steps), including (1) only `usable` coverage counts as monitored, with `usable_degraded` shown separately, and (2) the `am_split` action and the `group_resolution` field.
+- On `v02-review-ui`: T23.16–T23.27 appended verbatim to Appendix T; CLAUDE.md contract line, the "Never" line on safety scores (D-49.1 §8) and a new "Still raise a CR" item.
+- CR-030 closed and AR-63 decided item by item (D-49.1 §7): AR-63 item 6 revised (T23.24), item 8 reversed (T23.22), items 1, 9, 10, 11, 12, 13, 14 accepted with additions, items 2, 3, 4, 5, 7 accepted.
+- Tests first (FX-14a/b xfails removed; FX-14j–FX-14ad), then the T23.16–T23.27 implementation; the store registry with `out/review/main` and `out/review/demo_20261119`; re-render of the demo views (read-only); W-02 regression and reference-protection evidence (§6.2, §6.3) in `research/workflow/W-02_report.md`.
+- Limits: no merge into `m0-implementation`, no pull request, no force-push or history rewrite; no stored record rewritten; no T22 batch, reference assessment, adjudication or manager decision; no S5/S8 run, no evaluation result, nothing on the test partition. The scoped merge is asked at D-51.
+- Undefined points that change a count, a state or a statistic go to CR-031 (opened in any case for the T23.21 (d) path).
+Numbering: the next STOP is D-51 (D-50 is used on `m0-implementation`); the next CR is CR-031.
