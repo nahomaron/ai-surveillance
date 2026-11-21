@@ -1,0 +1,281 @@
+{
+ "expected": {
+  "as_of_entry": 12,
+  "entries_total": 20,
+  "revised_after": 1,
+  "revised_before": 0,
+  "same_view": true
+ },
+ "hand_calculation": "Entries 1-6: six create_ai; 7-12: six area-manager decisions (5 approve nm, 1 reject); as_of = created_utc of entry 12 (1-based; truncated log length 12). Entries 13-20: sm_reclassify of report 1, three sm_note, two create_ai, their two approvals. Only report 1 has a state entry after its first manager decision -> revised after first decision: 1. The view at the first as_of is computed from the same 12 entries -> identical.",
+ "id": "FX-14w",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w100000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w1000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 101.0,
+    "t_start_tl_s": 100.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w200000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w2000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 201.0,
+    "t_start_tl_s": 200.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w300000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w3000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 301.0,
+    "t_start_tl_s": 300.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w400000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w4000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 401.0,
+    "t_start_tl_s": 400.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w500000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w5000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 501.0,
+    "t_start_tl_s": 500.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w600000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w6000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 601.0,
+    "t_start_tl_s": 600.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w700000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w7000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 701.0,
+    "t_start_tl_s": 700.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14w800000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4w8000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 801.0,
+    "t_start_tl_s": 800.0
+   }
+  ],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": true,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23.16-T23.27 (E-1.2.23), FX-14w",
+ "version_label": "TEST-ONLY"
+}

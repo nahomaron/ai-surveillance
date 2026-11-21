@@ -13,6 +13,7 @@ from urllib.parse import urlencode
 import pytest
 
 from rq1.fixtures import review_video
+from rq1.review.registry import StoreRegistry
 from rq1.workflow import rules as R
 from rq1.workflow.server import make_server
 from rq1.workflow.store import WorkflowStore
@@ -70,17 +71,23 @@ class Client:
 
 
 def episode(e: dict, video: Path) -> dict:
-    """A fixture episode with what the server needs to play its clip (the fixture video stands in for the recording)."""
-    return {**e, "timeline_id": "tl_" + "fx14".ljust(26, "0"), "video": str(video), "fps": float(review_video.FPS),
-            "clip_start_s": 1.0, "clip_end_s": 6.0, "width": review_video.W, "height": review_video.H, "synthetic": True}
+    """A fixture episode with what the server needs to play its clip (the fixture video stands in for the recording).
+    Unless the fixture says otherwise, the fixture cameras share one aligned_session timeline (T23.21 c: a declared common
+    axis), as T23 assumed for FX-14e."""
+    return {"timeline_id": "tl_" + "fx14".ljust(26, "0"), "timeline_kind": "aligned_session", **e, "video": str(video),
+            "fps": float(review_video.FPS), "clip_start_s": 1.0, "clip_end_s": 6.0, "width": review_video.W,
+            "height": review_video.H, "synthetic": True}
 
 
 class WfApp:
-    def __init__(self, tmp: Path, video: Path, fixture: dict, params: dict | None = None, demo_source=None) -> None:
+    def __init__(self, tmp: Path, video: Path, fixture: dict, params: dict | None = None, demo_source=None,
+                 registry: StoreRegistry | None = None, monitoring: list | None = None) -> None:
         self.fixture, self.video = fixture, video
         w = fixture["inputs"]["world"]
         self.calendar = R.parse_utc(w["calendar_start_utc"])
-        self.store = WorkflowStore(tmp / "store", clock=Clock(), kdf_iterations=1000)
+        self.registry = registry or StoreRegistry(tmp / "registry.json")
+        self.registry.register(tmp / "store")
+        self.store = WorkflowStore(tmp / "store", clock=Clock(), kdf_iterations=1000, registry=self.registry)
         self.store.create_owner("Owner", "owner-pass")
         self.store.set_config({**R.PARAMS, **(params or {})})
         self.store.add_establishment(w["establishment"]["name"], w["establishment"]["demo"], est_id=w["establishment"]["est_id"])
@@ -89,14 +96,21 @@ class WfApp:
         self.ids = {}
         for u in w["users"]:
             self.ids[u["pseudonym"]] = self.store.add_user(u["pseudonym"], u["roles"], u["est_id"], u["area_ids"], f"pw-{u['pseudonym']}")["user_id"]
-        for m in w["monitoring"]:
-            self.store.set_monitoring(m["camera_id"], [{"start_utc": R.utc(self.calendar + timedelta(seconds=s["t_start_s"])),
-                                                        "end_utc": R.utc(self.calendar + timedelta(seconds=s["t_end_s"])),
-                                                        "coverage_state": s["coverage_state"]} for s in m["segments"]], True, "fixture")
+        for m in (monitoring if monitoring is not None else fixture["inputs"].get("monitoring", w["monitoring"])):
+            self.monitor(m)
         self.server = make_server(self.store, {}, demo_source=demo_source)
         self.port = self.server.server_address[1]
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.area_id, self.est_id, self.period = a["area_id"], a["est_id"], w["period"]
+
+    def monitor(self, m: dict) -> None:
+        """Calendar-placed S1 coverage of one fixture camera; the whole coverage is processed by each listed S5 artifact."""
+        segs = [{"start_utc": R.utc(self.calendar + timedelta(seconds=s["t_start_s"])),
+                 "end_utc": R.utc(self.calendar + timedelta(seconds=s["t_end_s"])), "coverage_state": s["coverage_state"]}
+                for s in m["segments"]]
+        processed = [{"start_utc": segs[0]["start_utc"], "end_utc": segs[-1]["end_utc"], "s5_artifact_id": a}
+                     for a in m.get("s5_artifact_ids", [])]
+        self.store.set_monitoring(m["camera_id"], segs, bool(processed), "fixture", processed=processed)
 
     def intake(self, episodes: list[dict] | None = None) -> list[str]:
         eps = [episode(e, self.video) for e in (self.fixture["inputs"]["episodes"] if episodes is None else episodes)]
@@ -140,11 +154,9 @@ class WfApp:
                 assert status == 303, body
         return report_id
 
-    def indicators(self, area_id: str | None = None, **params) -> dict:
-        cfg = {**self.store.config(), **params}
-        ind = R.indicators(self.store.reports(), self.est_id, area_id, self.period, self.store.areas(), self.store.monitoring(),
-                           self.store.hours(self.est_id, self.period), cfg, self.store.clock())
-        return {"ind": ind, "flags": R.flags(ind, cfg)}
+    def indicators(self, area_id: str | None = None, as_of: str | None = None, **params) -> dict:
+        v = self.store.view(self.est_id, area_id, self.period, as_of=as_of, params=params or None)
+        return {"ind": v["indicators"], "flags": v["flags"], "view": v}
 
     def close(self) -> None:
         self.server.shutdown()

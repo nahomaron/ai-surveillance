@@ -534,3 +534,19 @@ Owner decision D-49 (20 Nov 2026): rulings on CR-030 and AR-63, contract **E-1.2
 - Limits: no merge into `m0-implementation`, no pull request, no force-push or history rewrite; no stored record rewritten; no T22 batch, reference assessment, adjudication or manager decision; no S5/S8 run, no evaluation result, nothing on the test partition. The scoped merge is asked at D-51.
 - Undefined points that change a count, a state or a statistic go to CR-031 (opened in any case for the T23.21 (d) path).
 Numbering: the next STOP is D-51 (D-50 is used on `m0-implementation`); the next CR is CR-031.
+
+## D-51 (2026-11-20) — STOP after W-02: E-1.2.23 implemented; reference-protection finding; scoped merge?        status: OPEN
+Task: W-02 (D-49)   Blocking: any further reference sampling or annotation (D-49.1 section 6.3); the scoped merge into `m0-implementation`; further workflow work
+Question: E-1.2.23 (T23.16–T23.27) is implemented and verified on fixtures on `v02-review-ui`. Report: `research/workflow/W-02_report.md`.
+- **Tests:** v02 full suite twice, identical; FX-14a/b pass (xfails removed); FX-14j–FX-14ad pass. No expected value edited; FX-14d and FX-14e setups gained one step each (CR-031 item 3).
+- **Section 6.2:** M0 determinism reproduced at e6072ef with and without the adjudication change (12 IDs equal the M0 report); read-back of the stored M1a and pilot artifacts **incomplete** (stopped by low memory after 4,000 of 7,473 folders; 36 spot checks pass; rerun needed); every stored record of every store under `out/review/` validates under the new reader and every chain verifies, except the deliberately tampered W-01 fixture store. The S0–S5 rebuild of three SDG cameras was **not done** (an S5 run; forbidden by the D-49 limits; CR-031 item 10).
+- **Section 6.3 finding (STOP):** the 9 demo runs of `out/review/demo_20261119` hold every CT (7) and every O (9) episode of the BL-6 T22 frame. After the T23.25 (b) exclusion the frame has CT 0, UD 31, NM 24, PC 151, H 15, O 0, so a batch of 60 would have four strata of 15 and no CT or O target. No existing batch is affected (the only batches are fixture batches); no annotator is exposed.
+- **CR-031** (13 items, for the Owner and Architect), including item 1, the T23.21 (d) path a safety manager cannot take (sm_reopen does not leave pending_sm). **AR-64** (17 representation items, two marked REVIEW).
+- The re-rendered demo pages show "accuracy of the alert source: not reported", because the demo store's manifest predates T23.26 (CR-031 item 9).
+Options:
+- (a) Rule on the frame finding (CR-031 item 13): accept a four-stratum batch, redraw the demo on a new store so CT and O stay in the frame, another frame, or hold.
+- (b) Rule on CR-031 items 1–12; accept or reverse AR-64 items.
+- (c) **Scoped merge** into `m0-implementation`: the contract text (T23 and T23.16–T23.27), CLAUDE.md, the adjudication schema change, VR-E-056, `src/rq1/validation/reference.py` and their tests only; no `src/rq1/workflow/` file and no `wf_*` table (file list in the report, section 4). Yes / no.
+- (d) Authorise or drop the S0–S5 rebuild of three SDG cameras (§6.2 item 3).
+Agent's recommendation: none; the Owner decides.
+Numbering: D-51 here (D-50 is used on `m0-implementation`); CR-031 and AR-64 on `v02-review-ui`. Next free on this branch: D-52, CR-032, AR-65.

@@ -7,7 +7,7 @@
   "state": "recorded",
   "statuses": []
  },
- "hand_calculation": "T23.8 I8: one recorded human-started near_miss at +1800 s, inside the area's monitored coverage [0, 3600) s, and no AI alert report in the area within +-60 s -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. T23.5 (e): no assessment, adjudication or status entry.",
+ "hand_calculation": "T23.8 I8, as amended by T23.23 (c) and section 5 (E-1.2.23): one recorded human-started near_miss at +1800 s; the window [1740, 1860] s lies inside the area's monitored coverage [0, 3600) s (usable and processed); the area manager recorded camera_observability = observable for camera 1, and no AI report of the area has a member episode on camera 1 overlapping the window -> category 5 -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. T23.5 (e): no assessment, adjudication or status entry.",
  "id": "FX-14d",
  "inputs": {
   "episodes": [],
@@ -22,7 +22,11 @@
    {
     "action": "am_approve",
     "as": "AM-1",
-    "label": "nm"
+    "camera_observability": "observable",
+    "label": "nm",
+    "observability_cameras": [
+     "cam_fx14c100000000000000000000"
+    ]
    }
   ],
   "world": {
@@ -38,13 +42,16 @@
    },
    "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
    "establishment": {
-    "demo": false,
+    "demo": true,
     "est_id": "est_fx140000000000000000000000",
     "name": "Fixture establishment"
    },
    "monitoring": [
     {
      "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",
@@ -55,6 +62,9 @@
     },
     {
      "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",
@@ -65,6 +75,9 @@
     },
     {
      "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",

@@ -228,6 +228,8 @@ def minimal_row(table: str) -> dict[str, Any]:
     row = _minimal_struct(TABLES[table].fields)
     if table == "site":
         row["data_origin"] = "synthetic_rendered"  # the first enum value is a real origin, which VR-E-070 restricts
+    if table == "adjudication":  # VR-E-056 (T23.16 b): the first namespace (reference) requires a class
+        row["reference_class"], row["reference_class_null_reason"] = ENUMS["reference_class"][0], None
     return row
 
 

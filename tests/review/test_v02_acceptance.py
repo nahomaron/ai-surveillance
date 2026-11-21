@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from conftest import ROOT, SEED, clip_target, filler, load_fixture
+from conftest import ROOT, SEED, clip_target, filler, load_fixture, registered_store
 from rq1.export.report import lint
 from rq1.review import protocol as P
 from rq1.review.frame import FixtureFrame
@@ -165,7 +165,7 @@ def _strata_frame(video, config_id, sizes):
 
 def test_batches_follow_the_allocation_and_exclude_the_pilot(tmp_path, video):
     fx = load_fixture("FX-13")
-    store = Store(tmp_path / "s", kdf_iterations=1000)
+    store = registered_store(tmp_path / "s", kdf_iterations=1000)
     for a in fx["inputs"]["annotators"]:
         store.add_annotator(a["pseudonym"], a["role"], a["qualification_ref"], True, "pw", anr_id=a["anr_id"])
     rev = [a["anr_id"] for a in fx["inputs"]["annotators"] if a["role"] == "c_layer_reviewer"]
@@ -300,7 +300,7 @@ def test_clip_is_served_with_ranges_to_its_viewer_only(make_app, video):
 # --- server, pages, roles ----------------------------------------------------------------------------------------------------
 
 def test_server_binds_to_localhost_only(tmp_path):
-    store = Store(tmp_path / "s", kdf_iterations=1000)
+    store = registered_store(tmp_path / "s", kdf_iterations=1000)
     server = make_server(store, {})
     try:
         assert server.server_address[0] == "127.0.0.1"
@@ -459,7 +459,7 @@ def test_sdg_frame_is_the_bl6_validation_episodes(tmp_path):
 @pytest.mark.skipif(not HELD, reason="T-21 SDG validation outputs not present")
 def test_end_to_end_batch_on_the_sdg_frame(tmp_path):
     from rq1.review.frame import SdgFrame
-    store = Store(tmp_path / "s", kdf_iterations=1000)
+    store = registered_store(tmp_path / "s", kdf_iterations=1000)
     fx = load_fixture("FX-13")
     for a in fx["inputs"]["annotators"]:
         store.add_annotator(a["pseudonym"], a["role"], a["qualification_ref"], True, "pw", anr_id=a["anr_id"])

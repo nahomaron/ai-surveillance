@@ -10,7 +10,7 @@ import re
 
 import pytest
 
-from conftest import SEED, clip_target, filler, load_fixture
+from conftest import SEED, clip_target, filler, load_fixture, registered_store
 from rq1.export import obx
 from rq1.review import protocol as P
 from rq1.review.frame import FixtureFrame
@@ -60,7 +60,7 @@ def test_t22_14_b_alpha_value_is_printed_with_its_n():
 
 def _store_and_people(tmp_path):
     fx = load_fixture("FX-13")
-    store = Store(tmp_path / "s", kdf_iterations=1000)
+    store = registered_store(tmp_path / "s", kdf_iterations=1000)
     for a in fx["inputs"]["annotators"]:
         store.add_annotator(a["pseudonym"], a["role"], a["qualification_ref"], True, "pw", anr_id=a["anr_id"])
     rev = [a["anr_id"] for a in fx["inputs"]["annotators"] if a["role"] == "c_layer_reviewer"]

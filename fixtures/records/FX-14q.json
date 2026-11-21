@@ -1,0 +1,157 @@
+{
+ "expected": {
+  "I7_after_both_approved": 2,
+  "approve_without_group_resolution": "refused (ERR-SPEC)",
+  "members": 2,
+  "new_reports": 2,
+  "new_state": "pending_am",
+  "original_state": "closed_split",
+  "reports": 1
+ },
+ "hand_calculation": "Widened by t_group_s = 2.0: [8, 14] and [8.5, 14.5] overlap -> one report of 2 members (common axis). T23.21 (d): am_approve needs group_resolution. T23.20 (e): am_split {c1}, {c2} -> closed_split; one new pending_am report per part; both approved nm -> 2 recorded near_miss reports; the original is excluded (section 5) -> I7 = 2.",
+ "id": "FX-14q",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14q100000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4q1000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 12.0,
+    "t_start_tl_s": 10.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c200000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14q200000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c200000000000000000000",
+    "s4_artifact_id": "art_fx14s4q2000000000000000000",
+    "s5_artifact_id": "art_fx14s5c2000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 12.5,
+    "t_start_tl_s": 10.5
+   }
+  ],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": true,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23.16-T23.27 (E-1.2.23), FX-14q",
+ "version_label": "TEST-ONLY"
+}

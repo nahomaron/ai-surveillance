@@ -13,8 +13,9 @@ from rq1.workflow.store import HashLog
 U = "2026-11-19T10:00:00.000000Z"
 
 
-def ep(k, onset, dur=1.0, g2="lbl_nm"):
-    return {"ep_id": f"ep_{k}", "t_start_tl_s": onset, "t_end_tl_s": onset + dur, "g2_label": g2, "camera_id": f"c{k}"}
+def ep(k, onset, dur=1.0, g2="lbl_nm", kind="aligned_session"):
+    return {"ep_id": f"ep_{k}", "t_start_tl_s": onset, "t_end_tl_s": onset + dur, "g2_label": g2, "camera_id": f"c{k}",
+            "timeline_id": "tl_x", "timeline_kind": kind}
 
 
 def test_t23_14_defaults():
@@ -30,21 +31,39 @@ def test_t23_4_transition_table():
     assert t["sm_reopen"][1:] == (("closed_rejected", "closed_duplicate"), "pending_sm") and t["sm_note"][1:] == (None, None)
 
 
+def test_e1223_new_actions_and_state():
+    """T23.19 (c), T23.20 (c), (e); D-49.1 section 4.1."""
+    t = R.TRANSITIONS
+    assert t["sm_confirm_duplicate"] == ("safety_manager", ("pending_sm",), "closed_duplicate")
+    assert t["am_split"] == ("area_manager", ("pending_am",), "closed_split")
+    assert t["withdraw_recordability"] == ("safety_manager", None, None)
+    assert "closed_split" in R.STATES and R.WITHDRAW_REASONS == ("classification_changed", "entered_in_error",
+                                                                 "event_not_work_related", "other")
+    assert R.GROUP_RESOLUTIONS == ("one_interaction", "cannot_tell")
+    enum = {f.name: f for f in registry.TABLES["wf_report_log"].fields}["action"].type.values
+    assert {"sm_confirm_duplicate", "am_split", "withdraw_recordability"} <= set(enum)
+
+
 def test_t23_5_b_reject_labels():
     assert R.REJECT_REASONS == {"not_hazardous": "not_hazardous", "no_person_or_no_forklift": "not_hazardous",
                                 "cannot_tell_from_video": "ud", "other": "unsure"}
 
 
 def test_grouping_transitive_fx14e_and_separate():
-    groups = R.group_episodes([ep(1, 0.0), ep(2, 1.5), ep(3, 3.2)], 2.0)
+    groups = [g for g, _ in R.group_episodes([ep(1, 0.0), ep(2, 1.5), ep(3, 3.2)], 2.0)]
     assert [[e["ep_id"] for e in g] for g in groups] == [["ep_1", "ep_2", "ep_3"]]
     # gap of 4.1 s > 2 x 2.0 s: two groups
     assert len(R.group_episodes([ep(1, 0.0), ep(2, 5.1)], 2.0)) == 2
 
 
-def test_grouping_exact_touch_is_refused_cr030_item7():
-    with pytest.raises(ContractError, match="CR-030 item 7"):
-        R.group_episodes([ep(1, 0.0), ep(2, 5.0)], 2.0)  # 1.0 + 2.0 == 5.0 - 2.0
+def test_grouping_exact_touch_merges_t23_21_b():
+    """T23.21 (b) (E-1.2.23): closed intervals; widened intervals that only touch are merged (was refused under CR-030 item 7)."""
+    assert len(R.group_episodes([ep(1, 0.0), ep(2, 5.0)], 2.0)) == 1  # 1.0 + 2.0 == 5.0 - 2.0
+
+
+def test_grouping_without_a_common_axis_is_per_camera():
+    groups = R.group_episodes([ep(1, 0.0, kind="recording_local"), ep(2, 0.5, kind="recording_local")], 2.0)
+    assert [len(g) for g, _ in groups] == [1, 1] and {b for _, b in groups} == {R.PER_CAMERA}
 
 
 def test_kind_and_ai_label():
@@ -55,10 +74,14 @@ def test_kind_and_ai_label():
 
 
 def test_description_template():
-    d = R.description("candidate near miss", "Area 1", "2026-11-16T08:01:40.000000Z", 0.4, "full_camera", None, False)
+    """T23.2 (d) as changed by T23.24 (e): "Smallest estimated separation <x> m (<method>, <sigma status>)"."""
+    m = {"ep_id": "ep_1", "camera_id": "c1", "minclr_m": 0.4, "geometry_method": "full_camera", "calibration_tier": "full_camera",
+         "sigma_status": "uncalibrated_model"}
+    d = R.description("candidate near miss", "Area 1", "2026-11-16T08:01:40.000000Z", R.combined([m]), False)
     assert d == ("The system flagged a candidate near miss between a person and a forklift in Area 1 at 2026-11-16 08:01:40 UTC. "
-                 "Minimum measured separation 0.40 m (full_camera). Review the clip before deciding.")
-    d = R.description("candidate, undetermined", "Area 1", "2026-11-16T08:01:40.000000Z", None, None, "not_observable", True)
+                 "Smallest estimated separation 0.40 m (full_camera, uncalibrated_model). Review the clip before deciding.")
+    none = {**m, "minclr_m": None, "minclr_m_null_reason": "not_observable"}
+    d = R.description("candidate, undetermined", "Area 1", "2026-11-16T08:01:40.000000Z", R.combined([none]), True)
     assert "a candidate, undetermined between" in d and "not available (not_observable)" in d and "(simulated calendar)" in d
     assert R.lint_workflow(d, html_page=False) == []
 
@@ -74,11 +97,10 @@ def test_incidence_rate_bls_formula():
     assert 3 * 200_000 / 150_000 == 4.0
 
 
-def test_readings_print_only_when_they_agree():
-    assert R.Readings({"a": 1, "b": 1}, "5").text() == "1"
-    t = R.Readings({"a": 1, "b": 2}, "5").text()
-    assert t.startswith("not determined: readings differ (CR-030 item 5")
-    assert R.Readings({"a": R.Share(1, 2), "b": R.Share(1, 2)}, "2").determined
+def test_cell_prints_its_value_and_notes():
+    """CR-030 is ruled (D-49): every indicator has one reading; notes print beside the value (T23.18 c, d)."""
+    c = R.Cell(R.Share(1, 2), {"undecided": 3})
+    assert c.text(lambda v: v.text()).endswith("; undecided: 3") and c.determined
 
 
 def test_share_text_has_n_and_wilson():

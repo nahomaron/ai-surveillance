@@ -1,4 +1,6 @@
-"""T23 workflow pages (contract E-1.2.22; D-48), served by the V-02 application: one server, one sign-in.
+"""T23 workflow pages (contract E-1.2.22; D-48, with T23.16-T23.27, E-1.2.23; D-49), served by the V-02 application: one
+server, one sign-in. Every page carries the T23.27 (f) statement; pages that show AI alerts and the regulator view carry the
+T23.26 source banner; user-entered text is shown in "entered by" blocks (T23.22).
 
 `WorkflowHandler` extends the V-02 `Handler` with the /wf pages. Every workflow page and export passes
 `rules.lint_workflow` before it is sent (T23.12); a page that fails is not sent (HTTP 500). 127.0.0.1 only; no network URL.
@@ -19,7 +21,7 @@ from urllib.parse import parse_qs, urlencode, urlsplit
 from rq1.review.server import HOST, Handler, ReviewServer, esc, page
 from rq1.schema.errors import ContractError
 from rq1.workflow import rules as R
-from rq1.workflow.store import CR030_1, OWNER, SYSTEM, WorkflowStore
+from rq1.workflow.store import OWNER, SYSTEM, WorkflowStore
 
 WF_BANNER = "Reporting workflow (research prototype). Manager decisions are records of what managers decided, not references."
 RID = r"(rpt_[0-9a-f-]+)"
@@ -33,21 +35,25 @@ def _multi(body: str) -> dict[str, Any]:
     """A form with repeated keys kept as lists (checkboxes)."""
     out: dict[str, Any] = {}
     for k, v in parse_qs(body, keep_blank_values=True).items():
-        out[k] = v if len(v) > 1 or k in ("roles", "area_ids", "contributing_factors", "criteria") else v[-1]
+        out[k] = v if len(v) > 1 or k in ("roles", "area_ids", "contributing_factors", "criteria", "observability_cameras") else v[-1]
     return out
 
 
-def lint_json(value: Any) -> list[str]:
-    """Wording check of an export: every string value (keys are field names and are not printed text)."""
+SKIP_KEYS = set(R.USER_TEXT) | {"note", "rationale"}  # T23.22: user-entered values are not linted
+
+
+def lint_json(value: Any, exempt: tuple[str, ...] = ()) -> list[str]:
+    """Wording check of an export: every string value except user-entered fields (keys are field names, not printed text)."""
     issues: list[str] = []
     if isinstance(value, dict):
-        for v in value.values():
-            issues += lint_json(v)
+        for k, v in value.items():
+            if k not in SKIP_KEYS:
+                issues += lint_json(v, exempt)
     elif isinstance(value, list):
         for v in value:
-            issues += lint_json(v)
+            issues += lint_json(v, exempt)
     elif isinstance(value, str):
-        issues += R.lint_workflow(value, html_page=False)
+        issues += R.lint_workflow(value, html_page=False, exempt=exempt)
     return issues
 
 
@@ -71,16 +77,22 @@ class WorkflowHandler(Handler):
 
     # --- plumbing ----------------------------------------------------------------------------------------------------
 
-    def wsend(self, title: str, body: str, who: dict[str, Any]) -> None:
-        html_text = page(title, f'<div class="card"><strong>{esc(WF_BANNER)}</strong> <a href="/wf">Workflow home</a></div>' + body, who)
+    def wsend(self, title: str, body: str, who: dict[str, Any], alerts: bool = True) -> None:
+        top = (f'<div class="card"><strong>{esc(WF_BANNER)}</strong> <a href="/wf">Workflow home</a>'
+               f'<p class="muted">{esc(R.DEMO_DATA_NOTE)}</p></div>')
+        if alerts:
+            top += f'<div class="card">{R.banner_block(self.wstore.source_quality())}</div>'
+        html_text = page(title, top + body, who)
         issues = R.lint_workflow(html_text)
         if issues:
             return self.send(page("Not sent", f'<div class="card err"><p>Wording rule (T23.12): {esc("; ".join(issues))}</p></div>', who),
                              HTTPStatus.INTERNAL_SERVER_ERROR)
         self.send(html_text)
 
-    def wexport(self, data: Any, ctype: str, text: str | None = None) -> None:
-        issues = lint_json(data) if text is None else R.lint_workflow(text, html_page=False)
+    def wexport(self, data: Any, ctype: str, text: str | None = None, lint_text: str | None = None) -> None:
+        exempt = (R.source_banner(self.wstore.source_quality()),)
+        issues = lint_json(data, exempt) if text is None else R.lint_workflow(lint_text if lint_text is not None else text,
+                                                                           html_page=False, exempt=exempt)
         if issues:
             return self.send("wording rule (T23.12): " + "; ".join(issues), HTTPStatus.INTERNAL_SERVER_ERROR, "text/plain; charset=utf-8")
         body = text if text is not None else json.dumps(data, indent=1, sort_keys=True, ensure_ascii=False)
@@ -194,7 +206,8 @@ class WorkflowHandler(Handler):
         factors = "".join(f'<label class="opt" style="display:inline-block;margin-right:12px"><input type="checkbox" name="contributing_factors" value="{esc(c)}"'
                           f'{" checked" if c in (values.get("contributing_factors") or []) else ""}> {esc(c)}</label>' for c in R.CONTRIBUTING)
         people = ", ".join(values.get("people_involved") or [])
-        return (f'<p><label>Description<br><textarea name="description" required>{esc(values.get("description", ""))}</textarea></label></p>'
+        return (f'<p class="muted">{esc(R.PRIVACY_NOTICE)}</p>'
+                f'<p><label>Description<br><textarea name="description" required>{esc(values.get("description", ""))}</textarea></label></p>'
                 f'<p><label>People involved (pseudonyms, comma separated) <input name="people_involved" size="50" value="{esc(people)}"></label></p>'
                 f'<p>Contributing factors<br>{factors}</p>'
                 f'<p><label>Immediate action <input name="immediate_action" size="60" value="{esc(values.get("immediate_action", ""))}"></label></p>'
@@ -208,7 +221,7 @@ class WorkflowHandler(Handler):
         who, _ = got
         ests = self.wstore.establishments()
         opts = "".join(f'<option value="{a["area_id"]}">{esc(ests[a["est_id"]]["name"])}: {esc(a["name"])}</option>'
-                       for a in sorted(self.wstore.areas().values(), key=lambda a: (ests[a["est_id"]]["name"], a["name"])))
+                       for e in ests for a in self.wstore.areas().values() if a["est_id"] == e)  # registration order (T23.27 e)
         body = ('<form class="card" method="post" action="/wf/file"><p>Anyone signed in can file a report. A report never needs an AI alert '
                 '(T23.6). Use pseudonyms only. In a demo establishment every entry is fictional.</p>'
                 '<p><label>Kind <select name="kind"><option value="near_miss">near_miss</option><option value="incident">incident</option></select></label></p>'
@@ -216,7 +229,7 @@ class WorkflowHandler(Handler):
                 '<p><label>Occurred at (UTC) <input type="datetime-local" step="1" name="occurred_at" required></label></p>'
                 f'{self._near_miss_inputs()}<h2>Incident fields (kind incident only)</h2>{self._incident_inputs()}'
                 '<button>File the report</button></form>')
-        self.wsend("File a report", body, who)
+        self.wsend("File a report", body, who, alerts=False)
 
     def wf_file_post(self) -> None:
         got = self.wneed()
@@ -254,6 +267,40 @@ class WorkflowHandler(Handler):
             return self.send(b"", HTTPStatus.NOT_FOUND, "text/plain")
         self._stream(Path(entry[0]))
 
+    def _value(self, r: R.Report, k: str, v: Any, people: dict[str, str]) -> str:
+        """One field value: user-entered text in an "entered by" block (T23.22); system values escaped."""
+        if k in R.USER_TEXT and k not in r.prefilled and v not in (None, "", []):
+            return R.user_block(people.get(r.entered_by.get(k, ""), r.entered_by.get(k, "")), v)
+        if k == "evasive_action_observed" and v == "true":
+            return esc(R.EVASIVE_TRUE)  # T23.24 (e)
+        text = ", ".join(map(str, v)) if isinstance(v, list) else ("" if v is None else str(v))
+        return esc(text)
+
+    def _combined_block(self, r: R.Report) -> str:
+        """T23.24 (a)-(c): the combined value with its provenance, or "not combined", and every member's own values."""
+        c = self.wstore.combined(r)
+        rows = "".join(
+            f'<tr><td><code>{esc(m["ep_id"])}</code></td><td><code>{esc(m["camera_id"])}</code></td>'
+            f'<td>{esc(f"{m["minclr_m"]:.2f} m" if m["minclr_m"] is not None else "not available (" + str(m["minclr_m_null_reason"]) + ")")}</td>'
+            f'<td>{esc(m["geometry_method"] or "not recorded")}</td><td>{esc(m["calibration_tier"] or "not recorded")}</td>'
+            f'<td>{esc(m["clearance_sigma_m"] if m["clearance_sigma_m"] is not None else "none")} / {esc(m["sigma_status"] or "not recorded")}</td>'
+            f'<td>{esc(m["q_state"] or "not recorded")} {esc(", ".join(m["q_reasons"] or []))}</td>'
+            f'<td>{esc(m["prov_class"] or "not recorded on the S4 rows")}</td><td><code>{esc(m["s4_artifact_id"] or "not recorded")}</code></td></tr>'
+            for m in c["members"])
+        if c["combined"] is not None:
+            b = c["combined"]
+            head = (f'<p><strong>{esc(R.COMBINED_LABEL)}</strong>: {esc(c["text"])}; source episode <code>{esc(b["ep_id"])}</code>, camera '
+                    f'<code>{esc(b["camera_id"])}</code>, geometry_method {esc(b["geometry_method"])}, clearance_sigma_m '
+                    f'{esc(b["clearance_sigma_m"] if b["clearance_sigma_m"] is not None else "none")}, sigma_status {esc(b["sigma_status"] or "not recorded")}, '
+                    f'evidence sufficiency {esc(b["q_state"] or "not recorded")} {esc(", ".join(b["q_reasons"] or []))}, prov_class '
+                    f'{esc(b["prov_class"] or "not recorded on the S4 rows")}, S4 artifact <code>{esc(b["s4_artifact_id"] or "not recorded")}</code>. '
+                    'A review aid: never stored as a measurement (T23.24 d).</p>')
+        else:
+            head = f'<p><strong>Smallest estimated separation</strong>: {esc(c["text"])}.</p>'
+        return (f'<div class="card"><h2>Member clearances (T23.24)</h2>{head}<table><tr><th>Episode</th><th>Camera</th><th>Clearance</th>'
+                '<th>geometry_method</th><th>Calibration tier</th><th>clearance_sigma_m / sigma_status</th><th>q_state</th>'
+                f'<th>prov_class</th><th>S4 artifact</th></tr>{rows}</table></div>')
+
     def wf_report(self, report_id: str) -> None:
         got = self.wneed()
         if not got:
@@ -269,28 +316,42 @@ class WorkflowHandler(Handler):
         chain = store.verify()
         chain_txt = (f'Report log hash chain: <strong>{"intact" if not chain["report_log"] else "BROKEN: " + esc(chain["report_log"][0].message)}</strong>. '
                      f'Status log hash chain: <strong>{"intact" if not chain["status_log"] else "BROKEN: " + esc(chain["status_log"][0].message)}</strong>.')
+        dups = store.duplicates_of(report_id)
+        dup_txt = (f'<p>duplicates: {len(dups)} ' + " ".join(f'<a href="/wf/report/{d}">{esc(d[-12:])}</a>' for d in dups) + '</p>') if dups else ""
+        parts = [x.report_id for x in store.reports() if x.fields.get("split_from") == report_id]
+        split_txt = (f'<p>Split into {len(parts)} reports: ' + " ".join(f'<a href="/wf/report/{d}">{esc(d[-12:])}</a>' for d in parts) + '</p>') if parts else ""
+        if f.get("split_from"):
+            split_txt += f'<p>Split from <a href="/wf/report/{f["split_from"]}">{esc(f["split_from"][-12:])}</a>.</p>'
+        if f.get("duplicate_of"):
+            dup_txt += f'<p>duplicate_of <a href="/wf/report/{f["duplicate_of"]}">{esc(f["duplicate_of"][-12:])}</a></p>'
+        basis = f.get("grouping_basis") or ("grouping basis not recorded (report created before E-1.2.23)" if r.origin == "ai" else "")
         head = (f'<div class="card{" err" if chain["report_log"] or chain["status_log"] else ""}"><p class="chain">{chain_txt}</p>'
                 f'<p><strong>{esc(r.wording())}</strong> · {esc(est["name"])} · {esc(area["name"])}</p>'
-                + (f'<p>AI label: <strong>{esc(f.get("ai_label"))}</strong> (an automated output; the manager decides).</p>' if r.origin == "ai" else "")
+                + (f'<p>AI label: <strong>{esc(f.get("ai_label"))}</strong> (an automated output; the manager decides). '
+                   f'Alert grouping: {esc(basis)}. A group is a review convenience, not a claim that the members show one interaction (T23.21 a).</p>' if r.origin == "ai" else "")
+                + dup_txt + split_txt
                 + (f'<p class="muted">Demo establishment: {esc(R.DEMO_NOTE)}; every incident field is fictional.</p>' if est["demo"] else "")
                 + '</div>')
         rows = []
-        for k in R.EDITABLE:
-            if k not in f:
+        labels = {"duration_s": f"duration_s ({R.DURATION_LABEL})"}
+        for k in R.EDITABLE + ("grouping_basis", "group_resolution", "duplicate_of", "split_from") + R.OBS_FIELDS:
+            if k not in f or k in ("duplicate_of", "split_from") and f[k] is None:
                 continue
-            v = f[k]
-            text = ", ".join(map(str, v)) if isinstance(v, list) else ("" if v is None else str(v))
             mark = f' <span class="muted">({R.PREFILL_NOTE})</span>' if k in r.prefilled else ""
-            rows.append(f'<tr><td>{esc(k)}</td><td>{esc(text)}{mark}</td></tr>')
+            rows.append(f'<tr><td>{esc(labels.get(k, k))}</td><td>{self._value(r, k, f[k], people)}{mark}</td></tr>')
         if f.get("kind") == "incident":
             rec = r.recordability
-            if not rec:
-                rows.append('<tr><td>recordability</td><td>recordability pending</td></tr>')
+            if r.determination == "not_set":
+                rows.append('<tr><td>recordability</td><td>recordability pending (not_set)</td></tr>')
+            elif r.determination == "withdrawn":
+                rows.append('<tr><td>recordability</td><td>withdrawn (the earlier determination stays in the history)</td></tr>')
             elif rec["recordable"] == "yes":
                 rows.append(f'<tr><td>recordability</td><td>{R.RECORDABLE_BADGE} (set by safety manager {esc(people.get(rec["decided_by"], rec["decided_by"]))}): '
-                            f'{esc(", ".join(rec["criteria"]))} {esc(json.dumps(rec["days"]) if rec["days"] else "")}; note: {esc(rec["note"])}</td></tr>')
+                            f'{esc(", ".join(rec["criteria"]))} {esc(json.dumps(rec["days"]) if rec["days"] else "")}; note: '
+                            f'{R.user_block(people.get(rec["decided_by"], rec["decided_by"]), rec["note"])}</td></tr>')
             else:
-                rows.append(f'<tr><td>recordability</td><td>{esc(rec["recordable"])} (set by safety manager {esc(people.get(rec["decided_by"], rec["decided_by"]))}); note: {esc(rec["note"])}</td></tr>')
+                rows.append(f'<tr><td>recordability</td><td>{esc(rec["recordable"])} (set by safety manager {esc(people.get(rec["decided_by"], rec["decided_by"]))}); '
+                            f'note: {R.user_block(people.get(rec["decided_by"], rec["decided_by"]), rec["note"])}</td></tr>')
         fields = f'<div class="card"><h2>Current fields</h2><table>{"".join(rows)}</table>'
         if f.get("kind") == "incident":
             fields += f'<p><a href="/wf/report/{report_id}/301.json">301-style export (JSON)</a> · <a href="/wf/report/{report_id}/301.csv">CSV</a></p>'
@@ -298,16 +359,18 @@ class WorkflowHandler(Handler):
         clips = ""
         if r.origin == "ai":
             eps = store.episodes()
-            parts = []
-            for k, ep_id in enumerate(r.header["member_episode_ids"], 1):
+            clip_ids = f.get("evidence_clip_ids", [])
+            parts_html = []
+            for k, ep_id in enumerate(r.members, 1):
                 ep = eps[ep_id]
-                parts.append(f'<p>Member {k}: episode <code>{esc(ep_id)}</code>, camera <code>{esc(ep["camera_id"])}</code>, '
-                             f'AI label {esc(R.AI_LABEL.get(ep["g2_label"], "none"))}, evidence clip <code>{esc(r.fields.get("evidence_clip_ids", [""] * k)[k - 1] if len(r.fields.get("evidence_clip_ids", [])) >= k else "")}</code></p>')
-            first = eps[r.header["member_episode_ids"][0]]
+                parts_html.append(f'<p>Member {k}: episode <code>{esc(ep_id)}</code>, camera <code>{esc(ep["camera_id"])}</code>, '
+                                  f'AI label {esc(R.AI_LABEL.get(ep["g2_label"], "none"))}, evidence clip <code>{esc(clip_ids[k - 1] if len(clip_ids) >= k else "")}</code></p>')
             sel = self._q_member(r)
-            clips = (f'<div class="card"><h2>Evidence clips ({len(r.header["member_episode_ids"])})</h2>{"".join(parts)}'
-                     f'<p>Showing member {sel + 1}. ' + " ".join(f'<a href="?member={k}">member {k + 1}</a>' for k in range(len(r.header["member_episode_ids"]))) + '</p></div>'
-                     + self._player(self._wf_clip(who, eps[r.header["member_episode_ids"][sel]] if sel < len(r.header["member_episode_ids"]) else first)))
+            sel = sel if sel < len(r.members) else 0
+            clips = (f'<div class="card"><h2>Evidence clips ({len(r.members)})</h2>{"".join(parts_html)}'
+                     f'<p>Showing member {sel + 1}. ' + " ".join(f'<a href="?member={k}">member {k + 1}</a>' for k in range(len(r.members))) + '</p></div>'
+                     + self._player(self._wf_clip(who, eps[r.members[sel]])) + self._combined_block(r))
+        adjs = {e["row"]["adj_id"]: e["row"] for e in store.adjudications()}
         hist = []
         for e in r.entries:
             if e["action"] in ("create_ai", "create_human"):
@@ -317,10 +380,14 @@ class WorkflowHandler(Handler):
                 ch = f'recordability {rec["recordable"]}; criteria: {", ".join(rec["criteria"]) or "none"}; days: {rec["days"] or "none"}'
             else:
                 ch = "; ".join(f'{k}: {json.loads(v["before"])!r} → {json.loads(v["after"])!r}' for k, v in e["field_changes"].items())
-            blocked = (f'<br><span class="muted">{esc(CR030_1)}</span>' if r.origin == "ai" and e["action"] in ("sm_uphold", "sm_overturn", "sm_reclassify") else "")
-            hist.append(f'<tr><td>{e["seq"]}</td><td>{esc(e["created_utc"])}</td><td>{esc(people.get(e["actor_user_id"], e["actor_user_id"]))}</td>'
+            linked = ", ".join(f'{x} (safety-manager decision)' if x in adjs and adjs[x]["namespace"] == "candidate_review" else x
+                               for x in e["linked_record_ids"])  # T23.16 (c): never printed as a tier
+            actor = people.get(e["actor_user_id"], e["actor_user_id"])
+            reason = R.user_block(actor, e["reason"]) if e["reason"] and e["action"] == "sm_reclassify" else esc(e["reason"] or "")
+            note = R.user_block(actor, e["note"]) if e["note"] else ""
+            hist.append(f'<tr><td>{e["seq"]}</td><td>{esc(e["created_utc"])}</td><td>{esc(actor)}</td>'
                         f'<td>{esc(e["action"])}</td><td>{esc(e["state_before"] or "—")} → {esc(e["state_after"])}</td><td>{esc(e["label"] or "")}</td>'
-                        f'<td>{esc(e["reason"] or "")}</td><td>{esc(e["note"] or "")}</td><td>{esc(ch)}</td><td>{esc(", ".join(e["linked_record_ids"]))}{blocked}</td></tr>')
+                        f'<td>{reason}</td><td>{note}</td><td>{esc(ch)}</td><td>{esc(linked)}</td></tr>')
         history = (f'<div class="card"><h2>History (report log, append-only)</h2><table><tr><th>seq</th><th>UTC</th><th>Who</th><th>Action</th><th>State</th>'
                    f'<th>Label</th><th>Reason</th><th>Note</th><th>Changes</th><th>Linked records</th></tr>{"".join(hist)}</table></div>')
         self.wsend("Report", head + clips + fields + self._forms(user, r) + history, who)
@@ -334,27 +401,44 @@ class WorkflowHandler(Handler):
     def _forms(self, user: dict[str, Any], r: R.Report) -> str:
         store, out = self.wstore, []
         act = f'/wf/report/{r.report_id}/act'
+        privacy = f'<p class="muted">{esc(R.PRIVACY_NOTICE)}</p>'
 
         def form(action: str, title: str, inner: str) -> None:
             if store.permitted(user, r, action) is None:
                 out.append(f'<form class="card" method="post" action="{act}"><h3>{esc(title)}</h3><input type="hidden" name="action" value="{action}">'
                            f'{inner}<button>{esc(title)}</button></form>')
         ai = r.origin == "ai"
-        rationale = '<p><label>What you saw in the clip (rationale)<br><textarea name="rationale" required></textarea></label></p>' if ai else ""
+        multi = ai and len(r.members) >= 2
+        rationale = (privacy + '<p><label>What you saw in the clip (rationale)<br><textarea name="rationale" required></textarea></label></p>') if ai else ""
         conf = ('<p>Confidence <select name="confidence"><option value="3.0">high (3.0)</option><option value="2.0">medium (2.0)</option>'
                 '<option value="1.0">low (1.0)</option></select></p>' if ai else "")
-        note = '<p><label>Note<br><textarea name="note" required></textarea></label></p>'
-        form("am_approve", "Approve (record the report)", '<p>Label <label><input type="radio" name="label" value="nm" required> nm</label> '
-             '<label><input type="radio" name="label" value="ct"> ct</label></p>' + conf + rationale)
+        note = privacy + '<p><label>Note<br><textarea name="note" required></textarea></label></p>'
+        group = ('<p>How many interactions do the members show (T23.21 d)? <label><input type="radio" name="group_resolution" value="one_interaction" required> '
+                 'one interaction</label> <label><input type="radio" name="group_resolution" value="cannot_tell"> cannot tell</label>. If they show '
+                 'several interactions, split the report first.</p>')
+        obs = ""
+        if not ai:
+            cams = "".join(f'<label class="opt"><input type="checkbox" name="observability_cameras" value="{esc(c)}"> {esc(c)}</label>'
+                           for c in store.areas()[r.fields["area_id"]]["camera_ids"])
+            obs = ('<p>Camera observability of the event (T23.23 c) <select name="camera_observability"><option value="">not set</option>'
+                   + "".join(f'<option>{o}</option>' for o in R.OBSERVABILITY) + f'</select></p><p>Cameras checked: {cams}</p>')
+        labels = ('<p>Label <label><input type="radio" name="label" value="nm" required> nm</label> '
+                  '<label><input type="radio" name="label" value="ct"> ct</label></p>')
+        form("am_approve", "Approve (record the report)", labels + (group if multi else "") + conf + rationale + obs)
         form("am_reject", "Reject (goes to the safety manager)", '<p>Reason <select name="reason">' +
-             "".join(f'<option value="{k}">{k}</option>' for k in R.REJECT_REASONS) + '</select></p>' + rationale)
-        others = [x for x in store.headers() if x != r.report_id]
+             "".join(f'<option value="{k}">{k}</option>' for k in R.REJECT_REASONS) + '</select></p>' + rationale + obs)
+        if multi:
+            sel = "".join(f'<p>Member <code>{esc(m)}</code>: part <select name="part_{esc(m)}">' +
+                          "".join(f'<option>{k}</option>' for k in range(1, len(r.members) + 1)) + '</select></p>' for m in r.members)
+            form("am_split", "Split into separate reports (T23.20 e)", sel + note)
+        others = [x for x in store.reports() if x.report_id != r.report_id and x.fields.get("est_id") == r.fields.get("est_id")
+                  and x.state not in ("closed_duplicate", "closed_split")]
         form("am_duplicate", "Mark duplicate", '<p>Duplicate of <select name="duplicate_of">' +
-             "".join(f'<option value="{x}">{x[-12:]}</option>' for x in others) + '</select></p>')
+             "".join(f'<option value="{x.report_id}">{x.report_id[-12:]}</option>' for x in others) + '</select></p>' + privacy)
         form("sm_uphold", "Uphold the rejection", note)
-        form("sm_overturn", "Overturn (record the report)", '<p>Label <label><input type="radio" name="label" value="nm" required> nm</label> '
-             '<label><input type="radio" name="label" value="ct"> ct</label></p>' + note)
-        form("sm_reclassify", "Reclassify (close as rejected)", '<p><label>Reason <input name="reason" required size="50"></label></p>'
+        form("sm_overturn", "Overturn (record the report)", labels + (group if multi or r.reopened_duplicate() else "") + note)
+        form("sm_confirm_duplicate", "Confirm the duplicate", note)
+        form("sm_reclassify", "Reclassify (close as rejected)", privacy + '<p><label>Reason <input name="reason" required size="50"></label></p>'
              '<p>Label <select name="label"><option value="not_hazardous">not_hazardous</option><option value="ud">ud</option></select></p>' + note)
         form("sm_reopen", "Reopen", note)
         crit = "".join(f'<label class="opt"><input type="checkbox" name="criteria" value="{c}"> {c}</label>' for c in R.CRITERIA)
@@ -362,14 +446,17 @@ class WorkflowHandler(Handler):
              f'<option>no</option></select></p><p>Criteria (when yes; 29 CFR 1904.7)</p>{crit}'
              '<p><label>Days away (if that criterion) <input name="days_days_away" size="5"></label> '
              '<label>Days restricted or transferred (if that criterion) <input name="days_restricted_or_transfer" size="5"></label></p>' + note)
-        form("sm_note", "Add a note", '<p><label>Note<br><textarea name="note" required></textarea></label></p>')
+        form("withdraw_recordability", "Withdraw the recordability determination (T23.19 c)", '<p>Reason <select name="reason">'
+             + "".join(f'<option>{w}</option>' for w in R.WITHDRAW_REASONS) + '</select></p>' + note)
+        form("sm_note", "Add a note", note)
         if store.permitted(user, r, "edit_fields") is None:
             kind = ""
             if r.state in R.PENDING:
                 kind = ('<p><label>Kind <select name="kind">' + "".join(f'<option{" selected" if r.fields.get("kind") == k else ""}>{k}</option>'
                                                                          for k in ("near_miss", "incident")) + '</select></label></p>')
             inner = (kind + f'<p><label>Occurred at (UTC) <input name="occurred_at" value="{esc(r.fields.get("occurred_at", ""))}" size="30"></label></p>'
-                     + self._near_miss_inputs(r.fields) + (self._incident_inputs(r.fields) if r.fields.get("kind") == "incident" else ""))
+                     + self._near_miss_inputs(r.fields) + (self._incident_inputs(r.fields) if r.fields.get("kind") == "incident" else "")
+                     + (obs if r.state == "pending_am" else ""))
             out.append(f'<form class="card" method="post" action="{act}"><h3>Edit fields</h3><input type="hidden" name="action" value="edit_fields">'
                        f'{inner}<button>Save changes</button></form>')
         return "".join(out) or '<div class="card"><p class="muted">No action is open to you on this report now.</p></div>'
@@ -383,7 +470,7 @@ class WorkflowHandler(Handler):
         action = form.pop("action", "")
         if action == "edit_fields":
             current = self.wstore.report(report_id).fields
-            form = {k: v for k, v in form.items() if k in R.EDITABLE}
+            form = {k: v for k, v in form.items() if k in R.EDITABLE or (k in R.OBS_FIELDS and v not in ("", []))}
             if "contributing_factors" not in form and "description" in form:
                 form["contributing_factors"] = []
             form = {k: v for k, v in form.items() if not (v == "" and current.get(k) in (None, ""))}
@@ -413,23 +500,28 @@ class WorkflowHandler(Handler):
         if not self._visible(user, r):
             return self.fail(HTTPStatus.FORBIDDEN, "Not your report.", who)
         data = self.wstore.export_301(r)
-        self.wexport(data, "text/csv; charset=utf-8", self.wstore.export_301_csv(data))
+        blank = {**data, "fields": {k: ("" if k in R.USER_TEXT else v) for k, v in data["fields"].items()},
+                 "recordability": data["recordability"] if isinstance(data["recordability"], str) else {**data["recordability"], "note": ""}}
+        self.wexport(data, "text/csv; charset=utf-8", self.wstore.export_301_csv(data), lint_text=self.wstore.export_301_csv(blank))
 
     # --- indicators (T23.8, T23.9) and the regulator view (T23.10) ------------------------------------------------------
 
     def _periods(self, est_id: str) -> list[str]:
         return sorted({R.iso_week(r.fields["occurred_at"]) for r in self.wstore.reports() if r.fields.get("est_id") == est_id})
 
-    def compute(self, est_id: str, area_id: str | None, period: str) -> dict[str, Any]:
-        store = self.wstore
-        reports = store.reports()  # the snapshot
-        n, head = store.report_log.head()
-        cfg = store.config()
-        ind = R.indicators(reports, est_id, area_id, period, store.areas(), store.monitoring(), store.hours(est_id, period), cfg, store.clock())
-        return {"indicators": ind, "flags": R.flags(ind, cfg), "log_length": n, "head_hash": head, "params": cfg}
+    def compute(self, est_id: str, area_id: str | None, period: str, as_of: str | None = None) -> dict[str, Any]:
+        """T23.18 (b): the view from the report log truncated at as_of (default: now)."""
+        v = self.wstore.view(est_id, area_id, period, as_of=as_of)
+        return {**v, "indicators": v["indicators"], "flags": v["flags"]}
+
+    def _as_of(self) -> str | None:
+        q = _q(self).get("as_of")
+        if q:
+            R.parse_utc(q)
+        return q or None
 
     def _scope(self, user: dict[str, Any]) -> list[str]:
-        ests = sorted(self.wstore.establishments())
+        ests = list(self.wstore.establishments())  # registration order; never sorted or ranked (T23.27 e)
         if "owner" in user["roles"] or "oversight" in user["roles"]:
             return ests
         return [e for e in ests if e == user.get("est_id") or any(self.wstore.areas()[a]["est_id"] == e for a in user["area_ids"])]
@@ -443,37 +535,69 @@ class WorkflowHandler(Handler):
         if isinstance(v, dict) and "cases" in v:
             return f'{v["cases"]} case(s); by criterion: ' + ", ".join(f"{k} {n}" for k, n in v["by_criterion"].items())
         if isinstance(v, dict):
-            return ", ".join(f"{k} {n}" for k, n in v.items())
-        return "not available (no hours entered)" if v is None else str(v)
+            return ", ".join(f"{k} {n:.4f}" if isinstance(n, float) else f"{k} {n}" for k, n in v.items())
+        return "not available" if v is None else str(v)
 
     INDICATOR_LABELS = [
-        ("I1", "I1 AI alert reports created"), ("I2", "I2 area-manager approval share (AI reports)"),
-        ("I3", "I3 area-manager rejection share (AI reports)"), ("I4", "I4 safety-manager overturn share"),
-        ("I5", "I5 safety-manager reclassification share (AI reports)"), ("I6", f"I6 reports pending longer than t_pending_days, by state"),
-        ("I7_ai", "I7 recorded reports, label or kind near_miss: AI-started"), ("I7_human", "I7 recorded reports, label or kind near_miss: human-started"),
-        ("monitored_camera_hours", "Monitored camera-hours in the period"), ("I7_ai_per_camera_hour", "I7 AI-started, per monitored camera-hour"),
-        ("I8", "I8 human-only signal"), ("area_monitoring_share", "Share of areas with any monitoring"),
-        ("I9", "I9 cases with recordability yes (set by the safety manager)"), ("incidence_rate", "I9 incidence rate = cases × 200,000 / hours worked (BLS formula)"),
+        ("I1", "I1 AI alert reports created (count; not an event or hazard frequency)"),
+        ("I2", "I2 area-manager approval share (AI-started reports)"),
+        ("I3", "I3 area-manager rejection share (AI-started reports; not a verified false alert)"),
+        ("I4", "I4 safety-manager overturn share of rejections (AI-started reports, latest decision per report)"),
+        ("I5", "I5 reclassification of AI-started reports ever recorded"),
+        ("I6", "I6 reports pending longer than t_pending_days since entering their current state, by state"),
+        ("I7_ai", "I7 recorded reports of kind near_miss: AI-started"),
+        ("I7_human", "I7 recorded reports of kind near_miss: human-started (own line; feeds no flag)"),
+        ("monitoring", "Usable, usable_degraded, processed and monitored area-hours; camera-hours (descriptive only); unprocessed cameras"),
+        ("I7_ai_rate", "I7 AI-started, per monitored area-hour"),
+        ("I8", "I8 human-started reports by observability category (I8 = category 5)"),
+        ("area_monitoring_share", "Share of areas with any monitored time"),
+        ("I9", "I9 definitive cases: recorded incidents with recordability yes (set by the safety manager)"),
+        ("incidence_rate", "I9 incidence rate = cases × 200,000 / hours worked entered for the period (BLS formula; view time only)"),
     ]
+
+    def _value_text(self, ind: dict[str, Any], k: str) -> str:
+        c = ind[k]
+        if k == "I7_ai_rate":
+            if isinstance(c.value, str):
+                return f'{c.value}; numerator {c.notes["numerator"]}, denominator 0.0000 monitored area-hours, unprocessed cameras {c.notes["unprocessed cameras"]}'
+            if c.notes["numerator"] == 0:
+                return (f'0 in {c.notes["denominator_h"]:.4f} monitored area-hours. {R.ZERO_COUNT} '
+                        f'(numerator 0, denominator {c.notes["denominator_h"]:.4f} h, unprocessed cameras {c.notes["unprocessed cameras"]})')
+            return c.text(self._fmt)
+        if k == "incidence_rate":
+            if c.value is None:
+                return R.NO_HOURS
+            return f'{c.value:.4f}' + (" (provisional: an incident report in the period is not_set or undetermined)" if c.notes["provisional"] else "")
+        if k == "I8":
+            return c.text(self._fmt)
+        return c.text(self._fmt)
 
     def _ind_rows(self, c: dict[str, Any]) -> str:
         ind = c["indicators"]
-        rows = [f'<tr><td>{esc(label)}</td><td>{esc(ind[k].text(self._fmt))}</td></tr>' for k, label in self.INDICATOR_LABELS if k in ind]
+        rows = [f'<tr><td>{esc(label)}</td><td>{esc(self._value_text(ind, k))}</td></tr>' for k, label in self.INDICATOR_LABELS if k in ind]
         rows.append(f'<tr><td>Hours worked (entered) for {esc(ind["period"])}</td><td>{esc(self._fmt(ind["hours_worked"]))}</td></tr>')
         return "".join(rows)
 
+    def _flag_state(self, fl: R.Cell) -> str:
+        if fl.value is None:
+            return "not evaluated: insufficient n (" + fl.notes.get("insufficient n", "") + ")"
+        return "raised" if fl.value else "not raised"
+
     def _flag_rows(self, c: dict[str, Any]) -> str:
         ind, out = c["indicators"], []
-        basis = {"F1": ind["I3"], "F2": ind["I4"], "F3": ind["I6"], "F4": ind["I8"]}
+        basis = {"F1": "I3", "F2": "I4", "F3": "I6", "F4": "I8"}
         for k, fl in c["flags"].items():
-            state = ("raised" if fl.value else "not raised") if fl.determined else fl.text(lambda v: "raised" if v else "not raised")
-            text = f'<br><em>{esc(R.FLAG_TEXT)}</em>' if fl.determined and fl.value else ""
-            out.append(f'<tr><td>{k}</td><td>{esc(state)}; numbers: {esc(basis[k].text(self._fmt))}{text}</td></tr>')
+            text = f'<br><em>{esc(R.FLAG_TEXT)}</em>' if fl.value else ""
+            out.append(f'<tr><td>{k}</td><td>{esc(self._flag_state(fl))}; numbers: {esc(self._value_text(ind, basis[k]))}{text}</td></tr>')
         return "".join(out)
 
     def _params(self, c: dict[str, Any]) -> str:
         p = c["params"]
         return esc(", ".join(f"{k} = {p[k]}" for k in R.PARAMS) + f" (wf_config store_version {p['store_version']})")
+
+    def _view_head(self, c: dict[str, Any]) -> str:
+        return (f'Computed from the report log truncated at as_of {esc(c["as_of"])}: length {c["log_length"]}, head hash '
+                f'<code>{esc(c["head_hash"])}</code>.')
 
     def wf_indicators(self) -> None:
         got = self.wneed("area_manager", "safety_manager", "owner")
@@ -487,45 +611,52 @@ class WorkflowHandler(Handler):
         area = q.get("area") or None
         periods = self._periods(est)
         period = q.get("period") or (periods[0] if periods else R.iso_week(R.utc(self.wstore.clock())))
-        c = self.compute(est, area, period)
+        c = self.compute(est, area, period, self._as_of())
         ests, areas = self.wstore.establishments(), self.wstore.areas()
         nav = " · ".join(f'<a href="/wf/indicators?{urlencode({"est": est, "period": p})}">{p}</a>' for p in periods)
         an = " · ".join(f'<a href="/wf/indicators?{urlencode({"est": est, "period": period, "area": a["area_id"]})}">{esc(a["name"])}</a>'
                         for a in areas.values() if a["est_id"] == est)
         estnav = " · ".join(f'<a href="/wf/indicators?{urlencode({"est": e})}">{esc(ests[e]["name"])}</a>' for e in scope)
+        i8 = c["indicators"]["I8"]
+        cat5 = i8.notes["reports (category 5)"]
+        miss = (f'<div class="card"><h2>Human-started reports without a matching alert on an observable camera (category 5)</h2>'
+                f'<p>{len(cat5)}: ' + (" ".join(f'<a href="/wf/report/{x}">{esc(x[-12:])}</a>' for x in cat5) or "none")
+                + f'</p><p><em>{esc(R.MISS_CAPTION)}</em></p></div>')
         body = (f'<div class="card"><p>Establishments: {estnav}</p><p>Periods: {nav or "none"}</p><p>Areas: {an} · <a href="/wf/indicators?{urlencode({"est": est, "period": period})}">all areas</a></p>'
-                f'<p><strong>{esc(ests[est]["name"])}</strong>, {esc(areas[area]["name"]) if area else "all areas"}, period {esc(period)}. '
-                f'Computed from the report log snapshot: length {c["log_length"]}, head hash <code>{esc(c["head_hash"])}</code>.</p></div>'
-                f'<div class="card"><h2>Indicators (T23.8)</h2><table>{self._ind_rows(c)}</table></div>'
+                f'<p><strong>{esc(ests[est]["name"])}</strong>, {esc(areas[area]["name"]) if area else "all areas"}, period {esc(period)} (ISO week of occurred_at). '
+                f'{self._view_head(c)}</p><p class="muted">Every value is a descriptive workflow measure about manager decisions or recorded reports.</p></div>'
+                f'<div class="card"><h2>Indicators (T23.8; D-49.1 section 5)</h2><table>{self._ind_rows(c)}</table></div>' + miss +
                 f'<div class="card"><h2>Disagreement flags (T23.9)</h2><table>{self._flag_rows(c)}</table><p class="muted">Flags change no report, state or record.</p></div>'
                 f'<div class="card"><p class="muted">Parameters: {self._params(c)}</p></div>')
         self.wsend("Indicators and flags", body, who)
 
-    def regulator_data(self, est: str, period: str) -> dict[str, Any]:
-        c = self.compute(est, None, period)
+    def regulator_data(self, est: str, period: str, as_of: str | None = None) -> dict[str, Any]:
+        c = self.compute(est, None, period, as_of)
         ind, ver = c["indicators"], self.wstore.verify()
-        out: dict[str, Any] = {"banner": R.REGULATOR_BANNER, "establishment": self.wstore.establishments()[est]["name"], "period": period,
-                               "demo": self.wstore.establishments()[est]["demo"],
+        out: dict[str, Any] = {"banner": R.REGULATOR_BANNER, "statement": R.DEMO_DATA_NOTE,
+                               "source_banner": R.source_banner(self.wstore.source_quality()),
+                               "establishment": self.wstore.establishments()[est]["name"], "period": period,
+                               "demo": self.wstore.establishments()[est]["demo"], "as_of": c["as_of"],
                                "report_log": {"length": c["log_length"], "head_hash": c["head_hash"], "verification": "intact" if not ver["report_log"] else "broken"},
                                "status_log": {"verification": "intact" if not ver["status_log"] else "broken"},
                                "parameters": {k: c["params"][k] for k in R.PARAMS}, "wf_config_store_version": c["params"]["store_version"],
                                "indicators": {}, "flags": {}}
         for k, label in self.INDICATOR_LABELS:
             if k in ind:
-                out["indicators"][k] = {"label": label, "value": ind[k].text(self._fmt)}
-        out["indicators"]["hours_worked"] = {"label": "Hours worked (entered)", "value": self._fmt(ind["hours_worked"])}
+                out["indicators"][k] = {"label": label, "value": self._value_text(ind, k) if k in ("I7_ai_rate", "incidence_rate") else self._fmt(ind[k].value),
+                                        "notes": {n: R._note(v) for n, v in ind[k].notes.items()}}
+        out["indicators"]["hours_worked"] = {"label": "Hours worked (entered)", "value": self._fmt(ind["hours_worked"]), "notes": {}}
         for k, fl in c["flags"].items():
-            out["flags"][k] = {"state": (("raised" if fl.value else "not raised") if fl.determined else fl.text(lambda v: "raised" if v else "not raised")),
-                               "text": R.FLAG_TEXT if fl.determined and fl.value else ""}
+            out["flags"][k] = {"state": self._flag_state(fl), "text": R.FLAG_TEXT if fl.value else ""}
         return out
 
-    def _reg_args(self, user: dict[str, Any]) -> tuple[str, str] | None:
+    def _reg_args(self, user: dict[str, Any]) -> tuple[str, str, str | None] | None:
         q, scope = _q(self), self._scope(user)
         est = q.get("est") or (scope[0] if scope else "")
         if est not in scope:
             return None
         periods = self._periods(est)
-        return est, q.get("period") or (periods[0] if periods else R.iso_week(R.utc(self.wstore.clock())))
+        return est, q.get("period") or (periods[0] if periods else R.iso_week(R.utc(self.wstore.clock()))), self._as_of()
 
     def wf_regulator(self) -> None:
         got = self.wneed("oversight", "owner")
@@ -535,20 +666,21 @@ class WorkflowHandler(Handler):
         args = self._reg_args(user)
         if not args:
             return self.fail(HTTPStatus.NOT_FOUND, "No establishment.", who)
-        est, period = args
-        d = self.regulator_data(est, period)
+        est, period, as_of = args
+        d = self.regulator_data(est, period, as_of)
         ests = self.wstore.establishments()
         estnav = " · ".join(f'<a href="/wf/regulator?{urlencode({"est": e})}">{esc(ests[e]["name"])}</a>' for e in self._scope(user))
         pnav = " · ".join(f'<a href="/wf/regulator?{urlencode({"est": est, "period": p})}">{p}</a>' for p in self._periods(est))
-        rows = "".join(f'<tr><td>{esc(v["label"])}</td><td>{esc(v["value"])}</td></tr>' for v in d["indicators"].values())
+        rows = "".join(f'<tr><td>{esc(v["label"])}</td><td>{esc(v["value"])}{"; " + esc("; ".join(f"{n}: {x}" for n, x in v["notes"].items())) if v["notes"] else ""}</td></tr>'
+                       for v in d["indicators"].values())
         frows = "".join(f'<tr><td>{k}</td><td>{esc(v["state"])}{"<br><em>" + esc(v["text"]) + "</em>" if v["text"] else ""}</td></tr>' for k, v in d["flags"].items())
-        q = urlencode({"est": est, "period": period})
+        qq = urlencode({"est": est, "period": period, "as_of": d["as_of"]})
         body = (f'<div class="card" style="border-width:3px"><strong>{esc(R.REGULATOR_BANNER)}</strong></div>'
-                f'<div class="card"><p>Establishments: {estnav}</p><p>Periods: {pnav}</p><p><strong>{esc(d["establishment"])}</strong>, period {esc(period)}'
+                f'<div class="card"><p>Establishments (one at a time; never compared or ranked): {estnav}</p><p>Periods: {pnav}</p><p><strong>{esc(d["establishment"])}</strong>, period {esc(period)}'
                 f'{" (" + esc(R.DEMO_NOTE) + "s; simulated establishment)" if d["demo"] else ""}. Read-only.</p>'
-                f'<p>Report log: {d["report_log"]["length"]} entries, head hash <code>{esc(d["report_log"]["head_hash"])}</code>, verification {d["report_log"]["verification"]}. '
+                f'<p>As of {esc(d["as_of"])}. Report log: {d["report_log"]["length"]} entries, head hash <code>{esc(d["report_log"]["head_hash"])}</code>, verification {d["report_log"]["verification"]}. '
                 f'Status log verification: {d["status_log"]["verification"]}.</p>'
-                f'<p><a href="/wf/regulator.json?{q}">Export JSON</a> · <a href="/wf/regulator.csv?{q}">Export CSV</a></p></div>'
+                f'<p><a href="/wf/regulator.json?{qq}">Export JSON</a> · <a href="/wf/regulator.csv?{qq}">Export CSV</a></p></div>'
                 f'<div class="card"><h2>Indicators</h2><table>{rows}</table></div><div class="card"><h2>Flags</h2><table>{frows}</table></div>'
                 f'<div class="card"><p class="muted">Workflow parameters in force: {esc(json.dumps(d["parameters"]))} (store_version {d["wf_config_store_version"]}).</p></div>')
         self.wsend("Simulated regulator view", body, who)
@@ -573,13 +705,16 @@ class WorkflowHandler(Handler):
         buf = io.StringIO()
         w = csv.writer(buf, lineterminator="\n")
         w.writerow([d["banner"]])
+        w.writerow([d["statement"]])
+        w.writerow([d["source_banner"]])
         w.writerow(["section", "item", "value"])
         w.writerow(["scope", "establishment", d["establishment"]])
         w.writerow(["scope", "period", d["period"]])
+        w.writerow(["scope", "as_of", d["as_of"]])
         w.writerow(["logs", "report_log", f'{d["report_log"]["length"]} entries, head {d["report_log"]["head_hash"]}, {d["report_log"]["verification"]}'])
         w.writerow(["logs", "status_log", d["status_log"]["verification"]])
         for k, v in d["indicators"].items():
-            w.writerow(["indicator", v["label"], v["value"]])
+            w.writerow(["indicator", v["label"], v["value"] + "".join(f"; {n}: {x}" for n, x in v["notes"].items())])
         for k, v in d["flags"].items():
             w.writerow(["flag", k, (v["state"] + (" " + v["text"] if v["text"] else ""))])
         for k, v in d["parameters"].items():
@@ -620,7 +755,7 @@ class WorkflowHandler(Handler):
                 '<input name="period" placeholder="2026-W47" required> <input name="hours_worked" placeholder="hours" required> <button>Enter</button></form></div>'
                 f'<div class="card"><h2>Workflow parameters (T23.14)</h2><form method="post" action="/wf/setup/config">{params}<button>Save as a new store version</button></form></div>'
                 f'<div class="card"><h2>Demo draw (T23.11)</h2>{demo_txt}</div>')
-        self.wsend("Workflow setup", body, who)
+        self.wsend("Workflow setup", body, who, alerts=False)
 
     def wf_setup_post(self, what: str) -> None:
         got = self.wneed("owner")

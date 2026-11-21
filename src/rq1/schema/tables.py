@@ -750,8 +750,10 @@ method str
 assessment_ids list<id>
 agreement_stat_ref? str
 prov_class enum{human_adjudicated}
-reference_class reference_class
+reference_class? reference_class
 """, True)
+# Appendix T T23.16 (b) (E-1.2.23; D-49): reference_class is nullable, with its reference_class_null_reason sibling
+# (section 1.1); VR-E-056 (schema/validate.py) fixes which namespace takes which combination.
 _t("validation_status_log", None, "Val", "V4", "human", "", """
 seq i64
 status_id id
@@ -955,9 +957,10 @@ contract_ref str
 
 # Appendix T T23.15 (E-1.2.22; D-48): reporting-workflow tables, a product layer in the validation store. Types are
 # inferred where T23.15 gives names only (AR-63 item 2). No table prefix: each ID column is named as T23.15 names it.
-WF_STATES = "pending_am,pending_sm,recorded,closed_rejected,closed_duplicate"
+# E-1.2.23 (D-49.1 section 4.1): + closed_split; + sm_confirm_duplicate, am_split, withdraw_recordability.
+WF_STATES = "pending_am,pending_sm,recorded,closed_rejected,closed_duplicate,closed_split"
 WF_ACTIONS = ("create_ai,create_human,am_approve,am_reject,am_duplicate,sm_uphold,sm_overturn,sm_reclassify,sm_reopen,"
-              "edit_fields,set_recordability,sm_note")
+              "edit_fields,set_recordability,sm_note,sm_confirm_duplicate,am_split,withdraw_recordability")
 _t("wf_config", None, "Val", "WF", "human", "", """
 wfc_id id
 store_version i64
@@ -1035,6 +1038,11 @@ areas list<struct{area_id:id,est_id:id,name:str,run:str}>
 calendar_start_utc ts
 calendar_days i64
 created_utc ts
+timebase_evidence_ref? str
+timebase_tag? enum{workflow_timebase_declared}
+source_quality? struct{config:str,path:str,cm03?:f64,ev_m1?:f64,ev_m2?:f64,report_ref?:str}
 """, True)
+# E-1.2.23 (T23.21 c, T23.26; D-49.1 section 4.1): the demo manifest names the timebase evidence and copies the alert
+# source's reported figures. Nullable, so a manifest written before E-1.2.23 (without them) reads as "not recorded".
 
 DEFINITIONS = _D

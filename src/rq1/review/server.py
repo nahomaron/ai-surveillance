@@ -89,6 +89,21 @@ def confidence_options() -> str:
                    for k, v in P.CONFIDENCE.items())
 
 
+
+# T23.25 (c): the attestation text names workflow pages and W-01 per-run tables.
+ATTESTATION = ("The person attests independence as T22.2 (a) defines it: for the recordings they assess in reference, they "
+               "have not seen system output, including reporting-workflow (T23) pages and W-01 per-run tables, and did not tune "
+               "rule parameters by inspecting those recordings.")
+
+
+def _basis(adj_id: str, a: dict) -> str:
+    """T23.16 (c): tier is never printed without the namespace; a candidate_review adjudication is a safety-manager decision."""
+    if a["namespace"] == "candidate_review":
+        return f'{esc(adj_id)}: {esc(a["final_label"])}, safety-manager decision (candidate_review)'
+    return (f'{esc(adj_id)}: {esc(a["final_label"])}, reference, {esc(a["tier"])}, {esc(a["method"])}, '
+            f'{len(a["assessment_ids"])} assessments, {esc(a["reference_class"])}')
+
+
 class ReviewServer(ThreadingHTTPServer):
     daemon_threads = True
 
@@ -264,7 +279,7 @@ class Handler(BaseHTTPRequestHandler):
                 '<p><label>Pseudonym (never a real name) <input name="pseudonym" required></label></p>'
                 '<p><label>Role <select name="role"><option value="c_layer_reviewer">c_layer_reviewer</option><option value="adjudicator">adjudicator</option></select></label></p>'
                 '<p><label>Qualification (T22.2 c) <input name="qualification_ref" size="60" required placeholder="completed T22 handbook training and pilot batch, 2026-11-20"></label></p>'
-                '<p><label><input type="checkbox" name="independence_attestation" value="yes"> The person attests independence as T22.2 (a) defines it.</label></p>'
+                f'<p><label><input type="checkbox" name="independence_attestation" value="yes"> {esc(ATTESTATION)}</label></p>'
                 '<p><label>Their local passphrase <input type="password" name="passphrase" required></label></p><button>Create</button></form>')
         self.send(page("Annotators", body, who))
 
@@ -370,9 +385,7 @@ class Handler(BaseHTTPRequestHandler):
         entries = [e for e in self.store.status_log._entries() if e["target_id"] == target_id]
         rows = []
         for e in entries:
-            basis = "; ".join(f'{esc(b)}: {esc(adjs[b]["final_label"])}, {esc(adjs[b]["tier"])}, {esc(adjs[b]["method"])}, '
-                              f'{len(adjs[b]["assessment_ids"])} assessments, {esc(adjs[b]["reference_class"])}' if b in adjs else esc(b)
-                              for b in e["basis_ids"])
+            basis = "; ".join(_basis(b, adjs[b]) if b in adjs else esc(b) for b in e["basis_ids"])
             rows.append(f'<tr class="entry"><td>{e["seq"]}</td><td>{esc(e["created_utc"])}</td><td>{esc(e["status"])}</td>'
                         f'<td>{esc(e["layer"])} / {esc(e["namespace"])}</td><td>{esc(e["config_id"])}</td><td>{esc(e["actor_id"])}</td>'
                         f'<td>{basis}</td></tr><tr class="hash"><td></td><td colspan="6" class="muted">prev_hash <code>{esc(e["prev_hash"])}</code><br>'

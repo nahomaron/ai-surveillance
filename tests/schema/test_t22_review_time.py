@@ -52,11 +52,13 @@ def test_minimal_row_and_arrow_schema_carry_the_field():
     assert registry.arrow_schema("reviewer_assessment").field("review_time_s").nullable
 
 
-# E-1.2.1 section 5.8, unchanged by T22.13.
+# E-1.2.1 section 5.8, unchanged by T22.13. The adjudication list is the E-1.2.23 one: T23.16 (b) (D-49) makes
+# reference_class nullable, which adds its reference_class_null_reason sibling (section 1.1) at the end.
 UNCHANGED = {
     "annotator": ["anr_id", "role", "qualification_ref", "independence_attestation", "pseudonym"],
     "adjudication": ["adj_id", "target_type", "target_id", "namespace", "final_label", "tier", "method", "assessment_ids",
-                     "agreement_stat_ref", "agreement_stat_ref_null_reason", "prov_class", "reference_class"],
+                     "agreement_stat_ref", "agreement_stat_ref_null_reason", "prov_class", "reference_class",
+                     "reference_class_null_reason"],
     "validation_status_log": ["seq", "status_id", "target_type", "target_id", "config_id", "status", "layer", "namespace",
                               "basis_ids", "actor_id", "created_utc", "prev_hash", "record_hash"],
 }

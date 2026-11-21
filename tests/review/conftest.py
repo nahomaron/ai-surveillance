@@ -15,6 +15,7 @@ import pytest
 from rq1.fixtures import review_video
 from rq1.review import protocol as P
 from rq1.review.frame import OUTLINE_COLOURS, FixtureFrame
+from rq1.review.registry import StoreRegistry
 from rq1.review.server import make_server
 from rq1.review.store import Store
 
@@ -112,7 +113,9 @@ class App:
     def __init__(self, tmp: Path, video: Path, fixture: dict | None = None, targets: list[dict] | None = None,
                  annotators: list[dict] | None = None, with_pilot: bool = True) -> None:
         self.fixture = fixture
-        self.store = Store(tmp / "store", clock=Clock(), kdf_iterations=1000)
+        self.registry = StoreRegistry(tmp / "registry.json")  # T23.25 (a): a store opens only when registered
+        self.registry.register(tmp / "store")
+        self.store = Store(tmp / "store", clock=Clock(), kdf_iterations=1000, registry=self.registry)
         self.store.create_owner("Owner", "owner-pass")
         fx_inputs = fixture["inputs"] if fixture else None
         annotators = annotators if annotators is not None else fx_inputs["annotators"]
@@ -177,3 +180,10 @@ def make_app(tmp_path, video):
     yield build
     for app in apps:
         app.close()
+
+
+def registered_store(path: Path, **kw) -> Store:
+    """A V-02 store registered in its own registry beside it (T23.25 a)."""
+    reg = StoreRegistry(path.parent / f"{path.name}_registry.json")
+    reg.register(path)
+    return Store(path, registry=reg, **kw)

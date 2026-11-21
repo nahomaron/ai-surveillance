@@ -9,6 +9,7 @@ import pytest
 from conftest import ROOT, Clock
 from rq1.fixtures import review_video
 from rq1.review.frame import FixtureFrame
+from rq1.review.registry import StoreRegistry
 from rq1.schema.errors import ContractError
 from rq1.workflow import rules as R
 from rq1.workflow.demo import CALENDAR_DAYS, RUNS_PER_FAMILY, SdgDemoSource, draw_demo
@@ -49,7 +50,9 @@ class FakeSource:
 
 @pytest.fixture
 def store(tmp_path):
-    s = WorkflowStore(tmp_path / "store", clock=Clock(), kdf_iterations=1000)
+    reg = StoreRegistry(tmp_path / "registry.json")
+    reg.register(tmp_path / "store")
+    s = WorkflowStore(tmp_path / "store", clock=Clock(), kdf_iterations=1000, registry=reg)
     s.create_owner("Owner", "pw")
     return s
 
@@ -69,7 +72,7 @@ def test_fx14i_draw_refused_when_a_demo_run_is_in_a_t22_batch(store, video):
     before = sorted(p.name for p in store.root.iterdir())
     with pytest.raises(ContractError) as err:
         draw_demo(store, src, 2026111903)
-    assert err.value.code == "ERR-SPEC" and "T23.11 (b)" in str(err.value)
+    assert err.value.code == "ERR-SPEC" and "T23.25 (b)" in str(err.value)
     assert sorted(p.name for p in store.root.iterdir()) == before  # nothing written
     assert store.demo_manifest() is None and store.establishments() == {} and store.reports() == []
 
@@ -88,7 +91,9 @@ def test_fx14i_batch_after_draw_has_no_demo_episode(store, video):
 def test_demo_draw_shape_manifest_and_reproducibility(tmp_path, video):
     out = []
     for k in range(2):
-        s = WorkflowStore(tmp_path / f"s{k}", clock=Clock(), kdf_iterations=1000)
+        reg = StoreRegistry(tmp_path / f"registry{k}.json")
+        reg.register(tmp_path / f"s{k}")
+        s = WorkflowStore(tmp_path / f"s{k}", clock=Clock(), kdf_iterations=1000, registry=reg)
         m = draw_demo(s, FakeSource(video), 2026111903, {"n_flag_min": 3, "n_flag_min_sm": 2})
         assert s._check("demo_manifest", m) is None
         assert json.loads((s.root / "demo_manifest.json").read_text()) == m

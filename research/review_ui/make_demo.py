@@ -26,6 +26,7 @@ from rq1.fixtures import review_video  # noqa: E402
 from rq1.review import protocol as P  # noqa: E402
 from rq1.review.frame import OUTLINE_COLOURS, FixtureFrame  # noqa: E402
 from rq1.review.server import make_server  # noqa: E402
+from rq1.review.registry import StoreRegistry  # noqa: E402
 from rq1.review.store import Store  # noqa: E402
 
 OUT = ROOT / "out/review/demo"
@@ -78,7 +79,11 @@ def main() -> None:
     if OUT.exists():
         shutil.rmtree(OUT)
     video = review_video.write(OUT / "fixture.mp4")
-    store = Store(OUT / "store", kdf_iterations=10_000)
+    # A throwaway fixture store (fixture video, fixture IDs), listed in a registry of its own inside its folder (AR-64
+    # item 3); never a V-02/T23 store for review, so it stays out of out/review/registry.json.
+    registry = StoreRegistry(OUT / "registry.json")
+    registry.register(OUT / "store")
+    store = Store(OUT / "store", kdf_iterations=10_000, registry=registry)
     store.create_owner("Owner", "owner-demo")
     fx = json.loads((ROOT / "fixtures/records/FX-13.json").read_text())
     ids = {}

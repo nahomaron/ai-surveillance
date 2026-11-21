@@ -1,0 +1,156 @@
+{
+ "expected": {
+  "basis": "grouped per camera: no common clock",
+  "reports": 2
+ },
+ "hand_calculation": "T23.21 (c): two cameras on recording_local timelines with no evidence reference have no common axis: each camera's episodes group on their own; overlapping local times [10, 11] and [10.2, 11.2] give two reports.",
+ "id": "FX-14t",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14t100000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4t1000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 11.0,
+    "t_start_tl_s": 10.0,
+    "timeline_id": "tl_fx14tc10000000000000000000",
+    "timeline_kind": "recording_local"
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c200000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14t200000000000000000000",
+    "g2_label": "lbl_nm",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c200000000000000000000",
+    "s4_artifact_id": "art_fx14s4t2000000000000000000",
+    "s5_artifact_id": "art_fx14s5c2000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "NM",
+    "t_end_tl_s": 11.2,
+    "t_start_tl_s": 10.2,
+    "timeline_id": "tl_fx14tc20000000000000000000",
+    "timeline_kind": "recording_local"
+   }
+  ],
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": true,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23.16-T23.27 (E-1.2.23), FX-14t",
+ "version_label": "TEST-ONLY"
+}

@@ -60,13 +60,16 @@
    },
    "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
    "establishment": {
-    "demo": false,
+    "demo": true,
     "est_id": "est_fx140000000000000000000000",
     "name": "Fixture establishment"
    },
    "monitoring": [
     {
      "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",
@@ -77,6 +80,9 @@
     },
     {
      "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",
@@ -87,6 +93,9 @@
     },
     {
      "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
      "segments": [
       {
        "coverage_state": "usable",

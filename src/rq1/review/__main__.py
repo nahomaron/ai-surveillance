@@ -1,5 +1,6 @@
 """V-02 command line. `python -m rq1.review init|serve` from the repository root (PYTHONPATH=src).
 
+  register  list a store in the store registry out/review/registry.json (T23.25 a; a store that is not registered refuses to open)
   init   create the Owner profile of a validation store (asks for the passphrase on the terminal)
   serve  run the review application, with the T23 reporting workflow, on http://127.0.0.1:<port>/
          (SDG validation episodes of the T-21 run for T22 batches)
@@ -11,6 +12,7 @@ import getpass
 from pathlib import Path
 
 from rq1.review.frame import SdgFrame
+from rq1.review.registry import StoreRegistry
 from rq1.workflow.demo import SdgDemoSource
 from rq1.workflow.server import make_server
 from rq1.workflow.store import WorkflowStore
@@ -19,6 +21,8 @@ from rq1.workflow.store import WorkflowStore
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="python -m rq1.review")
     sub = parser.add_subparsers(dest="command", required=True)
+    reg = sub.add_parser("register", help="list a store in out/review/registry.json (T23.25 a)")
+    reg.add_argument("--store", required=True)
     init = sub.add_parser("init", help="create the Owner profile")
     init.add_argument("--store", default="out/review/main")
     init.add_argument("--owner", required=True, help="the Owner's pseudonym")
@@ -28,6 +32,10 @@ def main(argv: list[str] | None = None) -> None:
     serve.add_argument("--root", default=".", help="repository root holding out/ and data/")
     serve.add_argument("--configuration", default="BL-6")
     args = parser.parse_args(argv)
+    if args.command == "register":
+        StoreRegistry.default().register(Path(args.store))
+        print(f"{args.store} is listed in {StoreRegistry.default().path}.")
+        return
     store = WorkflowStore(Path(args.store))
     if args.command == "init":
         first = getpass.getpass("Owner passphrase: ")

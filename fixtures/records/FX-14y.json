@@ -1,0 +1,155 @@
+{
+ "expected": {
+  "I9": 1,
+  "incidence_rate": 2.0,
+  "not_set": 1,
+  "provisional": true
+ },
+ "hand_calculation": "Two recorded incidents in P: one yes, one not_set. I9 = 1; rate = 1 x 200,000 / 100,000 = 2.0; provisional because an incident report in P is not_set (T23.19 f).",
+ "id": "FX-14y",
+ "inputs": {
+  "episodes": [
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14y100000000000000000000",
+    "g2_label": "lbl_ct",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4y1000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "CT",
+    "t_end_tl_s": 101.0,
+    "t_start_tl_s": 100.0
+   },
+   {
+    "E_ep": 1,
+    "calibration_tier": "full_camera",
+    "camera_id": "cam_fx14c100000000000000000000",
+    "clearance_sigma_m": 0.05,
+    "config_id": "rcf_bl6fx140000000000000000000",
+    "ep_id": "ep_fx14y200000000000000000000",
+    "g2_label": "lbl_ct",
+    "geometry_method": "full_camera",
+    "minclr_m": 0.4,
+    "minclr_m_null_reason": null,
+    "q_reasons": [],
+    "q_state": "sufficient",
+    "recording_id": "rec_fx14c100000000000000000000",
+    "s4_artifact_id": "art_fx14s4y2000000000000000000",
+    "s5_artifact_id": "art_fx14s5c1000000000000000000",
+    "sigma_status": "uncalibrated_model",
+    "summary_label": "CT",
+    "t_end_tl_s": 401.0,
+    "t_start_tl_s": 400.0
+   }
+  ],
+  "hours_worked": 100000.0,
+  "world": {
+   "area": {
+    "area_id": "area_fx14a100000000000000000000",
+    "camera_ids": [
+     "cam_fx14c100000000000000000000",
+     "cam_fx14c200000000000000000000",
+     "cam_fx14c300000000000000000000"
+    ],
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture area 1"
+   },
+   "calendar_start_utc": "2026-11-16T08:00:00.000000Z",
+   "establishment": {
+    "demo": true,
+    "est_id": "est_fx140000000000000000000000",
+    "name": "Fixture establishment"
+   },
+   "monitoring": [
+    {
+     "camera_id": "cam_fx14c100000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c1000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c200000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c2000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    },
+    {
+     "camera_id": "cam_fx14c300000000000000000000",
+     "s5_artifact_ids": [
+      "art_fx14s5c3000000000000000000"
+     ],
+     "segments": [
+      {
+       "coverage_state": "usable",
+       "t_end_s": 3600.0,
+       "t_start_s": 0.0
+      }
+     ]
+    }
+   ],
+   "period": "2026-W47",
+   "users": [
+    {
+     "area_ids": [
+      "area_fx14a100000000000000000000"
+     ],
+     "est_id": null,
+     "pseudonym": "AM-1",
+     "roles": [
+      "area_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": "est_fx140000000000000000000000",
+     "pseudonym": "SM-1",
+     "roles": [
+      "safety_manager"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "W-1",
+     "roles": [
+      "worker"
+     ]
+    },
+    {
+     "area_ids": [],
+     "est_id": null,
+     "pseudonym": "OV-1",
+     "roles": [
+      "oversight"
+     ]
+    }
+   ]
+  }
+ },
+ "source": "Appendix T T23.16-T23.27 (E-1.2.23), FX-14y",
+ "version_label": "TEST-ONLY"
+}

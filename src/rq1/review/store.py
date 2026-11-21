@@ -21,13 +21,21 @@ from pathlib import Path
 from typing import Any, Callable
 
 from rq1.review import protocol as P
+from rq1.review import registry as REG
 from rq1.schema import validate, vr_rules
 from rq1.schema.canonical import canonical_json
 from rq1.schema.errors import ContractError
+from rq1.validation.reference import stored_adjudications
 from rq1.validation.status_log import StatusLog
 
 ROLES = ("c_layer_reviewer", "adjudicator")
 KDF_ITERATIONS = 200_000
+CONTRACT = "E-1.2.23"  # the contract this store code implements (D-49.1 section 4.2; AR-64 version guard)
+WORKFLOW_QUAL = "workflow "  # T23.25 (d): annotator rows created for workflow managers
+
+
+def _version(text: str) -> tuple[int, ...]:
+    return tuple(int(x) for x in text.removeprefix("E-").split("."))
 
 
 def _utc(dt: datetime) -> str:
@@ -48,8 +56,22 @@ def human_id(prefix: str) -> str:
 
 
 class Store:
-    def __init__(self, root: str | Path, clock: Callable[[], datetime] = _now, kdf_iterations: int = KDF_ITERATIONS) -> None:
+    def __init__(self, root: str | Path, clock: Callable[[], datetime] = _now, kdf_iterations: int = KDF_ITERATIONS,
+                 registry: REG.StoreRegistry | None = None) -> None:
         self.root = Path(root)
+        self.registry = registry or REG.StoreRegistry.default()
+        if not self.registry.is_registered(self.root):  # T23.25 (a): nothing is created or read
+            raise _spec(f"store {self.root} is not listed in the store registry {self.registry.path}; a store that is not "
+                        "registered refuses to open; rule T23.25 (a)")
+        meta = self.root / "store_contract.json"
+        if meta.exists():
+            recorded = json.loads(meta.read_text(encoding="utf-8"))["contract"]
+            if _version(recorded) > _version(CONTRACT):
+                raise _spec(f"this store was written under contract {recorded}; this code implements {CONTRACT} and refuses a "
+                            "newer store (D-49.1 section 4.2)")
+        elif not self.root.exists():  # a new store records its contract version; an existing store is not changed
+            self.root.mkdir(parents=True)
+            meta.write_bytes(canonical_json({"contract": CONTRACT}))
         (self.root / "batches").mkdir(parents=True, exist_ok=True)
         self.clock = clock
         self.kdf_iterations = kdf_iterations
@@ -157,7 +179,8 @@ class Store:
         return self._read("reviewer_assessment.jsonl")
 
     def adjudications(self) -> list[dict[str, Any]]:
-        return self._read("adjudication.jsonl")
+        """Stored adjudication envelopes, rows read under T23.16 (f) (never rewritten)."""
+        return stored_adjudications(self.root)
 
     def refusals(self) -> list[dict[str, Any]]:
         return self._read("refusals.jsonl")
@@ -172,12 +195,38 @@ class Store:
             self._append("reviewer_assessment.jsonl", {"batch_id": None, "recording_id": recording_id, "row": row})
             return row
 
+    def add_candidate_review_adjudication(self, target: dict[str, Any], final_label: str, assessment_ids: list[str],
+                                          annotator_id: str, report_id: str | None) -> dict[str, Any]:
+        """A candidate_review adjudication (T23.5 c): reference_class null with reason not_applicable (T23.16 b); every
+        assessment it lists is a candidate_review assessment (T23.16 a). The envelope names the deciding annotator row and
+        the report, so the T23.25 (c) exposure rule sees it."""
+        with self.lock:
+            rows = {e["row"]["rva_id"]: e["row"] for e in self.assessments()}
+            if any(a not in rows or rows[a]["namespace"] != "candidate_review" for a in assessment_ids):
+                raise _spec("an adjudication's namespace equals the namespace of every assessment it lists; rule T23.16 (a)")
+            row = {"adj_id": human_id("adj"), "target_type": target["target_type"], "target_id": target["target_id"],
+                   "namespace": "candidate_review", "final_label": P.check_label(final_label), "tier": "tier2", "method": "adjudicator",
+                   "assessment_ids": list(assessment_ids), "agreement_stat_ref": None, "agreement_stat_ref_null_reason": "not_applicable",
+                   "prov_class": "human_adjudicated", "reference_class": None, "reference_class_null_reason": "not_applicable"}
+            self._check("adjudication", row)
+            self._append("adjudication.jsonl", {"batch_id": None, "report_id": report_id, "recording_id": target["recording_id"],
+                                                "annotator_id": annotator_id, "row": row})
+            return row
+
+    def exposure(self, annotator_id: str, recording_id: str) -> list[str]:
+        """T23.25 (c): why this person (by pseudonym) is exposed for the recording, across every registered store."""
+        return REG.exposure_reasons(self.registry, self.person(annotator_id), recording_id)
+
     def exposed(self, annotator_id: str, recording_id: str) -> bool:
-        """T22.2 (b): the person holds a candidate_review assessment on any target of the recording."""
-        person = self.person(annotator_id)
-        persons = {a["anr_id"]: a["pseudonym"] for a in self.annotators().values()}
-        return any(e["row"]["namespace"] == "candidate_review" and e["recording_id"] == recording_id
-                   and persons.get(e["row"]["annotator_id"]) == person for e in self.assessments())
+        """T22.2 (b) applied to every person exposed under T23.25 (c), across stores."""
+        return bool(self.exposure(annotator_id, recording_id))
+
+    def _refuse_workflow_row(self, *annotator_ids: str) -> None:
+        """T23.25 (d): annotator rows of workflow managers are refused at once for reference work, before T22.9 applies."""
+        people = self.annotators()
+        for anr in annotator_ids:
+            if anr in people and people[anr]["qualification_ref"].startswith(WORKFLOW_QUAL):
+                raise _spec("a workflow manager's annotator row is never used for a reference assessment or adjudication; rule T23.25 (d)")
 
     # --- batches (T22.6) -----------------------------------------------------------------------------------------------------
 
@@ -220,7 +269,8 @@ class Store:
             # T22.14 (c): a target drawn into any earlier batch (pilot or reference) on this configuration and partition
             # is excluded from every later batch.
             excluded = sorted({t for m in same for t in m["target_ids"]})
-            # T23.11 (b), amending T22.6 (a): every episode of a demo run (all of its cameras) leaves the sampling frame.
+            # T23.25 (b), amending T22.6 (a) and T23.11 (b): every episode of every demo run of every registered store
+            # (all of its cameras) leaves the sampling frame.
             demo_recs = self.demo_recordings()
             demo_targets = sorted(t["target_id"] for t in frame.episodes() if t.get("recording_id") in demo_recs)
             n = P.PARAMS["n_pilot"] if pilot else P.PARAMS["n_batch"]
@@ -239,7 +289,7 @@ class Store:
                 "dataset": frame.dataset, "strata_counts": alloc, "seed": seed, "target_ids": ids, "annotators": annotators,
                 "c_pad_s": P.PARAMS["c_pad_s"], "parameters": dict(P.PARAMS), "excluded_earlier_targets": len(excluded),
                 "n_requested": n, "n_drawn": len(ids), "frame_exhausted": len(ids) < n,  # T22.14 (e)
-                "excluded_demo_targets": len(demo_targets),  # T23.11 (b)
+                "excluded_demo_targets": len(demo_targets),  # T23.11 (b), T23.25 (b)
                 "readings": "Appendix T T22.14 (E-1.2.21)",
                 "created_utc": _utc(self.clock()),
             }
@@ -251,15 +301,12 @@ class Store:
             return manifest
 
     def demo_recordings(self) -> set[str]:
-        """T23.11 (b): the recordings of every camera of every demo run in this store's demo manifest."""
-        path = self.root / "demo_manifest.json"
-        if not path.exists():
-            return set()
-        return {r for run in json.loads(path.read_text(encoding="utf-8"))["runs"] for r in run["camera_rec_ids"]}
+        """T23.25 (b), amending T22.6 (a) and T23.11 (b): every recording of every demo run listed by any registered store."""
+        return REG.demo_recordings(self.registry)
 
     def batch_recordings(self) -> set[str]:
-        """Recordings with a target in any T22 batch of this store."""
-        return {t["recording_id"] for b in self.batch_ids() for t in self.targets(b).values()}
+        """T23.25 (b): recordings with a target in a batch of any registered store."""
+        return REG.batch_recordings(self.registry)
 
     def role_in(self, batch_id: str, annotator_id: str) -> str | None:
         return next((a["role"] for a in self.manifest(batch_id)["annotators"] if a["annotator_id"] == annotator_id), None)
@@ -311,6 +358,7 @@ class Store:
     def submit(self, batch_id: str, target_id: str, annotator_id: str, label: str, confidence: Any, rationale: str,
                shown_system_output: bool = False, replaces: str | None = None) -> dict[str, Any]:
         with self.lock:
+            self._refuse_workflow_row(annotator_id)
             m = self.manifest(batch_id)
             target = self.targets(batch_id).get(target_id)
             if target is None:
@@ -319,8 +367,9 @@ class Store:
                 raise _spec("this person has no blind assessment of this target in this batch (T22.6 b, T22.7 d)")
             label, confidence = P.check_label(label), P.check_confidence(confidence)
             rationale = P.check_rationale(rationale)
-            if self.exposed(annotator_id, target["recording_id"]):
-                raise _spec("excluded from reference assessment of this recording: a candidate_review assessment exists; rule T22.2 (b)")
+            why = self.exposure(annotator_id, target["recording_id"])
+            if why:
+                raise _spec(f"excluded from reference assessment of this recording ({', '.join(why)}, T23.25 c); rule T22.2 (b)")
             mine = self.latest(batch_id, target_id).get(annotator_id)
             if mine and not replaces:
                 raise _spec("one assessment per (annotator, target, namespace); a correction names the replaced one (T22.5 e)")
@@ -369,11 +418,15 @@ class Store:
 
     def _write_adjudication(self, batch_id: str, target: dict[str, Any], final_label: str, tier: str, method: str,
                             assessments: list[dict[str, Any]], people: list[str], actor_id: str) -> dict[str, Any]:
+        self._refuse_workflow_row(*people)
+        if any(r["namespace"] != "reference" for r in assessments):
+            raise _spec("an adjudication's namespace equals the namespace of every assessment it lists; rule T23.16 (a)")
         reference_class = self._reference_class(batch_id, target, assessments, people)
         row = {"adj_id": human_id("adj"), "target_type": target["target_type"], "target_id": target["target_id"], "namespace": "reference",
                "final_label": P.check_label(final_label), "tier": tier, "method": method,
                "assessment_ids": [r["rva_id"] for r in assessments], "agreement_stat_ref": batch_id,
-               "agreement_stat_ref_null_reason": None, "prov_class": "human_adjudicated", "reference_class": reference_class}
+               "agreement_stat_ref_null_reason": None, "prov_class": "human_adjudicated", "reference_class": reference_class,
+               "reference_class_null_reason": None}
         self._check("adjudication", row)
         self._append("adjudication.jsonl", {"batch_id": batch_id, "recording_id": target["recording_id"], "row": row})
         if target["target_type"] in P.STATUS_TARGETS:  # T22.8 (a); ref_event writes no status entry (T22.3 c)
@@ -418,6 +471,7 @@ class Store:
     def adjudicate(self, batch_id: str, target_id: str, adjudicator_id: str, final_label: str) -> dict[str, Any]:
         """T22.7 (b), and (d) re-adjudication after an audit disagreement."""
         with self.lock:
+            self._refuse_workflow_row(adjudicator_id)
             if self.adjudicator(batch_id) != adjudicator_id:
                 raise _spec("only the batch adjudicator adjudicates (T22.7 b)")
             if target_id not in self.needs_adjudication(batch_id):
@@ -437,6 +491,7 @@ class Store:
     def consensus(self, batch_id: str, target_id: str, reviewer_id: str, final_label: str) -> dict[str, Any]:
         """T22.7 (c): no adjudicator available; the two reviewers agree a final label together."""
         with self.lock:
+            self._refuse_workflow_row(reviewer_id)
             if self.adjudicator(batch_id) is not None:
                 raise _spec("the batch has an adjudicator; a consensus meeting is only used when none is available (T22.7 c)")
             if reviewer_id not in self.reviewers(batch_id) or target_id not in self.needs_adjudication(batch_id):

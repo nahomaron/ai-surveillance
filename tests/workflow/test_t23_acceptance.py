@@ -4,9 +4,9 @@ Every T23 fixture runs through the application: sign-in, the workflow pages and 
 log and the status log. Expected values are read from the committed fixture files, whose values are retyped from the T23
 text in tests/fixtures_t03/test_t23_fixtures.py.
 
-CR-030 item 1 (open): a candidate_review adjudication cannot be stored (the adjudication schema requires
-reference_class; T22.1 (b) says candidate_review is never given one). The safety-manager parts of FX-14a and FX-14b that
-need it are strict xfails, so they fail loudly once the item is ruled and implemented.
+CR-030 item 1 was ruled by D-49 (T23.16, contract E-1.2.23): candidate_review adjudications have a null reference_class
+with reason not_applicable. The strict-xfail marks of the FX-14a and FX-14b safety-manager checks are removed by that
+ruling (D-49.1 section 6.1).
 """
 from __future__ import annotations
 
@@ -21,9 +21,6 @@ from conftest import ROOT, links
 from rq1.evaluation.estimators import Z95, wilson
 from rq1.schema import validate
 from rq1.workflow import rules as R
-from rq1.workflow.store import CR030_1
-
-BLOCKED = pytest.mark.xfail(strict=True, reason="BLOCKED: CR-030 item 1 (candidate_review adjudication reference_class)")
 
 
 def cr_rows(app, kind="assessments"):
@@ -79,10 +76,9 @@ def test_fx14a_reject_then_uphold_states_and_indicators(make_wf):
     assert (ind["I3"].value.k, ind["I3"].value.n) == tuple(exp["I3"])
     assert (ind["I4"].value.k, ind["I4"].value.n) == tuple(exp["I4"])
     status, page = app.client("SM-1").text(f"/wf/report/{rid}")
-    assert CR030_1 in page  # the page states that the adjudication was not written
+    assert "safety-manager decision" in page and "tier2" not in page.lower().replace("tier 2", "")  # T23.16 (c)
 
 
-@BLOCKED
 def test_fx14a_uphold_writes_adjudication_and_rejected_status(make_wf):
     app = make_wf("FX-14a")
     [rid] = app.intake()
@@ -104,7 +100,6 @@ def test_fx14b_overturn_recorded_and_i4(make_wf):
     assert exp["wording"] in page
 
 
-@BLOCKED
 def test_fx14b_overturn_status_confirmed(make_wf):
     app = make_wf("FX-14b")
     [rid] = app.intake()
@@ -256,12 +251,18 @@ def test_fx14h_linter_rules():
     assert R.lint_workflow("<p>collision</p>") and R.lint_workflow("<p>OSHA said so</p>")
 
 
-def test_fx14h_human_text_with_unqualified_wording_is_refused(make_wf):
+def test_fx14h_human_text_is_stored_verbatim_and_shown_in_a_user_block(make_wf):
+    """AR-63 item 8 is reversed by T23.22 (D-49): a report is never refused for its wording; the text is stored verbatim,
+    HTML-escaped and shown in an "entered by <pseudonym>" block that the linter skips."""
     app = make_wf("FX-14h")
     c = app.client("W-1")
-    status, _, body = c.post("/wf/file", {"kind": "near_miss", "area_id": app.area_id, "occurred_at": "2026-11-16T09:00",
-                                          "description": "It was a near miss."})
-    assert status == 400 and b"T23.12" in body and app.store.reports() == []
+    status, headers, body = c.post("/wf/file", {"kind": "near_miss", "area_id": app.area_id, "occurred_at": "2026-11-16T09:00",
+                                                "description": "It was a near miss."})
+    assert status == 303
+    [r] = app.store.reports()
+    assert r.fields["description"] == "It was a near miss."
+    status, page = c.text(f"/wf/report/{r.report_id}")
+    assert status == 200 and "entered by W-1" in page
 
 
 def crawl(app, pseudonym: str, start: str = "/wf") -> dict[str, str]:
@@ -292,7 +293,8 @@ def test_fx14h_every_workflow_page_and_export_passes_the_linter(make_wf):
         pages.update({f"{who} {k}": v for k, v in crawl(app, who).items()})
     assert len(pages) > 20
     for name, text in pages.items():
-        issues = R.lint_workflow(text, html_page=not name.endswith((".json", ".csv")))
+        exempt = (R.source_banner(app.store.source_quality()),)  # T23.26: a fixed banner the pages must print
+        issues = R.lint_workflow(text, html_page=not name.split("?")[0].endswith((".json", ".csv")), exempt=exempt)
         assert issues == [] or name.endswith(".json"), (name, issues)
         assert not re.search(r"(https?:)?//(?!127\.0\.0\.1)[a-z0-9.-]+\.[a-z]{2,}", text.replace("http://www.w3.org", "")), name
     any_ai = [v for k, v in pages.items() if "/wf/inbox" in k]
@@ -400,7 +402,7 @@ def test_logs_verify_after_a_full_session(make_wf):
     app.act("SM-1", rid, "sm_reopen", note="New footage angle.")
     assert only_report(app).state == "pending_sm"
     status, _, body = app.act("SM-1", rid, "sm_uphold", note="x")
-    assert status == 400 and b"CR-030 item 9" in body  # no area-manager rejection to uphold
+    assert status == 400 and b"T23.20 (a)" in body  # no area-manager rejection to uphold
     assert app.store.verify() == {"report_log": [], "status_log": []}
     for e in app.store.report_log.entries():
         assert validate.validate_row("wf_report_log", e) == []

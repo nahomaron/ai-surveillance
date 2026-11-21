@@ -1,6 +1,6 @@
 """T23 command line. `python -m rq1.workflow demo|summary` from the repository root (PYTHONPATH=src).
 
-  demo     run the T23.11 demo draw on a NEW store (refused if the store already has a demo manifest)
+  demo     run the T23.11 demo draw on a NEW store, which it lists in the store registry first (T23.25 a)
   summary  print the demo manifest summary and the log verification of a store
 
 The application itself is served by `python -m rq1.review serve --store <store>` (one server, one sign-in).
@@ -11,6 +11,7 @@ import argparse
 import json
 from pathlib import Path
 
+from rq1.review.registry import StoreRegistry
 from rq1.workflow.demo import SdgDemoSource, draw_demo
 from rq1.workflow.store import WorkflowStore
 
@@ -46,6 +47,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "demo":
         if Path(args.store).exists() and any(Path(args.store).iterdir()):
             raise SystemExit("The demo runs on a NEW store; this folder is not empty.")
+        StoreRegistry.default().register(Path(args.store))
         store = WorkflowStore(Path(args.store))
         draw_demo(store, SdgDemoSource(args.root), args.seed)
     else:

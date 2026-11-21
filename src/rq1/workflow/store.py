@@ -1,4 +1,5 @@
-"""The T23 workflow store (contract E-1.2.22; D-48), in the same folder and sign-in as the V-02 validation store.
+"""The T23 workflow store (contract E-1.2.22; D-48, with T23.16-T23.27, E-1.2.23; D-49), in the same folder and sign-in as
+the V-02 validation store.
 
 `WorkflowStore` extends the V-02 `Store`: the T23 tables (wf_*) are JSONL files beside the V-02 files, every row checked
 with `validate.validate_row` before it is written; `wf_report_log.jsonl` is append-only and hash-chained like
@@ -7,7 +8,10 @@ exposure rule sees them, T23.11 c) and status entries into the V-02 status log. 
 
 System-side helper files that are not contract tables (AR-63 item 4): `wf_episode.jsonl` (what the server needs to
 play a member's clip and write its status entry), `wf_monitoring.jsonl` (calendar-placed S1 coverage per camera),
-`wf_displays.jsonl` (first display of a report to a person, for review_time_s).
+`wf_displays.jsonl` (first display of a report to a person, for review_time_s and the T23.25 c exposure rule).
+
+E-1.2.23: safety-manager decisions on AI reports write candidate_review adjudications (reference_class null, T23.16) and
+status entries; every successful action is one hash-chained log entry and a refused action writes nothing (T23.20 f).
 """
 from __future__ import annotations
 
@@ -20,6 +24,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from rq1.review import protocol as P
+from rq1.review.registry import StoreRegistry
 from rq1.review.store import KDF_ITERATIONS, Store, _now, human_id
 from rq1.schema.canonical import canonical_json
 from rq1.schema.errors import ContractError
@@ -30,9 +35,6 @@ from rq1.workflow.clips import frame_hashes
 GENESIS = "0" * 64
 SYSTEM = "system"
 OWNER = "owner"
-# CR-030 item 1: a candidate_review adjudication needs a reference_class (schema) but is never given one (T22.1 b).
-CR030_1 = ("Adjudication and status entry not written: a candidate_review adjudication cannot be stored until CR-030 "
-           "item 1 is ruled (the schema requires reference_class; T22.1 (b) says candidate_review never has one).")
 AM_QUAL = "workflow area_manager (T23): manager decision record, not a reference reviewer"
 SM_QUAL = "workflow safety_manager (T23): manager decision record, not a reference adjudicator"
 
@@ -77,11 +79,13 @@ class HashLog:
         return entry
 
     def verify(self) -> list[Issue]:
-        previous = GENESIS
+        previous, last = GENESIS, ""
         for k, e in enumerate(self.entries()):
             if "_unreadable" in e or e.get("seq") != k or e.get("prev_hash") != previous or e.get("record_hash") != self._hash(e):
                 return [Issue("T23.15", "ERR-INVARIANT", self.table, "record_hash", f"chain broken at seq {k}")]
-            previous = e["record_hash"]
+            if e.get("created_utc", "") < last:  # T23.18 (b); canonical UTC text sorts as time
+                return [Issue("T23.18", "ERR-INVARIANT", self.table, "created_utc", f"created_utc decreases at seq {k} (T23.18 b)")]
+            previous, last = e["record_hash"], e.get("created_utc", "")
         return []
 
     def head(self) -> tuple[int, str]:
@@ -90,8 +94,9 @@ class HashLog:
 
 
 class WorkflowStore(Store):
-    def __init__(self, root: str | Path, clock: Callable[[], datetime] = _now, kdf_iterations: int = KDF_ITERATIONS) -> None:
-        super().__init__(root, clock, kdf_iterations)
+    def __init__(self, root: str | Path, clock: Callable[[], datetime] = _now, kdf_iterations: int = KDF_ITERATIONS,
+                 registry: StoreRegistry | None = None) -> None:
+        super().__init__(root, clock, kdf_iterations, registry=registry)
         self.report_log = HashLog(self.root / "wf_report_log.jsonl", "wf_report_log")
 
     # --- rows -------------------------------------------------------------------------------------------------------
@@ -102,6 +107,7 @@ class WorkflowStore(Store):
         return row
 
     def establishments(self) -> dict[str, dict[str, Any]]:
+        """In registration order (T23.27 e: no page sorts establishments)."""
         return {r["est_id"]: r for r in self._read("wf_establishment.jsonl")}
 
     def areas(self) -> dict[str, dict[str, Any]]:
@@ -142,6 +148,8 @@ class WorkflowStore(Store):
         with self.lock:
             if not name.strip():
                 raise _spec("an establishment has a name")
+            if demo is not True:
+                raise _spec("only demo (simulated) establishments exist in the present RQ1 work; demo = false is refused (T23.27 b)")
             return self._row("wf_establishment", {"est_id": est_id or human_id("est"), "name": name.strip(), "demo": bool(demo)})
 
     def add_area(self, est_id: str, name: str, camera_ids: list[str], area_id: str | None = None) -> dict[str, Any]:
@@ -192,14 +200,22 @@ class WorkflowStore(Store):
             return self._row("wf_hours", {"est_id": est_id, "period": period, "hours_worked": hours, "entered_by": entered_by,
                                           "created_utc": R.utc(self.clock())})
 
-    def hours(self, est_id: str, period: str) -> float | None:
-        rows = [r for r in self._read("wf_hours.jsonl") if r["est_id"] == est_id and r["period"] == period]
-        return rows[-1]["hours_worked"] if rows else None  # the latest entry for the period
+    def hours(self, est_id: str, period: str, as_of: str | None = None) -> float | None:
+        """Human-entered hours worked; the latest entry for the period entered by as_of (AR-64)."""
+        rows = [r for r in self._read("wf_hours.jsonl") if r["est_id"] == est_id and r["period"] == period
+                and (as_of is None or r["created_utc"] <= as_of)]
+        return rows[-1]["hours_worked"] if rows else None
 
-    def set_monitoring(self, camera_id: str, segments: list[dict[str, Any]], has_source_output: bool, source: str) -> None:
-        """Calendar-placed S1 coverage of one camera (start_utc, end_utc, coverage_state per segment)."""
-        self._append("wf_monitoring.jsonl", {"camera_id": camera_id, "segments": segments, "has_source_output": bool(has_source_output),
-                                             "source": source})
+    def set_monitoring(self, camera_id: str, segments: list[dict[str, Any]], has_source_output: bool, source: str,
+                       processed: list[dict[str, Any]] | None = None) -> None:
+        """Calendar-placed S1 coverage of one camera (start_utc, end_utc, coverage_state per segment) and its processed
+        coverage: the S5 artifacts of the source configuration with the window each covers (T23.23 a; AR-64)."""
+        if processed is None:
+            processed = ([{"start_utc": segments[0]["start_utc"], "end_utc": segments[-1]["end_utc"], "s5_artifact_id": None}]
+                         if has_source_output and segments else [])
+        R.check_processed(camera_id, processed)  # before anything is written
+        self._append("wf_monitoring.jsonl", {"camera_id": camera_id, "segments": segments, "has_source_output": bool(processed),
+                                             "source": source, "processed": processed})
 
     # --- sign-in (V-02 plus wf users) -----------------------------------------------------------------------------------
 
@@ -243,12 +259,52 @@ class WorkflowStore(Store):
 
     # --- reports -------------------------------------------------------------------------------------------------------
 
-    def reports(self) -> list[R.Report]:
+    def reports(self, as_of: str | None = None) -> list[R.Report]:
+        """The fold of the report log, truncated at as_of (entries with created_utc <= as_of, T23.18 b) when given. A report
+        whose creation entry is after as_of does not exist yet."""
         by: dict[str, list[dict[str, Any]]] = {}
         for e in self.report_log.entries():
-            if "report_id" in e:
+            if "report_id" in e and (as_of is None or e["created_utc"] <= as_of):
                 by.setdefault(e["report_id"], []).append(e)
-        return [R.fold(h, by.get(rid, [])) for rid, h in self.headers().items()]
+        return [R.fold(h, by[rid]) for rid, h in self.headers().items() if rid in by]
+
+    def calendar_start(self) -> str | None:
+        m = self.demo_manifest()
+        return m["calendar_start_utc"] if m else None
+
+    def ep_times(self) -> dict[str, tuple[datetime, datetime, str]]:
+        """Member episode -> (start, end, camera) on the calendar (T23.23 c)."""
+        out = {}
+        fallback = self.calendar_start()
+        for ep_id, e in self.episodes().items():
+            cal = e.get("calendar_start_utc") or fallback
+            if cal:
+                c = R.parse_utc(cal)
+                out[ep_id] = (c + timedelta(seconds=e["t_start_tl_s"]), c + timedelta(seconds=e["t_end_tl_s"]), e["camera_id"])
+        return out
+
+    def view(self, est_id: str, area_id: str | None, period: str, as_of: str | None = None,
+             params: dict[str, Any] | None = None) -> dict[str, Any]:
+        """T23.18 (b): every indicator, flag and regulator-view figure from the report log truncated at as_of. The view
+        prints as_of, the truncated log length and its head hash."""
+        as_of = as_of or R.utc(self.clock())
+        R.parse_utc(as_of)
+        entries = [e for e in self.report_log.entries() if e.get("created_utc", "") <= as_of]
+        cfg = {**self.config(), **(params or {})}
+        ind = R.indicators(self.reports(as_of), est_id, area_id, period, self.areas(), self.monitoring(),
+                           self.hours(est_id, period, as_of), cfg, R.parse_utc(as_of), self.ep_times())
+        return {"indicators": ind, "flags": R.flags(ind, cfg), "as_of": as_of, "log_length": len(entries),
+                "head_hash": entries[-1]["record_hash"] if entries else GENESIS, "params": cfg}
+
+    def source_quality(self) -> dict[str, Any] | None:
+        """T23.26: the alert source's recorded figures, from the demo manifest (None if not recorded)."""
+        m = self.demo_manifest()
+        return (m or {}).get("source_quality")
+
+    def combined(self, report: R.Report) -> dict[str, Any]:
+        """T23.24: the view-time combined clearance of an AI report's members (never stored)."""
+        eps = self.episodes()
+        return R.combined([eps[m] for m in report.members if m in eps])
 
     def report(self, report_id: str) -> R.Report:
         h = self.headers().get(report_id)
@@ -268,9 +324,12 @@ class WorkflowStore(Store):
                "linked_record_ids": list(linked or []), "created_utc": R.utc(self.clock())}
         return self.report_log.append(row)
 
-    def register_episode(self, desc: dict[str, Any]) -> None:
+    def register_episode(self, desc: dict[str, Any], calendar_start: datetime | None = None) -> None:
         if desc["ep_id"] not in self.episodes():
-            self._append("wf_episode.jsonl", desc)
+            row = dict(desc)
+            if calendar_start is not None:
+                row["calendar_start_utc"] = R.utc(calendar_start)
+            self._append("wf_episode.jsonl", row)
 
     def _retention_policy(self) -> str:
         rows = self._read("retention_policy.jsonl")
@@ -303,21 +362,22 @@ class WorkflowStore(Store):
             cfg = self.config()
             done = {m for h in self.headers().values() for m in (h["member_episode_ids"] or [])}
             eps = [e for e in episodes if e["g2_label"] in R.G2_SOURCE and e["camera_id"] in area["camera_ids"] and e["ep_id"] not in done]
-            if len({e["timeline_id"] for e in eps}) > 1:
-                raise _spec("the area's episodes are on more than one timeline; grouping across timelines is undefined (CR-030 item 7)")
             created = []
-            for group in R.group_episodes(eps, cfg["t_group_s"]):
+            for group, basis in R.group_episodes(eps, cfg["t_group_s"]):  # T23.21 (b), (c)
                 for m in group:
-                    self.register_episode(m)
+                    self.register_episode(m, calendar_start)
                 clips = [self._evidence_clip(m) for m in sorted(group, key=lambda m: m["ep_id"])]
-                fields = R.prefill(group, est["est_id"], area, calendar_start, est["demo"], clips)
-                header = {"report_id": human_id("rpt"), "kind_initial": R.report_kind(group), "origin": "ai",
-                          "est_id": est["est_id"], "area_id": area_id, "member_episode_ids": sorted(m["ep_id"] for m in group),
-                          "member_episode_ids_null_reason": None, "created_utc": R.utc(self.clock())}
-                self._row("wf_report", header)
-                self._log(None, header["report_id"], "create_ai", SYSTEM, "pending_am", R.changes({}, fields))
-                created.append(header["report_id"])
+                fields = R.prefill(group, est["est_id"], area, calendar_start, est["demo"], clips, basis)
+                created.append(self._create_ai(group, est["est_id"], area_id, fields))
             return created
+
+    def _create_ai(self, group: list[dict[str, Any]], est_id: str, area_id: str, fields: dict[str, Any]) -> str:
+        header = {"report_id": human_id("rpt"), "kind_initial": R.report_kind(group), "origin": "ai",
+                  "est_id": est_id, "area_id": area_id, "member_episode_ids": sorted(m["ep_id"] for m in group),
+                  "member_episode_ids_null_reason": None, "created_utc": R.utc(self.clock())}
+        self._row("wf_report", header)
+        self._log(None, header["report_id"], "create_ai", SYSTEM, "pending_am", R.changes({}, fields))
+        return header["report_id"]
 
     def create_human(self, who: dict[str, Any], form: dict[str, Any]) -> str:
         """T23.6: any signed-in workflow user (or the Owner) files a report for an area."""
@@ -358,7 +418,7 @@ class WorkflowStore(Store):
                 if v not in ("", "yes", "no"):
                     raise _spec(f"{k} is yes or no")
                 out[k] = v
-            elif k == "duration_s" or k == "min_clearance_m":
+            elif k == "duration_s":
                 out[k] = None if v in ("", None) else float(v)
             elif k in ("camera_ids", "evidence_clip_ids", "objects_involved"):
                 out[k] = v if isinstance(v, list) else [x.strip() for x in str(v).split(",") if x.strip()]
@@ -367,8 +427,25 @@ class WorkflowStore(Store):
         if kind == "near_miss":
             for f, _, _ in R.INCIDENT_FIELDS:
                 out.pop(f, None)
-        R.check_human_text(*[v for k, v in out.items() if k not in ("occurred_at", "kind", "ai_label")])
-        return out
+        return out  # T23.22: stored verbatim; a report is never refused for its wording
+
+    def _observability(self, report: R.Report, form: dict[str, Any]) -> dict[str, Any]:
+        """T23.23 (c): camera_observability with the camera IDs checked, set by the area manager on a human-started report."""
+        obs = form.get("camera_observability")
+        cams = form.get("observability_cameras") or []
+        cams = cams if isinstance(cams, list) else [c for c in str(cams).split(",") if c]
+        if obs in (None, "") and not cams:
+            return {}
+        if report.origin != "human":
+            raise _spec("camera_observability is a field of human-started reports (T23.23 c)")
+        if obs not in R.OBSERVABILITY:
+            raise _spec(f"camera_observability is one of {', '.join(R.OBSERVABILITY)} (T23.23 c)")
+        area = self.areas()[report.fields["area_id"]]
+        if obs != "undetermined" and not cams:
+            raise _spec("camera_observability needs the camera IDs checked (T23.23 c)")
+        if any(c not in area["camera_ids"] for c in cams):
+            raise _spec("the cameras checked are cameras of the report's area")
+        return {"camera_observability": obs, "observability_cameras": sorted(set(cams))}
 
     # --- actions (T23.4) ---------------------------------------------------------------------------------------------
 
@@ -381,7 +458,11 @@ class WorkflowStore(Store):
         is_am = "area_manager" in user["roles"] and area_id in user["area_ids"]
         is_sm = "safety_manager" in user["roles"] and user.get("est_id") == est_id
         if action in R.AM_DECISIONS:
-            return None if is_am else "only an area manager of the report's area"
+            if not is_am:
+                return "only an area manager of the report's area"
+            if action == "am_split" and (report.origin != "ai" or len(report.members) < 2):
+                return "am_split is for an AI report with at least two members (T23.20 e)"
+            return None
         if action in R.SM_ACTIONS:
             if not is_sm:
                 return "only the safety manager of the report's establishment"
@@ -389,6 +470,10 @@ class WorkflowStore(Store):
                 return "this person decided the report as area manager and cannot act on it as its safety manager (T23.1 b)"
             if action == "set_recordability" and report.fields.get("kind") != "incident":
                 return "recordability is set on a recorded incident only (T23.7 b)"
+            if action == "sm_confirm_duplicate" and not report.reopened_duplicate():
+                return "sm_confirm_duplicate follows sm_reopen of a closed_duplicate (T23.20 c)"
+            if action == "withdraw_recordability" and report.determination in ("not_set", "withdrawn"):
+                return f"there is no recordability determination to withdraw (it is {report.determination}; T23.19 c)"
             return None
         if action == "edit_fields":
             if report.state == "pending_am":
@@ -414,6 +499,8 @@ class WorkflowStore(Store):
         return None
 
     def act(self, who: dict[str, Any], report_id: str, action: str, form: dict[str, Any]) -> dict[str, Any]:
+        """One T23.4 action. Every input is checked before the first write, so a refused action writes nothing to any file
+        and leaves the state unchanged (T23.20 f)."""
         with self.lock:
             user = self.actor(who)
             report = self.report(report_id)
@@ -424,52 +511,85 @@ class WorkflowStore(Store):
                 raise _forbidden(why)
             to = R.TRANSITIONS[action][2] or report.state
             note = (form.get("note") or "").strip() or None
-            if note:
-                R.check_human_text(note)
             ai = report.origin == "ai"
-            if action == "am_approve":
+            multi = ai and len(report.members) >= 2
+            if action in ("am_approve", "sm_overturn"):
                 label = form.get("label")
                 if label not in R.APPROVE_LABELS:
-                    raise _spec("am_approve requires label nm or ct (T23.4)")
-                linked = self._am_records(user, report, label, form, "approve") if ai else []
-                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, note=note, linked=linked)
+                    raise _spec(f"{action} requires label nm or ct (T23.4)")
+                if action == "sm_overturn" and not note:
+                    raise _spec("sm_overturn requires a note (T23.4)")
+                ch_after: dict[str, Any] = {"kind": R.KIND_OF_LABEL[label]}  # T23.18 (e)
+                dup = action == "sm_overturn" and report.reopened_duplicate()
+                gr = form.get("group_resolution") or None
+                if multi or dup:  # T23.21 (d), T23.20 (d)
+                    if gr not in R.GROUP_RESOLUTIONS:
+                        raise _spec(f"{action} on this report requires group_resolution one_interaction or cannot_tell; if the "
+                                    "members show several interactions, the area manager uses am_split first (T23.21 d)")
+                    ch_after["group_resolution"] = gr
+                elif gr:
+                    raise _spec("group_resolution is given for an AI report with two or more members (T23.21 d)")
+                if dup:
+                    ch_after["duplicate_of"] = None  # T23.20 (d)
+                if action == "am_approve":
+                    ch_after.update(self._observability(report, form))
+                    plan = self._am_plan(user, report, form) if ai else None
+                    ch = R.changes(report.fields, ch_after)
+                    linked = self._am_records(user, report, label, plan, "approve") if ai else []
+                else:
+                    ch = R.changes(report.fields, ch_after)
+                    linked = self._sm_records(user, report, label) if ai else []
+                return self._log(report, report_id, action, user["user_id"], to, ch, label=label, note=note, linked=linked)
             if action == "am_reject":
                 reason = form.get("reason")
                 if reason not in R.REJECT_REASONS:
                     raise _spec("am_reject requires a reason from not_hazardous, no_person_or_no_forklift, cannot_tell_from_video, other (T23.5 b)")
                 label = R.REJECT_REASONS[reason]
-                linked = self._am_records(user, report, label, form, "reject") if ai else []
-                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, reason=reason, note=note, linked=linked)
+                ch = R.changes(report.fields, self._observability(report, form))
+                plan = self._am_plan(user, report, form) if ai else None
+                linked = self._am_records(user, report, label, plan, "reject") if ai else []
+                return self._log(report, report_id, action, user["user_id"], to, ch, label=label, reason=reason, note=note, linked=linked)
             if action == "am_duplicate":
                 dup = form.get("duplicate_of", "")
-                if dup == report_id or dup not in self.headers():
-                    raise _spec("am_duplicate requires another existing report (T23.4)")
-                return self._log(report, report_id, action, user["user_id"], to, {"duplicate_of": {"before": "null", "after": json.dumps(dup)}},
+                target = self._reports_by_id().get(dup)
+                if dup == report_id or target is None:
+                    raise _spec("am_duplicate requires duplicate_of, a different report (T23.20 b)")
+                if target.fields.get("est_id") != report.fields.get("est_id"):
+                    raise _spec("duplicate_of is a report of the same establishment (T23.20 b)")
+                if target.state in ("closed_duplicate", "closed_split"):
+                    raise _spec(f"duplicate_of cannot be a report in state {target.state}: no chains or cycles (T23.20 b)")
+                return self._log(report, report_id, action, user["user_id"], to, R.changes(report.fields, {"duplicate_of": dup}),
                                  reason=f"duplicate_of {dup}", note=note)
-            if action in ("sm_uphold", "sm_overturn", "sm_reclassify", "sm_reopen", "sm_note") and not note:
+            if action in ("sm_uphold", "sm_reclassify", "sm_reopen", "sm_note", "sm_confirm_duplicate", "withdraw_recordability") and not note:
                 raise _spec(f"{action} requires a note (T23.4)")
             if action == "sm_uphold":
                 am = report.actions(*R.AM_DECISIONS)
                 if not am or am[-1]["action"] != "am_reject":
-                    raise _spec("sm_uphold without an area-manager rejection has no area manager's label to uphold (CR-030 item 9)")
-                label = am[-1]["label"] if ai else None
-                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, note=note)
-            if action == "sm_overturn":
-                label = form.get("label")
-                if label not in R.APPROVE_LABELS:
-                    raise _spec("sm_overturn requires label nm or ct (T23.4)")
-                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, note=note)
+                    raise _spec("sm_uphold requires that the latest area-manager decision is am_reject; rule T23.20 (a)")
+                label = am[-1]["label"]
+                linked = self._sm_records(user, report, label) if ai else []
+                return self._log(report, report_id, action, user["user_id"], to, {}, label=label if ai else None, note=note, linked=linked)
             if action == "sm_reclassify":
+                if report.determination in ("yes", "no"):
+                    raise _spec(f"the recordability determination is {report.determination}: withdraw it or edit the kind or label "
+                                "before sm_reclassify (T23.19 (e))")
                 reason = (form.get("reason") or "").strip()
                 if not reason:
                     raise _spec("sm_reclassify requires a reason (T23.4)")
-                R.check_human_text(reason)
                 label = form.get("label") or "not_hazardous"
                 if label not in R.RECLASSIFY_LABELS:
                     raise _spec("sm_reclassify writes not_hazardous unless the safety manager picks ud (T23.5 c)")
-                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, reason=reason, note=note)
-            if action in ("sm_reopen", "sm_note"):
+                linked = self._sm_records(user, report, label) if ai else []
+                return self._log(report, report_id, action, user["user_id"], to, {}, label=label, reason=reason, note=note, linked=linked)
+            if action in ("sm_reopen", "sm_note", "sm_confirm_duplicate"):
                 return self._log(report, report_id, action, user["user_id"], to, {}, note=note)
+            if action == "withdraw_recordability":
+                reason = form.get("reason")
+                if reason not in R.WITHDRAW_REASONS:
+                    raise _spec(f"withdraw_recordability requires a reason from {', '.join(R.WITHDRAW_REASONS)} (T23.19 c)")
+                return self._log(report, report_id, action, user["user_id"], to, {}, reason=reason, note=note)
+            if action == "am_split":
+                return self._split(user, report, form, note)
             if action == "edit_fields":
                 raw = {k: v for k, v in form.items() if k in R.EDITABLE}
                 kind = raw.get("kind", report.fields.get("kind"))
@@ -482,15 +602,65 @@ class WorkflowStore(Store):
                     if area is None:
                         raise _spec("unknown area")
                     new["est_id"] = area["est_id"]
+                if any(k in form for k in R.OBS_FIELDS):
+                    if report.state != "pending_am":
+                        raise _spec("camera_observability is set by the area manager (T23.23 c)")
+                    new.update(self._observability(report, form))
                 ch = R.changes(report.fields, new)
                 if not ch:
                     raise _spec("edit_fields requires changed fields (T23.4)")
                 return self._log(report, report_id, action, user["user_id"], to, ch, note=note)
             if action == "set_recordability":
                 rec = self._recordability(user, form)
-                return self._log(report, report_id, action, user["user_id"], to,
-                                 R.changes({"recordability": report.recordability}, {"recordability": rec}), note=rec["note"])
+                dump = lambda v: json.dumps(v, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+                ch = {"recordability": {"before": dump(report.recordability), "after": dump(rec)}}  # always one entry (T23.19 b)
+                return self._log(report, report_id, action, user["user_id"], to, ch, note=rec["note"])
             raise _spec(f"unknown action {action!r}")
+
+    def _reports_by_id(self) -> dict[str, R.Report]:
+        return {r.report_id: r for r in self.reports()}
+
+    def duplicates_of(self, report_id: str) -> list[str]:
+        """T23.20 (b): the reports whose current duplicate_of is this report."""
+        return sorted(r.report_id for r in self.reports() if r.fields.get("duplicate_of") == report_id)
+
+    def _split(self, user: dict[str, Any], report: R.Report, form: dict[str, Any], note: str | None) -> dict[str, Any]:
+        """T23.20 (e): a partition of the members into two or more non-empty parts; one new pending_am AI report per part
+        (a create_ai entry carrying split_from); no assessment, adjudication or status entry for the original."""
+        if not note:
+            raise _spec("am_split requires a note (T23.20 e)")
+        parts = form.get("parts")
+        if parts is None:
+            by: dict[str, list[str]] = {}
+            for m in report.members:
+                k = str(form.get(f"part_{m}", "")).strip()
+                if not k:
+                    raise _spec("am_split assigns every member episode to a part (T23.20 e)")
+                by.setdefault(k, []).append(m)
+            parts = [by[k] for k in sorted(by)]
+        flat = [m for part in parts for m in part]
+        if sorted(flat) != sorted(report.members) or len(set(flat)) != len(flat) or any(not part for part in parts):
+            raise _spec("am_split requires a partition of the member episodes (T23.20 e)")
+        if len(parts) < 2:
+            raise _spec("am_split requires two or more non-empty parts (T23.20 e)")
+        eps, area = self.episodes(), self.areas()[report.fields["area_id"]]
+        est = self.establishments()[report.fields["est_id"]]
+        clip_of = dict(zip(sorted(report.members), report.fields.get("evidence_clip_ids", [])))
+        cal = eps[report.members[0]].get("calendar_start_utc") or self.calendar_start()
+        if cal is None:
+            raise _spec("the members' calendar start is not recorded; the parts' occurred_at cannot be placed")
+        prepared = []
+        for part in parts:
+            group = sorted((eps[m] for m in part), key=lambda e: e["ep_id"])
+            fields = R.prefill(group, est["est_id"], area, R.parse_utc(cal), est["demo"], [clip_of.get(m["ep_id"]) for m in group if m["ep_id"] in clip_of],
+                               report.fields.get("grouping_basis") or R.PER_CAMERA)
+            fields["split_from"] = report.report_id
+            prepared.append((group, fields))
+        entry = self._log(report, report.report_id, "am_split", user["user_id"], "closed_split", {},
+                          reason=f"split into {len(parts)} parts", note=note)
+        for group, fields in prepared:
+            self._create_ai(group, est["est_id"], area["area_id"], fields)
+        return entry
 
     def _recordability(self, user: dict[str, Any], form: dict[str, Any]) -> dict[str, Any]:
         """T23.7 (b): recordable in {yes, no, undetermined}; when yes, one or more criteria, with days counts where they apply."""
@@ -515,27 +685,27 @@ class WorkflowStore(Store):
         note = (form.get("note") or "").strip()
         if not note:
             raise _spec("set_recordability requires a note (T23.7 b)")
-        R.check_human_text(note)
         return {"recordable": rec, "criteria": sorted(crit, key=R.CRITERIA.index), "days": days, "decided_by": user["user_id"], "note": note}
 
-    def _am_records(self, user: dict[str, Any], report: R.Report, label: str, form: dict[str, Any], kind: str) -> list[str]:
-        """T23.5 (a), (b), (d): one candidate_review assessment and one status entry per member episode."""
+    def _am_plan(self, user: dict[str, Any], report: R.Report, form: dict[str, Any]) -> dict[str, Any]:
+        """The checked inputs of an area-manager decision on an AI report (checked before anything is written)."""
         try:
             confidence = float(form.get("confidence") or 3.0)
         except ValueError:
             raise _spec("confidence is 1.0, 2.0 or 3.0") from None
-        confidence = P.check_confidence(confidence)
-        rationale = P.check_rationale(form.get("rationale"))
-        R.check_human_text(rationale)
+        return {"confidence": P.check_confidence(confidence), "rationale": P.check_rationale(form.get("rationale"))}
+
+    def _am_records(self, user: dict[str, Any], report: R.Report, label: str, plan: dict[str, Any], kind: str) -> list[str]:
+        """T23.5 (a), (b), (d): one candidate_review assessment and one status entry per member episode."""
         anr = self._manager_annotator(user, "c_layer_reviewer")
         eps = self.episodes()
         now = self.clock()
         rt = self._review_time(report.report_id, user["user_id"], now)
         linked = []
-        for ep_id in report.header["member_episode_ids"]:
+        for ep_id in report.members:
             ep = eps[ep_id]
             row = {"rva_id": human_id("rva"), "annotator_id": anr, "namespace": "candidate_review", "target_type": "system_episode",
-                   "target_id": ep_id, "label": label, "confidence": confidence, "rationale": rationale, "blind": False,
+                   "target_id": ep_id, "label": label, "confidence": plan["confidence"], "rationale": plan["rationale"], "blind": False,
                    "shown_system_output": True, "review_time_s": rt, "review_time_s_null_reason": None if rt is not None else "not_observable",
                    "submitted_utc": R.utc(now)}
             self._check("reviewer_assessment", row)
@@ -545,6 +715,29 @@ class WorkflowStore(Store):
                                            layer="C", namespace="candidate_review", basis_ids=[row["rva_id"]], actor_id=anr,
                                            created_utc=now)
             linked += [row["rva_id"], entry["status_id"]]
+        return linked
+
+    def _sm_records(self, user: dict[str, Any], report: R.Report, final_label: str) -> list[str]:
+        """T23.5 (c), (d) with T23.16: one candidate_review adjudication per member (tier2, method adjudicator, reference_class
+        null with reason not_applicable; on pages a "safety-manager decision"), listing the area manager's latest assessment of
+        that member, and one status entry per member with the T22.8 (b) mapping of the final label."""
+        anr = self._manager_annotator(user, "adjudicator")
+        eps = self.episodes()
+        latest: dict[str, str] = {}
+        for e in self.assessments():
+            if e.get("report_id") == report.report_id and e["row"]["namespace"] == "candidate_review":
+                latest[e["row"]["target_id"]] = e["row"]["rva_id"]
+        now = self.clock()
+        linked = []
+        for ep_id in report.members:
+            ep = eps[ep_id]
+            target = {"target_type": "system_episode", "target_id": ep_id, "recording_id": ep["recording_id"]}
+            row = self.add_candidate_review_adjudication(target, final_label, [latest[ep_id]] if ep_id in latest else [], anr,
+                                                         report.report_id)
+            entry = self.status_log.append(target_type="system_episode", target_id=ep_id, config_id=ep["config_id"],
+                                           status=P.status_for(final_label, P.map_g2(ep["g2_label"])), layer="C",
+                                           namespace="candidate_review", basis_ids=[row["adj_id"]], actor_id=anr, created_utc=now)
+            linked += [row["adj_id"], entry["status_id"]]
         return linked
 
     # --- verification, snapshots, exports ----------------------------------------------------------------------------
@@ -557,7 +750,7 @@ class WorkflowStore(Store):
         if report.fields.get("kind") != "incident":
             raise _spec("the 301-style export is for incidents (T23.7 c)")
         est = self.establishments()[report.fields["est_id"]]
-        out = {"banner": R.EXPORT_301_BANNER, "report_id": report.report_id, "state": report.state,
+        out = {"banner": R.EXPORT_301_BANNER, "statement": R.DEMO_DATA_NOTE, "report_id": report.report_id, "state": report.state,
                "establishment": est["name"], "area": self.areas()[report.fields["area_id"]]["name"],
                "fields": {f: report.fields.get(f) for f, _, _ in R.INCIDENT_FIELDS},
                "labels": {f: label for f, label, _ in R.INCIDENT_FIELDS},
@@ -571,6 +764,7 @@ class WorkflowStore(Store):
         buf = io.StringIO()
         w = csv.writer(buf, lineterminator="\n")
         w.writerow([data["banner"]])
+        w.writerow([data["statement"]])
         if data.get("demo"):
             w.writerow([data["demo"]])
         w.writerow(["item", "value"])

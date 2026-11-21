@@ -1,5 +1,7 @@
 # W-01 — T23 reporting workflow: implementation report (D-48)
 
+> **Alert source (added by W-02 (T23.26, E-1.2.23)).** AI alerts in this demo come from configuration BL-6 (detector_path_pilot_d45). On SDG validation that source covers 12 % of worker–forklift co-visible frames (CM-03); most interactions produce no alert. Workflow measures describe the workflow, not the system's accuracy. Reported figures: CM-03 0.12, EV-M1 0.11, EV-M2 0.22 (reports/M1b_pilot_report.md (m0-implementation ec63113), BL-6 column C).
+
 Branch `v02-review-ui` only, not merged into `m0-implementation`. Contract **E-1.2.22** (Appendix T T23) exists on this branch only until the Owner merges it. Status: **implemented and verified on fixtures**. Nothing here is empirically validated. The demo runs on synthetic SDG data, and no manager decision was taken by the agent.
 
 ## What was built

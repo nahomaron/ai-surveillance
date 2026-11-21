@@ -359,19 +359,22 @@ _fx13()
 # --- Appendix T T23 (E-1.2.22; D-48): reporting-workflow fixtures FX-14, FX-14a to FX-14i -----------------------------
 # One fixture establishment and area with three cameras; calendar start Monday 2026-11-16 08:00 UTC (ISO week 2026-W47);
 # every camera monitored (usable S1 coverage) for [0, 3600) s from the calendar start.
+# E-1.2.23 (D-49): the establishment is a demo establishment (T23.27 b refuses demo = false), and each camera's coverage
+# is processed by exactly one S5 artifact of the source configuration (T23.23 a: monitored = usable and processed).
 _T23_CONFIG = "rcf_" + "bl6fx14".ljust(26, "0")
 _T23_EST = _fid("est", "fx14")
 _T23_AREA = _fid("area", "fx14a1")
 _T23_CAMS = [_fid("cam", f"fx14c{k}") for k in (1, 2, 3)]
 _T23_WORLD = {
     "calendar_start_utc": "2026-11-16T08:00:00.000000Z", "period": "2026-W47",
-    "establishment": {"est_id": _T23_EST, "name": "Fixture establishment", "demo": False},
+    "establishment": {"est_id": _T23_EST, "name": "Fixture establishment", "demo": True},
     "area": {"area_id": _T23_AREA, "est_id": _T23_EST, "name": "Fixture area 1", "camera_ids": _T23_CAMS},
     "users": [{"pseudonym": "AM-1", "roles": ["area_manager"], "est_id": None, "area_ids": [_T23_AREA]},
               {"pseudonym": "SM-1", "roles": ["safety_manager"], "est_id": _T23_EST, "area_ids": []},
               {"pseudonym": "W-1", "roles": ["worker"], "est_id": None, "area_ids": []},
               {"pseudonym": "OV-1", "roles": ["oversight"], "est_id": None, "area_ids": []}],
-    "monitoring": [{"camera_id": c, "segments": [{"t_start_s": 0.0, "t_end_s": 3600.0, "coverage_state": "usable"}]} for c in _T23_CAMS],
+    "monitoring": [{"camera_id": c, "segments": [{"t_start_s": 0.0, "t_end_s": 3600.0, "coverage_state": "usable"}],
+                    "s5_artifact_ids": [_fid("art", f"fx14s5c{k}")]} for k, c in enumerate(_T23_CAMS, 1)],
 }
 
 
@@ -429,13 +432,21 @@ def _fx14() -> None:
          "hours = 1 x 200,000 / 200,000 = 1.0. T23.7 (c): banner fixed; T23.7 (a): twelve fields.", incident=incident)
     human = {"as": "W-1", "action": "create_human", "kind": "near_miss", "offset_s": 1800.0,
              "description": "A forklift reversed out of aisle 3 while I was crossing; I stepped back."}
-    _t23("FX-14d", [], [human, {"as": "AM-1", "action": "am_approve", "label": "nm"}],
+    # E-1.2.23 (T23.23 c): I8 counts category 5 only, which needs the area manager's camera_observability = observable;
+    # the setup gains that step (CR-031 item 3). The expected values are unchanged.
+    _t23("FX-14d", [], [human, {"as": "AM-1", "action": "am_approve", "label": "nm", "camera_observability": "observable",
+                               "observability_cameras": [_T23_CAMS[0]]}],
          {"reports": 1, "state": "recorded", "I8": 1, "F4_k_miss_2": False, "F4_k_miss_1": True, "statuses": []},
-         "T23.8 I8: one recorded human-started near_miss at +1800 s, inside the area's monitored coverage [0, 3600) s, and no AI "
-         "alert report in the area within +-60 s -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. "
+         "T23.8 I8, as amended by T23.23 (c) and section 5 (E-1.2.23): one recorded human-started near_miss at +1800 s; the "
+         "window [1740, 1860] s lies inside the area's monitored coverage [0, 3600) s (usable and processed); the area manager "
+         "recorded camera_observability = observable for camera 1, and no AI report of the area has a member episode on camera 1 "
+         "overlapping the window -> category 5 -> I8 = 1. T23.9 F4: I8 >= k_miss: 1 >= 2 false; with k_miss = 1, 1 >= 1 true. "
          "T23.5 (e): no assessment, adjudication or status entry.")
     trio = [_ep23("e1", "lbl_nm", 0.0, cam=0), _ep23("e2", "lbl_nm", 1.5, cam=1), _ep23("e3", "lbl_nm", 3.2, cam=2)]
-    _t23("FX-14e", trio, [{"as": "AM-1", "action": "am_approve", "label": "nm", "rationale": "All three views show the truck stopping hard."}],
+    # E-1.2.23 (T23.21 d): a report with two or more members is approved with a group_resolution; the setup gains it
+    # (CR-031 item 3). The expected values are unchanged.
+    _t23("FX-14e", trio, [{"as": "AM-1", "action": "am_approve", "label": "nm", "rationale": "All three views show the truck stopping hard.",
+                           "group_resolution": "one_interaction"}],
          {"reports": 1, "members": 3, "assessments_n": 3, "statuses": ["confirmed", "confirmed", "confirmed"]},
          "Widened by 2.0 s: [-2.0, 3.0], [-0.5, 4.5], [1.2, 6.2]; 1 and 2 overlap, 2 and 3 overlap -> one group of three "
          "(transitive). One assessment and one status entry per member (T23.5 a, d).")
@@ -457,6 +468,137 @@ def _fx14() -> None:
 
 RECORDED_NM_PHRASES = ("recorded near miss (manager-approved)", "recorded near miss (safety-manager overturn)")
 _fx14()
+
+
+# --- Appendix T T23.16-T23.27 (E-1.2.23; D-49): fixtures FX-14j to FX-14ad ---------------------------------------------
+# Expected values are the D-49.1 section 6.1 table, with hand calculations where a number is derived.
+
+def _t23b(fixture_id: str, expected: dict[str, Any], hand: str, **inputs: Any) -> None:
+    _add(fixture_id, f"Appendix T T23.16-T23.27 (E-1.2.23), {fixture_id}", inputs={"world": _T23_WORLD, **inputs},
+         expected=expected, hand_calculation=hand)
+
+
+def _adj23(tag: str, namespace: str, reference_class: str | None, reason: str | None) -> dict[str, Any]:
+    return {"adj_id": _fid("adj", f"fx14{tag}"), "target_type": "system_episode", "target_id": _fid("ep", f"fx14{tag}"),
+            "namespace": namespace, "final_label": "nm", "tier": "tier2", "method": "adjudicator",
+            "assessment_ids": [_fid("rva", f"fx14{tag}")], "agreement_stat_ref": None, "agreement_stat_ref_null_reason": "not_applicable",
+            "prov_class": "human_adjudicated", "reference_class": reference_class, "reference_class_null_reason": reason}
+
+
+def _ep23b(tag: str, onset: float, cam: int = 0, g2: str = "lbl_nm", duration: float = 1.0, **over: Any) -> dict[str, Any]:
+    e = _ep23(tag, g2, onset, duration, cam)
+    e.update({"calibration_tier": "full_camera", "clearance_sigma_m": 0.05, "sigma_status": "uncalibrated_model",
+              "q_state": "sufficient", "q_reasons": [], "s4_artifact_id": _fid("art", f"fx14s4{tag}"),
+              "s5_artifact_id": _fid("art", f"fx14s5c{cam + 1}")})
+    e.update(over)
+    return e
+
+
+def _fx14_e1223() -> None:
+    _t23b("FX-14j", {"refused": True, "rule": "VR-E-056"},
+          "T23.16 (b): in candidate_review, reference_class is null with reason not_applicable; a class is refused (VR-E-056).",
+          row=_adj23("j", "candidate_review", "independent_expert_judgment", None))
+    _t23b("FX-14k", {"refused": True, "rule": "VR-E-056"},
+          "T23.16 (b): in reference, reference_class is required (set by T22.9); a null class is refused (VR-E-056) even with a "
+          "null reason that VR-E-002 alone would accept.",
+          row=_adj23("k", "reference", None, "not_applicable"))
+    _t23b("FX-14l", {"reference_adjudications": 1, "ev_m12_targets": 1, "kappa_targets": 1, "candidate_review_adjudications": 3,
+                     "later_batch_unchanged": True},
+          "T23.16 (d), (e): only the one reference adjudication (tier1, agreement) is returned by reference_adjudications(); the "
+          "EV-M12 population and the batch kappa are computed on 1 target; the 3 candidate_review adjudications change no draw.",
+          reference_target={"target_type": "system_episode", "target_id": _fid("ep", "fx14lref"), "recording_id": _fid("rec", "fx14lref"),
+                            "config_id": _T23_CONFIG, "g2_label": "lbl_nm", "summary_label": "NM"},
+          candidate_targets=[_fid("ep", f"fx14lcr{k}") for k in (1, 2, 3)])
+    _t23b("FX-14m", {"violation_found": True, "tree_clean": True},
+          "T23.16 (e): a module under src/rq1/evaluation/ that opens adjudication.jsonl directly is a violation; the real tree has none.",
+          planted="src/rq1/evaluation/_planted.py", planted_text='rows = open(root / "adjudication.jsonl").read()\n')
+    _t23b("FX-14n", {"refused": True, "rule": "T23.25 (d)"},
+          "T23.25 (d): an annotator row whose qualification_ref starts with 'workflow ' is refused at once for a reference assessment.",
+          qualification_ref="workflow area_manager (T23): manager decision record, not a reference reviewer")
+    _t23b("FX-14o", {"targets_of_R_in_S2_batch": 0, "demo_draw_in_S1_after_S2_batch": "refused (ERR-SPEC)"},
+          "T23.25 (b): create_batch in any registered store excludes every recording of every demo run of every registered store; "
+          "a demo draw is refused if a drawn run has a target in a batch of any registered store.")
+    _t23b("FX-14p", {"approved_then_reference": "refused (T22.2 b)", "display_only_then_reference": "refused (T22.2 b)",
+                     "owner_of_s1_then_reference": "refused (T22.2 b)", "unexposed_person": "accepted"},
+          "T23.25 (c): exposure per pseudonym across registered stores: (1) candidate_review records, (2) report-log entries, "
+          "(3) wf_displays entries, (4) the Owner of a store whose demo manifest includes the recording.")
+    two = [_ep23b("q1", 10.0, cam=0, duration=2.0), _ep23b("q2", 10.5, cam=1, duration=2.0)]
+    _t23b("FX-14q", {"reports": 1, "members": 2, "approve_without_group_resolution": "refused (ERR-SPEC)", "original_state": "closed_split",
+                     "new_reports": 2, "new_state": "pending_am", "I7_after_both_approved": 2},
+          "Widened by t_group_s = 2.0: [8, 14] and [8.5, 14.5] overlap -> one report of 2 members (common axis). T23.21 (d): "
+          "am_approve needs group_resolution. T23.20 (e): am_split {c1}, {c2} -> closed_split; one new pending_am report per part; "
+          "both approved nm -> 2 recorded near_miss reports; the original is excluded (section 5) -> I7 = 2.", episodes=two)
+    _t23b("FX-14r", {"reports": 1, "state": "recorded", "group_resolution": "one_interaction", "I7": 1, "cannot_tell": 0},
+          "As FX-14q; am_approve nm with group_resolution one_interaction -> one recorded near_miss report -> I7 = 1.", episodes=two)
+    _t23b("FX-14s", {"groups": 1, "t_group_s": 0.5},
+          "Episodes [0.5, 2.5] and [3.5, 4.5] widened by 0.5 s: [0, 3] and [3, 5]; closed intervals that touch merge (T23.21 b).",
+          episodes=[_ep23b("s1", 0.5, cam=0, duration=2.0), _ep23b("s2", 3.5, cam=1, duration=1.0)])
+    _t23b("FX-14t", {"reports": 2, "basis": "grouped per camera: no common clock"},
+          "T23.21 (c): two cameras on recording_local timelines with no evidence reference have no common axis: each camera's "
+          "episodes group on their own; overlapping local times [10, 11] and [10.2, 11.2] give two reports.",
+          episodes=[_ep23b("t1", 10.0, cam=0, timeline_kind="recording_local", timeline_id=_fid("tl", "fx14tc1")),
+                    _ep23b("t2", 10.2, cam=1, timeline_kind="recording_local", timeline_id=_fid("tl", "fx14tc2"))])
+    _t23b("FX-14u", {"B_state_after_confirm": "closed_duplicate", "B_duplicate_of": "A", "I7_after_confirm": 1,
+                     "A_duplicate_of_B_while_B_closed_duplicate": "refused (ERR-SPEC)", "B_duplicate_of_after_overturn": None,
+                     "I7_after_overturn": 2, "I4_n": 0},
+          "T23.20 (b)-(d): B duplicate of A; A duplicate of B is refused while B is closed_duplicate; A approved nm; B reopened and "
+          "confirmed -> closed_duplicate, I7 counts A only (1). B reopened and overturned nm -> duplicate_of null, recorded -> "
+          "I7 = 2. Section 5: sm_confirm_duplicate and the overturn of a duplicate are counted beside I4, outside n -> n = 0.",
+          episodes=[_ep23b("ua", 100.0), _ep23b("ub", 400.0)])
+    _t23b("FX-14v", {"refused": ["sm_uphold without am_reject", "sm_reclassify with recordability yes", "am_split with one part"],
+                     "store_bytes_changed": False},
+          "T23.20 (a), T23.19 (e), T23.20 (e), (f): each refused action writes nothing to any file and leaves state unchanged.",
+          episodes=[_ep23b("v1", 100.0), _ep23b("v2", 400.0, g2="lbl_ct"), _ep23b("v3", 700.0, cam=0), _ep23b("v4", 700.5, cam=1)])
+    _t23b("FX-14w", {"entries_total": 20, "as_of_entry": 12, "same_view": True, "revised_before": 0, "revised_after": 1},
+          "Entries 1-6: six create_ai; 7-12: six area-manager decisions (5 approve nm, 1 reject); as_of = created_utc of entry 12 "
+          "(1-based; truncated log length 12). Entries 13-20: sm_reclassify of report 1, three sm_note, two create_ai, their two "
+          "approvals. Only report 1 has a state entry after its first manager decision -> revised after first decision: 1. The "
+          "view at the first as_of is computed from the same 12 entries -> identical.",
+          episodes=[_ep23b(f"w{k}", 100.0 * k) for k in range(1, 9)])
+    _t23b("FX-14x", {"reclassify_with_yes": "refused (ERR-SPEC)", "state_after_withdraw_and_reclassify": "closed_rejected",
+                     "I9": 0, "withdrawn": 1, "recordability_entries": 2, "after_reopen_overturn": {"I9": 0, "withdrawn": 1, "determination": "withdrawn"},
+                     "after_set_again": {"I9": 1, "determination": "yes"}},
+          "T23.19: yes -> reclassify refused (e); withdraw (classification_changed) -> withdrawn; reclassify -> closed_rejected; "
+          "I9 counts only recorded incidents with yes -> 0; withdrawn 1; both recordability entries stay in the log. Reopen and "
+          "overturn ct -> recorded; the determination stays withdrawn (d) -> I9 = 0 until set again -> 1.",
+          episodes=[_ep23b("x1", 100.0, g2="lbl_ct")])
+    _t23b("FX-14y", {"I9": 1, "incidence_rate": 2.0, "provisional": True, "not_set": 1},
+          "Two recorded incidents in P: one yes, one not_set. I9 = 1; rate = 1 x 200,000 / 100,000 = 2.0; provisional because an "
+          "incident report in P is not_set (T23.19 f).", episodes=[_ep23b("y1", 100.0, g2="lbl_ct"), _ep23b("y2", 400.0, g2="lbl_ct")],
+          hours_worked=100000.0)
+    _t23b("FX-14z", {"cases": {"i": "unmonitored", "ii": "observability undetermined", "iii": "observable, matched",
+                               "iv": "observable, no matching AI alert"}, "I8_iv": 1, "I8_others": 0},
+          "Human report at +1800 s, window [1740, 1860] s (t_link_s 60). (i) area 2, camera without monitoring -> 1; (ii) monitored, "
+          "unset -> 3; (iii) observable c1, AI member on c1 at [1830, 1831] overlaps -> 4; (iv) observable c1, AI member only on c2 "
+          "-> 5 -> I8 = 1.", ai_c1=_ep23b("zc1", 1830.0, cam=0), ai_c2=_ep23b("zc2", 1830.0, cam=1),
+          area2={"area_id": _fid("area", "fx14a2"), "name": "Fixture area 2", "camera_ids": [_fid("cam", "fx14c4")]})
+    _t23b("FX-14aa", {"monitored_area_hours": 1.0, "camera_hours": 2.0, "rate_denominator_h": 1.0, "unprocessed_cameras": 1,
+                      "I7_ai_rate": 1.0, "two_artifacts_one_window": "ERR-SPEC"},
+          "Cameras c1, c2 usable and processed over [0, 3600) s; c3 has no S5 output. Union = 1.0 h; sum = 2.0 h (descriptive); "
+          "rate = 1 recorded AI near_miss / 1.0 h = 1.0 per monitored area-hour.",
+          monitoring=[{"camera_id": c, "segments": [{"t_start_s": 0.0, "t_end_s": 3600.0, "coverage_state": "usable"}],
+                       "s5_artifact_ids": [_fid("art", f"fx14s5c{k}")]} for k, c in enumerate(_T23_CAMS[:2], 1)]
+          + [{"camera_id": _T23_CAMS[2], "segments": [{"t_start_s": 0.0, "t_end_s": 3600.0, "coverage_state": "usable"}], "s5_artifact_ids": []}],
+          episodes=[_ep23b("aa1", 100.0)])
+    _t23b("FX-14ab", {"mixed": {"combined": None, "text": "not combined: members use different geometry methods", "listed": 2},
+                      "same": {"combined_m": 0.8, "source": "ab4", "camera": 1, "sigma_status": "uncalibrated_model", "q_state": "sufficient"}},
+          "T23.24 (a): 1.2 m (full_camera) and 0.8 m (ground_plane_homography) are not comparable -> not combined. Same method and "
+          "tier -> smallest = min(1.2, 0.8) = 0.8 m, from episode ab4 on camera 2 (index 1).",
+          mixed=[_ep23b("ab1", 100.0, cam=0, minclr_m=1.2), _ep23b("ab2", 100.3, cam=1, minclr_m=0.8, geometry_method="ground_plane_homography",
+                                                                   calibration_tier="ground_plane_homography")],
+          same=[_ep23b("ab3", 300.0, cam=0, minclr_m=1.2), _ep23b("ab4", 300.3, cam=1, minclr_m=0.8)])
+    _t23b("FX-14ac", {"banner_contains": ["CM-03", "12 %"], "figures": {"cm03": 0.12, "ev_m1": 0.11, "ev_m2": 0.22},
+                      "report_ref": "reports/M1b_pilot_report.md", "non_demo_establishment": "refused (ERR-SPEC)", "sorted_establishments": False},
+          "T23.26: the pilot column C figures of reports/M1b_pilot_report.md (m0-implementation ec63113): CM-03 0.12, BL-6 EV-M1 "
+          "0.11, EV-M2 0.22. T23.27 (b), (e).",
+          source_quality={"config": "BL-6", "path": "detector_path_pilot_d45", "cm03": 0.12, "ev_m1": 0.11, "ev_m2": 0.22,
+                          "report_ref": "reports/M1b_pilot_report.md (m0-implementation ec63113), BL-6 column C"})
+    _t23b("FX-14ad", {"page_refused": True, "user_block_accepted": True, "escaped": "&lt;b&gt;precision 0.8&lt;/b&gt;"},
+          "Section 5 term list: 'precision' is refused on a workflow page; T23.22: the same text in a user-entered block is "
+          "accepted and shown HTML-escaped.", text="precision 0.8", user_text="<b>precision 0.8</b>")
+
+
+_fx14_e1223()
 
 
 def _check_t22(fixture: dict[str, Any]) -> None:
