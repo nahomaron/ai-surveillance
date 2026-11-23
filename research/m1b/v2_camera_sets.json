@@ -1,0 +1,1638 @@
+{
+ "check": "ok: 116 / 110, disjoint",
+ "population": "SDG validation cameras with an ORACLE-S3 (m1a_common.Context.validation_cameras)",
+ "population_cameras": 226,
+ "probe_cameras": 20,
+ "reporting": {
+  "by_viewpoint": {
+   "ceiling": 55,
+   "eye_level": 55
+  },
+  "cameras": [
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_2sa5r7cxu44d7sdxvfgf5tzul5",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_34uudebrk26bp6vd2ktuybhqj7",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_3btoynxrpc4txdfiafuqr23cyb",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_3tgueg33h2c2zmdeczykk5jfif",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_42mfi2zaxl5rz7rylwpmxfzt6w",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_44udn3g4qzubpbdg4bw6lnjyja",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_4ffemlpo6joctbpvlvpdnmz3pb",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_4uytljdcxwdm7kyljzhptzr5et",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_53d7wnxvldgnq6q7clbrxq2jnj",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_5n27hs53ru65ktxswzc23ljiya",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_5ng5a7hmr6akv34m6iabgumfwr",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_5q7fgg3vbegcspiat5bxa3vlb6",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_5y7nbc6ipbu7wcta5h7pkcfx2b",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_62kkthrvconujactz6idtple6n",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_654uvw5zv2un5o2w64w7msfsjp",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_6houj4jmwoejpri4xicvujaqui",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_6ydd7gqaa2eg552vt2oqcn5c2l",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_72xx5krl54gb3sdaza7nxfjqv4",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_73ougi3dikkzxlbm26677ynzfi",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_74olyzh4ovp3ycd47ccmxtibjg",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_7bowgz74aqw37mjocawepmieyy",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_7enh7mzpxrcxnhzc3nbywnn7tg",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_7etfgbcgevfbkpxoni3m6rall7",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_7j4rspwceumk2hjb3vted7n7bv",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_7mbes3empxezq4dmar7kck2wx2",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_7smakk4cj6cv7evu47iqinnzjv",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_adqq4ebgaf4nwqofzmwnie457i",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_b47zgi6ibkywjr6bs37jedv5uc",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_b5xvs7n36jmkqqskgm6tywwdby",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_bc7vihvodmiwvpdocivmons6qe",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_bisipfs76acgzrbitgfzrujnta",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_bt5m3nwci55flrzln3cgxdz3u7",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_c4bzvsmjv557nn6gxkliaxo45c",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_cs2hpetppvjiqxf5es445qpwsx",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_ctsprqqrzdincxrjtjberfshjl",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_deu2rjhtw2reyy5d5kjuy2wc5w",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_dg2xshknf6ooptmned5acakxmv",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_dgc4p6vqcof2hvlvywijefwpso",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_dif5rsxrpjwifibvubo2wnr44h",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_djjmgyluvlctovt3hx4vbm2ewv",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_dmbpmgnjohwwx5l6xpv4leq4hp",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_dmmvucf6dgeuzy56egbcoafmvu",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_du2bb7o3zuhaaupfgonmbvs3f7",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_dxp7jlmo5dmyx4pjdggg7d33xm",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_e6bwxqixez4yhnl3t5bwavrgck",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_enz4awwpnxte4prxtwgmgqbz7v",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_f2yzq4japdyecbwujllkcjlhc6",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_fuq2o3dcju4fbnvcsjhcclmqmu",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_fv3yea3sgw35gbcxxteemwhiip",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_g276asx5d2mcf6grrkac6lo4yk",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_gjriolfzu4tcmqxp4g2q3pt2vn",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_gk6i7hvesngtgbp7hpmnftqznd",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_grlxffvpcxs4phixpuvsw6teyr",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_gth25h6kp56qygeibgajfzkgfc",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_h2laskmgtxva2d2qytchddkgmj",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_hd25oob4d7wc7dctqtfc3jvjwh",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_hhzb3wgwqxwvtx3awnjwduag4f",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_hqd5mlo37f4coxkggznwvns3cx",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_hrhahbwtsauvhfykdbzr5bidu3",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_hrjtfccx5h3vqsshqtkm2uikda",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_izdk4cyflpgs53yk3afjlrgqey",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_jpfuvzjtf4u3lgdl7ygtbnrcv4",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_jxsgwbwk5ia7mzhc26vytm2z4e",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_kjkt4ubkvcqmyd6bcub6b6bz5b",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_klyyf2lxpv6l6wbdntkxnoi2qa",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_kmbnomqenldiveiiwyt4xpxdja",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_l6sqjxupesnzlzhdvvdw5u6yt7",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_lb6dveny2ptlmj3l3vglz7qgpx",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_lbj2c5uj7gprfv2s5ihn3hta5u",
+    "run": "a74b7e11218018565cf9_run_12_seed_695326786",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_lcuuttamo4gqceviflpqyb7bsf",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_lzyr5koqa5tutzvuzwdisgffrm",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_m5nm2vtzug4tb6ain6deqol5oq",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_mrj45tk4wbdeq6hlyohbidxqpu",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_mwzh45afxk6cgao62nx5pc3vlp",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_n6o5cvpjbomjjnfd7l5aj7p5em",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_nbzpugc62qtcgrwrja3jjeya6b",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_ngv6jgqna3dotpg3jbbjlcln3x",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_o67ftflcp7hkgkbqqzem44ouxi",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_ohi4n6o6ra2tqye33dcuo3skh7",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_ovg57zlqav4bixwjyzmokz4r4s",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_ow63k5obrelg4y5bzyd34ex5qr",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_oyzo4aepqw2ovvsje3jkbkh57p",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_pcpovqolbkhkbcql3dx7ociqos",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_pf2c5kkhsdpomzcql2nf54qn2z",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_po4lz5vj5535l6nrf7vnau277x",
+    "run": "e34ae78193869eddcd2e_run_42_seed_1691823079",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_ptphuuf6xghmw7wbsjs56hmthd",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_pu24q6f3pz567kktdavsutdbpi",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_pyt3xletgxufdu7iresvwmvkzh",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_q2ndqgya7olkbbcpdxrzb7ukvq",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_q5iieljza4ygwgdu5hae6elw4b",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_q6etuxf53ztqsdrwmrdcj6ymt3",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_q7k25zu7n47dbjop7u75wvljlq",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_qj3dj7i4um2oop6wxnqeuklaoa",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_qmb5gsvbhbpt6xjlh5j2txdrex",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_qxpo56wibfz4ydkgz5z2ii24in",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_rczlrzg64gss6qub2perp5j66e",
+    "run": "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_rourogtvfplvzdsd2whnqpripy",
+    "run": "78339f687f36f0ce3118_run_11_seed_1779639537",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_rq4hafqhyncvcuwvtvpxh2dib7",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_skylexlpsj2prwmjmupcthtofw",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_u3hudzjsnn5grymjprmtqqi4ni",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_ut67yiswpivs45fzf5gbrq6mjg",
+    "run": "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_v7pcstptziiphmtyktmxrbr3nx",
+    "run": "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_vkvmht62wwh3j622a54x3f3iqb",
+    "run": "896d68d8822c4835c308_run_22_seed_843682243",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_x4yh3gmjltlhfrvcba2sxy5dzu",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_xgbtpdfldrv332qot5vkicecum",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_xm5nilmr2ldjoqv7k7czy7g6xb",
+    "run": "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_xsigzibiimpzngz4yj4stcr4fc",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_y3vd2ju2o4c5zndixt2mpggqiy",
+    "run": "7795973468ccd09f99e0_run_12_seed_1024710749",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_y7gt3gnil33m3gonqqjk3h6rdi",
+    "run": "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_zrjmurxs223rferxxtwrmjherw",
+    "run": "a7965c230dd8f2da2665_run_14_seed_963259144",
+    "viewpoint": "eye_level"
+   }
+  ],
+  "n_cameras": 110,
+  "n_runs": 11,
+  "runs": [
+   "4a9c3cb742a3bca07b87_run_23_seed_905230252",
+   "7795973468ccd09f99e0_run_12_seed_1024710749",
+   "78339f687f36f0ce3118_run_11_seed_1779639537",
+   "896d68d8822c4835c308_run_22_seed_843682243",
+   "9cb5e1621ee475146fcd_run_10_seed_1087475235",
+   "a74b7e11218018565cf9_run_12_seed_695326786",
+   "a7965c230dd8f2da2665_run_14_seed_963259144",
+   "a7e77649ec5ed99dfbb0_run_14_seed_1589213945",
+   "e2edf6d83d7a041c4728_run_4_seed_2057270033",
+   "e2fe21b23ebe037b9fa7_run_18_seed_1313717419",
+   "e34ae78193869eddcd2e_run_42_seed_1691823079"
+  ]
+ },
+ "source": "docs/preregistration/v2_notes.md",
+ "status": "D-53 step 0: v2 camera sets (D-50 item 3); SDG validation partition only",
+ "tuning": {
+  "by_viewpoint": {
+   "ceiling": 54,
+   "eye_level": 62
+  },
+  "cameras": [
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_2splrkr2sjidtnqeff5fdbayio",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_332qtpyyw3ihunr2zbun5yd33k",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_37ekacsnodmwrchgpzlewx4jrt",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_3lm6qpq52d6gol2oofyi2gz3rc",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_3qr4nvhqb2uvhpw6teotbobffi",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_3vykg2a3b53tostm334jxlpspz",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_3yphwqiabbzwjm6hw3uo6iiy5l",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": true,
+    "rec_id": "rec_43j5j7slr44bc4zukjsnwqoffi",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_4437ha2ckyeqh476tfxs3oahn2",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_4jjt3mvbpz25lceubuvwjfiqcx",
+    "run": "77b0d9589e791edd2cc0_run_5_seed_177568880",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_5fosva3jcspyz4kergizlk3w7e",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_5wfu5xlonfojiz73q6ioc5d36y",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_66rdea4tmfjtn2l7agxheafvwn",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_6khjzso7ar25552flsp62xbpxr",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": true,
+    "rec_id": "rec_77lexvrcfw2i4erta5kpczomtz",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_7a7jzgah3bdu7mwuxkdiayuxhx",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_7arjpq3w6gho3tjv2tj5w5sshq",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_7m6fdqjcjwc5j2qzhzisqdskqi",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_7q6mgefieidma2w6blc4ud6jtf",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": true,
+    "rec_id": "rec_7xtv4iv4cvxvs42qmpm5tzrtmo",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": true,
+    "rec_id": "rec_aq57ctpsp7niwnydcbfxeb7bjr",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_aqevs7al6lrn5rz24bk7edskyr",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_bgkitzyuxcwwujglmr4fkzggq6",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_biz4tmbrdlapc7ew7deprqihb5",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_bovexptivfqv2s7f6dz3wfpz4g",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_bx5kcao7i5vaaghbqpk2sfwm7q",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": true,
+    "rec_id": "rec_c2gvzn53c5olbaytuz2ujhxnkp",
+    "run": "a3ccffca67456307f2f1_run_3_seed_56192878",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_cdp2ajzwmdprtzxgabka42rsr4",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_cpsteko5ppqxwnzf3e267ht5uh",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_dfo4srjv4qnd2dmgeab6kenhar",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_efmdookp3hcvrosznbpohm76x7",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_era3tgihv32bzpmqhor3sgihje",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_erqs2xr44vpfv35z3d3krikjox",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_ev3mhjl7ugpxpke6ahlahs6jk7",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_f27ew3vqfsa2cokkqwejjjb7pz",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_f5ftg2jrikmsdnv4coktk4cxtl",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_f6yy2n2hplay3knoqk7abmaw5y",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_fw552hp7bnsdkkfaf37hmjaurh",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_g6spypejl33hqarurulfhtajbe",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_gnyjnofkyxb5bxwznjdhxpkasf",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": true,
+    "rec_id": "rec_gri5x2lvoqjl2bpx3c76e44alo",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_gvcboz4rucrla7rejgh5fndub5",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_gvcxxkn6okgo6qcgxgb4mpeop6",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_hhn5whxeicc5dsckb3we2szgtf",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_i3ftq5kwra5onu7hvgbbla5ndp",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": true,
+    "rec_id": "rec_i6whrymckfnojrk6stek7lvye6",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_i7dalu5bvx6xri6xnbqzfu6tae",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_icau6bbrjv7a3ffzwgibdtiexk",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_ij3umex3v5hm7tphaqnqpiwewq",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_ikx5opvzbwoj7w3z6rj3owzojr",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_ixgfhe5vxynrsjn7vamqukd64o",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": true,
+    "rec_id": "rec_j7f3imelnpdvhp5xbnhf7q3nhk",
+    "run": "77b0d9589e791edd2cc0_run_5_seed_177568880",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_jb57d7fmjwi5mjtdn5uoozv3t2",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_jj2thmyrlmhczynfkg23d5fzm3",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_jmwq3at6lsd5k7uzm426dqwzym",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": true,
+    "rec_id": "rec_jog3e52p2igepujcnfrmb2mbkz",
+    "run": "77b0d9589e791edd2cc0_run_5_seed_177568880",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_k7qf72rrctfmdhb3sfzttcbpcj",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_kf73z5j3wi2beenvghwiozdxyf",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_kfcnketb25vozlj2b67uh6orto",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_kq5vrqdxon6rouvby7lfl2ck4a",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_kuybacs7knb2j6ojo2myb2l7dx",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_lcadvuokvhk4y6atlgnrxzenky",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": true,
+    "rec_id": "rec_ll34ml5evz6l5pz536yifkpcna",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_lo34s5c6knz2ubnhcn22wzyohk",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_m3l7memgpxeyzlffniiem2dlbb",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": true,
+    "rec_id": "rec_mbydbjthr2l6m7jro7yhn65ipy",
+    "run": "77b0d9589e791edd2cc0_run_5_seed_177568880",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_mfaer3vjg7v5zqrlvt6thegboe",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_mnbu6kqxz2hbje2egnjotetl2x",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_nbr6wzfnlmnenojgwywxfvizvz",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_nlnqqyavhgknk724aeh5buggwi",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": true,
+    "rec_id": "rec_nqtbkm73hpsr7rf4g5jhmfv2rz",
+    "run": "77b0d9589e791edd2cc0_run_5_seed_177568880",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_o3elhibyhdwzws7gvdjwvm6nb2",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_o4ehgldeqyruv5eqdrlwh6kiy7",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_pyqt6iudsoegdzvwfjwgnxoa5a",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_pzmtmww6u3zrlmitlewwaybly3",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_qd752dsjexipshpf35zhz5oojm",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_qqrxszlpidmgycukgib5b346ul",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_rhkddew3z7aari4qkkdjs543ah",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_roq44vidyh36lboxpkdbrvytyy",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_rsccohxco2umvgaqd2gmb6kmq6",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_s4s4dx65efjn46i5k5nra3oaf5",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_s5tsylwc6olr65sigw2sdvhemf",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": true,
+    "rec_id": "rec_sgrttf5brvoetarhf7nvzra6c7",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_slu2z3qrqyylfviouht6rfyxlt",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": true,
+    "rec_id": "rec_spw2spqbozaqyllndcqkbe2piy",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": true,
+    "rec_id": "rec_t53luv5a2oibj4t5m6dycy5m6r",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": true,
+    "rec_id": "rec_t6quu3krp5t5vohuptw5e62cx6",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_tdkp7xih2juhrac265b5r332tg",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_ti227fnnsfhglc6e5absshnhre",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_tqjw6p4eez2krpb2kjc5sfdo3a",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": true,
+    "rec_id": "rec_u7meqwcvaydfalbfa2n7kvrul6",
+    "run": "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_uheyvaaymn7tcggtxg3micgsyj",
+    "run": "a3ccffca67456307f2f1_run_3_seed_56192878",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_uliit5myv4w4zf7dwkdzhpx22k",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_uqsne4mo5zi2vhkpqjbfl574x7",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_00",
+    "probe_camera": false,
+    "rec_id": "rec_v436ouqt3xua22vhrj7ongehev",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_vw23qjdtx32xvdcpdfwhwgmv66",
+    "run": "b3ecedc9570d7c12a423_run_2_seed_758132596",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_vxnjlgkf7lks33eh7rhgytme52",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": true,
+    "rec_id": "rec_wavrhzbrzfevvf4yrlkoenn2bs",
+    "run": "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_wjdp7nqarvtbpuom52y6474kjg",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_03",
+    "probe_camera": false,
+    "rec_id": "rec_wm76jnewgl64jm662dpbtenk7t",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_04",
+    "probe_camera": false,
+    "rec_id": "rec_wpkwepaxiuwxxplxws3kfmyrpc",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": true,
+    "rec_id": "rec_wrh2cf4cigsuc2jxxclu5mgr6q",
+    "run": "1f464952ebcd1193d2fc_run_15_seed_188131302",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_03",
+    "probe_camera": false,
+    "rec_id": "rec_xeg7ufuwgavgwsd5boixxmejsq",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_xsiz6vwh37j4trokie3gx3qo5t",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_04",
+    "probe_camera": false,
+    "rec_id": "rec_xvdd6scs3uz2qkdfqffgbhjfmm",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_02",
+    "probe_camera": false,
+    "rec_id": "rec_xxaj3mdlrsjctr3a7we4tr5p3m",
+    "run": "1f153860933aed78a2e3_run_20_seed_139404633",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_xyko3knezyixkhhbg7ixtiapgk",
+    "run": "469b20a288f784c6af56_run_31_seed_987818680",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_yju2kydcmvacuawqkxvictumqx",
+    "run": "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": true,
+    "rec_id": "rec_ysptljv5ovfb3qs5tmers2a5oc",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "ceiling_01",
+    "probe_camera": false,
+    "rec_id": "rec_ywtnec4kiokf6xqn2wbw6s2yt2",
+    "run": "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "ceiling_00",
+    "probe_camera": false,
+    "rec_id": "rec_z7olmuqoapzat3v674zc4rx2cj",
+    "run": "77ac50db826f518b0227_run_1_seed_37495231",
+    "viewpoint": "ceiling"
+   },
+   {
+    "camera": "eye_02",
+    "probe_camera": false,
+    "rec_id": "rec_zetayz6xyswheezmhiagf2acmd",
+    "run": "f700a731670a2da62cd5_run_19_seed_1150621462",
+    "viewpoint": "eye_level"
+   },
+   {
+    "camera": "eye_01",
+    "probe_camera": false,
+    "rec_id": "rec_zmkwvijh77cu7oq5lpnuejeslc",
+    "run": "4b43e53a255570bbc38c_run_4_seed_896766254",
+    "viewpoint": "eye_level"
+   }
+  ],
+  "n_cameras": 116,
+  "n_runs": 13,
+  "runs": [
+   "1f153860933aed78a2e3_run_20_seed_139404633",
+   "1f464952ebcd1193d2fc_run_15_seed_188131302",
+   "469b20a288f784c6af56_run_31_seed_987818680",
+   "4b43e53a255570bbc38c_run_4_seed_896766254",
+   "77ac50db826f518b0227_run_1_seed_37495231",
+   "77b0d9589e791edd2cc0_run_5_seed_177568880",
+   "91ca0bbf8c4c44c5305f_run_2_seed_1377018496",
+   "91fb07dbf3ccbaa20f9b_run_1_seed_1489524600",
+   "a3ccffca67456307f2f1_run_3_seed_56192878",
+   "a76048e81ce9380bc9e9_run_1_seed_1504589676",
+   "b3ecedc9570d7c12a423_run_2_seed_758132596",
+   "ed4d30f04f8195cf7a74_run_27_seed_1371415232",
+   "f700a731670a2da62cd5_run_19_seed_1150621462"
+  ]
+ }
+}
