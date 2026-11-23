@@ -1,0 +1,207 @@
+{
+ "along_abs_median_m_unrounded": 0.9868752100137408,
+ "along_by_theta": {
+  "all": {
+   "0-15": {
+    "along_signed_median_m": -1.354988914276082,
+    "along_signed_p05_m": -1.4981310613212597,
+    "along_signed_p95_m": -0.3179117256031101,
+    "h_theta_median_m": 1.575139412955905,
+    "n": 6254
+   },
+   "15-30": {
+    "along_signed_median_m": -1.317047062432954,
+    "along_signed_p05_m": -1.4941700881293953,
+    "along_signed_p95_m": -0.4094928994298491,
+    "h_theta_median_m": 1.6139633654461405,
+    "n": 5435
+   },
+   "30-45": {
+    "along_signed_median_m": -1.197850955260404,
+    "along_signed_p05_m": -1.4280564766904427,
+    "along_signed_p95_m": -0.09139022902825403,
+    "h_theta_median_m": 1.5465841097253366,
+    "n": 5331
+   },
+   "45-60": {
+    "along_signed_median_m": -0.9682046875331254,
+    "along_signed_p05_m": -1.2266426441267504,
+    "along_signed_p95_m": -0.22550310354685024,
+    "h_theta_median_m": 1.3756486267172767,
+    "n": 5507
+   },
+   "60-75": {
+    "along_signed_median_m": -0.7267219189044348,
+    "along_signed_p05_m": -0.9906403611204068,
+    "along_signed_p95_m": -0.5158249133644608,
+    "h_theta_median_m": 1.0991628271947458,
+    "n": 5672
+   },
+   "75-90": {
+    "along_signed_median_m": -0.5808426690751787,
+    "along_signed_p05_m": -0.8873755819249562,
+    "along_signed_p95_m": -0.514775831754011,
+    "h_theta_median_m": 0.7316416937224535,
+    "n": 5508
+   }
+  },
+  "ceiling": {
+   "0-15": {
+    "along_signed_median_m": -1.4367862949640928,
+    "along_signed_p05_m": -1.4962148987127095,
+    "along_signed_p95_m": -1.2311689993211887,
+    "h_theta_median_m": 1.5820959620946393,
+    "n": 2484
+   },
+   "15-30": {
+    "along_signed_median_m": -1.3902005956910783,
+    "along_signed_p05_m": -1.4965337530539322,
+    "along_signed_p95_m": -0.19214513928500251,
+    "h_theta_median_m": 1.6133908950482447,
+    "n": 2308
+   },
+   "30-45": {
+    "along_signed_median_m": -1.2434766605135006,
+    "along_signed_p05_m": -1.4412014874810004,
+    "along_signed_p95_m": -0.016602384572132988,
+    "h_theta_median_m": 1.5455664741746273,
+    "n": 2943
+   },
+   "45-60": {
+    "along_signed_median_m": -1.0333277949216484,
+    "along_signed_p05_m": -1.234419211240767,
+    "along_signed_p95_m": -0.12562240331036517,
+    "h_theta_median_m": 1.3720528207260787,
+    "n": 2475
+   },
+   "60-75": {
+    "along_signed_median_m": -0.7681990000110985,
+    "along_signed_p05_m": -1.01845058429163,
+    "along_signed_p95_m": -0.5264969341010679,
+    "h_theta_median_m": 1.0960495411822753,
+    "n": 2919
+   },
+   "75-90": {
+    "along_signed_median_m": -0.5802341848470702,
+    "along_signed_p05_m": -0.9328213892999724,
+    "along_signed_p95_m": -0.527970401213637,
+    "h_theta_median_m": 0.7348368105782616,
+    "n": 2961
+   }
+  },
+  "eye_level": {
+   "0-15": {
+    "along_signed_median_m": -1.2305335128153236,
+    "along_signed_p05_m": -1.5030880985766026,
+    "along_signed_p95_m": -0.3179117256031101,
+    "h_theta_median_m": 1.571195921013551,
+    "n": 3770
+   },
+   "15-30": {
+    "along_signed_median_m": -1.2196562740462222,
+    "along_signed_p05_m": -1.4902706703682542,
+    "along_signed_p95_m": -0.41829350325096143,
+    "h_theta_median_m": 1.61422029367866,
+    "n": 3127
+   },
+   "30-45": {
+    "along_signed_median_m": -1.110747016241339,
+    "along_signed_p05_m": -1.3927784603317501,
+    "along_signed_p95_m": -0.15051216029246764,
+    "h_theta_median_m": 1.546866297505086,
+    "n": 2388
+   },
+   "45-60": {
+    "along_signed_median_m": -0.8704374456158614,
+    "along_signed_p05_m": -1.1969322603462889,
+    "along_signed_p95_m": -0.48674364743279275,
+    "h_theta_median_m": 1.3791823990770196,
+    "n": 3032
+   },
+   "60-75": {
+    "along_signed_median_m": -0.6774351521958121,
+    "along_signed_p05_m": -0.9062910452019117,
+    "along_signed_p95_m": -0.4377084686834121,
+    "h_theta_median_m": 1.1032190201355307,
+    "n": 2753
+   },
+   "75-90": {
+    "along_signed_median_m": -0.5813412836858294,
+    "along_signed_p05_m": -0.8442567608155876,
+    "along_signed_p95_m": -0.4878669907315926,
+    "h_theta_median_m": 0.7283815005039916,
+    "n": 2547
+   }
+  }
+ },
+ "cameras": 116,
+ "candidate_d_m": 1.0,
+ "contract": "E-1.2.24 (no change)",
+ "d3_share_r_lt_2m": {
+  "all": {
+   "n": 33707,
+   "r_lt_2m": 2274,
+   "share": 0.06746373156911027
+  },
+  "ceiling": {
+   "n": 16090,
+   "r_lt_2m": 0,
+   "share": 0.0
+  },
+  "eye_level": {
+   "n": 17617,
+   "r_lt_2m": 2274,
+   "share": 0.12907986603848556
+  }
+ },
+ "definitions": {
+  "along": "error . unit line of sight (camera floor point -> true centre); negative = toward the camera",
+  "candidate_d": "median |along| over all tuning frames, rounded to 0.05 m",
+  "h_theta": "(L/2)|cos theta| + (W/2)|sin theta|, L = 3.03 m, W = 1.13 m (SDG prior)",
+  "percentiles": "linear interpolation",
+  "r": "floor distance from the camera centre's floor point to the estimated point",
+  "residual": "|along + d| (error left after a constant shift of the estimate by d away from the camera)",
+  "theta": "angle between simulator yaw axis (box long axis) and line of sight, folded to [0, 90] deg"
+ },
+ "forklift_object_frames": 33707,
+ "frames_without_simulator_yaw": 0,
+ "residual_after_d": {
+  "0-15": {
+   "median_m": 0.39830616718257716,
+   "n": 6254,
+   "p95_m": 0.6820882743968899
+  },
+  "15-30": {
+   "median_m": 0.38692788599226646,
+   "n": 5435,
+   "p95_m": 0.592692815602183
+  },
+  "30-45": {
+   "median_m": 0.2754775117597803,
+   "n": 5331,
+   "p95_m": 0.908609770971746
+  },
+  "45-60": {
+   "median_m": 0.14896939518886432,
+   "n": 5507,
+   "p95_m": 0.7744968964531498
+  },
+  "60-75": {
+   "median_m": 0.27329290144203694,
+   "n": 5672,
+   "p95_m": 0.48417508663553926
+  },
+  "75-90": {
+   "median_m": 0.4191573309248214,
+   "n": 5508,
+   "p95_m": 0.4852241682459891
+  },
+  "all": {
+   "median_m": 0.3308997375639937,
+   "n": 33707,
+   "p95_m": 0.6385745473282226
+  }
+ },
+ "source": "stored column B S4 (T-21 full_camera unit, label run1), oracle boxes",
+ "status": "diagnostic, tuning subset, not a reported result"
+}
