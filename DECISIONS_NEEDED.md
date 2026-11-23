@@ -664,3 +664,20 @@ Owner decision D-51 (21 Nov 2026): rulings on CR-031 and AR-64, the T22 frame fi
 - **Scoped merge into `m0-implementation`: approved, gated** on the read-back rerun passing in full (STEP 2).
 - Hard limits unchanged from D-49: no S5 or S8 run, no new evaluation result, nothing on the test partition; no T22 batch, reference assessment, adjudication or manager decision; no demo draw; no stored record deleted, rewritten or reordered; no force-push, history rewrite or pull request. Undefined points that change a count, a state or a statistic go to CR-032.
 Numbering: the CR-007/CR-026 v2 draft moves to E-1.2.25. Next free on this branch: D-52, CR-032, AR-66 (AR-65 is the D-51 implementation).
+
+## D-53 (2026-11-23) — Pre-freeze diagnostics D1, D2 and D5 for the v2 rules (CR-007, CR-026)        status: DECIDED (23 Nov 2026)
+Source: Owner, 23 Nov 2026; the Architect's v2 draft part 1 (diagnostics section), checked against E-1.2.24 on 23 Nov 2026 (pasting it = approval of the steps).
+Decision (summary): evidence only, on `m0-implementation`. Step 0 camera sets (tuning 116 / reporting 110); step 1 D1 (and D3) on the stored column B S4; step 2 D2 (B-tune, B-sim-F, B-sim-P; oracle boxes, BL-6, N4, G1; labelled diagnostic); step 3 D4 on stored S2 detections; step 4 D5 split by camera set; step 5 report and STOP at D-54. Fix 1 (anchor offset) and Fix 2 (resolution gate) are not implemented. Hard limits: no contract change, no new parameter, no rule in `src/rq1/`; scripts in `research/m1b/` only; nothing on the test partition; the 110 reporting cameras only in the descriptive D5 table; no new detection, tracker run or pilot column; no stored record changed; CR-033 for anything undefined.
+Carried out: see D-54 and the Progress log entry of 23 Nov 2026. CR-033 was not needed.
+
+## D-54 (2026-11-23) — STOP after the D-53 diagnostics: results for the Owner        status: OPEN
+Task: D-53 (pre-freeze diagnostics)   Blocking: pre-registration v2 values and rule forms for CR-007 (anchor) and CR-026 (resolution); no other task
+Question: the diagnostic results are in `research/m1b/v2_diagnostics_report.md` (diagnostic, tuning subset, not a reported result). Results only:
+- **D1 (oracle boxes, 116 tuning cameras, 33,707 forklift frames).** Signed along-sight error by θ bin, 0–15° to 75–90°: −1.35, −1.32, −1.20, −0.97, −0.73, −0.58 m; median h(θ) 1.58 to 0.73 m. Candidate d = 1.00 m (median |along| 0.987 m). Residual after a constant d: median 0.15–0.42 m and P95 0.48–0.91 m by bin; all frames median 0.33, P95 0.64 m.
+- **D3.** Estimate within 2 m of the camera: eye-level 12.9 %, ceiling 0.0 %.
+- **D2 (BL-6, G1, 135 assessable references).** EV-M1 / EV-M2: B-tune 0.793 / 0.505; B-sim-F 0.904 / 0.567; B-sim-P 0.852 / 0.646; A 1.000 / 0.944. B-sim-F recovers 15 of the 28 references B misses; B-sim-P recovers 8. B-tune equals the stored column B on all 116 cameras (S4 payload hash). Only position and covariance were substituted; the simulator yaw was not.
+- **D4 (detector boxes, 96 tuning cameras; 20 probe cameras have no stored S2).** 16,374 matched forklift frames: signed median −0.84 m, P95 −0.44 m. Paired with the oracle box on the same frames: median difference −0.05 m overall, −0.08 to −0.03 m in every viewpoint × θ bin.
+- **D5.** At s_max 0.05 / 0.1 / 0.2 / 0.5 m/px, share flagged: tuning 3.2 / 0.6 / 0.5 / 0.4 %, reporting 2.2 / 0.5 / 0.4 / 0.4 %. Errors > 10 m caught: tuning 100 / 94 / 85 / 72 %, reporting 100 / 100 / 93 / 85 %. SmartSpaces copied unchanged.
+Options: for the Architect and the Owner. Values and rule forms (d, a θ-dependent offset, a range or sensitivity gate) are chosen in pre-registration v2; none was implemented.
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______

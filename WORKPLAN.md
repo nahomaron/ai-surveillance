@@ -894,3 +894,28 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none new. Wording linter: one W5 hit ("100 interactions") reworded to "100 references"; the remaining two W4 hits quote the disclaimer.
 - Next: **STOP.** Not now (D-50 item 5): Grounding DINO on the detector path, fine-tuning (T-24), the test partition (D-37).
+
+
+### 2026-11-23 — D-53 pre-freeze diagnostics D1–D5 done; STOP at D-54
+- Did (evidence only; contract E-1.2.24 unchanged; no rule, parameter or `src/rq1/` change; scripts in `research/m1b/`; on mains power, one agent):
+  - **Step 0:** `v2_sets.py` → `v2_camera_sets.json`: tuning 13 runs / 116 cameras (54 ceiling, 62 eye-level), reporting 11 runs / 110 cameras (55 / 55), disjoint. Commit a586133.
+  - **Step 1 (D1, D3):** `d1_anchor_angle.py` → `d1_anchor_angle.json` from the stored column B S4.
+    - Signed along-sight error −1.35 m (0–15°) to −0.58 m (75–90°). Candidate d = 1.00 m. Residual median 0.15–0.42 m by bin.
+    - Estimate within 2 m of the camera: eye-level 12.9 %, ceiling 0 %. Commit d7d5539.
+  - **Step 2 (D2):** diagnostic adapter `d2_position_contribution.py`. The unchanged `SubstrateBuilder` takes simulator positions for one class and `full_camera` for the rest, so no S4 code changed.
+    - Only position and covariance are substituted; the simulator yaw is removed from the substituted records.
+    - Estimate on 2 cameras: 2 s per camera, 125 MB peak. The full run took 3 min (peak 104 MB) at 74e7b0c.
+    - Checks: the rebuilt ORACLE-S3 equals the stored one, and the B-tune S4 payload equals the stored column B S4, on all 116 cameras.
+    - Artifacts and `execution.json` records are in `out/m1b/v2diag/` (register.jsonl, 696 records).
+    - EV-M1 / EV-M2: B-tune 0.793 / 0.505, B-sim-F 0.904 / 0.567, B-sim-P 0.852 / 0.646, A 1.000 / 0.944. Commits 74e7b0c, f6a9261.
+  - **Step 3 (D4):** `d4_detector_offset.py` on the stored pilot S2. Covers 96 tuning cameras; the 20 T-22 probe cameras have no S2 run and the detector was not re-run.
+    - Signed median −0.84 m. Median paired difference to the oracle box on the same frames: −0.05 m (−0.08 to −0.03 m by bin). Commit dd9cb33.
+    - In step 5 a `paired_by_theta` block was added to the JSON; the earlier keys are unchanged (checked).
+  - **Step 4 (D5):** `d5_sensitivity_split.py` re-aggregates the stored `posdiag`/`possens` files by camera set.
+    - On all 226 cameras it reproduces the stored SDG table exactly. SmartSpaces is copied unchanged.
+    - The share of good points lost is also given with error ≤ 1 m: identical to three decimals. Commit ad4981b.
+  - **Step 5:** `v2_diagnostics_report.py` → `v2_diagnostics_report.md` (tables per step, 10-line summary, no recommendation). D-53 recorded and **D-54** opened.
+- Tests: 2522/2522 passed, 11 skipped (`.venv-det`-only), full suite twice: identical. New tests: `test_v2_sets.py` (3), `test_d1_anchor_angle.py` (5; θ = 0 → 1.515, θ = 90° → 0.565), `test_d2_position_contribution.py` (4), `test_d4_detector_offset.py` (2), `test_d5_sensitivity_split.py` (1), all hand-computed. Every results JSON and the report written twice: byte-identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none; CR-033 not needed. Wording linter: one W4 hit, the disclaimer sentence.
+- Next: **STOP (D-54).**

@@ -21,3 +21,7 @@ def test_paired_difference():
     # differences 0.5 and 0.3 -> median 0.4
     assert s["paired_same_frames"]["median_difference_detector_minus_oracle_m"] == pytest.approx(0.4)
     assert s["by_theta"]["75-90"]["n"] == 2 and s["by_theta"]["0-15"]["n"] == 1
+    # paired 75-90: one row (-0.7 vs -1.0) -> difference 0.3; paired 0-15: -0.5 vs -1.0 -> 0.5
+    assert s["paired_by_theta"]["75-90"]["n"] == 1
+    assert s["paired_by_theta"]["75-90"]["median_difference_detector_minus_oracle_m"] == pytest.approx(0.3)
+    assert s["paired_by_theta"]["0-15"]["median_difference_detector_minus_oracle_m"] == pytest.approx(0.5)

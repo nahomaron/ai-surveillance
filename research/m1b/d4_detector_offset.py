@@ -43,9 +43,14 @@ def summarize(rows_by_view: dict) -> dict:
         paired = [r for r in rows if r.get("oracle_along") is not None]
         out[v]["paired_same_frames"] = {"n": len(paired), "detector_box": table(paired), "oracle_box_column_B": table(paired, "oracle_along"),
                                         "median_difference_detector_minus_oracle_m": _q([r["along"] - r["oracle_along"] for r in paired], 50)}
+        out[v]["paired_by_theta"] = {}
         for lo, hi in d1.BINS:
             k = f"{lo}-{hi}"
             out[v]["by_theta"][k] = table([r for r in rows if d1.bin_of(r["theta"]) == k])
+            pb = [r for r in paired if d1.bin_of(r["theta"]) == k]
+            out[v]["paired_by_theta"][k] = {"n": len(pb), "detector_signed_median_m": _q([r["along"] for r in pb], 50),
+                                            "oracle_signed_median_m": _q([r["oracle_along"] for r in pb], 50),
+                                            "median_difference_detector_minus_oracle_m": _q([r["along"] - r["oracle_along"] for r in pb], 50)}
     return out
 
 

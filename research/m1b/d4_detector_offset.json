@@ -99,6 +99,44 @@
     "along_signed_p95_m": -0.4391227139113867,
     "n": 16374
    },
+   "paired_by_theta": {
+    "0-15": {
+     "detector_signed_median_m": -1.4005694266699933,
+     "median_difference_detector_minus_oracle_m": -0.061016745564096975,
+     "n": 2248,
+     "oracle_signed_median_m": -1.3033420249479355
+    },
+    "15-30": {
+     "detector_signed_median_m": -1.357838463264244,
+     "median_difference_detector_minus_oracle_m": -0.03131056389825049,
+     "n": 2631,
+     "oracle_signed_median_m": -1.334852696874829
+    },
+    "30-45": {
+     "detector_signed_median_m": -1.232307607704045,
+     "median_difference_detector_minus_oracle_m": -0.04364072211089687,
+     "n": 2942,
+     "oracle_signed_median_m": -1.2211407727245935
+    },
+    "45-60": {
+     "detector_signed_median_m": -1.014277713021738,
+     "median_difference_detector_minus_oracle_m": -0.05543380877343379,
+     "n": 2856,
+     "oracle_signed_median_m": -0.9724859940566113
+    },
+    "60-75": {
+     "detector_signed_median_m": -0.7773675957027436,
+     "median_difference_detector_minus_oracle_m": -0.06191501844472813,
+     "n": 2927,
+     "oracle_signed_median_m": -0.7257442334022075
+    },
+    "75-90": {
+     "detector_signed_median_m": -0.6477977253813776,
+     "median_difference_detector_minus_oracle_m": -0.06373232474042734,
+     "n": 2770,
+     "oracle_signed_median_m": -0.5850310611756401
+    }
+   },
    "paired_same_frames": {
     "detector_box": {
      "along_abs_median_m": 0.8503860533277319,
@@ -179,6 +217,44 @@
     "along_signed_p95_m": -0.4247337706732513,
     "n": 10173
    },
+   "paired_by_theta": {
+    "0-15": {
+     "detector_signed_median_m": -1.5077297132064813,
+     "median_difference_detector_minus_oracle_m": -0.05807366405600378,
+     "n": 1109,
+     "oracle_signed_median_m": -1.4188433087770829
+    },
+    "15-30": {
+     "detector_signed_median_m": -1.4091431871425595,
+     "median_difference_detector_minus_oracle_m": -0.03313808550123287,
+     "n": 1575,
+     "oracle_signed_median_m": -1.3904193117416195
+    },
+    "30-45": {
+     "detector_signed_median_m": -1.2854145325749764,
+     "median_difference_detector_minus_oracle_m": -0.033209157957070023,
+     "n": 1914,
+     "oracle_signed_median_m": -1.2749761949297782
+    },
+    "45-60": {
+     "detector_signed_median_m": -1.0466960408397075,
+     "median_difference_detector_minus_oracle_m": -0.04586240448701473,
+     "n": 1630,
+     "oracle_signed_median_m": -1.014631575714797
+    },
+    "60-75": {
+     "detector_signed_median_m": -0.782504985513484,
+     "median_difference_detector_minus_oracle_m": -0.05607853731571022,
+     "n": 1939,
+     "oracle_signed_median_m": -0.7349826482061264
+    },
+    "75-90": {
+     "detector_signed_median_m": -0.642483891374699,
+     "median_difference_detector_minus_oracle_m": -0.0546106919229018,
+     "n": 2006,
+     "oracle_signed_median_m": -0.5850310611756401
+    }
+   },
    "paired_same_frames": {
     "detector_box": {
      "along_abs_median_m": 0.914210341403706,
@@ -258,6 +334,44 @@
     "along_signed_p05_m": -1.5040405541440445,
     "along_signed_p95_m": -0.4419438027735435,
     "n": 6201
+   },
+   "paired_by_theta": {
+    "0-15": {
+     "detector_signed_median_m": -1.0500263793843922,
+     "median_difference_detector_minus_oracle_m": -0.06635013207793228,
+     "n": 1139,
+     "oracle_signed_median_m": -1.0511506850788446
+    },
+    "15-30": {
+     "detector_signed_median_m": -0.7138734152502957,
+     "median_difference_detector_minus_oracle_m": -0.02642994269307941,
+     "n": 1056,
+     "oracle_signed_median_m": -1.1363486003373326
+    },
+    "30-45": {
+     "detector_signed_median_m": -0.7888171398474204,
+     "median_difference_detector_minus_oracle_m": -0.057692716320165816,
+     "n": 1028,
+     "oracle_signed_median_m": -0.9574353561806397
+    },
+    "45-60": {
+     "detector_signed_median_m": -0.9734013570463773,
+     "median_difference_detector_minus_oracle_m": -0.06556797975250128,
+     "n": 1226,
+     "oracle_signed_median_m": -0.9393301176087065
+    },
+    "60-75": {
+     "detector_signed_median_m": -0.7573899154484945,
+     "median_difference_detector_minus_oracle_m": -0.0836239414520259,
+     "n": 988,
+     "oracle_signed_median_m": -0.6614769992986391
+    },
+    "75-90": {
+     "detector_signed_median_m": -0.6783419500806458,
+     "median_difference_detector_minus_oracle_m": -0.07330255426694454,
+     "n": 764,
+     "oracle_signed_median_m": -0.5824301878683462
+    }
    },
    "paired_same_frames": {
     "detector_box": {
