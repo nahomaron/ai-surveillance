@@ -1,0 +1,185 @@
+{
+ "baseline": "BL-6",
+ "cameras": 116,
+ "checks": {
+  "b_tune_s4_payload_equals_stored_B": 116,
+  "s3_rebuilt_equals_stored": 116
+ },
+ "code_commit": [
+  "74e7b0c9f407cef0b50fcb718c0ee6003dd6f966"
+ ],
+ "contract": "E-1.2.24 (no change)",
+ "decision": "D-53 step 2",
+ "ev": {
+  "all": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 0.9440559440559441,
+    "assessable_references": 135,
+    "matched_events": 135,
+    "matched_references": 135,
+    "missed_references": 0,
+    "system_events": 143,
+    "unmatched_events": 8
+   },
+   "B (stored)": {
+    "EV-M1": 0.7925925925925926,
+    "EV-M2": 0.5047169811320755,
+    "assessable_references": 135,
+    "matched_events": 107,
+    "matched_references": 107,
+    "missed_references": 28,
+    "system_events": 212,
+    "unmatched_events": 105
+   },
+   "B-sim-F": {
+    "EV-M1": 0.9037037037037037,
+    "EV-M2": 0.5674418604651162,
+    "assessable_references": 135,
+    "matched_events": 122,
+    "matched_references": 122,
+    "missed_references": 13,
+    "system_events": 215,
+    "unmatched_events": 93
+   },
+   "B-sim-P": {
+    "EV-M1": 0.8518518518518519,
+    "EV-M2": 0.6460674157303371,
+    "assessable_references": 135,
+    "matched_events": 115,
+    "matched_references": 115,
+    "missed_references": 20,
+    "system_events": 178,
+    "unmatched_events": 63
+   },
+   "B-tune": {
+    "EV-M1": 0.7925925925925926,
+    "EV-M2": 0.5047169811320755,
+    "assessable_references": 135,
+    "matched_events": 107,
+    "matched_references": 107,
+    "missed_references": 28,
+    "system_events": 212,
+    "unmatched_events": 105
+   },
+   "cameras": 116
+  },
+  "ceiling": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 1.0,
+    "assessable_references": 64,
+    "matched_events": 64,
+    "matched_references": 64,
+    "missed_references": 0,
+    "system_events": 64,
+    "unmatched_events": 0
+   },
+   "B (stored)": {
+    "EV-M1": 0.75,
+    "EV-M2": 0.4485981308411215,
+    "assessable_references": 64,
+    "matched_events": 48,
+    "matched_references": 48,
+    "missed_references": 16,
+    "system_events": 107,
+    "unmatched_events": 59
+   },
+   "B-sim-F": {
+    "EV-M1": 0.90625,
+    "EV-M2": 0.5686274509803921,
+    "assessable_references": 64,
+    "matched_events": 58,
+    "matched_references": 58,
+    "missed_references": 6,
+    "system_events": 102,
+    "unmatched_events": 44
+   },
+   "B-sim-P": {
+    "EV-M1": 0.859375,
+    "EV-M2": 0.6470588235294118,
+    "assessable_references": 64,
+    "matched_events": 55,
+    "matched_references": 55,
+    "missed_references": 9,
+    "system_events": 85,
+    "unmatched_events": 30
+   },
+   "B-tune": {
+    "EV-M1": 0.75,
+    "EV-M2": 0.4485981308411215,
+    "assessable_references": 64,
+    "matched_events": 48,
+    "matched_references": 48,
+    "missed_references": 16,
+    "system_events": 107,
+    "unmatched_events": 59
+   },
+   "cameras": 54
+  },
+  "eye_level": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 0.8987341772151899,
+    "assessable_references": 71,
+    "matched_events": 71,
+    "matched_references": 71,
+    "missed_references": 0,
+    "system_events": 79,
+    "unmatched_events": 8
+   },
+   "B (stored)": {
+    "EV-M1": 0.8309859154929577,
+    "EV-M2": 0.5619047619047619,
+    "assessable_references": 71,
+    "matched_events": 59,
+    "matched_references": 59,
+    "missed_references": 12,
+    "system_events": 105,
+    "unmatched_events": 46
+   },
+   "B-sim-F": {
+    "EV-M1": 0.9014084507042254,
+    "EV-M2": 0.5663716814159292,
+    "assessable_references": 71,
+    "matched_events": 64,
+    "matched_references": 64,
+    "missed_references": 7,
+    "system_events": 113,
+    "unmatched_events": 49
+   },
+   "B-sim-P": {
+    "EV-M1": 0.8450704225352113,
+    "EV-M2": 0.6451612903225806,
+    "assessable_references": 71,
+    "matched_events": 60,
+    "matched_references": 60,
+    "missed_references": 11,
+    "system_events": 93,
+    "unmatched_events": 33
+   },
+   "B-tune": {
+    "EV-M1": 0.8309859154929577,
+    "EV-M2": 0.5619047619047619,
+    "assessable_references": 71,
+    "matched_events": 59,
+    "matched_references": 59,
+    "missed_references": 12,
+    "system_events": 105,
+    "unmatched_events": 46
+   },
+   "cameras": 62
+  }
+ },
+ "label_group": "G1",
+ "matching": "N4 (frozen v1 S8 values), stored T-21 BL-6 references; summed counts as the pilot report",
+ "runs": {
+  "A (stored)": "column A (simulator positions for both), stored T-21 base unit, same cameras",
+  "B (stored)": "column B, stored T-21 full_camera unit, same cameras (cross-check of B-tune)",
+  "B-sim-F": "column B with forklift positions and covariances from the simulator; persons full_camera",
+  "B-sim-P": "column B with person positions and covariances from the simulator; forklifts full_camera",
+  "B-tune": "column B unchanged (oracle boxes, full_camera), re-run through the diagnostic adapter"
+ },
+ "status": "diagnostic, tuning subset, not a reported result",
+ "yaw": "not substituted: the simulator yaw is removed from the substituted position records"
+}
