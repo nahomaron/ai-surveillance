@@ -1,0 +1,491 @@
+{
+ "availability": {
+  "all": {
+   "B-T24.1": {
+    "forklift": {
+     "object_frames": 33707,
+     "position": 33707,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 31426,
+     "other_null": 383,
+     "position": 31043,
+     "share_other_null": 0.01218736078406415,
+     "share_position": 0.9878126392159359
+    }
+   },
+   "B-T24.2": {
+    "forklift": {
+     "object_frames": 33707,
+     "position": 33707,
+     "share_position": 1.0
+    },
+    "person": {
+     "no_floor_intersection": 383,
+     "object_frames": 31426,
+     "position": 30677,
+     "resolution_limit": 366,
+     "share_no_floor_intersection": 0.01218736078406415,
+     "share_position": 0.9761662317826004,
+     "share_resolution_limit": 0.011646407433335455
+    }
+   },
+   "B-both": {
+    "forklift": {
+     "object_frames": 33707,
+     "position": 33707,
+     "share_position": 1.0
+    },
+    "person": {
+     "no_floor_intersection": 383,
+     "object_frames": 31426,
+     "position": 30677,
+     "resolution_limit": 366,
+     "share_no_floor_intersection": 0.01218736078406415,
+     "share_position": 0.9761662317826004,
+     "share_resolution_limit": 0.011646407433335455
+    }
+   },
+   "B-tune (stored B)": {
+    "forklift": {
+     "object_frames": 33707,
+     "position": 33707,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 31426,
+     "other_null": 383,
+     "position": 31043,
+     "share_other_null": 0.01218736078406415,
+     "share_position": 0.9878126392159359
+    }
+   }
+  },
+  "ceiling": {
+   "B-T24.1": {
+    "forklift": {
+     "object_frames": 16090,
+     "position": 16090,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 16200,
+     "position": 16200,
+     "share_position": 1.0
+    }
+   },
+   "B-T24.2": {
+    "forklift": {
+     "object_frames": 16090,
+     "position": 16090,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 16200,
+     "position": 16200,
+     "share_position": 1.0
+    }
+   },
+   "B-both": {
+    "forklift": {
+     "object_frames": 16090,
+     "position": 16090,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 16200,
+     "position": 16200,
+     "share_position": 1.0
+    }
+   },
+   "B-tune (stored B)": {
+    "forklift": {
+     "object_frames": 16090,
+     "position": 16090,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 16200,
+     "position": 16200,
+     "share_position": 1.0
+    }
+   }
+  },
+  "eye_level": {
+   "B-T24.1": {
+    "forklift": {
+     "object_frames": 17617,
+     "position": 17617,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 15226,
+     "other_null": 383,
+     "position": 14843,
+     "share_other_null": 0.025154341258373833,
+     "share_position": 0.9748456587416262
+    }
+   },
+   "B-T24.2": {
+    "forklift": {
+     "object_frames": 17617,
+     "position": 17617,
+     "share_position": 1.0
+    },
+    "person": {
+     "no_floor_intersection": 383,
+     "object_frames": 15226,
+     "position": 14477,
+     "resolution_limit": 366,
+     "share_no_floor_intersection": 0.025154341258373833,
+     "share_position": 0.9508078287140418,
+     "share_resolution_limit": 0.024037830027584396
+    }
+   },
+   "B-both": {
+    "forklift": {
+     "object_frames": 17617,
+     "position": 17617,
+     "share_position": 1.0
+    },
+    "person": {
+     "no_floor_intersection": 383,
+     "object_frames": 15226,
+     "position": 14477,
+     "resolution_limit": 366,
+     "share_no_floor_intersection": 0.025154341258373833,
+     "share_position": 0.9508078287140418,
+     "share_resolution_limit": 0.024037830027584396
+    }
+   },
+   "B-tune (stored B)": {
+    "forklift": {
+     "object_frames": 17617,
+     "position": 17617,
+     "share_position": 1.0
+    },
+    "person": {
+     "object_frames": 15226,
+     "other_null": 383,
+     "position": 14843,
+     "share_other_null": 0.025154341258373833,
+     "share_position": 0.9748456587416262
+    }
+   }
+  }
+ },
+ "availability_rows": {
+  "lost": "lost point (no position in E-1.2.24; CR-034 reading (a))",
+  "no_floor_intersection": "no floor intersection (floor_resolution null, not_observable)",
+  "other_null": "any other null position",
+  "position": "numeric position",
+  "resolution_limit": "resolution limit (s > s_max)"
+ },
+ "baseline": "BL-6",
+ "cameras": 116,
+ "checks": {
+  "s3_rebuilt_equals_stored": 116
+ },
+ "code_commit": [
+  "ad171de3d69e4fbf60562c11e1ffbb45ea124355"
+ ],
+ "contract": "E-1.2.25 (Appendix T T24); v1 base values otherwise",
+ "cr034_size": {
+  "B-T24.2": {
+   "lost_gated_or_no_floor": 0,
+   "lost_object_frames": 0,
+   "pair_frames_occluded_to_geometry_failure_under_b": 0
+  },
+  "B-both": {
+   "lost_gated_or_no_floor": 0,
+   "lost_object_frames": 0,
+   "pair_frames_occluded_to_geometry_failure_under_b": 0
+  }
+ },
+ "decision": "D-54 STEP 3",
+ "ev": {
+  "all": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 0.9440559440559441,
+    "assessable_references": 135,
+    "matched_events": 135,
+    "matched_references": 135,
+    "missed_references": 0,
+    "system_events": 143,
+    "unmatched_events": 8
+   },
+   "B-T24.1": {
+    "EV-M1": 0.9259259259259259,
+    "EV-M2": 0.5681818181818182,
+    "assessable_references": 135,
+    "matched_events": 125,
+    "matched_references": 125,
+    "missed_references": 10,
+    "system_events": 220,
+    "unmatched_events": 95
+   },
+   "B-T24.2": {
+    "EV-M1": 0.7925925925925926,
+    "EV-M2": 0.5095238095238095,
+    "assessable_references": 135,
+    "matched_events": 107,
+    "matched_references": 107,
+    "missed_references": 28,
+    "system_events": 210,
+    "unmatched_events": 103
+   },
+   "B-both": {
+    "EV-M1": 0.9259259259259259,
+    "EV-M2": 0.5707762557077626,
+    "assessable_references": 135,
+    "matched_events": 125,
+    "matched_references": 125,
+    "missed_references": 10,
+    "system_events": 219,
+    "unmatched_events": 94
+   },
+   "B-tune (stored B)": {
+    "EV-M1": 0.7925925925925926,
+    "EV-M2": 0.5047169811320755,
+    "assessable_references": 135,
+    "matched_events": 107,
+    "matched_references": 107,
+    "missed_references": 28,
+    "system_events": 212,
+    "unmatched_events": 105
+   },
+   "cameras": 116
+  },
+  "ceiling": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 1.0,
+    "assessable_references": 64,
+    "matched_events": 64,
+    "matched_references": 64,
+    "missed_references": 0,
+    "system_events": 64,
+    "unmatched_events": 0
+   },
+   "B-T24.1": {
+    "EV-M1": 0.953125,
+    "EV-M2": 0.5865384615384616,
+    "assessable_references": 64,
+    "matched_events": 61,
+    "matched_references": 61,
+    "missed_references": 3,
+    "system_events": 104,
+    "unmatched_events": 43
+   },
+   "B-T24.2": {
+    "EV-M1": 0.75,
+    "EV-M2": 0.4485981308411215,
+    "assessable_references": 64,
+    "matched_events": 48,
+    "matched_references": 48,
+    "missed_references": 16,
+    "system_events": 107,
+    "unmatched_events": 59
+   },
+   "B-both": {
+    "EV-M1": 0.953125,
+    "EV-M2": 0.5865384615384616,
+    "assessable_references": 64,
+    "matched_events": 61,
+    "matched_references": 61,
+    "missed_references": 3,
+    "system_events": 104,
+    "unmatched_events": 43
+   },
+   "B-tune (stored B)": {
+    "EV-M1": 0.75,
+    "EV-M2": 0.4485981308411215,
+    "assessable_references": 64,
+    "matched_events": 48,
+    "matched_references": 48,
+    "missed_references": 16,
+    "system_events": 107,
+    "unmatched_events": 59
+   },
+   "cameras": 54
+  },
+  "eye_level": {
+   "A (stored)": {
+    "EV-M1": 1.0,
+    "EV-M2": 0.8987341772151899,
+    "assessable_references": 71,
+    "matched_events": 71,
+    "matched_references": 71,
+    "missed_references": 0,
+    "system_events": 79,
+    "unmatched_events": 8
+   },
+   "B-T24.1": {
+    "EV-M1": 0.9014084507042254,
+    "EV-M2": 0.5517241379310345,
+    "assessable_references": 71,
+    "matched_events": 64,
+    "matched_references": 64,
+    "missed_references": 7,
+    "system_events": 116,
+    "unmatched_events": 52
+   },
+   "B-T24.2": {
+    "EV-M1": 0.8309859154929577,
+    "EV-M2": 0.5728155339805825,
+    "assessable_references": 71,
+    "matched_events": 59,
+    "matched_references": 59,
+    "missed_references": 12,
+    "system_events": 103,
+    "unmatched_events": 44
+   },
+   "B-both": {
+    "EV-M1": 0.9014084507042254,
+    "EV-M2": 0.5565217391304348,
+    "assessable_references": 71,
+    "matched_events": 64,
+    "matched_references": 64,
+    "missed_references": 7,
+    "system_events": 115,
+    "unmatched_events": 51
+   },
+   "B-tune (stored B)": {
+    "EV-M1": 0.8309859154929577,
+    "EV-M2": 0.5619047619047619,
+    "assessable_references": 71,
+    "matched_events": 59,
+    "matched_references": 59,
+    "missed_references": 12,
+    "system_events": 105,
+    "unmatched_events": 46
+   },
+   "cameras": 62
+  }
+ },
+ "forklift_position_error": {
+  "all": {
+   "B-T24.1": {
+    "median_m": 0.39912443644570944,
+    "n": 33707,
+    "p95_m": 1.0903326545722805,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.058830509983089564,
+    "share_gt_2m": 0.00925623757676447
+   },
+   "B-T24.2": {
+    "median_m": 1.0568645556204395,
+    "n": 33707,
+    "p95_m": 1.484438863364195,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.533005013795354,
+    "share_gt_2m": 0.0012460319814875248
+   },
+   "B-both": {
+    "median_m": 0.39912443644570944,
+    "n": 33707,
+    "p95_m": 1.0903326545722805,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.058830509983089564,
+    "share_gt_2m": 0.00925623757676447
+   },
+   "B-tune (stored B)": {
+    "median_m": 1.0568645556204395,
+    "n": 33707,
+    "p95_m": 1.484438863364195,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.533005013795354,
+    "share_gt_2m": 0.0012460319814875248
+   }
+  },
+  "ceiling": {
+   "B-T24.1": {
+    "median_m": 0.37473990450114236,
+    "n": 16090,
+    "p95_m": 0.8397096810061269,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.04027346177750155,
+    "share_gt_2m": 0.013859540087010565
+   },
+   "B-T24.2": {
+    "median_m": 1.1074309125245683,
+    "n": 16090,
+    "p95_m": 1.481707145349522,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.5832815413300186,
+    "share_gt_2m": 0.0026103169670602857
+   },
+   "B-both": {
+    "median_m": 0.37473990450114236,
+    "n": 16090,
+    "p95_m": 0.8397096810061269,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.04027346177750155,
+    "share_gt_2m": 0.013859540087010565
+   },
+   "B-tune (stored B)": {
+    "median_m": 1.1074309125245683,
+    "n": 16090,
+    "p95_m": 1.481707145349522,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.5832815413300186,
+    "share_gt_2m": 0.0026103169670602857
+   }
+  },
+  "eye_level": {
+   "B-T24.1": {
+    "median_m": 0.4158033780963865,
+    "n": 17617,
+    "p95_m": 1.2108240221214335,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.0757790770278708,
+    "share_gt_2m": 0.0050519384685247205
+   },
+   "B-T24.2": {
+    "median_m": 0.9770478778872155,
+    "n": 17617,
+    "p95_m": 1.4917743054512898,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.4870863370607936,
+    "share_gt_2m": 0.0
+   },
+   "B-both": {
+    "median_m": 0.4158033780963865,
+    "n": 17617,
+    "p95_m": 1.2108240221214335,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.0757790770278708,
+    "share_gt_2m": 0.0050519384685247205
+   },
+   "B-tune (stored B)": {
+    "median_m": 0.9770478778872155,
+    "n": 17617,
+    "p95_m": 1.4917743054512898,
+    "share_gt_10m": 0.0,
+    "share_gt_1m": 0.4870863370607936,
+    "share_gt_2m": 0.0
+   }
+  }
+ },
+ "label_group": "G1",
+ "matching": "N4 (frozen v1 S8 values), stored T-21 BL-6 references; summed counts as the pilot report",
+ "position_error_definition": "forklift: |estimate - simulator footprint centre| of the oracle track's identity (D1 definitions); median and P95 linear interpolation; shares above 1, 2 and 10 m",
+ "runs": {
+  "A (stored)": "column A (simulator positions for both), stored T-21 base unit",
+  "B-T24.1": "column B with the T24.1 forklift centre shift, d 1.00 m, r_taper 2.0 m",
+  "B-T24.2": "column B (oracle boxes, full_camera) with the T24.2 gate, s_max 0.1 m/px",
+  "B-both": "column B with both",
+  "B-tune (stored B)": "column B, stored T-21 full_camera unit (= the D-53 B-tune rebuild on all 116 cameras)"
+ },
+ "status": "diagnostic, tuning subset, not a reported result",
+ "t24_values": {
+  "anchor_offset_m": 1.0,
+  "anchor_taper_m": 2.0,
+  "forklift_anchor": "box_bottom_centre",
+  "person_prior": "unchanged (anchor centre, no T24.1 parameters)",
+  "s_max_m_per_px": 0.1,
+  "status": "D-54 v2 candidate values, selected, not frozen"
+ }
+}
