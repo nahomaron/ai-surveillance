@@ -1258,7 +1258,7 @@ Representation and engineering only; no measured value, label, denominator or ru
 
 **Ruling (D-56, 23 Nov 2026):** accepted as written (the Architect: representation and engineering only).
 
-## CR-034 (2026-11-23) — T24.2 on track points in state `lost`   status: OPEN for the Owner at the next STOP (implemented under reading (a); nothing frozen)
+## CR-034 (2026-11-23) — T24.2 on track points in state `lost`   status: CLOSED (Owner decision D-57 ruling 3, 24 Nov 2026: reading (a) confirmed)
 **Raised by:** implementation agent. **Task:** D-54 STEP 2. **Sections:** Appendix T T24.2 (c), (d) (E-1.2.25); E-1.2.1 §5.4 `track_point.foot_point_px` (non-nullable); the S4 builder's E-1.2.24 rule that a `lost` point has no position.
 **Meaning-affecting:** yes. It decides which pair-frames get `unmeasurable_geometry_failure` rather than `unmeasurable_occluded`, so it changes the clearance_state counts that CM-08 by state and the D-41 availability table read.
 **Gap.** T24.2 (c) applies to "every object-frame with a foot pixel". Every `track_point` carries `foot_point_px`, including points in state `lost`, where it is the box the S3 builder carries forward. E-1.2.24 never forms a floor point for a `lost` point (its position is null whatever the pixel).
@@ -1268,7 +1268,9 @@ Representation and engineering only; no measured value, label, denominator or ru
 **Pinned by:** `tests/substrate/test_t24.py::test_t24_2_lost_points_are_outside_the_gate_cr_034`.
 **Agent's recommendation:** none; the Owner decides.
 
-## AR-67 — Representation choices of the T24 implementation (E-1.2.25, D-54 STEP 2)   status: PROPOSED (for review at the next stop)
+**Ruling (D-57 ruling 3, 24 Nov 2026):** reading (a) is confirmed. The gate applies where E-1.2.24 forms a camera floor point (`tracked`, `predicted`). For `lost` points, `floor_resolution_m_per_px` is null (`not_applicable`). CR-034 is closed.
+
+## AR-67 — Representation choices of the T24 implementation (E-1.2.25, D-54 STEP 2)   status: ACCEPTED (D-57 ruling 5, 24 Nov 2026: as written; the Architect: representation and engineering only, with regression evidence)
 Representation and engineering only. With the T24 parameters absent, no measured value, label, state or ID changes (pinned below). The readings that change a count are in CR-034.
 1. **"May be absent" fields (T24.0).** A new schema mark `@absent_ok` (`schema/tables.py`) on `footprint_prior.anchor_offset_m`, `footprint_prior.anchor_taper_m`, `geometry_config.s_max_m_per_px` and `object_state.floor_resolution_m_per_px`; a null-reason sibling inherits it (`types.with_reasons`). A row may omit such a field, and an omitted field is the E-1.2.24 form:
    - the validator accepts its absence, but refuses a value without its null-reason column or the reverse;
@@ -1285,7 +1287,9 @@ Representation and engineering only. With the T24 parameters absent, no measured
 **Pinned by:** `tests/schema/test_t24_schema.py` (items 1, 2), `tests/substrate/test_t24.py` (items 3–6).
 **Reverse:** remove the `@absent_ok` lines and the four fields, the `SubstrateConfig.s_max` field and the T24 branches in `substrate/builder.py` and `substrate/geometry.py`. Nothing stored depends on them except the new `out/m1b/v2t24/` outputs.
 
-## CR-035 (2026-11-23) — D-54 STEP 4 (c): "no counterpart in B-sim-P"   status: OPEN for the Owner at the next STOP (both readings reported; none chosen)
+**Ruling (D-57 ruling 5, 24 Nov 2026):** accepted as written (the Architect: representation and engineering only, with regression evidence).
+
+## CR-035 (2026-11-23) — D-54 STEP 4 (c): "no counterpart in B-sim-P"   status: CLOSED (Owner decision D-57 ruling 4, 24 Nov 2026: diagnostic only; both readings stay reported side by side, none chosen)
 **Raised by:** implementation agent. **Task:** D-54 STEP 4 (c). **Sections:** D-54 STEP 4 (c) (Owner, 23 Nov 2026); diagnostic only, no contract quantity.
 **Meaning-affecting:** yes, for the diagnostic. It decides which B-tune unmatched events are classified (15 or 50). No contract value, label or reported result depends on it.
 **Gap.** STEP 4 (c) takes "each B-tune unmatched event with no counterpart in B-sim-P (about 42)". It does not define a counterpart. 42 is the net difference of the unmatched totals (105 − 63), not a count of events.
@@ -1294,3 +1298,5 @@ Representation and engineering only. With the T24 parameters absent, no measured
 - Neither reading gives 42, because B-sim-P also has unmatched events with no B-tune counterpart.
 **What proceeds meanwhile:** `research/m1b/d54_person_position.json` and the D-54 report give both readings side by side. Every event carries both flags.
 **Agent's recommendation:** none; the Owner decides.
+
+**Ruling (D-57 ruling 4, 24 Nov 2026):** a diagnostic-only question. Both readings stay reported side by side; none is chosen, and no reported value depends on it. CR-035 is closed.

@@ -711,7 +711,7 @@ Owner decision (D-56, 23 Nov 2026): Source: the Architect's draft part 1 (`v2_ar
 - Standing caveat for every report using the package: it accepts forklift detections down to score 0.05. Point precision 0.979 was measured on synthetic SDG data only and is not known for real footage.
 - AR-66 is accepted as written (Architect: representation and engineering only).
 
-## D-57 (2026-11-23) — STOP after the D-54 diagnostics: T24 on the tuning cameras, person positions        status: OPEN
+## D-57 (2026-11-23) — STOP after the D-54 diagnostics: T24 on the tuning cameras, person positions        status: DECIDED (24 Nov 2026)
 Task: D-54 STEPS 2–5   Blocking: freezing pre-registration v2 (T24 values, person rule, if any); any run on the reporting cameras; no other task
 Question: the results are in `research/m1b/d54_report.md` (diagnostic, tuning subset, not a reported result). Results only:
 - **T24 implemented opt-in (E-1.2.25).** All T24.4 checks are tests. With the parameters absent, stored S4 of M1a A, M1a B and pilot C is byte-identical on 96 tuning cameras, and the 12 M0 IDs are reproduced at e6072ef.
@@ -741,4 +741,17 @@ Question: the results are in `research/m1b/d54_report.md` (diagnostic, tuning su
   - AR-67 (representation of T24).
 Options: for the Owner and the Architect: freeze the T24 values as selected, change them, add a person rule, or another instruction.
 Agent's recommendation: none; the Owner decides.
-Owner decision: ______
+Owner decision (D-57, 24 Nov 2026): Source: `research/m1b/d54_report.md`, reviewed by the Architect (24 Nov 2026) and approved by the Owner. Pasting it = Owner approval of the rulings and of the steps.
+Rulings:
+1. **T24 values are kept as selected:** s_max 0.1 m/px; forklift prior `anchor = box_bottom_centre`, d 1.00 m, r_taper 2.0 m; SmartSpaces d × 0.923. They are frozen together with pre-registration v2, not now.
+2. **No person rule.** The person error has no systematic offset (median along-sight error −0.13 m, against a box half-depth of 0.38 m). The large person errors are at r ≥ 20 m, which T24.2 addresses.
+3. **CR-034: reading (a) is confirmed.** The gate applies where E-1.2.24 forms a camera floor point (`tracked`, `predicted`). For `lost` points, `floor_resolution_m_per_px` is null (`not_applicable`). CR-034 is closed.
+4. **CR-035:** a diagnostic-only question. Both readings stay reported side by side; none is chosen, and no reported value depends on it. CR-035 is closed.
+5. **AR-67 is accepted as written** (Architect: representation and engineering only, with regression evidence).
+6. **Next lever: split episodes.** In C-v2, 149 of 159 unmatched events overlap a reference of the same pair, and 69 references are covered by two or more episodes. This step diagnoses why episodes split, and sweeps the existing lifecycle parameter m_gap.
+   - **N4 matching is unchanged.** The way events are scored against references never changes to fit the output.
+   - **This is a value change, not a rule change.** m_gap already exists (`rule_configuration.lifecycle.m_gap_frames`, T9.7). Joining across POWs or across tracks would need new contract text: it is **not** authorised here.
+7. **Fine-tuning stays after 1 Dec** (T-24 remains blocked for this submission).
+8. All of this stays on the **116 tuning cameras**. Nothing runs on the 110 reporting cameras or on the test partition (D-37).
+Steps (summary): STEP 0 state check (clean, level with origin, mains power); STEP 1 records; STEP 2 split diagnosis on the stored D-54 outputs of C-v2 and B-both (mechanism (i) same POW, (ii) different POWs of the same tracks, (iii) different tracks of the same identities; gap; for (i) T = 0 / unknown share, last flag, clearance against d_p and d_pc, Q state) → `research/m1b/d57_split_diagnosis.json`; STEP 3 m_gap sweep {5, 15, 30, 60} frames, S5 onward on the stored D-54 S4 artifacts, for C-v2, B-both and A, with the pre-declared selection rule on C-v2 (EV-M1 ≥ EV-M1(5) − 0.02; highest EV-M2; tie within 0.005 → smaller m_gap; "selected under D-57, not frozen"; checked against item C7 before the v2 freeze); runtime estimate on 2 cameras, STOP above 2 h → `research/m1b/d57_mgap_sweep.json`; STEP 4 `research/m1b/d57_report.md`, full suite twice, next free D number, STOP.
+Hard limits: nothing on the 110 reporting cameras or the test partition; pilot columns A, B, C, C′ and the stored D-54 artifacts unchanged; no new detection, no tracker change, no change to N4, the label rules or any contract text; no stored record deleted, rewritten or reordered; anything undefined that changes a count, a state or a statistic → next free CR, skip the item, continue.
