@@ -142,7 +142,7 @@ def _json_object(fields: tuple[Field, ...] | list[Field]) -> dict[str, Any]:
         "type": "object",
         "additionalProperties": False,
         "properties": {f.name: _json_field(f) for f in fields},
-        "required": [f.name for f in fields if not f.derived],
+        "required": [f.name for f in fields if not f.derived and not may_be_absent(f)],
     }
     if pairs:
         schema["allOf"] = [{
@@ -219,6 +219,8 @@ def _minimal_type(t: Type, constraints: frozenset[str] = frozenset()) -> Any:
 def _minimal_struct(fields) -> dict[str, Any]:
     row: dict[str, Any] = {}
     for f in fields:
+        if may_be_absent(f):
+            continue
         row[f.name] = "not_applicable" if f.name.endswith("_null_reason") and row.get(f.name[:-12]) is None else _minimal(f)
     return row
 
@@ -233,11 +235,32 @@ def minimal_row(table: str) -> dict[str, Any]:
     return row
 
 
+def may_be_absent(f: Field) -> bool:
+    """Appendix T T24.0 (AR-67): a row may omit this field; omitted, it is the E-1.2.24 form."""
+    return "absent_ok" in f.constraints
+
+
+def written_fields(table: str, rows: list[dict[str, Any]]) -> list[Field]:
+    """The columns a file of these rows carries: every field, less each may-be-absent field no row has (AR-67). A
+    may-be-absent field present in some rows only is refused."""
+    out = []
+    for f in TABLES[table].fields:
+        if may_be_absent(f):
+            present = sum(1 for r in rows if f.name in r)
+            if present == 0:
+                continue
+            if present != len(rows):
+                raise ValueError(f"{table}.{f.name}: present in {present} of {len(rows)} rows (AR-67: all or none)")
+        out.append(f)
+    return out
+
+
 def to_arrow(table: str, rows: list[dict[str, Any]]) -> pa.Table:
     """Load rows, encoding enums as dictionary columns (section 1.1) and `nk` values as JCS text (AR-4)."""
-    schema = arrow_schema(table)
+    fields = written_fields(table, rows)
+    names = {f.name for f in fields}
+    schema = pa.schema([x for x in arrow_schema(table) if x.name in names])
     plain = pa.schema([pa.field(f.name, _undictionary(f.type), f.nullable) for f in schema])
-    fields = TABLES[table].fields
     encoded = [{f.name: _encode(f.type, row.get(f.name)) for f in fields} for row in rows]
     return pa.Table.from_pylist(encoded, schema=plain).cast(schema)
 
@@ -292,4 +315,4 @@ def _undictionary(t: pa.DataType) -> pa.DataType:
     return t
 
 
-__all__ = ["ENUMS", "TABLES", "arrow_schema", "json_schema", "forbidden_field_names", "minimal_row", "to_arrow"]
+__all__ = ["ENUMS", "TABLES", "arrow_schema", "json_schema", "forbidden_field_names", "may_be_absent", "minimal_row", "to_arrow", "written_fields"]

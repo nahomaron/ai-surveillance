@@ -1257,3 +1257,30 @@ Representation and engineering only; no measured value, label, denominator or ru
 **Reverse:** delete the new modules and the `tracker_class` / `license_rows` arguments; nothing stored depends on them except the new `out/m1b/v2trk/` outputs.
 
 **Ruling (D-56, 23 Nov 2026):** accepted as written (the Architect: representation and engineering only).
+
+## CR-034 (2026-11-23) — T24.2 on track points in state `lost`   status: OPEN for the Owner at the next STOP (implemented under reading (a); nothing frozen)
+**Raised by:** implementation agent. **Task:** D-54 STEP 2. **Sections:** Appendix T T24.2 (c), (d) (E-1.2.25); E-1.2.1 §5.4 `track_point.foot_point_px` (non-nullable); the S4 builder's E-1.2.24 rule that a `lost` point has no position.
+**Meaning-affecting:** yes. It decides which pair-frames get `unmeasurable_geometry_failure` rather than `unmeasurable_occluded`, so it changes the clearance_state counts that CM-08 by state and the D-41 availability table read.
+**Gap.** T24.2 (c) applies to "every object-frame with a foot pixel". Every `track_point` carries `foot_point_px`, including points in state `lost`, where it is the box the S3 builder carries forward. E-1.2.24 never forms a floor point for a `lost` point (its position is null whatever the pixel).
+- **(a) Used.** The gate applies where E-1.2.24 forms a camera floor point: points in state `tracked` or `predicted`. For a `lost` point, `floor_resolution_m_per_px` is null with reason `not_applicable`; its position and the pair-frame's clearance_state are as in E-1.2.24 (`unmeasurable_occluded`).
+- **(b)** The gate also applies to `lost` points: s is computed from the carried-forward pixel, and a `lost` point whose pixel is gated or has no floor intersection makes the pair-frame `unmeasurable_geometry_failure`.
+- Positions, clearances and every event are the same under both readings: a `lost` point has no position either way. Only state counts and the `floor_resolution_m_per_px` value of `lost` rows differ. STEP 3 reports the number of `lost` object-frames, so the size of the difference is visible.
+**Pinned by:** `tests/substrate/test_t24.py::test_t24_2_lost_points_are_outside_the_gate_cr_034`.
+**Agent's recommendation:** none; the Owner decides.
+
+## AR-67 — Representation choices of the T24 implementation (E-1.2.25, D-54 STEP 2)   status: PROPOSED (for review at the next stop)
+Representation and engineering only. With the T24 parameters absent, no measured value, label, state or ID changes (pinned below). The readings that change a count are in CR-034.
+1. **"May be absent" fields (T24.0).** A new schema mark `@absent_ok` (`schema/tables.py`) on `footprint_prior.anchor_offset_m`, `footprint_prior.anchor_taper_m`, `geometry_config.s_max_m_per_px` and `object_state.floor_resolution_m_per_px`; a null-reason sibling inherits it (`types.with_reasons`). A row may omit such a field, and an omitted field is the E-1.2.24 form:
+   - the validator accepts its absence, but refuses a value without its null-reason column or the reverse;
+   - `registry.to_arrow` writes no Parquet column for it when no row has it, and refuses a table where some rows have it and others do not (ValueError);
+   - `minimal_row` and the JSON Schema `required` list leave it out;
+   - IDs and payload hashes already cover only the keys present (`ids.artifact._canonical_row`), so an absent field enters no hash.
+   Options considered: a nullable column always written (rejected: it would change every E-1.2.24 Parquet file and the read-back payload); a second table (rejected: T24.2 (c) names an object_state field).
+2. **Gate parameter in the builder.** `SubstrateConfig.s_max` (default None = gate off) carries `geometry_config.s_max_m_per_px`. Callers that do not set it build exactly as before.
+3. **`floor_resolution_m_per_px` where no camera floor point is attempted (gate on):** simulator positions `not_applicable`; no calibration (`image_only`) `uncalibrated`; `lost` points per CR-034 (a). Clearance null reason under `unmeasurable_geometry_failure` is `not_observable`, as for `unmeasurable_occluded` (T24.2 (c) names only the state).
+4. **Distortion.** s(p) on `full_camera` is the analytic Jacobian of the ray–floor intersection (`geometry._full_camera_jacobian`). With a distortion model, the undistortion step is differentiated by central differences (step 1e-3 px). No stored calibration has distortion (the SDG and SmartSpaces adapters write `distortion_model = none`), so no current value depends on this.
+5. **Rounding allowance.** The gate refuses s > s_max + 1e-12 m/px, so that s = s_max computed with rounding error is kept as T24.4 requires (Δv = √30000 gives s = 0.10000000000000006). Same allowance as CR-033 item 4 (a).
+6. **Prior checks.** Every footprint prior is checked when S4 starts: one T24.1 parameter alone, d < 0 or r_taper ≤ 0 is ERR-SPEC (T24.1 (b)); `anchor = rear_axle` with a calibration supplied (a camera-derived floor point) is ERR-SPEC (T24.1 (a)). No stored configuration uses `rear_axle`.
+7. **Regression evidence.** `research/m1b/t24_regression.py` rebuilds stored S4 artifacts with the T24 code and no T24 parameter. Result in `research/m1b/t24_regression.json`: M1a A, M1a B and pilot C, each on 96 of 96 tuning cameras that are pilot cameras, all payload-identical and ID-identical. M0, using the method of W-02 §6.2 item 2: a clean clone of e6072ef with the T24 source change applied (one context conflict in `builder.py` resolved to e6072ef's lines plus the T24 lines). Two runs give all 12 artifact IDs and payload prefixes of `reports/M0_report.md`, and every exported file (48, execution records excluded) equals the unpatched run.
+**Pinned by:** `tests/schema/test_t24_schema.py` (items 1, 2), `tests/substrate/test_t24.py` (items 3–6).
+**Reverse:** remove the `@absent_ok` lines and the four fields, the `SubstrateConfig.s_max` field and the T24 branches in `substrate/builder.py` and `substrate/geometry.py`. Nothing stored depends on them except the new `out/m1b/v2t24/` outputs.

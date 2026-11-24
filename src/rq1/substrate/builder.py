@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from rq1.ids.artifact import Artifact, Spec, build_artifact
+from rq1.schema.errors import ContractError
 
 from . import activity, durations, evidence, geometry, kinematics, pows, surrogate
 
@@ -27,11 +28,24 @@ class SubstrateConfig:
     prior_ids: dict[str, str]
     band_schemes: dict[str, list[tuple[float | None, float | None]]]
     v_part: float
+    s_max: float | None = None  # T24.2 (b): geometry_config `s_max_m_per_px`; None = the gate is off (T24.0)
 
 
 def track_ids(built: Artifact) -> dict[int, str]:
     """Local track number to track ID for an S4 artifact built here (test convenience)."""
     return _TRACK_IDS[built.artifact_id]
+
+
+def anchor_params(prior: Row) -> tuple[float, float] | None:
+    """T24.1 (b): (d, r_taper) of a footprint prior, or None when both are absent; one alone, d < 0 or r_taper <= 0 is ERR-SPEC."""
+    d, r = prior.get("anchor_offset_m"), prior.get("anchor_taper_m")
+    if d is None and r is None:
+        return None
+    if d is None or r is None:
+        raise ContractError("ERR-SPEC", f"footprint prior {prior.get('class')}: anchor_offset_m and anchor_taper_m are both present or both absent (T24.1 b)")
+    if d < 0 or r <= 0:
+        raise ContractError("ERR-SPEC", f"footprint prior {prior.get('class')}: anchor_offset_m >= 0 and anchor_taper_m > 0 required (T24.1 b)")
+    return float(d), float(r)
 
 
 def _null(row: Row, name: str, value: Any, reason: str) -> None:
@@ -61,6 +75,10 @@ class SubstrateBuilder:
                 if p["state"] == "tracked":
                     tracked_classes[i].add(tracks[l]["class"])
         frame_order = sorted(frames)
+        for prior in cfg.priors.values():
+            anchor_params(prior)
+            if calibration is not None and prior.get("anchor") == "rear_axle":
+                raise ContractError("ERR-SPEC", f"footprint prior {prior.get('class')}: anchor rear_axle with a camera-derived floor point (T24.1 a)")
         states_rows: dict[tuple[str, int], Row] = {}
         object_rows = []
         for local, track in sorted(tracks.items()):
@@ -88,6 +106,7 @@ class SubstrateBuilder:
         activity_rows = activity.build(coverage, frames_all, detections, cfg.pair_classes, s3.artifact_id)
         for row in object_rows:
             row.pop("_v", None)
+            row.pop("_gf", None)
         built = build_artifact(spec, {"object_state": object_rows, "pow": pow_rows, "pair_series": pair_rows, "exposure_profile": profiles,
                                       "activity_segment": activity_rows})
         _TRACK_IDS[built.artifact_id] = _TRACK_IDS_PENDING
@@ -97,6 +116,9 @@ class SubstrateBuilder:
                        coverage: list[Row], size: tuple[int, int], cfg: SubstrateConfig) -> list[Row]:
         cls = track["class"]
         prior = cfg.priors[cls]
+        shift = anchor_params(prior) if prior.get("anchor") == "box_bottom_centre" else None  # T24.1 (a)
+        cam_c = geometry.camera_floor_centre(calibration) if (shift and calibration is not None and calibration["calibration_tier"] == "full_camera") else None
+        gate = cfg.s_max is not None
         rows, located = [], []
         for i in sorted(frames):
             point = points.get((local, i))
@@ -108,6 +130,7 @@ class SubstrateBuilder:
             _null(row, "visibility_frac", None, "not_computed_by_config")
             _null(row, "yaw_sigma_rad", None, "not_computed_by_config" if cls != "person" else "not_applicable")
             xy, cov, reason = None, None, "not_observable"
+            resolution = (None, "not_applicable")  # T24.2: (s, null reason); stored only with the gate on
             if truth is not None:
                 row["geometry_method"] = "simulator_truth"
                 xy, cov = truth["xy"], truth.get("cov")
@@ -121,14 +144,24 @@ class SubstrateBuilder:
                 if point["state"] in ("tracked", "predicted"):
                     foot = tuple(point["foot_point_px"])
                     xy = geometry.full_camera_to_floor(calibration, foot) if tier == "full_camera" else geometry.homography_to_floor(calibration["homography_img_to_floor"], foot)
+                    if gate:  # T24.3: g(p) -> T24.2 -> T24.1
+                        s = geometry.floor_resolution(calibration, foot) if xy is not None else None
+                        resolution = (s, "not_observable")
+                        if xy is None or geometry.resolution_gated(s, cfg.s_max):
+                            xy, row["_gf"] = None, True
+                    if cam_c is not None:
+                        xy = geometry.anchor_centre(xy, cam_c, *shift)
                 reason = "not_observable"
             else:
                 row["geometry_method"] = "image_only"
                 _null(row, "calibration_id", None, "uncalibrated")
                 _null(row, "world_frame_id", None, "uncalibrated")
                 reason = "uncalibrated"
+                resolution = (None, "uncalibrated")
             if point["state"] == "lost":
                 xy = None
+            if gate:
+                _null(row, "floor_resolution_m_per_px", resolution[0], resolution[1])
             _null(row, "x_m", None if xy is None else float(xy[0]), reason)
             _null(row, "y_m", None if xy is None else float(xy[1]), reason)
             _null(row, "pos_cov_m2", list(cov) if (cov is not None and xy is not None) else None, reason if xy is None else "not_supplied")
@@ -198,8 +231,9 @@ class SubstrateBuilder:
             row["clearance_state"], row["footprint_overlap"] = "measured", geometry.footprint_overlap(value)
         else:
             uncal = (ps is not None and ps["geometry_method"] == "image_only") or (fs is not None and fs["geometry_method"] == "image_only")
+            gated = bool((ps is not None and ps.get("_gf")) or (fs is not None and fs.get("_gf")))  # T24.2 (c)
             _null(row, "clearance_m", None, "uncalibrated" if uncal else "not_observable")
-            row["clearance_state"] = "unmeasurable_uncalibrated" if uncal else "unmeasurable_occluded"
+            row["clearance_state"] = "unmeasurable_uncalibrated" if uncal else ("unmeasurable_geometry_failure" if gated else "unmeasurable_occluded")
             row["footprint_overlap"] = 2
         _null(row, "clearance_sigma_m", sigma, "not_supplied" if have else row["clearance_m_null_reason"])
         row["sigma_status"] = "uncalibrated_model" if sigma is not None else "not_estimated"

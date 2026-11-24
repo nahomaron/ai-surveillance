@@ -46,7 +46,7 @@ def with_reasons(fields: list[Field], reason_type: Type) -> list[Field]:
     for f in fields:
         out.append(f)
         if f.nullable:
-            marks = frozenset({"event"}) & f.constraints  # a reason column shares its field's column class
+            marks = frozenset({"event", "absent_ok"}) & f.constraints  # a reason column shares its field's column class
             out.append(Field(f"{f.name}_null_reason", reason_type, nullable=True, constraints=marks, derived=f.derived))
     return out
 

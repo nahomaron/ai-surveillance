@@ -1,7 +1,8 @@
 """The single schema source (WP-00): every table of E-1.2.1 section 5, as amended by F.1.
 
 Each definition line is `name[?] type [@constraint ...] [~]`. `@event` marks an event-time column (AR-7 as revised):
-stored, but outside the payload hash, the artifact ID and every record ID. `?` is nullable (section 1.1); `~` marks
+stored, but outside the payload hash, the artifact ID and every record ID. `@absent_ok` marks a field a row may omit
+(Appendix T T24.0, AR-67): an omitted field is the E-1.2.24 form, so it enters no hash, ID or Parquet column. `?` is nullable (section 1.1); `~` marks
 a field or type the contract implies but does not state, listed in CR-002. Same-artifact `nk`
 columns and each table's own ID are expanded in registry.py. Anchor tables use parent anchor IDs
 (F.1 A1.2).
@@ -186,6 +187,8 @@ source str
 sigma_length_m f64
 sigma_width_m f64
 version_label? str ~
+anchor_offset_m f64 @ge0 @absent_ok
+anchor_taper_m f64 @absent_ok
 """)
 _t("substrate_config", "sbc", "Config", "-", "configuration", "", """
 g_max i32 ~
@@ -241,6 +244,7 @@ v_part f64 ~
 motion_models list<str> ~
 footprint_prior_ids list<id> ~
 version_label? str ~
+s_max_m_per_px f64 @absent_ok
 """)
 _t("sampling_plan_config", "spc", "Config", "-", "configuration", "", """
 sample_type sample_type ~
@@ -362,6 +366,7 @@ smoothing_window_s f64
 evidence_state evidence_state
 evidence_class evidence_class
 visibility_frac? f64
+floor_resolution_m_per_px? f64 @absent_ok
 """)
 _t("pow", "pow", "Obs", "S4", "observation", "person_track_id forklift_track_id start_frame", """
 person_track_id id

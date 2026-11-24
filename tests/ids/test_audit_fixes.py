@@ -115,8 +115,9 @@ def test_ar5_config_table_columns():
     # E-1.2.4 T7 adds the delta_nom declaration; AR-24 names it and the final-frame variant field.
     assert _columns("decode_config") == {"k_sup": "f64", "f_untimed": "f64", "f_sub": "f64", "rules_version": "str", "version_label": "str",
                                          "delta_nom_declarations": "list", "final_frame_support": "enum"}
-    # E-1.2.6 T8.6 adds v_part (AR-35 places it in geometry_config).
-    assert _columns("geometry_config") == {"w_v_s": "f64", "v_part": "f64", "motion_models": "list", "footprint_prior_ids": "list", "version_label": "str"}
+    # E-1.2.6 T8.6 adds v_part (AR-35 places it in geometry_config). E-1.2.25 T24.2 (b) adds s_max_m_per_px (may be absent, AR-67).
+    assert _columns("geometry_config") == {"w_v_s": "f64", "v_part": "f64", "motion_models": "list", "footprint_prior_ids": "list", "version_label": "str",
+                                           "s_max_m_per_px": "f64"}
     assert _columns("sampling_plan_config") == {"sample_type": "enum", "w_ref_s": "f64", "w_guard_s": "f64", "tiling_origin_tl_s": "f64",
                                                 "strata": "list", "seed": "i64", "version_label": "str"}
 

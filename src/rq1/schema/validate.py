@@ -129,6 +129,13 @@ def _check_value(table: str, path: str, t: Type, value: Any, constraints: frozen
         _check_fields(table, path + ".", t.fields, value, issues)
 
 
+def _partner(name: str, known: dict) -> str | None:
+    """The null-reason sibling of a field, or the field of a null-reason column."""
+    if name.endswith("_null_reason") and name[:-12] in known:
+        return name[:-12]
+    return f"{name}_null_reason" if f"{name}_null_reason" in known else None
+
+
 def _check_fields(table: str, prefix: str, fields, row: dict[str, Any], issues: list[Issue]) -> None:
     known = {f.name: f for f in fields}
     for name in row:
@@ -136,8 +143,12 @@ def _check_fields(table: str, prefix: str, fields, row: dict[str, Any], issues: 
             issues.append(Issue("SCHEMA", None, table, prefix + name, "unknown column"))
     for f in fields:
         if f.name not in row:
-            if not f.derived:
+            if f.derived:
+                continue
+            if "absent_ok" not in f.constraints:
                 issues.append(Issue("SCHEMA", None, table, prefix + f.name, "missing column"))
+            elif _partner(f.name, known) in row:  # AR-67: a value and its reason are present together or absent together
+                issues.append(Issue("SCHEMA", None, table, prefix + f.name, "missing column (its pair is present)"))
             continue
         value = row[f.name]
         path = prefix + f.name

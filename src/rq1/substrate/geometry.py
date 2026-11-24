@@ -142,3 +142,100 @@ def full_camera_to_floor(calibration: dict, point: tuple[float, float]) -> tuple
         return None
     hit = centre + s * ray
     return float(hit[0]), float(hit[1])
+
+
+# ------------------------------------------------------------------ Appendix T T24 (E-1.2.25): camera-path centre and resolution
+
+def camera_floor_centre(calibration: dict) -> tuple[float, float]:
+    """T24.1 (c): the camera centre -R^T t projected on the floor."""
+    import numpy as np
+
+    r = np.array(calibration["R_cam_from_world"], float).reshape(3, 3)
+    t = np.array(calibration["t_cam_from_world_m"], float)
+    c = -r.T @ t
+    return float(c[0]), float(c[1])
+
+
+def anchor_centre(p_f: tuple[float, float] | None, c: tuple[float, float], d: float, r_taper: float) -> tuple[float, float] | None:
+    """T24.1 (c): P_c = P_f + d * min(1, r / r_taper) * (P_f - C) / r; P_f itself when r < 1e-9 m; None when P_f is None."""
+    if p_f is None:
+        return None
+    dx, dy = p_f[0] - c[0], p_f[1] - c[1]
+    r = math.hypot(dx, dy)
+    if r < 1e-9:
+        return p_f
+    d_eff = d * min(1.0, r / r_taper)
+    return (p_f[0] + d_eff * dx / r, p_f[1] + d_eff * dy / r)
+
+
+def _largest_singular_value(j) -> float:
+    """Closed form for a 2 x 2 matrix: sqrt of the largest eigenvalue of J^T J."""
+    a, b, c, d = float(j[0][0]), float(j[0][1]), float(j[1][0]), float(j[1][1])
+    p, q = a * a + b * b + c * c + d * d, a * d - b * c
+    return math.sqrt(max(0.0, (p + math.sqrt(max(0.0, p * p - 4 * q * q))) / 2))
+
+
+def _homography_jacobian(h, p: tuple[float, float]):
+    """d g / d (u, v) of g(p) = (h1.p~ / h3.p~, h2.p~ / h3.p~); None when w = h3.p~ <= 0 (no floor point)."""
+    w = h[6] * p[0] + h[7] * p[1] + h[8]
+    if w <= 0:
+        return None
+    n = (h[0] * p[0] + h[1] * p[1] + h[2], h[3] * p[0] + h[4] * p[1] + h[5])
+    return [[(h[3 * i + k] * w - n[i] * h[6 + k]) / (w * w) for k in range(2)] for i in range(2)]
+
+
+def _full_camera_jacobian(calibration: dict, p: tuple[float, float]):
+    """d g / d (u, v) of the ray-floor intersection g (full_camera_to_floor); None where g does not exist. With a distortion
+    model, the undistortion step is differentiated by central differences (AR-67 item 4)."""
+    import numpy as np
+
+    k = np.array(calibration["intrinsics_K"], float).reshape(3, 3)
+    r = np.array(calibration["R_cam_from_world"], float).reshape(3, 3)
+    t = np.array(calibration["t_cam_from_world_m"], float)
+    centre = -r.T @ t
+    if calibration.get("distortion_model") not in (None, "none"):
+        import cv2
+
+        coeffs = np.array(calibration["distortion_coeffs"], float)
+
+        def normalized(q):
+            return cv2.undistortPoints(np.array([[q]], float), k, coeffs).ravel()
+
+        n0 = normalized(p)
+        step = 1e-3
+        dn = np.column_stack([(normalized((p[0] + step * (j == 0), p[1] + step * (j == 1))) -
+                               normalized((p[0] - step * (j == 0), p[1] - step * (j == 1)))) / (2 * step) for j in range(2)])
+        ray_cam = np.array([n0[0], n0[1], 1.0])
+        d_ray_cam = np.vstack([dn, np.zeros(2)])  # d (x_n, y_n, 1) / d (u, v)
+    else:
+        k_inv = np.linalg.inv(k)
+        ray_cam = k_inv @ np.array([p[0], p[1], 1.0])
+        d_ray_cam = k_inv[:, :2]
+    ray = r.T @ ray_cam
+    if abs(ray[2]) < 1e-12:
+        return None
+    s = -centre[2] / ray[2]
+    if s <= 0:
+        return None
+    d_ray = r.T @ d_ray_cam  # 3 x 2
+    ds = centre[2] * d_ray[2] / (ray[2] * ray[2])  # d s / d (u, v)
+    j = s * d_ray[:2] + np.outer(ray[:2], ds)
+    return j.tolist()
+
+
+def floor_resolution(calibration: dict, p: tuple[float, float]) -> float | None:
+    """T24.2 (a): s(p), the largest singular value of the Jacobian of the floor point g at foot pixel p (m/px); None where
+    g(p) does not exist (the ray at or above the horizon, or w <= 0)."""
+    if calibration["calibration_tier"] == "full_camera":
+        j = _full_camera_jacobian(calibration, p)
+    else:
+        j = _homography_jacobian(calibration["homography_img_to_floor"], p)
+    return None if j is None else _largest_singular_value(j)
+
+
+RESOLUTION_ROUNDING = 1e-12  # m/px; rounding allowance only (AR-67 item 5), as CR-033 item 4 (a)
+
+
+def resolution_gated(s: float, s_max: float) -> bool:
+    """T24.2 (c): a position is gated when s(p) > s_max; s = s_max is kept, with a 1e-12 m/px allowance for rounding."""
+    return s > s_max + RESOLUTION_ROUNDING
