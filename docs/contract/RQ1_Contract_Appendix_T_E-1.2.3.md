@@ -1821,3 +1821,74 @@ T23.28 Readings of E-1.2.23 (CR-031, D-51). These amend T23.16 to T23.27; everyt
 
 Source: Owner decision D-51 (21 Nov 2026), rulings on CR-031 from the Architect's review of W-02 (commit 748bafc),
 approved by the Owner (Owner approval by pasting it). Items 1, 2, 3, 5, 6, 7 and 8 of the rulings, worded as stated.
+
+## T24. Camera-path footprint centre and floor-position resolution (E-1.2.25; CR-007, CR-026, D-54)
+
+**T24.0 Switching.** Both rules are off unless their parameters are present. A configuration record with the parameters absent is identical to its E-1.2.24 form: same fields, same configuration ID. Every E-1.2.24 artifact reproduces unchanged.
+
+**T24.1 Footprint centre from a camera-derived floor point.**
+(a) *Scope.* An object whose floor point comes from the `full_camera` tier, and whose footprint prior has `anchor = box_bottom_centre` and both T24.1 parameters present.
+- A prior with `anchor = centre` keeps the E-1.2.24 behaviour: the floor point is the footprint centre.
+- `anchor = rear_axle` with a camera-derived floor point is ERR-SPEC.
+- The homography tier is out of scope, because its calibration carries no camera position. Its floor point remains the centre, and reports state this.
+
+(b) *Parameters* (footprint prior, optional): `anchor_offset_m` d ≥ 0 and `anchor_taper_m` r_taper > 0. Both are present or both are absent; one alone is ERR-SPEC.
+
+(c) *Definition.* Let P_f be the floor point of the box bottom-centre after T24.2. Let C be the camera centre (−Rᵀt) projected on the floor, and r = ‖P_f − C‖.
+- If P_f is null, the centre is null.
+- If r < 1e-9 m, the centre is P_f.
+- Otherwise u = (P_f − C)/r, d_eff = d · min(1, r/r_taper), and the footprint centre is P_c = P_f + d_eff · u.
+
+(d) *Downstream.* P_c replaces the floor point wherever T8 uses the object's position: velocity, speed, heading, the footprint, clearance, prediction, TTC and PET. T8.2 yaw and the footprint shape rules are unchanged. `pos_cov_m2` is unchanged.
+
+(e) *Uncertainty.* d is a constant, so P_c carries a residual that depends on the object's orientation relative to the camera. No σ is added. Reports state the residual measured on the tuning cameras.
+
+(f) *Provenance.* The position stays `geometry_estimated`. The footprint prior's ID covers d and r_taper.
+
+**T24.2 Floor-position resolution gate.**
+(a) *Quantity.* For a camera-derived floor point g(p) from foot pixel p = (u, v), let J(p) be the 2 × 2 Jacobian of g with respect to (u, v), in metres per pixel, and s(p) its largest singular value.
+- `full_camera`: g is the ray–floor intersection.
+- Homography: g(p) = (h₁·p̃ / h₃·p̃, h₂·p̃ / h₃·p̃), with p̃ = (u, v, 1).
+
+(b) *Parameter.* `s_max_m_per_px` (geometry_config, optional; one value per pre-registration, not per site). If it is absent, the gate is off.
+
+(c) *Rule (gate on).* For every object-frame with a foot pixel:
+- s(p) is stored as `floor_resolution_m_per_px`.
+- If g(p) exists and s(p) > s_max: `x_m` and `y_m` are null with null reason `not_observable`. In each pair-frame with this object, `clearance_m` is null and `clearance_state = unmeasurable_geometry_failure`.
+- If g(p) does not exist (the ray is at or above the horizon, or w ≤ 0): `floor_resolution_m_per_px` is null (`not_observable`), the position is null (`not_observable`), and `clearance_state = unmeasurable_geometry_failure`.
+- With the gate off, the E-1.2.24 behaviour is kept, including `unmeasurable_occluded` for horizon rays.
+
+(d) *Scope.* Every object class and every evidence class with a foot pixel.
+
+(e) *Downstream.* Nothing in this section imputes a null position or carries it forward.
+- T8.7 Q is unchanged: a position nulled by the gate does not change `q_state`.
+- CM-08 counts the pair-frame as not measured.
+- The D-41 availability table lists "resolution limit (s > s_max)" and "no floor intersection" as separate rows, read from `floor_resolution_m_per_px`.
+- A pair-frame without a measured clearance is never read as "no event"; it is treated like any non-measured clearance under T10.1.
+
+(f) *Reporting.* Every report that uses the gate states s_max, and the share of object-frames nulled by class, viewpoint and data origin. It calls gated positions *unresolved*, not *wrong*.
+
+**T24.3 Order in S4.** Foot pixel → floor point g(p) → T24.2 → T24.1 → T8.
+
+**T24.4 Tests.** Each of the following becomes a test.
+- *T24.1 checks.* C = (0, 0); L = 3.03 m, W = 1.13 m; d = 1.04 m, r_taper = 2.0 m.
+  - True centre (10, 0), body axis along the sight line: P_f = (8.485, 0), P_c = (9.525, 0).
+  - True centre (10, 0), body axis across the sight line: P_f = (9.435, 0), P_c = (10.475, 0).
+  - P_f = (6, 8): P_c = (6.624, 8.832).
+  - P_f = (0.5, 0): P_c = (0.76, 0).
+  - P_f = (0, 0): P_c = P_f.
+  - P_f null: P_c null.
+  - Parameters absent: P_c = P_f, and the prior ID is unchanged.
+  - One parameter alone: ERR-SPEC. `rear_axle` on the camera path: ERR-SPEC.
+- *T24.2 checks.* Pinhole camera at H = 3 m, horizontal optical axis, f = 1000 px, principal column. With the foot pixel Δv pixels below the horizon, s = max(H/Δv, fH/Δv²). With s_max = 0.1:
+  - Δv = 100: s = 0.300, gated.
+  - Δv = 200: s = 0.075, kept.
+  - Δv = 300: s = 0.0333, kept.
+  - Δv = √30000: s = 0.1000, kept (≤).
+  - Δv = 0: no intersection.
+  - Homography diag(a, a, 1): s = a. a = 0.02 is kept; a = 0.15 is gated.
+  - H = [[0.02, 0, 0], [0, 0.02, 0], [0, 0.01, 1]] at p = (0, 100): floor point (0, 1.0), s = 0.01.
+  - The analytic s agrees with a finite-difference s within 1e-5 on random cameras.
+- *Regression.* With the T24 parameters absent, every M0 fixture and the stored M1a and pilot S4 artifacts reproduce byte-identical.
+
+Source: Owner decision D-54 (23 Nov 2026), the Architect's draft part 1 (`v2_architect_package_part1_CR007_CR026_DRAFT.md`) as corrected after the Architect checked it against E-1.2.24 on 23 Nov 2026, approved by the Owner (Owner approval by pasting it). Text as stated.

@@ -30,3 +30,11 @@ Pre-registration v1 (`docs/preregistration_FROZEN.md`) and its frozen criteria a
 
 ## Tracker package selected (D-55, 23 Nov 2026)
 - Selected package `trc_7flfpx52d2siiljxkqwcorr7nz`: person ByteTrack at the installed defaults (column C); forklift ByteTrack with track_high_thresh 0.05, new_track_thresh 0.05, track_low_thresh 0.05, fuse_score false, track_buffer 90, match_thresh 0.8 (`research/m1b/v2_tracker_report.md`). **Selected under D-55, not frozen.**
+- **Confirmed for pre-registration v2 (D-56, 23 Nov 2026). Selected, not frozen.** Package `trc_7flfpx52d2siiljxkqwcorr7nz`: T1 ByteTrack; forklift track_high_thresh, new_track_thresh and track_low_thresh 0.05, fuse_score false, track_buffer 90, match_thresh 0.8; person = column C ByteTrack at the installed defaults. CR-033 items 1 to 4 confirmed as applied (primary reading).
+- Reports state that the T1 and T2 winners are indistinguishable on the tuning cameras: IDF1 0.774 vs 0.775; coverage 19,981 vs 19,980 of 33,677 reference frames.
+- **Standing caveat (D-56 ruling 6), for every report that uses the package. Selected, not frozen.** The package accepts forklift detections down to score 0.05. Point precision 0.979 was measured on synthetic SDG data only and is not known for real footage.
+
+## T24 candidate values (D-54, 23 Nov 2026; contract E-1.2.25)
+- **T24.1 footprint centre (forklift, `full_camera` only). Selected, not frozen.** SDG forklift prior: `anchor = box_bottom_centre`, `anchor_offset_m` d = 1.00 m, `anchor_taper_m` r_taper = 2.0 m. SmartSpaces forklift prior: d × 0.923 (scaled, not fitted), r_taper 2.0 m. Residual reported, never hidden (D1, tuning cameras: median 0.33 m, P95 0.64 m). Detector and oracle boxes use the same d (D4: paired difference about −0.05 m). The person prior is unchanged.
+- **T24.2 resolution gate. Selected, not frozen.** One global `s_max_m_per_px` = 0.1 (D5, tuning cameras: 94.2 % of errors above 10 m caught, 0.0 % of good points lost). Gated positions use null reason `not_observable` and clearance_state `unmeasurable_geometry_failure`; no new null reason.
+- Iteration is allowed on the 116 tuning cameras only. The 110 reporting cameras are evaluated once, after v2 is frozen; the test partition stays reserved (D-37).

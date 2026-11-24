@@ -325,7 +325,7 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
 - **No meaning effect:** nullability, field placement and labels only. **Review flag:** items 6 and 7. **Files/tests:** `schema/tables.py`, `substrate/*`; `tests/substrate/test_part_b.py`, `test_ar5_config_table_columns`, `test_ar6_named_configuration_fields` (updated for the new fields). **Reverse:** edit the definitions.
 - **Architect review (12 Nov 2026):** items 1–5 ACCEPTED. Item 6 REVISED by T10.9: a lost or missing object is listed as `person_lost` / `forklift_lost`, not `*_occluded`; q_state is unchanged. Item 7 ACCEPTED for M0. At T-18, set `world_frame_id` and `calibration_tier` for oracle data from the dataset's declared frame and calibration, and raise a CR if the dataset supplies none. Oracle-path results are never pooled with detector-path results; exports carry `geometry_method`.
 
-## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: OPEN for the Architect as a pre-registration v2 input (D-50 item 4: evidence now sufficient; no rule implemented now); earlier DEFERRED (D-8); evidence added 14 Nov, 17 Nov and 19 Nov 2026
+## CR-007 (2026-11-12) — Footprint anchor on the camera-based path   status: CLOSED (superseded by Appendix T T24.1, E-1.2.25; Owner decision D-54, 23 Nov 2026); earlier OPEN for the Architect as a pre-registration v2 input (D-50 item 4), DEFERRED (D-8); evidence added 14 Nov, 17 Nov and 19 Nov 2026
 
 **Raised by:** implementation agent. **Task:** T-08 (not blocking M0); blocks the detector path (T-22, T-23, M1b).
 **Contract sections:** E-1.2.1 §5.2 `footprint_prior.anchor` · enum{box_bottom_centre, rear_axle, centre}; §5.5.
@@ -347,6 +347,9 @@ E-1.2.5 names these quantities but gives no computable definition. The source do
     - below 1 m (90 cameras; 36 ceiling, 54 eye level): BL-6 EV-M1 0.72 (89/124), EV-M2 0.47 (89/191);
     - 1 m or more (116 cameras; 63 ceiling, 53 eye level): EV-M1 0.77 (121/158), EV-M2 0.63 (121/191).
     - BL-2 uses no floor geometry, yet it also differs between the groups (0.47 / 0.41 against 0.60 / 0.54). The split is therefore confounded by viewpoint and scene; it does not isolate the effect of the forklift offset on events.
+
+**Ruling (D-54, 23 Nov 2026; the Architect's draft part 1 as corrected against E-1.2.24, approved by the Owner):** closed as superseded by Appendix T **T24.1** (contract E-1.2.25): a constant shift d away from the camera, for forklifts on the `full_camera` tier only, implemented opt-in. v2 candidate values d = 1.00 m, r_taper = 2.0 m (SDG prior); SmartSpaces prior d × 0.923 (scaled, not fitted); selected, not frozen (`docs/preregistration/v2_notes.md`). The residual is reported (D1: median 0.33 m, P95 0.64 m). Detector and oracle boxes use the same d (D4: paired difference about −0.05 m).
+
 ## AR-36 — Status-log and CV-SIM conventions
 - **Gaps and choices:**
   1. The status log's first `prev_hash` is 64 zeros. `status_id` uses the prefix `sts`. Entries are stored as JCS JSON lines.
@@ -985,7 +988,7 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
 - **Files:** `src/rq1/perception/s2.py`, `src/rq1/tracking/{bridging,bytetrack,s3}.py`, `src/rq1/fixtures/oracle_detections.py`, `research/m1b/idf1.py`; tests in `tests/m1b/`.
 - **Reverse:** item 3, use the tracker box on matched frames in `bytetrack.run_class`; item 5, install `lap` (Owner approval) and remove the stub and patch; item 6, install TrackEval (Owner approval) and compare; item 7, add each track's birth detection in `bridging`. S2 output (the expensive step) is unaffected by items 3–9, so S3 onward can be re-run in minutes.
 
-## CR-026 (2026-11-17) — full_camera foot rays: a range condition for a floor position (T-21, G-M1a diagnosis)   status: OPEN (no fixed range rule, D-40 item 6; sensitivity and height-consistency evidence added; the Architect writes the rule for v2/M1b); pre-registration v2 input for the Architect together with CR-007 and CR-029 (D-50 item 4)
+## CR-026 (2026-11-17) — full_camera foot rays: a range condition for a floor position (T-21, G-M1a diagnosis)   status: CLOSED (superseded by Appendix T T24.2, E-1.2.25; Owner decision D-54, 23 Nov 2026); earlier OPEN (no fixed range rule, D-40 item 6), pre-registration v2 input together with CR-007 and CR-029 (D-50 item 4)
 **Raised by:** implementation agent, on the Architect's instruction of 17 Nov 2026 ("if (5) shows that such rays produce numeric positions, raise a CR"). **Task:** T-21. **Contract sections:** E-1.2.1 §2 null-reason enum (closed list: not_applicable, not_observable, uncalibrated, upstream_failure, not_supplied, not_computed_by_config, withheld_privacy, pending_review, out_of_scope_rq1); `object_state.x_m?`, `y_m?`; track_point `foot_point_px`; GV-01 (F.1 N7).
 **Meaning-affecting:** yes. The rule changes which object-frames have a position, so it changes every S4 quantity built on positions (clearance, speed, R2–R5 flags), GV-01, GV-07, GV-08 and their denominators.
 **Current behaviour (`geometry.full_camera_to_floor`, `substrate/builder.py` `_object_states`).**
@@ -1046,6 +1049,8 @@ SmartSpaces is concentrated near 0: its yaw stands. **SDG is not concentrated**:
   - The head-based estimate's own error at H = 1.75 m: SDG median 0.47 m, P90 9.0 m; SmartSpaces median 3.63 m, P90 25.0 m.
   - Reading: a weak separator, especially on SmartSpaces, where even feet-visible persons disagree by a median 3.6 m. The head ray is geometrically weaker than the foot ray. With the camera at height C_z, a head-height error ΔH moves the head-based point by about distance · ΔH / (C_z − H). SmartSpaces cameras are 2.0–4.8 m high and objects far away. On SDG, camera heights range from 1.0 m to 6.6 m, so some cameras sit below head height. This explanation follows from the geometry; it was not checked point by point.
 - **Agent's summary for the Architect:** (a) is the stronger candidate. Sensitivity alone works where scenes are compact (SDG). Where they are large (SmartSpaces) it would also null many correct far positions; there it would need a signal of bottom-edge visibility, which a real detector does not supply directly. (b) is not usable as a stand-alone rule on these data. No rule implemented.
+
+**Ruling (D-54, 23 Nov 2026):** closed as superseded by Appendix T **T24.2** (contract E-1.2.25): one global s_max, v2 candidate value 0.1 m/px (D5, tuning cameras: 94.2 % of errors above 10 m caught, 0.0 % of good points lost); selected, not frozen. A gated position reuses the existing codes (position null reason `not_observable`, clearance_state `unmeasurable_geometry_failure`); the marker is the stored sensitivity value `floor_resolution_m_per_px` (T24.2 (c)); no new null-reason value.
 
 ## CR-027 (2026-11-16) — The C-layer review and adjudication protocol is not defined (V-02)   status: CLOSED (superseded by Appendix T T22, E-1.2.20; Owner decision D-44 option (a), 19 Nov 2026)
 **Raised by:** implementation agent. **Task:** V-02 (Reviewer and adjudication UI, Owner tooling; branch `v02-review-ui`). **Contract sections:** E-1.2.1 §5.8 (`reviewer_assessment`, `adjudication`, `validation_status_log`), §6 (label rules), §6.0 wording line ("reviewer-confirmed" only for adjudicated labels), §9 (ambiguous references "Tier 2 or unsure"; CV2), §11 item 5; F.1 A5.1 (`independent_expert_judgment`, RV-03), Appendix N4 (EV-M12, Tier 1 and Tier 2 separately); Appendix T T1 VR-E-053, FX-13 ("Two reviewers disagree — Tier 2 adjudication", active).
@@ -1230,7 +1235,7 @@ Representation and engineering only; no measured value, label, denominator, esti
 
 **Ruling (D-51, 21 Nov 2026):** all 17 items accepted, including the two REVIEW items (14, 15). Item 9's null `prov_class` is now printed per source path (T23.28 g, AR-65); item 6's constant moves to E-1.2.24 (AR-65).
 
-## CR-033 (2026-11-23) — D-55 tracker selection: `tracker_id` for column C, and the readings of the D-55 measures   status: OPEN for the Owner at D-56 (implemented as described; nothing frozen)
+## CR-033 (2026-11-23) — D-55 tracker selection: `tracker_id` for column C, and the readings of the D-55 measures   status: CLOSED (Owner decision D-56, 23 Nov 2026: items 1 to 4 confirmed as applied)
 **Raised by:** implementation agent. **Task:** D-55 steps 2, 4 and 5. **Sections:** F.1 A1.2 (configuration class), A5.2; D-55 (Owner, 23 Nov 2026). Numbering: CR-032 stays reserved for D-51 (W-02 scope); CR-033 was named for D-53 and not used there.
 **Meaning-affecting:** items 2 to 4 yes (they fix which numbers the selection rule reads); item 1 no.
 1. **`tracker_id` and column C's IDs (D-55 step 2).** Column C's S3 configuration ID `trc_i4ljlcifrwgephzz4cgjkmo5ej` hashes the whole recorded tracker configuration (`run_pilot.py`), so adding a `tracker_id` field would change it and every column C S3 artifact ID. As D-55 step 2 directs, `rq1.tracking.s3_config.run_config` returns column C's configuration unchanged when every class is ByteTrack at the installed defaults; every other configuration records `tracker_id` (and the tracker class and full parameters) per class. Pinned by `tests/m1b/test_s3_config.py` (ID reproduced; a stored S3 artifact rebuilt to the same ID). Options for v2: (a) keep: an absent `tracker_id` means ByteTrack; (b) record `tracker_id` for every v2 run, column C staying as stored.
@@ -1240,7 +1245,9 @@ Representation and engineering only; no measured value, label, denominator, esti
 **What proceeds meanwhile:** the grid and the selection run with the readings above; the D-56 STOP reports the result under them, and the sensitivity under item 2(b).
 **Agent's recommendation:** none; the Owner confirms or changes the readings at D-56.
 
-## AR-66 — Engineering choices of the D-55 tracker selection   status: PROPOSED (for review at the next stop)
+**Ruling (D-56, 23 Nov 2026):** items 1 to 4 confirmed **as applied** (primary reading, item 2 (a)). A reading is never changed after the result is known. Closed.
+
+## AR-66 — Engineering choices of the D-55 tracker selection   status: ACCEPTED (D-56, 23 Nov 2026: as written; the Architect: representation and engineering only)
 Representation and engineering only; no measured value, label, denominator or rule depends on them (the readings that do are CR-033).
 1. **BoT-SORT adapter.** `src/rq1/tracking/botsort.py` reuses `bytetrack.run_class` through a new optional `tracker_class` argument (default BYTETracker, so every ByteTrack output is unchanged; the `.venv-det` ByteTrack tests pass unchanged). Camera-motion compensation is switched off with the installed option `gmc_method: none` (GMC method None, identity warp, skipped in `_pre_first_associate`); re-identification with `with_reid: false`. The adapter refuses any other value of the two.
 2. **Batch runner.** `src/rq1/tracking/grid.py` runs many jobs (one class, one tracker, one parameter set each, a fresh tracker instance per job) in one `.venv-det` process per camera; the person job runs once per camera and is shared by every configuration.
@@ -1248,3 +1255,5 @@ Representation and engineering only; no measured value, label, denominator or ru
 4. **Layout.** Probe S2 artifacts in `out/m1b/v2trk/artifacts/` with `execution.json` appended to `out/m1b/v2trk/register.jsonl`; per-camera S2 records in `out/m1b/v2trk/s2/`; per-camera grid results in `out/m1b/v2trk/grid/`. The raw detector output goes to `out/m1b/pilot/s2raw/` as for the pilot (new files only). No S3 artifact is built for the grid configurations: the measures are computed from the bridged points the S3 builder would store (`bridging.points_from_log`, g_max 15).
 5. **Configuration ID** of a grid configuration = `s3_config.trc_id(run_config(...))`, the dict the pilot hashes for S3.
 **Reverse:** delete the new modules and the `tracker_class` / `license_rows` arguments; nothing stored depends on them except the new `out/m1b/v2trk/` outputs.
+
+**Ruling (D-56, 23 Nov 2026):** accepted as written (the Architect: representation and engineering only).
