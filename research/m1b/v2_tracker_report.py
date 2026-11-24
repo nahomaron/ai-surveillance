@@ -135,7 +135,7 @@ def report(grid: dict, sel: dict, frag: dict) -> str:
 def main() -> None:  # pragma: no cover
     grid = json.loads(vg.GRID_PATH.read_text())
     sel = json.loads(vg.SELECTION_PATH.read_text())
-    per = {c["rec_id"]: json.loads((vg.OUT / "grid" / f"{c['rec_id']}.json").read_text()) for c in vg.tuning()}
+    per = {c["rec_id"]: json.loads((vg.GRID_DIR / f"{c['rec_id']}.json").read_text()) for c in vg.tuning()}
     pkg = sel["package"]["winner"]
     frag = {"status": vg.STATUS + "; D-55 step 6, tracking level only, no recommendation", "package_id": pkg, "column_c_id": grid["column_c"]["config_id"],
             "package": fragmentation(per, pkg) if pkg else None, "column_c": fragmentation(per, grid["column_c"]["config_id"])}

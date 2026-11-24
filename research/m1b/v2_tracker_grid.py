@@ -38,11 +38,13 @@ DET_PY = ROOT / ".venv-det/bin/python"
 GRID_PATH = ROOT / "research/m1b/v2_tracker_grid.json"
 SELECTION_PATH = ROOT / "research/m1b/v2_tracker_selection.json"
 KEYS_PATH = ROOT / "research/m1b/botsort_keys.json"
+GRID_DIR = OUT / os.environ.get("V2TRK_GRID", "grid")  # per-camera results; V2TRK_GRID=grid_run2 for the independent second run
 PAIRS = ((0.05, 0.05), (0.05, 0.10), (0.05, 0.25), (0.10, 0.10), (0.10, 0.25), (0.25, 0.25))
 LOW, FUSE, BUFFERS, MATCH = 0.05, (True, False), (30, 60, 90), 0.8
 FAMILY = {"bytetrack": "T1", "botsort": "T2"}
 STATUS = "tuning subset, synthetic SDG, selection evidence, not a reported result"
 COLUMN_C_JOB = "column_c"
+REPEATS = 5  # step 3: each configuration repeated in one process, so the per-job time stands out from the process start
 
 
 def write(path, obj) -> None:
@@ -188,7 +190,7 @@ def run(recs: list[str]) -> None:  # pragma: no cover - driver
     for n, rec in enumerate(recs, 1):
         if rec not in cams:
             raise SystemExit(f"{rec} is not a tuning camera")
-        dst = OUT / "grid" / f"{rec}.json"
+        dst = GRID_DIR / f"{rec}.json"
         if dst.exists():
             continue
         res = camera(rec, configs, cams[rec]["viewpoint"])
@@ -215,14 +217,15 @@ def estimate() -> None:  # pragma: no cover - driver (step 3)
         dets = load_tables(art_dir, s2_id)["detection"]
         _, cam, _ = references(rec)
         frames = sorted(cam.eligible)
+        run_tracker(rec, frames, dets, sets["bytetrack"][:1], OUT / "work" / "estimate")  # warm-up (cold imports), not timed
         _, t_one = run_tracker(rec, frames, dets, sets["bytetrack"][:1], OUT / "work" / "estimate")
-        r = {"rec_id": rec, "process_1_bytetrack_job_s": round(t_one, 2)}
-        for tid, jobs in sets.items():
-            _, t = run_tracker(rec, frames, dets, jobs, OUT / "work" / "estimate")
-            r[f"process_3_{tid}_jobs_s"] = round(t, 2)
-        r["bytetrack_per_job_s"] = (r["process_3_bytetrack_jobs_s"] - t_one) / 2
-        r["start_s"] = t_one - r["bytetrack_per_job_s"]
-        r["botsort_per_job_s"] = (r["process_3_botsort_jobs_s"] - r["start_s"]) / 3
+        r = {"rec_id": rec, "process_1_bytetrack_job_s": round(t_one, 2), "repeats": REPEATS}
+        for tid, jobs in sets.items():  # each of the 3 configurations REPEATS times in one process
+            rep = [{**j, "job": f"{j['job']}#{k}"} for k in range(REPEATS) for j in jobs]
+            _, t = run_tracker(rec, frames, dets, rep, OUT / "work" / "estimate")
+            r[f"process_{len(rep)}_{tid}_jobs_s"] = round(t, 2)
+            r[f"{tid}_per_job_s"] = max(0.0, (t - t_one) / (len(rep) - 1))
+        r["start_s"] = max(0.0, t_one - r["bytetrack_per_job_s"])
         res = camera(rec, [configs[0], t1[0], t1[-1], t2[0], t2[-1]], cams[0]["viewpoint"], OUT / "work" / "estimate")
         r["camera_load_s"] = res["seconds"]["load"]
         r["measures_per_job_s"] = res["seconds"]["measures"] / 6
@@ -244,7 +247,7 @@ def pooled(parts_by_view: dict) -> dict:
 def aggregate() -> dict:  # pragma: no cover - driver over the per-camera files
     configs = configurations()
     cams = tuning()
-    per = {c["rec_id"]: json.loads((OUT / "grid" / f"{c['rec_id']}.json").read_text()) for c in cams}
+    per = {c["rec_id"]: json.loads((GRID_DIR / f"{c['rec_id']}.json").read_text()) for c in cams}
     views = ("all", "ceiling", "eye_level")
     person_parts = {v: [per[r]["person"] for r in per if v == "all" or per[r]["viewpoint"] == v] for v in views}
     person = pooled(person_parts)
