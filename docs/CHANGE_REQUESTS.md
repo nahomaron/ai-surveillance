@@ -1300,3 +1300,13 @@ Representation and engineering only. With the T24 parameters absent, no measured
 **Agent's recommendation:** none; the Owner decides.
 
 **Ruling (D-57 ruling 4, 24 Nov 2026):** a diagnostic-only question. Both readings stay reported side by side; none is chosen, and no reported value depends on it. CR-035 is closed.
+
+## AR-68 — Engineering choices of the D-57 split diagnosis and m_gap sweep   status: PROPOSED (for review at the next stop)
+Representation and engineering only. No measured value, label, matching rule or contract value changes; N4 and the label rules are untouched, and the only value varied is the one D-57 names (`rule_configuration.lifecycle.m_gap_frames`).
+1. **version_label of the sweep configurations.** The rule_configuration of m_gap 5 keeps `version_label = "preregistration-v1"`, so its ID is the stored v1 BL-6 ID. The other values carry `"D-57 diagnostic m_gap <n> (not frozen)"`, so no configuration with a non-v1 value is labelled v1. Each value already has its own ID through `lifecycle.m_gap_frames`; the label only avoids a misleading name. Options considered: "preregistration-v1" for all (rejected: wrong label); null (rejected: indistinguishable from configurations that have no label).
+2. **S5 from stored S4.** The stored S4 tables and manifest spec are passed to `s5.build` as read back (`d57_split.load_art`); nothing is rebuilt upstream. Check: at m_gap 5 the rebuilt S5 payload_sha256 must equal the stored D-54 / T-21 S5 payload on every camera, and the pooled EV values must equal `d54_c_v2_tune.json` / `d54_b_v2_tune.json`; otherwise the aggregate stops.
+3. **Layout.** STEP 2 per-camera records in `out/m1b/d57/split/`; STEP 3 S5 artifacts in `out/m1b/d57/artifacts/` (register `out/m1b/d57/register.jsonl`), per-camera results in `out/m1b/d57/mgap/`. Stored D-54 and T-21 artifacts are only read.
+4. **STEP 2 readings (diagnostic definitions, stated in `d57_split.py`).** "Covering" is the D-50 definition (same resolved identity pair, temporal IoU > 0). Consecutive episodes are taken in (t_start, t_end, pow_id, start_frame) order. A gap is b.t_start − a.t_end, so it is negative when the episodes overlap (5 C-v2 splits, all mechanism (iii); none in B-both). Clearance categories use the providers' strict "<" at d_pc and d_p.
+5. **Rounding allowance in the selection rule.** The EV-M1 floor and the 0.005 tie are compared with a 1e-12 allowance (as AR-67 item 5), so a difference of exactly 0.005 counts as a tie.
+**Pinned by:** `tests/m1b/test_d57.py`.
+**Reverse:** delete `research/m1b/d57_split.py`, `research/m1b/d57_mgap.py`, their outputs and `out/m1b/d57/`; nothing else depends on them.

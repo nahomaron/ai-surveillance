@@ -1,0 +1,724 @@
+{
+ "baseline": "BL-6",
+ "cameras": 116,
+ "checks": {
+  "c_v2_references_with_2plus_episodes_equals_d54": true,
+  "d54_value": 69
+ },
+ "configs": {
+  "B-both": {
+   "all": {
+    "by_mechanism": {
+     "i": 81,
+     "ii": 6,
+     "iii": 0
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 1,
+       "recording_end": 73,
+       "track_end_person": 7
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 63,
+       "median": 14.0,
+       "n": 81,
+       "p75": 27.0,
+       "p90": 41.0
+      },
+      "seconds": {
+       "max": 2.1000000000000005,
+       "median": 0.4666666666666668,
+       "n": 81,
+       "p75": 0.9000000000000004,
+       "p90": 1.3666666666666667
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 6
+      },
+      "b_pow_continues_a_pow": 6,
+      "b_with_continuation_of_nk": 1,
+      "frames": {
+       "max": 139,
+       "median": 53.5,
+       "n": 6,
+       "p75": 99.75,
+       "p90": 127.0
+      },
+      "seconds": {
+       "max": 4.633333333333333,
+       "median": 1.7833333333333332,
+       "n": 6,
+       "p75": 3.3249999999999997,
+       "p90": 4.2333333333333325
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {},
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      },
+      "seconds": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 14,
+      "below_d_pc": 6,
+      "d_pc_to_d_p": 61,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 1,
+      "below_d_pc": 11,
+      "d_pc_to_d_p": 69,
+      "null": 0
+     },
+     "flags_true_before": {
+      "C": 1,
+      "P": 10,
+      "P+C": 3,
+      "P+X": 59,
+      "P+X+C": 8
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 43,
+      "30": 64,
+      "5": 0,
+      "60": 80
+     },
+     "gaps_with_T1_inside": 10,
+     "gaps_with_any_T0": 80,
+     "mean_share_T0": 0.9310991690620075,
+     "mean_share_T1": 0.011410619663562336,
+     "mean_share_T_unknown": 0.05749021127443027,
+     "mean_share_q_sufficient": 0.30864197530864196,
+     "q_state_in_gap": {
+      "insufficient": 56,
+      "sufficient": 25
+     }
+    },
+    "share_by_mechanism": {
+     "i": 0.9310344827586207,
+     "ii": 0.06896551724137931,
+     "iii": 0.0
+    },
+    "splits": 87
+   },
+   "ceiling": {
+    "by_mechanism": {
+     "i": 40,
+     "ii": 0,
+     "iii": 0
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "recording_end": 40
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 63,
+       "median": 14.5,
+       "n": 40,
+       "p75": 28.75,
+       "p90": 45.1
+      },
+      "seconds": {
+       "max": 2.1000000000000005,
+       "median": 0.4833333333333334,
+       "n": 40,
+       "p75": 0.9583333333333335,
+       "p90": 1.5033333333333334
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {},
+      "b_pow_continues_a_pow": 0,
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      },
+      "seconds": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {},
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      },
+      "seconds": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 7,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 33,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 0,
+      "below_d_pc": 2,
+      "d_pc_to_d_p": 38,
+      "null": 0
+     },
+     "flags_true_before": {
+      "P": 7,
+      "P+C": 1,
+      "P+X": 31,
+      "P+X+C": 1
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 21,
+      "30": 30,
+      "5": 0,
+      "60": 39
+     },
+     "gaps_with_T1_inside": 8,
+     "gaps_with_any_T0": 40,
+     "mean_share_T0": 0.9817847995291122,
+     "mean_share_T1": 0.018215200470887642,
+     "mean_share_T_unknown": 0.0,
+     "mean_share_q_sufficient": 0.625,
+     "q_state_in_gap": {
+      "insufficient": 15,
+      "sufficient": 25
+     }
+    },
+    "share_by_mechanism": {
+     "i": 1.0,
+     "ii": 0.0,
+     "iii": 0.0
+    },
+    "splits": 40
+   },
+   "eye_level": {
+    "by_mechanism": {
+     "i": 41,
+     "ii": 6,
+     "iii": 0
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 1,
+       "recording_end": 33,
+       "track_end_person": 7
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 46,
+       "median": 13.0,
+       "n": 41,
+       "p75": 23.0,
+       "p90": 34.0
+      },
+      "seconds": {
+       "max": 1.5333333333333332,
+       "median": 0.43333333333333357,
+       "n": 41,
+       "p75": 0.7666666666666657,
+       "p90": 1.1333333333333337
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 6
+      },
+      "b_pow_continues_a_pow": 6,
+      "b_with_continuation_of_nk": 1,
+      "frames": {
+       "max": 139,
+       "median": 53.5,
+       "n": 6,
+       "p75": 99.75,
+       "p90": 127.0
+      },
+      "seconds": {
+       "max": 4.633333333333333,
+       "median": 1.7833333333333332,
+       "n": 6,
+       "p75": 3.3249999999999997,
+       "p90": 4.2333333333333325
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {},
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      },
+      "seconds": {
+       "max": null,
+       "median": null,
+       "n": 0,
+       "p75": null,
+       "p90": null
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 7,
+      "below_d_pc": 6,
+      "d_pc_to_d_p": 28,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 1,
+      "below_d_pc": 9,
+      "d_pc_to_d_p": 31,
+      "null": 0
+     },
+     "flags_true_before": {
+      "C": 1,
+      "P": 3,
+      "P+C": 2,
+      "P+X": 28,
+      "P+X+C": 7
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 22,
+      "30": 34,
+      "5": 0,
+      "60": 41
+     },
+     "gaps_with_T1_inside": 2,
+     "gaps_with_any_T0": 40,
+     "mean_share_T0": 0.881649773484344,
+     "mean_share_T1": 0.004772004241781548,
+     "mean_share_T_unknown": 0.11357822227387444,
+     "mean_share_q_sufficient": 0.0,
+     "q_state_in_gap": {
+      "insufficient": 41
+     }
+    },
+    "share_by_mechanism": {
+     "i": 0.8723404255319149,
+     "ii": 0.1276595744680851,
+     "iii": 0.0
+    },
+    "splits": 47
+   },
+   "references_with_2plus_episodes": 64
+  },
+  "C-v2": {
+   "all": {
+    "by_mechanism": {
+     "i": 43,
+     "ii": 30,
+     "iii": 42
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 4,
+       "recording_end": 23,
+       "track_end_forklift": 9,
+       "track_end_person": 7
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 41,
+       "median": 10.0,
+       "n": 43,
+       "p75": 15.0,
+       "p90": 26.799999999999983
+      },
+      "seconds": {
+       "max": 1.3666666666666671,
+       "median": 0.33333333333333304,
+       "n": 43,
+       "p75": 0.5000000000000004,
+       "p90": 0.893333333333333
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 30
+      },
+      "b_pow_continues_a_pow": 25,
+      "b_with_continuation_of_nk": 13,
+      "frames": {
+       "max": 83,
+       "median": 27.0,
+       "n": 30,
+       "p75": 41.25,
+       "p90": 48.80000000000001
+      },
+      "seconds": {
+       "max": 2.7666666666666675,
+       "median": 0.9000000000000002,
+       "n": 30,
+       "p75": 1.3750000000000004,
+       "p90": 1.6266666666666676
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 4,
+       "track_end_forklift": 3,
+       "track_end_person": 35
+      },
+      "b_with_continuation_of_nk": 1,
+      "frames": {
+       "max": 140,
+       "median": 37.0,
+       "n": 42,
+       "p75": 54.75,
+       "p90": 80.39999999999999
+      },
+      "seconds": {
+       "max": 4.666666666666667,
+       "median": 1.2333333333333338,
+       "n": 42,
+       "p75": 1.8249999999999997,
+       "p90": 2.6799999999999993
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 3,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 40,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 0,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 43,
+      "null": 0
+     },
+     "flags_true_before": {
+      "P": 2,
+      "P+X": 39,
+      "P+X+C": 2
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 32,
+      "30": 40,
+      "5": 0,
+      "60": 43
+     },
+     "gaps_with_T1_inside": 3,
+     "gaps_with_any_T0": 43,
+     "mean_share_T0": 0.9738520649326095,
+     "mean_share_T1": 0.00676809010615023,
+     "mean_share_T_unknown": 0.01937984496124031,
+     "mean_share_q_sufficient": 0.5293863734343812,
+     "q_state_in_gap": {
+      "insufficient": 7,
+      "mixed": 25,
+      "sufficient": 11
+     }
+    },
+    "share_by_mechanism": {
+     "i": 0.3739130434782609,
+     "ii": 0.2608695652173913,
+     "iii": 0.3652173913043478
+    },
+    "splits": 115
+   },
+   "ceiling": {
+    "by_mechanism": {
+     "i": 31,
+     "ii": 18,
+     "iii": 24
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 2,
+       "recording_end": 18,
+       "track_end_forklift": 7,
+       "track_end_person": 4
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 41,
+       "median": 10.0,
+       "n": 31,
+       "p75": 15.5,
+       "p90": 28.0
+      },
+      "seconds": {
+       "max": 1.3666666666666671,
+       "median": 0.33333333333333304,
+       "n": 31,
+       "p75": 0.516666666666667,
+       "p90": 0.9333333333333336
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 18
+      },
+      "b_pow_continues_a_pow": 14,
+      "b_with_continuation_of_nk": 6,
+      "frames": {
+       "max": 83,
+       "median": 29.5,
+       "n": 18,
+       "p75": 44.5,
+       "p90": 56.6
+      },
+      "seconds": {
+       "max": 2.7666666666666675,
+       "median": 0.9833333333333332,
+       "n": 18,
+       "p75": 1.4833333333333332,
+       "p90": 1.8866666666666667
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 1,
+       "track_end_forklift": 1,
+       "track_end_person": 22
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 116,
+       "median": 36.0,
+       "n": 24,
+       "p75": 44.0,
+       "p90": 72.8
+      },
+      "seconds": {
+       "max": 3.8666666666666663,
+       "median": 1.2,
+       "n": 24,
+       "p75": 1.4666666666666668,
+       "p90": 2.4266666666666667
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 1,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 30,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 0,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 31,
+      "null": 0
+     },
+     "flags_true_before": {
+      "P": 1,
+      "P+X": 29,
+      "P+X+C": 1
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 23,
+      "30": 29,
+      "5": 0,
+      "60": 31
+     },
+     "gaps_with_T1_inside": 2,
+     "gaps_with_any_T0": 31,
+     "mean_share_T0": 0.9930313588850174,
+     "mean_share_T1": 0.006968641114982578,
+     "mean_share_T_unknown": 0.0,
+     "mean_share_q_sufficient": 0.5900523089185608,
+     "q_state_in_gap": {
+      "insufficient": 4,
+      "mixed": 16,
+      "sufficient": 11
+     }
+    },
+    "share_by_mechanism": {
+     "i": 0.4246575342465753,
+     "ii": 0.2465753424657534,
+     "iii": 0.3287671232876712
+    },
+    "splits": 73
+   },
+   "eye_level": {
+    "by_mechanism": {
+     "i": 12,
+     "ii": 12,
+     "iii": 18
+    },
+    "gap": {
+     "i": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 2,
+       "recording_end": 5,
+       "track_end_forklift": 2,
+       "track_end_person": 3
+      },
+      "b_with_continuation_of_nk": 0,
+      "frames": {
+       "max": 40,
+       "median": 9.0,
+       "n": 12,
+       "p75": 13.0,
+       "p90": 18.700000000000003
+      },
+      "seconds": {
+       "max": 1.333333333333334,
+       "median": 0.3000000000000005,
+       "n": 12,
+       "p75": 0.4333333333333331,
+       "p90": 0.6233333333333331
+      }
+     },
+     "ii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 12
+      },
+      "b_pow_continues_a_pow": 11,
+      "b_with_continuation_of_nk": 7,
+      "frames": {
+       "max": 42,
+       "median": 23.0,
+       "n": 12,
+       "p75": 35.0,
+       "p90": 41.300000000000004
+      },
+      "seconds": {
+       "max": 1.4000000000000004,
+       "median": 0.766666666666667,
+       "n": 12,
+       "p75": 1.166666666666666,
+       "p90": 1.376666666666667
+      }
+     },
+     "iii": {
+      "a_pow_end_reason": {
+       "gap_exceeded": 3,
+       "track_end_forklift": 2,
+       "track_end_person": 13
+      },
+      "b_with_continuation_of_nk": 1,
+      "frames": {
+       "max": 140,
+       "median": 40.5,
+       "n": 18,
+       "p75": 60.75,
+       "p90": 86.10000000000001
+      },
+      "seconds": {
+       "max": 4.666666666666667,
+       "median": 1.35,
+       "n": 18,
+       "p75": 2.0249999999999995,
+       "p90": 2.87
+      }
+     }
+    },
+    "mechanism_i": {
+     "clearance_after": {
+      "at_or_above_d_p": 2,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 10,
+      "null": 0
+     },
+     "clearance_before": {
+      "at_or_above_d_p": 0,
+      "below_d_pc": 0,
+      "d_pc_to_d_p": 12,
+      "null": 0
+     },
+     "flags_true_before": {
+      "P": 1,
+      "P+X": 10,
+      "P+X+C": 1
+     },
+     "fps": [
+      30.0
+     ],
+     "gap_frames_at_most": {
+      "15": 9,
+      "30": 11,
+      "5": 0,
+      "60": 12
+     },
+     "gaps_with_T1_inside": 1,
+     "gaps_with_any_T0": 12,
+     "mean_share_T0": 0.9243055555555556,
+     "mean_share_T1": 0.0062499999999999995,
+     "mean_share_T_unknown": 0.06944444444444445,
+     "mean_share_q_sufficient": 0.3726660401002506,
+     "q_state_in_gap": {
+      "insufficient": 3,
+      "mixed": 9
+     }
+    },
+    "share_by_mechanism": {
+     "i": 0.2857142857142857,
+     "ii": 0.2857142857142857,
+     "iii": 0.42857142857142855
+    },
+    "splits": 42
+   },
+   "references_with_2plus_episodes": 69
+  }
+ },
+ "d_p_m": 2.0,
+ "d_pc_m": 1.0,
+ "decision": "D-57 STEP 2",
+ "definitions": "(the D-50 / D-54 extent definitions, `extent_check.py`, `d54_c_v2.extent`; BL-6, label group G1):\n- references: the assessable G1 T-21 references; episodes: every BL-6 episode of the S5 artifact, its identity pair as\n  resolved for N4 (`association.event_pair` at the closest-approach frame; C-v2 the A5.2 association of the detector tracks,\n  B-both the oracle association). An episode with no resolved pair covers no reference.\n- an episode covers a reference if it has the reference's identity pair and temporal IoU > 0.\n- for a reference covered by two or more episodes: the covering episodes in order of (t_start, t_end, pow_id,\n  start_frame); each consecutive pair (a, b) is one split.\n- mechanism: (i) a and b in the same POW (a lifecycle split, T9.7); (ii) different POWs of the same person and forklift\n  tracks (a POW break), with or without `continuation_of_nk` on b; (iii) any other track (track fragmentation).\n- gap: b.t_start_tl_s - a.t_end_tl_s (s; negative when they overlap) and b.start_frame - a.end_frame_excl (frames);\n  frame rate 1 / decode_summary.delta_nom_s of the recording.\n- inside the gap, mechanism (i) only (frames a.end_frame_excl .. b.start_frame - 1 of the POW):\n  share of flag_series frames with T = 0, T unknown (2) and T = 1 (a window shorter than t_min, discarded);\n  flags true on the last frame of a (P, X, C_any); clearance_m on the last frame of a and the first frame of b,\n  categorised against d_p and d_pc with the providers' strict \"<\" (R2 P = clearance < d_p); the pair_series q_state of\n  the gap frames (share sufficient; summary sufficient / insufficient / mixed).",
+ "label_group": "G1",
+ "source": "stored D-54 artifacts (out/m1b/v2t24/c, out/m1b/v2t24/b); no new run",
+ "status": "diagnostic, tuning subset, not a reported result"
+}
