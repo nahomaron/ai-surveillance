@@ -107,13 +107,14 @@ class _Dets:
         return _Dets(self.xyxy[mask], self.conf[mask], self.cls[mask])
 
 
-def run_class(frames: List[int], detections: List[dict], cls: str, params: dict = None) -> List[dict]:
+def run_class(frames: List[int], detections: List[dict], cls: str, params: dict = None, tracker_class=None) -> List[dict]:
     """Track one class over the eligible frames. `detections`: S2 rows (any class; others are ignored). `params`: the
-    tracker parameters (default: the installed defaults)."""
+    tracker parameters (default: the installed defaults). `tracker_class`: the Ultralytics tracker class (default
+    BYTETracker; `rq1.tracking.botsort` passes BOTSORT, D-55 step 2); the input and output format are the same."""
     from types import SimpleNamespace
     BYTETracker = _prepare()
     params = params if params is not None else default_config()["params"]
-    tracker = BYTETracker(SimpleNamespace(**params))
+    tracker = (tracker_class or BYTETracker)(SimpleNamespace(**params))
     by_frame: Dict[int, List[dict]] = {}
     for d in detections:
         if d["class"] == cls:

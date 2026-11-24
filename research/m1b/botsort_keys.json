@@ -1,0 +1,55 @@
+{
+ "assignment": "NumPy path, the AR-62 `lap` stub (rq1.tracking.bytetrack._prepare)",
+ "bytetrack_installed_defaults": {
+  "fuse_score": true,
+  "match_thresh": 0.8,
+  "new_track_thresh": 0.25,
+  "track_buffer": 30,
+  "track_high_thresh": 0.25,
+  "track_low_thresh": 0.1,
+  "tracker_type": "bytetrack"
+ },
+ "d55_params": {
+  "appearance_thresh": 0.8,
+  "fuse_score": true,
+  "gmc_method": "none",
+  "match_thresh": 0.8,
+  "model": "auto",
+  "new_track_thresh": 0.25,
+  "proximity_thresh": 0.5,
+  "track_buffer": 30,
+  "track_high_thresh": 0.25,
+  "track_low_thresh": 0.1,
+  "tracker_type": "botsort",
+  "with_reid": false
+ },
+ "file": "ultralytics/cfg/trackers/botsort.yaml",
+ "installed_defaults": {
+  "appearance_thresh": 0.8,
+  "fuse_score": true,
+  "gmc_method": "sparseOptFlow",
+  "match_thresh": 0.8,
+  "model": "auto",
+  "new_track_thresh": 0.25,
+  "proximity_thresh": 0.5,
+  "track_buffer": 30,
+  "track_high_thresh": 0.25,
+  "track_low_thresh": 0.1,
+  "tracker_type": "botsort",
+  "with_reid": false
+ },
+ "library": "ultralytics 8.4.215",
+ "status": "D-55 step 2: installed BoT-SORT keys and the D-55 BoT-SORT settings (record only)",
+ "switched_off": {
+  "gmc_method": {
+   "effect": "GMC.__init__ maps 'none' to method None; GMC.apply returns the identity warp and BYTETracker._pre_first_associate skips GMC when the method is None (trackers/utils/gmc.py, trackers/byte_tracker.py); no image is read",
+   "installed_default": "sparseOptFlow",
+   "value": "none"
+  },
+  "with_reid": {
+   "effect": "no ReID encoder (trackers/utils/reid.py build_encoder returns None)",
+   "installed_default": false,
+   "value": false
+  }
+ }
+}

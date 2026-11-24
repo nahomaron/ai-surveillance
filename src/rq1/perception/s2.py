@@ -57,7 +57,16 @@ def detection_rows(recording_id: str, raw: dict[int, list[dict]], width: float, 
 
 
 def build(recording_id: str, raw: dict[int, list[dict]], width: float, height: float, model_component_id: str, spec: Spec,
-          thresholds: dict[str, float] = THRESHOLDS) -> Artifact:
+          thresholds: dict[str, float] = THRESHOLDS, license_rows: list[Row] | None = None) -> Artifact:
+    """`license_rows` (D-47 item 5, from D-55 step 1 on): the `license_component` rows of every weight file the run
+    loads, stored in the artifact beside the detections. Omitted (the pilot builds): the payload is `detection` only, so
+    earlier S2 artifact IDs are unchanged."""
     if spec.stage != "S2":
         raise ValueError(spec.stage)
-    return build_artifact(spec, {"detection": detection_rows(recording_id, raw, width, height, model_component_id, thresholds)})
+    tables = {"detection": detection_rows(recording_id, raw, width, height, model_component_id, thresholds)}
+    if license_rows is not None:
+        ids = [component_id(r) for r in license_rows]
+        if model_component_id not in ids or len(set(ids)) != len(ids):
+            raise ValueError("license_rows must hold the detector weights' row once, and no row twice")
+        tables["license_component"] = sorted(license_rows, key=lambda r: (r["component"], r["version"]))
+    return build_artifact(spec, tables)

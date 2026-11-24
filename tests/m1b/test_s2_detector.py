@@ -49,3 +49,25 @@ def test_artifact_is_tolerance_class_and_stable():
     assert a.artifact_id == b.artifact_id and len(a.tables["detection"]) == 4
     assert s2.component_id(COMP).startswith("lic_")
     assert all(r["model_component_id"] == s2.component_id(COMP) for r in a.tables["detection"])
+
+
+CLIP = s2.weights_component("ViT-B-32.pt", "cd" * 32, "https://example.invalid/clip.pt", "MIT")
+
+
+def test_license_rows_in_the_artifact_d47_item5():
+    """D-47 item 5 (D-55 step 1): the rows sit beside the detections; the detections are unchanged; without the rows the
+    payload is detection-only, as every pilot S2 artifact."""
+    plain = s2.build(REC, RAW, 1920, 1080, s2.component_id(COMP), SPEC)
+    withl = s2.build(REC, RAW, 1920, 1080, s2.component_id(COMP), SPEC, license_rows=[CLIP, COMP])
+    assert set(plain.tables) == {"detection"} and set(withl.tables) == {"detection", "license_component"}
+    assert [r["component"] for r in withl.tables["license_component"]] == ["ViT-B-32.pt", "yolov8s-worldv2.pt"]
+    strip = lambda rows: [{k: v for k, v in r.items() if k not in ("det_id", "artifact_id")} for r in rows]
+    assert strip(withl.tables["detection"]) == strip(plain.tables["detection"])
+    assert withl.artifact_id != plain.artifact_id
+
+
+def test_license_rows_must_hold_the_detector_row():
+    with pytest.raises(ValueError):
+        s2.build(REC, RAW, 1920, 1080, s2.component_id(COMP), SPEC, license_rows=[CLIP])
+    with pytest.raises(ValueError):
+        s2.build(REC, RAW, 1920, 1080, s2.component_id(COMP), SPEC, license_rows=[COMP, COMP])

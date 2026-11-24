@@ -25,7 +25,7 @@ def test_det_env_points_inside_the_repository_and_is_ignored():
 
 
 def test_detector_entry_points_set_the_folder_before_importing_ultralytics():
-    for rel in ("research/m1b/s2_yolo_world.py", "research/m1b/zero_shot_probe.py", "src/rq1/tracking/bytetrack.py"):
+    for rel in ("research/m1b/s2_yolo_world.py", "research/m1b/zero_shot_probe.py", "src/rq1/tracking/bytetrack.py", "research/m1b/botsort_keys.py"):
         text = (ROOT / rel).read_text()
         i, j = text.find("YOLO_CONFIG_DIR"), text.find("import ultralytics")
         assert i != -1, rel
