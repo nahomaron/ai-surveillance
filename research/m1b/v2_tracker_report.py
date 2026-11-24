@@ -56,13 +56,23 @@ def table_rows(rows: list[dict], view: str = "all") -> list[str]:
     return out
 
 
+def margin_line(rows: dict, sel: dict) -> str:
+    """How the T1-T2 comparison was decided, with the counts behind the deciding key."""
+    a, b = (rows[sel[f]["winner"]] for f in ("T1", "T2"))
+    fa, fb = a["forklift"]["all"], b["forklift"]["all"]
+    key = sel["package"]["path"][-1]["key"] if sel["package"]["path"] else "IDF1 band"
+    return (f"- T1 vs T2 winners: IDF1 {f3(fa['idf1'])} vs {f3(fb['idf1'])} (both in the band); decided at `{key}`: matched forklift references "
+            f"{fa['tracked']['matched_references']} vs {fb['tracked']['matched_references']} of {fa['references']}, a margin of "
+            f"{abs(fa['tracked']['matched_references'] - fb['tracked']['matched_references'])} reference frame(s).")
+
+
 def report(grid: dict, sel: dict, frag: dict) -> str:
     rows = {r["config_id"]: r for r in [grid["column_c"]] + grid["rows"]}
     c = grid["column_c"]
     pkg_id = sel["package"]["winner"]
     pkg = rows.get(pkg_id)
     L = [f"# D-55 tracker selection (v2 detector + tracker package)", "",
-         f"Status: {vg.STATUS}. Selected under D-55, **not frozen** (frozen later in pre-registration v2). Contract {grid['contract']} unchanged.", "",
+         f"Status: {vg.STATUS}. Selected under D-55, **not frozen** (frozen later in pre-registration v2). Contract E-1.2.24 unchanged (artifact schema bundle {grid['contract']}, as the pilot).", "",
          "No event evaluation of any kind: no S4, S5 or S8 run and no EV metric. Tuning cameras only (116; "
          f"{grid['by_viewpoint']['ceiling']} ceiling, {grid['by_viewpoint']['eye_level']} eye-level); nothing on the 110 reporting cameras or the test partition. "
          "Detector as frozen in D-45 (YOLO-World v2-s, person 0.20, forklift 0.05). Columns A, B, C and C′ unchanged.", "",
@@ -79,6 +89,7 @@ def report(grid: dict, sel: dict, frag: dict) -> str:
               f"- Fragmentation remains: package {f3(fp['tracked']['fragments_per_identity'])} tracks per covered forklift identity "
               f"({frag['package']['all']['tracked']['identities_two_or_more']} of {frag['package']['all']['tracked']['identities_covered']} covered identities have two or more), "
               f"column C {f3(fc['tracked']['fragments_per_identity'])} ({frag['column_c']['all']['tracked']['identities_two_or_more']} of {frag['column_c']['all']['tracked']['identities_covered']}).",
+              margin_line(rows, sel),
               f"- Under the secondary reading (tracked and predicted points) the same rule selects `{sel['sensitivity_secondary_reading']['package']}` "
               + ("(the same package)." if sel["sensitivity_secondary_reading"]["package"] == pkg_id else "(a different package; see CR-033 item 2)."),
               "- These are tracking measures on synthetic SDG tuning cameras: selection evidence, not a reported result, nothing validated."]

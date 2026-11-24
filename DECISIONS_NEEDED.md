@@ -681,3 +681,21 @@ Question: the diagnostic results are in `research/m1b/v2_diagnostics_report.md` 
 Options: for the Architect and the Owner. Values and rule forms (d, a θ-dependent offset, a range or sensitivity gate) are chosen in pre-registration v2; none was implemented.
 Agent's recommendation: none; the Owner decides.
 Owner decision: ______
+
+## D-55 (2026-11-23) — Select the v2 detector + tracker package on the tuning subset        status: DECIDED (23 Nov 2026)
+Source: Owner, 23 Nov 2026; Architect draft `v2_architect_package_part2_tracker_DRAFT.md` (T1 ByteTrack retuned, T2 BoT-SORT comparator; grid and selection rule as drafted), approved by the Owner (pasting it = approval of the steps).
+Decision (summary): on `m0-implementation`, tracking measures only, on the 116 tuning cameras. Step 1 S2 for the 20 probe cameras (pilot S2 configuration, licence rows per D-47 item 5); step 2 BoT-SORT adapter (ReID off, camera-motion compensation off, NumPy assignment) and `tracker_id` in the S3 run configuration (column C unchanged); step 3 runtime estimate (stop above 6 h); step 4 grid of 36 forklift configurations per tracker; step 5 selection by the fixed rule; step 6 fragmentation check; step 7 report and STOP. Hard limits: no S4, S5, S8 or EV metric; nothing on the 110 reporting cameras or the test partition; columns A, B, C, C′ unchanged; detector as D-45; no contract change. The winner is selected, not frozen. D-54 stays open.
+Carried out: see D-56 and the Progress log entry of 23 Nov 2026. CR-033 opened (readings; `tracker_id` for column C); AR-66 proposed.
+
+## D-56 (2026-11-23) — STOP after the D-55 tracker selection: result for the Owner        status: OPEN
+Task: D-55 (tracker selection)   Blocking: freezing the v2 package in pre-registration v2; no other task (D-54 independent)
+Question: the selection result is in `research/m1b/v2_tracker_report.md` (tuning subset, synthetic SDG, selection evidence, not a reported result). Result only:
+- **Selected package:** `trc_7flfpx52d2siiljxkqwcorr7nz`, T1 ByteTrack. Forklift: track_high 0.05, new_track 0.05, track_low 0.05, fuse_score false, track_buffer 90, match 0.8; person: column C ByteTrack defaults.
+- **Against column C settings (116 cameras):** forklift IDF1 0.250 → 0.774; forklift coverage by tracked points 0.160 → 0.593; point precision 1.000 → 0.979; person IDF1 0.846 in both (same person tracker).
+- **T2 BoT-SORT winner** `trc_iwm5ndlac27qun2gouwrtoroun` (the same grid point): IDF1 0.775, inside the 0.01 band. The package was decided at the first tie-break, coverage: 19,981 against 19,980 matched forklift references of 33,677 (one reference frame). Under the secondary reading of CR-033 item 2 (tracked and predicted points) the same rule selects the BoT-SORT configuration instead.
+- **Guards:** all 72 configurations passed (precision ≥ 0.95; person IDF1 equal by construction). fuse_score false was decisive: every fuse_score true configuration has IDF1 ≤ 0.36.
+- **Fragmentation (tracking level):** package 112 of 116 forklift identities covered, 7 by two or more tracks (median 1, P90 1, max 2); column C 66 covered, 26 by two or more (median 1, P90 2, max 4). Longest bridged gap 15 frames (= g_max) in both.
+- **Readings to confirm (CR-033):** items 2–4 (tracked point = state `tracked`; fragments definition; inclusive band; `gmc_method` counted as a changed parameter, which did not decide anything here).
+Options: confirm the package for pre-registration v2; or change a CR-033 reading (item 2(b) would select the BoT-SORT configuration); or another instruction.
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______

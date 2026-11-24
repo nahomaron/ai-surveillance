@@ -1,0 +1,1323 @@
+{
+ "T1": {
+  "band": {
+   "best_config_id": "trc_7flfpx52d2siiljxkqwcorr7nz",
+   "best_idf1": 0.7743939899246985,
+   "lower_edge": 0.7643939899246985,
+   "members": [
+    "trc_7flfpx52d2siiljxkqwcorr7nz",
+    "trc_ty7xfe4xyzwyawowk5jsl25bth"
+   ]
+  },
+  "configurations": 36,
+  "family": "T1",
+  "passed_guards": 36,
+  "path": [
+   {
+    "key": "coverage",
+    "remaining": [
+     "trc_7flfpx52d2siiljxkqwcorr7nz"
+    ]
+   }
+  ],
+  "winner": "trc_7flfpx52d2siiljxkqwcorr7nz"
+ },
+ "T2": {
+  "band": {
+   "best_config_id": "trc_iwm5ndlac27qun2gouwrtoroun",
+   "best_idf1": 0.77518127710378,
+   "lower_edge": 0.76518127710378,
+   "members": [
+    "trc_fqxlvtw3jqab2lzk3j3vbc7pwx",
+    "trc_iwm5ndlac27qun2gouwrtoroun"
+   ]
+  },
+  "configurations": 36,
+  "family": "T2",
+  "passed_guards": 36,
+  "path": [
+   {
+    "key": "coverage",
+    "remaining": [
+     "trc_iwm5ndlac27qun2gouwrtoroun"
+    ]
+   }
+  ],
+  "winner": "trc_iwm5ndlac27qun2gouwrtoroun"
+ },
+ "column_c": {
+  "config_id": "trc_i4ljlcifrwgephzz4cgjkmo5ej",
+  "coverage": 0.15990141639694747,
+  "family": "C",
+  "fragments_per_identity": 1.4848484848484849,
+  "idf1_forklift": 0.24992385013706975,
+  "idf1_person": 0.8456869168981058,
+  "parameters_changed": 0,
+  "person_idf1_reference": 0.8456869168981058,
+  "precision": 1.0
+ },
+ "guards": {
+  "trc_3aq3nhyigi6srfbqaq5dx4bgnm": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_4sqebhcej3snnwoft3vseratdp": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_56r4lhbccvvj42iluzhb3742zh": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_57amvce2wbtzkvsve7vlz4ouux": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_5d5ttg22tnnbzod4qpqi2vsgfe": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_5ogeizg475eftefrdz3he6q6mp": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_5rafgrfmh7yq24md5oj2tgzab6": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_5tgiem2xes7keizbo44uy6igu2": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_65ty43t64ij755ievg5se7yovl": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_66qro5wri5n4p45el5xqge6cbg": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_6swarrsbbxpitt46xpsrxzjgot": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_74xioyvkakr5yn5lruvrtobmel": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7ecoxlkmmpwa7nju6fokbstl3p": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7flfpx52d2siiljxkqwcorr7nz": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7fzf3vwrrhcay5btvmh7diotn2": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7n3saxjbtiehw55yuvu6lpnn3n": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7tcijgv5asvlntvitaav75bzzh": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_7wsw2iclhmh7qddej3p6nl7eam": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_b6rrfvpuiu6ylidkyanr7lzftv": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_bcyg7lfluv75l4imauxapzt32d": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_bo2nrse7haxr3qsmqccu4vzi7q": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_cpyf67gfxujzifvk365u7d2kzk": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_ebqvyr6ixfcit3vax3j5rs7qp2": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_esfnz7sdckzxcqnyprk5idbjr3": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_fkywz4gq4fo5qlg46ac6lovy7m": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_fpsjioulywcag7hw6i2z24bjg7": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_fqxlvtw3jqab2lzk3j3vbc7pwx": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_gap6fq4qmi5x3nf3eoj7ore62t": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_gvbqokhg633qfqipwo2reyadej": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_hdppfrmxmvolumjpl7zorak23y": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_hkx3gos7rj6keeoazv6c4zpw4c": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_hlhqp4zcm5kfzn6xue5hk5cnuk": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_i6inovdhm2s36jvamfha2znokd": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_i7l6anybs45d4uaggxhl3rjzh4": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_iptyuhjlprod37xvlyzaha4o3t": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_iwm5ndlac27qun2gouwrtoroun": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_jhbd3n3roq5eb5zlbachmwaznd": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_jibgvhelaikd2e6aud7aoya42n": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_jsvqlgs3rdw5mcakkishgv2axo": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_kdi65wy3zqxrlippd5htqu63ge": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_krdguasjctwi55fq5brlcrqoql": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_lwyqn5bdfnk34mx7nsqx3xfxt6": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_mpkoyfsbsccwbclp44xjmwbp37": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_oeoq5izlsze523yuw6igqey4qe": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_omlp2gnep3xrljhnriytvjcy2b": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_opkceesi7bntbkvtk3e3nmlunz": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_otjx7ewwcdinggj5kq4wo2jpxp": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_q4f7jjd7xqj6e5aogdzz4fjkyi": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_rprnecxj22fh3uqry6hovthhy3": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_rurkfeuk7hlzv4hmhtpey5njb6": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_s26dtxuaiopqcciv74jyzrxqye": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_sfdljo5rdq2l6vum2or3xear76": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_sh6pgy4hrct4o54bifyrzvhfyx": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_sxnrsqt5ussetdwyvx6daleikf": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_szpvvuexivjl5bl2wvji7cujm6": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_t4sfbi3djgzkimzkx2mclmzqab": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_td42itiyj43eg4w5v4u6y62osl": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_thdqorfetvz5tlekusjw2fzr3d": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_ti5uqexlymtt4w6njapjlsojtp": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_tlxvmpta4rfmzxpjzuwv2xk2xr": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_ty7xfe4xyzwyawowk5jsl25bth": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_tzcxbdgfqq2iwmveqinwaoq2dz": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_tzp4lgbqkwqqpkfhndzeak7xpv": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_u322ec2actrgeleujg3wy5gf7s": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_uqqvyt5g5klqssm6tptrpvkm2l": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_vwj4rapjwcqidaiyecfqvy56up": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_vywoqxr6ys2ev5jxyuu4mlzrq5": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_w4bwtsfabqk6kf5sjxc77csduo": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_xe6irqxylqxyopypzlp4b3bttg": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_yd3pf63froggbg5qso24my4xjt": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_ymh7canszduw3ehnzu2loheade": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  },
+  "trc_zkhhdt2wbjqvyq3d75row3z6rj": {
+   "pass": true,
+   "person_idf1_ge_column_c": true,
+   "precision_ge_0.95": true
+  }
+ },
+ "inputs": [
+  {
+   "config_id": "trc_i6inovdhm2s36jvamfha2znokd",
+   "coverage": 0.12091338302105295,
+   "family": "T1",
+   "fragments_per_identity": 1.625,
+   "idf1_forklift": 0.22685983376650112,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 0.9995090819833088
+  },
+  {
+   "config_id": "trc_q4f7jjd7xqj6e5aogdzz4fjkyi",
+   "coverage": 0.12106185230275857,
+   "family": "T1",
+   "fragments_per_identity": 1.525,
+   "idf1_forklift": 0.23769100169779286,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 0.9995096837460162
+  },
+  {
+   "config_id": "trc_iptyuhjlprod37xvlyzaha4o3t",
+   "coverage": 0.12135879086616978,
+   "family": "T1",
+   "fragments_per_identity": 1.5,
+   "idf1_forklift": 0.23861327572460972,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 0.9995108828564441
+  },
+  {
+   "config_id": "trc_thdqorfetvz5tlekusjw2fzr3d",
+   "coverage": 0.5920064138729697,
+   "family": "T1",
+   "fragments_per_identity": 1.2857142857142858,
+   "idf1_forklift": 0.7415912087912088,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 0.9789835502086914
+  },
+  {
+   "config_id": "trc_ty7xfe4xyzwyawowk5jsl25bth",
+   "coverage": 0.5932535558392968,
+   "family": "T1",
+   "fragments_per_identity": 1.0803571428571428,
+   "idf1_forklift": 0.7710293498104199,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9787390388477931
+  },
+  {
+   "config_id": "trc_7flfpx52d2siiljxkqwcorr7nz",
+   "coverage": 0.593312943551979,
+   "family": "T1",
+   "fragments_per_identity": 1.0625,
+   "idf1_forklift": 0.7743939899246985,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9786931818181818
+  },
+  {
+   "config_id": "trc_jhbd3n3roq5eb5zlbachmwaznd",
+   "coverage": 0.12026011818154823,
+   "family": "T1",
+   "fragments_per_identity": 1.6164383561643836,
+   "idf1_forklift": 0.22553717730715722,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_7ecoxlkmmpwa7nju6fokbstl3p",
+   "coverage": 0.12040858746325385,
+   "family": "T1",
+   "fragments_per_identity": 1.5068493150684932,
+   "idf1_forklift": 0.23638189919385993,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_56r4lhbccvvj42iluzhb3742zh",
+   "coverage": 0.12070552602666508,
+   "family": "T1",
+   "fragments_per_identity": 1.4794520547945205,
+   "idf1_forklift": 0.23730559274899576,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_tzcxbdgfqq2iwmveqinwaoq2dz",
+   "coverage": 0.5577693975116549,
+   "family": "T1",
+   "fragments_per_identity": 1.1238095238095238,
+   "idf1_forklift": 0.7336905828776268,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 0.9937572743625013
+  },
+  {
+   "config_id": "trc_ymh7canszduw3ehnzu2loheade",
+   "coverage": 0.565757044867417,
+   "family": "T1",
+   "fragments_per_identity": 1.0285714285714285,
+   "idf1_forklift": 0.7517310313493867,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9938448698555109
+  },
+  {
+   "config_id": "trc_szpvvuexivjl5bl2wvji7cujm6",
+   "coverage": 0.5659352080054637,
+   "family": "T1",
+   "fragments_per_identity": 1.019047619047619,
+   "idf1_forklift": 0.7546655521433374,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9938467956406112
+  },
+  {
+   "config_id": "trc_opkceesi7bntbkvtk3e3nmlunz",
+   "coverage": 0.11461828547673486,
+   "family": "T1",
+   "fragments_per_identity": 1.5303030303030303,
+   "idf1_forklift": 0.21496372194627208,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_rurkfeuk7hlzv4hmhtpey5njb6",
+   "coverage": 0.11544971345428631,
+   "family": "T1",
+   "fragments_per_identity": 1.4696969696969697,
+   "idf1_forklift": 0.2241504728255222,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_bcyg7lfluv75l4imauxapzt32d",
+   "coverage": 0.11571695816135641,
+   "family": "T1",
+   "fragments_per_identity": 1.4545454545454546,
+   "idf1_forklift": 0.2250850627256435,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_omlp2gnep3xrljhnriytvjcy2b",
+   "coverage": 0.4064198117409508,
+   "family": "T1",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.6005917771938174,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_otjx7ewwcdinggj5kq4wo2jpxp",
+   "coverage": 0.41238827686551655,
+   "family": "T1",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.6065887879349774,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_4sqebhcej3snnwoft3vseratdp",
+   "coverage": 0.41238827686551655,
+   "family": "T1",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.6065887879349774,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_rprnecxj22fh3uqry6hovthhy3",
+   "coverage": 0.12094307687739407,
+   "family": "T1",
+   "fragments_per_identity": 1.643835616438356,
+   "idf1_forklift": 0.22312665825197703,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_6swarrsbbxpitt46xpsrxzjgot",
+   "coverage": 0.12103215844641743,
+   "family": "T1",
+   "fragments_per_identity": 1.547945205479452,
+   "idf1_forklift": 0.23160334835801674,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_mpkoyfsbsccwbclp44xjmwbp37",
+   "coverage": 0.12121032158446418,
+   "family": "T1",
+   "fragments_per_identity": 1.5342465753424657,
+   "idf1_forklift": 0.23183105845995364,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_tzp4lgbqkwqqpkfhndzeak7xpv",
+   "coverage": 0.4846037354871277,
+   "family": "T1",
+   "fragments_per_identity": 1.3398058252427185,
+   "idf1_forklift": 0.6389872039205009,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_zkhhdt2wbjqvyq3d75row3z6rj",
+   "coverage": 0.48706832556344093,
+   "family": "T1",
+   "fragments_per_identity": 1.1262135922330097,
+   "idf1_forklift": 0.6732646368205546,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_57amvce2wbtzkvsve7vlz4ouux",
+   "coverage": 0.4872167948451465,
+   "family": "T1",
+   "fragments_per_identity": 1.0776699029126213,
+   "idf1_forklift": 0.681659422539584,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_esfnz7sdckzxcqnyprk5idbjr3",
+   "coverage": 0.11515277489087508,
+   "family": "T1",
+   "fragments_per_identity": 1.5757575757575757,
+   "idf1_forklift": 0.21236775753164722,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_gap6fq4qmi5x3nf3eoj7ore62t",
+   "coverage": 0.11592481515574428,
+   "family": "T1",
+   "fragments_per_identity": 1.5,
+   "idf1_forklift": 0.2203579127814862,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_fpsjioulywcag7hw6i2z24bjg7",
+   "coverage": 0.1160732844374499,
+   "family": "T1",
+   "fragments_per_identity": 1.5,
+   "idf1_forklift": 0.22058899911702073,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_i7l6anybs45d4uaggxhl3rjzh4",
+   "coverage": 0.3654125961338599,
+   "family": "T1",
+   "fragments_per_identity": 1.072289156626506,
+   "idf1_forklift": 0.5445184995300351,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_66qro5wri5n4p45el5xqge6cbg",
+   "coverage": 0.3776167710900615,
+   "family": "T1",
+   "fragments_per_identity": 1.0240963855421688,
+   "idf1_forklift": 0.5673839903510443,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_7n3saxjbtiehw55yuvu6lpnn3n",
+   "coverage": 0.3802001365917392,
+   "family": "T1",
+   "fragments_per_identity": 1.0,
+   "idf1_forklift": 0.5747476027541926,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_7wsw2iclhmh7qddej3p6nl7eam",
+   "coverage": 0.2173293345606794,
+   "family": "T1",
+   "fragments_per_identity": 1.4393939393939394,
+   "idf1_forklift": 0.32927570036688775,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 1,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_w4bwtsfabqk6kf5sjxc77csduo",
+   "coverage": 0.22273361641476377,
+   "family": "T1",
+   "fragments_per_identity": 1.3636363636363635,
+   "idf1_forklift": 0.3393405742761073,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_sxnrsqt5ussetdwyvx6daleikf",
+   "coverage": 0.223268105828904,
+   "family": "T1",
+   "fragments_per_identity": 1.3484848484848484,
+   "idf1_forklift": 0.34233624295766135,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_fkywz4gq4fo5qlg46ac6lovy7m",
+   "coverage": 0.25979154912848534,
+   "family": "T1",
+   "fragments_per_identity": 1.24,
+   "idf1_forklift": 0.39598480228903793,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_vywoqxr6ys2ev5jxyuu4mlzrq5",
+   "coverage": 0.2622561392047985,
+   "family": "T1",
+   "fragments_per_identity": 1.12,
+   "idf1_forklift": 0.40954097516443905,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_hkx3gos7rj6keeoazv6c4zpw4c",
+   "coverage": 0.2632360364640556,
+   "family": "T1",
+   "fragments_per_identity": 1.0666666666666667,
+   "idf1_forklift": 0.4168498853908406,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_bo2nrse7haxr3qsmqccu4vzi7q",
+   "coverage": 0.12735694984707663,
+   "family": "T2",
+   "fragments_per_identity": 1.5625,
+   "idf1_forklift": 0.2342678808963471,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 0.9995339081799114
+  },
+  {
+   "config_id": "trc_5rafgrfmh7yq24md5oj2tgzab6",
+   "coverage": 0.1278320515485346,
+   "family": "T2",
+   "fragments_per_identity": 1.475,
+   "idf1_forklift": 0.24347470409284966,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9995356396563734
+  },
+  {
+   "config_id": "trc_kdi65wy3zqxrlippd5htqu63ge",
+   "coverage": 0.1280992962556047,
+   "family": "T2",
+   "fragments_per_identity": 1.45,
+   "idf1_forklift": 0.24438991974646015,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9995366079703429
+  },
+  {
+   "config_id": "trc_yd3pf63froggbg5qso24my4xjt",
+   "coverage": 0.5919767200166286,
+   "family": "T2",
+   "fragments_per_identity": 1.2857142857142858,
+   "idf1_forklift": 0.7422310546771953,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.9789825181693184
+  },
+  {
+   "config_id": "trc_fqxlvtw3jqab2lzk3j3vbc7pwx",
+   "coverage": 0.5932238619829557,
+   "family": "T2",
+   "fragments_per_identity": 1.0803571428571428,
+   "idf1_forklift": 0.7718158513888401,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 0.9787379972565158
+  },
+  {
+   "config_id": "trc_iwm5ndlac27qun2gouwrtoroun",
+   "coverage": 0.593283249695638,
+   "family": "T2",
+   "fragments_per_identity": 1.0625,
+   "idf1_forklift": 0.77518127710378,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 0.9786921381337252
+  },
+  {
+   "config_id": "trc_hlhqp4zcm5kfzn6xue5hk5cnuk",
+   "coverage": 0.1264067464441607,
+   "family": "T2",
+   "fragments_per_identity": 1.547945205479452,
+   "idf1_forklift": 0.2330216472396567,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_5tgiem2xes7keizbo44uy6igu2",
+   "coverage": 0.12688184814561868,
+   "family": "T2",
+   "fragments_per_identity": 1.452054794520548,
+   "idf1_forklift": 0.24224270353302613,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_gvbqokhg633qfqipwo2reyadej",
+   "coverage": 0.12714909285268877,
+   "family": "T2",
+   "fragments_per_identity": 1.4246575342465753,
+   "idf1_forklift": 0.24315953825283473,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_xe6irqxylqxyopypzlp4b3bttg",
+   "coverage": 0.5577397036553137,
+   "family": "T2",
+   "fragments_per_identity": 1.1238095238095238,
+   "idf1_forklift": 0.7340697929621772,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 0.993756944077033
+  },
+  {
+   "config_id": "trc_74xioyvkakr5yn5lruvrtobmel",
+   "coverage": 0.5657273510110759,
+   "family": "T2",
+   "fragments_per_identity": 1.0285714285714285,
+   "idf1_forklift": 0.752108170979936,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 0.9938445487741262
+  },
+  {
+   "config_id": "trc_sh6pgy4hrct4o54bifyrzvhfyx",
+   "coverage": 0.5659055141491226,
+   "family": "T2",
+   "fragments_per_identity": 1.019047619047619,
+   "idf1_forklift": 0.7550427039796475,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 0.9938464747601168
+  },
+  {
+   "config_id": "trc_5ogeizg475eftefrdz3he6q6mp",
+   "coverage": 0.12058675060130059,
+   "family": "T2",
+   "fragments_per_identity": 1.4545454545454546,
+   "idf1_forklift": 0.22329720361124764,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_ebqvyr6ixfcit3vax3j5rs7qp2",
+   "coverage": 0.12177450485494551,
+   "family": "T2",
+   "fragments_per_identity": 1.4090909090909092,
+   "idf1_forklift": 0.23074538974120565,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_7fzf3vwrrhcay5btvmh7diotn2",
+   "coverage": 0.12204174956201562,
+   "family": "T2",
+   "fragments_per_identity": 1.393939393939394,
+   "idf1_forklift": 0.23167299300229813,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_5d5ttg22tnnbzod4qpqi2vsgfe",
+   "coverage": 0.40639011788460966,
+   "family": "T2",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.600314517463996,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_tlxvmpta4rfmzxpjzuwv2xk2xr",
+   "coverage": 0.4123585830091754,
+   "family": "T2",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.6063128399538487,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_b6rrfvpuiu6ylidkyanr7lzftv",
+   "coverage": 0.4123585830091754,
+   "family": "T2",
+   "fragments_per_identity": 1.0120481927710843,
+   "idf1_forklift": 0.6063128399538487,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_3aq3nhyigi6srfbqaq5dx4bgnm",
+   "coverage": 0.1274460314161,
+   "family": "T2",
+   "fragments_per_identity": 1.5616438356164384,
+   "idf1_forklift": 0.2324533326505006,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_sfdljo5rdq2l6vum2or3xear76",
+   "coverage": 0.12780235769219347,
+   "family": "T2",
+   "fragments_per_identity": 1.4794520547945205,
+   "idf1_forklift": 0.23942256008600168,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_t4sfbi3djgzkimzkx2mclmzqab",
+   "coverage": 0.1279508269738991,
+   "family": "T2",
+   "fragments_per_identity": 1.4657534246575343,
+   "idf1_forklift": 0.2396478476736449,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_u322ec2actrgeleujg3wy5gf7s",
+   "coverage": 0.4850788371885857,
+   "family": "T2",
+   "fragments_per_identity": 1.3300970873786409,
+   "idf1_forklift": 0.639847562753981,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_vwj4rapjwcqidaiyecfqvy56up",
+   "coverage": 0.4875434272648989,
+   "family": "T2",
+   "fragments_per_identity": 1.116504854368932,
+   "idf1_forklift": 0.6741171905316259,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_ti5uqexlymtt4w6njapjlsojtp",
+   "coverage": 0.4876918965466045,
+   "family": "T2",
+   "fragments_per_identity": 1.0679611650485437,
+   "idf1_forklift": 0.6825104277815501,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 6,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_td42itiyj43eg4w5v4u6y62osl",
+   "coverage": 0.12153695400421653,
+   "family": "T2",
+   "fragments_per_identity": 1.5,
+   "idf1_forklift": 0.22216480194310226,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_lwyqn5bdfnk34mx7nsqx3xfxt6",
+   "coverage": 0.12245746355079135,
+   "family": "T2",
+   "fragments_per_identity": 1.4393939393939394,
+   "idf1_forklift": 0.22891659567877332,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_s26dtxuaiopqcciv74jyzrxqye",
+   "coverage": 0.12260593283249696,
+   "family": "T2",
+   "fragments_per_identity": 1.4393939393939394,
+   "idf1_forklift": 0.2291451579599422,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_jibgvhelaikd2e6aud7aoya42n",
+   "coverage": 0.3655313715592244,
+   "family": "T2",
+   "fragments_per_identity": 1.072289156626506,
+   "idf1_forklift": 0.544689395881398,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_hdppfrmxmvolumjpl7zorak23y",
+   "coverage": 0.37773554651542596,
+   "family": "T2",
+   "fragments_per_identity": 1.0240963855421688,
+   "idf1_forklift": 0.5675532702765611,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_cpyf67gfxujzifvk365u7d2kzk",
+   "coverage": 0.38031891201710366,
+   "family": "T2",
+   "fragments_per_identity": 1.0,
+   "idf1_forklift": 0.5749165716216788,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 5,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_7tcijgv5asvlntvitaav75bzzh",
+   "coverage": 0.22772218428007246,
+   "family": "T2",
+   "fragments_per_identity": 1.303030303030303,
+   "idf1_forklift": 0.3494780491332964,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 2,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_oeoq5izlsze523yuw6igqey4qe",
+   "coverage": 0.23024616206906792,
+   "family": "T2",
+   "fragments_per_identity": 1.2272727272727273,
+   "idf1_forklift": 0.35569242613800406,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_krdguasjctwi55fq5brlcrqoql",
+   "coverage": 0.23078065148320812,
+   "family": "T2",
+   "fragments_per_identity": 1.2121212121212122,
+   "idf1_forklift": 0.3586648068875956,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_uqqvyt5g5klqssm6tptrpvkm2l",
+   "coverage": 0.26160287436529384,
+   "family": "T2",
+   "fragments_per_identity": 1.2266666666666666,
+   "idf1_forklift": 0.3992130041692041,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 3,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_65ty43t64ij755ievg5se7yovl",
+   "coverage": 0.26406746444160706,
+   "family": "T2",
+   "fragments_per_identity": 1.1066666666666667,
+   "idf1_forklift": 0.4127451667952404,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  },
+  {
+   "config_id": "trc_jsvqlgs3rdw5mcakkishgv2axo",
+   "coverage": 0.26504736170086407,
+   "family": "T2",
+   "fragments_per_identity": 1.0533333333333332,
+   "idf1_forklift": 0.420042046250876,
+   "idf1_person": 0.8456869168981058,
+   "parameters_changed": 4,
+   "precision": 1.0
+  }
+ ],
+ "package": {
+  "band": {
+   "best_config_id": "trc_iwm5ndlac27qun2gouwrtoroun",
+   "best_idf1": 0.77518127710378,
+   "lower_edge": 0.76518127710378,
+   "members": [
+    "trc_7flfpx52d2siiljxkqwcorr7nz",
+    "trc_iwm5ndlac27qun2gouwrtoroun"
+   ]
+  },
+  "path": [
+   {
+    "key": "coverage",
+    "remaining": [
+     "trc_7flfpx52d2siiljxkqwcorr7nz"
+    ]
+   }
+  ],
+  "winner": "trc_7flfpx52d2siiljxkqwcorr7nz"
+ },
+ "package_configuration": {
+  "config_id": "trc_7flfpx52d2siiljxkqwcorr7nz",
+  "family": "T1",
+  "forklift": {
+   "all": {
+    "IDFN": 11618.0,
+    "IDFP": 1235.0,
+    "IDTP": 22059.0,
+    "all": {
+     "coverage": 0.6716156427235205,
+     "fragments_per_identity": 1.0625,
+     "identities": 116,
+     "identities_covered": 112,
+     "identities_two_or_more": 7,
+     "matched_references": 22618,
+     "points": 23294,
+     "points_matched": 22618,
+     "precision": 0.9709796514123809
+    },
+    "cameras": 116,
+    "counts": {
+     "longest_bridged": 15,
+     "predicted": 2878,
+     "runs_bridged": 968,
+     "tracked": 20416,
+     "tracks": 123
+    },
+    "idf1": 0.7743939899246985,
+    "references": 33677,
+    "tracked": {
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0625,
+     "identities": 116,
+     "identities_covered": 112,
+     "identities_two_or_more": 7,
+     "matched_references": 19981,
+     "points": 20416,
+     "points_matched": 19981,
+     "precision": 0.9786931818181818
+    }
+   },
+   "ceiling": {
+    "IDFN": 2630.0,
+    "IDFP": 238.0,
+    "IDTP": 13460.0,
+    "all": {
+     "coverage": 0.8430702299564947,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities": 54,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "matched_references": 13565,
+     "points": 13698,
+     "points_matched": 13565,
+     "precision": 0.9902905533654548
+    },
+    "cameras": 54,
+    "counts": {
+     "longest_bridged": 15,
+     "predicted": 1257,
+     "runs_bridged": 464,
+     "tracked": 12441,
+     "tracks": 56
+    },
+    "idf1": 0.9037196186383779,
+    "references": 16090,
+    "tracked": {
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities": 54,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "matched_references": 12360,
+     "points": 12441,
+     "points_matched": 12360,
+     "precision": 0.9934892693513383
+    }
+   },
+   "eye_level": {
+    "IDFN": 8988.0,
+    "IDFP": 997.0,
+    "IDTP": 8599.0,
+    "all": {
+     "coverage": 0.5147552169215898,
+     "fragments_per_identity": 1.103448275862069,
+     "identities": 62,
+     "identities_covered": 58,
+     "identities_two_or_more": 6,
+     "matched_references": 9053,
+     "points": 9596,
+     "points_matched": 9053,
+     "precision": 0.9434139224676948
+    },
+    "cameras": 62,
+    "counts": {
+     "longest_bridged": 14,
+     "predicted": 1621,
+     "runs_bridged": 504,
+     "tracked": 7975,
+     "tracks": 67
+    },
+    "idf1": 0.6326748335356657,
+    "references": 17587,
+    "tracked": {
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.103448275862069,
+     "identities": 62,
+     "identities_covered": 58,
+     "identities_two_or_more": 6,
+     "matched_references": 7621,
+     "points": 7975,
+     "points_matched": 7621,
+     "precision": 0.9556112852664577
+    }
+   }
+  },
+  "grid": {
+   "fuse_score": false,
+   "match_thresh": 0.8,
+   "new_track_thresh": 0.05,
+   "track_buffer": 90,
+   "track_high_thresh": 0.05,
+   "track_low_thresh": 0.05
+  },
+  "parameters_changed": 5,
+  "params": {
+   "fuse_score": false,
+   "match_thresh": 0.8,
+   "new_track_thresh": 0.05,
+   "track_buffer": 90,
+   "track_high_thresh": 0.05,
+   "track_low_thresh": 0.05,
+   "tracker_type": "bytetrack"
+  },
+  "person_idf1": {
+   "all": 0.8456869168981058,
+   "ceiling": 0.8477281503410993,
+   "eye_level": 0.8435036998795388
+  },
+  "tracker_id": "bytetrack"
+ },
+ "rule": {
+  "band": 0.01,
+  "person_idf1_min": "column C configuration's person IDF1",
+  "precision_min": 0.95,
+  "reading": "primary (CR-033 item 2): tracked point = state `tracked`",
+  "tie_breaks": [
+   "coverage",
+   "fragments_per_identity",
+   "parameters_changed",
+   "config_id"
+  ]
+ },
+ "sensitivity_secondary_reading": {
+  "T1": "trc_7flfpx52d2siiljxkqwcorr7nz",
+  "T2": "trc_iwm5ndlac27qun2gouwrtoroun",
+  "note": "the same rule on the secondary reading (tracked and predicted points); not the selection",
+  "package": "trc_iwm5ndlac27qun2gouwrtoroun"
+ },
+ "status": "selected (D-55), not frozen"
+}

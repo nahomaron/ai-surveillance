@@ -919,3 +919,39 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none; CR-033 not needed. Wording linter: one W4 hit, the disclaimer sentence.
 - Next: **STOP (D-54).**
+
+
+### 2026-11-23 — D-55 tracker selection on the tuning subset; STOP at D-56
+- Did (tracking measures only; no S4, S5, S8 or EV metric; tuning cameras only; columns A, B, C, C′ unchanged; detector as D-45; contract E-1.2.24 unchanged; on mains power, one agent):
+  - **Step 0:** tree clean and level with origin at 607c897; 116 tuning cameras loaded.
+  - **Step 1:** S2 for the 20 T-22 probe cameras.
+    - The S2 configuration IDs equal the pilot's (`inf_cetfxtbdg72cqgfm6teibcxsyd`, `mdl_ty3jrnwz5jjdv56nwtkcos4yqs`).
+    - Detector run at 607c897: 108–144 s per camera (first 119.6 s, limit 5 min). Raw output in `out/m1b/pilot/s2raw/` (new files only).
+    - `v2_probe_s2.py` built 20 S2 artifacts with the YOLO-World and CLIP licence rows inside them (D-47 item 5). They are in `out/m1b/v2trk/artifacts/`, with 20 execution records in `register.jsonl`.
+    - One camera, `rec_ll34ml5evz6l5pz536yifkpcna`, has 2 forklift detections in 300 frames.
+  - **Step 2:** `src/rq1/tracking/botsort.py` (BoT-SORT; `with_reid: false`; compensation off with the installed option `gmc_method: none`; same `lap` stub). `src/rq1/tracking/grid.py` is the batch runner; `src/rq1/tracking/s3_config.py` adds `tracker_id`.
+    - Adding the field would change column C's configuration ID, so column C keeps its stored configuration (**CR-033** item 1).
+    - Keys recorded in `research/m1b/botsort_keys.json`. Commit d94902d.
+  - **Step 3:** estimate 13.2 s per camera, 0.43 h for 72 configurations × 116 cameras (limit 6 h).
+    - The first version gave negative per-job times from process-start noise; it was fixed with a warm-up process and 5 repeats per job.
+    - Commit f55008a.
+  - **Step 4:** grid run twice in independent folders (`out/m1b/v2trk/grid/`, `grid_run2/`), 1,531 s and 1,497 s.
+    - `v2_tracker_grid.json` (73 rows: column C plus 72) is byte-identical from both runs.
+    - Column C's tracker run reproduced the stored column C person and forklift logs on all 96 cameras that have one.
+  - **Step 5:** `v2_tracker_select.py` → `v2_tracker_selection.json`.
+    - All 72 configurations pass the guards.
+    - T1 winner `trc_7flfpx52d2siiljxkqwcorr7nz`. T2 winner `trc_iwm5ndlac27qun2gouwrtoroun` (the same grid point: 0.05/0.05/0.05, fuse_score false, buffer 90).
+    - Package = T1, decided at coverage by 1 reference frame (19,981 vs 19,980 of 33,677). Under the secondary reading (CR-033 item 2(b)) the package would be the T2 configuration.
+  - **Step 6:** fragmentation for the package and for column C (`v2_tracker_fragmentation.json`).
+  - **Step 7:** `v2_tracker_report.md`; one line in `docs/preregistration/v2_notes.md`; D-55 recorded; **D-56** opened.
+- Results: forklift IDF1 0.250 → 0.774, coverage 0.160 → 0.593, precision 1.000 → 0.979, person IDF1 0.846 unchanged; package 7 of 112 covered forklift identities have two or more tracks (column C 26 of 66).
+- Tests: 2541/2541 passed, 17 skipped (`.venv-det`-only), full suite twice: identical. `.venv-det`: `test_tracking_*` 25/25, `test_zs_match` OK. New tests:
+  - `test_tracking_botsort.py` (6: installed defaults except the two switched-off options; hand-built 10-frame two-object fixture tracked identically twice);
+  - `test_s3_config.py` (4: column C ID reproduced; a stored S3 artifact rebuilt to the same ID);
+  - `test_v2_tracker_select.py` (7: 9-row hand table with a guard failure, a tie in the band and each tie-break; no-pass STOP);
+  - `test_v2_tracker_grid.py` (6: hand-computed measures and pool, configurations);
+  - `test_s2_detector.py` (+2: licence rows).
+  - Every results file was regenerated twice: byte-identical. No settings file in the home folder.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-033 opened (item 1 `tracker_id` for column C; items 2–4 the readings used, for the Owner). AR-66 proposed. Report status line first named the schema bundle E-1.2.21 as the contract; corrected to E-1.2.24 before commit.
+- Next: **STOP (D-56).**

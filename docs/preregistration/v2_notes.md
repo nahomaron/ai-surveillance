@@ -27,3 +27,6 @@ Pre-registration v1 (`docs/preregistration_FROZEN.md`) and its frozen criteria a
   - CR-007: the footprint anchor. The evidence is now sufficient: the forklift error lies along the line of sight, −1.01 m, against 0.09 m across.
   - CR-029: N9 rules 4 and 5 on the detector path.
   - CR-026: a range condition for full_camera foot rays.
+
+## Tracker package selected (D-55, 23 Nov 2026)
+- Selected package `trc_7flfpx52d2siiljxkqwcorr7nz`: person ByteTrack at the installed defaults (column C); forklift ByteTrack with track_high_thresh 0.05, new_track_thresh 0.05, track_low_thresh 0.05, fuse_score false, track_buffer 90, match_thresh 0.8 (`research/m1b/v2_tracker_report.md`). **Selected under D-55, not frozen.**
