@@ -3,6 +3,7 @@ Diagnostic, tuning subset, not a reported result.
 
   PYTHONPATH=src .venv/bin/python research/m1b/d57_mgap.py estimate                  (2 cameras; STOP above 2 h)
   PYTHONPATH=src .venv/bin/python research/m1b/d57_mgap.py run [workers] [rec ...]   -> out/m1b/d57/mgap/<rec>.json, artifacts
+  PYTHONPATH=src .venv/bin/python research/m1b/d57_mgap.py merged [workers]          -> out/m1b/d57/merged/<rec>.json
   PYTHONPATH=src .venv/bin/python research/m1b/d57_mgap.py aggregate                 -> research/m1b/d57_mgap_sweep.json
 
 Grid: rule_configuration.lifecycle.m_gap_frames in {5 (v1), 15, 30, 60} (T9.7); every other value is the v1 base value
@@ -15,7 +16,8 @@ Configurations (stored S4, never rebuilt; D-54):
 Check: at m_gap 5 the rebuilt S5 payload equals the stored D-54 / T-21 S5 payload (payload_sha256) on every camera.
 Measures (N4, G1, the stored T-21 BL-6 references, as the pilot): EV-M1, EV-M2 with counts; system events, unmatched events;
 D-50 extent measures (`d54_c_v2.extent`): references covered by two or more same-pair episodes, unmatched events by best
-same-pair IoU band; T10.6 candidate-event counts per label (event_count_summary, recording scope).
+same-pair IoU band; T10.6 candidate-event counts per label (event_count_summary, recording scope); references sharing an
+episode with another reference (a joined episode spanning references the base-value lifecycle keeps apart; T21.4).
 Selection (pre-declared, C-v2, all 116 cameras): keep m_gap with EV-M1 >= EV-M1(5) - 0.02; among them the highest EV-M2;
 EV-M2 within 0.005 of the highest is a tie, broken by the smaller m_gap. "Selected under D-57, not frozen".
 """
@@ -76,6 +78,40 @@ def label_counts(rows: list[dict]) -> dict:
         k = f"{r['scenario']}|{r['label']}"
         out[k] = out.get(k, 0) + r["n_events"]
     return dict(sorted(out.items()))
+
+
+def shared_references(refs: list[tuple], episodes: list[dict], matched: set) -> dict:
+    """References (id, pair, t0, t1) covered (D-50: same pair, IoU > 0) by an episode that also covers another reference:
+    a joined episode spanning references the v1 lifecycle kept apart (T21.4: references stay at the base values)."""
+    shared = set()
+    for e in episodes:
+        hit = [r[0] for r in refs if sp.covering(r, [e])]
+        if len(hit) >= 2:
+            shared.update(hit)
+    return {"references_sharing_an_episode": len(shared), "of_which_n4_unmatched": len(shared - matched)}
+
+
+def merged_camera(rec: str) -> tuple[str, str]:  # pragma: no cover - driver over the saved sweep artifacts
+    import evaluate_pilot as ep
+    from rq1.evaluation import matching as mt
+    path = OUT / "merged" / f"{rec}.json"
+    if path.exists():
+        return rec, "skipped"
+    run = json.loads((OUT / "mgap" / f"{rec}.json").read_text())
+    res = {"rec_id": rec, "viewpoint": run["viewpoint"], "configs": {}}
+    for config in CONFIGS:
+        ctx = sp.camera_context(rec, config)
+        refs = sp.g1_refs(ctx["refs"], ctx["groups"])
+        res["configs"][config] = {}
+        for g in GRID:
+            s5t, _ = sp.load_art(run["configs"][config][str(g)]["s5"], OUT / "artifacts")
+            events = ep.ev.system_events(ctx["s4"], s5t, ctx["rows"], ctx["summ"])
+            records = mt.match_window(ctx["refs"], events, "G1", ep.ev.S8["iou_m"], "rule_conformance", ctx["groups"])
+            matched = {r["ref_event_id"] for r in records if r["match_type"] == "matched"}
+            res["configs"][config][str(g)] = shared_references(refs, sp.episodes_of(ctx["s4"], s5t, ctx["rows"], ctx["summ"]), matched)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    pc.write_json(path, res)
+    return rec, "done"
 
 
 def _save(art, origin) -> str:
@@ -167,6 +203,10 @@ def aggregate() -> dict:  # pragma: no cover
     stored_c = json.load(open(ROOT / "research/m1b/d54_c_v2_tune.json"))["tuning_116"]["all"]["C-v2"]
     stored_b = json.load(open(ROOT / "research/m1b/d54_b_v2_tune.json"))["ev"]
     rcf = {cfg: {str(g): sorted({x["configs"][cfg][str(g)]["rule_configuration_id"] for x in cams}) for g in GRID} for cfg in CONFIGS}
+    merged = [json.loads((OUT / "merged" / f"{r}.json").read_text()) for r in recs]
+    shared = {view: {cfg: {str(g): {k: sum(x["configs"][cfg][str(g)][k] for x in merged if view == "all" or x["viewpoint"] == view)
+                                    for k in ("references_sharing_an_episode", "of_which_n4_unmatched")} for g in GRID} for cfg in CONFIGS}
+              for view in ("all", "ceiling", "eye_level")}
     out = {"status": STATUS, "decision": "D-57 STEP 3", "contract": "E-1.2.25; v1 base values except lifecycle.m_gap_frames", "baseline": BL,
             "label_group": "G1", "cameras": len(cams), "grid_m_gap_frames": list(GRID),
             "grid_seconds_at_30fps": {str(g): round(g / 30, 3) for g in GRID},
@@ -185,7 +225,10 @@ def aggregate() -> dict:  # pragma: no cover
                            "A": _ev(tab["all"]["A"]["5"]) == _ev(stored_b["all"]["A (stored)"])}},
             "code_commit": sorted({x["code_commit"] for x in cams}),
             "runtime_s": round(sum(x["seconds"] for x in cams), 1),
-            "results": tab}
+            "results": tab,
+            "references_sharing_an_episode": {"definition": "assessable G1 references covered (same pair, temporal IoU > 0) by a BL-6 episode that "
+                                                            "also covers another such reference; references stay at the base values (T21.1, T21.4)",
+                                              **shared}}
     ch = out["checks"]
     bad = [k for k, v in ch["m_gap5_payload_equals_stored_s5"].items() if v != len(cams)] + [k for k, v in ch["m_gap5_ev_equals_d54"].items() if not v]
     if bad:
@@ -219,6 +262,13 @@ def main():  # pragma: no cover
     what = sys.argv[1]
     if what == "estimate":
         estimate()
+        return
+    if what == "merged":
+        workers = int(sys.argv[2]) if len(sys.argv) > 2 else 1
+        recs = v2_sets.tuning()
+        it = map(merged_camera, recs) if workers == 1 else Pool(workers, maxtasksperchild=4).imap_unordered(merged_camera, recs)
+        for n, res in enumerate(it, 1):
+            print(n, *res, flush=True)
         return
     if what == "aggregate":
         p = ROOT / "research/m1b/d57_mgap_sweep.json"

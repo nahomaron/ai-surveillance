@@ -150,3 +150,12 @@ def test_label_counts_sum_recording_scope_only():
             {"scope_type": "timeline", "scenario": "S_VIEW", "label": "all", "n_events": 3},
             {"scope_type": "recording", "scenario": "S_VIEW", "label": "PC", "n_events": 1}]
     assert mg.label_counts(rows) == {"S_VIEW|PC": 1, "S_VIEW|all": 3}
+
+
+def test_shared_references_counts_references_spanned_by_one_episode():
+    # same pair: r1 [0, 1], r2 [2, 3], r3 [6, 7]; one joined episode [0.5, 2.5] covers r1 and r2; another covers r3 alone;
+    # an episode of another pair over [0, 7] covers none. r1 matched -> shared 2, of which N4-unmatched 1 (r2).
+    refs = [("r1", ("p", "f"), 0.0, 1.0), ("r2", ("p", "f"), 2.0, 3.0), ("r3", ("p", "f"), 6.0, 7.0)]
+    eps = [_ep("pow_1", "a", "b", 0.5, 2.5, 15, 75, pair=("p", "f")), _ep("pow_1", "a", "b", 6.0, 7.0, 180, 210, pair=("p", "f")),
+           _ep("pow_2", "c", "d", 0.0, 7.0, 0, 210, pair=("q", "f"))]
+    assert mg.shared_references(refs, eps, {"r1"}) == {"references_sharing_an_episode": 2, "of_which_n4_unmatched": 1}

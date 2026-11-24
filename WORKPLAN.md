@@ -981,3 +981,25 @@ _(the agent appends entries here)_
   - CR-035 (STEP 4 (c) "counterpart"; both readings reported: 15 or 50).
   - AR-67 proposed.
 - Next: **STOP (D-57).**
+
+### 2026-11-24 — D-57: rulings recorded; split diagnosis and m_gap sweep on the tuning subset; STOP at D-58
+- Did (tuning cameras only; nothing on the 110 reporting cameras or the test partition; pilot columns A, B, C, C′ and the stored D-54 / T-21 artifacts only read, never written; no new detection, no tracker change, N4, label rules and contract text unchanged; one agent):
+  - **Step 0:** tree clean and level with origin at c715ac0. The first check found the computer on battery: stopped and asked; continued on AC power.
+  - **Step 1 (5615b6a):** D-57 DECIDED. CR-034 closed (reading (a)). CR-035 closed (diagnostic only; both readings stay). AR-67 accepted. `v2_notes.md`: ruling 1 (T24 values kept, frozen with v2) and "no person rule (D-57)".
+  - **Step 2 (fd2e3e8):** `d57_split.py` on the stored D-54 outputs of C-v2 and B-both → `d57_split_diagnosis.json`. Check: C-v2 references with ≥ 2 episodes = 69, as in D-54.
+  - **Step 3:** `d57_mgap.py`. Estimate 2 s per camera, 0.06 h serial (limit 2 h); sweep 2.5 min with 3 workers → `d57_mgap_sweep.json`. At m_gap 5 the rebuilt S5 payload equals the stored S5 on 116 of 116 cameras for C-v2, B-both and A, and the EV values equal D-54. A shared-reference measure was added after the sweep: it reads the saved sweep artifacts and rebuilds nothing.
+  - **Step 4:** `d57_report.py` → `research/m1b/d57_report.md`. All three results files were regenerated twice: byte-identical.
+- Results (diagnostic, tuning subset, not a reported result):
+  - Splits, C-v2: 115 splits. (i) same POW 43, (ii) POW break 30, (iii) track fragmentation 42. So (ii) + (iii) = 63 %: **most splits on the detector path are not lifecycle splits**, and m_gap cannot join them.
+  - Splits, B-both: 87 splits. (i) 81, (ii) 6, (iii) 0.
+  - (i) gaps: median 10 frames on C-v2 and 14 on B-both (30 fps). T is 0 on 97 % of gap frames on C-v2, i.e. the clearance is at or above d_p; it is not unknown.
+  - Sweep, EV-M1 / EV-M2 at m_gap 5, 15, 30, 60:
+    - C-v2: 0.578 / 0.329, 0.607 / 0.410, 0.630 / 0.459, 0.622 / 0.462.
+    - B-both: 0.926 / 0.571, 0.889 / 0.702, 0.867 / 0.848, 0.859 / 0.943.
+    - A: 1.000 / 0.944, 0.933 / 0.947, 0.933 / 0.947, 0.874 / 0.944.
+  - Selection (pre-declared, C-v2): **m_gap 30, selected under D-57, not frozen.** 30 and 60 tie within 0.005; the smaller wins. To be checked against item C7.
+  - The oracle check is not clean: at 30, EV-M1 falls on B-both (0.926 → 0.867) and on A (1.000 → 0.933). On A, all 9 lost references share a joined episode with another reference. The references are fixed at m_gap 5 (T21.1, T21.4).
+- Tests: 2646 passed, 17 skipped (`.venv-det` only), full suite twice: identical. New: `tests/m1b/test_d57.py` 29.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: AR-68 proposed (version_label of the non-v1 sweep values; S5 from stored S4; layout; STEP 2 readings; rounding allowance in the selection rule). No CR: nothing undefined changed a count, a state or a statistic of the contract.
+- Next: **STOP (D-58).**

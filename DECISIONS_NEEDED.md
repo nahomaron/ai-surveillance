@@ -755,3 +755,25 @@ Rulings:
 8. All of this stays on the **116 tuning cameras**. Nothing runs on the 110 reporting cameras or on the test partition (D-37).
 Steps (summary): STEP 0 state check (clean, level with origin, mains power); STEP 1 records; STEP 2 split diagnosis on the stored D-54 outputs of C-v2 and B-both (mechanism (i) same POW, (ii) different POWs of the same tracks, (iii) different tracks of the same identities; gap; for (i) T = 0 / unknown share, last flag, clearance against d_p and d_pc, Q state) → `research/m1b/d57_split_diagnosis.json`; STEP 3 m_gap sweep {5, 15, 30, 60} frames, S5 onward on the stored D-54 S4 artifacts, for C-v2, B-both and A, with the pre-declared selection rule on C-v2 (EV-M1 ≥ EV-M1(5) − 0.02; highest EV-M2; tie within 0.005 → smaller m_gap; "selected under D-57, not frozen"; checked against item C7 before the v2 freeze); runtime estimate on 2 cameras, STOP above 2 h → `research/m1b/d57_mgap_sweep.json`; STEP 4 `research/m1b/d57_report.md`, full suite twice, next free D number, STOP.
 Hard limits: nothing on the 110 reporting cameras or the test partition; pilot columns A, B, C, C′ and the stored D-54 artifacts unchanged; no new detection, no tracker change, no change to N4, the label rules or any contract text; no stored record deleted, rewritten or reordered; anything undefined that changes a count, a state or a statistic → next free CR, skip the item, continue.
+
+## D-58 (2026-11-24) — STOP after the D-57 diagnostics: why episodes split, and the m_gap sweep        status: OPEN
+Task: D-57 STEPS 2–4   Blocking: freezing m_gap for pre-registration v2; any rule that joins episodes across POWs or tracks; any run on the reporting cameras; no other task
+Question: the results are in `research/m1b/d57_report.md` (diagnostic, tuning subset, not a reported result). Results only:
+- **Why episodes split (stored D-54 outputs; a split = two consecutive episodes covering the same reference):**
+  - C-v2: 115 splits. (i) same POW 43; (ii) other POW, same tracks 30; (iii) other tracks 42. **(ii) + (iii) = 72 of 115 (63 %): most splits on the detector path are not lifecycle splits, and m_gap cannot fix them.** Joining them would need a contract rule (not drafted).
+  - B-both: 87 splits. (i) 81; (ii) 6; (iii) 0.
+  - (i) gaps, C-v2: median 10 frames (0.33 s), P75 15, P90 26.8, max 41. B-both: median 14, P75 27, P90 41, max 63 (30 fps).
+  - In (i) gaps, T is 0 on 97 % (C-v2) and 93 % (B-both) of frames: the clearance is at or above d_p, not unknown. Before the gap, P (mostly with X) is true at a clearance between d_pc and d_p.
+- **m_gap sweep, EV-M1 / EV-M2 at 5, 15, 30, 60:**
+  - C-v2: 0.578 / 0.329, 0.607 / 0.410, 0.630 / 0.459, 0.622 / 0.462.
+  - B-both: 0.926 / 0.571, 0.889 / 0.702, 0.867 / 0.848, 0.859 / 0.943.
+  - A: 1.000 / 0.944, 0.933 / 0.947, 0.933 / 0.947, 0.874 / 0.944.
+  - The pre-declared rule selects **m_gap = 30 frames (about 1.0 s): selected under D-57, not frozen**, to be checked against item C7.
+- **The oracle check is not clean.** At 30, EV-M1 falls on B-both (0.926 → 0.867) and on A (1.000 → 0.933), while EV-M2 rises.
+  - The references are built once at m_gap 5 and stay fixed (T21.1, T21.4). A joined episode can span two references and match only one.
+  - On A, all 9 lost references share an episode with another reference.
+- **Checks:** at m_gap 5 the rebuilt S5 equals the stored S5 payload on 116 of 116 cameras for each configuration, and the EV values equal D-54.
+- **AR-68** proposed (representation and engineering).
+Options: for the Owner and the Architect: carry m_gap 30 to the C7 check; or keep m_gap 5; or address the reference lifecycle (T21.4) or a cross-POW / cross-track join rule in contract text; or another instruction.
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______

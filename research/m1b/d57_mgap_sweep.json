@@ -1,0 +1,1963 @@
+{
+ "baseline": "BL-6",
+ "cameras": 116,
+ "checks": {
+  "m_gap5_ev_equals_d54": {
+   "A": true,
+   "B-both": true,
+   "C-v2": true
+  },
+  "m_gap5_payload_equals_stored_s5": {
+   "A": 116,
+   "B-both": 116,
+   "C-v2": 116
+  },
+  "m_gap5_rule_configuration_equals_stored": {
+   "A": 116,
+   "B-both": 116,
+   "C-v2": 116
+  }
+ },
+ "code_commit": [
+  "fd2e3e8df421303673de8752e482605a03cd1830"
+ ],
+ "configurations": {
+  "A": "simulator positions (stored T-21 base S4)",
+  "B-both": "oracle boxes, full_camera, T24 on (stored D-54 S4)",
+  "C-v2": "detector path, D-56 package, T24 on (stored D-54 S4)"
+ },
+ "contract": "E-1.2.25; v1 base values except lifecycle.m_gap_frames",
+ "decision": "D-57 STEP 3",
+ "grid_m_gap_frames": [
+  5,
+  15,
+  30,
+  60
+ ],
+ "grid_seconds_at_30fps": {
+  "15": 0.5,
+  "30": 1.0,
+  "5": 0.167,
+  "60": 2.0
+ },
+ "label_group": "G1",
+ "references_sharing_an_episode": {
+  "all": {
+   "A": {
+    "15": {
+     "of_which_n4_unmatched": 9,
+     "references_sharing_an_episode": 20
+    },
+    "30": {
+     "of_which_n4_unmatched": 9,
+     "references_sharing_an_episode": 20
+    },
+    "5": {
+     "of_which_n4_unmatched": 0,
+     "references_sharing_an_episode": 0
+    },
+    "60": {
+     "of_which_n4_unmatched": 17,
+     "references_sharing_an_episode": 35
+    }
+   },
+   "B-both": {
+    "15": {
+     "of_which_n4_unmatched": 8,
+     "references_sharing_an_episode": 16
+    },
+    "30": {
+     "of_which_n4_unmatched": 12,
+     "references_sharing_an_episode": 24
+    },
+    "5": {
+     "of_which_n4_unmatched": 3,
+     "references_sharing_an_episode": 12
+    },
+    "60": {
+     "of_which_n4_unmatched": 15,
+     "references_sharing_an_episode": 30
+    }
+   },
+   "C-v2": {
+    "15": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 10
+    },
+    "30": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 14
+    },
+    "5": {
+     "of_which_n4_unmatched": 3,
+     "references_sharing_an_episode": 8
+    },
+    "60": {
+     "of_which_n4_unmatched": 5,
+     "references_sharing_an_episode": 16
+    }
+   }
+  },
+  "ceiling": {
+   "A": {
+    "15": {
+     "of_which_n4_unmatched": 5,
+     "references_sharing_an_episode": 10
+    },
+    "30": {
+     "of_which_n4_unmatched": 5,
+     "references_sharing_an_episode": 10
+    },
+    "5": {
+     "of_which_n4_unmatched": 0,
+     "references_sharing_an_episode": 0
+    },
+    "60": {
+     "of_which_n4_unmatched": 10,
+     "references_sharing_an_episode": 20
+    }
+   },
+   "B-both": {
+    "15": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 8
+    },
+    "30": {
+     "of_which_n4_unmatched": 7,
+     "references_sharing_an_episode": 14
+    },
+    "5": {
+     "of_which_n4_unmatched": 1,
+     "references_sharing_an_episode": 6
+    },
+    "60": {
+     "of_which_n4_unmatched": 9,
+     "references_sharing_an_episode": 18
+    }
+   },
+   "C-v2": {
+    "15": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 8
+    },
+    "30": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 10
+    },
+    "5": {
+     "of_which_n4_unmatched": 1,
+     "references_sharing_an_episode": 6
+    },
+    "60": {
+     "of_which_n4_unmatched": 3,
+     "references_sharing_an_episode": 12
+    }
+   }
+  },
+  "definition": "assessable G1 references covered (same pair, temporal IoU > 0) by a BL-6 episode that also covers another such reference; references stay at the base values (T21.1, T21.4)",
+  "eye_level": {
+   "A": {
+    "15": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 10
+    },
+    "30": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 10
+    },
+    "5": {
+     "of_which_n4_unmatched": 0,
+     "references_sharing_an_episode": 0
+    },
+    "60": {
+     "of_which_n4_unmatched": 7,
+     "references_sharing_an_episode": 15
+    }
+   },
+   "B-both": {
+    "15": {
+     "of_which_n4_unmatched": 4,
+     "references_sharing_an_episode": 8
+    },
+    "30": {
+     "of_which_n4_unmatched": 5,
+     "references_sharing_an_episode": 10
+    },
+    "5": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 6
+    },
+    "60": {
+     "of_which_n4_unmatched": 6,
+     "references_sharing_an_episode": 12
+    }
+   },
+   "C-v2": {
+    "15": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 2
+    },
+    "30": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 4
+    },
+    "5": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 2
+    },
+    "60": {
+     "of_which_n4_unmatched": 2,
+     "references_sharing_an_episode": 4
+    }
+   }
+  }
+ },
+ "results": {
+  "all": {
+   "A": {
+    "15": {
+     "EV-M1": 0.9333333333333333,
+     "EV-M2": 0.9473684210526315,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 133,
+      "S_LINK|IE": 102,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 132,
+      "S_LINK|UD": 25,
+      "S_LINK|all": 133,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 133,
+      "S_POSS|IE": 102,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 132,
+      "S_POSS|UD": 25,
+      "S_POSS|all": 133,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 133,
+      "S_VIEW|IE": 102,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 132,
+      "S_VIEW|UD": 25,
+      "S_VIEW|all": 133
+     },
+     "episodes": 133,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 126,
+     "matched_references": 126,
+     "references_with_2plus_episodes": 8,
+     "system_events": 133,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    },
+    "30": {
+     "EV-M1": 0.9333333333333333,
+     "EV-M2": 0.9473684210526315,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 133,
+      "S_LINK|IE": 102,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 132,
+      "S_LINK|UD": 25,
+      "S_LINK|all": 133,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 133,
+      "S_POSS|IE": 102,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 132,
+      "S_POSS|UD": 25,
+      "S_POSS|all": 133,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 133,
+      "S_VIEW|IE": 102,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 132,
+      "S_VIEW|UD": 25,
+      "S_VIEW|all": 133
+     },
+     "episodes": 133,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 126,
+     "matched_references": 126,
+     "references_with_2plus_episodes": 8,
+     "system_events": 133,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    },
+    "5": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.9440559440559441,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 143,
+      "S_LINK|IE": 109,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 141,
+      "S_LINK|UD": 25,
+      "S_LINK|all": 143,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 143,
+      "S_POSS|IE": 109,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 141,
+      "S_POSS|UD": 25,
+      "S_POSS|all": 143,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 143,
+      "S_VIEW|IE": 109,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 141,
+      "S_VIEW|UD": 25,
+      "S_VIEW|all": 143
+     },
+     "episodes": 143,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 135,
+     "matched_references": 135,
+     "references_with_2plus_episodes": 8,
+     "system_events": 143,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 8,
+     "unmatched_with_same_pair_overlap": 8
+    },
+    "60": {
+     "EV-M1": 0.8740740740740741,
+     "EV-M2": 0.944,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 125,
+      "S_LINK|IE": 97,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 125,
+      "S_LINK|UD": 25,
+      "S_LINK|all": 125,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 125,
+      "S_POSS|IE": 97,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 125,
+      "S_POSS|UD": 25,
+      "S_POSS|all": 125,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 125,
+      "S_VIEW|IE": 97,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 125,
+      "S_VIEW|UD": 25,
+      "S_VIEW|all": 125
+     },
+     "episodes": 125,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 118,
+     "matched_references": 118,
+     "references_with_2plus_episodes": 8,
+     "system_events": 125,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    }
+   },
+   "B-both": {
+    "15": {
+     "EV-M1": 0.8888888888888888,
+     "EV-M2": 0.7017543859649122,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 168,
+      "S_LINK|IE": 131,
+      "S_LINK|NM": 22,
+      "S_LINK|O": 1,
+      "S_LINK|PC": 154,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 171,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 168,
+      "S_POSS|IE": 131,
+      "S_POSS|NM": 22,
+      "S_POSS|O": 1,
+      "S_POSS|PC": 154,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 171,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 168,
+      "S_VIEW|IE": 131,
+      "S_VIEW|NM": 22,
+      "S_VIEW|O": 1,
+      "S_VIEW|PC": 154,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 171
+     },
+     "episodes": 171,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 120,
+     "matched_references": 120,
+     "references_with_2plus_episodes": 36,
+     "system_events": 171,
+     "unmatched_by_band": {
+      "(0, 0.1]": 21,
+      "(0.1, 0.2]": 6,
+      "(0.2, 0.3)": 13,
+      "0": 6,
+      ">= 0.3": 5
+     },
+     "unmatched_events": 51,
+     "unmatched_with_same_pair_overlap": 45
+    },
+    "30": {
+     "EV-M1": 0.8666666666666667,
+     "EV-M2": 0.8478260869565217,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 137,
+      "S_LINK|IE": 109,
+      "S_LINK|NM": 16,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 133,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 138,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 137,
+      "S_POSS|IE": 109,
+      "S_POSS|NM": 16,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 133,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 138,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 137,
+      "S_VIEW|IE": 109,
+      "S_VIEW|NM": 16,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 133,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 138
+     },
+     "episodes": 138,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 117,
+     "matched_references": 117,
+     "references_with_2plus_episodes": 15,
+     "system_events": 138,
+     "unmatched_by_band": {
+      "(0, 0.1]": 4,
+      "(0.1, 0.2]": 4,
+      "(0.2, 0.3)": 6,
+      "0": 3,
+      ">= 0.3": 4
+     },
+     "unmatched_events": 21,
+     "unmatched_with_same_pair_overlap": 18
+    },
+    "5": {
+     "EV-M1": 0.9259259259259259,
+     "EV-M2": 0.5707762557077626,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 3,
+      "S_LINK|H": 214,
+      "S_LINK|IE": 168,
+      "S_LINK|NM": 31,
+      "S_LINK|O": 1,
+      "S_LINK|PC": 181,
+      "S_LINK|UD": 20,
+      "S_LINK|all": 219,
+      "S_POSS|CT": 3,
+      "S_POSS|H": 214,
+      "S_POSS|IE": 168,
+      "S_POSS|NM": 31,
+      "S_POSS|O": 1,
+      "S_POSS|PC": 181,
+      "S_POSS|UD": 20,
+      "S_POSS|all": 219,
+      "S_VIEW|CT": 3,
+      "S_VIEW|H": 214,
+      "S_VIEW|IE": 168,
+      "S_VIEW|NM": 31,
+      "S_VIEW|O": 1,
+      "S_VIEW|PC": 181,
+      "S_VIEW|UD": 20,
+      "S_VIEW|all": 219
+     },
+     "episodes": 219,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 125,
+     "matched_references": 125,
+     "references_with_2plus_episodes": 64,
+     "system_events": 219,
+     "unmatched_by_band": {
+      "(0, 0.1]": 44,
+      "(0.1, 0.2]": 21,
+      "(0.2, 0.3)": 17,
+      "0": 7,
+      ">= 0.3": 5
+     },
+     "unmatched_events": 94,
+     "unmatched_with_same_pair_overlap": 87
+    },
+    "60": {
+     "EV-M1": 0.8592592592592593,
+     "EV-M2": 0.943089430894309,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 123,
+      "S_LINK|IE": 100,
+      "S_LINK|NM": 14,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 122,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 123,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 123,
+      "S_POSS|IE": 100,
+      "S_POSS|NM": 14,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 122,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 123,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 123,
+      "S_VIEW|IE": 100,
+      "S_VIEW|NM": 14,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 122,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 123
+     },
+     "episodes": 123,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 116,
+     "matched_references": 116,
+     "references_with_2plus_episodes": 6,
+     "system_events": 123,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    }
+   },
+   "C-v2": {
+    "15": {
+     "EV-M1": 0.6074074074074074,
+     "EV-M2": 0.41,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 5,
+      "S_LINK|H": 187,
+      "S_LINK|IE": 132,
+      "S_LINK|NM": 39,
+      "S_LINK|O": 9,
+      "S_LINK|PC": 173,
+      "S_LINK|UD": 81,
+      "S_LINK|all": 200,
+      "S_POSS|CT": 5,
+      "S_POSS|H": 187,
+      "S_POSS|IE": 132,
+      "S_POSS|NM": 39,
+      "S_POSS|O": 9,
+      "S_POSS|PC": 173,
+      "S_POSS|UD": 81,
+      "S_POSS|all": 200,
+      "S_VIEW|CT": 5,
+      "S_VIEW|H": 187,
+      "S_VIEW|IE": 132,
+      "S_VIEW|NM": 39,
+      "S_VIEW|O": 9,
+      "S_VIEW|PC": 173,
+      "S_VIEW|UD": 81,
+      "S_VIEW|all": 200
+     },
+     "episodes": 200,
+     "episodes_with_continuation_of_nk": 15,
+     "matched_events": 82,
+     "matched_references": 82,
+     "references_with_2plus_episodes": 56,
+     "system_events": 200,
+     "unmatched_by_band": {
+      "(0, 0.1]": 42,
+      "(0.1, 0.2]": 41,
+      "(0.2, 0.3)": 27,
+      "0": 6,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 118,
+     "unmatched_with_same_pair_overlap": 112
+    },
+    "30": {
+     "EV-M1": 0.6296296296296297,
+     "EV-M2": 0.4594594594594595,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 5,
+      "S_LINK|H": 173,
+      "S_LINK|IE": 124,
+      "S_LINK|NM": 39,
+      "S_LINK|O": 9,
+      "S_LINK|PC": 160,
+      "S_LINK|UD": 78,
+      "S_LINK|all": 185,
+      "S_POSS|CT": 5,
+      "S_POSS|H": 173,
+      "S_POSS|IE": 124,
+      "S_POSS|NM": 39,
+      "S_POSS|O": 9,
+      "S_POSS|PC": 160,
+      "S_POSS|UD": 78,
+      "S_POSS|all": 185,
+      "S_VIEW|CT": 5,
+      "S_VIEW|H": 173,
+      "S_VIEW|IE": 124,
+      "S_VIEW|NM": 39,
+      "S_VIEW|O": 9,
+      "S_VIEW|PC": 160,
+      "S_VIEW|UD": 78,
+      "S_VIEW|all": 185
+     },
+     "episodes": 185,
+     "episodes_with_continuation_of_nk": 15,
+     "matched_events": 85,
+     "matched_references": 85,
+     "references_with_2plus_episodes": 52,
+     "system_events": 185,
+     "unmatched_by_band": {
+      "(0, 0.1]": 37,
+      "(0.1, 0.2]": 31,
+      "(0.2, 0.3)": 24,
+      "0": 3,
+      ">= 0.3": 5
+     },
+     "unmatched_events": 100,
+     "unmatched_with_same_pair_overlap": 97
+    },
+    "5": {
+     "EV-M1": 0.5777777777777777,
+     "EV-M2": 0.3291139240506329,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 5,
+      "S_LINK|H": 224,
+      "S_LINK|IE": 155,
+      "S_LINK|NM": 52,
+      "S_LINK|O": 9,
+      "S_LINK|PC": 192,
+      "S_LINK|UD": 89,
+      "S_LINK|all": 237,
+      "S_POSS|CT": 5,
+      "S_POSS|H": 224,
+      "S_POSS|IE": 155,
+      "S_POSS|NM": 52,
+      "S_POSS|O": 9,
+      "S_POSS|PC": 192,
+      "S_POSS|UD": 89,
+      "S_POSS|all": 237,
+      "S_VIEW|CT": 5,
+      "S_VIEW|H": 224,
+      "S_VIEW|IE": 155,
+      "S_VIEW|NM": 52,
+      "S_VIEW|O": 9,
+      "S_VIEW|PC": 192,
+      "S_VIEW|UD": 89,
+      "S_VIEW|all": 237
+     },
+     "episodes": 237,
+     "episodes_with_continuation_of_nk": 15,
+     "matched_events": 78,
+     "matched_references": 78,
+     "references_with_2plus_episodes": 69,
+     "system_events": 237,
+     "unmatched_by_band": {
+      "(0, 0.1]": 66,
+      "(0.1, 0.2]": 47,
+      "(0.2, 0.3)": 34,
+      "0": 10,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 159,
+     "unmatched_with_same_pair_overlap": 149
+    },
+    "60": {
+     "EV-M1": 0.6222222222222222,
+     "EV-M2": 0.46153846153846156,
+     "assessable_references": 135,
+     "candidate_event_counts": {
+      "S_LINK|CT": 5,
+      "S_LINK|H": 170,
+      "S_LINK|IE": 123,
+      "S_LINK|NM": 39,
+      "S_LINK|O": 9,
+      "S_LINK|PC": 160,
+      "S_LINK|UD": 78,
+      "S_LINK|all": 182,
+      "S_POSS|CT": 5,
+      "S_POSS|H": 170,
+      "S_POSS|IE": 123,
+      "S_POSS|NM": 39,
+      "S_POSS|O": 9,
+      "S_POSS|PC": 160,
+      "S_POSS|UD": 78,
+      "S_POSS|all": 182,
+      "S_VIEW|CT": 5,
+      "S_VIEW|H": 170,
+      "S_VIEW|IE": 123,
+      "S_VIEW|NM": 39,
+      "S_VIEW|O": 9,
+      "S_VIEW|PC": 160,
+      "S_VIEW|UD": 78,
+      "S_VIEW|all": 182
+     },
+     "episodes": 182,
+     "episodes_with_continuation_of_nk": 15,
+     "matched_events": 84,
+     "matched_references": 84,
+     "references_with_2plus_episodes": 52,
+     "system_events": 182,
+     "unmatched_by_band": {
+      "(0, 0.1]": 36,
+      "(0.1, 0.2]": 30,
+      "(0.2, 0.3)": 24,
+      "0": 2,
+      ">= 0.3": 6
+     },
+     "unmatched_events": 98,
+     "unmatched_with_same_pair_overlap": 96
+    }
+   },
+   "cameras": 116
+  },
+  "ceiling": {
+   "A": {
+    "15": {
+     "EV-M1": 0.921875,
+     "EV-M2": 1.0,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 59,
+      "S_LINK|IE": 29,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 59,
+      "S_LINK|UD": 24,
+      "S_LINK|all": 59,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 59,
+      "S_POSS|IE": 29,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 59,
+      "S_POSS|UD": 24,
+      "S_POSS|all": 59,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 59,
+      "S_VIEW|IE": 29,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 59,
+      "S_VIEW|UD": 24,
+      "S_VIEW|all": 59
+     },
+     "episodes": 59,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 59,
+     "matched_references": 59,
+     "references_with_2plus_episodes": 0,
+     "system_events": 59,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "30": {
+     "EV-M1": 0.921875,
+     "EV-M2": 1.0,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 59,
+      "S_LINK|IE": 29,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 59,
+      "S_LINK|UD": 24,
+      "S_LINK|all": 59,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 59,
+      "S_POSS|IE": 29,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 59,
+      "S_POSS|UD": 24,
+      "S_POSS|all": 59,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 59,
+      "S_VIEW|IE": 29,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 59,
+      "S_VIEW|UD": 24,
+      "S_VIEW|all": 59
+     },
+     "episodes": 59,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 59,
+     "matched_references": 59,
+     "references_with_2plus_episodes": 0,
+     "system_events": 59,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "5": {
+     "EV-M1": 1.0,
+     "EV-M2": 1.0,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 64,
+      "S_LINK|IE": 31,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 64,
+      "S_LINK|UD": 24,
+      "S_LINK|all": 64,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 64,
+      "S_POSS|IE": 31,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 64,
+      "S_POSS|UD": 24,
+      "S_POSS|all": 64,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 64,
+      "S_VIEW|IE": 31,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 64,
+      "S_VIEW|UD": 24,
+      "S_VIEW|all": 64
+     },
+     "episodes": 64,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 64,
+     "matched_references": 64,
+     "references_with_2plus_episodes": 0,
+     "system_events": 64,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "60": {
+     "EV-M1": 0.84375,
+     "EV-M2": 1.0,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 7,
+      "S_LINK|H": 54,
+      "S_LINK|IE": 27,
+      "S_LINK|NM": 7,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 54,
+      "S_LINK|UD": 24,
+      "S_LINK|all": 54,
+      "S_POSS|CT": 7,
+      "S_POSS|H": 54,
+      "S_POSS|IE": 27,
+      "S_POSS|NM": 7,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 54,
+      "S_POSS|UD": 24,
+      "S_POSS|all": 54,
+      "S_VIEW|CT": 7,
+      "S_VIEW|H": 54,
+      "S_VIEW|IE": 27,
+      "S_VIEW|NM": 7,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 54,
+      "S_VIEW|UD": 24,
+      "S_VIEW|all": 54
+     },
+     "episodes": 54,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_2plus_episodes": 0,
+     "system_events": 54,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    }
+   },
+   "B-both": {
+    "15": {
+     "EV-M1": 0.90625,
+     "EV-M2": 0.725,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 79,
+      "S_LINK|IE": 41,
+      "S_LINK|NM": 21,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 71,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 80,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 79,
+      "S_POSS|IE": 41,
+      "S_POSS|NM": 21,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 71,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 80,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 79,
+      "S_VIEW|IE": 41,
+      "S_VIEW|NM": 21,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 71,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 80
+     },
+     "episodes": 80,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 58,
+     "matched_references": 58,
+     "references_with_2plus_episodes": 16,
+     "system_events": 80,
+     "unmatched_by_band": {
+      "(0, 0.1]": 12,
+      "(0.1, 0.2]": 1,
+      "(0.2, 0.3)": 5,
+      "0": 3,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 22,
+     "unmatched_with_same_pair_overlap": 19
+    },
+    "30": {
+     "EV-M1": 0.859375,
+     "EV-M2": 0.8870967741935484,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 62,
+      "S_LINK|IE": 34,
+      "S_LINK|NM": 15,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 59,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 62,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 62,
+      "S_POSS|IE": 34,
+      "S_POSS|NM": 15,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 59,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 62,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 62,
+      "S_VIEW|IE": 34,
+      "S_VIEW|NM": 15,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 59,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 62
+     },
+     "episodes": 62,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 55,
+     "matched_references": 55,
+     "references_with_2plus_episodes": 4,
+     "system_events": 62,
+     "unmatched_by_band": {
+      "(0, 0.1]": 2,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 2,
+      "0": 2,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 5
+    },
+    "5": {
+     "EV-M1": 0.953125,
+     "EV-M2": 0.5865384615384616,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 3,
+      "S_LINK|H": 102,
+      "S_LINK|IE": 54,
+      "S_LINK|NM": 30,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 84,
+      "S_LINK|UD": 20,
+      "S_LINK|all": 104,
+      "S_POSS|CT": 3,
+      "S_POSS|H": 102,
+      "S_POSS|IE": 54,
+      "S_POSS|NM": 30,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 84,
+      "S_POSS|UD": 20,
+      "S_POSS|all": 104,
+      "S_VIEW|CT": 3,
+      "S_VIEW|H": 102,
+      "S_VIEW|IE": 54,
+      "S_VIEW|NM": 30,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 84,
+      "S_VIEW|UD": 20,
+      "S_VIEW|all": 104
+     },
+     "episodes": 104,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 61,
+     "matched_references": 61,
+     "references_with_2plus_episodes": 33,
+     "system_events": 104,
+     "unmatched_by_band": {
+      "(0, 0.1]": 20,
+      "(0.1, 0.2]": 9,
+      "(0.2, 0.3)": 9,
+      "0": 4,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 43,
+     "unmatched_with_same_pair_overlap": 39
+    },
+    "60": {
+     "EV-M1": 0.84375,
+     "EV-M2": 1.0,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 2,
+      "S_LINK|H": 54,
+      "S_LINK|IE": 32,
+      "S_LINK|NM": 13,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 54,
+      "S_LINK|UD": 19,
+      "S_LINK|all": 54,
+      "S_POSS|CT": 2,
+      "S_POSS|H": 54,
+      "S_POSS|IE": 32,
+      "S_POSS|NM": 13,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 54,
+      "S_POSS|UD": 19,
+      "S_POSS|all": 54,
+      "S_VIEW|CT": 2,
+      "S_VIEW|H": 54,
+      "S_VIEW|IE": 32,
+      "S_VIEW|NM": 13,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 54,
+      "S_VIEW|UD": 19,
+      "S_VIEW|all": 54
+     },
+     "episodes": 54,
+     "episodes_with_continuation_of_nk": 0,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_2plus_episodes": 0,
+     "system_events": 54,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    }
+   },
+   "C-v2": {
+    "15": {
+     "EV-M1": 0.796875,
+     "EV-M2": 0.4636363636363636,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 4,
+      "S_LINK|H": 106,
+      "S_LINK|IE": 51,
+      "S_LINK|NM": 33,
+      "S_LINK|O": 3,
+      "S_LINK|PC": 96,
+      "S_LINK|UD": 38,
+      "S_LINK|all": 110,
+      "S_POSS|CT": 4,
+      "S_POSS|H": 106,
+      "S_POSS|IE": 51,
+      "S_POSS|NM": 33,
+      "S_POSS|O": 3,
+      "S_POSS|PC": 96,
+      "S_POSS|UD": 38,
+      "S_POSS|all": 110,
+      "S_VIEW|CT": 4,
+      "S_VIEW|H": 106,
+      "S_VIEW|IE": 51,
+      "S_VIEW|NM": 33,
+      "S_VIEW|O": 3,
+      "S_VIEW|PC": 96,
+      "S_VIEW|UD": 38,
+      "S_VIEW|all": 110
+     },
+     "episodes": 110,
+     "episodes_with_continuation_of_nk": 6,
+     "matched_events": 51,
+     "matched_references": 51,
+     "references_with_2plus_episodes": 32,
+     "system_events": 110,
+     "unmatched_by_band": {
+      "(0, 0.1]": 16,
+      "(0.1, 0.2]": 30,
+      "(0.2, 0.3)": 7,
+      "0": 4,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 59,
+     "unmatched_with_same_pair_overlap": 55
+    },
+    "30": {
+     "EV-M1": 0.828125,
+     "EV-M2": 0.5353535353535354,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 4,
+      "S_LINK|H": 96,
+      "S_LINK|IE": 46,
+      "S_LINK|NM": 33,
+      "S_LINK|O": 3,
+      "S_LINK|PC": 87,
+      "S_LINK|UD": 36,
+      "S_LINK|all": 99,
+      "S_POSS|CT": 4,
+      "S_POSS|H": 96,
+      "S_POSS|IE": 46,
+      "S_POSS|NM": 33,
+      "S_POSS|O": 3,
+      "S_POSS|PC": 87,
+      "S_POSS|UD": 36,
+      "S_POSS|all": 99,
+      "S_VIEW|CT": 4,
+      "S_VIEW|H": 96,
+      "S_VIEW|IE": 46,
+      "S_VIEW|NM": 33,
+      "S_VIEW|O": 3,
+      "S_VIEW|PC": 87,
+      "S_VIEW|UD": 36,
+      "S_VIEW|all": 99
+     },
+     "episodes": 99,
+     "episodes_with_continuation_of_nk": 6,
+     "matched_events": 53,
+     "matched_references": 53,
+     "references_with_2plus_episodes": 30,
+     "system_events": 99,
+     "unmatched_by_band": {
+      "(0, 0.1]": 14,
+      "(0.1, 0.2]": 22,
+      "(0.2, 0.3)": 4,
+      "0": 1,
+      ">= 0.3": 5
+     },
+     "unmatched_events": 46,
+     "unmatched_with_same_pair_overlap": 45
+    },
+    "5": {
+     "EV-M1": 0.78125,
+     "EV-M2": 0.36764705882352944,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 4,
+      "S_LINK|H": 132,
+      "S_LINK|IE": 65,
+      "S_LINK|NM": 46,
+      "S_LINK|O": 3,
+      "S_LINK|PC": 108,
+      "S_LINK|UD": 43,
+      "S_LINK|all": 136,
+      "S_POSS|CT": 4,
+      "S_POSS|H": 132,
+      "S_POSS|IE": 65,
+      "S_POSS|NM": 46,
+      "S_POSS|O": 3,
+      "S_POSS|PC": 108,
+      "S_POSS|UD": 43,
+      "S_POSS|all": 136,
+      "S_VIEW|CT": 4,
+      "S_VIEW|H": 132,
+      "S_VIEW|IE": 65,
+      "S_VIEW|NM": 46,
+      "S_VIEW|O": 3,
+      "S_VIEW|PC": 108,
+      "S_VIEW|UD": 43,
+      "S_VIEW|all": 136
+     },
+     "episodes": 136,
+     "episodes_with_continuation_of_nk": 6,
+     "matched_events": 50,
+     "matched_references": 50,
+     "references_with_2plus_episodes": 42,
+     "system_events": 136,
+     "unmatched_by_band": {
+      "(0, 0.1]": 32,
+      "(0.1, 0.2]": 33,
+      "(0.2, 0.3)": 13,
+      "0": 6,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 86,
+     "unmatched_with_same_pair_overlap": 80
+    },
+    "60": {
+     "EV-M1": 0.8125,
+     "EV-M2": 0.5416666666666666,
+     "assessable_references": 64,
+     "candidate_event_counts": {
+      "S_LINK|CT": 4,
+      "S_LINK|H": 93,
+      "S_LINK|IE": 45,
+      "S_LINK|NM": 33,
+      "S_LINK|O": 3,
+      "S_LINK|PC": 87,
+      "S_LINK|UD": 36,
+      "S_LINK|all": 96,
+      "S_POSS|CT": 4,
+      "S_POSS|H": 93,
+      "S_POSS|IE": 45,
+      "S_POSS|NM": 33,
+      "S_POSS|O": 3,
+      "S_POSS|PC": 87,
+      "S_POSS|UD": 36,
+      "S_POSS|all": 96,
+      "S_VIEW|CT": 4,
+      "S_VIEW|H": 93,
+      "S_VIEW|IE": 45,
+      "S_VIEW|NM": 33,
+      "S_VIEW|O": 3,
+      "S_VIEW|PC": 87,
+      "S_VIEW|UD": 36,
+      "S_VIEW|all": 96
+     },
+     "episodes": 96,
+     "episodes_with_continuation_of_nk": 6,
+     "matched_events": 52,
+     "matched_references": 52,
+     "references_with_2plus_episodes": 30,
+     "system_events": 96,
+     "unmatched_by_band": {
+      "(0, 0.1]": 13,
+      "(0.1, 0.2]": 21,
+      "(0.2, 0.3)": 4,
+      "0": 0,
+      ">= 0.3": 6
+     },
+     "unmatched_events": 44,
+     "unmatched_with_same_pair_overlap": 44
+    }
+   },
+   "cameras": 54
+  },
+  "eye_level": {
+   "A": {
+    "15": {
+     "EV-M1": 0.9436619718309859,
+     "EV-M2": 0.9054054054054054,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 74,
+      "S_LINK|IE": 73,
+      "S_LINK|NM": 0,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 73,
+      "S_LINK|UD": 1,
+      "S_LINK|all": 74,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 74,
+      "S_POSS|IE": 73,
+      "S_POSS|NM": 0,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 73,
+      "S_POSS|UD": 1,
+      "S_POSS|all": 74,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 74,
+      "S_VIEW|IE": 73,
+      "S_VIEW|NM": 0,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 73,
+      "S_VIEW|UD": 1,
+      "S_VIEW|all": 74
+     },
+     "episodes": 74,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 67,
+     "matched_references": 67,
+     "references_with_2plus_episodes": 8,
+     "system_events": 74,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    },
+    "30": {
+     "EV-M1": 0.9436619718309859,
+     "EV-M2": 0.9054054054054054,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 74,
+      "S_LINK|IE": 73,
+      "S_LINK|NM": 0,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 73,
+      "S_LINK|UD": 1,
+      "S_LINK|all": 74,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 74,
+      "S_POSS|IE": 73,
+      "S_POSS|NM": 0,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 73,
+      "S_POSS|UD": 1,
+      "S_POSS|all": 74,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 74,
+      "S_VIEW|IE": 73,
+      "S_VIEW|NM": 0,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 73,
+      "S_VIEW|UD": 1,
+      "S_VIEW|all": 74
+     },
+     "episodes": 74,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 67,
+     "matched_references": 67,
+     "references_with_2plus_episodes": 8,
+     "system_events": 74,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    },
+    "5": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.8987341772151899,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 79,
+      "S_LINK|IE": 78,
+      "S_LINK|NM": 0,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 77,
+      "S_LINK|UD": 1,
+      "S_LINK|all": 79,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 79,
+      "S_POSS|IE": 78,
+      "S_POSS|NM": 0,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 77,
+      "S_POSS|UD": 1,
+      "S_POSS|all": 79,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 79,
+      "S_VIEW|IE": 78,
+      "S_VIEW|NM": 0,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 77,
+      "S_VIEW|UD": 1,
+      "S_VIEW|all": 79
+     },
+     "episodes": 79,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 71,
+     "matched_references": 71,
+     "references_with_2plus_episodes": 8,
+     "system_events": 79,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 8,
+     "unmatched_with_same_pair_overlap": 8
+    },
+    "60": {
+     "EV-M1": 0.9014084507042254,
+     "EV-M2": 0.9014084507042254,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 71,
+      "S_LINK|IE": 70,
+      "S_LINK|NM": 0,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 71,
+      "S_LINK|UD": 1,
+      "S_LINK|all": 71,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 71,
+      "S_POSS|IE": 70,
+      "S_POSS|NM": 0,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 71,
+      "S_POSS|UD": 1,
+      "S_POSS|all": 71,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 71,
+      "S_VIEW|IE": 70,
+      "S_VIEW|NM": 0,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 71,
+      "S_VIEW|UD": 1,
+      "S_VIEW|all": 71
+     },
+     "episodes": 71,
+     "episodes_with_continuation_of_nk": 8,
+     "matched_events": 64,
+     "matched_references": 64,
+     "references_with_2plus_episodes": 8,
+     "system_events": 71,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    }
+   },
+   "B-both": {
+    "15": {
+     "EV-M1": 0.8732394366197183,
+     "EV-M2": 0.6813186813186813,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 89,
+      "S_LINK|IE": 90,
+      "S_LINK|NM": 1,
+      "S_LINK|O": 1,
+      "S_LINK|PC": 83,
+      "S_LINK|UD": 0,
+      "S_LINK|all": 91,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 89,
+      "S_POSS|IE": 90,
+      "S_POSS|NM": 1,
+      "S_POSS|O": 1,
+      "S_POSS|PC": 83,
+      "S_POSS|UD": 0,
+      "S_POSS|all": 91,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 89,
+      "S_VIEW|IE": 90,
+      "S_VIEW|NM": 1,
+      "S_VIEW|O": 1,
+      "S_VIEW|PC": 83,
+      "S_VIEW|UD": 0,
+      "S_VIEW|all": 91
+     },
+     "episodes": 91,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 62,
+     "matched_references": 62,
+     "references_with_2plus_episodes": 20,
+     "system_events": 91,
+     "unmatched_by_band": {
+      "(0, 0.1]": 9,
+      "(0.1, 0.2]": 5,
+      "(0.2, 0.3)": 8,
+      "0": 3,
+      ">= 0.3": 4
+     },
+     "unmatched_events": 29,
+     "unmatched_with_same_pair_overlap": 26
+    },
+    "30": {
+     "EV-M1": 0.8732394366197183,
+     "EV-M2": 0.8157894736842105,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 75,
+      "S_LINK|IE": 75,
+      "S_LINK|NM": 1,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 74,
+      "S_LINK|UD": 0,
+      "S_LINK|all": 76,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 75,
+      "S_POSS|IE": 75,
+      "S_POSS|NM": 1,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 74,
+      "S_POSS|UD": 0,
+      "S_POSS|all": 76,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 75,
+      "S_VIEW|IE": 75,
+      "S_VIEW|NM": 1,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 74,
+      "S_VIEW|UD": 0,
+      "S_VIEW|all": 76
+     },
+     "episodes": 76,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 62,
+     "matched_references": 62,
+     "references_with_2plus_episodes": 11,
+     "system_events": 76,
+     "unmatched_by_band": {
+      "(0, 0.1]": 2,
+      "(0.1, 0.2]": 4,
+      "(0.2, 0.3)": 4,
+      "0": 1,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 14,
+     "unmatched_with_same_pair_overlap": 13
+    },
+    "5": {
+     "EV-M1": 0.9014084507042254,
+     "EV-M2": 0.5565217391304348,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 112,
+      "S_LINK|IE": 114,
+      "S_LINK|NM": 1,
+      "S_LINK|O": 1,
+      "S_LINK|PC": 97,
+      "S_LINK|UD": 0,
+      "S_LINK|all": 115,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 112,
+      "S_POSS|IE": 114,
+      "S_POSS|NM": 1,
+      "S_POSS|O": 1,
+      "S_POSS|PC": 97,
+      "S_POSS|UD": 0,
+      "S_POSS|all": 115,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 112,
+      "S_VIEW|IE": 114,
+      "S_VIEW|NM": 1,
+      "S_VIEW|O": 1,
+      "S_VIEW|PC": 97,
+      "S_VIEW|UD": 0,
+      "S_VIEW|all": 115
+     },
+     "episodes": 115,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 64,
+     "matched_references": 64,
+     "references_with_2plus_episodes": 31,
+     "system_events": 115,
+     "unmatched_by_band": {
+      "(0, 0.1]": 24,
+      "(0.1, 0.2]": 12,
+      "(0.2, 0.3)": 8,
+      "0": 3,
+      ">= 0.3": 4
+     },
+     "unmatched_events": 51,
+     "unmatched_with_same_pair_overlap": 48
+    },
+    "60": {
+     "EV-M1": 0.8732394366197183,
+     "EV-M2": 0.8985507246376812,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 0,
+      "S_LINK|H": 69,
+      "S_LINK|IE": 68,
+      "S_LINK|NM": 1,
+      "S_LINK|O": 0,
+      "S_LINK|PC": 68,
+      "S_LINK|UD": 0,
+      "S_LINK|all": 69,
+      "S_POSS|CT": 0,
+      "S_POSS|H": 69,
+      "S_POSS|IE": 68,
+      "S_POSS|NM": 1,
+      "S_POSS|O": 0,
+      "S_POSS|PC": 68,
+      "S_POSS|UD": 0,
+      "S_POSS|all": 69,
+      "S_VIEW|CT": 0,
+      "S_VIEW|H": 69,
+      "S_VIEW|IE": 68,
+      "S_VIEW|NM": 1,
+      "S_VIEW|O": 0,
+      "S_VIEW|PC": 68,
+      "S_VIEW|UD": 0,
+      "S_VIEW|all": 69
+     },
+     "episodes": 69,
+     "episodes_with_continuation_of_nk": 1,
+     "matched_events": 62,
+     "matched_references": 62,
+     "references_with_2plus_episodes": 6,
+     "system_events": 69,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 7,
+     "unmatched_with_same_pair_overlap": 7
+    }
+   },
+   "C-v2": {
+    "15": {
+     "EV-M1": 0.43661971830985913,
+     "EV-M2": 0.34444444444444444,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 1,
+      "S_LINK|H": 81,
+      "S_LINK|IE": 81,
+      "S_LINK|NM": 6,
+      "S_LINK|O": 6,
+      "S_LINK|PC": 77,
+      "S_LINK|UD": 43,
+      "S_LINK|all": 90,
+      "S_POSS|CT": 1,
+      "S_POSS|H": 81,
+      "S_POSS|IE": 81,
+      "S_POSS|NM": 6,
+      "S_POSS|O": 6,
+      "S_POSS|PC": 77,
+      "S_POSS|UD": 43,
+      "S_POSS|all": 90,
+      "S_VIEW|CT": 1,
+      "S_VIEW|H": 81,
+      "S_VIEW|IE": 81,
+      "S_VIEW|NM": 6,
+      "S_VIEW|O": 6,
+      "S_VIEW|PC": 77,
+      "S_VIEW|UD": 43,
+      "S_VIEW|all": 90
+     },
+     "episodes": 90,
+     "episodes_with_continuation_of_nk": 9,
+     "matched_events": 31,
+     "matched_references": 31,
+     "references_with_2plus_episodes": 24,
+     "system_events": 90,
+     "unmatched_by_band": {
+      "(0, 0.1]": 26,
+      "(0.1, 0.2]": 11,
+      "(0.2, 0.3)": 20,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 59,
+     "unmatched_with_same_pair_overlap": 57
+    },
+    "30": {
+     "EV-M1": 0.4507042253521127,
+     "EV-M2": 0.37209302325581395,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 1,
+      "S_LINK|H": 77,
+      "S_LINK|IE": 78,
+      "S_LINK|NM": 6,
+      "S_LINK|O": 6,
+      "S_LINK|PC": 73,
+      "S_LINK|UD": 42,
+      "S_LINK|all": 86,
+      "S_POSS|CT": 1,
+      "S_POSS|H": 77,
+      "S_POSS|IE": 78,
+      "S_POSS|NM": 6,
+      "S_POSS|O": 6,
+      "S_POSS|PC": 73,
+      "S_POSS|UD": 42,
+      "S_POSS|all": 86,
+      "S_VIEW|CT": 1,
+      "S_VIEW|H": 77,
+      "S_VIEW|IE": 78,
+      "S_VIEW|NM": 6,
+      "S_VIEW|O": 6,
+      "S_VIEW|PC": 73,
+      "S_VIEW|UD": 42,
+      "S_VIEW|all": 86
+     },
+     "episodes": 86,
+     "episodes_with_continuation_of_nk": 9,
+     "matched_events": 32,
+     "matched_references": 32,
+     "references_with_2plus_episodes": 22,
+     "system_events": 86,
+     "unmatched_by_band": {
+      "(0, 0.1]": 23,
+      "(0.1, 0.2]": 9,
+      "(0.2, 0.3)": 20,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 54,
+     "unmatched_with_same_pair_overlap": 52
+    },
+    "5": {
+     "EV-M1": 0.39436619718309857,
+     "EV-M2": 0.27722772277227725,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 1,
+      "S_LINK|H": 92,
+      "S_LINK|IE": 90,
+      "S_LINK|NM": 6,
+      "S_LINK|O": 6,
+      "S_LINK|PC": 84,
+      "S_LINK|UD": 46,
+      "S_LINK|all": 101,
+      "S_POSS|CT": 1,
+      "S_POSS|H": 92,
+      "S_POSS|IE": 90,
+      "S_POSS|NM": 6,
+      "S_POSS|O": 6,
+      "S_POSS|PC": 84,
+      "S_POSS|UD": 46,
+      "S_POSS|all": 101,
+      "S_VIEW|CT": 1,
+      "S_VIEW|H": 92,
+      "S_VIEW|IE": 90,
+      "S_VIEW|NM": 6,
+      "S_VIEW|O": 6,
+      "S_VIEW|PC": 84,
+      "S_VIEW|UD": 46,
+      "S_VIEW|all": 101
+     },
+     "episodes": 101,
+     "episodes_with_continuation_of_nk": 9,
+     "matched_events": 28,
+     "matched_references": 28,
+     "references_with_2plus_episodes": 27,
+     "system_events": 101,
+     "unmatched_by_band": {
+      "(0, 0.1]": 34,
+      "(0.1, 0.2]": 14,
+      "(0.2, 0.3)": 21,
+      "0": 4,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 73,
+     "unmatched_with_same_pair_overlap": 69
+    },
+    "60": {
+     "EV-M1": 0.4507042253521127,
+     "EV-M2": 0.37209302325581395,
+     "assessable_references": 71,
+     "candidate_event_counts": {
+      "S_LINK|CT": 1,
+      "S_LINK|H": 77,
+      "S_LINK|IE": 78,
+      "S_LINK|NM": 6,
+      "S_LINK|O": 6,
+      "S_LINK|PC": 73,
+      "S_LINK|UD": 42,
+      "S_LINK|all": 86,
+      "S_POSS|CT": 1,
+      "S_POSS|H": 77,
+      "S_POSS|IE": 78,
+      "S_POSS|NM": 6,
+      "S_POSS|O": 6,
+      "S_POSS|PC": 73,
+      "S_POSS|UD": 42,
+      "S_POSS|all": 86,
+      "S_VIEW|CT": 1,
+      "S_VIEW|H": 77,
+      "S_VIEW|IE": 78,
+      "S_VIEW|NM": 6,
+      "S_VIEW|O": 6,
+      "S_VIEW|PC": 73,
+      "S_VIEW|UD": 42,
+      "S_VIEW|all": 86
+     },
+     "episodes": 86,
+     "episodes_with_continuation_of_nk": 9,
+     "matched_events": 32,
+     "matched_references": 32,
+     "references_with_2plus_episodes": 22,
+     "system_events": 86,
+     "unmatched_by_band": {
+      "(0, 0.1]": 23,
+      "(0.1, 0.2]": 9,
+      "(0.2, 0.3)": 20,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 54,
+     "unmatched_with_same_pair_overlap": 52
+    }
+   },
+   "cameras": 62
+  }
+ },
+ "rule_configuration_ids": {
+  "A": {
+   "15": [
+    "rcf_vchrhfs6dpndfhacer3nwbr4zt"
+   ],
+   "30": [
+    "rcf_eyfmdco2airk7xmfkuq77vkdlm"
+   ],
+   "5": [
+    "rcf_l2jqmbmovogf6zvgwcxyrs6qvx"
+   ],
+   "60": [
+    "rcf_olwdd3bvytmg6gf45fefwo76wh"
+   ]
+  },
+  "B-both": {
+   "15": [
+    "rcf_vchrhfs6dpndfhacer3nwbr4zt"
+   ],
+   "30": [
+    "rcf_eyfmdco2airk7xmfkuq77vkdlm"
+   ],
+   "5": [
+    "rcf_l2jqmbmovogf6zvgwcxyrs6qvx"
+   ],
+   "60": [
+    "rcf_olwdd3bvytmg6gf45fefwo76wh"
+   ]
+  },
+  "C-v2": {
+   "15": [
+    "rcf_vchrhfs6dpndfhacer3nwbr4zt"
+   ],
+   "30": [
+    "rcf_eyfmdco2airk7xmfkuq77vkdlm"
+   ],
+   "5": [
+    "rcf_l2jqmbmovogf6zvgwcxyrs6qvx"
+   ],
+   "60": [
+    "rcf_olwdd3bvytmg6gf45fefwo76wh"
+   ]
+  }
+ },
+ "runtime_s": 330.9,
+ "selection": {
+  "best_ev_m2": 0.46153846153846156,
+  "chosen": 30,
+  "ev_m1_floor": 0.5577777777777777,
+  "kept": [
+   5,
+   15,
+   30,
+   60
+  ],
+  "status": "selected under D-57, not frozen; to be checked against the literature value (item C7) before the v2 freeze",
+  "tied": [
+   30,
+   60
+  ]
+ },
+ "selection_rule": "C-v2, all 116 cameras: keep m_gap with EV-M1 >= EV-M1(5) - 0.02; the highest EV-M2 among them; EV-M2 within 0.005 of the highest is a tie, broken by the smaller m_gap",
+ "status": "diagnostic, tuning subset, not a reported result"
+}
