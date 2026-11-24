@@ -1284,3 +1284,13 @@ Representation and engineering only. With the T24 parameters absent, no measured
 7. **Regression evidence.** `research/m1b/t24_regression.py` rebuilds stored S4 artifacts with the T24 code and no T24 parameter. Result in `research/m1b/t24_regression.json`: M1a A, M1a B and pilot C, each on 96 of 96 tuning cameras that are pilot cameras, all payload-identical and ID-identical. M0, using the method of W-02 §6.2 item 2: a clean clone of e6072ef with the T24 source change applied (one context conflict in `builder.py` resolved to e6072ef's lines plus the T24 lines). Two runs give all 12 artifact IDs and payload prefixes of `reports/M0_report.md`, and every exported file (48, execution records excluded) equals the unpatched run.
 **Pinned by:** `tests/schema/test_t24_schema.py` (items 1, 2), `tests/substrate/test_t24.py` (items 3–6).
 **Reverse:** remove the `@absent_ok` lines and the four fields, the `SubstrateConfig.s_max` field and the T24 branches in `substrate/builder.py` and `substrate/geometry.py`. Nothing stored depends on them except the new `out/m1b/v2t24/` outputs.
+
+## CR-035 (2026-11-23) — D-54 STEP 4 (c): "no counterpart in B-sim-P"   status: OPEN for the Owner at the next STOP (both readings reported; none chosen)
+**Raised by:** implementation agent. **Task:** D-54 STEP 4 (c). **Sections:** D-54 STEP 4 (c) (Owner, 23 Nov 2026); diagnostic only, no contract quantity.
+**Meaning-affecting:** yes, for the diagnostic. It decides which B-tune unmatched events are classified (15 or 50). No contract value, label or reported result depends on it.
+**Gap.** STEP 4 (c) takes "each B-tune unmatched event with no counterpart in B-sim-P (about 42)". It does not define a counterpart. 42 is the net difference of the unmatched totals (105 − 63), not a count of events.
+- **Reading 1.** A counterpart is a B-sim-P G1 system event of the same identity pair whose interval overlaps (temporal IoU > 0), matched or not. **15** events have none.
+- **Reading 2.** A counterpart is such an event that is itself unmatched in B-sim-P. **50** events have none: the 15 above, plus 35 whose overlapping B-sim-P event is matched.
+- Neither reading gives 42, because B-sim-P also has unmatched events with no B-tune counterpart.
+**What proceeds meanwhile:** `research/m1b/d54_person_position.json` and the D-54 report give both readings side by side. Every event carries both flags.
+**Agent's recommendation:** none; the Owner decides.

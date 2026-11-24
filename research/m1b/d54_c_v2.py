@@ -300,6 +300,31 @@ def summarize(cams: list[dict], cols: list[str]) -> dict:
     return out
 
 
+def availability(pipes: list[dict]) -> dict:  # pragma: no cover - driver over stored artifacts
+    """T24.2 (e), (f) availability rows (`d54_b_v2.availability_category`) of C-pkg and C-v2 object-frames, by viewpoint,
+    class and data origin."""
+    import d54_b_v2 as b
+    out: dict = {}
+    for p in pipes:
+        s3 = _load(p["s3"], OUT / "artifacts")
+        cls = {t["trk_id"]: t["class"] for t in s3["track"]}
+        origin = json.loads((OUT / "artifacts" / p["s3"] / "manifest.json").read_text())["data_origin"]
+        for name in RUNS:
+            s4 = _load(p["runs"][name]["s4"], OUT / "artifacts")
+            for r in s4["object_state"]:
+                for view in ("all", p["viewpoint"]):
+                    d = out.setdefault(view, {}).setdefault(name, {}).setdefault(origin, {}).setdefault(cls[r["track_id"]], {})
+                    cat = b.availability_category(r)
+                    d[cat] = d.get(cat, 0) + 1
+    for view in out.values():
+        for run in view.values():
+            for org in run.values():
+                for c, v in org.items():
+                    tot = sum(v.values())
+                    org[c] = {"object_frames": tot, **dict(sorted(v.items())), **{f"share_{k}": v[k] / tot for k in sorted(v)}}
+    return out
+
+
 def aggregate() -> dict:  # pragma: no cover
     import gzip
     import pickle
@@ -333,6 +358,7 @@ def aggregate() -> dict:  # pragma: no cover
             "position": "|estimate - simulator position| of the identity (oracle track's object; detector: the A5.2-matched identity), as the pilot (D-41)",
             "code_commit": sorted({p["code_commit"] for p in pipes}),
             "runtime_s": {k: round(sum(p["seconds"][k] for p in pipes), 1) for k in pipes[0]["seconds"]},
+            "availability_t24": availability(pipes),
             "tuning_116": summarize(cams, all_cols),
             "pilot_96": {"note": "the 96 tuning cameras that are pilot cameras (column C exists only there)",
                          **summarize(pilot, ["A (stored)", "B-tune (stored B)", "C (pilot, stored)", "C-pkg", "C-v2"])}}

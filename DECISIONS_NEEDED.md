@@ -710,3 +710,35 @@ Owner decision (D-56, 23 Nov 2026): Source: the Architect's draft part 1 (`v2_ar
 - Reports state that the T1 and T2 winners are indistinguishable on the tuning cameras: IDF1 0.774 vs 0.775; coverage 19,981 vs 19,980 of 33,677 reference frames.
 - Standing caveat for every report using the package: it accepts forklift detections down to score 0.05. Point precision 0.979 was measured on synthetic SDG data only and is not known for real footage.
 - AR-66 is accepted as written (Architect: representation and engineering only).
+
+## D-57 (2026-11-23) — STOP after the D-54 diagnostics: T24 on the tuning cameras, person positions        status: OPEN
+Task: D-54 STEPS 2–5   Blocking: freezing pre-registration v2 (T24 values, person rule, if any); any run on the reporting cameras; no other task
+Question: the results are in `research/m1b/d54_report.md` (diagnostic, tuning subset, not a reported result). Results only:
+- **T24 implemented opt-in (E-1.2.25).** All T24.4 checks are tests. With the parameters absent, stored S4 of M1a A, M1a B and pilot C is byte-identical on 96 tuning cameras, and the 12 M0 IDs are reproduced at e6072ef.
+- **B-v2 (oracle boxes, BL-6, 116 cameras), EV-M1 / EV-M2:**
+  - B-tune 0.793 / 0.505;
+  - B-T24.2 0.793 / 0.510;
+  - B-T24.1 0.926 / 0.568;
+  - B-both 0.926 / 0.571;
+  - A 1.000 / 0.944.
+  - Forklift error median 1.06 → 0.40 m, P95 1.48 → 1.09 m; share > 2 m 0.1 % → 0.9 %.
+  - The gate nulls 366 person frames (eye level) and no forklift frame.
+- **Detector path (116 cameras), EV-M1 / EV-M2 / CM-03 detected:**
+  - C-pkg 0.526 / 0.333 / 0.51;
+  - C-v2 0.578 / 0.329 / 0.51.
+  - Ceiling C-v2 0.781 / 0.368; eye level 0.394 / 0.277.
+  - On the 96 pilot cameras, column C gives 0.096 / 0.172 / 0.11.
+  - C-v2 unmatched events: 159 of 237 (149 with same-pair overlap); 69 references covered by ≥ 2 episodes; 15 of 237 episodes carry `continuation_of_nk`.
+  - The gate puts 110 forklift and 158 person frames at the resolution limit, all eye level.
+- **Persons (column B):**
+  - median error 0.19 m; along median −0.13 m; box half-depth median 0.38 m;
+  - 296 frames at r ≥ 20 m have median error 76 m.
+  - Unmatched B-tune events with no B-sim-P counterpart: 15 (reading 1) or 50 (reading 2). B alone is below d_pc more often than below d_p.
+  - The 8 references B-sim-P recovers: in 3, the B-sim-P clearance is below d_p and B's is not (1 of these is also below d_pc); 5 are on the same side of both thresholds.
+- **Readings to decide:**
+  - CR-034 (T24.2 on `lost` points): no effect on these data.
+  - CR-035 (STEP 4 (c) counterpart).
+  - AR-67 (representation of T24).
+Options: for the Owner and the Architect: freeze the T24 values as selected, change them, add a person rule, or another instruction.
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______

@@ -1,0 +1,2437 @@
+{
+ "a_person_error_column_b": {
+  "all": {
+   "across_abs_median_m": 0.039001803216043844,
+   "across_signed_median_m": 0.039001803216043844,
+   "along_abs_median_m": 0.16280781160207594,
+   "along_signed_median_m": -0.12968058587696857,
+   "along_signed_p05_m": -0.3617112421903631,
+   "along_signed_p95_m": 1.0000023134953167,
+   "error_median_m": 0.18804026364393528,
+   "error_p95_m": 1.0153396642243215,
+   "n": 31043
+  },
+  "by_bottom_clipped": {
+   "False": {
+    "across_abs_median_m": 0.038546269427599755,
+    "across_signed_median_m": 0.038546269427599755,
+    "along_abs_median_m": 0.16282164323511572,
+    "along_signed_median_m": -0.1304563747519262,
+    "along_signed_p05_m": -0.3620829336873696,
+    "along_signed_p95_m": 1.0236769082568482,
+    "error_median_m": 0.18827649638478655,
+    "error_p95_m": 1.0336088794148994,
+    "n": 30662
+   },
+   "True": {
+    "across_abs_median_m": 0.09683656307454958,
+    "across_signed_median_m": 0.09683656307454958,
+    "along_abs_median_m": 0.15799354227061813,
+    "along_signed_median_m": -0.07245765502446909,
+    "along_signed_p05_m": -0.3018892505680324,
+    "along_signed_p95_m": 0.7080141272985412,
+    "error_median_m": 0.18415161041537376,
+    "error_p95_m": 0.7095689251721041,
+    "n": 381
+   }
+  },
+  "by_evidence_state": {
+   "occluded_predicted": {
+    "across_abs_median_m": 0.01866228117012826,
+    "across_signed_median_m": 0.01866228117012826,
+    "along_abs_median_m": 0.5234333033182346,
+    "along_signed_median_m": -0.5234333033182346,
+    "along_signed_p05_m": -0.7917319944870058,
+    "along_signed_p95_m": -0.21088508638121595,
+    "error_median_m": 0.5234778845330269,
+    "error_p95_m": 0.792746767120713,
+    "n": 131
+   },
+   "truncated": {
+    "across_abs_median_m": 0.03610165130475107,
+    "across_signed_median_m": 0.03610165130475107,
+    "along_abs_median_m": 0.12979045010512996,
+    "along_signed_median_m": -0.10120195358251916,
+    "along_signed_p05_m": -0.33772575951260064,
+    "along_signed_p95_m": 2.7506235673784314,
+    "error_median_m": 0.14929797109267762,
+    "error_p95_m": 2.7665362334171264,
+    "n": 7964
+   },
+   "visible": {
+    "across_abs_median_m": 0.040624279993599716,
+    "across_signed_median_m": 0.040624279993599716,
+    "along_abs_median_m": 0.16964949059676304,
+    "along_signed_median_m": -0.14005038346739287,
+    "along_signed_p05_m": -0.3644256864632486,
+    "along_signed_p95_m": 0.8968847267343556,
+    "error_median_m": 0.1937247369382521,
+    "error_p95_m": 0.9080257533979855,
+    "n": 22948
+   }
+  },
+  "by_r": {
+   "0-2": {
+    "across_abs_median_m": 0.07928075135241305,
+    "across_signed_median_m": 0.07928075135241305,
+    "along_abs_median_m": 0.30280931741900036,
+    "along_signed_median_m": -0.2313896791492896,
+    "along_signed_p05_m": -0.4451535996015744,
+    "along_signed_p95_m": 0.3376498710305608,
+    "error_median_m": 0.3392007925761832,
+    "error_p95_m": 0.47596043696138435,
+    "n": 410
+   },
+   "10-20": {
+    "across_abs_median_m": 0.0721349307181498,
+    "across_signed_median_m": 0.0721349307181498,
+    "along_abs_median_m": 0.20572751142840415,
+    "along_signed_median_m": 0.03385284150691906,
+    "along_signed_p05_m": -0.23579910032676737,
+    "along_signed_p95_m": 5.405927080353416,
+    "error_median_m": 0.2423530407049414,
+    "error_p95_m": 5.417794454643283,
+    "n": 2827
+   },
+   "2-5": {
+    "across_abs_median_m": 0.026106265600484013,
+    "across_signed_median_m": 0.026106265600484013,
+    "along_abs_median_m": 0.13229507525951698,
+    "along_signed_median_m": -0.11553792092884115,
+    "along_signed_p05_m": -0.3677647149978116,
+    "along_signed_p95_m": 0.1098569123639251,
+    "error_median_m": 0.14610437739754628,
+    "error_p95_m": 0.4279394277025993,
+    "n": 7157
+   },
+   "5-10": {
+    "across_abs_median_m": 0.038409261292869076,
+    "across_signed_median_m": 0.038409261292869076,
+    "along_abs_median_m": 0.16282455069380605,
+    "along_signed_median_m": -0.14245159665030618,
+    "along_signed_p05_m": -0.36041846093860597,
+    "along_signed_p95_m": 0.2694791915390976,
+    "error_median_m": 0.188558415589802,
+    "error_p95_m": 0.5428225284394963,
+    "n": 20353
+   },
+   ">=20": {
+    "across_abs_median_m": 1.2313456260432833,
+    "across_signed_median_m": 1.2313456260432833,
+    "along_abs_median_m": 76.11352489938392,
+    "along_signed_median_m": 76.11352489938392,
+    "along_signed_p05_m": 15.533412956422634,
+    "along_signed_p95_m": 642.2932033914319,
+    "error_median_m": 76.15668572723644,
+    "error_p95_m": 642.4340742676026,
+    "n": 296
+   }
+  },
+  "by_viewpoint": {
+   "ceiling": {
+    "across_abs_median_m": 0.0549964689052938,
+    "across_signed_median_m": 0.0549964689052938,
+    "along_abs_median_m": 0.16652196920141785,
+    "along_signed_median_m": -0.14152533400580658,
+    "along_signed_p05_m": -0.36477289379720523,
+    "along_signed_p95_m": 0.6714948580787027,
+    "error_median_m": 0.19926130579049517,
+    "error_p95_m": 0.6984368065142202,
+    "n": 16200
+   },
+   "eye_level": {
+    "across_abs_median_m": 0.02887686563081277,
+    "across_signed_median_m": 0.02887686563081277,
+    "along_abs_median_m": 0.15435373178708026,
+    "along_signed_median_m": -0.10657337397726767,
+    "along_signed_p05_m": -0.3507771800323257,
+    "along_signed_p95_m": 2.4080590734658682,
+    "error_median_m": 0.17337157271202291,
+    "error_p95_m": 2.415008858376232,
+    "n": 14843
+   }
+  }
+ },
+ "b_half_depth": {
+  "along_abs_median_m": 0.16280781160207594,
+  "along_signed_median_m": -0.12968058587696857,
+  "frames_without_3d_box": 0,
+  "half_length_median_m": 0.32768871637130426,
+  "half_width_median_m": 0.2662871181968517,
+  "n": 31043,
+  "p05_m": 0.2655593604293904,
+  "p95_m": 0.6528705822240318,
+  "person_box_half_depth_median_m": 0.3835739940429508
+ },
+ "c_b_tune_unmatched_without_b_sim_p_counterpart": {
+  "b_sim_p_unmatched_total": 63,
+  "b_tune_unmatched_total": 105,
+  "events": [
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": -0.17900176037554127,
+    "clearance_B": 0.22921805620836472,
+    "clearance_P": 0.7294273566105365,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": true,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 186,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.025026258492385305,
+    "person_along_m": -0.4996343446214594,
+    "pred_min_A": -0.17900176037554127,
+    "pred_min_B": 0.22921805620836472,
+    "pred_min_P": 0.7294273566105365,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.9237317314124052,
+    "clearance_B": 0.7844647669279718,
+    "clearance_P": 1.1148638982749275,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 206,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.14098665451634293,
+    "person_along_m": -0.31038158058297116,
+    "pred_min_A": 0.9237317314124052,
+    "pred_min_B": 0.716588534183856,
+    "pred_min_P": 1.1148638982749275,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_2lp5aamd7teaxdq4u3pkws5k6m",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 3.0361988044853514,
+    "clearance_B": 1.7588635560117758,
+    "clearance_P": 1.532272440907861,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 280,
+    "match_type": "false_alert",
+    "person_across_m": 0.23905163147011688,
+    "person_along_m": -0.09687460570500098,
+    "pred_min_A": 1.7445703965538943,
+    "pred_min_B": 0.9044710129821025,
+    "pred_min_P": 1.1371551593813782,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_332qtpyyw3ihunr2zbun5yd33k",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.7724378867388932,
+    "clearance_B": 0.66688768983947,
+    "clearance_P": 0.45286422014855904,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 116,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.03564546375833709,
+    "person_along_m": 0.2209103534719911,
+    "pred_min_A": 0.7724378867388932,
+    "pred_min_B": 0.4295426179849134,
+    "pred_min_P": 0.45286422014855904,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_37ekacsnodmwrchgpzlewx4jrt",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": -0.20571608987599815,
+    "clearance_B": 0.09334730146795117,
+    "clearance_P": 0.48655861011468754,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 204,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.07959505429671013,
+    "person_along_m": -0.52366065389496,
+    "pred_min_A": -0.20571608987599815,
+    "pred_min_B": 0.09334730146795117,
+    "pred_min_P": 0.48655861011468754,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_43j5j7slr44bc4zukjsnwqoffi",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B clearance below d_p only, B-sim-P not",
+    "clearance_A": 2.5150485801363156,
+    "clearance_B": 1.8771859213245359,
+    "clearance_P": 2.2461764300295166,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 224,
+    "match_type": "false_alert",
+    "person_across_m": 0.03584666767536074,
+    "person_along_m": -0.3825017534563663,
+    "pred_min_A": 2.5150485801363156,
+    "pred_min_B": 1.8771859213245359,
+    "pred_min_P": 2.2461764300295166,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_66rdea4tmfjtn2l7agxheafvwn",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 2.0917568442669316,
+    "clearance_B": 3.4088634046942485,
+    "clearance_P": 3.3002905592236087,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 247,
+    "match_type": "false_alert",
+    "person_across_m": 0.22858552055325582,
+    "person_along_m": 0.08553857677965539,
+    "pred_min_A": 2.0917568442669316,
+    "pred_min_B": -0.865,
+    "pred_min_P": 3.3002905592236087,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_66rdea4tmfjtn2l7agxheafvwn",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.6396105898906177,
+    "clearance_B": 1.0614210883340434,
+    "clearance_P": 1.2734577220990437,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 168,
+    "match_type": "false_alert",
+    "person_across_m": 0.10619757124677784,
+    "person_along_m": -0.33410957885222137,
+    "pred_min_A": 0.6396105898906177,
+    "pred_min_B": 1.0614210883340434,
+    "pred_min_P": 1.2734577220990437,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.271857123267314,
+    "clearance_B": 2.3278188479008906,
+    "clearance_P": 2.4660499786112577,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 85,
+    "match_type": "false_alert",
+    "person_across_m": 0.014681913112501225,
+    "person_along_m": -0.1532450884364013,
+    "pred_min_A": 0.21660456539078782,
+    "pred_min_B": 0.8365065926467055,
+    "pred_min_P": 1.3652020775487856,
+    "providers_fired_B": [
+     "R3"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B clearance below d_p only, B-sim-P not",
+    "clearance_A": 1.1426597194600072,
+    "clearance_B": 1.9606928941417168,
+    "clearance_P": 2.3574454888829144,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 107,
+    "match_type": "false_alert",
+    "person_across_m": 0.16787561127660727,
+    "person_along_m": -0.48235631536497064,
+    "pred_min_A": 0.8641245331032499,
+    "pred_min_B": 1.9606928941417168,
+    "pred_min_P": 2.1015461735375083,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.7576621527751095,
+    "clearance_B": 0.8117553672671356,
+    "clearance_P": 1.3690672346626094,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 255,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.00520139767550476,
+    "person_along_m": -0.6253140081994425,
+    "pred_min_A": 0.7540679919927002,
+    "pred_min_B": -0.8649999999999995,
+    "pred_min_P": 1.330413657911437,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_77lexvrcfw2i4erta5kpczomtz",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B below d_p and d_pc, B-sim-P not",
+    "clearance_A": 0.062065133765756175,
+    "clearance_B": 1.970127889678879,
+    "clearance_P": 2.0090945000581666,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 293,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.060016275979074336,
+    "person_along_m": -0.09285618266659365,
+    "pred_min_A": 0.062065133765756175,
+    "pred_min_B": 0.8378005137138238,
+    "pred_min_P": 2.0090945000581666,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_77lexvrcfw2i4erta5kpczomtz",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.9981152472227159,
+    "clearance_B": 0.9986338574415237,
+    "clearance_P": 1.295502289249213,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 207,
+    "match_type": "false_alert",
+    "person_across_m": 0.13347702397319186,
+    "person_along_m": -0.2931300107427239,
+    "pred_min_A": 0.9981152472227159,
+    "pred_min_B": 0.9986338574415237,
+    "pred_min_P": 1.295502289249213,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_7m6fdqjcjwc5j2qzhzisqdskqi",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.1556126163009237,
+    "clearance_B": 1.236811913183412,
+    "clearance_P": 1.0953916662055136,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 269,
+    "match_type": "false_alert",
+    "person_across_m": 0.11320431918291946,
+    "person_along_m": -0.12130441044306595,
+    "pred_min_A": 2.1448528232336814,
+    "pred_min_B": 0.507594505724944,
+    "pred_min_P": 0.36303924177780406,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_7q6mgefieidma2w6blc4ud6jtf",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.48681143170150115,
+    "clearance_B": 1.419238176606663,
+    "clearance_P": 1.5107600258562723,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 154,
+    "match_type": "false_alert",
+    "person_across_m": 0.008958610125548574,
+    "person_along_m": -0.10980273479218938,
+    "pred_min_A": -0.32569860438755754,
+    "pred_min_B": 1.419238176606663,
+    "pred_min_P": 0.757821002564917,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_7xtv4iv4cvxvs42qmpm5tzrtmo",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.8791351191970231,
+    "clearance_B": 1.9702933566936,
+    "clearance_P": 1.943223431715159,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 190,
+    "match_type": "false_alert",
+    "person_across_m": 0.10648039612766029,
+    "person_along_m": -0.007567288600287585,
+    "pred_min_A": 0.8791351191970231,
+    "pred_min_B": 0.6529383628035699,
+    "pred_min_P": 1.943223431715159,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_7xtv4iv4cvxvs42qmpm5tzrtmo",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.7090691903827635,
+    "clearance_B": 2.8056083415804087,
+    "clearance_P": 2.725804656645251,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 261,
+    "match_type": "false_alert",
+    "person_across_m": 0.12925458599808726,
+    "person_along_m": 0.08397878469880188,
+    "pred_min_A": 1.7090691903827635,
+    "pred_min_B": -0.7010222370224137,
+    "pred_min_P": 2.725804656645251,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_7xtv4iv4cvxvs42qmpm5tzrtmo",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.2188229845051184,
+    "clearance_B": 2.3519955292163885,
+    "clearance_P": 2.322682290287776,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 232,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.23972013153357905,
+    "person_along_m": -0.25256203139845274,
+    "pred_min_A": 1.2188229845051184,
+    "pred_min_B": 0.8417504507638811,
+    "pred_min_P": 2.322682290287776,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_aqevs7al6lrn5rz24bk7edskyr",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.7208295195556476,
+    "clearance_B": 1.8618427481164803,
+    "clearance_P": 1.8891210737212158,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 10,
+    "match_type": "false_alert",
+    "person_across_m": 0.03651471183419016,
+    "person_along_m": -0.12530851079691407,
+    "pred_min_A": 2.7208295195556476,
+    "pred_min_B": 1.1917756542492202,
+    "pred_min_P": 1.2145911012536563,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_biz4tmbrdlapc7ew7deprqihb5",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.8811283884213248,
+    "clearance_B": 1.141733123837503,
+    "clearance_P": 1.4155049410511522,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 117,
+    "match_type": "false_alert",
+    "person_across_m": 0.0056521247761911475,
+    "person_along_m": -0.34886230573095023,
+    "pred_min_A": 0.8811283884213248,
+    "pred_min_B": 1.141733123837503,
+    "pred_min_P": 1.4155049410511522,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_bx5kcao7i5vaaghbqpk2sfwm7q",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.6414353560453634,
+    "clearance_B": 1.9055039300576098,
+    "clearance_P": 1.5922915817181513,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 7,
+    "match_type": "false_alert",
+    "person_across_m": 0.09115557179337243,
+    "person_along_m": -0.35893404625992875,
+    "pred_min_A": 2.6414353560453634,
+    "pred_min_B": 1.278562992867885,
+    "pred_min_P": 0.9213396966138327,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_cpsteko5ppqxwnzf3e267ht5uh",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 1.300196322316814,
+    "clearance_B": 1.7364084094313321,
+    "clearance_P": 1.973785710544974,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 138,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.14345483087486752,
+    "person_along_m": -0.2850333384895371,
+    "pred_min_A": 1.300196322316814,
+    "pred_min_B": 1.7364084094313321,
+    "pred_min_P": 1.973785710544974,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_gri5x2lvoqjl2bpx3c76e44alo",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.2556310075555146,
+    "clearance_B": 1.1742998226991008,
+    "clearance_P": 1.02047575891323,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 239,
+    "match_type": "false_alert",
+    "person_across_m": 0.022465309252744155,
+    "person_along_m": -0.33003853485904083,
+    "pred_min_A": 2.2556310075555146,
+    "pred_min_B": 1.1742998226991008,
+    "pred_min_P": 1.02047575891323,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_ij3umex3v5hm7tphaqnqpiwewq",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.265273464286127,
+    "clearance_B": 0.4415899299028075,
+    "clearance_P": 0.19455819417541337,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 259,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.028096186890894437,
+    "person_along_m": 0.39471394935555043,
+    "pred_min_A": 0.265273464286127,
+    "pred_min_B": 0.43461017763554693,
+    "pred_min_P": 0.19455819417541337,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_k7qf72rrctfmdhb3sfzttcbpcj",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.1094955418847148,
+    "clearance_B": 1.406850083376377,
+    "clearance_P": 1.6587331468077362,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 151,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.015897560715108935,
+    "person_along_m": -0.2514893700822807,
+    "pred_min_A": 1.1094955418847148,
+    "pred_min_B": -0.5259616393044488,
+    "pred_min_P": 1.6587331468077362,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_ll34ml5evz6l5pz536yifkpcna",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.026690931387921,
+    "clearance_B": 1.104981918324293,
+    "clearance_P": 0.8924591542801439,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 283,
+    "match_type": "false_alert",
+    "person_across_m": 0.026970189966108168,
+    "person_along_m": -0.21999531506785547,
+    "pred_min_A": 1.5604906421765663,
+    "pred_min_B": 0.616038696905731,
+    "pred_min_P": 0.40292635348409883,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_pyqt6iudsoegdzvwfjwgnxoa5a",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.7035559401377225,
+    "clearance_B": 1.744445490142301,
+    "clearance_P": 1.449574338766347,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 251,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.0009681559329305367,
+    "person_along_m": 0.37562555132129904,
+    "pred_min_A": 0.7035559401377225,
+    "pred_min_B": 1.6231927492550096,
+    "pred_min_P": 1.449574338766347,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_qqrxszlpidmgycukgib5b346ul",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.38972251732538515,
+    "clearance_B": 0.9411240411142441,
+    "clearance_P": 1.0942033752694844,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 151,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.06611828145887436,
+    "person_along_m": -0.1460105257903674,
+    "pred_min_A": 0.38972251732538515,
+    "pred_min_B": 0.9411240411142441,
+    "pred_min_P": 1.0942033752694844,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_rhkddew3z7aari4qkkdjs543ah",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.052695483771424,
+    "clearance_B": 1.509010622625975,
+    "clearance_P": 1.7577892960706472,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 150,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.13108593622585454,
+    "person_along_m": -0.22332800474523729,
+    "pred_min_A": 1.052695483771424,
+    "pred_min_B": -0.6848739796442374,
+    "pred_min_P": 1.7577892960706472,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_roq44vidyh36lboxpkdbrvytyy",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.74473310626338,
+    "clearance_B": 0.9179696870770604,
+    "clearance_P": 0.7745312723768627,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 120,
+    "match_type": "false_alert",
+    "person_across_m": 0.2455536373132848,
+    "person_along_m": 0.11381539507917623,
+    "pred_min_A": 0.74473310626338,
+    "pred_min_B": 0.91796968707706,
+    "pred_min_P": 0.7745312723768627,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_s4s4dx65efjn46i5k5nra3oaf5",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.30011490756574616,
+    "clearance_B": 0.6189562842212339,
+    "clearance_P": 1.113965427185738,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": true,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 91,
+    "match_type": "false_alert",
+    "person_across_m": 0.05728183014817423,
+    "person_along_m": -0.5526936862720978,
+    "pred_min_A": 0.30011490756574616,
+    "pred_min_B": 0.6189562842212339,
+    "pred_min_P": 1.0864647205277251,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_s4s4dx65efjn46i5k5nra3oaf5",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.7517915357210323,
+    "clearance_B": 1.8742288671610117,
+    "clearance_P": 1.8403625856681864,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 0,
+    "match_type": "false_alert",
+    "person_across_m": 0.001938882617064111,
+    "person_along_m": -0.144842195527687,
+    "pred_min_A": 2.7517915357210323,
+    "pred_min_B": 1.8742288671610117,
+    "pred_min_P": 1.8403625856681864,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_sgrttf5brvoetarhf7nvzra6c7",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.5904800441164957,
+    "clearance_B": 1.3258753745117777,
+    "clearance_P": 1.1887614673811138,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 247,
+    "match_type": "false_alert",
+    "person_across_m": 0.06818583402407165,
+    "person_along_m": -0.17411834126986966,
+    "pred_min_A": 2.5904800441164957,
+    "pred_min_B": 1.3258753745117777,
+    "pred_min_P": 1.1887614673811138,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_t53luv5a2oibj4t5m6dycy5m6r",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 2.232326075161832,
+    "clearance_B": 4.557434073838178,
+    "clearance_P": 4.375127496155243,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 265,
+    "match_type": "false_alert",
+    "person_across_m": 0.3122806885630808,
+    "person_along_m": 0.16734133361864476,
+    "pred_min_A": 2.232326075161832,
+    "pred_min_B": -0.8649999999999989,
+    "pred_min_P": 4.375127496155243,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_t6quu3krp5t5vohuptw5e62cx6",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.5242450324725116,
+    "clearance_B": 1.1283748096948258,
+    "clearance_P": 1.0696817481248184,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 134,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.11525610089214738,
+    "person_along_m": 0.06648406972193502,
+    "pred_min_A": 1.5242450324725116,
+    "pred_min_B": -0.8649999999999995,
+    "pred_min_P": 1.0696817481248184,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_t6quu3krp5t5vohuptw5e62cx6",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 2.095900695298816,
+    "clearance_B": 2.937472173117454,
+    "clearance_P": 2.964133596229789,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 253,
+    "match_type": "false_alert",
+    "person_across_m": 0.14787937738413626,
+    "person_along_m": -0.002356071068366883,
+    "pred_min_A": 2.0959006952988153,
+    "pred_min_B": -0.8649999999999991,
+    "pred_min_P": 2.9255445368309387,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_uheyvaaymn7tcggtxg3micgsyj",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": -0.18608909609347019,
+    "clearance_B": -0.4618144864524973,
+    "clearance_P": 0.013285586973712793,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 205,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.09561705181920524,
+    "person_along_m": -0.6009370218138994,
+    "pred_min_A": -0.18608909609347019,
+    "pred_min_B": -0.4618144864524973,
+    "pred_min_P": 0.013285586973712793,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_vxnjlgkf7lks33eh7rhgytme52",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 1.3908525700734113,
+    "clearance_B": 1.2111479632451079,
+    "clearance_P": 1.743154764500859,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 238,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.0051812188565040496,
+    "person_along_m": -0.5342280867356685,
+    "pred_min_A": 1.3908525700734113,
+    "pred_min_B": 1.2111479632451079,
+    "pred_min_P": 1.743154764500859,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_wm76jnewgl64jm662dpbtenk7t",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 1.4390799918806623,
+    "clearance_B": 1.3355420703539844,
+    "clearance_P": 1.1642537277080853,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 234,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.12592343435747236,
+    "person_along_m": 0.12691859537288716,
+    "pred_min_A": 1.4390799918806623,
+    "pred_min_B": 1.3355420703539844,
+    "pred_min_P": 1.1642537277080853,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_wpkwepaxiuwxxplxws3kfmyrpc",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B clearance below d_p only, B-sim-P not",
+    "clearance_A": 0.46564428234208605,
+    "clearance_B": 1.4510870250324743,
+    "clearance_P": 2.0738408992296704,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 101,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.0653117385093078,
+    "person_along_m": -0.6205534599336607,
+    "pred_min_A": 0.46564428234208605,
+    "pred_min_B": 1.4510870250324743,
+    "pred_min_P": 2.0738408992296704,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_wrh2cf4cigsuc2jxxclu5mgr6q",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B clearance below d_p only, B-sim-P not",
+    "clearance_A": 1.5303436761835185,
+    "clearance_B": 1.8764931048348925,
+    "clearance_P": 2.0814234542987773,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 150,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.0431372417132509,
+    "person_along_m": -0.24305717675199004,
+    "pred_min_A": 1.3373755383677997,
+    "pred_min_B": 1.5755357983020402,
+    "pred_min_P": 1.532923163400519,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_wrh2cf4cigsuc2jxxclu5mgr6q",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 3.0454331773669203,
+    "clearance_B": 2.712864959891097,
+    "clearance_P": 2.7435598840407485,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 278,
+    "match_type": "false_alert",
+    "person_across_m": 0.2163677772628544,
+    "person_along_m": -0.022403971956915368,
+    "pred_min_A": 1.8428482788046054,
+    "pred_min_B": -0.19182180056030895,
+    "pred_min_P": 1.3138605315511422,
+    "providers_fired_B": [
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_wrh2cf4cigsuc2jxxclu5mgr6q",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 2.0520811585159704,
+    "clearance_B": 1.3905590716357172,
+    "clearance_P": 1.5884486524985306,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 8,
+    "match_type": "false_alert",
+    "person_across_m": 0.07220544966115233,
+    "person_along_m": -0.19923500970422514,
+    "pred_min_A": 0.5508314476390708,
+    "pred_min_B": 1.3905590716357172,
+    "pred_min_P": 1.5871218454756282,
+    "providers_fired_B": [
+     "R2"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_xeg7ufuwgavgwsd5boixxmejsq",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.4273313356680322,
+    "clearance_B": 1.2127350936877404,
+    "clearance_P": 1.7246159087663722,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 77,
+    "match_type": "false_alert",
+    "person_across_m": 0.03721770558732687,
+    "person_along_m": -0.5107388733096693,
+    "pred_min_A": 0.17831195571753888,
+    "pred_min_B": 1.2127350936877404,
+    "pred_min_P": 1.7246159087663722,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_xeg7ufuwgavgwsd5boixxmejsq",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.8146820331506164,
+    "clearance_B": 0.21292199467730738,
+    "clearance_P": 0.5505915350077961,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": true,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 126,
+    "match_type": "false_alert",
+    "person_across_m": 0.0056014877686292874,
+    "person_along_m": -0.35766687958415405,
+    "pred_min_A": 0.8146820331506164,
+    "pred_min_B": -0.8649999999999998,
+    "pred_min_P": 0.5505915350077961,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_xsiz6vwh37j4trokie3gx3qo5t",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 0.24642812591866575,
+    "clearance_B": 0.25570066223045435,
+    "clearance_P": 0.7106035247670048,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 84,
+    "match_type": "false_alert",
+    "person_across_m": 0.023069437812976823,
+    "person_along_m": -0.520942916143829,
+    "pred_min_A": 0.24464668863768185,
+    "pred_min_B": 0.25570066223045435,
+    "pred_min_P": 0.7106035247670046,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_xsiz6vwh37j4trokie3gx3qo5t",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 0.6061889149635455,
+    "clearance_B": 0.8349382469525639,
+    "clearance_P": 1.1860471762615394,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": true,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 113,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.03571901670408752,
+    "person_along_m": -0.4085199239661538,
+    "pred_min_A": 0.6061889149635455,
+    "pred_min_B": 0.44566614714798175,
+    "pred_min_P": 1.1860471762615394,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_xvdd6scs3uz2qkdfqffgbhjfmm",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B and B-sim-P",
+    "clearance_A": 1.529026338176355,
+    "clearance_B": 0.4672932487635975,
+    "clearance_P": 0.49477085433022167,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 103,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.05460781504455611,
+    "person_along_m": -0.04727403519027673,
+    "pred_min_A": 0.029764729743912588,
+    "pred_min_B": 0.4672932487635975,
+    "pred_min_P": 0.4488988114038342,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_ysptljv5ovfb3qs5tmers2a5oc",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_sim_p_overlapping_events": 1,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 1.3926610308712772,
+    "clearance_B": 1.578595796828651,
+    "clearance_P": 1.334360208772614,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 214,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.29053496213700486,
+    "person_along_m": 0.2296998636274232,
+    "pred_min_A": 1.3926610308712772,
+    "pred_min_B": -0.05601908201791739,
+    "pred_min_P": 1.334360208772614,
+    "providers_fired_B": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "reading_1_no_counterpart": false,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_z7olmuqoapzat3v674zc4rx2cj",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_sim_p_overlapping_events": 0,
+    "cause": "B predicted minimum below d_pc only, B-sim-P not",
+    "clearance_A": 2.142348692702644,
+    "clearance_B": 1.8574344841346917,
+    "clearance_P": 1.9642012065809042,
+    "crossings_B": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 286,
+    "match_type": "duplicate_alert",
+    "person_across_m": 0.009508663649985163,
+    "person_along_m": -0.11365161377942598,
+    "pred_min_A": 1.158732534358928,
+    "pred_min_B": 0.9240489888805814,
+    "pred_min_P": 1.0125008022212119,
+    "providers_fired_B": [
+     "R2",
+     "R3"
+    ],
+    "reading_1_no_counterpart": true,
+    "reading_2_no_counterpart": true,
+    "rec_id": "rec_z7olmuqoapzat3v674zc4rx2cj",
+    "viewpoint": "ceiling"
+   }
+  ],
+  "reading_1": {
+   "by_cause": {
+    "B below d_p and d_pc, B-sim-P not": 1,
+    "B clearance below d_p only, B-sim-P not": 4,
+    "B predicted minimum below d_pc only, B-sim-P not": 8,
+    "same side of d_p and d_pc in B and B-sim-P": 2
+   },
+   "by_viewpoint": {
+    "ceiling": 9,
+    "eye_level": 6
+   },
+   "clearance_A_at_ca": {
+    "median_m": 1.7090691903827635,
+    "n": 15
+   },
+   "clearance_B_at_ca": {
+    "median_m": 1.970127889678879,
+    "n": 15
+   },
+   "clearance_B_minus_B_sim_P_at_ca": {
+    "median_m": -0.038966610379287614,
+    "n": 15,
+    "p05_m": -0.46455297857799716,
+    "p95_m": 0.1306929651343284
+   },
+   "clearance_P_at_ca": {
+    "median_m": 2.322682290287776,
+    "n": 15
+   },
+   "counterpart": "a B-sim-P G1 event of the same pair with temporal IoU > 0",
+   "end_crossings": {
+    "clearance_crosses_d_p": 6,
+    "clearance_crosses_d_pc": 0,
+    "pred_min_crosses_d_pc": 8
+   },
+   "end_no_neighbour_pair_frame": 0,
+   "n": 15,
+   "person_across_at_ca": {
+    "median_m": 0.12925458599808726,
+    "n": 15
+   },
+   "person_along_at_ca": {
+    "median_m": -0.12530851079691407,
+    "n": 15,
+    "p05_m": -0.5238154587355777,
+    "p95_m": 0.11007940383135226
+   },
+   "providers_fired": {
+    "R2": 3,
+    "R2+R3": 2,
+    "R2+R3+R4": 3,
+    "R3": 1,
+    "R3+R4": 6
+   },
+   "start_crossings": {
+    "clearance_crosses_d_p": 5,
+    "clearance_crosses_d_pc": 0,
+    "pred_min_crosses_d_pc": 10
+   },
+   "start_no_neighbour_pair_frame": 0
+  },
+  "reading_2": {
+   "by_cause": {
+    "B below d_p and d_pc, B-sim-P not": 1,
+    "B clearance below d_p only, B-sim-P not": 4,
+    "B predicted minimum below d_pc only, B-sim-P not": 20,
+    "same side of d_p and d_pc in B and B-sim-P": 25
+   },
+   "by_viewpoint": {
+    "ceiling": 33,
+    "eye_level": 17
+   },
+   "clearance_A_at_ca": {
+    "median_m": 1.180741351982563,
+    "n": 50
+   },
+   "clearance_B_at_ca": {
+    "median_m": 1.3630505709948508,
+    "n": 50
+   },
+   "clearance_B_minus_B_sim_P_at_ca": {
+    "median_m": -0.0991442858479109,
+    "n": 50,
+    "p05_m": -0.5229501074760474,
+    "p95_m": 0.2457734692752834
+   },
+   "clearance_P_at_ca": {
+    "median_m": 1.4801671823113096,
+    "n": 50
+   },
+   "counterpart": "an unmatched B-sim-P G1 event of the same pair with temporal IoU > 0",
+   "end_crossings": {
+    "clearance_crosses_d_p": 34,
+    "clearance_crosses_d_pc": 3,
+    "pred_min_crosses_d_pc": 14
+   },
+   "end_no_neighbour_pair_frame": 5,
+   "n": 50,
+   "person_across_at_ca": {
+    "median_m": 0.06571500998409108,
+    "n": 50
+   },
+   "person_along_at_ca": {
+    "median_m": -0.2096151623860403,
+    "n": 50,
+    "p05_m": -0.5792275208200887,
+    "p95_m": 0.22574458405747871
+   },
+   "providers_fired": {
+    "R2": 11,
+    "R2+R3": 9,
+    "R2+R3+R4": 23,
+    "R3": 1,
+    "R3+R4": 6
+   },
+   "start_crossings": {
+    "clearance_crosses_d_p": 21,
+    "clearance_crosses_d_pc": 1,
+    "pred_min_crosses_d_pc": 30
+   },
+   "start_no_neighbour_pair_frame": 3
+  },
+  "readings": "CR-035: counterpart not defined by D-54; both readings reported, neither chosen"
+ },
+ "cameras": 116,
+ "contract": "E-1.2.24 / E-1.2.25 (stored outputs; no rule)",
+ "d_references_recovered_by_b_sim_p": {
+  "by_cause": {
+   "B-sim-P below d_p and d_pc, B not": 1,
+   "B-sim-P clearance below d_p only, B not": 2,
+   "same side of d_p and d_pc in B-sim-P and B": 5
+  },
+  "by_viewpoint": {
+   "ceiling": 7,
+   "eye_level": 1
+  },
+  "clearance_A_at_ca": {
+   "median_m": 0.41961208221208507,
+   "n": 8
+  },
+  "clearance_B_at_ca": {
+   "median_m": 1.6741084835572888,
+   "n": 8
+  },
+  "clearance_B_minus_B_sim_P_at_ca": {
+   "median_m": 0.18812267670300953,
+   "n": 8,
+   "p05_m": -0.002217384991253907,
+   "p95_m": 1.366764440995437
+  },
+  "clearance_P_at_ca": {
+   "median_m": 1.1965274720372818,
+   "n": 8
+  },
+  "end_crossings": {
+   "clearance_crosses_d_p": 7,
+   "clearance_crosses_d_pc": 0,
+   "pred_min_crosses_d_pc": 0
+  },
+  "end_no_neighbour_pair_frame": 1,
+  "n": 8,
+  "person_across_at_ca": {
+   "median_m": 0.19566158284578544,
+   "n": 8
+  },
+  "person_along_at_ca": {
+   "median_m": 0.05461393206849625,
+   "n": 8,
+   "p05_m": -0.21384592280885686,
+   "p95_m": 1.3631539851569556
+  },
+  "providers_fired": {
+   "R2": 2,
+   "R2+R3": 2,
+   "R2+R3+R4": 4
+  },
+  "references": [
+   {
+    "b_tune_same_pair_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B-sim-P and B",
+    "clearance_A": 3.0241624353505934,
+    "clearance_B": 1.7628500900406052,
+    "clearance_P": 1.5300431513347839,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 281,
+    "person_across_m": 0.23660394271624263,
+    "person_along_m": -0.07328166544769645,
+    "pred_min_A": 1.7063339636741823,
+    "pred_min_B": 0.8922724101224062,
+    "pred_min_P": 1.1935522473763303,
+    "providers_fired_B_sim_P": [
+     "R2"
+    ],
+    "rec_id": "rec_332qtpyyw3ihunr2zbun5yd33k",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 1,
+    "cause": "same side of d_p and d_pc in B-sim-P and B",
+    "clearance_A": 0.314075894542653,
+    "clearance_B": 1.1128454227275157,
+    "clearance_P": 1.1100946437385855,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 163,
+    "person_across_m": 0.32020297801569514,
+    "person_along_m": -0.15543120619856113,
+    "pred_min_A": 0.314075894542653,
+    "pred_min_B": 0.3985362089444185,
+    "pred_min_P": 1.1100946437385855,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 2,
+    "cause": "B-sim-P below d_p and d_pc, B not",
+    "clearance_A": -0.17900176037554127,
+    "clearance_B": 2.1204028746503236,
+    "clearance_P": 0.9434955725301553,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 186,
+    "person_across_m": 0.31282500485133924,
+    "person_along_m": 1.1600867721860966,
+    "pred_min_A": -0.17900176037554127,
+    "pred_min_B": 2.1204028746503236,
+    "pred_min_P": 0.9434955725301553,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "rec_id": "rec_7m6fdqjcjwc5j2qzhzisqdskqi",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 2,
+    "cause": "B-sim-P clearance below d_p only, B not",
+    "clearance_A": 0.3725597427357475,
+    "clearance_B": 2.568845404602081,
+    "clearance_P": 1.4385232122122005,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": true
+     }
+    },
+    "frame": 171,
+    "person_across_m": 0.15471922297532822,
+    "person_along_m": 1.1324624073944949,
+    "pred_min_A": 0.28024655759784284,
+    "pred_min_B": 2.568845404602081,
+    "pred_min_P": 1.427876601704676,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3"
+    ],
+    "rec_id": "rec_7xtv4iv4cvxvs42qmpm5tzrtmo",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 1,
+    "cause": "B-sim-P clearance below d_p only, B not",
+    "clearance_A": -0.07573224765926836,
+    "clearance_B": 2.751955508418098,
+    "clearance_P": 1.2829603003359782,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 94,
+    "person_across_m": 0.06404326327725307,
+    "person_along_m": 1.472497869064341,
+    "pred_min_A": -0.07573224765926836,
+    "pred_min_B": 2.2165381193467355,
+    "pred_min_P": 1.2829603003359782,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3"
+    ],
+    "rec_id": "rec_bx5kcao7i5vaaghbqpk2sfwm7q",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 2,
+    "cause": "same side of d_p and d_pc in B-sim-P and B",
+    "clearance_A": 0.74473310626338,
+    "clearance_B": 0.9179696870770604,
+    "clearance_P": 0.7745312723768627,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 120,
+    "person_across_m": 0.2455536373132848,
+    "person_along_m": 0.11381539507917623,
+    "pred_min_A": 0.74473310626338,
+    "pred_min_B": 0.91796968707706,
+    "pred_min_P": 0.7745312723768627,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "rec_id": "rec_s4s4dx65efjn46i5k5nra3oaf5",
+    "viewpoint": "ceiling"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 2,
+    "cause": "same side of d_p and d_pc in B-sim-P and B",
+    "clearance_A": 1.5768319532505601,
+    "clearance_B": 1.5853668770739724,
+    "clearance_P": 1.5882155050635174,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": false,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": false,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 27,
+    "person_across_m": 0.09551233260172896,
+    "person_along_m": -0.004587530942183747,
+    "pred_min_A": 0.07698056642289314,
+    "pred_min_B": 1.5853668770739724,
+    "pred_min_P": 1.5882155050635174,
+    "providers_fired_B_sim_P": [
+     "R2"
+    ],
+    "rec_id": "rec_xeg7ufuwgavgwsd5boixxmejsq",
+    "viewpoint": "eye_level"
+   },
+   {
+    "b_tune_same_pair_overlapping_events": 2,
+    "cause": "same side of d_p and d_pc in B-sim-P and B",
+    "clearance_A": 0.46666442168842265,
+    "clearance_B": 0.40180423966375317,
+    "clearance_P": 0.40284931622960934,
+    "crossings_B_sim_P": {
+     "end": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     },
+     "start": {
+      "clearance_crosses_d_p": true,
+      "clearance_crosses_d_pc": false,
+      "neighbour_frame_in_pow": true,
+      "pred_min_crosses_d_pc": false
+     }
+    },
+    "frame": 59,
+    "person_across_m": 0.02216931151497522,
+    "person_along_m": -0.2453000009836315,
+    "pred_min_A": 0.35214235756938134,
+    "pred_min_B": 0.36203290630932666,
+    "pred_min_P": 0.40284931622960934,
+    "providers_fired_B_sim_P": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "rec_id": "rec_xsiz6vwh37j4trokie3gx3qo5t",
+    "viewpoint": "ceiling"
+   }
+  ],
+  "start_crossings": {
+   "clearance_crosses_d_p": 6,
+   "clearance_crosses_d_pc": 0,
+   "pred_min_crosses_d_pc": 1
+  },
+  "start_no_neighbour_pair_frame": 1
+ },
+ "decision": "D-54 STEP 4",
+ "definitions": "Stored outputs only (column B, column A, and the D-53 step 2 runs B-tune and B-sim-P).\n\n  PYTHONPATH=src .venv/bin/python research/m1b/d54_person_position.py   -> research/m1b/d54_person_position.json\n\n(a) Person position error in column B (stored T-21 `full_camera` S4: oracle boxes, full_camera), with the D1 definitions\n    (`d1_anchor_angle.py`, `cr007_evidence.py`): camera centre C = -R^T t; error = estimate minus the simulator position of\n    the oracle track's identity; line of sight = unit vector from C's floor point to the true position; along = error .\n    line of sight (signed; negative = toward the camera), across = |perpendicular component| (unsigned, as D1). Split by floor distance r from C to the estimate (0-2, 2-5, 5-10, 10-20, >= 20 m), viewpoint,\n    evidence state (object_state.evidence_state) and whether the oracle box is clipped at the image bottom (its bottom\n    edge y2 >= image height - 1 px, the last pixel row; oracle boxes have integer edges inside the image).\n(b) Median along-sight error against the simulator person box's half-depth: half the extent of the SDG 3D box's floor\n    face (its 4 lowest corners) projected on the line of sight, per frame; also half the box's floor length and width.\n(c) Each B-tune unmatched BL-6 G1 event (false or duplicate alert, N4) with no counterpart in B-sim-P. \"Counterpart\" is\n    not defined by D-54 and the count depends on it (CR-035), so both readings are reported, neither chosen:\n    reading 1, a B-sim-P G1 system event of the same identity pair whose time interval overlaps (temporal IoU > 0);\n    reading 2, the same, but only B-sim-P events that are themselves unmatched. At the event's\n    closest-approach frame (its first member episode's `closest_approach_frame`): person error along / across; the\n    clearance of B (B-tune), of B-sim-P (simulator person position, camera forklift) and of A (simulator positions for\n    both); the constant-velocity predicted minimum clearance of each; which providers fired (BL-6: R2 = `P_ep`; R3, R4,\n    R5 = `C_ep_by_provider`; R1 is not in BL-6); and whether the episode starts or ends where the B clearance or the B\n    predicted minimum clearance crosses d_p or d_pc (the pair-frame before the start frame and the last frame of the\n    episode against the next one). Cause class (at the closest-approach frame, B against B-sim-P): which BL-6 threshold the\n    B value is below while the B-sim-P value is not (d_p for the clearance, R2; d_pc for the predicted minimum, R3).\n(d) The same for every reference B-sim-P matches and B-tune does not, at the closest-approach frame of the B-sim-P event.\nThresholds: d_p 2.0 m, d_pc 1.0 m (pre-registration v1 base values, `m1a_common.S5_BASE`).",
+ "recommendation": "none (D-54 STEP 4: classify, do not interpret; recommend no rule)",
+ "status": "diagnostic, tuning subset, not a reported result"
+}

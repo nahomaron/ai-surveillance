@@ -16,7 +16,6 @@ from __future__ import annotations
 import json
 import os
 import sys
-import time
 from types import SimpleNamespace
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -58,16 +57,14 @@ def check_camera(rec: str) -> dict:  # pragma: no cover - driver over stored art
     for name, s4_id, pos in (("M1a A", unit["s4"], positions), ("M1a B", fc["s4"], {})):
         man = _manifest(STORED_M1A, s4_id)
         cal = None if name == "M1a A" else data.calibration
-        t0 = time.time()
         built = builder.SubstrateBuilder().build(data.s1, s3, pos, cal, cfg, _spec(man))
         out[name] = {"stored": s4_id, "rebuilt": built.artifact_id, "payload_equal": built.payload_sha256 == man["payload_sha256"],
-                     "id_equal": built.artifact_id == s4_id, "seconds": round(time.time() - t0, 1)}
+                     "id_equal": built.artifact_id == s4_id}
     man = _manifest(STORED_PILOT, pilot["s4"])
     s3c = SimpleNamespace(artifact_id=pilot["s3"], tables=_tables(STORED_PILOT, pilot["s3"]))
-    t0 = time.time()
     built = builder.SubstrateBuilder().build(data.s1, s3c, {}, data.calibration, cfg, _spec(man))
     out["pilot C"] = {"stored": pilot["s4"], "rebuilt": built.artifact_id, "payload_equal": built.payload_sha256 == man["payload_sha256"],
-                      "id_equal": built.artifact_id == pilot["s4"], "seconds": round(time.time() - t0, 1)}
+                      "id_equal": built.artifact_id == pilot["s4"]}
     return out
 
 

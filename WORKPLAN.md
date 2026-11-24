@@ -955,3 +955,29 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: CR-033 opened (item 1 `tracker_id` for column C; items 2–4 the readings used, for the Owner). AR-66 proposed. Report status line first named the schema bundle E-1.2.21 as the contract; corrected to E-1.2.24 before commit.
 - Next: **STOP (D-56).**
+
+### 2026-11-23 — D-54 / D-56: T24 (E-1.2.25) implemented opt-in; B-v2, C-pkg / C-v2 and person diagnostics on the tuning subset; STOP at D-57
+- Did (tuning cameras only; nothing on the 110 reporting cameras or the test partition; columns A, B, C, C′ and their stored artifacts unchanged; no new detection; tracker = the D-56 package only; on mains power after the first check found the computer on battery; one agent):
+  - **Step 0:** tree clean and level with origin at ee20291. D-55 at its STOP. First check on battery: stopped and asked; continued on AC power.
+  - **Step 1 (1765670):** D-54 and D-56 recorded as DECIDED. CR-007 and CR-026 closed (superseded by T24). CR-033 closed (confirmed as applied). AR-66 accepted. T24 appended to Appendix T verbatim (contract E-1.2.25); CLAUDE.md contract line updated. `v2_notes.md`: T24 candidate values, the package and the ruling-6 caveat, each "selected, not frozen".
+  - **Step 2 (91992e2):** T24.4 tests first (`tests/substrate/test_t24.py` 37, `tests/schema/test_t24_schema.py` 9), then the code.
+    - The geometry is in `substrate/geometry.py`: analytic s(p) for `full_camera` and for the homography, and the T24.1 centre. The builder in `substrate/builder.py` applies the gate, then the shift, in the T24.3 order.
+    - Schema: the four fields carry the new mark `@absent_ok` (AR-67). An absent field writes no Parquet column and enters no hash.
+    - Regression: stored S4 of M1a A, M1a B and pilot C rebuild payload- and ID-identical on 96 of 96 tuning cameras that are pilot cameras (`t24_regression.json`).
+    - M0 (W-02 method): a clean clone of e6072ef with the T24 source change. Two runs give the 12 IDs and payload prefixes of the M0 report; all 48 exported files equal the unpatched run.
+    - Two test-side corrections, recorded in the tests: (1) a hand formula in the builder-level cases used the principal-column formula for off-axis feet; corrected to the off-axis formula `s_hand`, with the T24.4 values unchanged. (2) `test_ar5_config_table_columns` gains `s_max_m_per_px`, the field T24.2 (b) adds.
+  - **Step 3 (ad171de; results 4a8b4b7):** `d54_b_v2.py` on 116 cameras (3 min run, 2 min evaluation) → `d54_b_v2_tune.json`.
+  - **Step 3b (5bdaa53):** `d54_c_v2.py`. Estimate 0.22 h (limit 3 h); run 12 min, evaluation 5 min → `d54_c_v2_tune.json`. The package's tracker run reproduced the stored D-55 grid measures on 116 of 116 cameras.
+  - **Step 4:** `d54_person_position.py` → `d54_person_position.json`.
+  - **Step 5:** `d54_report.py` → `research/m1b/d54_report.md`. All five results files were regenerated twice: byte-identical.
+- Results (diagnostic, tuning subset, not a reported result):
+  - B: EV-M1 / EV-M2: B-tune 0.793 / 0.505; B-T24.2 0.793 / 0.510; B-T24.1 0.926 / 0.568; B-both 0.926 / 0.571; A 1.000 / 0.944. Forklift median error 1.06 → 0.40 m.
+  - Detector path: C-pkg 0.526 / 0.333 (CM-03 0.51); C-v2 0.578 / 0.329. On the 96 pilot cameras, column C gives 0.096 / 0.172 (CM-03 0.11).
+  - Person median error in column B 0.19 m; median along −0.13 m against a box half-depth of 0.38 m.
+- Tests: 2617 passed, 17 skipped (`.venv-det` only), full suite twice: identical. New: `test_t24.py` 37, `test_t24_schema.py` 9, `test_d54_b_v2.py` 10, `test_d54_c_v2.py` 2, `test_d54_person_position.py` 17.
+- Commit: this entry's commit (pushed)
+- Problems / CRs:
+  - CR-034 (T24.2 on `lost` points; reading (a) used): zero lost object-frames on both paths here, so the readings agree.
+  - CR-035 (STEP 4 (c) "counterpart"; both readings reported: 15 or 50).
+  - AR-67 proposed.
+- Next: **STOP (D-57).**

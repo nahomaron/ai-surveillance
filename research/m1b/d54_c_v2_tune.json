@@ -1,0 +1,2019 @@
+{
+ "availability_t24": {
+  "all": {
+   "C-pkg": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 23294,
+      "position": 23294,
+      "share_position": 1.0
+     },
+     "person": {
+      "object_frames": 28836,
+      "other_null": 158,
+      "position": 28678,
+      "share_other_null": 0.0054792620335691496,
+      "share_position": 0.9945207379664308
+     }
+    }
+   },
+   "C-v2": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 23294,
+      "position": 23184,
+      "resolution_limit": 110,
+      "share_position": 0.9952777539280502,
+      "share_resolution_limit": 0.004722246071949859
+     },
+     "person": {
+      "no_floor_intersection": 158,
+      "object_frames": 28836,
+      "position": 28520,
+      "resolution_limit": 158,
+      "share_no_floor_intersection": 0.0054792620335691496,
+      "share_position": 0.9890414759328617,
+      "share_resolution_limit": 0.0054792620335691496
+     }
+    }
+   }
+  },
+  "ceiling": {
+   "C-pkg": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 13698,
+      "position": 13698,
+      "share_position": 1.0
+     },
+     "person": {
+      "object_frames": 14915,
+      "position": 14915,
+      "share_position": 1.0
+     }
+    }
+   },
+   "C-v2": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 13698,
+      "position": 13698,
+      "share_position": 1.0
+     },
+     "person": {
+      "object_frames": 14915,
+      "position": 14915,
+      "share_position": 1.0
+     }
+    }
+   }
+  },
+  "eye_level": {
+   "C-pkg": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 9596,
+      "position": 9596,
+      "share_position": 1.0
+     },
+     "person": {
+      "object_frames": 13921,
+      "other_null": 158,
+      "position": 13763,
+      "share_other_null": 0.011349759356368077,
+      "share_position": 0.9886502406436319
+     }
+    }
+   },
+   "C-v2": {
+    "synthetic_rendered": {
+     "forklift": {
+      "object_frames": 9596,
+      "position": 9486,
+      "resolution_limit": 110,
+      "share_position": 0.9885368903709879,
+      "share_resolution_limit": 0.011463109629012088
+     },
+     "person": {
+      "no_floor_intersection": 158,
+      "object_frames": 13921,
+      "position": 13605,
+      "resolution_limit": 158,
+      "share_no_floor_intersection": 0.011349759356368077,
+      "share_position": 0.9773004812872639,
+      "share_resolution_limit": 0.011349759356368077
+     }
+    }
+   }
+  }
+ },
+ "baseline": "BL-6",
+ "caveat_d56": "The package accepts forklift detections down to score 0.05. Point precision 0.979 was measured on synthetic SDG data only and is not known for real footage.",
+ "checks": {
+  "cameras": 116,
+  "tracker_reproduces_d55_grid": 116
+ },
+ "cm03": "pair coverage (CM-03), pooled as sum of numerators / sum of denominators (as the pilot's point value)",
+ "code_commit": [
+  "4a8b4b706e50d70731a329b0282e487754c43cb9"
+ ],
+ "contract": "E-1.2.25 (Appendix T T24); v1 base values otherwise",
+ "cr034_size_c_v2": {
+  "lost_gated_or_no_floor": 0,
+  "lost_object_frames": 0,
+  "pair_frames_occluded_to_geometry_failure_under_b": 0
+ },
+ "decision": "D-54 STEP 3b",
+ "extent_definitions": "extent_check.py (D-50 item 2): BL-6, G1; unmatched = false or duplicate alerts; same-pair overlap = best temporal IoU with a same-pair reference > 0; references matched (N4) or overlapped by a same-pair episode, by the number of overlapping same-pair episodes; continuation_of_nk counted over all BL-6 episodes and over the overlapping ones",
+ "label_group": "G1",
+ "pilot_96": {
+  "all": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 827.999999999998,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 827.999999999998,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 0.95,
+    "assessable_references": 114,
+    "extent": {
+     "by_episode_count": {
+      "1": 108,
+      "2": 6
+     },
+     "episodes": 120,
+     "episodes_overlapping_references": 120,
+     "episodes_with_continuation_of_nk": 6,
+     "of_which_linked": 6,
+     "of_which_matched": 114,
+     "references_matched_or_overlapped": 114,
+     "references_with_2plus_episodes": 6,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 6,
+     "unmatched_with_same_pair_overlap": 6
+    },
+    "matched_events": 114,
+    "matched_references": 114,
+    "position": {},
+    "system_events": 120,
+    "unmatched_events": 6
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 827.999999999998,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 827.999999999998,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.7719298245614035,
+    "EV-M2": 0.5238095238095238,
+    "assessable_references": 114,
+    "extent": {
+     "by_episode_count": {
+      "1": 74,
+      "2": 20,
+      "3": 9,
+      "4": 5
+     },
+     "episodes": 168,
+     "episodes_overlapping_references": 163,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 88,
+     "references_matched_or_overlapped": 108,
+     "references_with_2plus_episodes": 34,
+     "unmatched_by_band": {
+      "(0, 0.1]": 27,
+      "(0.1, 0.2]": 20,
+      "(0.2, 0.3)": 17,
+      "0": 14,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 80,
+     "unmatched_with_same_pair_overlap": 66
+    },
+    "matched_events": 88,
+    "matched_references": 88,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 27914
+      },
+      "error": {
+       "median_m": 1.0484669874455055,
+       "n": 27914,
+       "p95_m": 1.4863074857142116,
+       "share_gt_1m": 0.526868238160063,
+       "share_gt_2m": 0.001504621336963531,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 369,
+       "position": 25467
+      },
+      "error": {
+       "median_m": 0.18594436936916664,
+       "n": 25467,
+       "p95_m": 0.8297341077500572,
+       "share_gt_1m": 0.043350217929084695,
+       "share_gt_2m": 0.022892370518710486,
+       "share_gt_5m": 0.011622884517218362
+      }
+     }
+    },
+    "system_events": 168,
+    "unmatched_events": 80
+   },
+   "C (pilot, stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 93.13333333333311,
+      "value": 0.11247987117552335
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 97.8333333333331,
+      "value": 0.11815619967793882
+     }
+    },
+    "EV-M1": 0.09649122807017543,
+    "EV-M2": 0.171875,
+    "assessable_references": 114,
+    "extent": {
+     "by_episode_count": {
+      "1": 25,
+      "2": 14,
+      "3": 4
+     },
+     "episodes": 64,
+     "episodes_overlapping_references": 65,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 11,
+     "references_matched_or_overlapped": 43,
+     "references_with_2plus_episodes": 18,
+     "unmatched_by_band": {
+      "(0, 0.1]": 30,
+      "(0.1, 0.2]": 15,
+      "(0.2, 0.3)": 8,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 53,
+     "unmatched_with_same_pair_overlap": 53
+    },
+    "matched_events": 11,
+    "matched_references": 11,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 4494,
+       "position_without_matched_identity": 12
+      },
+      "error": {
+       "median_m": 0.7967636704105047,
+       "n": 4482,
+       "p95_m": 1.4343968428976486,
+       "share_gt_1m": 0.3141454707719768,
+       "share_gt_2m": 0.0,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 152,
+       "position": 23694,
+       "position_without_matched_identity": 167
+      },
+      "error": {
+       "median_m": 0.23907105986681074,
+       "n": 23527,
+       "p95_m": 0.5415837044749613,
+       "share_gt_1m": 0.021337187061673823,
+       "share_gt_2m": 0.010583584817443788,
+       "share_gt_5m": 0.004505461809835508
+      }
+     }
+    },
+    "system_events": 64,
+    "unmatched_events": 53
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 420.99999999999886,
+      "value": 0.5084541062801932
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 479.43333333333203,
+      "value": 0.57902576489533
+     }
+    },
+    "EV-M1": 0.5263157894736842,
+    "EV-M2": 0.35502958579881655,
+    "assessable_references": 114,
+    "extent": {
+     "by_episode_count": {
+      "1": 54,
+      "2": 24,
+      "3": 15,
+      "4": 5
+     },
+     "episodes": 169,
+     "episodes_overlapping_references": 168,
+     "episodes_with_continuation_of_nk": 8,
+     "of_which_linked": 9,
+     "of_which_matched": 60,
+     "references_matched_or_overlapped": 98,
+     "references_with_2plus_episodes": 44,
+     "unmatched_by_band": {
+      "(0, 0.1]": 43,
+      "(0.1, 0.2]": 32,
+      "(0.2, 0.3)": 24,
+      "0": 8,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 109,
+     "unmatched_with_same_pair_overlap": 101
+    },
+    "matched_events": 60,
+    "matched_references": 60,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 18880,
+       "position_without_matched_identity": 770
+      },
+      "error": {
+       "median_m": 0.9093133737141803,
+       "n": 18110,
+       "p95_m": 1.5420980192825537,
+       "share_gt_1m": 0.45726118166758695,
+       "share_gt_2m": 0.000717835450027609,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 152,
+       "position": 23694,
+       "position_without_matched_identity": 167
+      },
+      "error": {
+       "median_m": 0.23907105986681074,
+       "n": 23527,
+       "p95_m": 0.5415837044749613,
+       "share_gt_1m": 0.021337187061673823,
+       "share_gt_2m": 0.010583584817443788,
+       "share_gt_5m": 0.004505461809835508
+      }
+     }
+    },
+    "system_events": 169,
+    "unmatched_events": 109
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 420.99999999999886,
+      "value": 0.5084541062801932
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 827.999999999998,
+      "numerator_s": 479.43333333333203,
+      "value": 0.57902576489533
+     }
+    },
+    "EV-M1": 0.5789473684210527,
+    "EV-M2": 0.3473684210526316,
+    "assessable_references": 114,
+    "extent": {
+     "by_episode_count": {
+      "1": 41,
+      "2": 32,
+      "3": 18,
+      "4": 6
+     },
+     "episodes": 190,
+     "episodes_overlapping_references": 185,
+     "episodes_with_continuation_of_nk": 9,
+     "of_which_linked": 9,
+     "of_which_matched": 66,
+     "references_matched_or_overlapped": 97,
+     "references_with_2plus_episodes": 56,
+     "unmatched_by_band": {
+      "(0, 0.1]": 50,
+      "(0.1, 0.2]": 39,
+      "(0.2, 0.3)": 24,
+      "0": 9,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 124,
+     "unmatched_with_same_pair_overlap": 115
+    },
+    "matched_events": 66,
+    "matched_references": 66,
+    "position": {
+     "forklift": {
+      "availability": {
+       "null:not_observable": 110,
+       "position": 18770,
+       "position_without_matched_identity": 660
+      },
+      "error": {
+       "median_m": 0.4676195238309446,
+       "n": 18110,
+       "p95_m": 0.8112571977446514,
+       "share_gt_1m": 0.02871341800110436,
+       "share_gt_2m": 0.006129210381004969,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 281,
+       "position": 23565,
+       "position_without_matched_identity": 144
+      },
+      "error": {
+       "median_m": 0.2383068267166242,
+       "n": 23421,
+       "p95_m": 0.52003791500005,
+       "share_gt_1m": 0.016907903163827336,
+       "share_gt_2m": 0.00610563169804876,
+       "share_gt_5m": 4.269672516118014e-05
+      }
+     }
+    },
+    "system_events": 190,
+    "unmatched_events": 124
+   },
+   "cameras": 96
+  },
+  "ceiling": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 435.2333333333322,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 435.2333333333322,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 1.0,
+    "assessable_references": 54,
+    "extent": {
+     "by_episode_count": {
+      "1": 54
+     },
+     "episodes": 54,
+     "episodes_overlapping_references": 54,
+     "episodes_with_continuation_of_nk": 0,
+     "of_which_linked": 0,
+     "of_which_matched": 54,
+     "references_matched_or_overlapped": 54,
+     "references_with_2plus_episodes": 0,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "matched_events": 54,
+    "matched_references": 54,
+    "position": {},
+    "system_events": 54,
+    "unmatched_events": 0
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 435.2333333333322,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 435.2333333333322,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.7222222222222222,
+    "EV-M2": 0.4588235294117647,
+    "assessable_references": 54,
+    "extent": {
+     "by_episode_count": {
+      "1": 32,
+      "2": 12,
+      "3": 6,
+      "4": 2
+     },
+     "episodes": 85,
+     "episodes_overlapping_references": 83,
+     "episodes_with_continuation_of_nk": 0,
+     "of_which_linked": 0,
+     "of_which_matched": 39,
+     "references_matched_or_overlapped": 52,
+     "references_with_2plus_episodes": 20,
+     "unmatched_by_band": {
+      "(0, 0.1]": 18,
+      "(0.1, 0.2]": 10,
+      "(0.2, 0.3)": 9,
+      "0": 8,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 46,
+     "unmatched_with_same_pair_overlap": 38
+    },
+    "matched_events": 39,
+    "matched_references": 39,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 13090
+      },
+      "error": {
+       "median_m": 1.1064717474778276,
+       "n": 13090,
+       "p95_m": 1.479422379365257,
+       "share_gt_1m": 0.5759358288770053,
+       "share_gt_2m": 0.0032085561497326204,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 13200
+      },
+      "error": {
+       "median_m": 0.20171434418965098,
+       "n": 13200,
+       "p95_m": 0.6914622665812289,
+       "share_gt_1m": 0.034166666666666665,
+       "share_gt_2m": 0.005984848484848485,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 85,
+    "unmatched_events": 46
+   },
+   "C (pilot, stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 66.99999999999987,
+      "value": 0.15394041510301
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 69.6333333333332,
+      "value": 0.15999080952745665
+     }
+    },
+    "EV-M1": 0.14814814814814814,
+    "EV-M2": 0.1951219512195122,
+    "assessable_references": 54,
+    "extent": {
+     "by_episode_count": {
+      "1": 17,
+      "2": 9,
+      "3": 2
+     },
+     "episodes": 41,
+     "episodes_overlapping_references": 41,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 8,
+     "references_matched_or_overlapped": 28,
+     "references_with_2plus_episodes": 11,
+     "unmatched_by_band": {
+      "(0, 0.1]": 18,
+      "(0.1, 0.2]": 9,
+      "(0.2, 0.3)": 6,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 33,
+     "unmatched_with_same_pair_overlap": 33
+    },
+    "matched_events": 8,
+    "matched_references": 8,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 2669
+      },
+      "error": {
+       "median_m": 0.7617019583396314,
+       "n": 2669,
+       "p95_m": 1.4272892577041176,
+       "share_gt_1m": 0.3001124016485575,
+       "share_gt_2m": 0.0,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 12195,
+       "position_without_matched_identity": 71
+      },
+      "error": {
+       "median_m": 0.23389914047290777,
+       "n": 12124,
+       "p95_m": 0.47928225633687493,
+       "share_gt_1m": 0.010969976905311778,
+       "share_gt_2m": 0.0001649620587264929,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 41,
+    "unmatched_events": 33
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 303.6999999999992,
+      "value": 0.6977866278624492
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 334.4999999999991,
+      "value": 0.7685532664471164
+     }
+    },
+    "EV-M1": 0.7407407407407407,
+    "EV-M2": 0.42105263157894735,
+    "assessable_references": 54,
+    "extent": {
+     "by_episode_count": {
+      "1": 25,
+      "2": 13,
+      "3": 10,
+      "4": 3
+     },
+     "episodes": 95,
+     "episodes_overlapping_references": 94,
+     "episodes_with_continuation_of_nk": 4,
+     "of_which_linked": 4,
+     "of_which_matched": 40,
+     "references_matched_or_overlapped": 51,
+     "references_with_2plus_episodes": 26,
+     "unmatched_by_band": {
+      "(0, 0.1]": 19,
+      "(0.1, 0.2]": 21,
+      "(0.2, 0.3)": 7,
+      "0": 6,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 55,
+     "unmatched_with_same_pair_overlap": 49
+    },
+    "matched_events": 40,
+    "matched_references": 40,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 11243,
+       "position_without_matched_identity": 133
+      },
+      "error": {
+       "median_m": 0.9663954363528584,
+       "n": 11110,
+       "p95_m": 1.5505667612122607,
+       "share_gt_1m": 0.48793879387938793,
+       "share_gt_2m": 9.000900090009e-05,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 12195,
+       "position_without_matched_identity": 71
+      },
+      "error": {
+       "median_m": 0.23389914047290777,
+       "n": 12124,
+       "p95_m": 0.47928225633687493,
+       "share_gt_1m": 0.010969976905311778,
+       "share_gt_2m": 0.0001649620587264929,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 95,
+    "unmatched_events": 55
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 303.6999999999992,
+      "value": 0.6977866278624492
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 435.2333333333322,
+      "numerator_s": 334.4999999999991,
+      "value": 0.7685532664471164
+     }
+    },
+    "EV-M1": 0.7962962962962963,
+    "EV-M2": 0.3944954128440367,
+    "assessable_references": 54,
+    "extent": {
+     "by_episode_count": {
+      "1": 16,
+      "2": 18,
+      "3": 11,
+      "4": 5
+     },
+     "episodes": 109,
+     "episodes_overlapping_references": 107,
+     "episodes_with_continuation_of_nk": 4,
+     "of_which_linked": 4,
+     "of_which_matched": 43,
+     "references_matched_or_overlapped": 50,
+     "references_with_2plus_episodes": 34,
+     "unmatched_by_band": {
+      "(0, 0.1]": 24,
+      "(0.1, 0.2]": 28,
+      "(0.2, 0.3)": 7,
+      "0": 5,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 66,
+     "unmatched_with_same_pair_overlap": 61
+    },
+    "matched_events": 43,
+    "matched_references": 43,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 11243,
+       "position_without_matched_identity": 133
+      },
+      "error": {
+       "median_m": 0.4323632894078331,
+       "n": 11110,
+       "p95_m": 0.6750268518324184,
+       "share_gt_1m": 0.02727272727272727,
+       "share_gt_2m": 0.007110711071107111,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 12195,
+       "position_without_matched_identity": 71
+      },
+      "error": {
+       "median_m": 0.23389914047290777,
+       "n": 12124,
+       "p95_m": 0.47928225633687493,
+       "share_gt_1m": 0.010969976905311778,
+       "share_gt_2m": 0.0001649620587264929,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 109,
+    "unmatched_events": 66
+   },
+   "cameras": 44
+  },
+  "eye_level": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 392.7666666666657,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 392.7666666666657,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 0.9090909090909091,
+    "assessable_references": 60,
+    "extent": {
+     "by_episode_count": {
+      "1": 54,
+      "2": 6
+     },
+     "episodes": 66,
+     "episodes_overlapping_references": 66,
+     "episodes_with_continuation_of_nk": 6,
+     "of_which_linked": 6,
+     "of_which_matched": 60,
+     "references_matched_or_overlapped": 60,
+     "references_with_2plus_episodes": 6,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 2,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 6,
+     "unmatched_with_same_pair_overlap": 6
+    },
+    "matched_events": 60,
+    "matched_references": 60,
+    "position": {},
+    "system_events": 66,
+    "unmatched_events": 6
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 392.7666666666657,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 392.7666666666657,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.8166666666666667,
+    "EV-M2": 0.5903614457831325,
+    "assessable_references": 60,
+    "extent": {
+     "by_episode_count": {
+      "1": 42,
+      "2": 8,
+      "3": 3,
+      "4": 3
+     },
+     "episodes": 83,
+     "episodes_overlapping_references": 80,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 49,
+     "references_matched_or_overlapped": 56,
+     "references_with_2plus_episodes": 14,
+     "unmatched_by_band": {
+      "(0, 0.1]": 9,
+      "(0.1, 0.2]": 10,
+      "(0.2, 0.3)": 8,
+      "0": 6,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 34,
+     "unmatched_with_same_pair_overlap": 28
+    },
+    "matched_events": 49,
+    "matched_references": 49,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 14824
+      },
+      "error": {
+       "median_m": 0.9725723319308591,
+       "n": 14824,
+       "p95_m": 1.4993383862708778,
+       "share_gt_1m": 0.48354020507285483,
+       "share_gt_2m": 0.0,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 369,
+       "position": 12267
+      },
+      "error": {
+       "median_m": 0.1656393582844046,
+       "n": 12267,
+       "p95_m": 1.2303873946359603,
+       "share_gt_1m": 0.053232249123665115,
+       "share_gt_2m": 0.041085840058694055,
+       "share_gt_5m": 0.02412977908209016
+      }
+     }
+    },
+    "system_events": 83,
+    "unmatched_events": 34
+   },
+   "C (pilot, stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 26.13333333333324,
+      "value": 0.06653653568700664
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 28.1999999999999,
+      "value": 0.07179835356021379
+     }
+    },
+    "EV-M1": 0.05,
+    "EV-M2": 0.13043478260869565,
+    "assessable_references": 60,
+    "extent": {
+     "by_episode_count": {
+      "1": 8,
+      "2": 5,
+      "3": 2
+     },
+     "episodes": 23,
+     "episodes_overlapping_references": 24,
+     "episodes_with_continuation_of_nk": 0,
+     "of_which_linked": 0,
+     "of_which_matched": 3,
+     "references_matched_or_overlapped": 15,
+     "references_with_2plus_episodes": 7,
+     "unmatched_by_band": {
+      "(0, 0.1]": 12,
+      "(0.1, 0.2]": 6,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 20,
+     "unmatched_with_same_pair_overlap": 20
+    },
+    "matched_events": 3,
+    "matched_references": 3,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 1825,
+       "position_without_matched_identity": 12
+      },
+      "error": {
+       "median_m": 0.818568723970047,
+       "n": 1813,
+       "p95_m": 1.4387138161931796,
+       "share_gt_1m": 0.3348041919470491,
+       "share_gt_2m": 0.0,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 152,
+       "position": 11499,
+       "position_without_matched_identity": 96
+      },
+      "error": {
+       "median_m": 0.2450901185038412,
+       "n": 11403,
+       "p95_m": 0.6292918533027881,
+       "share_gt_1m": 0.03235990528808208,
+       "share_gt_2m": 0.02166096641234763,
+       "share_gt_5m": 0.00929579935104797
+      }
+     }
+    },
+    "system_events": 23,
+    "unmatched_events": 20
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 117.29999999999968,
+      "value": 0.29865059831961294
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 144.93333333333294,
+      "value": 0.3690061953662055
+     }
+    },
+    "EV-M1": 0.3333333333333333,
+    "EV-M2": 0.2702702702702703,
+    "assessable_references": 60,
+    "extent": {
+     "by_episode_count": {
+      "1": 29,
+      "2": 11,
+      "3": 5,
+      "4": 2
+     },
+     "episodes": 74,
+     "episodes_overlapping_references": 74,
+     "episodes_with_continuation_of_nk": 4,
+     "of_which_linked": 5,
+     "of_which_matched": 20,
+     "references_matched_or_overlapped": 47,
+     "references_with_2plus_episodes": 18,
+     "unmatched_by_band": {
+      "(0, 0.1]": 24,
+      "(0.1, 0.2]": 11,
+      "(0.2, 0.3)": 17,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 54,
+     "unmatched_with_same_pair_overlap": 52
+    },
+    "matched_events": 20,
+    "matched_references": 20,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 7637,
+       "position_without_matched_identity": 637
+      },
+      "error": {
+       "median_m": 0.8434295417821467,
+       "n": 7000,
+       "p95_m": 1.518104351505322,
+       "share_gt_1m": 0.4085714285714286,
+       "share_gt_2m": 0.0017142857142857142,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 152,
+       "position": 11499,
+       "position_without_matched_identity": 96
+      },
+      "error": {
+       "median_m": 0.2450901185038412,
+       "n": 11403,
+       "p95_m": 0.6292918533027881,
+       "share_gt_1m": 0.03235990528808208,
+       "share_gt_2m": 0.02166096641234763,
+       "share_gt_5m": 0.00929579935104797
+      }
+     }
+    },
+    "system_events": 74,
+    "unmatched_events": 54
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 117.29999999999968,
+      "value": 0.29865059831961294
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 392.7666666666657,
+      "numerator_s": 144.93333333333294,
+      "value": 0.3690061953662055
+     }
+    },
+    "EV-M1": 0.38333333333333336,
+    "EV-M2": 0.2839506172839506,
+    "assessable_references": 60,
+    "extent": {
+     "by_episode_count": {
+      "1": 25,
+      "2": 14,
+      "3": 7,
+      "4": 1
+     },
+     "episodes": 81,
+     "episodes_overlapping_references": 78,
+     "episodes_with_continuation_of_nk": 5,
+     "of_which_linked": 5,
+     "of_which_matched": 23,
+     "references_matched_or_overlapped": 47,
+     "references_with_2plus_episodes": 22,
+     "unmatched_by_band": {
+      "(0, 0.1]": 26,
+      "(0.1, 0.2]": 11,
+      "(0.2, 0.3)": 17,
+      "0": 4,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 58,
+     "unmatched_with_same_pair_overlap": 54
+    },
+    "matched_events": 23,
+    "matched_references": 23,
+    "position": {
+     "forklift": {
+      "availability": {
+       "null:not_observable": 110,
+       "position": 7527,
+       "position_without_matched_identity": 527
+      },
+      "error": {
+       "median_m": 0.49443129217776965,
+       "n": 7000,
+       "p95_m": 0.884481063295853,
+       "share_gt_1m": 0.031,
+       "share_gt_2m": 0.004571428571428572,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 281,
+       "position": 11370,
+       "position_without_matched_identity": 73
+      },
+      "error": {
+       "median_m": 0.24349965539941032,
+       "n": 11297,
+       "p95_m": 0.5731053617579559,
+       "share_gt_1m": 0.023280516951403027,
+       "share_gt_2m": 0.01248118969637957,
+       "share_gt_5m": 8.851907586084801e-05
+      }
+     }
+    },
+    "system_events": 81,
+    "unmatched_events": 58
+   },
+   "cameras": 52
+  },
+  "note": "the 96 tuning cameras that are pilot cameras (column C exists only there)"
+ },
+ "position": "|estimate - simulator position| of the identity (oracle track's object; detector: the A5.2-matched identity), as the pilot (D-41)",
+ "runs": {
+  "A (stored)": "column A, stored T-21 base unit",
+  "B-tune (stored B)": "column B, stored T-21 full_camera unit",
+  "C (pilot, stored)": "pilot column C (column C tracker settings), stored; only on the 96 tuning cameras that are pilot cameras",
+  "C-pkg": "S2 stored -> S3 D-56 package -> S4 full_camera, T24 off -> S5 BL-6 (the tracker effect alone)",
+  "C-v2": "as C-pkg with T24 on (T24.2 gate s_max 0.1; T24.1 forklift shift d 1.00 m, r_taper 2.0 m)"
+ },
+ "runtime_s": {
+  "C-pkg": 48.2,
+  "C-v2": 52.4,
+  "load": 10.7,
+  "s3": 10.1,
+  "tracker": 584.8
+ },
+ "s2": {
+  "pilot": 96,
+  "probe_d55": 20
+ },
+ "status": "diagnostic, tuning subset, not a reported result",
+ "t24_values_c_v2": {
+  "anchor_offset_m": 1.0,
+  "anchor_taper_m": 2.0,
+  "forklift_anchor": "box_bottom_centre",
+  "s_max_m_per_px": 0.1,
+  "status": "D-54 v2 candidate values, selected, not frozen"
+ },
+ "tracker_package": "trc_7flfpx52d2siiljxkqwcorr7nz",
+ "tuning_116": {
+  "all": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 1006.6333333333308,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 1006.6333333333308,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 0.9440559440559441,
+    "assessable_references": 135,
+    "extent": {
+     "by_episode_count": {
+      "1": 127,
+      "2": 8
+     },
+     "episodes": 143,
+     "episodes_overlapping_references": 143,
+     "episodes_with_continuation_of_nk": 8,
+     "of_which_linked": 8,
+     "of_which_matched": 135,
+     "references_matched_or_overlapped": 135,
+     "references_with_2plus_episodes": 8,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 8,
+     "unmatched_with_same_pair_overlap": 8
+    },
+    "matched_events": 135,
+    "matched_references": 135,
+    "position": {},
+    "system_events": 143,
+    "unmatched_events": 8
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 1006.6333333333308,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 1006.6333333333308,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.7925925925925926,
+    "EV-M2": 0.5047169811320755,
+    "assessable_references": 135,
+    "extent": {
+     "by_episode_count": {
+      "1": 83,
+      "2": 27,
+      "3": 12,
+      "4": 7
+     },
+     "episodes": 212,
+     "episodes_overlapping_references": 203,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 107,
+     "references_matched_or_overlapped": 129,
+     "references_with_2plus_episodes": 46,
+     "unmatched_by_band": {
+      "(0, 0.1]": 37,
+      "(0.1, 0.2]": 25,
+      "(0.2, 0.3)": 22,
+      "0": 19,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 105,
+     "unmatched_with_same_pair_overlap": 86
+    },
+    "matched_events": 107,
+    "matched_references": 107,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 33707
+      },
+      "error": {
+       "median_m": 1.0568645556204395,
+       "n": 33707,
+       "p95_m": 1.484438863364195,
+       "share_gt_1m": 0.533005013795354,
+       "share_gt_2m": 0.0012460319814875248,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 383,
+       "position": 31043
+      },
+      "error": {
+       "median_m": 0.18804026364393525,
+       "n": 31043,
+       "p95_m": 1.0153396642243195,
+       "share_gt_1m": 0.050478368714363946,
+       "share_gt_2m": 0.0293463904906098,
+       "share_gt_5m": 0.015397996327674517
+      }
+     }
+    },
+    "system_events": 212,
+    "unmatched_events": 105
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 511.433333333332,
+      "value": 0.5080631809000297
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 582.7999999999985,
+      "value": 0.5789595681976224
+     }
+    },
+    "EV-M1": 0.5259259259259259,
+    "EV-M2": 0.3333333333333333,
+    "assessable_references": 135,
+    "extent": {
+     "by_episode_count": {
+      "1": 60,
+      "2": 30,
+      "3": 17,
+      "4": 10
+     },
+     "episodes": 213,
+     "episodes_overlapping_references": 212,
+     "episodes_with_continuation_of_nk": 13,
+     "of_which_linked": 14,
+     "of_which_matched": 71,
+     "references_matched_or_overlapped": 117,
+     "references_with_2plus_episodes": 57,
+     "unmatched_by_band": {
+      "(0, 0.1]": 61,
+      "(0.1, 0.2]": 38,
+      "(0.2, 0.3)": 33,
+      "0": 8,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 142,
+     "unmatched_with_same_pair_overlap": 134
+    },
+    "matched_events": 71,
+    "matched_references": 71,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 23294,
+       "position_without_matched_identity": 1036
+      },
+      "error": {
+       "median_m": 0.9065905472992142,
+       "n": 22258,
+       "p95_m": 1.541513869683741,
+       "share_gt_1m": 0.457273789199389,
+       "share_gt_2m": 0.0006289873303980591,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 158,
+       "position": 28678,
+       "position_without_matched_identity": 247
+      },
+      "error": {
+       "median_m": 0.2373254089974825,
+       "n": 28431,
+       "p95_m": 0.56402955668763,
+       "share_gt_1m": 0.024198937779184693,
+       "share_gt_2m": 0.012697407759136154,
+       "share_gt_5m": 0.00594421582075903
+      }
+     }
+    },
+    "system_events": 213,
+    "unmatched_events": 142
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 511.433333333332,
+      "value": 0.5080631809000297
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 1006.6333333333308,
+      "numerator_s": 582.7999999999985,
+      "value": 0.5789595681976224
+     }
+    },
+    "EV-M1": 0.5777777777777777,
+    "EV-M2": 0.3291139240506329,
+    "assessable_references": 135,
+    "extent": {
+     "by_episode_count": {
+      "1": 47,
+      "2": 37,
+      "3": 20,
+      "4": 12
+     },
+     "episodes": 237,
+     "episodes_overlapping_references": 231,
+     "episodes_with_continuation_of_nk": 15,
+     "of_which_linked": 15,
+     "of_which_matched": 78,
+     "references_matched_or_overlapped": 116,
+     "references_with_2plus_episodes": 69,
+     "unmatched_by_band": {
+      "(0, 0.1]": 66,
+      "(0.1, 0.2]": 47,
+      "(0.2, 0.3)": 34,
+      "0": 10,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 159,
+     "unmatched_with_same_pair_overlap": 149
+    },
+    "matched_events": 78,
+    "matched_references": 78,
+    "position": {
+     "forklift": {
+      "availability": {
+       "null:not_observable": 110,
+       "position": 23184,
+       "position_without_matched_identity": 926
+      },
+      "error": {
+       "median_m": 0.4653869704373199,
+       "n": 22258,
+       "p95_m": 0.8055156442644105,
+       "share_gt_1m": 0.028978344864767722,
+       "share_gt_2m": 0.0060652349716955704,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 316,
+       "position": 28520,
+       "position_without_matched_identity": 221
+      },
+      "error": {
+       "median_m": 0.23673846423885284,
+       "n": 28299,
+       "p95_m": 0.5402719382852198,
+       "share_gt_1m": 0.019647337361744233,
+       "share_gt_2m": 0.008092158733524153,
+       "share_gt_5m": 0.0013428036326371957
+      }
+     }
+    },
+    "system_events": 237,
+    "unmatched_events": 159
+   },
+   "cameras": 116
+  },
+  "ceiling": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 535.0333333333319,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 535.0333333333319,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 1.0,
+    "assessable_references": 64,
+    "extent": {
+     "by_episode_count": {
+      "1": 64
+     },
+     "episodes": 64,
+     "episodes_overlapping_references": 64,
+     "episodes_with_continuation_of_nk": 0,
+     "of_which_linked": 0,
+     "of_which_matched": 64,
+     "references_matched_or_overlapped": 64,
+     "references_with_2plus_episodes": 0,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "matched_events": 64,
+    "matched_references": 64,
+    "position": {},
+    "system_events": 64,
+    "unmatched_events": 0
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 535.0333333333319,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 535.0333333333319,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.75,
+    "EV-M2": 0.4485981308411215,
+    "assessable_references": 64,
+    "extent": {
+     "by_episode_count": {
+      "1": 37,
+      "2": 14,
+      "3": 8,
+      "4": 3
+     },
+     "episodes": 107,
+     "episodes_overlapping_references": 102,
+     "episodes_with_continuation_of_nk": 0,
+     "of_which_linked": 0,
+     "of_which_matched": 48,
+     "references_matched_or_overlapped": 62,
+     "references_with_2plus_episodes": 25,
+     "unmatched_by_band": {
+      "(0, 0.1]": 23,
+      "(0.1, 0.2]": 13,
+      "(0.2, 0.3)": 11,
+      "0": 11,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 59,
+     "unmatched_with_same_pair_overlap": 48
+    },
+    "matched_events": 48,
+    "matched_references": 48,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 16090
+      },
+      "error": {
+       "median_m": 1.1074309125245683,
+       "n": 16090,
+       "p95_m": 1.481707145349522,
+       "share_gt_1m": 0.5832815413300186,
+       "share_gt_2m": 0.0026103169670602857,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 16200
+      },
+      "error": {
+       "median_m": 0.19926130579049522,
+       "n": 16200,
+       "p95_m": 0.6984368065142202,
+       "share_gt_1m": 0.035987654320987654,
+       "share_gt_2m": 0.005864197530864198,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 107,
+    "unmatched_events": 59
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 367.8666666666657,
+      "value": 0.687558407575852
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 406.43333333333226,
+      "value": 0.7596411438539654
+     }
+    },
+    "EV-M1": 0.71875,
+    "EV-M2": 0.3898305084745763,
+    "assessable_references": 64,
+    "extent": {
+     "by_episode_count": {
+      "1": 28,
+      "2": 16,
+      "3": 12,
+      "4": 5
+     },
+     "episodes": 118,
+     "episodes_overlapping_references": 117,
+     "episodes_with_continuation_of_nk": 6,
+     "of_which_linked": 6,
+     "of_which_matched": 46,
+     "references_matched_or_overlapped": 61,
+     "references_with_2plus_episodes": 33,
+     "unmatched_by_band": {
+      "(0, 0.1]": 27,
+      "(0.1, 0.2]": 25,
+      "(0.2, 0.3)": 12,
+      "0": 6,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 72,
+     "unmatched_with_same_pair_overlap": 66
+    },
+    "matched_events": 46,
+    "matched_references": 46,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 13698,
+       "position_without_matched_identity": 133
+      },
+      "error": {
+       "median_m": 0.9550218729376201,
+       "n": 13565,
+       "p95_m": 1.5508179794799355,
+       "share_gt_1m": 0.48308145963877624,
+       "share_gt_2m": 7.371913011426465e-05,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 14915,
+       "position_without_matched_identity": 88
+      },
+      "error": {
+       "median_m": 0.23244931680364603,
+       "n": 14827,
+       "p95_m": 0.5019490054851263,
+       "share_gt_1m": 0.013151682740945572,
+       "share_gt_2m": 0.00013488905375328792,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 118,
+    "unmatched_events": 72
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 367.8666666666657,
+      "value": 0.687558407575852
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 535.0333333333319,
+      "numerator_s": 406.43333333333226,
+      "value": 0.7596411438539654
+     }
+    },
+    "EV-M1": 0.78125,
+    "EV-M2": 0.36764705882352944,
+    "assessable_references": 64,
+    "extent": {
+     "by_episode_count": {
+      "1": 18,
+      "2": 21,
+      "3": 13,
+      "4": 8
+     },
+     "episodes": 136,
+     "episodes_overlapping_references": 133,
+     "episodes_with_continuation_of_nk": 6,
+     "of_which_linked": 6,
+     "of_which_matched": 50,
+     "references_matched_or_overlapped": 60,
+     "references_with_2plus_episodes": 42,
+     "unmatched_by_band": {
+      "(0, 0.1]": 32,
+      "(0.1, 0.2]": 33,
+      "(0.2, 0.3)": 13,
+      "0": 6,
+      ">= 0.3": 2
+     },
+     "unmatched_events": 86,
+     "unmatched_with_same_pair_overlap": 80
+    },
+    "matched_events": 50,
+    "matched_references": 50,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 13698,
+       "position_without_matched_identity": 133
+      },
+      "error": {
+       "median_m": 0.42305980980173097,
+       "n": 13565,
+       "p95_m": 0.6551836804002873,
+       "share_gt_1m": 0.024843346848507187,
+       "share_gt_2m": 0.005823811279026907,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "position": 14915,
+       "position_without_matched_identity": 88
+      },
+      "error": {
+       "median_m": 0.23244931680364603,
+       "n": 14827,
+       "p95_m": 0.5019490054851263,
+       "share_gt_1m": 0.013151682740945572,
+       "share_gt_2m": 0.00013488905375328792,
+       "share_gt_5m": 0.0
+      }
+     }
+    },
+    "system_events": 136,
+    "unmatched_events": 86
+   },
+   "cameras": 54
+  },
+  "eye_level": {
+   "A (stored)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 471.59999999999883,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 471.59999999999883,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 1.0,
+    "EV-M2": 0.8987341772151899,
+    "assessable_references": 71,
+    "extent": {
+     "by_episode_count": {
+      "1": 63,
+      "2": 8
+     },
+     "episodes": 79,
+     "episodes_overlapping_references": 79,
+     "episodes_with_continuation_of_nk": 8,
+     "of_which_linked": 8,
+     "of_which_matched": 71,
+     "references_matched_or_overlapped": 71,
+     "references_with_2plus_episodes": 8,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 2,
+      "0": 0,
+      ">= 0.3": 3
+     },
+     "unmatched_events": 8,
+     "unmatched_with_same_pair_overlap": 8
+    },
+    "matched_events": 71,
+    "matched_references": 71,
+    "position": {},
+    "system_events": 79,
+    "unmatched_events": 8
+   },
+   "B-tune (stored B)": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 471.59999999999883,
+      "value": 1.0
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 471.59999999999883,
+      "value": 1.0
+     }
+    },
+    "EV-M1": 0.8309859154929577,
+    "EV-M2": 0.5619047619047619,
+    "assessable_references": 71,
+    "extent": {
+     "by_episode_count": {
+      "1": 46,
+      "2": 13,
+      "3": 4,
+      "4": 4
+     },
+     "episodes": 105,
+     "episodes_overlapping_references": 101,
+     "episodes_with_continuation_of_nk": 1,
+     "of_which_linked": 1,
+     "of_which_matched": 59,
+     "references_matched_or_overlapped": 67,
+     "references_with_2plus_episodes": 21,
+     "unmatched_by_band": {
+      "(0, 0.1]": 14,
+      "(0.1, 0.2]": 12,
+      "(0.2, 0.3)": 11,
+      "0": 8,
+      ">= 0.3": 1
+     },
+     "unmatched_events": 46,
+     "unmatched_with_same_pair_overlap": 38
+    },
+    "matched_events": 59,
+    "matched_references": 59,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 17617
+      },
+      "error": {
+       "median_m": 0.9770478778872155,
+       "n": 17617,
+       "p95_m": 1.4917743054512898,
+       "share_gt_1m": 0.4870863370607936,
+       "share_gt_2m": 0.0,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 383,
+       "position": 14843
+      },
+      "error": {
+       "median_m": 0.17337157271202294,
+       "n": 14843,
+       "p95_m": 2.415008858376232,
+       "share_gt_1m": 0.06629387590109816,
+       "share_gt_2m": 0.0549754092838375,
+       "share_gt_5m": 0.032203732399110695
+      }
+     }
+    },
+    "system_events": 105,
+    "unmatched_events": 46
+   },
+   "C-pkg": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 143.5666666666663,
+      "value": 0.30442465366129484
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 176.3666666666662,
+      "value": 0.3739751201583262
+     }
+    },
+    "EV-M1": 0.352112676056338,
+    "EV-M2": 0.2631578947368421,
+    "assessable_references": 71,
+    "extent": {
+     "by_episode_count": {
+      "1": 32,
+      "2": 14,
+      "3": 5,
+      "4": 5
+     },
+     "episodes": 95,
+     "episodes_overlapping_references": 95,
+     "episodes_with_continuation_of_nk": 7,
+     "of_which_linked": 8,
+     "of_which_matched": 25,
+     "references_matched_or_overlapped": 56,
+     "references_with_2plus_episodes": 24,
+     "unmatched_by_band": {
+      "(0, 0.1]": 34,
+      "(0.1, 0.2]": 13,
+      "(0.2, 0.3)": 21,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 70,
+     "unmatched_with_same_pair_overlap": 68
+    },
+    "matched_events": 25,
+    "matched_references": 25,
+    "position": {
+     "forklift": {
+      "availability": {
+       "position": 9596,
+       "position_without_matched_identity": 903
+      },
+      "error": {
+       "median_m": 0.8474877262604283,
+       "n": 8693,
+       "p95_m": 1.5103541475054931,
+       "share_gt_1m": 0.41700218566662833,
+       "share_gt_2m": 0.001495456114114805,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 158,
+       "position": 13763,
+       "position_without_matched_identity": 159
+      },
+      "error": {
+       "median_m": 0.24625056077278407,
+       "n": 13604,
+       "p95_m": 0.6553982364535181,
+       "share_gt_1m": 0.03623934137018524,
+       "share_gt_2m": 0.026389297265510144,
+       "share_gt_5m": 0.012422816818582769
+      }
+     }
+    },
+    "system_events": 95,
+    "unmatched_events": 70
+   },
+   "C-v2": {
+    "CM-03": {
+     "detected": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 143.5666666666663,
+      "value": 0.30442465366129484
+     },
+     "detected_plus_inferred": {
+      "denominator_s": 471.59999999999883,
+      "numerator_s": 176.3666666666662,
+      "value": 0.3739751201583262
+     }
+    },
+    "EV-M1": 0.39436619718309857,
+    "EV-M2": 0.27722772277227725,
+    "assessable_references": 71,
+    "extent": {
+     "by_episode_count": {
+      "1": 29,
+      "2": 16,
+      "3": 7,
+      "4": 4
+     },
+     "episodes": 101,
+     "episodes_overlapping_references": 98,
+     "episodes_with_continuation_of_nk": 9,
+     "of_which_linked": 9,
+     "of_which_matched": 28,
+     "references_matched_or_overlapped": 56,
+     "references_with_2plus_episodes": 27,
+     "unmatched_by_band": {
+      "(0, 0.1]": 34,
+      "(0.1, 0.2]": 14,
+      "(0.2, 0.3)": 21,
+      "0": 4,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 73,
+     "unmatched_with_same_pair_overlap": 69
+    },
+    "matched_events": 28,
+    "matched_references": 28,
+    "position": {
+     "forklift": {
+      "availability": {
+       "null:not_observable": 110,
+       "position": 9486,
+       "position_without_matched_identity": 793
+      },
+      "error": {
+       "median_m": 0.4983686305502882,
+       "n": 8693,
+       "p95_m": 0.8994605727100744,
+       "share_gt_1m": 0.03543080639595077,
+       "share_gt_2m": 0.0064419647992637755,
+       "share_gt_5m": 0.0
+      }
+     },
+     "person": {
+      "availability": {
+       "null:not_observable": 316,
+       "position": 13605,
+       "position_without_matched_identity": 133
+      },
+      "error": {
+       "median_m": 0.24499251771896105,
+       "n": 13472,
+       "p95_m": 0.5897968160120961,
+       "share_gt_1m": 0.026796318289786222,
+       "share_gt_2m": 0.01684976247030879,
+       "share_gt_5m": 0.0028206650831353918
+      }
+     }
+    },
+    "system_events": 101,
+    "unmatched_events": 73
+   },
+   "cameras": 62
+  }
+ }
+}
