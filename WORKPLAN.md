@@ -86,6 +86,12 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [x] | T-25p | **Detector-path pilot (D-45 item 3):** 206 SDG validation cameras (probe cameras excluded); S1 → S2 → S3 → S4 full_camera → S5 BL-2..BL-6 → S8 vs T21; 100-frame two-model check (seed 2026111902); `reports/M1b_pilot_report.md` (columns A/B/C). **STOP (D-47)** | T-23s | report pushed | M |
 | [B] | T-24 | **Fine-tuning (WP-16). BLOCKED** until the Owner decides licence posture, training data and compute (C2–C4) | Owner | — | — |
 | [B] | T-25 | **M1b integration (WP-18). BLOCKED** on T-24, or on a qualified pretrained forklift detector from T-22 | T-24 | — | — |
+| [x] | T-26d | **D-59 download (Owner, 24 Nov 2026):** cap 60 GB; qualification Part 5 before download; ground-truth screen; 11 SmartSpaces 2026 scenes (118 cameras: 7 scenes in 6 new layouts, 4 new scenarios in the held layout), hash-checked; frame-count and interval checks | D-59 | `research/datasets/part5/d59_report.md` | M |
+| [S] | G-D60 | **STOP — Architect and Owner decide how the D-59 scenes are used (D-60, CR-036):** split mechanism, `layout_id` and `generation_batch`, roles of tier 1 and tier 2, compute. Proposal in `d59_report.md` §6. Independent of D-58; nothing on the new scenes until decided | T-26d | D-60 decided | — |
+| [ ] | T-26q | rv2 frame-quality statistics on the 118 D-59 recordings (statistics only, as qualification 3.12) | T-26d | counts recorded in Part 5 | S |
+| [B] | T-26r | S0 registration of the D-59 scenes. **BLOCKED** on CR-036 items 1–2 | G-D60 | S0 artifacts; summary JSON | S |
+| [B] | T-26s | Split version or addendum for the D-59 scenes, frozen before any system output on them. **BLOCKED** on CR-036 / D-60 | T-26r | split artifact; freeze record | S |
+| [B] | T-26e | Evaluation on the D-59 scenes in the roles D-60 sets (oracle path, then detector path); tier-1 test only after v2 is frozen and reported | T-26s; v2 freeze | results per D-60 | L |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1004,3 +1010,16 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: AR-68 proposed (version_label of the non-v1 sweep values; S5 from stored S4; layout; STEP 2 readings; rounding allowance in the selection rule). No CR: nothing undefined changed a count, a state or a statistic of the contract.
 - Next: **STOP (D-58).**
+
+### 2026-11-24 — D-59: cap 60 GB; 11 non-duplicate SmartSpaces scenes downloaded and checked; STOP at D-60
+- Did (no system run on any data; X0b, the 116 tuning and 110 reporting cameras, the test partition and the D-58 stop untouched; one agent):
+  - **Step 1 (699836e):** Owner instruction recorded (D-59; §0 row, cap 60 GB). Qualification Part 5 written before download: same source and revision as Part 1 (`d38193b`, CC BY 4.0); uniqueness from Git-LFS hashes (re-renders have identical ground truth; layouts from `map.png`); 17 candidates in two tiers with every SHA-256 (`part5/candidates.json`); screen rule; tier-2 draw seed 2026112459. CR-036 opened.
+  - **Step 2 (0b98265):** screen files of the 17 candidates (51 files, 2.64 GB, 0 mismatches). 11 qualify; 008, 009, 012, 013, 014, 015 have no forklift. All four tier-2 scenes fit; the draw did not bind. Selection recorded before any video download.
+  - **Step 3:** 118 videos (18.20 GB, 0 mismatches). Frame counts equal ground truth, constant 33.333 ms, 0 VFR, every camera calibrated (`part5/intervals.json`). Report `research/datasets/part5/d59_report.md` with a proposed testing and tuning plan (not applied). Plan rows T-26d, G-D60, T-26q, T-26r, T-26s, T-26e added.
+- Results: tier 1: 7 scenes in 6 new layouts, 45 cameras. Tier 2: 4 new scenarios in `Warehouse_000`'s layout, 73 cameras. Held 51.45 GB of 60 GB.
+- Tests: suite run before each commit (2646 passed, 17 skipped). Step 1's run was piped into `tail` without `pipefail`, so the chain would not have stopped on a failure; it passed, and later runs use `pipefail`. No code under `src/` changed.
+- Commit: this entry's commit (pushed)
+- Problems / CRs:
+  - CR-036: how recordings added after the freeze join the split; also `layout_id` and `generation_batch` for the new scenes. S0 registration waits on it.
+  - Python `urllib` hung on Hub requests on this machine (no connection opened); the D-59 scripts use `curl` instead.
+- Next: **STOP (D-60)**, independent of D-58. T-26q (frame-quality statistics) may run meanwhile.

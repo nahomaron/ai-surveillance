@@ -781,3 +781,17 @@ Owner decision: ______
 ## D-59 (2026-11-24) — Owner instruction: raise the download cap to 60 GB and add non-duplicate data        status: DECIDED (24 Nov 2026)
 Owner instruction (24 Nov 2026, in session): "raise the cap up 60GB and download whatever unique data set you can get … update the plan for testing and maybe tuning with that extra data set … give me [a] report so that i could show it to the architect".
 Applied as: WORKPLAN §0 row D-59 (60 GB in total, synthetic `MTMC_Tracking_2026` scenes with ground truth, no re-render, no depth maps, pinned revision `d38193b`); selection, screen and draw in `research/datasets/qualification.md` Part 5, written before download; CR-036 opened for how the new scenes join the frozen split. The testing and tuning plan is a proposal for the Architect (D-60), not applied.
+
+## D-60 (2026-11-24) — STOP after the D-59 download: how the new SmartSpaces scenes are used        status: OPEN
+Task: T-26d   Blocking: T-26r, T-26s, T-26e (anything on the D-59 scenes beyond the checks already done); not D-58, not the v2 work
+Question: the results and the proposal are in `research/datasets/part5/d59_report.md` (implemented: downloaded, hash-checked, screened; no system output). Results only:
+- 11 scenes, 118 cameras, 300 s each (022: 309 s), SHA-256 equal for every file. Tier 1: 010, 011, 016, 017, 018, 019, 022 (45 cameras, 6 layouts not held before). Tier 2: 002, 004, 006, 020 (73 cameras, the layout of `Warehouse_000`).
+- Screen rejected 008, 009, 012, 013, 014, 015 (no forklift). Held 51.45 GB of 60 GB.
+Points to decide:
+1. CR-036 main question: separate frozen addendum, test-only, tuning-only, or re-freeze.
+2. CR-036 items 1–2: `layout_id` (scene asset or map identity) and `generation_batch` (val folder).
+3. Roles of tier 1 and tier 2 (the agent's proposal: tier 1 held-out-layout test only; tier 2 option T2-b, a seeded 2 / 2 tuning / test draw).
+4. Compute for the detector path (about 100 h in full; options in report §6).
+5. Whether to qualify a further source within the 8.05 GB of headroom (report §7).
+Agent's recommendation: report §6 (a proposal; the Architect and the Owner decide).
+Owner decision: ______

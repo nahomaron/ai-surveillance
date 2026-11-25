@@ -1319,5 +1319,8 @@ Representation and engineering only. No measured value, label, matching rule or 
 - **(b) Test-only addendum.** All new scenes are reserved for testing, like D-37; no tuning use.
 - **(c) Tuning-only addendum.** The new scenes widen the tuning subset; reported results stay on X0b.
 - **(d) Re-freeze.** A new split version over held and new data (invalidates comparisons with results made on X0b; R-3).
-**What proceeds meanwhile:** download, hash checks, ground-truth screen and S0 registration only. No detector, tracker or S4+ run on the new scenes; nothing touches X0b, the 116 tuning or 110 reporting cameras, or the test partition.
+**Lineage inputs the S0 registration would need (also for the Architect):**
+1. `layout_id`. `registration.smartspaces_metadata` sets it to the scene name (or the render parent). Map evidence (qualification 5.2): 002, 004, 006, 020 have a `map.png` byte-identical to `Warehouse_000`'s, and 017/018 share one map. Readings: (i) layout_id = scene asset, as now (each scene its own layout); (ii) layout_id = map identity (002/004/006/020 with 000; 017 with 018). It changes which scenes are reported as `shared_scene_content` (D-20), so the agent does not choose.
+2. `generation_batch` is fixed to `MTMC_Tracking_2026/train`; 020 and 022 are in the published `val` split. Readings: published split folder, or one batch for the edition.
+**What proceeds meanwhile:** download, hash checks, ground-truth screen, and the frame-interval and frame-count checks only. **S0 registration waits** for items 1 and 2. No detector, tracker or S4+ run on the new scenes; nothing touches X0b, the 116 tuning or 110 reporting cameras, or the test partition.
 **Agent's recommendation:** none; the Owner and the Architect decide (D-60).

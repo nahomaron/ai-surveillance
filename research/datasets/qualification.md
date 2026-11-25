@@ -385,3 +385,9 @@ Frames are counted from the ground-truth keys; "duration at 30 fps" is 300 s (02
 - Tier 2 in draw order: 006 (18 videos, 2,828,616,257), 004 (19, 3,525,672,726), 020 (16, 2,851,737,513), 002 (20, 3,084,204,506). All four fit; the draw does not bind.
 - **Videos to download: 118, 18,198,933,567 bytes. Planned held total 51,454,333,285 bytes (51.45 GB);** 8.05 GB of the cap unused. Nothing else is downloaded under D-59 (scope: 5.3); other unique sources are listed for the Owner in the D-59 report.
 - The six non-qualifying scenes keep only their screen files (counted above).
+
+### 5.8 Video download and checks (24 Nov 2026)
+
+- 118 videos, 18,198,933,567 bytes, **0 hash mismatches**, none re-fetched (`data/raw/smartspaces/fetch_log_d59_videos.json`). Held total measured afterwards: **51,454,367,313 bytes** of 60 × 10⁹ (the plan of 5.7 plus 34,028 bytes of fetch logs).
+- `intervals.py` (demux only) on all 11 scenes → `research/datasets/part5/intervals.json`: every camera's frame count equals the ground-truth frame count (9,000; 022: 9,270); every interval 33.333 ms (min = median = P99 = max), **0 of 118 VFR**; 1920 × 1080 H.264; every camera has a calibration entry. The script reproduces 2.5 on `Warehouse_000` (19 cameras, 9,000 frames, 33.333 ms, 0 VFR).
+- Not done (waiting on CR-036 / D-60): S0 registration, split assignment, frame-quality statistics (T-26q, independent), any system run.
