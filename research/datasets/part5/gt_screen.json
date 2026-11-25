@@ -1,0 +1,243 @@
+{
+ "Warehouse_002": {
+  "cameras_seeing_both": 15,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 9,
+   "PalletTruck": 9,
+   "Person": 60
+  },
+  "qualifies": true
+ },
+ "Warehouse_004": {
+  "cameras_seeing_both": 17,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 9,
+   "PalletTruck": 10,
+   "Person": 60
+  },
+  "qualifies": true
+ },
+ "Warehouse_006": {
+  "cameras_seeing_both": 9,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 8,
+   "PalletTruck": 8,
+   "Person": 52
+  },
+  "qualifies": true
+ },
+ "Warehouse_008": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 6,
+   "FourierGR1T2": 8,
+   "Person": 10,
+   "Transporter": 3
+  },
+  "qualifies": false
+ },
+ "Warehouse_009": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 6,
+   "FourierGR1T2": 6,
+   "Person": 13,
+   "Transporter": 3
+  },
+  "qualifies": false
+ },
+ "Warehouse_010": {
+  "cameras_seeing_both": 7,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "AgilityDigit": 8,
+   "Forklift": 3,
+   "FourierGR1T2": 8,
+   "NovaCarter": 4,
+   "Person": 25,
+   "Transporter": 12
+  },
+  "qualifies": true
+ },
+ "Warehouse_011": {
+  "cameras_seeing_both": 5,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "AgilityDigit": 10,
+   "Forklift": 3,
+   "FourierGR1T2": 10,
+   "NovaCarter": 3,
+   "Person": 20,
+   "Transporter": 9
+  },
+  "qualifies": true
+ },
+ "Warehouse_012": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 8,
+   "FourierGR1T2": 6,
+   "NovaCarter": 4,
+   "Person": 15,
+   "Transporter": 9
+  },
+  "qualifies": false
+ },
+ "Warehouse_013": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 5,
+   "FourierGR1T2": 8,
+   "NovaCarter": 5,
+   "Person": 16,
+   "Transporter": 10
+  },
+  "qualifies": false
+ },
+ "Warehouse_014": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 7,
+   "FourierGR1T2": 9,
+   "NovaCarter": 4,
+   "Person": 20,
+   "Transporter": 7
+  },
+  "qualifies": false
+ },
+ "Warehouse_015": {
+  "cameras_seeing_both": 0,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 0,
+  "frames_forklift_and_person_same_camera": 0,
+  "object_ids_per_class": {
+   "AgilityDigit": 8,
+   "FourierGR1T2": 7,
+   "NovaCarter": 5,
+   "Person": 22,
+   "Transporter": 7
+  },
+  "qualifies": false
+ },
+ "Warehouse_016": {
+  "cameras_seeing_both": 7,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "AgilityDigit": 7,
+   "Forklift": 2,
+   "FourierGR1T2": 5,
+   "NovaCarter": 3,
+   "Person": 18,
+   "Transporter": 4
+  },
+  "qualifies": true
+ },
+ "Warehouse_017": {
+  "cameras_seeing_both": 3,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 2,
+   "PalletTruck": 1,
+   "Person": 2
+  },
+  "qualifies": true
+ },
+ "Warehouse_018": {
+  "cameras_seeing_both": 3,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 2,
+   "PalletTruck": 1,
+   "Person": 1
+  },
+  "qualifies": true
+ },
+ "Warehouse_019": {
+  "cameras_seeing_both": 3,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 8598,
+  "object_ids_per_class": {
+   "Forklift": 1,
+   "PalletTruck": 1,
+   "Person": 3
+  },
+  "qualifies": true
+ },
+ "Warehouse_020": {
+  "cameras_seeing_both": 16,
+  "duration_s_at_30fps": 300.0,
+  "frames": 9000,
+  "frames_forklift_and_person_in_scene": 9000,
+  "frames_forklift_and_person_same_camera": 9000,
+  "object_ids_per_class": {
+   "Forklift": 9,
+   "PalletTruck": 10,
+   "Person": 60
+  },
+  "qualifies": true
+ },
+ "Warehouse_022": {
+  "cameras_seeing_both": 1,
+  "duration_s_at_30fps": 309.0,
+  "frames": 9270,
+  "frames_forklift_and_person_in_scene": 1638,
+  "frames_forklift_and_person_same_camera": 1638,
+  "object_ids_per_class": {
+   "Forklift": 1,
+   "NovaCarter": 2,
+   "Person": 24,
+   "Transporter": 2
+  },
+  "qualifies": true
+ }
+}

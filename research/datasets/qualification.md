@@ -353,3 +353,35 @@ Storage: `data/raw/smartspaces/MTMC_Tracking_2026/<split>/Warehouse_<n>/` (git-i
 ### 5.6 Leakage inputs (for the Architect)
 
 Under D-20 each selected scene is its own scene instance (no re-render among them), so each is a leakage group. Unlike everything held so far, tier-1 scenes are in layouts other than `Warehouse_000`'s, and 008/009 and 017/018 share a layout within their pair (`shared_scene_content`, no edge, as in D-20). Tier-2 scenes share `Warehouse_000`'s layout.
+
+### 5.7 Screen result and final selection (24 Nov 2026, before any video download)
+
+Screen files of all 17 candidates: 51 files, 2,635,919,344 bytes, 0 hash mismatches (`data/raw/smartspaces/fetch_log_d59.json`). Per-scene statistics: `research/datasets/part5/gt_screen.json`.
+
+| Scene | Tier | Frames | Forklift ids | Person ids | Frames with both (scene / same camera) | Cameras seeing both | Qualifies |
+|---|---|---|---|---|---|---|---|
+| 008 | 1 | 9,000 | 0 | 10 | 0 / 0 | 0 | no (humanoids, transporters) |
+| 009 | 1 | 9,000 | 0 | 13 | 0 / 0 | 0 | no |
+| 010 | 1 | 9,000 | 3 | 25 | 9,000 / 9,000 | 7 | yes |
+| 011 | 1 | 9,000 | 3 | 20 | 9,000 / 9,000 | 5 | yes |
+| 012 | 1 | 9,000 | 0 | 15 | 0 / 0 | 0 | no |
+| 013 | 1 | 9,000 | 0 | 16 | 0 / 0 | 0 | no |
+| 014 | 1 | 9,000 | 0 | 20 | 0 / 0 | 0 | no |
+| 015 | 1 | 9,000 | 0 | 22 | 0 / 0 | 0 | no |
+| 016 | 1 | 9,000 | 2 | 18 | 9,000 / 9,000 | 7 | yes |
+| 017 | 1 | 9,000 | 2 | 2 | 9,000 / 9,000 | 3 | yes |
+| 018 | 1 | 9,000 | 2 | 1 | 9,000 / 9,000 | 3 | yes |
+| 019 | 1 | 9,000 | 1 | 3 | 9,000 / 8,598 | 3 | yes |
+| 022 | 1 | 9,270 | 1 | 24 | 1,638 / 1,638 | 1 | yes (weak: one camera) |
+| 002 | 2 | 9,000 | 9 | 60 | 9,000 / 9,000 | 15 | yes |
+| 004 | 2 | 9,000 | 9 | 60 | 9,000 / 9,000 | 17 | yes |
+| 006 | 2 | 9,000 | 8 | 52 | 9,000 / 9,000 | 9 | yes |
+| 020 | 2 | 9,000 | 9 | 60 | 9,000 / 9,000 | 16 | yes |
+
+Frames are counted from the ground-truth keys; "duration at 30 fps" is 300 s (022: 309 s) and is checked against the decoded videos after download.
+
+**Budget after the screen:** 60 × 10⁹ − reserve 500,000,000 − held 30,619,480,374 − screen files 2,635,919,344 = 26,244,600,282 bytes for videos.
+- Tier 1 (7 qualifying scenes, 45 videos): 5,908,702,565 bytes.
+- Tier 2 in draw order: 006 (18 videos, 2,828,616,257), 004 (19, 3,525,672,726), 020 (16, 2,851,737,513), 002 (20, 3,084,204,506). All four fit; the draw does not bind.
+- **Videos to download: 118, 18,198,933,567 bytes. Planned held total 51,454,333,285 bytes (51.45 GB);** 8.05 GB of the cap unused. Nothing else is downloaded under D-59 (scope: 5.3); other unique sources are listed for the Owner in the D-59 report.
+- The six non-qualifying scenes keep only their screen files (counted above).
