@@ -1310,3 +1310,14 @@ Representation and engineering only. No measured value, label, matching rule or 
 5. **Rounding allowance in the selection rule.** The EV-M1 floor and the 0.005 tie are compared with a 1e-12 allowance (as AR-67 item 5), so a difference of exactly 0.005 counts as a tie.
 **Pinned by:** `tests/m1b/test_d57.py`.
 **Reverse:** delete `research/m1b/d57_split.py`, `research/m1b/d57_mgap.py`, their outputs and `out/m1b/d57/`; nothing else depends on them.
+
+## CR-036 (2026-11-24) — How recordings downloaded after the split freeze join (or stay outside) the frozen split   status: OPEN
+**Raised by:** implementation agent, as the Owner asked at AR-57 item 9 ("at M1b raise a CR on how new recordings join a frozen split"). **Task:** D-59. **Sections:** E-1.2.1 §8 (split freeze, leakage), Appendix T T14 (E-1.2.12), D-20, D-37; the frozen split X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj`.
+**Meaning-affecting:** yes. It decides populations and denominators of tuning and reported results, and whether held-out-layout claims become possible.
+**Gap.** D-59 adds up to 16 SmartSpaces 2026 scenes (qualification Part 5) after the split was frozen. The contract defines the freeze and the leakage groups, but not how scenes registered after the freeze are assigned. The agent must not assign them. Readings the Architect may choose between (none drafted as contract text):
+- **(a) Separate frozen addendum split.** The new scenes get their own pre-registered split (seeded, by leakage group), frozen before any system output on them; X0b stays as it is. Tier-1 (new-layout) scenes can then support a held-out-layout result that X0b cannot.
+- **(b) Test-only addendum.** All new scenes are reserved for testing, like D-37; no tuning use.
+- **(c) Tuning-only addendum.** The new scenes widen the tuning subset; reported results stay on X0b.
+- **(d) Re-freeze.** A new split version over held and new data (invalidates comparisons with results made on X0b; R-3).
+**What proceeds meanwhile:** download, hash checks, ground-truth screen and S0 registration only. No detector, tracker or S4+ run on the new scenes; nothing touches X0b, the 116 tuning or 110 reporting cameras, or the test partition.
+**Agent's recommendation:** none; the Owner and the Architect decide (D-60).

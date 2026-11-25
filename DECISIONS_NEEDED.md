@@ -777,3 +777,7 @@ Question: the results are in `research/m1b/d57_report.md` (diagnostic, tuning su
 Options: for the Owner and the Architect: carry m_gap 30 to the C7 check; or keep m_gap 5; or address the reference lifecycle (T21.4) or a cross-POW / cross-track join rule in contract text; or another instruction.
 Agent's recommendation: none; the Owner decides.
 Owner decision: ______
+
+## D-59 (2026-11-24) — Owner instruction: raise the download cap to 60 GB and add non-duplicate data        status: DECIDED (24 Nov 2026)
+Owner instruction (24 Nov 2026, in session): "raise the cap up 60GB and download whatever unique data set you can get … update the plan for testing and maybe tuning with that extra data set … give me [a] report so that i could show it to the architect".
+Applied as: WORKPLAN §0 row D-59 (60 GB in total, synthetic `MTMC_Tracking_2026` scenes with ground truth, no re-render, no depth maps, pinned revision `d38193b`); selection, screen and draw in `research/datasets/qualification.md` Part 5, written before download; CR-036 opened for how the new scenes join the frozen split. The testing and tuning plan is a proposal for the Architect (D-60), not applied.

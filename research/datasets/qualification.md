@@ -307,3 +307,49 @@ T21.6: SDG `Dodge` annotations are **not** used as references in M1a; this secti
 | Onset (first frame with `Dodge`) | frame 0 in **18** runs (the task is already running when the recording starts, so no onset is observed); otherwise frames 12–139 |
 | Length (frames with `Dodge`, 300-frame recordings) | 94–201 frames, or all 300 (15 runs) |
 | Caveats for any later use | `world_position` is stale in 32 of 72 runs (AR-50 item 2), so the agent block is not a reliable pose source; a `Dodge` task state is a scripted behaviour label, not an annotated evasive action with an observed onset; runs that start in `Dodge` have no onset |
+
+## Part 5 — extension under D-59 (24 Nov 2026), recorded before download
+
+**Authority:** Owner instruction D-59 (24 Nov 2026; WORKPLAN §0): cap raised to 60 GB in total (60 × 10⁹ bytes, everything held counted), to add data that does not duplicate what is held. Synthetic data only; no real footage, no new source, no training use. How the new scenes enter tuning or testing is a proposal for the Architect (D-60, CR-036); nothing here changes the frozen split (X0b) or the D-37 reservation.
+
+### 5.1 Source and licence
+
+Same source, edition and revision as Part 1: `nvidia/PhysicalAI-SmartSpaces`, `MTMC_Tracking_2026`, revision `d38193be60906679124732a4be9a6516821e2bed` (still the Hub head on 24 Nov 2026, last modified 2026-11-06), public, not gated, no token. Card `README.md` at that revision re-read: SHA-256 `cdba2b672c8ac8deed29f9b26ea1bf2df52f91898d73bc7f59cd6c7b542150ab`; `license: cc-by-4.0`. The Part 1 licence row applies unchanged (verified). The card states the edition is synthetic (Omniverse, Cosmos Transfer) except `Warehouse_026/027` (real, not selected here). Card text was treated as data.
+
+### 5.2 What is unique (evidence from the Hub tree, Git-LFS SHA-256)
+
+- **Re-renders.** The card: "Scenes 001 / 003 / 005 / 007 / 021 / 024 are Cosmos Transfer 2.5 augmented re-renderings of 000 / 002 / 004 / 006 / 020 / 023 (same scene & cameras, augmented RGB)". Confirmed: each pair has a byte-identical `ground_truth.json`. Re-renders are **not** selected (same scenario, same truth; only the RGB is augmented). `Warehouse_001`, already held, stays as it is.
+- **Layouts** (`map.png` hash). `Warehouse_000` (held) shares its map with 002–007, 020, 021, 023, 024. The other scenes have 11 further maps: {008, 009}, 010, 011, 012, 013, 014, 015, 016, {017, 018}, 019, 022. Pairs in braces share a map but have different ground truth (different scenarios).
+- **Test split** 023–025: no ground truth published. Not selected. 026–027: real, held under D-24 b.
+
+### 5.3 Candidates (`research/datasets/part5/candidates.json`; script `candidates.py`)
+
+Files per scene: `videos/*.mp4`, `calibration.json`, `ground_truth.json`, `map.png`; **no depth maps**. Every file has a publisher SHA-256.
+
+| Tier | Scenes | Videos | Bytes |
+|---|---|---|---|
+| 1: new layout (or new scenario in a new layout) | 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 022 | 108 | 17,557,700,857 |
+| 2: new scenario in the held layout (source renders only) | 002, 004, 006, 020 | 73 | 13,234,865,231 |
+
+### 5.4 Ground-truth screen (declared before download)
+
+Each candidate's `ground_truth.json`, `calibration.json` and `map.png` are downloaded first. `gt_screen.py` computes, per scene: frames and duration at 30 fps; distinct ids per class; frames with a Forklift and a Person in the scene; frames with both visible in one camera. **Rule: a scene qualifies when at least one frame holds a Forklift and a Person** (adapter class names; PalletTruck is not a forklift, D-22). Only qualifying scenes have their videos downloaded. Check of the script on the held `Warehouse_000`: 9,000 frames, 9 Forklift, 60 Person, 10 PalletTruck ids (as in 2.2); 9,000 frames with both.
+
+### 5.5 Selection and budget (60 × 10⁹ bytes)
+
+| Item | Bytes |
+|---|---|
+| Held on 24 Nov 2026 (`data/raw/` + `out/m1b/weights/`, measured) | 30,619,480,374 |
+| Reserve (re-fetch after a failed hash) | 500,000,000 |
+| Available for Part 5 | 28,880,519,626 |
+| Tier 1, all qualifying scenes | ≤ 17,557,700,857 |
+
+- Tier 1: every qualifying scene.
+- Tier 2: numpy PCG64 seed **2026112459**, a permutation of the four scenes sorted by name (`draw.py`): **006, 004, 020, 002**. Qualifying scenes are taken in this order; the draw stops at the first one that does not fit (no skipping), as in 3.1. Non-qualifying screen files stay held and count toward the cap.
+- If every scene qualifies: tier 1 + 006 + 004 + 020 = 27,448,925,332 bytes (1,431,594,294 left); 002 (3,343,640,756) does not fit. Held total then about 58.07 GB.
+
+Storage: `data/raw/smartspaces/MTMC_Tracking_2026/<split>/Warehouse_<n>/` (git-ignored). Each file is checked against its SHA-256; a mismatch is re-fetched once, then deleted and reported.
+
+### 5.6 Leakage inputs (for the Architect)
+
+Under D-20 each selected scene is its own scene instance (no re-render among them), so each is a leakage group. Unlike everything held so far, tier-1 scenes are in layouts other than `Warehouse_000`'s, and 008/009 and 017/018 share a layout within their pair (`shared_scene_content`, no edge, as in D-20). Tier-2 scenes share `Warehouse_000`'s layout.

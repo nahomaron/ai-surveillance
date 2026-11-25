@@ -1,0 +1,1568 @@
+{
+ "revision": "d38193be60906679124732a4be9a6516821e2bed",
+ "scenes": {
+  "Warehouse_002": {
+   "bytes": 3343640756,
+   "files": [
+    {
+     "git_oid": "f8f3b6f377413e3f85cbab9a17257dc3584f94f6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/calibration.json",
+     "sha256": "989fddbe2ac2feabe4ae9a6a7f52af3d630409ab9285d905088bcaa628dba44a",
+     "size": 46497
+    },
+    {
+     "git_oid": "8f7ffa7173bbaabdb5553915a01b71f3b1874aff",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/ground_truth.json",
+     "sha256": "7e06ee49f24c328c37e4db91ff56e0421a4f5bdeee968b11594d102cce104085",
+     "size": 258266117
+    },
+    {
+     "git_oid": "51e5d216f284f28e17918d010059405006742d7a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/map.png",
+     "sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+     "size": 1123636
+    },
+    {
+     "git_oid": "1fccac6dcb248325edb3a469bdc69b3df2bb14d3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0000.mp4",
+     "sha256": "8ed4f6868111f08ea5889acaffe2e1d1c67dbf44ea1d35abfba1efe2c5f63d3b",
+     "size": 145355200
+    },
+    {
+     "git_oid": "e1ab9c5e93c3565a3bbaa07f6dce9e4650eecc27",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0001.mp4",
+     "sha256": "7956158a2f4624b04696e31ba6bac2c1c75860d6d542b7ba305508e76495c1de",
+     "size": 198591757
+    },
+    {
+     "git_oid": "7c03dc155a257d74053911e23e093aa85e632aeb",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0002.mp4",
+     "sha256": "f5b907ee731fb67b3f5792f0e430eb518351d2ace467add3fe8d9f7dc8da0da0",
+     "size": 194991399
+    },
+    {
+     "git_oid": "343b16bf791d9f0725fa486d4308c516e25a1e4c",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0003.mp4",
+     "sha256": "0734427099e400b4d57b67f4d8d980e1d199bd39ccbf95c6b82ed595ef1d511b",
+     "size": 151783313
+    },
+    {
+     "git_oid": "80bd8a2f06c0be673d78ff1020cdff2b3a936dbc",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0004.mp4",
+     "sha256": "580ca044dd3f69f387c8462bae5d3b38d89e38615068818b0edafcbf50846635",
+     "size": 149960068
+    },
+    {
+     "git_oid": "76fc9cc786e54eafd7168c76595975e70042fdaf",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0005.mp4",
+     "sha256": "9c7b375054f2569a6bbacfed9c6d2530edce386e108e6f3e3c08ef46efc35476",
+     "size": 98588470
+    },
+    {
+     "git_oid": "9e5d912a6b88467839221dc55ced15aee578e77b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0006.mp4",
+     "sha256": "1ac7a0cffa97f3f76695973a1cfdf0411bb7208c37349106fa47990b876b7dca",
+     "size": 141197600
+    },
+    {
+     "git_oid": "8522d25fdad0b5f40cbe4a1eaad91f95e2588472",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0007.mp4",
+     "sha256": "ec6a4ce1895242516f295cc7d16261b7fd0d1a739f1ed42b6edc83601097b62f",
+     "size": 126725731
+    },
+    {
+     "git_oid": "4bc8a91aa8a5a14e5436df645d3c10f6d0dd2353",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0008.mp4",
+     "sha256": "4fb63fb21ab6b031830cca056243799a2f47da42ea46ff9de3ae43a24faa0857",
+     "size": 93931185
+    },
+    {
+     "git_oid": "09319225c2b745e655e9d8838c517260bea847a0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0009.mp4",
+     "sha256": "7b32a2a004aaaeb76a2e182110d58a8da0f1494028eefa12a6b11366d3069a02",
+     "size": 213960746
+    },
+    {
+     "git_oid": "bef34f42b0d946b52eef0b383bd12c011071f295",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0010.mp4",
+     "sha256": "a06fb8c4d99d23d692d65c8e32ebbb309bdbf953ab42bdea86197790299bd519",
+     "size": 144845818
+    },
+    {
+     "git_oid": "fd58596e3b7f2052349ebf66d0ab0ff121a9b60d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0011.mp4",
+     "sha256": "34d17d3570ed83205d5dc2761f2dffe3b23629ba6cc5d2c807c5cfdb1cc5c72d",
+     "size": 201149724
+    },
+    {
+     "git_oid": "4548a1b6640a7c90d0bad9231de8dcbdbd6eb1ca",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0012.mp4",
+     "sha256": "04b6ea09e18178379235f7da6aa5bb94e170d0a540aea756eaff7990e213b6f4",
+     "size": 147281710
+    },
+    {
+     "git_oid": "cf95c62b5a6b3030ce82c1b41f3a703b5e415d3f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0013.mp4",
+     "sha256": "db8c09d6e73887640980365fe5e583f9c77a1ff47f5bea2ce3c086e142282dba",
+     "size": 158845381
+    },
+    {
+     "git_oid": "838cb2521de1070ad6b4a1032265a7edb84d33e5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0014.mp4",
+     "sha256": "2d96604ace1243e7d461fa59c16a5c817ea103fc964770c33383a60989535572",
+     "size": 244910264
+    },
+    {
+     "git_oid": "3b0456697f665afcb94d315f7cee0bebc07b0b45",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0015.mp4",
+     "sha256": "c73e235ac9c8401dac1bef0189229fb5e5e5de1e15e34de506ac510c0c7af897",
+     "size": 162961595
+    },
+    {
+     "git_oid": "622f937a8231988caab1712ed50fe649f9f20380",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0016.mp4",
+     "sha256": "3f4527a92b55e05a3646b0a061fe906ad5aadd1b5fab54f52c98995e29119aa5",
+     "size": 164587795
+    },
+    {
+     "git_oid": "165db11c3ae427085338b2b169ca3d7d6388edc8",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0017.mp4",
+     "sha256": "3ead33dac559a24a2dcb843b78a74ea0dc5ea71631f005f1037c59695ab420a7",
+     "size": 175976503
+    },
+    {
+     "git_oid": "495e9649fdf295be0337f819ff2abec4c1859534",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0018.mp4",
+     "sha256": "58ec3302db10935e741bfb73ae42e294028dff302cdf3a12e8d775c56301bdc1",
+     "size": 55110175
+    },
+    {
+     "git_oid": "db383ce9d35048343cb283ab644b8e530cde858e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_002/videos/Camera_0019.mp4",
+     "sha256": "6c77a612e22e0fd4a7744e33ac9e6625139ea68dbb4608ded236dd7e7247b429",
+     "size": 113450072
+    }
+   ],
+   "ground_truth_sha256": "7e06ee49f24c328c37e4db91ff56e0421a4f5bdeee968b11594d102cce104085",
+   "map_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "split": "train",
+   "tier": 2,
+   "videos": 20
+  },
+  "Warehouse_004": {
+   "bytes": 3783890623,
+   "files": [
+    {
+     "git_oid": "dd214661713be8eba8e9cdaec2a76d761326b62d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/calibration.json",
+     "sha256": "4e20811a80b1776ff67d2c4e132e6ad947e2d96652d6e66a248b6c5eeb57ac66",
+     "size": 44121
+    },
+    {
+     "git_oid": "ccaab7e3e4aee77fd744be8165ea18468508b309",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/ground_truth.json",
+     "sha256": "f49e810f614715e8f31ae363cf988db08a636b42ae1326dfffaf3c9195d2576c",
+     "size": 257050140
+    },
+    {
+     "git_oid": "51e5d216f284f28e17918d010059405006742d7a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/map.png",
+     "sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+     "size": 1123636
+    },
+    {
+     "git_oid": "b7e6c7e1e334b90edeedb8c33565597d16f50e98",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0000.mp4",
+     "sha256": "7f1cd716ed2c0eb829bc521c99433dd5b63252926bf31342a03cc44df81d8957",
+     "size": 178768936
+    },
+    {
+     "git_oid": "bc757ef549ff54dd5087fffee8074efbbae7409b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0001.mp4",
+     "sha256": "060ee69466137d33a9172624d75be078fb4ffa6ef070e27ca7f94c07294afce8",
+     "size": 157515996
+    },
+    {
+     "git_oid": "ac03b53e16c02f95ef2c141a1ad353fd2df035ec",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0002.mp4",
+     "sha256": "72aba557ff922e95d3d03fae951237fec589ba7b7d159bba7adcb412056727a1",
+     "size": 241514711
+    },
+    {
+     "git_oid": "c3d1b8db3db43dcfeedcdfa7364ad6cf06f9403d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0003.mp4",
+     "sha256": "ba6f6c5855566560d2289fb783e3073fbc5f97f146d6ee920ee5fa7623bcb423",
+     "size": 108034821
+    },
+    {
+     "git_oid": "644f163c5a757b857cd65b2e471f0f88648e0e47",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0004.mp4",
+     "sha256": "47a616e04dc21782a33da7d6214c05a48e85145bdbc64186a0e045d135b98024",
+     "size": 145220726
+    },
+    {
+     "git_oid": "e315f391d6a27c81827f25a5339cc4f7b7759659",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0005.mp4",
+     "sha256": "5a9d94fea78af738159206f04559155f87ed2387cc6034e2c251e594616f1733",
+     "size": 123055690
+    },
+    {
+     "git_oid": "384d4c40427a0044af2f019585139745a984c16f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0007.mp4",
+     "sha256": "ff9e6cb23aef66870edfc16cd8912b5d2edcf1a968fffd8cf049e8ec40404091",
+     "size": 142056851
+    },
+    {
+     "git_oid": "dfa28a053b6c56a1f68f2c35568f9e233b3f9e75",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0008.mp4",
+     "sha256": "da33f34202e92345abdde7fe3c517d447d6cc061254fcc6425689e332b1b0cf8",
+     "size": 232450693
+    },
+    {
+     "git_oid": "0b0ac0134b62869d69ac8efe84989079d25e0696",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0009.mp4",
+     "sha256": "37d07d45bfc50a7ce269929e6b0fc78a7197ea0d1fbf4008db42c09e3e3f1af2",
+     "size": 205919306
+    },
+    {
+     "git_oid": "cb89d45242b530bb89d300721daefa87b52624f4",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0010.mp4",
+     "sha256": "868b10547c51ea6fc3aefb01ce80aaf02c8d427a8caf993ad9bf710a7ca7c1d0",
+     "size": 186112687
+    },
+    {
+     "git_oid": "0306f2b72085d18df50b08adecf6fb7a38a9e4b4",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0011.mp4",
+     "sha256": "50cc3bd4b876595c4da9b6eca7a55c8e5702812ebc0095459eb61abf0cf6d883",
+     "size": 233685382
+    },
+    {
+     "git_oid": "2c7aed1d6fb80a4056228443d2db5ed21e05a06b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0012.mp4",
+     "sha256": "d41c8110abc776fc13eb75fd9089ffa9109be17518e155544704e37e58501abc",
+     "size": 145528757
+    },
+    {
+     "git_oid": "3ee8f43471659ff43e5f4616e18a943e621af02c",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0013.mp4",
+     "sha256": "545640c4f10015c735732c87ed11d4a24afc182cb99c9dcc8a73bfb1a9531104",
+     "size": 262886045
+    },
+    {
+     "git_oid": "20053e12a07d2874ad5d6bf516cc05beaa264ada",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0014.mp4",
+     "sha256": "3bf92e551266f0e1b1f953ef67de9704af40070a6caba42511288c259b7e36f5",
+     "size": 219502930
+    },
+    {
+     "git_oid": "2e5a000c036b79fa1911d28b03788ebcc3297857",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0015.mp4",
+     "sha256": "1abaafb31e196be85730da76399ae4a93eb8ef1f2f3bfae0975801d1853217f0",
+     "size": 278708736
+    },
+    {
+     "git_oid": "28a7ec3ec5bc052bb6a63739586eefa8f4ecdeb6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0016.mp4",
+     "sha256": "10293eb549e76a45f55b967dd24d1943e306e4c60a795537a982768c5b82b7d8",
+     "size": 166803868
+    },
+    {
+     "git_oid": "3dbc7dd5bae6087f1e37c1f5185edb92772c2b19",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0017.mp4",
+     "sha256": "a5c3cbbb72f51a0a76f980f34e6c46b6d731b22ddf2bd8a1bb552dcc0c4d6203",
+     "size": 189673516
+    },
+    {
+     "git_oid": "efa1217725d62bc49e3902736a8dcf8dbfc11e78",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0018.mp4",
+     "sha256": "c2fe1d853bccb9a3d5362af7dabce8bb21222c956b7580e919bc91af6d1cf30e",
+     "size": 124189238
+    },
+    {
+     "git_oid": "c061a6f2f520f8a2ed3ee3638fa2948cd98d71eb",
+     "path": "MTMC_Tracking_2026/train/Warehouse_004/videos/Camera_0019.mp4",
+     "sha256": "f3d980622dcef36b864a27f9fe49fcd663177c3d41ba2ea5458c765043dfeece",
+     "size": 184043837
+    }
+   ],
+   "ground_truth_sha256": "f49e810f614715e8f31ae363cf988db08a636b42ae1326dfffaf3c9195d2576c",
+   "map_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "split": "train",
+   "tier": 2,
+   "videos": 19
+  },
+  "Warehouse_006": {
+   "bytes": 2998286035,
+   "files": [
+    {
+     "git_oid": "560549ac18630fbb007e2d9093640ba43d1b7573",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/calibration.json",
+     "sha256": "ea29258c9fa7068ccbadce0c00a79e7529492453697fc663c21a5d48f147058c",
+     "size": 41823
+    },
+    {
+     "git_oid": "95d07b9d985f3d0e3e912c5c66b89b7513ec67ef",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/ground_truth.json",
+     "sha256": "9023ec629e5e803ac447e2963ed82197725218a9cc9a126865aabd74b389c9b9",
+     "size": 168504319
+    },
+    {
+     "git_oid": "51e5d216f284f28e17918d010059405006742d7a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/map.png",
+     "sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+     "size": 1123636
+    },
+    {
+     "git_oid": "ac3487ca3459c3c283d173cb3f4f209743dc0fb6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0000.mp4",
+     "sha256": "009f5d1ba02f609e4655a999c946f4bfe6350d29a1e8848cf951e63d9b3ba301",
+     "size": 152523761
+    },
+    {
+     "git_oid": "837da4041ce2684e4f91002fc3e1098501316b52",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0001.mp4",
+     "sha256": "30f01b87f154af3544abc74aba0f710a448cd303d01ae52c2baa0211ef512ba5",
+     "size": 198584904
+    },
+    {
+     "git_oid": "a8c25d7132ae551d70c8a19271317cf254c46dcd",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0002.mp4",
+     "sha256": "afba8bb5088b7aef228b7b7545388eaa19539bbb54640526861df88a739bc917",
+     "size": 122558568
+    },
+    {
+     "git_oid": "fc305ab6e0ffe68c5bec8866cba4c7aed2c91b88",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0003.mp4",
+     "sha256": "3c090e0ce6c3cf3d40c41ada0fffcf233ec77bdc172e68581724ab629a4a5e1a",
+     "size": 132861296
+    },
+    {
+     "git_oid": "9eada196c34005a627b38e35fa04ee250a2a5991",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0004.mp4",
+     "sha256": "24e876b854111633f765cf4e660783e67a1971dbef407ecddef75f1ac680300d",
+     "size": 114899366
+    },
+    {
+     "git_oid": "0315feaae043df3ebad3cd1ebc40abea60bd85d4",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0005.mp4",
+     "sha256": "2e7ef81e534c7b79fe5e2d1ace1149c532d10552441b5cd4eaf3d4566fb8f052",
+     "size": 182260322
+    },
+    {
+     "git_oid": "5c20ee388fd64f0da84642837bc8129ad49b1abf",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0006.mp4",
+     "sha256": "56c91443955e4bd9cb5f35c67a64d910686bf645205e10510ed5e27e2ce3e4a6",
+     "size": 214591828
+    },
+    {
+     "git_oid": "a93f9f7529d32bf4e35e2a2430c1e155d3f7a432",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0007.mp4",
+     "sha256": "fc53f6983e727de39320ec0bf5e044ddc023b8b5cdff52b6db60a412a843b358",
+     "size": 134302476
+    },
+    {
+     "git_oid": "2d48e420e154e666980ef9f750b4e77665ada2e3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0009.mp4",
+     "sha256": "c7ba9eecbc087af958d5a0f365b168cbb40e86ef1befab3191b035a3d3ac093d",
+     "size": 155438017
+    },
+    {
+     "git_oid": "d053ff4ec219af3278eca557a1b8a607bfde5af3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0010.mp4",
+     "sha256": "5a90898e7ce11b85a37dbd4e7b932acae96f112e26eeadea7544cb3f671d8a04",
+     "size": 147469986
+    },
+    {
+     "git_oid": "7411a46269e8e1dbfaf576977fe9cba188fbf530",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0012.mp4",
+     "sha256": "4ac067f355ceb79192d7f3243e957fc562b3d8b7fc4043065c2fc8f69bc9270c",
+     "size": 146319410
+    },
+    {
+     "git_oid": "606fe0919ad99f21691aa806be35e0036f35982c",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0013.mp4",
+     "sha256": "4c8fc7ffad36daa54c0f117553501477c8a836b7a95bd61cdb42be5ca7ef8002",
+     "size": 183934878
+    },
+    {
+     "git_oid": "400e9510e15a0ec102ee6d4ede20c28698c241b6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0014.mp4",
+     "sha256": "98520867b6bc43d5446abe9bdab4e4cd7535822b0c0908f88344094768f76a76",
+     "size": 76973809
+    },
+    {
+     "git_oid": "663779a9b2c3eb3817782a8a74b734574f73d047",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0015.mp4",
+     "sha256": "bdcf00b3a88593f8417b97976dac18b19170c8e39b93db788a72eceff011f63c",
+     "size": 183430442
+    },
+    {
+     "git_oid": "a1907cb1d6a20ec9799efa81783fe20bbba32238",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0016.mp4",
+     "sha256": "3afb1b4e593e76edb2efb5f8c3653c329fbe4b302037867f37aebe19da33c9b3",
+     "size": 178076405
+    },
+    {
+     "git_oid": "9b6696c64c7af54ac1af9fb5289fbdc4bfddb7f0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0017.mp4",
+     "sha256": "44c206aa8a487aa3643f129592d20c2511b8842177f6b9a390c7a8e6b9ca567f",
+     "size": 215433961
+    },
+    {
+     "git_oid": "861b77328acc7725afef977aeb9532002e3b514b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0018.mp4",
+     "sha256": "981350feece756f4b43807f5cddf043b036b69b56049e00d7807590b4e9617d5",
+     "size": 142253960
+    },
+    {
+     "git_oid": "b3b5b0401daef715ff80ec861c372f7f06149f15",
+     "path": "MTMC_Tracking_2026/train/Warehouse_006/videos/Camera_0019.mp4",
+     "sha256": "430a4b073058412e16f1c021ebd32ff5fba8b244c51e057aeeedc76aa8278a76",
+     "size": 146702868
+    }
+   ],
+   "ground_truth_sha256": "9023ec629e5e803ac447e2963ed82197725218a9cc9a126865aabd74b389c9b9",
+   "map_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "split": "train",
+   "tier": 2,
+   "videos": 18
+  },
+  "Warehouse_008": {
+   "bytes": 2084991673,
+   "files": [
+    {
+     "git_oid": "fe780eb3ef3aeb8d0a32039cfdefa533847f4ee0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/calibration.json",
+     "sha256": "e562e3e1a8c5ccc11f151aa68f6c8467a078c09048bf185c9e540bdd7d28ade4",
+     "size": 27875
+    },
+    {
+     "git_oid": "0b5f4f72c29834a9bcdd37545782f87430f0078e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/ground_truth.json",
+     "sha256": "c818f1b0b149476f8649eee34aa636ab33e018f2d1d14d667f63f656fd7fbef4",
+     "size": 131685326
+    },
+    {
+     "git_oid": "440c6c107c39e4b1f7935e3208477c307d2181af",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/map.png",
+     "sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+     "size": 1341561
+    },
+    {
+     "git_oid": "e2724fab12bbf804768be5a98892b53df75d9a62",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0000.mp4",
+     "sha256": "7bf38f1156dbb3f88b695dd1fc7c1b386b5fedf5fba5dc0957f7cf6b135de3e3",
+     "size": 134737936
+    },
+    {
+     "git_oid": "b5e8937382a9739d57d0396b95ec4df55298d335",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0001.mp4",
+     "sha256": "a0dbdbb7ac530a97a398345b2a10874e1e9e54340176892bb982ab7ebc32084c",
+     "size": 135812240
+    },
+    {
+     "git_oid": "aeb03c6a1dededfd34dee3a2a6b9fd5de023c120",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0002.mp4",
+     "sha256": "0e574726cf81941b45c22a37e49defce4a1e87b8e7ac61b106a1875bcfadd867",
+     "size": 133618379
+    },
+    {
+     "git_oid": "9f0d04b10ed68b0a51819d0a4b57109dd20d10ea",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0003.mp4",
+     "sha256": "ae3e2c445c8e08482afe38208aae4dae42bba7b1fd132a0178d9f0d503f5b94c",
+     "size": 170283753
+    },
+    {
+     "git_oid": "8b48e8b5de7c6bfe0f8766b473e9f3f046444fec",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0004.mp4",
+     "sha256": "1cfcafd55cf237050ff2af9d6f115f21c4b4941e5fdd977a9cbc93e2f663fcbb",
+     "size": 190288926
+    },
+    {
+     "git_oid": "3327afca4700933c49a58c0f7607dad70b531310",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0005.mp4",
+     "sha256": "1569b22486510fce7dc77c25c92edcc9800986b74f414d23a4c7aeccba922287",
+     "size": 182401114
+    },
+    {
+     "git_oid": "40fd6b8a2c7979c7ed2d7a1145621d917070de46",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0006.mp4",
+     "sha256": "c9b651316cdfa1539bc3c9439ff8b539a10166a04ad063cc345a7fb7bf1a3dc8",
+     "size": 138473182
+    },
+    {
+     "git_oid": "b4f912369944073029fe82321571aae931cf885a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0007.mp4",
+     "sha256": "e396ed4cf6d191401d8e9bbeb979ed0a0d826cc0f7c8c92eb50a046c7a608edd",
+     "size": 216069149
+    },
+    {
+     "git_oid": "8f8bbf2ffe0699ad5b761102d65fb32982f7b8da",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0008.mp4",
+     "sha256": "a154536daca6f1f6e85a88735a6c696faf29791df8752eaf8c1c4612a7b3838c",
+     "size": 175113653
+    },
+    {
+     "git_oid": "5b4e15deb30a7da84a41f6afbf33db35e5fd78d9",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0009.mp4",
+     "sha256": "cf922c1c146a15150bdbd97c047b8f3da6b0d3752e599ea4a70ea8d7af92b162",
+     "size": 142742807
+    },
+    {
+     "git_oid": "f3b8a2f98b129de0fc5f48dfdbd15369e8107988",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0010.mp4",
+     "sha256": "eb7ddf2d86f281eff57f7079f4bef6f4d18d01b74b6fc3567af38f4c4d6e082f",
+     "size": 164708763
+    },
+    {
+     "git_oid": "f3c0391d04a2cd1efcc935d805bc7823d0fa60b4",
+     "path": "MTMC_Tracking_2026/train/Warehouse_008/videos/Camera_0011.mp4",
+     "sha256": "d47f8f9c4d8eafb65826eef755d02cf06b9dc31ba98e64500b2293724525bc63",
+     "size": 167687009
+    }
+   ],
+   "ground_truth_sha256": "c818f1b0b149476f8649eee34aa636ab33e018f2d1d14d667f63f656fd7fbef4",
+   "map_sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+   "split": "train",
+   "tier": 1,
+   "videos": 12
+  },
+  "Warehouse_009": {
+   "bytes": 2177593800,
+   "files": [
+    {
+     "git_oid": "fe780eb3ef3aeb8d0a32039cfdefa533847f4ee0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/calibration.json",
+     "sha256": "e562e3e1a8c5ccc11f151aa68f6c8467a078c09048bf185c9e540bdd7d28ade4",
+     "size": 27875
+    },
+    {
+     "git_oid": "73e75ae7aa2327ef302cc281f1687c3544439790",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/ground_truth.json",
+     "sha256": "02ce7e922ea3b4067439a92362d2f7cecfec278b8ef46be44929a68f5cd6ca98",
+     "size": 137114364
+    },
+    {
+     "git_oid": "440c6c107c39e4b1f7935e3208477c307d2181af",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/map.png",
+     "sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+     "size": 1341561
+    },
+    {
+     "git_oid": "8b374bf6b244f127ee57ccfd8622f6bdeabc659a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0000.mp4",
+     "sha256": "5c9285caa664f6031e9c5ed650371423f3cb2b3ed583c940a40949fd25b7fe8a",
+     "size": 139862198
+    },
+    {
+     "git_oid": "2526302ec55c7a2041ec9f74af5168350ccb65eb",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0001.mp4",
+     "sha256": "2a059c5e37ba11460bdb1be465c92a4f60476a43ecd64edb29d681d2f1aa3fc6",
+     "size": 141249596
+    },
+    {
+     "git_oid": "a3b9c51d7e8c2361e237482cafa94c82bc03d0f5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0002.mp4",
+     "sha256": "c6dae92747e20899c6a4c21bdef328a1154951824d19767e59a37c592c6f90f1",
+     "size": 136254248
+    },
+    {
+     "git_oid": "8328937b15548d59101453dd6e43c079b6cf24d6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0003.mp4",
+     "sha256": "167d5723957d6347185f102b65d45b8eabbf4d9dea9a186b56123c814854e4be",
+     "size": 183820247
+    },
+    {
+     "git_oid": "b2f978d37b24aa118a7f953a1a1265cff810b72b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0004.mp4",
+     "sha256": "dee60f03b5fe0fe25b4a158e0bc4220fdf08fb77fd270e8dc64b001ccb69c497",
+     "size": 202141988
+    },
+    {
+     "git_oid": "977c63cc0be875223bdfda3e09294fb5625f6860",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0005.mp4",
+     "sha256": "8c5192b8c218354e56e1bc83af22df4af9438e33e7261ed76e9b6a1c1533fc26",
+     "size": 193700473
+    },
+    {
+     "git_oid": "5ed31f13910b8159d055a35fd663132c9421db34",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0006.mp4",
+     "sha256": "b23b40f2eb6e961136babd625ed0e301e497f9693e10362514c9d4be6294a586",
+     "size": 144871305
+    },
+    {
+     "git_oid": "0fffcf575fab35eb6ca965a355887fb4d78b46e1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0007.mp4",
+     "sha256": "91c5d5fb98f59916a1ce6d9dca7595bae7e273eda96e6ea9d04f916aa724489f",
+     "size": 224275445
+    },
+    {
+     "git_oid": "acb9ee71ded61de6bedee8d4b02ce629cc106036",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0008.mp4",
+     "sha256": "5c6c6eafc38be80aadd13e7af4111fa5e9038e7f1e485f02875d3ce4cdd6ccc0",
+     "size": 184812284
+    },
+    {
+     "git_oid": "c8a62500bb4fa2da9dabbfbe3e86f7949ccded1e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0009.mp4",
+     "sha256": "a1d181e9a1149b2d950166bdeec4f291f53f2bc66da487682848368ef5b296ab",
+     "size": 148132540
+    },
+    {
+     "git_oid": "2ea39c417c220c134569aec79e57f53ba9e21620",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0010.mp4",
+     "sha256": "585397185bc34ac765b11dfe05540d19562f71d3cbf0edd134331f587d104ca9",
+     "size": 169196929
+    },
+    {
+     "git_oid": "31e1f3a423fd6c9736c2b4afd01c73a642e86198",
+     "path": "MTMC_Tracking_2026/train/Warehouse_009/videos/Camera_0011.mp4",
+     "sha256": "e9e6751cec1dfe78231bc6fcf01015ef8b08a30d5fabf0224b281b16dad82f32",
+     "size": 170792747
+    }
+   ],
+   "ground_truth_sha256": "02ce7e922ea3b4067439a92362d2f7cecfec278b8ef46be44929a68f5cd6ca98",
+   "map_sha256": "6bcc68c4e980fa28ee9e88c9dd472fd576237b15bee85cb6234ee68fbfc354bd",
+   "split": "train",
+   "tier": 1,
+   "videos": 12
+  },
+  "Warehouse_010": {
+   "bytes": 1749327263,
+   "files": [
+    {
+     "git_oid": "19f1b68536b86ae68700a9acf4e2f1557ea4c76b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/calibration.json",
+     "sha256": "4f90c431253245b83dd3f83f0db0c471881e0e9fa3f7528441b1a05f80f12ef3",
+     "size": 25575
+    },
+    {
+     "git_oid": "c4873d5a1c5ac2673cb177d092108d12ccc62904",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/ground_truth.json",
+     "sha256": "c7d8edbec06581806e1b76fb62dc7a8803c38881f0293a7e05f22462b735b5cb",
+     "size": 219598026
+    },
+    {
+     "git_oid": "a36792de356d6e1f94591992ee0be211e07812d9",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/map.png",
+     "sha256": "1851ebb213d8132548a9c7bb501fbe456079a2ae38f28d431c0f0a9774f0a471",
+     "size": 466336
+    },
+    {
+     "git_oid": "08f00e58e067d6b6a038e470d216826c2f5fdc40",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0000.mp4",
+     "sha256": "13df913e2059274ba3be68e48e5c0a3b19e08591716edb57f9943fe1a27d75cd",
+     "size": 118099047
+    },
+    {
+     "git_oid": "35ecfdb3c02cd4bcf1d2812e57a0abcf83467384",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0001.mp4",
+     "sha256": "e00771b6cc6ea6091185984fbaab0e8738a1dac9679de85889d6ea6f528da7d2",
+     "size": 132322757
+    },
+    {
+     "git_oid": "67771937e4383c10dbddb2840e74f72a54e57273",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0002.mp4",
+     "sha256": "09ff1e8e5dc5db38707bef9cdc44e2fe5ed0135e038775ad7daecbe59077c2c9",
+     "size": 179304426
+    },
+    {
+     "git_oid": "a913b143893352b75004b1cb8702ec03c3f138f5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0003.mp4",
+     "sha256": "47997fcc86e535163d0e13f2b0c2b201ea480848ba9c2d90c724213110393e05",
+     "size": 122816092
+    },
+    {
+     "git_oid": "07088ad3522fe58dbd74083081b20214a7b394e6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0004.mp4",
+     "sha256": "09059d5e52315669738833e5769c0daca804d98bc28c6695ed65184731d25055",
+     "size": 136265072
+    },
+    {
+     "git_oid": "0fe7753941096e79e202e66eea39edd7bdb286e3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0005.mp4",
+     "sha256": "d0fc20a96e2b4b929104c16138b070247e4727204a27dacc4f1b16f3f050e465",
+     "size": 190951606
+    },
+    {
+     "git_oid": "bb052f73901d915296166b049bf91fe4630c2cee",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0006.mp4",
+     "sha256": "2c4690e4e2fe24efb701f86db77b77af8685150537e33deaeb357bd87d2e139b",
+     "size": 102906763
+    },
+    {
+     "git_oid": "8543ad0731c0ba405dd74a47e676b3ac4ecee1b5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0007.mp4",
+     "sha256": "f11517433bc5bc0033c4ac469e7d05ed9d9e9d213e71983f8b0d1b91cb7b3a28",
+     "size": 158585615
+    },
+    {
+     "git_oid": "403517004382d96eb31a31ee5b91cf51bbbd2dce",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0008.mp4",
+     "sha256": "5f436c5d636d634703e51e6f3457784a9383e34649027d90dc9ec6272e029947",
+     "size": 139595560
+    },
+    {
+     "git_oid": "4e66bab2bf759f7c141a7def2a18576b4b495b0a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0009.mp4",
+     "sha256": "9b71476cd4775521421a3095e9b2634562a3248e4348ae76987c5a9e9a88f9aa",
+     "size": 109422686
+    },
+    {
+     "git_oid": "760466e716ba235b871c693bd7e3696bf8d0b2b0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0010.mp4",
+     "sha256": "2fbc6479f57e0bd25418c721daadbde13eacac037b01aa5325adc69b4b37413b",
+     "size": 138967702
+    }
+   ],
+   "ground_truth_sha256": "c7d8edbec06581806e1b76fb62dc7a8803c38881f0293a7e05f22462b735b5cb",
+   "map_sha256": "1851ebb213d8132548a9c7bb501fbe456079a2ae38f28d431c0f0a9774f0a471",
+   "split": "train",
+   "tier": 1,
+   "videos": 11
+  },
+  "Warehouse_011": {
+   "bytes": 1705308247,
+   "files": [
+    {
+     "git_oid": "48c480625c4f06eae7a798053c6ed240cb0ac947",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/calibration.json",
+     "sha256": "57dd63f3d893bd94c7043efeb5cdf714ecee093806abf86d6ae10b451f561379",
+     "size": 23234
+    },
+    {
+     "git_oid": "483b77fc0b9f892f21cd818846993ba4a801718d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/ground_truth.json",
+     "sha256": "af12e3a95ffd815600a43120320258d15cb9493c2d693139456bd79558a1fe1b",
+     "size": 200294812
+    },
+    {
+     "git_oid": "35485f14f2b84390d69efdc2be42a8403f3211f5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/map.png",
+     "sha256": "6c38df3bf5c3887e4ffec617575b3380cf1b89115a762dd3812c1e8f90cbeda1",
+     "size": 472626
+    },
+    {
+     "git_oid": "4ae466bcb1fcd338ef325c18929a7a0ed22df4fc",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0000.mp4",
+     "sha256": "c87dc9e108ab35fc52f2a421a4ff02df1be6071f74f5e6c7d61485e704b335b4",
+     "size": 113462928
+    },
+    {
+     "git_oid": "15bc27f4f61ad9b8c6e6a96097fbe264f1442991",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0001.mp4",
+     "sha256": "5e713c2de8507dd797be320cb28d2f5884e2bfa509a218a007b9c0a9fadec68c",
+     "size": 127457796
+    },
+    {
+     "git_oid": "6e86517def92407720282107ba760cf256707d60",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0002.mp4",
+     "sha256": "b81cc83f215cbe2c002ac0f3253bf1e2c6b0681a07af35bf082511821a33900b",
+     "size": 173136508
+    },
+    {
+     "git_oid": "efdf16c84d0694a7a443f271c82249388896d3a0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0003.mp4",
+     "sha256": "805b16ce5ee961f6de7dea683cf90a3a2d5750ce7991f20396a435367175a27c",
+     "size": 141059940
+    },
+    {
+     "git_oid": "9b0951d70757254544582d35f2577ecdd4de6461",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0004.mp4",
+     "sha256": "885222d27b29152f131648e50817570e7d8ad837ff267020f32a7f932cd2f8f5",
+     "size": 177630046
+    },
+    {
+     "git_oid": "590d71cb3cb27443c23a7f8a49ee82ecffd996ef",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0005.mp4",
+     "sha256": "1a665ad38927aadfdb3c24ea78bf9bf4d65c788fd31814a89ec38c11a5ffff89",
+     "size": 151877996
+    },
+    {
+     "git_oid": "58363e034b8b120dbf0f5763a5457fd927486bcd",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0006.mp4",
+     "sha256": "41ef234452365f97e29c5cf8d71c959b25cce775a6740610a58c249e4f856acd",
+     "size": 155336161
+    },
+    {
+     "git_oid": "1509b2d24178a453fec5cbda02e3b2c5e14b31e1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0007.mp4",
+     "sha256": "1500ef393f53ef8b711b098227ea2099fbc387339651764b20ec2912bffb7b65",
+     "size": 149941187
+    },
+    {
+     "git_oid": "8b8f6b6163a8c0c6fb24ce7059993b136f2b2bd5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0008.mp4",
+     "sha256": "e04887bfc9b6539099040b96598423ff8c6faeb56e6e881dcf12215c0870feea",
+     "size": 193722564
+    },
+    {
+     "git_oid": "e025db534cb8a38f480cea9e997d473b254e767c",
+     "path": "MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0009.mp4",
+     "sha256": "8e5fdc851459e78cd03a33cb2bb3fc64105b6ec4d60bacbbdd3ba2c630c1f55f",
+     "size": 120892449
+    }
+   ],
+   "ground_truth_sha256": "af12e3a95ffd815600a43120320258d15cb9493c2d693139456bd79558a1fe1b",
+   "map_sha256": "6c38df3bf5c3887e4ffec617575b3380cf1b89115a762dd3812c1e8f90cbeda1",
+   "split": "train",
+   "tier": 1,
+   "videos": 10
+  },
+  "Warehouse_012": {
+   "bytes": 1211611690,
+   "files": [
+    {
+     "git_oid": "55d2211b8516586a7af5eb8bfeade1e10b63e7bf",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/calibration.json",
+     "sha256": "7e988d06acafcec5d158266c7a2c3650c65df32de0d0e5d751abeb5b23069ee1",
+     "size": 18577
+    },
+    {
+     "git_oid": "6e930bebde471fb3f74b3597e74055bee8aeb0aa",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/ground_truth.json",
+     "sha256": "6640c665c47098ff09bcad28e021e3ae7dcc1dd2ff242c5231f18407f0c90343",
+     "size": 151774630
+    },
+    {
+     "git_oid": "954b8a91001665d2c518c4f2d5b0ab925e2c6eff",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/map.png",
+     "sha256": "c3e141a65f341a79752e272cc8e6b60d82334108af64c435a591fa76fdce0f85",
+     "size": 494383
+    },
+    {
+     "git_oid": "6913672c49d2ecc99aad60d90b65942778d5c438",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0000.mp4",
+     "sha256": "b662f85f0178a15cba8ef72a137962b65b94995832d5f01ff5cbe7d97f02a484",
+     "size": 147655417
+    },
+    {
+     "git_oid": "18ad8ab268387dbdf92c7c9adc1f3e76e45bb0e6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0001.mp4",
+     "sha256": "2f4f0e27c67e4645133c4f6490c35f282ab64ded89e7250fa65ddb82c4d98fc3",
+     "size": 140068669
+    },
+    {
+     "git_oid": "a700ec3a95a88228e4a5d57937050465a466a2c1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0002.mp4",
+     "sha256": "95060c86ef2f0c79b9dac1a0caeb48cb5299449c2096211524c6edd65c7e50e6",
+     "size": 159567373
+    },
+    {
+     "git_oid": "866d2011e40025f8ace69cba1f2e1ca4b234bc14",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0003.mp4",
+     "sha256": "d1b715ad39eaf24ccd897ccdc7c787c34e0da6a5fcbcb3a25d5aade2a216f326",
+     "size": 124270645
+    },
+    {
+     "git_oid": "01a5d9538f899e02504ce36ccd6ab1d30586a6aa",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0004.mp4",
+     "sha256": "471fe920a54ceb6b5b4b6b54e83cf22decf263056c9561d226ae62794908fa34",
+     "size": 95893004
+    },
+    {
+     "git_oid": "2d6c3b4a416d6a16d936b8c966b7129207c0a407",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0005.mp4",
+     "sha256": "01d3d83d383031768f9bc90a3d90abb3d1b101f9d90b950b89bf273dc9314dc0",
+     "size": 149538794
+    },
+    {
+     "git_oid": "e75af976c82bc251e3f08c5b927ee5f7e977414e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0006.mp4",
+     "sha256": "f585caca55389ff78f826a773b538bfff3848fead1d737fc3b5c864c0409751b",
+     "size": 94391886
+    },
+    {
+     "git_oid": "9956d4ce63441b51f42e51c29f473d6f3e58ce71",
+     "path": "MTMC_Tracking_2026/train/Warehouse_012/videos/Camera_0007.mp4",
+     "sha256": "8e094f13ea4c09b04bccf6eb62897280091109df77d72924c1dbc3514037f32e",
+     "size": 147938312
+    }
+   ],
+   "ground_truth_sha256": "6640c665c47098ff09bcad28e021e3ae7dcc1dd2ff242c5231f18407f0c90343",
+   "map_sha256": "c3e141a65f341a79752e272cc8e6b60d82334108af64c435a591fa76fdce0f85",
+   "split": "train",
+   "tier": 1,
+   "videos": 8
+  },
+  "Warehouse_013": {
+   "bytes": 1522103100,
+   "files": [
+    {
+     "git_oid": "5cc6292b840708dda7823e91f0e380a9cc30f5d5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/calibration.json",
+     "sha256": "a49e75e0d13de55c9793242f023a851589a0237a265ee3419a86c0408dd32d91",
+     "size": 23188
+    },
+    {
+     "git_oid": "a80ddabf4cbe3d0c5458ae6642507f4e773a5db6",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/ground_truth.json",
+     "sha256": "4d45c3706091b446bc239b447867e732b1153010c2c1d52e1ce78924c4f01ddf",
+     "size": 167323313
+    },
+    {
+     "git_oid": "8b7b074f42060a61fc8f53c09181cc916d9077f0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/map.png",
+     "sha256": "742c8eb4cfd05e65bb43bf954819920772fef7c96f5ba8d09421c1233a113919",
+     "size": 375719
+    },
+    {
+     "git_oid": "ddf723158b1e693304472c96dc409bbb6146ea5e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0000.mp4",
+     "sha256": "82738d2ba647d26a7ecd23b9c1d26d03d02348f97e65403891a62b9e2a356c3e",
+     "size": 146280271
+    },
+    {
+     "git_oid": "a29598cad0453286e613c1b33382e6847f4fe56f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0001.mp4",
+     "sha256": "96bdab8ed55c243cff234e2b1b4789d82ef7fc7a89b542735efb5117f31a1528",
+     "size": 111838456
+    },
+    {
+     "git_oid": "b3df2a121bd262bb97d8aba6c4d98c4f212e58d0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0002.mp4",
+     "sha256": "6d620505d897564aae95f4f8815cb99cdd50cd5f34590aa39101e2bbefd1264f",
+     "size": 148558118
+    },
+    {
+     "git_oid": "55c4977cd7ec80c6749001ec40690b6a65f47737",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0003.mp4",
+     "sha256": "ecfcd517c824c2131e27c1f75953622d63af62c455eee6c2dedc7f6feec37ab5",
+     "size": 111006273
+    },
+    {
+     "git_oid": "4016171f466329b344cf27c2476120ab76cba281",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0004.mp4",
+     "sha256": "34bc662fe7f77c042755ac5642221f76ee15ce94d0c6f9a40026b2b17a7eb0c7",
+     "size": 129216400
+    },
+    {
+     "git_oid": "d1a5424ab59bde5a6063dd2a03050f6e18dbcbe7",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0005.mp4",
+     "sha256": "19581fd1a40a2e3127c852f33f1b7ad7983e043eaa2cf8dacc2d911657700657",
+     "size": 82165608
+    },
+    {
+     "git_oid": "20b5835c51d3651d6107920302ba5bdd1a9d6cbc",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0006.mp4",
+     "sha256": "a30308bd3029ca9243f6bdf612ff04b9842a08e43d32ea676379bd01fcfd443c",
+     "size": 106106939
+    },
+    {
+     "git_oid": "3115721237296d534faee348ceaf917cfae3837c",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0007.mp4",
+     "sha256": "6621e53267d9535b15f3efb29cd839d944f260fb0154b95665f534919a61d9ff",
+     "size": 160293149
+    },
+    {
+     "git_oid": "106f216758d911ee5b116813b3d86d16f7f8cf22",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0008.mp4",
+     "sha256": "5f605b75c6072402954b17d30e3ad0832f892ff86ddea33ddc1f8e29a4dd6157",
+     "size": 179429988
+    },
+    {
+     "git_oid": "3e455f9a488bcf4f8ebfbe385112f8e1a06bcffd",
+     "path": "MTMC_Tracking_2026/train/Warehouse_013/videos/Camera_0009.mp4",
+     "sha256": "586ca2544598d03ee100bd2ea9e2240c43f54dc62fa70d155452e32966aed67f",
+     "size": 179485678
+    }
+   ],
+   "ground_truth_sha256": "4d45c3706091b446bc239b447867e732b1153010c2c1d52e1ce78924c4f01ddf",
+   "map_sha256": "742c8eb4cfd05e65bb43bf954819920772fef7c96f5ba8d09421c1233a113919",
+   "split": "train",
+   "tier": 1,
+   "videos": 10
+  },
+  "Warehouse_014": {
+   "bytes": 2059042377,
+   "files": [
+    {
+     "git_oid": "6c40ae224067830ddcc5cb64cf11f935ac73bf89",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/calibration.json",
+     "sha256": "90560b383c140fa6d970b83d67594fa1ebf85ae64dbda95eef0100f4e8e5d55d",
+     "size": 25528
+    },
+    {
+     "git_oid": "22a5e292e591f019bdff1e160653049514a1cb6d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/ground_truth.json",
+     "sha256": "56ec4bf9311458b82bca02081d338349c7b046ee8d32c08b1bef5c82749bfbd6",
+     "size": 208563100
+    },
+    {
+     "git_oid": "cae3cd8725c866583bcc885566a298abc8fb9efd",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/map.png",
+     "sha256": "d1e543dccd0dc7e6c21f43f7e4fade101b2cd2167b1291cad101b1fcfe9c59c2",
+     "size": 554043
+    },
+    {
+     "git_oid": "cec4fc662aa3fde4ef008f42e012069cf8d0d579",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0000.mp4",
+     "sha256": "17ef9a11f9569c1c1e977837ea803ecf9e9c19ecf2723a9e69ccbe8fdfa67f89",
+     "size": 124129134
+    },
+    {
+     "git_oid": "125bfd8a69b0e19e74717e724665c8ae50a4682a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0001.mp4",
+     "sha256": "6e5dc3354a233df155d17014469603c524b67ed4389f37618f21257861cd6cc9",
+     "size": 96422322
+    },
+    {
+     "git_oid": "2ceab0db124a624ceff8786f14770b7f373ee9be",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0002.mp4",
+     "sha256": "0585857a7d22725388a9f21d0bda416e97c811bc500c69f88e08f2271b287f2f",
+     "size": 166130367
+    },
+    {
+     "git_oid": "b91408fdc61b1be44f1b25e14ef791c36093b862",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0003.mp4",
+     "sha256": "5e6644bb44a504fa31f738df363437ea3a255281479dc8da6042d6dbc861a087",
+     "size": 228517146
+    },
+    {
+     "git_oid": "8174610102db661a6c4673d785f538db69813a28",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0004.mp4",
+     "sha256": "776e70db7af76aed88a661db973e5fb1bdce007d73b32196d2242f8cafb85ad3",
+     "size": 131902416
+    },
+    {
+     "git_oid": "bb9932660a9ab8637e893de0674fc284561ea4d2",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0005.mp4",
+     "sha256": "9c164ada72338c28c1fdc99b29eaf7bcccb2e5d747b0c36c7d6c05f6b7931a5e",
+     "size": 129267514
+    },
+    {
+     "git_oid": "e5579d0e11474ea82fb02dcdb1771876fcd1269a",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0006.mp4",
+     "sha256": "a4f07230c060673369b26ae0adbada3681bdb9741683c333c3a02e7798aff840",
+     "size": 217799845
+    },
+    {
+     "git_oid": "f1b0e06d10e7d2af0c469a157a48c913df526526",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0007.mp4",
+     "sha256": "ef25b76cb92745548cce6002bb1b51f8fb80ae070528ae9b8430fbf0852788c5",
+     "size": 197247070
+    },
+    {
+     "git_oid": "651472d390fdb8c4c1e5ed221b378d0c5415bab9",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0008.mp4",
+     "sha256": "c795c6b068e175978ed2ad37edfc6441d65e3e9034e252827b40b657594eb4c7",
+     "size": 161041241
+    },
+    {
+     "git_oid": "74476cf8c6ca16a5b07f567ca2ed6ce07a1138c3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0009.mp4",
+     "sha256": "faa6a287ebee033ea17c232bdf2f4983df44e61504180e7633cfd182d6cf56d4",
+     "size": 175637016
+    },
+    {
+     "git_oid": "2bcf6e44171d433295ee3fbf59662eae80822eea",
+     "path": "MTMC_Tracking_2026/train/Warehouse_014/videos/Camera_0010.mp4",
+     "sha256": "80b7600be8c18add265a52535a2bf4692b1dd10d6affd6647e9cb24c962cdcce",
+     "size": 221805635
+    }
+   ],
+   "ground_truth_sha256": "56ec4bf9311458b82bca02081d338349c7b046ee8d32c08b1bef5c82749bfbd6",
+   "map_sha256": "d1e543dccd0dc7e6c21f43f7e4fade101b2cd2167b1291cad101b1fcfe9c59c2",
+   "split": "train",
+   "tier": 1,
+   "videos": 11
+  },
+  "Warehouse_015": {
+   "bytes": 1915583008,
+   "files": [
+    {
+     "git_oid": "11166588544866a066210bab337aad58f5a35168",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/calibration.json",
+     "sha256": "a0ef74d5eac087d66c0550e506b6cc894541c1d222d58787bcf57845dc686934",
+     "size": 23202
+    },
+    {
+     "git_oid": "658aaab7e921654375f379148401e6b88d7e88a1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/ground_truth.json",
+     "sha256": "cead8f0c809297614f92ab2cccdb1a8a76b88e6113cc07ecafcb2b842f299644",
+     "size": 212094885
+    },
+    {
+     "git_oid": "dd27e5547c7d059e65b18402a25ac4f2c3c9bb73",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/map.png",
+     "sha256": "24697fed04274f7e90e9ef2a9f1ae7508bc376f869850a0d7f128632644b215e",
+     "size": 403341
+    },
+    {
+     "git_oid": "f3aeced6be37e415edc6123e0dbb1450e3e1476b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0000.mp4",
+     "sha256": "6caf0f2306c3e9dc044492db5e5432fc5bbe0495684a107bfb0b18bbe1a01b37",
+     "size": 195403721
+    },
+    {
+     "git_oid": "df2ab931e41a5ffed50fa6593507590f76ca7690",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0001.mp4",
+     "sha256": "f52e63923cd2b546e94c8776f9923caf3c0a8a9d46110fd559917ef618721da4",
+     "size": 116001412
+    },
+    {
+     "git_oid": "888a8e1d796c7969d6a4ebeea199abe45e3a391f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0002.mp4",
+     "sha256": "bd3a6080651d1dbd3302a50a3f4c42ea8c906f6e66b172e04993b702df97ee35",
+     "size": 171862543
+    },
+    {
+     "git_oid": "261ec18b0570af638908b576fe0ac9f577a13300",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0003.mp4",
+     "sha256": "89aa6c94c4868740b5fd54d61b5c102d0cc76ff4cb584d3321872c78d8fc7ab9",
+     "size": 150493611
+    },
+    {
+     "git_oid": "23390f92844be24ce6eaf090a153976b03569bd3",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0004.mp4",
+     "sha256": "96ce3fcd17cc9651453400b1c981e3ab73f4d854b1d70432b1af0112415083d9",
+     "size": 219865815
+    },
+    {
+     "git_oid": "51475c601b18c54d25d867d06255efcaba7d7f0e",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0005.mp4",
+     "sha256": "139e30b27a7df151ebff7f7d248cbae68660d138b4244b0eb2fd9fc13d60c4c3",
+     "size": 150474789
+    },
+    {
+     "git_oid": "108b45e2da96ccf41a2d61df609d20b6eb037ac2",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0006.mp4",
+     "sha256": "1083ed43de522f95cb34085de407ebe9ab3764fe99812a7590b84d630c2b239d",
+     "size": 228443772
+    },
+    {
+     "git_oid": "c8b66527f97c61acdf2bb7127a61b8595cdb8460",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0007.mp4",
+     "sha256": "fe6db6548703d569e82fd41af59fa0473d2fb13c8868dce5b48e410bd6eab7d5",
+     "size": 203185735
+    },
+    {
+     "git_oid": "f2477b8d42aa3497b05c139a3057be4a3ea13d1d",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0008.mp4",
+     "sha256": "309f74ce38f88e71a8d05b7c12e5cf4b17043954a1f7dc0a59addaf8563ac184",
+     "size": 110383077
+    },
+    {
+     "git_oid": "14c3762bf0eea64e3f337d8fa7b911894bca5f23",
+     "path": "MTMC_Tracking_2026/train/Warehouse_015/videos/Camera_0009.mp4",
+     "sha256": "6454ebf142bed9201f7bee2e6a7be42871e762c42c592fa51912c5f30cc8a443",
+     "size": 156947105
+    }
+   ],
+   "ground_truth_sha256": "cead8f0c809297614f92ab2cccdb1a8a76b88e6113cc07ecafcb2b842f299644",
+   "map_sha256": "24697fed04274f7e90e9ef2a9f1ae7508bc376f869850a0d7f128632644b215e",
+   "split": "train",
+   "tier": 1,
+   "videos": 10
+  },
+  "Warehouse_016": {
+   "bytes": 1603625312,
+   "files": [
+    {
+     "git_oid": "651f9d919e30e9274c195c46f57cde06ec22a7ba",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/calibration.json",
+     "sha256": "58fb3b3170190ae8d23f398e5960f2195e3844ea3afe817bde7fe6c6161e05e5",
+     "size": 25516
+    },
+    {
+     "git_oid": "8ae705b061af95ba1d438d14fe4f78f63414b870",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/ground_truth.json",
+     "sha256": "c8eb1855240b4652ab24d4141e9acbd945f94c90f55b2b6b8450a5859f1c5067",
+     "size": 170228142
+    },
+    {
+     "git_oid": "5d0b621ea8400e9b4a4e59ef1c1259eee3afc342",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/map.png",
+     "sha256": "23ad2d61943a2bff9bf6ded10f422e651170e7551603b17a6cecb388b04a65ab",
+     "size": 516665
+    },
+    {
+     "git_oid": "af9cb22ab715ea4928de11c6cf784ca66df47f49",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0000.mp4",
+     "sha256": "912988f95f84faaa663ce1e1c63a2ac717ce1c021ed7d63d311378ee289ab768",
+     "size": 111358779
+    },
+    {
+     "git_oid": "63aefb410f29b2edad3b851bf140ffb0bf811ec0",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0001.mp4",
+     "sha256": "7ab644d91a135cde49fc0e889e84f8750903a79c8e82407c0a05e8497a979183",
+     "size": 184236627
+    },
+    {
+     "git_oid": "b1af1b78fc34697937bf2324233bb175e711f372",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0002.mp4",
+     "sha256": "ceb63fe7f96b24b051becaeffd8c501af56ddd7a71a0f1ed62f64368d2d10eda",
+     "size": 128733652
+    },
+    {
+     "git_oid": "031058e2a851762fa16a68f9032481d4431ee726",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0003.mp4",
+     "sha256": "036948a2ac71341a876ad5a84a7d6e7fbf68d6e1666c4d51e6692b7168f74561",
+     "size": 82260623
+    },
+    {
+     "git_oid": "feda6de59ad85f3a47eaa3b4844a45c9be7055be",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0004.mp4",
+     "sha256": "33800393f0e5b625f74c49f8ec28f5b0b8ac76ba88ca8af6e3e3b15ece8946bb",
+     "size": 115973402
+    },
+    {
+     "git_oid": "5a7d323f399fcf6a46526e040414d28db8ff975f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0005.mp4",
+     "sha256": "07face035b57dfc20548e18c611d561088b91ea3e03a2f4f6da458ac993a9eaa",
+     "size": 131544328
+    },
+    {
+     "git_oid": "42a4f152efd1427ef49c4cbe956fc099d0b360e8",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0006.mp4",
+     "sha256": "6d5469f3a28cbd6085322008d1bc4e8da06be84d84aa6f30b3e17eac4ec018a9",
+     "size": 155979805
+    },
+    {
+     "git_oid": "94485ae658a927d8e5f6e5f9488fe3a6950e3414",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0007.mp4",
+     "sha256": "610e0bb5449e43834359d484c4cc5b51889e7836a80d97d203545849397a2b1e",
+     "size": 86663940
+    },
+    {
+     "git_oid": "fa05fb4543ecd9fc02590c6ab52454c9e148eec1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0008.mp4",
+     "sha256": "dfdcca35e7b7fc0c535c8fa58ef2ca7f60bb2728384a08c9b0b01d6b9ca6fcb8",
+     "size": 116086117
+    },
+    {
+     "git_oid": "a6d9160b51ae6a6c79bb983f502975c50fffaa30",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0009.mp4",
+     "sha256": "6a17e9da787d11b18f582232c70b82b2565e397fbd237b85d6c3403369d10870",
+     "size": 131877838
+    },
+    {
+     "git_oid": "d7d0e9c1046793d8a34f45cf6d153f4aa4d7c399",
+     "path": "MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0010.mp4",
+     "sha256": "18f118b87cdb0073c8a8819741c4ba701c7e94dd12d941cb30af62fc954a07bd",
+     "size": 188139878
+    }
+   ],
+   "ground_truth_sha256": "c8eb1855240b4652ab24d4141e9acbd945f94c90f55b2b6b8450a5859f1c5067",
+   "map_sha256": "23ad2d61943a2bff9bf6ded10f422e651170e7551603b17a6cecb388b04a65ab",
+   "split": "train",
+   "tier": 1,
+   "videos": 11
+  },
+  "Warehouse_017": {
+   "bytes": 418808353,
+   "files": [
+    {
+     "git_oid": "5eb9146551bf42f2fcb13bbec2ffdd3609407fc9",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/calibration.json",
+     "sha256": "7080a47c0ab263cc8a4e9f0afb476798669eb24883e63efd21173d53a6305341",
+     "size": 6992
+    },
+    {
+     "git_oid": "556b51e1fff0d8215e765aebd63ea47420fc4063",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/ground_truth.json",
+     "sha256": "5d8851a1c9fb3e9a67391c05daf49fd5d538b9f1c60fd11e32e4677ccbcc0902",
+     "size": 17144990
+    },
+    {
+     "git_oid": "ae0432b8a1eb1e83286fc72fcf74665c74d758b1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/map.png",
+     "sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+     "size": 1075465
+    },
+    {
+     "git_oid": "53fa8db9e0a3897711cbcfbfd5f77577bb197ef7",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0000.mp4",
+     "sha256": "32a027a0e2212607d9437641e966e00c077ff42e62ace57adbaf8d18961102ca",
+     "size": 145590032
+    },
+    {
+     "git_oid": "0aed517942786c0b8f2310ff5bdb1e4d1ea63839",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0001.mp4",
+     "sha256": "372fa9f866bfbe8de07246a1fb9b8335725a383491b31cff4e10bc9c5041ecfc",
+     "size": 123557599
+    },
+    {
+     "git_oid": "8f8246b47da63ac9433b3ebcd7e3045d488ff93f",
+     "path": "MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0002.mp4",
+     "sha256": "516c5b9b9b5099ffe3a66b73dd547b053d85d600ee38a62f0a8999ed3c481635",
+     "size": 131433275
+    }
+   ],
+   "ground_truth_sha256": "5d8851a1c9fb3e9a67391c05daf49fd5d538b9f1c60fd11e32e4677ccbcc0902",
+   "map_sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "split": "train",
+   "tier": 1,
+   "videos": 3
+  },
+  "Warehouse_018": {
+   "bytes": 370777759,
+   "files": [
+    {
+     "git_oid": "5eb9146551bf42f2fcb13bbec2ffdd3609407fc9",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/calibration.json",
+     "sha256": "7080a47c0ab263cc8a4e9f0afb476798669eb24883e63efd21173d53a6305341",
+     "size": 6992
+    },
+    {
+     "git_oid": "146cc934976e65a6649078b1f4a362d2745181ae",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/ground_truth.json",
+     "sha256": "0e1ed9bc72ea19be9447bb39552b3b91f62a33d5abf398ce119793a2b2868770",
+     "size": 14348963
+    },
+    {
+     "git_oid": "ae0432b8a1eb1e83286fc72fcf74665c74d758b1",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/map.png",
+     "sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+     "size": 1075465
+    },
+    {
+     "git_oid": "3ec72f66d04014b3a7ee57217975747f17aedbab",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0000.mp4",
+     "sha256": "819c1e1adc6397c1d605a601550f992ce29053a9ad62caef1a5a1a06e31ef390",
+     "size": 126936882
+    },
+    {
+     "git_oid": "8fb86c9f061899eb8e74c3ffbfca24766d0ce8ef",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0001.mp4",
+     "sha256": "ceb3452b102aba7e20c9831220e985366df7a235275691aaf0369f5b5eb816e5",
+     "size": 107462688
+    },
+    {
+     "git_oid": "488c234a8923226d6b125dc4b7bba9dc0084bcb5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0002.mp4",
+     "sha256": "a47011e6945f55afceeec166606603a823adf14af772edd266e01451db11b2b1",
+     "size": 120946769
+    }
+   ],
+   "ground_truth_sha256": "0e1ed9bc72ea19be9447bb39552b3b91f62a33d5abf398ce119793a2b2868770",
+   "map_sha256": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "split": "train",
+   "tier": 1,
+   "videos": 3
+  },
+  "Warehouse_019": {
+   "bytes": 318223104,
+   "files": [
+    {
+     "git_oid": "7363c01cf0e03362ce35a5cbb6da23ca22cb3d35",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/calibration.json",
+     "sha256": "777f670b6bf5ec6a65db4adc4201b95a45a0e2e7534fb41e50f9bc5781d75b67",
+     "size": 6976
+    },
+    {
+     "git_oid": "bf5f3e853895874ca38570016f491d146fe5e12b",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/ground_truth.json",
+     "sha256": "c1aa90701a4501c8046e1861a48c64307adf9f201a6bddae4ceac1d076830b71",
+     "size": 14845233
+    },
+    {
+     "git_oid": "f84f57c9484f18e99c0fde880eac9fe478c49432",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/map.png",
+     "sha256": "ebb25e1792f1043314f43e6994396cf49fb3a3271b7142c9db40d153c81bb0a3",
+     "size": 1071955
+    },
+    {
+     "git_oid": "5efec1dd5c8189e136c8ed8cf9a8e22b4af88417",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0000.mp4",
+     "sha256": "8278d6c95eed569d3946d638efd940e79b1ca9d0f0fc2d808c702798779a6583",
+     "size": 101839158
+    },
+    {
+     "git_oid": "b33c84f984a345c9c2103fd0c57e50e614428b07",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0001.mp4",
+     "sha256": "16f41d22f737828bb595288658af6de7a954b9b6b9f936c719382e05bb482f29",
+     "size": 90883314
+    },
+    {
+     "git_oid": "525b3aee5e4538d3595c23f514398a3eaad7d9d5",
+     "path": "MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0002.mp4",
+     "sha256": "1422112c8ade96c81caced7c39ebe651afae97e84b95acb8e2bd33d4b0d940fc",
+     "size": 109576468
+    }
+   ],
+   "ground_truth_sha256": "c1aa90701a4501c8046e1861a48c64307adf9f201a6bddae4ceac1d076830b71",
+   "map_sha256": "ebb25e1792f1043314f43e6994396cf49fb3a3271b7142c9db40d153c81bb0a3",
+   "split": "train",
+   "tier": 1,
+   "videos": 3
+  },
+  "Warehouse_020": {
+   "bytes": 3109047817,
+   "files": [
+    {
+     "git_oid": "32c1228671f1d3f3c6228d60d68f617ddbbfbba4",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/calibration.json",
+     "sha256": "02706de6cd20ac7276f65521d27174552bc98fb3648e6975b83b404b44aa1dd0",
+     "size": 37210
+    },
+    {
+     "git_oid": "331332842388a21c3b301bb80421890cd3582a21",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/ground_truth.json",
+     "sha256": "fa584c3ab42bb52eabad046a94609fa57ce9c4b7707c60d6f9f17ac5e15a10a7",
+     "size": 256149458
+    },
+    {
+     "git_oid": "51e5d216f284f28e17918d010059405006742d7a",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/map.png",
+     "sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+     "size": 1123636
+    },
+    {
+     "git_oid": "0419f23116e36aa1e60822fb92e269e9417004d4",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0000.mp4",
+     "sha256": "6111d00332c31e7bae9cd4f7cb3d0c109b07b1e09b9aae6d24ea4997f23125df",
+     "size": 150633729
+    },
+    {
+     "git_oid": "86797f78d98994e832ac76626e6991baf09c6681",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0001.mp4",
+     "sha256": "c6fa6a3cd621740b03dddb254eb85d9136ece0f89c28a0554d512cb18f6b36ac",
+     "size": 125296491
+    },
+    {
+     "git_oid": "888dd224b8fc4acc4cedcfff2309bcb4cd8c36fc",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0002.mp4",
+     "sha256": "734ec7cc5deef474604471b4ddad8f3e28f1af1d22548f38f550c6a389cf4dee",
+     "size": 218529541
+    },
+    {
+     "git_oid": "66ad9bac79f212e11d2b9bcb71e379c63906950b",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0003.mp4",
+     "sha256": "f9db920ae4c4e29f5a116207ae45ab4a785e888987f1d7a59143515d44798429",
+     "size": 219136621
+    },
+    {
+     "git_oid": "befa0a3e9c42f9978877be0f48683ae4833733af",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0004.mp4",
+     "sha256": "1f417ee60f2131bf5a47768ede8e4196597152645407e037722aeb6c1f863743",
+     "size": 156046828
+    },
+    {
+     "git_oid": "2406d5bb976ecfa18a850a69670446f247466617",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0005.mp4",
+     "sha256": "fa5016c1cb1bc66d2b5d46786579fd8064d534f39edb44a259b872201261f756",
+     "size": 212332835
+    },
+    {
+     "git_oid": "179f397a1c6c58ccddabd9a5e3cd65f8f45d0705",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0009.mp4",
+     "sha256": "1d09ffcbf4bd6b8bc11349f020272df6b67accf4c1bf0be0904db2d8150dd2f1",
+     "size": 127228947
+    },
+    {
+     "git_oid": "3100b273d330a872a3f984b4cc965a3df8039678",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0010.mp4",
+     "sha256": "8fb632d434f93cc705aefa237d20d84d4c38509221966f5bf6f38b33e6ac1a85",
+     "size": 174689106
+    },
+    {
+     "git_oid": "28084359bd263ee6429525b73923074d13f8510d",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0011.mp4",
+     "sha256": "9966c6398d4e95cd70c4f572a704371cf9b6b9d5ca1b5b3f3e75804ad6927046",
+     "size": 239119614
+    },
+    {
+     "git_oid": "0f175caae5eb28ea26ccfc6c71ceb2a28f0d7c33",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0012.mp4",
+     "sha256": "fdb1dc067288e0022a6cdf5226e55ec8d85da768f6e411232b1b6195d493e6c9",
+     "size": 159773588
+    },
+    {
+     "git_oid": "8dbc5ea9ccd39bdc1583c895cddce95fca986e0e",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0013.mp4",
+     "sha256": "ce045b0e8d17d348808bc6ba1ca63ef36bb4fd23331e4b7d83be1d20a523f653",
+     "size": 200816339
+    },
+    {
+     "git_oid": "dd1caa2848f53f44b42fc0a2309da72656903a09",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0015.mp4",
+     "sha256": "4fcca4fd268e15c3c8c9d4f75e57a3d97327be002b84257eed27aab0849a8f90",
+     "size": 158145318
+    },
+    {
+     "git_oid": "02162a40f6ba46bb10b51c1af80542e887ed593b",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0016.mp4",
+     "sha256": "b8a503127b757a5f06c581adf3f63b9a77a444ec7713230b0749f7f41fccf0ce",
+     "size": 199182821
+    },
+    {
+     "git_oid": "e275e92c80ef86bfb01873cdc681688ec9e947b8",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0017.mp4",
+     "sha256": "cfc707cb811085de14f37b53e0bc0db4a15494bc14289c7942916bf4533e0489",
+     "size": 141305717
+    },
+    {
+     "git_oid": "56836dd9357a10434c9b086da8d09b4439e0ace5",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0018.mp4",
+     "sha256": "2fc909def884310b648fccdcfa4abfac65f98f55d9264f7bdce30859533e74b9",
+     "size": 152682123
+    },
+    {
+     "git_oid": "60aeccc3314d5ed3165aa5af1fde3b2e38583e26",
+     "path": "MTMC_Tracking_2026/val/Warehouse_020/videos/Camera_0019.mp4",
+     "sha256": "91aca687b04582b957ca96e378d1cf2f5072f920ae9af577408d76b98aee81bd",
+     "size": 216817895
+    }
+   ],
+   "ground_truth_sha256": "fa584c3ab42bb52eabad046a94609fa57ce9c4b7707c60d6f9f17ac5e15a10a7",
+   "map_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "split": "val",
+   "tier": 2,
+   "videos": 16
+  },
+  "Warehouse_022": {
+   "bytes": 420705171,
+   "files": [
+    {
+     "git_oid": "72b63d3725268589039ca5ca1df37e29a6ee8fcc",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/calibration.json",
+     "sha256": "3cafe4d372355fef383dbe2f84591f91e338da2e1947363267518102cba97d15",
+     "size": 9365
+    },
+    {
+     "git_oid": "5baf6be49f19e70729cb6c43580f9bc5225ead4b",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/ground_truth.json",
+     "sha256": "9d179e36c180b2dbbb475ae4187602b4cf22db7fc611d08c51105888aa8fa906",
+     "size": 35334014
+    },
+    {
+     "git_oid": "b9ae8f68aa92d287805dbe863bb06a1c3586ef54",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/map.png",
+     "sha256": "9ef6d8ae7d95d1d991ff972653e74aa3adb3ec83b1138bca69b362299f30ed8e",
+     "size": 1495302
+    },
+    {
+     "git_oid": "51cf98292d886368ed785602454a5b3df273a06d",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0000.mp4",
+     "sha256": "a13449db511f27080c1e450c7a6a10aaadc6f075cd4044aac64d84f6406732ad",
+     "size": 98724142
+    },
+    {
+     "git_oid": "30fd136be4c25d9549401b4fff8b7c0279270029",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0001.mp4",
+     "sha256": "a000effd596b191a1a7e066b1cce376d2360a9dd7f6da7ea5262111674b1b25d",
+     "size": 87866300
+    },
+    {
+     "git_oid": "51c7d1dcc814bfed4dfd2d762b1b2feff788d38a",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0002.mp4",
+     "sha256": "a660d8e0f5177b42911732554ce12330edb1380fcc2c294b4eeb055b7da3a71d",
+     "size": 100359743
+    },
+    {
+     "git_oid": "bc3ff07c45cf55378a6817ee2494fbe0543a667b",
+     "path": "MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0003.mp4",
+     "sha256": "724e4331d64379bcab61a02e515f65c08a17a068d07be151e40c36bf097fb564",
+     "size": 96916305
+    }
+   ],
+   "ground_truth_sha256": "9d179e36c180b2dbbb475ae4187602b4cf22db7fc611d08c51105888aa8fa906",
+   "map_sha256": "9ef6d8ae7d95d1d991ff972653e74aa3adb3ec83b1138bca69b362299f30ed8e",
+   "split": "val",
+   "tier": 1,
+   "videos": 4
+  }
+ },
+ "source": "nvidia/PhysicalAI-SmartSpaces"
+}
