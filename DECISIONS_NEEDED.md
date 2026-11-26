@@ -839,7 +839,7 @@ Steps:
 Hard limits: tier-1 data: no tuning, no metric, no diagnostic, no image or clip with system output, and no demo use before the single post-freeze evaluation. Tier-2 data: registration and split assignment only. Nothing on the 110 reporting cameras or the X0b test partition (D-37). No change to the frozen detector, the tracker package or any contract value. Never delete, rewrite or reorder a stored record. No force-push. If something is undefined that changes a count, a state, a partition or a statistic: open the next free CR, skip that item, continue.
 
 
-## D-61 (2026-11-25) — STOP after the D-58 T25 check: stitching selection and event-level results        status: OPEN
+## D-61 (2026-11-25) — STOP after the D-58 T25 check: stitching selection and event-level results        status: DECIDED (26 Nov 2026)
 Task: T-27 (D-58 STEPS 2–5)   Blocking: the v2 freeze (T25 values; m_gap_s from item C7); any run on the reporting cameras; the demo build; no other task (independent of D-60)
 Question: the results are in `research/m1b/d58_report.md` (diagnostic, tuning subset, not a reported result). Results only:
 - **T25 implemented opt-in (E-1.2.26).** Every T25.4 check is a test. With the parameters absent, the stored D-54 S4 / S5 and D-57 m_gap 5 S5 of C-v2, B-both and A are byte-identical on 116 of 116 tuning cameras, and the 12 M0 IDs are reproduced (W-02, AR-69 item 11).
@@ -856,7 +856,99 @@ Question: the results are in `research/m1b/d58_report.md` (diagnostic, tuning su
 - **Splits remaining** (D-57 mechanisms (i) / (ii) / (iii), on events): C-v2 under α 43 / 30 / 42; C-v2+T25 under α 11 / 53 / 16; under β 0 / 36 / 16. A+T25 under β 0 / 5 / 0.
 - **Open for review:** CR-037 (contact state, IE and A5.2 pair of a joined event; primary readings applied). The two pair readings agree on every event here. AR-69 proposed (representation of T25).
 Agent's recommendation: none; the Owner decides.
-Owner decision: ______
+Owner decision (D-61, 26 Nov 2026): pre-registration v2 values, T25 selection, freeze. Source: the value-by-value review between the Owner and the Architect, 25–26 Nov 2026, of the decision register `PwP_Consolidated_Decisions_For_Claude_2026-11-24.md` (items C1–C13, D3, F1–F3) and the literature-review questions (`architecture/decisions_for_literature_review_2026-11-21.md` §C). The repository state was checked at `m0-implementation` 8d254b6. Pasting it = Owner approval of the rulings and the steps.
+- **§1 Rulings** (1.1 two kinds of numbers; 1.2 the 1.5 s anchor; 1.3 v2 base values; 1.4 sensitivity grids; 1.5 engineering selections; 1.6 criteria and headline; 1.7 references and reporting order; 1.8 six-question check) are recorded **verbatim** in `docs/preregistration/v2_notes.md`, section "Owner decision D-61". In short: definition numbers are never chosen by an event score; instrument numbers only by tracking measures on the 116 tuning cameras. Changed from v1: pet_max 1.5 s, d_p 3.0 m, m_gap_s 1.5 s, w_post 1.5 s, e_dec 1.0 m/s², k_c 1.5 m/s², g_max 45 frames (1.5 s), clearance band edge 3 m added; iou_m 0.5 and 0.7 reported beside 0.3.
+
+§2–§4, verbatim (headings demoted one level to sit inside this entry):
+
+#### 2. Steps for the agent
+
+**Hard limits for the whole task:**
+- No S2 or later system stage on the 110 reporting cameras or the test partition. The only exceptions are reference building from truth (STEP 5) and the X0c audit (STEP 6).
+- No change to N4, the label rules, the EV definitions or any v1 record.
+- No stored artifact deleted, rewritten or reordered.
+- No force-push.
+- Anything undefined that changes a count, a state or a statistic: open the next free CR, skip the item and continue.
+
+**STEP 0 — state check.**
+- Report the HEAD commit and whether D-58 STEP 2 (T25 tests and code) is done.
+- Confirm all held data is 30 fps (δ_nom = 1/30 s), so that m_gap_s 1.5 → 45 frames and g_max 45 frames ↔ 1.5 s.
+- Report whether `speed_sigma_mps`, `σ_c` and `minclr_sigma_m` are ever non-null on the detector path. These decide whether k_σ and the borderline flags can fire.
+- Report which labels and states route an episode to manager review in T23, and confirm that an O episode is routed only in the OI-1 case.
+- Report only; change nothing.
+
+**STEP 1 — records.**
+- Add D-61 to `DECISIONS_NEEDED.md` as DECIDED.
+- Append §1 of this prompt to `docs/preregistration/v2_notes.md`, verbatim.
+
+**STEP 2 — D-58 STEP 2** (T25.4 tests, then code; full suite twice; M0 determinism; T25.4 regression), as written in D-58, if not already done.
+
+**STEP 3 — D-58 STEP 3**, the stitching grid on the 116 tuning cameras, exactly as written in D-58:
+- T_s {1, 2, 3, 5} s × r_g {0.5, 1, 2} m;
+- v_max person 2.5 m/s, forklift 4.0 m/s; k_img 1.0; plus off;
+- guard: point precision per class ≥ 0.95;
+- objective: forklift + person IDF1;
+- tie rule: within 0.01 of best, then fewer forklift fragments per identity, then smaller T_s, then smaller r_g.
+- Output: `research/m1b/d58_stitch_grid.json`.
+
+**STEP 4 — replaces D-58 STEP 4.**
+- The (α)/(β) design and the 1.0 s placeholder are dropped.
+- Run one diagnostic event check on the 116 tuning cameras only, for C-v2+T25 and A+T25, at the v2 base values (§1.3) with the STEP 3 stitching selection.
+- Score it against a tuning-camera reference set built with the v2 base values. That reference set is labelled diagnostic and stored separately from the STEP 5 references.
+- Report EV-M1, EV-M2, n_members, unobserved_gap_s, and the IE share caused by the new g_max.
+- This check selects nothing. First estimate the runtime on 2 cameras; STOP if the estimate is above 3 h.
+- Output: `research/m1b/d61_events_tune.json`.
+
+**STEP 5 — freeze.**
+- Write `docs/preregistration_v2_FROZEN.md`: v1's structure, with §4 replaced by §1.3–1.5 of this prompt (values, grids and the basis text).
+- Build the v2 freeze record: contract version, analysis commit, `requirements.lock` SHA-256, all configuration IDs (detector, tracker package with T25.1, substrate, rules, evaluation), criteria records, `frozen_utc`. Build it twice; the two must be identical.
+- Build the v2 reference sets for tuning, reporting and test from simulator truth (T21.1), and record their IDs and hashes in the freeze record.
+- Copy the §1.6 and §1.7 text into the pre-registration.
+
+**STEP 6 — test readiness. Prepare only; run no test.**
+- Run the X0c leakage audit (R-2).
+- Prepare the reference-window lock (`locked_utc`, `lock_sha256`) for the Architect's review.
+- Record a pass/fail table for each item:
+  - X0c complete;
+  - windows lockable;
+  - freeze record reproducible;
+  - test run IDs and hashes match X0b v1 (48 runs, 471 cameras);
+  - detector and tracker weights hashed;
+  - SDG licence row present for every component used;
+  - Colab runtime estimate for S2 on 471 cameras.
+- Then run the full suite twice and STOP with the next free D number for the Owner.
+
+**Wording in every output:** "candidate", "experimental", "synthetic-data evaluation"; tuning results are "diagnostic, not reported results"; never "validated".
+
+---
+
+#### 3. Register traceability (A1–I4 → this decision)
+
+| Register | Where handled |
+|---|---|
+| A1–A5, B1–B12 | Not affected. RQ1-only; MSHA excluded; E2 measurement-only |
+| C1–C13 | §1.3–1.6 (values revised from the register's "retain" where the review found a reason) |
+| D1, D2 | §1.3 T24 row |
+| D3 | §1.5 (ByteTrack; OC-SORT not compared) |
+| D4 | STEP 3–4 (stitching chosen by tracking measures; N4 unchanged) |
+| D5–D8 | Unchanged deferrals |
+| E1–E6 | Not in v2; fine-tuning after 1 Dec. **E2 data roles remain UNDECIDED** (Owner withdrawal stands); the partner memo is a separate document |
+| F1–F3 | §1.6–1.7 |
+| G1–G3, H1–H4 | Deferred; not test blockers |
+| I1–I4 | Wording rules above. The report names which camera set each pilot number uses (0.11 / 0.22 = all pilot cameras, 282 references; 0.10 / 0.17 = 96 tuning cameras) |
+
+#### 4. Limitations to carry into the paper (from this review)
+
+1. The 1.5 s anchor and the walking-pace braking figure come from road traffic and vehicle inspection rules. They are not validated for warehouses.
+2. SDG forklifts move at ≤ about 0.75 m/s. e_dec and the forklift side of the contact cue cannot fire, and R4 adds little beyond R3.
+3. Speed error (about 0.5 m/s, P5–P95) is larger than v_min, so the H/O split is unreliable on camera footage.
+4. Position error is about the size of d_nm, so NM-by-distance on camera footage is noisy.
+5. k_σ and the borderline flags are inert while σ is not estimated (to be confirmed in STEP 0).
+6. e_turn also fires on routine corner turns.
+7. GV-04 is circular. The footprints may exclude forks; carried loads are excluded.
+8. OC-SORT was not compared. Tracker precision is known on SDG only.
+9. No NM, UD or CT references exist on synthetic data, so those labels are demo-workflow output, not measured accuracy.
+10. NM, UD and CT labels can only be checked by managers, and that check has not been validated (G1–G3 deferred).
 
 ## D-62 (2026-11-25) — STOP after D-60 STEP 4: the Owner runs the Colab equivalence check        status: OPEN
 Task: T-26c (D-60 STEPS 0–4)   Blocking: T-26g (STEP 5) and every use of tier-1 detections; nothing else (independent of D-61)

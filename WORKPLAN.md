@@ -97,7 +97,11 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 row abo
 | [ ] | T-26g | **D-60 STEP 5:** verify the Colab outputs; equivalence result; S2 artifacts for the 45 tier-1 cameras; integrity checks (totals only); next D; STOP | G-D62 | S2 artifacts; integrity totals | S |
 | [B] | T-26e | Evaluation on the D-59 scenes in the roles D-60 sets: tier 1 once, with the frozen v2 package, after the v2 reporting run, per scene and per layout, descriptive; tier 2 nothing until a later Owner decision | T-26g; v2 freeze | results per D-60 | L |
 | [x] | T-27 | **D-58 (Owner, 24 Nov 2026): T25 (E-1.2.26) opt-in** — T25.1 track stitching, T25.2 episode continuity across POW breaks, T25.3 m_gap in seconds; T25.4 tests; regression (stored D-54 / D-57 artifacts, M0 IDs); stitching grid on the 116 tuning cameras (tracking measures only); event-level check α / β (diagnostic) | D-58 | `research/m1b/d58_report.md` | M |
-| [S] | G-D61 | **STOP — Owner and Architect review the D-58 results (D-61):** stitching values (selected, not frozen), CR-037, AR-69. Blocks the v2 freeze, the reporting-camera run and the demo build; independent of D-60 | T-27 | D-61 decided | — |
+| [x] | G-D61 | **STOP — Owner and Architect review the D-58 results (D-61):** stitching values (selected, not frozen), CR-037, AR-69. Blocks the v2 freeze, the reporting-camera run and the demo build; independent of D-60 | T-27 | D-61 decided | — |
+| [x] | T-28r | **D-61 STEPS 0–1 (Owner, 26 Nov 2026):** state check (report only); D-61 DECIDED; §1 verbatim in `v2_notes.md`. STEPS 2–3 were already done under D-58 (T-27: 2f4ad7e, 66809cd) | G-D61 | records pushed | S |
+| [ ] | T-28e | **D-61 STEP 4:** one diagnostic event check on the 116 tuning cameras, C-v2+T25 and A+T25 at the v2 base values (§1.3) with the D-58 stitching selection, scored against a separately stored diagnostic v2 tuning reference set; EV-M1, EV-M2, n_members, unobserved_gap_s, IE share caused by g_max 45. Selects nothing. Estimate on 2 cameras; STOP above 3 h | T-28r | `research/m1b/d61_events_tune.json` | M |
+| [ ] | T-28f | **D-61 STEP 5:** `docs/preregistration_v2_FROZEN.md` (v1 structure, §4 = D-61 §1.3–1.5, §1.6–1.7 text); v2 freeze record built twice, identical; v2 reference sets (tuning, reporting, test) from simulator truth (T21.1), IDs and hashes in the record | T-28e | freeze record; v2 references | M |
+| [ ] | T-28t | **D-61 STEP 6:** test readiness, prepare only: X0c audit (R-2); reference-window lock prepared (`locked_utc`, `lock_sha256`) for the Architect; pass/fail table; full suite twice; next D; STOP | T-28f | readiness table; next D opened | S |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1066,3 +1070,26 @@ _(the agent appends entries here)_
   - AR-70 proposed (D-60 representation, 9 items). For the Architect: the one-group-per-layout `same_layout` chain is stricter than T14.1 and applies to X0b-A1 only (item 3). PR-01 refuses `test_layout_holdout` and `reserve`, and an R-2 gate for `test_layout_holdout` must be added before T-26e (item 5). The equivalence criteria use the stricter reading in each case (item 6).
   - Slip, corrected: a hand count in `test_one_group_per_layout` left out the `same_layout` edge type of a single-scene layout group. The hand calculation was corrected (recorded in the test); the code was not changed.
 - Next: **STOP (D-62).** The Owner runs the 2-camera equivalence check on Colab. T-26g (STEP 5) only on the Owner's word.
+
+### 2026-11-26 — D-61 decided; STEPS 0–1 (T-28r) done; STEPS 2–3 already done under D-58
+- Did (records only; no code, no run on any camera; nothing on the 110 reporting cameras or the test partition):
+  - **Step 0 (report only):**
+    - HEAD fe48352, then fast-forwarded to 713448e (the Owner's Colab edit of `research/colab/s2_detect.ipynb`). The laptop is on battery, not mains.
+    - **D-58 STEP 2 is done** (2f4ad7e: T25.4 tests, code, regression, M0). **D-58 STEP 3 is done** (66809cd): `research/m1b/d58_stitch_grid.json` holds exactly the grid D-61 STEP 3 restates, with the same guard, objective and tie rule. It selects T_s 5 s, r_g 0.5 m. Stitching is S3 and does not depend on any value D-61 changes, so STEPS 2–3 are not re-run.
+    - **Frame rates (declared stream rate of every held video):** SDG 690 / 690, SmartSpaces synthetic 156 / 156 (D-59 scenes included) and SmartSpaces real 026/027 11 / 11 are all 30 fps. **Safe and Unsafe Behaviours: 0 of 371 are 30 fps** (21.53–25.25 fps, median 24.83, mostly variable-rate). So "all held data is 30 fps" does **not** hold. Every recording that D-61 STEPS 3–6 touch is 30 fps, so m_gap_s 1.5 s → 45 frames and g_max 45 frames ↔ 1.5 s there. Off 30 fps the two g_max readings differ: **CR-038**.
+    - **σ on the detector path** (stored D-54 C-v2 S4 / S5, 116 tuning cameras):
+      - `speed_sigma_mps` is non-null on 103,153 of 104,260 object states. It is the T9.1 fit's standard error (`kinematics.Fit.speed_sigma`), not a position σ.
+      - `pos_cov_m2`, σ_c (`clearance_sigma_m`) and `minclr_sigma_m` are null on every row (0 of 104,260 / 37,120 / 450).
+      - So `clearance_within_k_sigma` cannot fire (it fires 0 times). **`speed_near_v_min` does fire:** on 313 of 450 C-v2 episodes, and on 426 of 649 B-both episodes.
+      - k_σ is therefore inert for clearance and contact, but **not** for the speed borderline flag. D-61 §4 limitation 5 needs this correction.
+      - Borderline flags never change a label, a frame flag or review_route (T10.4, T11.1).
+    - **Routing:**
+      - **T23 manager review** (T23.2 a, v02-review-ui only) takes episodes of `wf_source_config` (default BL-6) whose G2 label is NM, UD or CT. CT makes an incident draft; otherwise it is a near-miss report. **O, H, PC and IE never create a report**, so an O episode never reaches a manager, not even in the OI-1 case.
+      - The separate **`review_route` flag** (E-1.2.1 §6; `events/labels.py`) is set when contact ∈ {undetermined, suspected} or the episode carries NM, UD, CT or IE. An O episode is therefore routed in the OI-1 case (overlap, no X or C), **and also whenever it carries IE**.
+      - Stored C-v2: of the routed O episodes, 2 are OI-1 overlaps (undetermined, no IE, minclr −0.77 and −0.24 m), and 14 carry IE (undetermined 5, not_assessable 8, none_observed 1). B-both: 3 routed O episodes, all not_assessable with IE.
+      - So **"an O episode is routed only in the OI-1 case" is not confirmed** for `review_route`. It holds for T23 in the stronger form: O is never routed to managers.
+  - **Step 1:** D-61 DECIDED. §1 verbatim in `docs/preregistration/v2_notes.md`, and §2–§4 verbatim in the D-61 entry (headings demoted one level). Plan rows T-28r, T-28e, T-28f, T-28t added.
+- Tests: not run (records only, no code changed).
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-038 opened (g_max off 30 fps; no effect on any D-61 step).
+- Next: T-28e (D-61 STEP 4): runtime estimate on 2 cameras, then the diagnostic event check.
