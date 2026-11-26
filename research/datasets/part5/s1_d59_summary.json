@@ -1,0 +1,1920 @@
+{
+ "decision": "D-60",
+ "contract": "E-1.2.26",
+ "decode_config_id": "dcf_xv2ryouaw22oljgqmrpylb4uqz",
+ "decode_record": {
+  "k_sup": 1.5,
+  "f_untimed": 0.05,
+  "f_sub": 0.1,
+  "rules_version": "rv2",
+  "delta_nom_declarations": [],
+  "final_frame_support": "delta_nom",
+  "version_label": "TEST-ONLY",
+  "version_label_null_reason": null
+ },
+ "totals": {
+  "recordings": 118,
+  "frames_decoded": 1063080,
+  "frames_eligible": 1063080
+ },
+ "totals_by_tier": {
+  "1": {
+   "frames_decoded": 406080,
+   "frames_eligible": 406080
+  },
+  "2": {
+   "frames_decoded": 657000,
+   "frames_eligible": 657000
+  }
+ },
+ "cameras": [
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0000",
+   "rec_id": "rec_geabzh4w56qgvehvtxz263phvs",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_27kcskfh6tj7lkf56wjd7fwnx7",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0001",
+   "rec_id": "rec_mwac6jie3jewtahz6iuyg4ds5w",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_k4377yczlfap6vexpktfhgzojc",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0002",
+   "rec_id": "rec_5gyanycppm7lzdojgvtm6dsqhz",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_ccyg3koitrle2ybbwrq27hrzwr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0003",
+   "rec_id": "rec_6uqbfagaof7zrzbldeeaselydx",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_hnlsdajctzyxw75ao7ar766mtk",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0004",
+   "rec_id": "rec_epwn2lwxzdnl4vvdxguikg2sp5",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_4hnv4tsx3m4nlixovxunpswa53",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0005",
+   "rec_id": "rec_uq7ilpkmebk2g4orof544f3vgo",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_cqusetrkldcmymsbivpj6f65o4",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0006",
+   "rec_id": "rec_7huhnas5uxl4hu64mqy2loeour",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_45xuzxtbxwl66sdffr75oxggsd",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0007",
+   "rec_id": "rec_r2y462t7ccagchpxcbac2top6h",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_bvu5xu776vv5etyknjlgoy4hab",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0008",
+   "rec_id": "rec_pbtssz2tn5m3cma27zrasod2qa",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_wgnfzkgqhoqpo2vlm4jy4yk4ke",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0009",
+   "rec_id": "rec_d47qvuefloewahruqbhodtpwoa",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_3nzb7xudvlzb3okj6isiji6azw",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0010",
+   "rec_id": "rec_d5e7yos4xntmdeczj2hzscyqvt",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_grflkmpljpyr2ngazii6vaagw3",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0011",
+   "rec_id": "rec_cz6hgoxbl45mxvli4vgbvaxi7k",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_ckva6obxgrtaegrf5ohok3bzic",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0012",
+   "rec_id": "rec_adg2kckp4yilj3r7l4knljhy7n",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_ojnxb523kmzcp47ulgwhq73mim",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0013",
+   "rec_id": "rec_2y7ur2uiylpnhta5n35xcgh3wl",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_57mfdlp2wbv554i6nhu2f423c2",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0014",
+   "rec_id": "rec_zmsmtnkhopt5urswb2k27yevc3",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_7ynvclh6zjc4td5r5vgd2pn47v",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0015",
+   "rec_id": "rec_mhqi7zk62ikcmrtpypi33m3bic",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_gvym3epkmf7klwctxlop7ubgyc",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0016",
+   "rec_id": "rec_ercfexbcsmu43jpbexciy2f5zp",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_aoaowyhu42vj7piurxpcbxkon7",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0017",
+   "rec_id": "rec_sj4phm47tj24w4nx6rna7e3idk",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_sfeetzqmhiwwkre4dceohygq6d",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0018",
+   "rec_id": "rec_yvhldfztdm7epowl2tqbxsw2dm",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_zjiodjovncywm24dhm3xlo2h2d",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_002",
+   "tier": 2,
+   "camera": "Camera_0019",
+   "rec_id": "rec_ktebg5rshj42oa4h6k27nlv752",
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "s1": "art_266mshp23baq7mptlkhlnjmb6s",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0000",
+   "rec_id": "rec_kkgjjxjl2bjz4bqvqs2o2jkwbg",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_peaz642ybvcwjyu4bg454kwbsv",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0001",
+   "rec_id": "rec_hch6xxsao7il23oy3hfhdsrtqa",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_bguorbt6jcihzud5c5vaqvlc6w",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0002",
+   "rec_id": "rec_3jkyyc2cmiff5duh7sahoalhoy",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_5uyacuit4jnle3eodtxdncyz77",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0003",
+   "rec_id": "rec_rdt2v35cg4kmkqodbhdwjedoek",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_naeucpzubskpdfql5bhuukuqek",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0004",
+   "rec_id": "rec_3r7a6e7ytv65co6urywwan52u2",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_a2agzpkh4qfs5iy2zca6vqfbex",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0005",
+   "rec_id": "rec_vk5lx2mckrbe2va67vn6sfdsb7",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_z2t2fjgmzwyn4gha27b7ly5d3e",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0007",
+   "rec_id": "rec_ic5f4xjglllcm6timiqqxervi5",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_zobeiro7yo7rcuhr3oiaqpbddy",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0008",
+   "rec_id": "rec_mipg5spf4w3vi6jlkcboqwjlbj",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_w3qvy5oc2fiwltgqyyaz2selel",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0009",
+   "rec_id": "rec_lwisgp6fs4y7a3a24so7o4knqz",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_h3x4uxwhmegxqd6arxozrbqe5u",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0010",
+   "rec_id": "rec_xmvvl3guufpxq6eiibabiijwwb",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_3xnza3ybcn4irpagyblnpbdes3",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0011",
+   "rec_id": "rec_mg44b5iwy2rorqe2jxpuhajzt5",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_cf5tyfwfq2ahoimky6irphnu6b",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0012",
+   "rec_id": "rec_fnjtacbgzccotrrgfhzztczcox",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_f5r6sc4qdpwcfx7uncm2qltc4j",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0013",
+   "rec_id": "rec_hwbwxfalb4ivyp24pc3pii3sqq",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_morspbtkd3pwv23dk4kz5oorf5",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0014",
+   "rec_id": "rec_mm656xeynuo3h2onhkhxklhmh4",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_lhsj6wxm3xuchzmarmo3jut2it",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0015",
+   "rec_id": "rec_ov5mu4sc5pdbrujkpusqiqawj2",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_45mqc6z4ep2jqoy7v7gswh4oxc",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0016",
+   "rec_id": "rec_ta75ocv3nlieismfhzx3sdcln5",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_3q36vzwbxyikhyde535vnvbuad",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0017",
+   "rec_id": "rec_3frygvqn7opt3xgjeajd7arokl",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_vtd2nfszd5gaympz4anp7he3k3",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0018",
+   "rec_id": "rec_ctnyewhwfn63zgv45c6i5r2m5j",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_ky36hdhc2yzoieiydq2nqgjurj",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_004",
+   "tier": 2,
+   "camera": "Camera_0019",
+   "rec_id": "rec_dxqrhwr47zu3g52eaohi27thyg",
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "s1": "art_kvzv2siraekrwov7uk7vxfjaa2",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0000",
+   "rec_id": "rec_srrcxbhzvyj7dft644aswaht3s",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_vhj4c6ehksmilhy27e46xrz3y6",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0001",
+   "rec_id": "rec_bhjuvklooylhxum4buxskhteev",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_l3jewtgyvqrtk5mot6mcoctt22",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0002",
+   "rec_id": "rec_q5znsbdiw577iacdig3f57oug2",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_h56m2yuosycej34tt2dpyu37r6",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0003",
+   "rec_id": "rec_acwnfrwwjabanumtvjh7k2p5gv",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_ek6uncj3ixv5bjhyohsgnq5ntm",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0004",
+   "rec_id": "rec_u4ktwpfpdv7f34jildbajfmprd",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_pnknbms2kqyhrigom46hbpxvut",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0005",
+   "rec_id": "rec_wg274sjgzbfig66n34h6dgj5pw",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_3narriwo3fiakwtfwvlft5xiyj",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0006",
+   "rec_id": "rec_lnymdslu4vpivtwco5tr64pavp",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_opzulr3d5f2rx56o7ssb6hj27y",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0007",
+   "rec_id": "rec_zzclevg7i5wv7lbyydgabsjhcb",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_fjgnk5gmzkqvdhrtyi6o4zsskg",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0009",
+   "rec_id": "rec_k4r3cexoce2tj5tgevryjtq3lj",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_zjm3qanwpmcpymdwxepfmlil5m",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0010",
+   "rec_id": "rec_tc6e2rwhlma3rfwoxssaubarl4",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_syxub3kte4kjdm6nxeuvhhry5w",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0012",
+   "rec_id": "rec_k32rpgrm2ja3dlcoj7z7vtrjaz",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_5d6eaxgg5nxlei4ez77q56vh2d",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0013",
+   "rec_id": "rec_t5tt6c5wjhz6kfn2qcrz5h6fbk",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_geiechidcbtig7m7kmadcba4ay",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0014",
+   "rec_id": "rec_6r3euqpjokurdqq462gdep2jip",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_h5wsrw5rfdw7hth6bisysmc2fp",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0015",
+   "rec_id": "rec_cvxmuqxasbehshdhcopjd2iktn",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_cwjp7lndxqsalqnmnnabc5j7jm",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0016",
+   "rec_id": "rec_kkliwb2ajcwol47p3abr4yulj3",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_vkdomd5cucd5gtx4qczx5j2n4o",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0017",
+   "rec_id": "rec_g4bnlmevp4vga4qbz5xwur4izy",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_lal55suv5mmifov27wzdaw3nwp",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0018",
+   "rec_id": "rec_ar45c5aeqwqmmmwubjqxvd7zeu",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_cmf4qkn4nim5m3dg5i7ezigx5h",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_006",
+   "tier": 2,
+   "camera": "Camera_0019",
+   "rec_id": "rec_qttwhwblrjbobgvloudvhh6zwl",
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "s1": "art_6ar3h4roazci6bk2asnkogjbab",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_psgmf3f4kgdbhalyebi7i6qkr7",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_iumpetgju34wo47samyr3pihvv",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_okegypa34bez7i4ohpjhh2gkzb",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_yjbyizgdpn722oirbiewmqfvcn",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_x2xhvbjnpcuvjgxdnwlaemerac",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_62bkjhuhxmbfqsvnrxn2psqhsu",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0003",
+   "rec_id": "rec_qgig44jj7o6h6kyz65f46c3rnc",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_kc7ujhh6m5duex65ojjtzpwfyg",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0004",
+   "rec_id": "rec_56fnnh5vwxyktkxmu4c4p5iumc",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_mmo3povlqrwjvitpitnbkqhv23",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0005",
+   "rec_id": "rec_xkgrkbmzn6tfu2xznmjijfdl6p",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_vcblz7ifmrcb3jmvvmvhkvkhav",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0006",
+   "rec_id": "rec_gizv65jdvuicsmga3dpz2sh7c5",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_fxjth63f4ycq24a3zbvmbintuo",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0007",
+   "rec_id": "rec_oko4jashifiwhxry5xip6mmstb",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_4pmmclyfbgrpzua4kxkrmks4o7",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0008",
+   "rec_id": "rec_qniyf7j4cjl4aelpf5nprszkug",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_3ifo3ub26vqytwwnohgfbiwru5",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0009",
+   "rec_id": "rec_zr3podeddradpdly2vb3j6rziv",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_uharxyd4kqyxdzvalcaezevm5h",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_010",
+   "tier": 1,
+   "camera": "Camera_0010",
+   "rec_id": "rec_sjzzhvilw6prq34ns4hr64u2dq",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_4sgghiqgoed22ickt664oehp7a",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_7bn7mypbyqet4lqj7rnbwom5vr",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_faeyg2dan2ejzs6vrcr3tbdnwi",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_a7mn2t2ybrjjrfzxp7conwh4pv",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_25m75zvjlnc44tir4iv27o2ebr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_ufcxgugkqtqv6wkw3kjev5s7qa",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_xg44e7w3nqye4kadlbjnxf7xq4",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0003",
+   "rec_id": "rec_ouoywwesy2d5kxxwnkszmcr7br",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_u7uoblh5gyjom3kcpdcdhb36zt",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0004",
+   "rec_id": "rec_km7jnyrteguuv2otczphzc3uso",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_m7dokcm7mrfymluzoezh5phglo",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0005",
+   "rec_id": "rec_ho37j4snurcoxrkr6dohsnm65x",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_ttjxnidinedwhzeogqnxc4u5jm",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0006",
+   "rec_id": "rec_oiqccnibg7gzw3fcikxxe56hrs",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_c5ehtdeldz2zl66nbjcfrvye3k",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0007",
+   "rec_id": "rec_kjvtm6nfn6r7ggf4jqd5hk32lv",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_kuf655tsjmvjphyuarun277nix",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0008",
+   "rec_id": "rec_h6jefl72lh5rjo3t7ix23yyaf3",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_r3ffmu6edjropm3wapne3ptjgs",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_011",
+   "tier": 1,
+   "camera": "Camera_0009",
+   "rec_id": "rec_bkb6g67ybf24rqxq7mzuenolkv",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_zsbofo453gomumpyo27jly66bz",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_zt5m7yj7isyelcnvqtyx3cyxtt",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_dsugyrgkbnkrvnkoi6b5keyzqj",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_sgrrg477nghdya6jbp4wjxrvxl",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_rz4sivcyapxib53iyxea2alxkq",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_kmprpcstwgq3exi3degfhxd7mt",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_umkesoahrrpldzcmghkoyd3gqo",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0003",
+   "rec_id": "rec_vfg63le4xzdym7hpabyrearzzo",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_szrrcswccwk4cdplhf3in474te",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0004",
+   "rec_id": "rec_htupk2xrqz2zqoqy6eyg33txqt",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_omb5mtuydkgw77u4mfg2bwsj4y",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0005",
+   "rec_id": "rec_cbclfg5s7xks632l74l6kbzxzj",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_lumrv4unopczykn2xh2bam6prx",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0006",
+   "rec_id": "rec_x4a6eonnin3wycfule6w2koais",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_ldhyzuylf2fpjsz7lqpvtbpnnm",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0007",
+   "rec_id": "rec_3j4t4kc2y5kaszvuc427pszseq",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_mtgaxyapiqi5oinhpg5woipkp5",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0008",
+   "rec_id": "rec_chwqmpldqmedsgrzqdgnmjt6qs",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_ag44r3sp2gsnpyabg76eyy2uqx",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0009",
+   "rec_id": "rec_cv65s2cwzcgk4i3nzecevvesfg",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_rwooc7crzvtizhoo2d4ef4ii4h",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_016",
+   "tier": 1,
+   "camera": "Camera_0010",
+   "rec_id": "rec_a5ketsrwdiclncfdtshkxptn6x",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_mkun57du7oa6b3rifsjsbmzoug",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_017",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_mjl2nhmpnup7xefyerrzesmvuv",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_36lsv5fi4vncsmge5uiidf5hub",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_017",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_4xhlogcp7gtawjzidkf3pad4g3",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_6zn5db5nxdm2cd43co72flpnet",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_017",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_b3cdwh57yl2g32wh4okpeu4gr6",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_fwm6bedfwiq7wq2qvb2cm6plky",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_018",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_i4fknpfwx7zh2bflo6b52rg25h",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_zyhlpm723dccvkcg6ma4h4dtih",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_018",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_cuqrkcwfxtos7e3wrpnxnxgi23",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_5jc66ti6rdyw2unfl4rxbprnnr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_018",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_togf75hc6wbvvfb337ambz3kth",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_ziiuzfusrk53ctymf7r5neyugs",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_019",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_6cnpan6l562s4wrk2tyoq4cvnp",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_kyl3p23so5ieayehmwlytecqrk",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_019",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_qrhsyp74urd2pp6uepbwvmdbwk",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_zbr3wskc3647uiptp7j67i2guk",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_019",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_uokpvuyfklla2enel7egm52ass",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_tiqnjeb4nzrvkziybntx64yl45",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0000",
+   "rec_id": "rec_c6xk5gek67h7oxrvdpd6z7cfr5",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_nnodtxywv5ffild22hmmuleepr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0001",
+   "rec_id": "rec_qt5tl3bckvxb4bhxrchtvhzwu3",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_e2nynsp5zqtsj32nfdkgn26vp3",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0002",
+   "rec_id": "rec_2hkfko3uicl3m5wl2qdg2uv4t4",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_7nsljlzwnj63v2j6363oxncsvx",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0003",
+   "rec_id": "rec_inkq2sdy23vmzwlwra2jdlpwey",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_wvc5dlzifbjbexikzqxc6yt5p2",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0004",
+   "rec_id": "rec_oif43f6gaoyxzrgpnm64vvva5r",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_vga6ao67osr53nelbvqzrpjqds",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0005",
+   "rec_id": "rec_yyot2r7jkhvur4ca3vmhrv745l",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_mdaqfyn3ylgadtrgpwkdyvztlf",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0009",
+   "rec_id": "rec_q5a7bznphsiakf4gri2cvp2zgr",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_n7wf53s3eqk3oztrb755bjqbhw",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0010",
+   "rec_id": "rec_kqoover22mo4sovohsjusiv6fm",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_dv4bjqwhmrp5expje5yomnsq6j",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0011",
+   "rec_id": "rec_3eaam73rcgn7pmxum5eisbmtno",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_upmpykuu5gkwpaananr4dxzzfy",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0012",
+   "rec_id": "rec_bwnbuuckjktf5bjf5z2zs457g6",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_2m33fepmzt6z52qz3uhv6s6vwx",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0013",
+   "rec_id": "rec_jqwhaqeu5sj6o7thxlsx5oug6q",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_m34pwmmnm72i6nze7nt2426yor",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0015",
+   "rec_id": "rec_hkriit7rvsg3zpsc4awfeam2of",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_adhwgluzqbstapmp64rruorzo4",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0016",
+   "rec_id": "rec_3fvdyixif5ft6m6e3yz2xvirza",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_cjv6j672meeiv3lhmknxcq72mj",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0017",
+   "rec_id": "rec_zttaqtegbs75uld65iii6txlb2",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_vbonkfxk2mo7sfu6exppi6apjm",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0018",
+   "rec_id": "rec_bqzfblv6p437aghl2w62nzcc2k",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_s6pqe5go2cza5vm3wdummwuvvs",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_020",
+   "tier": 2,
+   "camera": "Camera_0019",
+   "rec_id": "rec_s53npinmjnigf4d3bdrrmja2bx",
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "s1": "art_hx3g4wunnwnjbk42zw6gb2ezsf",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9000,
+   "frames_eligible": 9000,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    300.0
+   ]
+  },
+  {
+   "run": "Warehouse_022",
+   "tier": 1,
+   "camera": "Camera_0000",
+   "rec_id": "rec_ihmbfm2saw5frf7vv2o7tyjlru",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_iv7qq5pt5hlfycawadg4fvyebr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9270,
+   "frames_eligible": 9270,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    309.0
+   ]
+  },
+  {
+   "run": "Warehouse_022",
+   "tier": 1,
+   "camera": "Camera_0001",
+   "rec_id": "rec_22dedfgfu3lapymzzqugfkgawj",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_zq5srvnmvyicg46ohphzntq3xf",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9270,
+   "frames_eligible": 9270,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    309.0
+   ]
+  },
+  {
+   "run": "Warehouse_022",
+   "tier": 1,
+   "camera": "Camera_0002",
+   "rec_id": "rec_j3xr74eohfgyfnplqkjsglplkc",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_ftxb4d6dqvk5nyawe5qa7frtbr",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9270,
+   "frames_eligible": 9270,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    309.0
+   ]
+  },
+  {
+   "run": "Warehouse_022",
+   "tier": 1,
+   "camera": "Camera_0003",
+   "rec_id": "rec_glvipw7msgwcrsnr7sultuhi3p",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_ozpnsgdw77ntxijyvyodmnodct",
+   "s1_code_commit": "869fc9768924a184074acf234ab84c703845c286",
+   "frames_decoded": 9270,
+   "frames_eligible": 9270,
+   "coverage_segments": 1,
+   "coverage_extent_tl_s": [
+    0.0,
+    309.0
+   ]
+  }
+ ]
+}
