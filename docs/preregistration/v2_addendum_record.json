@@ -1,0 +1,16 @@
+{
+ "addendum": "docs/preregistration/v2_rationale_addendum_D63.md",
+ "addendum_sha256": "43e937e5cfc51f872cd8ea197ef24d7f0a81029041d8ffe1de2fa56a161e362d",
+ "commit": "e70f28bf087b35bc3ada75004e0ca68c532c381e",
+ "commit_time_committer": "2026-11-26T10:43:35-05:00",
+ "commit_time_utc": "2026-11-26T15:43:35Z",
+ "freeze_v2_frozen_utc": "2026-11-26T14:29:25Z",
+ "frozen_files_unchanged_sha256": {
+  "docs/preregistration/freeze_record_v2.json": "6f7ca439dc616f986cd53ed721a4d75b9a22485558a3dbff5f322503777a6535",
+  "docs/preregistration_v2_FROZEN.md": "906aea9afc343c4423da14152cc1fc7131ce59c5bd91e75180a0eee747741dc6"
+ },
+ "record": "v2 rationale addendum record (Owner decision D-63 STEP 2, 26 Nov 2026)",
+ "scope": "Corrects stated reasons for twelve v2 values. No value, grid, rule, label, criterion or reference changes (D-63 ruling 9). Where this addendum and section 4 of preregistration_v2_FROZEN.md differ on a reason, the addendum applies; on any value, the frozen file applies.",
+ "source": "reports/v2_parameter_rationale_2026-11-26.md (Architect project document)",
+ "statement": "Committed before any v2 reporting-camera or test S3 (or later) output existed: no S3 or later stage had been run with the frozen v2 configuration on the 110 reporting cameras, and no S2 or later stage on the 471 test cameras. Disclosed: the 110 reporting cameras carry stored CPU S2 (the frozen v2 S2 configuration inf_cetfxtbdg72cqgfm6teibcxsyd / mdl_ty3jrnwz5jjdv56nwtkcos4yqs) and v1 S3-S5 pilot outputs from T-25p (19 Nov 2026, before the D-53 tuning/reporting split); the v1 pilot numbers over all pilot cameras were seen and are disclosed (register I1-I4)."
+}
