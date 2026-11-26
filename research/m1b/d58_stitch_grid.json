@@ -1,0 +1,1839 @@
+{
+ "caveat_d56": "The package accepts forklift detections down to score 0.05. Point precision was measured on synthetic SDG data only and is not known for real footage.",
+ "checks": {
+  "cameras": 116,
+  "off_reproduces_d55": 116
+ },
+ "contract": "E-1.2.26 (Appendix T T25.1)",
+ "decision": "D-58 STEP 3",
+ "grid": {
+  "T_s_s": [
+   1.0,
+   2.0,
+   3.0,
+   5.0
+  ],
+  "k_img": 1.0,
+  "r_g_m": [
+   0.5,
+   1.0,
+   2.0
+  ],
+  "v_max_k_img_status": "fixed design values (D-58)",
+  "v_max_mps": {
+   "forklift": 4.0,
+   "person": 2.5
+  }
+ },
+ "input": "stored D-54 detector S3 (D-56 package), floor positions from the stored C-v2 S4 object_state (T24 on)",
+ "measures": "D-55 definitions (v2_tracker_measures) on stitched identities; primary variant tracked points; IDF1 at iou_cm 0.5 over every S3 point",
+ "runtime_s": 67.8,
+ "selection": {
+  "best_objective": 1.705168714826356,
+  "chosen": "Ts5_rg0.5",
+  "chosen_params": {
+   "stitch_img_gate": 1.0,
+   "stitch_max_gap_s": 5.0,
+   "stitch_r_gate_m": 0.5,
+   "stitch_v_max_mps": {
+    "forklift": 4.0,
+    "person": 2.5
+   }
+  },
+  "guard_point_precision": 0.95,
+  "guarded": [
+   "off",
+   "Ts1_rg0.5",
+   "Ts1_rg1",
+   "Ts1_rg2",
+   "Ts2_rg0.5",
+   "Ts2_rg1",
+   "Ts2_rg2",
+   "Ts3_rg0.5",
+   "Ts3_rg1",
+   "Ts3_rg2",
+   "Ts5_rg0.5",
+   "Ts5_rg1",
+   "Ts5_rg2"
+  ],
+  "kept": [
+   "Ts2_rg2",
+   "Ts3_rg1",
+   "Ts3_rg2",
+   "Ts5_rg0.5",
+   "Ts5_rg1",
+   "Ts5_rg2"
+  ],
+  "order": "fewer forklift fragments per identity, then smaller T_s, then smaller r_g",
+  "status": "selected under D-58, not frozen",
+  "within": 0.01
+ },
+ "status": "diagnostic, tuning subset, not a reported result",
+ "tracker_package": "trc_7flfpx52d2siiljxkqwcorr7nz",
+ "tuning_116": {
+  "all": {
+   "Ts1_rg0.5": {
+    "forklift": {
+     "IDFN": 11588.0,
+     "IDFP": 1205.0,
+     "IDTP": 22089.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0535714285714286,
+     "identities_covered": 112,
+     "identities_two_or_more": 6,
+     "idf1": 0.7754471573256569,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0535714285714286,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 122
+    },
+    "links": {
+     "forklift": 1,
+     "person": 39
+    },
+    "links_by_gate": {
+     "floor": 27,
+     "image": 13
+    },
+    "objective": 1.6412235455447122,
+    "person": {
+     "IDFN": 5265.0,
+     "IDFP": 2806.0,
+     "IDTP": 26030.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.4224137931034482,
+     "identities_covered": 116,
+     "identities_two_or_more": 37,
+     "idf1": 0.8657763882190551,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.4224137931034482,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 179
+    }
+   },
+   "Ts1_rg1": {
+    "forklift": {
+     "IDFN": 11588.0,
+     "IDFP": 1205.0,
+     "IDTP": 22089.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0535714285714286,
+     "identities_covered": 112,
+     "identities_two_or_more": 6,
+     "idf1": 0.7754471573256569,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0535714285714286,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 122
+    },
+    "links": {
+     "forklift": 1,
+     "person": 42
+    },
+    "links_by_gate": {
+     "floor": 31,
+     "image": 12
+    },
+    "objective": 1.6461793919467342,
+    "person": {
+     "IDFN": 5116.0,
+     "IDFP": 2657.0,
+     "IDTP": 26179.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.396551724137931,
+     "identities_covered": 116,
+     "identities_two_or_more": 36,
+     "idf1": 0.8707322346210773,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.396551724137931,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 176
+    }
+   },
+   "Ts1_rg2": {
+    "forklift": {
+     "IDFN": 11588.0,
+     "IDFP": 1205.0,
+     "IDTP": 22089.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0535714285714286,
+     "identities_covered": 112,
+     "identities_two_or_more": 6,
+     "idf1": 0.7754471573256569,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0535714285714286,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 122
+    },
+    "links": {
+     "forklift": 1,
+     "person": 45
+    },
+    "links_by_gate": {
+     "floor": 34,
+     "image": 12
+    },
+    "objective": 1.647410038368713,
+    "person": {
+     "IDFN": 5079.0,
+     "IDFP": 2620.0,
+     "IDTP": 26216.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.3706896551724137,
+     "identities_covered": 116,
+     "identities_two_or_more": 35,
+     "idf1": 0.871962881043056,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.3706896551724137,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 173
+    }
+   },
+   "Ts2_rg0.5": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 64
+    },
+    "links_by_gate": {
+     "floor": 48,
+     "image": 18
+    },
+    "objective": 1.6878159526467824,
+    "person": {
+     "IDFN": 3975.0,
+     "IDFP": 1516.0,
+     "IDTP": 27320.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.2155172413793103,
+     "identities_covered": 116,
+     "identities_two_or_more": 24,
+     "idf1": 0.9086827094177712,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.2155172413793103,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 154
+    }
+   },
+   "Ts2_rg1": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 64
+    },
+    "links_by_gate": {
+     "floor": 50,
+     "image": 16
+    },
+    "objective": 1.6924724526218369,
+    "person": {
+     "IDFN": 3835.0,
+     "IDFP": 1376.0,
+     "IDTP": 27460.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.2155172413793103,
+     "identities_covered": 116,
+     "identities_two_or_more": 23,
+     "idf1": 0.9133392093928256,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.2155172413793103,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 154
+    }
+   },
+   "Ts2_rg2": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 68
+    },
+    "links_by_gate": {
+     "floor": 54,
+     "image": 16
+    },
+    "objective": 1.7002554597229995,
+    "person": {
+     "IDFN": 3601.0,
+     "IDFP": 1142.0,
+     "IDTP": 27694.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1810344827586208,
+     "identities_covered": 116,
+     "identities_two_or_more": 19,
+     "idf1": 0.9211222164939882,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1810344827586208,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 150
+    }
+   },
+   "Ts3_rg0.5": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 67
+    },
+    "links_by_gate": {
+     "floor": 52,
+     "image": 17
+    },
+    "objective": 1.6923394097654068,
+    "person": {
+     "IDFN": 3839.0,
+     "IDFP": 1380.0,
+     "IDTP": 27456.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1982758620689655,
+     "identities_covered": 116,
+     "identities_two_or_more": 22,
+     "idf1": 0.9132061665363955,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1982758620689655,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 151
+    }
+   },
+   "Ts3_rg1": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 66
+    },
+    "links_by_gate": {
+     "floor": 53,
+     "image": 15
+    },
+    "objective": 1.695233091892762,
+    "person": {
+     "IDFN": 3752.0,
+     "IDFP": 1293.0,
+     "IDTP": 27543.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1982758620689655,
+     "identities_covered": 116,
+     "identities_two_or_more": 21,
+     "idf1": 0.9160998486637508,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1982758620689655,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 152
+    }
+   },
+   "Ts3_rg2": {
+    "forklift": {
+     "IDFN": 11483.0,
+     "IDFP": 1100.0,
+     "IDTP": 22194.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0446428571428572,
+     "identities_covered": 112,
+     "identities_two_or_more": 5,
+     "idf1": 0.7791332432290112,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0446428571428572,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 121
+    },
+    "links": {
+     "forklift": 2,
+     "person": 69
+    },
+    "links_by_gate": {
+     "floor": 56,
+     "image": 15
+    },
+    "objective": 1.6996235061549563,
+    "person": {
+     "IDFN": 3620.0,
+     "IDFP": 1161.0,
+     "IDTP": 27675.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1724137931034482,
+     "identities_covered": 116,
+     "identities_two_or_more": 18,
+     "idf1": 0.920490262925945,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1724137931034482,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 149
+    }
+   },
+   "Ts5_rg0.5": {
+    "forklift": {
+     "IDFN": 11452.0,
+     "IDFP": 1069.0,
+     "IDTP": 22225.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0178571428571428,
+     "identities_covered": 112,
+     "identities_two_or_more": 2,
+     "idf1": 0.7802215162100016,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0178571428571428,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 117
+    },
+    "links": {
+     "forklift": 6,
+     "person": 71
+    },
+    "links_by_gate": {
+     "floor": 58,
+     "image": 19
+    },
+    "objective": 1.699115264858785,
+    "person": {
+     "IDFN": 3668.0,
+     "IDFP": 1209.0,
+     "IDTP": 27627.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1724137931034482,
+     "identities_covered": 116,
+     "identities_two_or_more": 20,
+     "idf1": 0.9188937486487835,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1724137931034482,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 147
+    }
+   },
+   "Ts5_rg1": {
+    "forklift": {
+     "IDFN": 11452.0,
+     "IDFP": 1069.0,
+     "IDTP": 22225.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0178571428571428,
+     "identities_covered": 112,
+     "identities_two_or_more": 2,
+     "idf1": 0.7802215162100016,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0178571428571428,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 117
+    },
+    "links": {
+     "forklift": 6,
+     "person": 70
+    },
+    "links_by_gate": {
+     "floor": 59,
+     "image": 17
+    },
+    "objective": 1.7002793898525486,
+    "person": {
+     "IDFN": 3633.0,
+     "IDFP": 1174.0,
+     "IDTP": 27662.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1810344827586208,
+     "identities_covered": 116,
+     "identities_two_or_more": 20,
+     "idf1": 0.9200578736425471,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1810344827586208,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 148
+    }
+   },
+   "Ts5_rg2": {
+    "forklift": {
+     "IDFN": 11452.0,
+     "IDFP": 1069.0,
+     "IDTP": 22225.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0178571428571428,
+     "identities_covered": 112,
+     "identities_two_or_more": 2,
+     "idf1": 0.7802215162100016,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0178571428571428,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 117
+    },
+    "links": {
+     "forklift": 6,
+     "person": 73
+    },
+    "links_by_gate": {
+     "floor": 62,
+     "image": 17
+    },
+    "objective": 1.705168714826356,
+    "person": {
+     "IDFN": 3486.0,
+     "IDFP": 1027.0,
+     "IDTP": 27809.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.1551724137931034,
+     "identities_covered": 116,
+     "identities_two_or_more": 17,
+     "idf1": 0.9249471986163543,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.1551724137931034,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 145
+    }
+   },
+   "cameras": 116,
+   "off": {
+    "forklift": {
+     "IDFN": 11618.0,
+     "IDFP": 1235.0,
+     "IDTP": 22059.0,
+     "coverage": 0.593312943551979,
+     "fragments_per_identity": 1.0625,
+     "identities_covered": 112,
+     "identities_two_or_more": 7,
+     "idf1": 0.7743939899246985,
+     "precision": 0.9786931818181818,
+     "secondary_all_points": {
+      "coverage": 0.6716156427235205,
+      "fragments_per_identity": 1.0625,
+      "precision": 0.9709796514123809
+     },
+     "system_identities": 123
+    },
+    "links": {
+     "forklift": 0,
+     "person": 0
+    },
+    "links_by_gate": {
+     "floor": 0,
+     "image": 0
+    },
+    "objective": 1.6200809068228044,
+    "person": {
+     "IDFN": 5869.0,
+     "IDFP": 3410.0,
+     "IDTP": 25426.0,
+     "coverage": 0.9104968844863397,
+     "fragments_per_identity": 1.7241379310344827,
+     "identities_covered": 116,
+     "identities_two_or_more": 53,
+     "idf1": 0.8456869168981058,
+     "precision": 0.9949369740563567,
+     "secondary_all_points": {
+      "coverage": 0.9151621664802684,
+      "fragments_per_identity": 1.7241379310344827,
+      "precision": 0.9932029407684838
+     },
+     "system_identities": 218
+    }
+   }
+  },
+  "ceiling": {
+   "Ts1_rg0.5": {
+    "forklift": {
+     "IDFN": 2630.0,
+     "IDFP": 238.0,
+     "IDTP": 13460.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "idf1": 0.9037196186383779,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0185185185185186,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 56
+    },
+    "links": {
+     "forklift": 0,
+     "person": 9
+    },
+    "links_by_gate": {
+     "floor": 9,
+     "image": 0
+    },
+    "objective": 1.7711414232464355,
+    "person": {
+     "IDFN": 2683.0,
+     "IDFP": 1437.0,
+     "IDTP": 13478.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.3888888888888888,
+     "identities_covered": 54,
+     "identities_two_or_more": 18,
+     "idf1": 0.8674218046080576,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.3888888888888888,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 82
+    }
+   },
+   "Ts1_rg1": {
+    "forklift": {
+     "IDFN": 2630.0,
+     "IDFP": 238.0,
+     "IDTP": 13460.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "idf1": 0.9037196186383779,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0185185185185186,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 56
+    },
+    "links": {
+     "forklift": 0,
+     "person": 11
+    },
+    "links_by_gate": {
+     "floor": 11,
+     "image": 0
+    },
+    "objective": 1.7782208414469762,
+    "person": {
+     "IDFN": 2573.0,
+     "IDFP": 1327.0,
+     "IDTP": 13588.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.3518518518518519,
+     "identities_covered": 54,
+     "identities_two_or_more": 17,
+     "idf1": 0.8745012228085983,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.3518518518518519,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 80
+    }
+   },
+   "Ts1_rg2": {
+    "forklift": {
+     "IDFN": 2630.0,
+     "IDFP": 238.0,
+     "IDTP": 13460.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "idf1": 0.9037196186383779,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0185185185185186,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 56
+    },
+    "links": {
+     "forklift": 0,
+     "person": 14
+    },
+    "links_by_gate": {
+     "floor": 14,
+     "image": 0
+    },
+    "objective": 1.7806021002962489,
+    "person": {
+     "IDFN": 2536.0,
+     "IDFP": 1290.0,
+     "IDTP": 13625.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.2962962962962963,
+     "identities_covered": 54,
+     "identities_two_or_more": 16,
+     "idf1": 0.876882481657871,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.2962962962962963,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 77
+    }
+   },
+   "Ts2_rg0.5": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 20
+    },
+    "links_by_gate": {
+     "floor": 21,
+     "image": 0
+    },
+    "objective": 1.8289056196201645,
+    "person": {
+     "IDFN": 1895.0,
+     "IDFP": 649.0,
+     "IDTP": 14266.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1851851851851851,
+     "identities_covered": 54,
+     "identities_two_or_more": 10,
+     "idf1": 0.9181361822628394,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1851851851851851,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 71
+    }
+   },
+   "Ts2_rg1": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 21
+    },
+    "links_by_gate": {
+     "floor": 22,
+     "image": 0
+    },
+    "objective": 1.835663246084317,
+    "person": {
+     "IDFN": 1790.0,
+     "IDFP": 544.0,
+     "IDTP": 14371.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1666666666666667,
+     "identities_covered": 54,
+     "identities_two_or_more": 9,
+     "idf1": 0.9248938087269919,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1666666666666667,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 70
+    }
+   },
+   "Ts2_rg2": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 24
+    },
+    "links_by_gate": {
+     "floor": 25,
+     "image": 0
+    },
+    "objective": 1.8456387899123514,
+    "person": {
+     "IDFN": 1635.0,
+     "IDFP": 389.0,
+     "IDTP": 14526.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1111111111111112,
+     "identities_covered": 54,
+     "identities_two_or_more": 6,
+     "idf1": 0.9348693525550263,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1111111111111112,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 67
+    }
+   },
+   "Ts3_rg0.5": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 21
+    },
+    "links_by_gate": {
+     "floor": 22,
+     "image": 0
+    },
+    "objective": 1.8294848447456633,
+    "person": {
+     "IDFN": 1886.0,
+     "IDFP": 640.0,
+     "IDTP": 14275.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1666666666666667,
+     "identities_covered": 54,
+     "identities_two_or_more": 9,
+     "idf1": 0.9187154073883382,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1666666666666667,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 70
+    }
+   },
+   "Ts3_rg1": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 22
+    },
+    "links_by_gate": {
+     "floor": 23,
+     "image": 0
+    },
+    "objective": 1.8362424712098158,
+    "person": {
+     "IDFN": 1781.0,
+     "IDFP": 535.0,
+     "IDTP": 14380.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1481481481481481,
+     "identities_covered": 54,
+     "identities_two_or_more": 8,
+     "idf1": 0.9254730338524907,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1481481481481481,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 69
+    }
+   },
+   "Ts3_rg2": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 24
+    },
+    "links_by_gate": {
+     "floor": 25,
+     "image": 0
+    },
+    "objective": 1.8406188388246953,
+    "person": {
+     "IDFN": 1713.0,
+     "IDFP": 467.0,
+     "IDTP": 14448.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1111111111111112,
+     "identities_covered": 54,
+     "identities_two_or_more": 6,
+     "idf1": 0.9298494014673703,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1111111111111112,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 67
+    }
+   },
+   "Ts5_rg0.5": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 23
+    },
+    "links_by_gate": {
+     "floor": 24,
+     "image": 0
+    },
+    "objective": 1.8352127376533733,
+    "person": {
+     "IDFN": 1797.0,
+     "IDFP": 551.0,
+     "IDTP": 14364.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1481481481481481,
+     "identities_covered": 54,
+     "identities_two_or_more": 8,
+     "idf1": 0.9244433002960484,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1481481481481481,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 68
+    }
+   },
+   "Ts5_rg1": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 23
+    },
+    "links_by_gate": {
+     "floor": 24,
+     "image": 0
+    },
+    "objective": 1.8352127376533733,
+    "person": {
+     "IDFN": 1797.0,
+     "IDFP": 551.0,
+     "IDTP": 14364.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1481481481481481,
+     "identities_covered": 54,
+     "identities_two_or_more": 8,
+     "idf1": 0.9244433002960484,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1481481481481481,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 68
+    }
+   },
+   "Ts5_rg2": {
+    "forklift": {
+     "IDFN": 2525.0,
+     "IDFP": 133.0,
+     "IDTP": 13565.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0,
+     "identities_covered": 54,
+     "identities_two_or_more": 0,
+     "idf1": 0.9107694373573251,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 55
+    },
+    "links": {
+     "forklift": 1,
+     "person": 25
+    },
+    "links_by_gate": {
+     "floor": 26,
+     "image": 0
+    },
+    "objective": 1.8395891052682531,
+    "person": {
+     "IDFN": 1729.0,
+     "IDFP": 483.0,
+     "IDTP": 14432.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.1111111111111112,
+     "identities_covered": 54,
+     "identities_two_or_more": 6,
+     "idf1": 0.9288196679109281,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.1111111111111112,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 66
+    }
+   },
+   "cameras": 54,
+   "off": {
+    "forklift": {
+     "IDFN": 2630.0,
+     "IDFP": 238.0,
+     "IDTP": 13460.0,
+     "coverage": 0.7681789931634556,
+     "fragments_per_identity": 1.0185185185185186,
+     "identities_covered": 54,
+     "identities_two_or_more": 1,
+     "idf1": 0.9037196186383779,
+     "precision": 0.9934892693513383,
+     "secondary_all_points": {
+      "coverage": 0.8430702299564947,
+      "fragments_per_identity": 1.0185185185185186,
+      "precision": 0.9902905533654548
+     },
+     "system_identities": 56
+    },
+    "links": {
+     "forklift": 0,
+     "person": 0
+    },
+    "links_by_gate": {
+     "floor": 0,
+     "image": 0
+    },
+    "objective": 1.7514477689794772,
+    "person": {
+     "IDFN": 2989.0,
+     "IDFP": 1743.0,
+     "IDTP": 13172.0,
+     "coverage": 0.9184456407400532,
+     "fragments_per_identity": 1.5555555555555556,
+     "identities_covered": 54,
+     "identities_two_or_more": 22,
+     "idf1": 0.8477281503410993,
+     "precision": 0.9981842636180228,
+     "secondary_all_points": {
+      "coverage": 0.9211063671802487,
+      "fragments_per_identity": 1.5555555555555556,
+      "precision": 0.9980556486758297
+     },
+     "system_identities": 91
+    }
+   }
+  },
+  "eye_level": {
+   "Ts1_rg0.5": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 30
+    },
+    "links_by_gate": {
+     "floor": 18,
+     "image": 13
+    },
+    "objective": 1.4988986158196484,
+    "person": {
+     "IDFN": 2582.0,
+     "IDFP": 1369.0,
+     "IDTP": 12552.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.4516129032258065,
+     "identities_covered": 62,
+     "identities_two_or_more": 19,
+     "idf1": 0.8640165203923593,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.4516129032258065,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 97
+    }
+   },
+   "Ts1_rg1": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 31
+    },
+    "links_by_gate": {
+     "floor": 20,
+     "image": 12
+    },
+    "objective": 1.5015831795780377,
+    "person": {
+     "IDFN": 2543.0,
+     "IDFP": 1330.0,
+     "IDTP": 12591.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.435483870967742,
+     "identities_covered": 62,
+     "identities_two_or_more": 19,
+     "idf1": 0.8667010841507485,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.435483870967742,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 96
+    }
+   },
+   "Ts1_rg2": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 31
+    },
+    "links_by_gate": {
+     "floor": 20,
+     "image": 12
+    },
+    "objective": 1.5015831795780377,
+    "person": {
+     "IDFN": 2543.0,
+     "IDFP": 1330.0,
+     "IDTP": 12591.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.435483870967742,
+     "identities_covered": 62,
+     "identities_two_or_more": 19,
+     "idf1": 0.8667010841507485,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.435483870967742,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 96
+    }
+   },
+   "Ts2_rg0.5": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 44
+    },
+    "links_by_gate": {
+     "floor": 27,
+     "image": 18
+    },
+    "objective": 1.5334537698378896,
+    "person": {
+     "IDFN": 2080.0,
+     "IDFP": 867.0,
+     "IDTP": 13054.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2419354838709677,
+     "identities_covered": 62,
+     "identities_two_or_more": 14,
+     "idf1": 0.8985716744106006,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2419354838709677,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 83
+    }
+   },
+   "Ts2_rg1": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 43
+    },
+    "links_by_gate": {
+     "floor": 28,
+     "image": 16
+    },
+    "objective": 1.5358629937236237,
+    "person": {
+     "IDFN": 2045.0,
+     "IDFP": 832.0,
+     "IDTP": 13089.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2580645161290323,
+     "identities_covered": 62,
+     "identities_two_or_more": 14,
+     "idf1": 0.9009808982963345,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2580645161290323,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 84
+    }
+   },
+   "Ts2_rg2": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 44
+    },
+    "links_by_gate": {
+     "floor": 29,
+     "image": 16
+    },
+    "objective": 1.541300956208566,
+    "person": {
+     "IDFN": 1966.0,
+     "IDFP": 753.0,
+     "IDTP": 13168.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2419354838709677,
+     "identities_covered": 62,
+     "identities_two_or_more": 13,
+     "idf1": 0.9064188607812769,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2419354838709677,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 83
+    }
+   },
+   "Ts3_rg0.5": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 46
+    },
+    "links_by_gate": {
+     "floor": 30,
+     "image": 17
+    },
+    "objective": 1.5421958107946958,
+    "person": {
+     "IDFN": 1953.0,
+     "IDFP": 740.0,
+     "IDTP": 13181.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2258064516129032,
+     "identities_covered": 62,
+     "identities_two_or_more": 13,
+     "idf1": 0.9073137153674067,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2258064516129032,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 81
+    }
+   },
+   "Ts3_rg1": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 44
+    },
+    "links_by_gate": {
+     "floor": 30,
+     "image": 15
+    },
+    "objective": 1.540956781367747,
+    "person": {
+     "IDFN": 1971.0,
+     "IDFP": 758.0,
+     "IDTP": 13163.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2419354838709677,
+     "identities_covered": 62,
+     "identities_two_or_more": 13,
+     "idf1": 0.9060746859404577,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2419354838709677,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 83
+    }
+   },
+   "Ts3_rg2": {
+    "forklift": {
+     "IDFN": 8958.0,
+     "IDFP": 967.0,
+     "IDTP": 8629.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0862068965517242,
+     "identities_covered": 58,
+     "identities_two_or_more": 5,
+     "idf1": 0.6348820954272891,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0862068965517242,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 66
+    },
+    "links": {
+     "forklift": 1,
+     "person": 45
+    },
+    "links_by_gate": {
+     "floor": 31,
+     "image": 15
+    },
+    "objective": 1.5453622193302317,
+    "person": {
+     "IDFN": 1907.0,
+     "IDFP": 694.0,
+     "IDTP": 13227.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2258064516129032,
+     "identities_covered": 62,
+     "identities_two_or_more": 12,
+     "idf1": 0.9104801239029426,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2258064516129032,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 82
+    }
+   },
+   "Ts5_rg0.5": {
+    "forklift": {
+     "IDFN": 8927.0,
+     "IDFP": 936.0,
+     "IDTP": 8660.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0344827586206897,
+     "identities_covered": 58,
+     "identities_two_or_more": 2,
+     "idf1": 0.6371629327153,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0344827586206897,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 62
+    },
+    "links": {
+     "forklift": 5,
+     "person": 48
+    },
+    "links_by_gate": {
+     "floor": 34,
+     "image": 19
+    },
+    "objective": 1.5501211154721406,
+    "person": {
+     "IDFN": 1871.0,
+     "IDFP": 658.0,
+     "IDTP": 13263.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.1935483870967742,
+     "identities_covered": 62,
+     "identities_two_or_more": 12,
+     "idf1": 0.9129581827568405,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.1935483870967742,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 79
+    }
+   },
+   "Ts5_rg1": {
+    "forklift": {
+     "IDFN": 8927.0,
+     "IDFP": 936.0,
+     "IDTP": 8660.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0344827586206897,
+     "identities_covered": 58,
+     "identities_two_or_more": 2,
+     "idf1": 0.6371629327153,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0344827586206897,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 62
+    },
+    "links": {
+     "forklift": 5,
+     "person": 47
+    },
+    "links_by_gate": {
+     "floor": 35,
+     "image": 17
+    },
+    "objective": 1.5525303393578744,
+    "person": {
+     "IDFN": 1836.0,
+     "IDFP": 623.0,
+     "IDTP": 13298.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.2096774193548387,
+     "identities_covered": 62,
+     "identities_two_or_more": 12,
+     "idf1": 0.9153674066425744,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.2096774193548387,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 80
+    }
+   },
+   "Ts5_rg2": {
+    "forklift": {
+     "IDFN": 8927.0,
+     "IDFP": 936.0,
+     "IDTP": 8660.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.0344827586206897,
+     "identities_covered": 58,
+     "identities_two_or_more": 2,
+     "idf1": 0.6371629327153,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.0344827586206897,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 62
+    },
+    "links": {
+     "forklift": 5,
+     "person": 48
+    },
+    "links_by_gate": {
+     "floor": 36,
+     "image": 17
+    },
+    "objective": 1.5579683018428168,
+    "person": {
+     "IDFN": 1757.0,
+     "IDFP": 544.0,
+     "IDTP": 13377.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.1935483870967742,
+     "identities_covered": 62,
+     "identities_two_or_more": 11,
+     "idf1": 0.9208053691275168,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.1935483870967742,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 79
+    }
+   },
+   "cameras": 62,
+   "off": {
+    "forklift": {
+     "IDFN": 8988.0,
+     "IDFP": 997.0,
+     "IDTP": 8599.0,
+     "coverage": 0.43333143799397283,
+     "fragments_per_identity": 1.103448275862069,
+     "identities_covered": 58,
+     "identities_two_or_more": 6,
+     "idf1": 0.6326748335356657,
+     "precision": 0.9556112852664577,
+     "secondary_all_points": {
+      "coverage": 0.5147552169215898,
+      "fragments_per_identity": 1.103448275862069,
+      "precision": 0.9434139224676948
+     },
+     "system_identities": 67
+    },
+    "links": {
+     "forklift": 0,
+     "person": 0
+    },
+    "links_by_gate": {
+     "floor": 0,
+     "image": 0
+    },
+    "objective": 1.4761785334152044,
+    "person": {
+     "IDFN": 2880.0,
+     "IDFP": 1667.0,
+     "IDTP": 12254.0,
+     "coverage": 0.9020087220827276,
+     "fragments_per_identity": 1.8709677419354838,
+     "identities_covered": 62,
+     "identities_two_or_more": 31,
+     "idf1": 0.8435036998795388,
+     "precision": 0.9914300239668822,
+     "secondary_all_points": {
+      "coverage": 0.9088145896656535,
+      "fragments_per_identity": 1.8709677419354838,
+      "precision": 0.9880037353638388
+     },
+     "system_identities": 127
+    }
+   }
+  }
+ }
+}
