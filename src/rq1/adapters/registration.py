@@ -165,18 +165,38 @@ def smartspaces_version(data_origin: str) -> str:
     return f"{SS_VERSION}/{data_origin}"
 
 
-def smartspaces_metadata(scene: SmartSpacesScene, retrieved_utc: datetime) -> Row:
+D59_REVISION = "d38193b"  # D-60 ruling 4: the revision as the ruling writes it (the full hash is in SS_VERSION)
+
+
+def d59_generation_batch(folder: str) -> str:
+    """D-60 ruling 4 (CR-036 item 2): the published split folder and the revision, `MTMC_Tracking_2026/<folder>@d38193b`
+    (AR-70 item 1). The batch family (first path element, `splits.draw.batch_family`) is `MTMC_Tracking_2026` for both."""
+    if folder not in ("train", "val"):
+        raise ContractError("ERR-SPEC", f"D-59 scene folder {folder!r}: train or val expected")
+    return f"MTMC_Tracking_2026/{folder}@{D59_REVISION}"
+
+
+def map_layout_id(map_sha256: str) -> str:
+    """D-60 ruling 4 (CR-036 item 1, reading (ii)): layout_id = the SHA-256 of the scene's `map.png` (lower-case hex)."""
+    if len(map_sha256) != 64 or any(c not in "0123456789abcdef" for c in map_sha256):
+        raise ContractError("ERR-SPEC", f"layout_id {map_sha256!r}: a lower-case hex SHA-256 is expected")
+    return map_sha256
+
+
+def smartspaces_metadata(scene: SmartSpacesScene, retrieved_utc: datetime, layout_id: str | None = None, generation_batch: str | None = None) -> Row:
     """`Registrar.register` input for one SmartSpaces synthetic scene: one S0 artifact per scene, single data_origin
     (VR-E-005). Site = the scene; session = the scene; scene_id = the scene asset (the render parent when there is one,
-    T14.1: a scene asset together with all its re-renderings)."""
+    T14.1: a scene asset together with all its re-renderings).
+    `layout_id` and `generation_batch` are given for the D-59 scenes (D-60 ruling 4); absent, the lineage is the T-18 one
+    (layout_id = scene asset, generation_batch `MTMC_Tracking_2026/train`)."""
     if scene.data_origin not in ("synthetic_rendered", "synthetic_transferred"):
         raise ContractError("ERR-SPEC", f"SmartSpaces scene {scene.name}: {scene.data_origin} is not a synthetic origin (real scenes are registered under D-26)")
     if (scene.data_origin == "synthetic_transferred") != (scene.render_parent is not None):
         raise ContractError("ERR-INVARIANT", f"SmartSpaces scene {scene.name}: a transferred scene has a render parent, a rendered one has none")
     version = smartspaces_version(scene.data_origin)
     key = [SS_NAME, version]
-    lineage = {"ext_run_id": scene.name, "scene_id": scene.render_parent or scene.name, "generation_batch": "MTMC_Tracking_2026/train",
-               "layout_id": scene.render_parent or scene.name, "seed": None, "seed_null_reason": "not_supplied"}
+    lineage = {"ext_run_id": scene.name, "scene_id": scene.render_parent or scene.name, "generation_batch": generation_batch or "MTMC_Tracking_2026/train",
+               "layout_id": map_layout_id(layout_id) if layout_id is not None else scene.render_parent or scene.name, "seed": None, "seed_null_reason": "not_supplied"}
     if scene.render_parent is None:
         lineage.update({"render_parent": None, "render_parent_null_reason": "not_applicable"})
     else:
