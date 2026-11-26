@@ -92,6 +92,8 @@ Never pre-approved: paid services, cloud upload of data, real worker footage (ex
 | [B] | T-26r | S0 registration of the D-59 scenes. **BLOCKED** on CR-036 items 1–2 | G-D60 | S0 artifacts; summary JSON | S |
 | [B] | T-26s | Split version or addendum for the D-59 scenes, frozen before any system output on them. **BLOCKED** on CR-036 / D-60 | T-26r | split artifact; freeze record | S |
 | [B] | T-26e | Evaluation on the D-59 scenes in the roles D-60 sets (oracle path, then detector path); tier-1 test only after v2 is frozen and reported | T-26s; v2 freeze | results per D-60 | L |
+| [x] | T-27 | **D-58 (Owner, 24 Nov 2026): T25 (E-1.2.26) opt-in** — T25.1 track stitching, T25.2 episode continuity across POW breaks, T25.3 m_gap in seconds; T25.4 tests; regression (stored D-54 / D-57 artifacts, M0 IDs); stitching grid on the 116 tuning cameras (tracking measures only); event-level check α / β (diagnostic) | D-58 | `research/m1b/d58_report.md` | M |
+| [S] | G-D61 | **STOP — Owner and Architect review the D-58 results (D-61):** stitching values (selected, not frozen), CR-037, AR-69. Blocks the v2 freeze, the reporting-camera run and the demo build; independent of D-60 | T-27 | D-61 decided | — |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1023,3 +1025,26 @@ _(the agent appends entries here)_
   - CR-036: how recordings added after the freeze join the split; also `layout_id` and `generation_batch` for the new scenes. S0 registration waits on it.
   - Python `urllib` hung on Hub requests on this machine (no connection opened); the D-59 scripts use `curl` instead.
 - Next: **STOP (D-60)**, independent of D-58. T-26q (frame-quality statistics) may run meanwhile.
+
+### 2026-11-25 — D-58: T25 (E-1.2.26) implemented opt-in; stitching selection and event-level check on the tuning subset; STOP at D-61
+- Did (tuning cameras only; nothing on the 110 reporting cameras or the test partition; pilot columns and stored D-54 / D-57 / T-21 artifacts only read, never written; no new detection; N4, label rules, EV definitions and the stored base references unchanged; on mains power; one agent):
+  - **Step 0:** tree clean and level with origin at d67caf6; mains power. N4 matches S_VIEW **candidate_event** rows in single-camera runs (`research/m1a/evaluate_m1a.py` `system_events`, `rq1.pipeline.m0`), so T25.2 events enter matching without a change: continued.
+  - **Step 1 (8d254b6):** D-58 DECIDED. T25 appended to Appendix T verbatim (contract E-1.2.26); CLAUDE.md contract line updated. `v2_notes.md`: m_gap is an event definition in seconds (value from item C7, system and references; D-57 sweep value not a candidate); "T25 adopted; values selected below are not frozen". Records only; committed without a suite run (no code changed).
+  - **Step 2 (2f4ad7e):** T25.4 tests first (`tests/substrate/test_t25_stitching.py` 24, `tests/events/test_t25_join.py` 18), then the code: `rq1.tracking.stitching` (T25.1), stitched units in `substrate/builder.py` (S4 pairs stitched identities), `candidates.join_chains` / `joined_events` / `continuity_links` and the T25 branch of `events/s5.py` (T25.2), `engine.m_gap_frames` (T25.3), `stitch` key in `s3_config.trc_id`, three `@absent_ok` schema fields.
+    - Regression (`research/m1b/t25_regression.py` → `t25_regression.json`): with the T25 parameters absent, the stored D-54 S4, D-54 S5 and D-57 m_gap 5 S5 of C-v2, B-both and A rebuild byte-identical (payload and artifact ID) on 116 of 116 tuning cameras.
+    - M0 (W-02, AR-69 item 11): T25 diff of the M0 files applied to a clean clone of e6072ef with the T24 `@absent_ok` machinery; two runs give the 12 IDs and payload hashes of the M0 report and equal the unpatched run; 46 of 48 exported files equal, the other two are the data dictionary (two new optional properties) and the export manifest that hashes it. The current tree applied whole to e6072ef does not give the M0 S4 ID (it did not before T25 either: post-M0 amendments changed S4); T25 code and HEAD code give identical M0 artifacts.
+  - **Step 3 (66809cd):** `d58_stitch.py` → `d58_stitch_grid.json`. 13 configurations, 40 s with 3 workers. Stitching off reproduces the stored D-55 measures on 116 of 116 cameras; a second independent run was identical on 116 of 116.
+  - **Step 4 (driver 15f2bf5):** `d58_events.py` → `d58_events_tune.json`. Estimate 2.4 s per camera, 0.08 h serial (limit 3 h); run 3 min with 3 workers. Checks: C-v2 under α equals D-54 and its splits equal D-57 (43 / 30 / 42); the β reference procedure at m_gap 5 reproduces the stored reference S5 and list on 116 of 116; a second independent run gave identical results and artifact IDs on 116 of 116.
+  - **Step 5:** `d58_report.py` → `research/m1b/d58_report.md`. All three results files and the report regenerated twice: byte-identical.
+- Results (diagnostic, tuning subset, not a reported result):
+  - Stitching selected (pre-declared rule): T_s 5 s, r_g 0.5 m, **selected under D-58, not frozen** (largest T_s of the grid). Person IDF1 0.846 → 0.919, forklift 0.774 → 0.780; 77 links (71 person, 6 forklift).
+  - EV-M1 / EV-M2, α: C-v2 0.578 / 0.329 → C-v2+T25 0.600 / 0.411. Under α T25.2 joins nothing on any path (join limit 5 frames < the shortest POW-break gap, g_max + 1 = 16 frames).
+  - β (m_gap_s 1.0, system and diagnostic references): C-v2 0.653 / 0.438; C-v2+T25 0.677 / 0.525 (21 joined events, 15.6 s unobserved); B-both 0.935 / 0.841, B-both+T25 0.935 / 0.847; A 1.000 / 0.932, A+T25 1.000 / 0.961.
+  - CR-037 pair readings (a) and (b) agree on every event.
+- Tests: 2695 passed, 17 skipped (`.venv-det` only), full suite twice: identical. New: `test_t25_stitching.py` 24, `test_t25_join.py` 18, `test_d58_stitch.py` 4, `test_d58_events.py` 3.
+- Commit: this entry's commit (pushed)
+- Problems / CRs:
+  - CR-037 opened (contact state, IE and A5.2 pair of a joined event; primary readings applied; STEP 4 is G1 and reports both pair readings).
+  - AR-69 proposed (representation of T25).
+- Next: **STOP (D-61).** Independent of D-60; T-26q may run meanwhile.
+

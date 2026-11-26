@@ -1,0 +1,2502 @@
+{
+ "baseline": "BL-6",
+ "checks": {
+  "c_v2_alpha_equals_d54": true,
+  "c_v2_alpha_splits": {
+   "i": 43,
+   "ii": 30,
+   "iii": 42
+  },
+  "cameras": 116,
+  "d57_c_v2_splits": {
+   "i": 43,
+   "ii": 30,
+   "iii": 42
+  },
+  "reference_procedure_at_m_gap_5": 116
+ },
+ "configurations": {
+  "A": "stored T-21 base (comparison)",
+  "A+T25": "stored T-21 base S4, T25.2 on",
+  "B-both": "stored D-54 B-both (comparison)",
+  "B-both+T25": "stored B-both S4, T25.2 on (T25.1 off: oracle)",
+  "C-v2": "stored D-54 S4 and S5 (T25 off)",
+  "C-v2+T25": "stitched detector S3 (T25.1, STEP 3 winner), S4 as C-v2, T25.2 on"
+ },
+ "contract": "E-1.2.26 (Appendix T T25); v1 base values otherwise",
+ "decision": "D-58 STEP 4",
+ "definitions": {
+  "alpha": "m_gap 5 frames, system and the stored base references (T21)",
+  "beta": "m_gap_s 1.0 s, system and a reference set rebuilt from simulator truth with m_gap_s 1.0 (D-58 diagnostic reference set, m_gap_s 1.0: diagnostic, not the v2 reference); 1.0 s is a placeholder for this check only, not a v2 candidate"
+ },
+ "label_group": "G1",
+ "matching": "N4 (unchanged)",
+ "pair_readings": {
+  "a": "CR-037 item 3 (a): at the closest-approach member's CA frame (applied in the code)",
+  "b": "CR-037 item 3 (b): every member at its own CA frame; unknown unless all agree"
+ },
+ "runtime_s": 439.9,
+ "status": "diagnostic, tuning subset, not a reported result",
+ "stitch_status": "STEP 3 winner, selected, not frozen",
+ "stitch_winner": "Ts5_rg0.5",
+ "stitching": {
+  "links": 77,
+  "links_by_class": {
+   "forklift": 6,
+   "person": 71
+  }
+ },
+ "tuning_116": {
+  "all": {
+   "A": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9440559440559441,
+      "assessable_references": 135,
+      "matched_events": 135,
+      "matched_references": 135,
+      "references_with_1_event": 127,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 143,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9440559440559441,
+      "assessable_references": 135,
+      "matched_events": 135,
+      "matched_references": 135,
+      "references_with_1_event": 127,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 143,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 143,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 143,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 143,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9323308270676691,
+      "assessable_references": 124,
+      "matched_events": 124,
+      "matched_references": 124,
+      "references_with_1_event": 115,
+      "references_with_2plus_events": 9,
+      "splits": 9,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 9,
+       "iii": 0
+      },
+      "system_events_g1": 133,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 9,
+      "unmatched_with_same_pair_overlap": 9
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9323308270676691,
+      "assessable_references": 124,
+      "matched_events": 124,
+      "matched_references": 124,
+      "references_with_1_event": 115,
+      "references_with_2plus_events": 9,
+      "splits": 9,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 9,
+       "iii": 0
+      },
+      "system_events_g1": 133,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 9,
+      "unmatched_with_same_pair_overlap": 9
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 133,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 133,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 133,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "A+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9440559440559441,
+      "assessable_references": 135,
+      "matched_events": 135,
+      "matched_references": 135,
+      "references_with_1_event": 127,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 143,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9440559440559441,
+      "assessable_references": 135,
+      "matched_events": 135,
+      "matched_references": 135,
+      "references_with_1_event": 127,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 143,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 143,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 143,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 143,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9612403100775194,
+      "assessable_references": 124,
+      "matched_events": 124,
+      "matched_references": 124,
+      "references_with_1_event": 119,
+      "references_with_2plus_events": 5,
+      "splits": 5,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 5,
+       "iii": 0
+      },
+      "system_events_g1": 129,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 2,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 5,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9612403100775194,
+      "assessable_references": 124,
+      "matched_events": 124,
+      "matched_references": 124,
+      "references_with_1_event": 119,
+      "references_with_2plus_events": 5,
+      "splits": 5,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 5,
+       "iii": 0
+      },
+      "system_events_g1": 129,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 2,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 5,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 125,
+       "2": 4,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 4,
+      "member_episodes": 133,
+      "members_per_event": 1.0310077519379846,
+      "pair_readings_differ": 0,
+      "system_events": 129,
+      "unobserved_gap_s": 3.066666666666667
+     }
+    }
+   },
+   "B-both": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.9259259259259259,
+      "EV-M2": 0.5707762557077626,
+      "assessable_references": 135,
+      "matched_events": 125,
+      "matched_references": 125,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 64,
+      "splits": 87,
+      "splits_by_mechanism": {
+       "i": 81,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 219,
+      "unmatched_by_band": {
+       "(0, 0.1]": 44,
+       "(0.1, 0.2]": 21,
+       "(0.2, 0.3)": 17,
+       "0": 7,
+       ">= 0.3": 5
+      },
+      "unmatched_events": 94,
+      "unmatched_with_same_pair_overlap": 87
+     },
+     "reading_b": {
+      "EV-M1": 0.9259259259259259,
+      "EV-M2": 0.5707762557077626,
+      "assessable_references": 135,
+      "matched_events": 125,
+      "matched_references": 125,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 64,
+      "splits": 87,
+      "splits_by_mechanism": {
+       "i": 81,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 219,
+      "unmatched_by_band": {
+       "(0, 0.1]": 44,
+       "(0.1, 0.2]": 21,
+       "(0.2, 0.3)": 17,
+       "0": 7,
+       ">= 0.3": 5
+      },
+      "unmatched_events": 94,
+      "unmatched_with_same_pair_overlap": 87
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 219,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 219,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 219,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9354838709677419,
+      "EV-M2": 0.8405797101449275,
+      "assessable_references": 124,
+      "matched_events": 116,
+      "matched_references": 116,
+      "references_with_1_event": 105,
+      "references_with_2plus_events": 16,
+      "splits": 17,
+      "splits_by_mechanism": {
+       "i": 10,
+       "ii": 7,
+       "iii": 0
+      },
+      "system_events_g1": 138,
+      "unmatched_by_band": {
+       "(0, 0.1]": 6,
+       "(0.1, 0.2]": 4,
+       "(0.2, 0.3)": 5,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 22,
+      "unmatched_with_same_pair_overlap": 19
+     },
+     "reading_b": {
+      "EV-M1": 0.9354838709677419,
+      "EV-M2": 0.8405797101449275,
+      "assessable_references": 124,
+      "matched_events": 116,
+      "matched_references": 116,
+      "references_with_1_event": 105,
+      "references_with_2plus_events": 16,
+      "splits": 17,
+      "splits_by_mechanism": {
+       "i": 10,
+       "ii": 7,
+       "iii": 0
+      },
+      "system_events_g1": 138,
+      "unmatched_by_band": {
+       "(0, 0.1]": 6,
+       "(0.1, 0.2]": 4,
+       "(0.2, 0.3)": 5,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 22,
+      "unmatched_with_same_pair_overlap": 19
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 138,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 138,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 138,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "B-both+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.9259259259259259,
+      "EV-M2": 0.5707762557077626,
+      "assessable_references": 135,
+      "matched_events": 125,
+      "matched_references": 125,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 64,
+      "splits": 87,
+      "splits_by_mechanism": {
+       "i": 81,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 219,
+      "unmatched_by_band": {
+       "(0, 0.1]": 44,
+       "(0.1, 0.2]": 21,
+       "(0.2, 0.3)": 17,
+       "0": 7,
+       ">= 0.3": 5
+      },
+      "unmatched_events": 94,
+      "unmatched_with_same_pair_overlap": 87
+     },
+     "reading_b": {
+      "EV-M1": 0.9259259259259259,
+      "EV-M2": 0.5707762557077626,
+      "assessable_references": 135,
+      "matched_events": 125,
+      "matched_references": 125,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 64,
+      "splits": 87,
+      "splits_by_mechanism": {
+       "i": 81,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 219,
+      "unmatched_by_band": {
+       "(0, 0.1]": 44,
+       "(0.1, 0.2]": 21,
+       "(0.2, 0.3)": 17,
+       "0": 7,
+       ">= 0.3": 5
+      },
+      "unmatched_events": 94,
+      "unmatched_with_same_pair_overlap": 87
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 219,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 219,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 219,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9354838709677419,
+      "EV-M2": 0.8467153284671532,
+      "assessable_references": 124,
+      "matched_events": 116,
+      "matched_references": 116,
+      "references_with_1_event": 105,
+      "references_with_2plus_events": 16,
+      "splits": 16,
+      "splits_by_mechanism": {
+       "i": 10,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 137,
+      "unmatched_by_band": {
+       "(0, 0.1]": 6,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 5,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 21,
+      "unmatched_with_same_pair_overlap": 18
+     },
+     "reading_b": {
+      "EV-M1": 0.9354838709677419,
+      "EV-M2": 0.8467153284671532,
+      "assessable_references": 124,
+      "matched_events": 116,
+      "matched_references": 116,
+      "references_with_1_event": 105,
+      "references_with_2plus_events": 16,
+      "splits": 16,
+      "splits_by_mechanism": {
+       "i": 10,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 137,
+      "unmatched_by_band": {
+       "(0, 0.1]": 6,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 5,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 21,
+      "unmatched_with_same_pair_overlap": 18
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 136,
+       "2": 1,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 1,
+      "member_episodes": 138,
+      "members_per_event": 1.0072992700729928,
+      "pair_readings_differ": 0,
+      "system_events": 137,
+      "unobserved_gap_s": 0.8999999999999995
+     }
+    }
+   },
+   "C-v2": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.5777777777777777,
+      "EV-M2": 0.3291139240506329,
+      "assessable_references": 135,
+      "matched_events": 78,
+      "matched_references": 78,
+      "references_with_1_event": 47,
+      "references_with_2plus_events": 69,
+      "splits": 115,
+      "splits_by_mechanism": {
+       "i": 43,
+       "ii": 30,
+       "iii": 42
+      },
+      "system_events_g1": 237,
+      "unmatched_by_band": {
+       "(0, 0.1]": 66,
+       "(0.1, 0.2]": 47,
+       "(0.2, 0.3)": 34,
+       "0": 10,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 159,
+      "unmatched_with_same_pair_overlap": 149
+     },
+     "reading_b": {
+      "EV-M1": 0.5777777777777777,
+      "EV-M2": 0.3291139240506329,
+      "assessable_references": 135,
+      "matched_events": 78,
+      "matched_references": 78,
+      "references_with_1_event": 47,
+      "references_with_2plus_events": 69,
+      "splits": 115,
+      "splits_by_mechanism": {
+       "i": 43,
+       "ii": 30,
+       "iii": 42
+      },
+      "system_events_g1": 237,
+      "unmatched_by_band": {
+       "(0, 0.1]": 66,
+       "(0.1, 0.2]": 47,
+       "(0.2, 0.3)": 34,
+       "0": 10,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 159,
+      "unmatched_with_same_pair_overlap": 149
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 237,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 237,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 237,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.6532258064516129,
+      "EV-M2": 0.43783783783783786,
+      "assessable_references": 124,
+      "matched_events": 81,
+      "matched_references": 81,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 54,
+      "splits": 75,
+      "splits_by_mechanism": {
+       "i": 1,
+       "ii": 30,
+       "iii": 44
+      },
+      "system_events_g1": 185,
+      "unmatched_by_band": {
+       "(0, 0.1]": 39,
+       "(0.1, 0.2]": 32,
+       "(0.2, 0.3)": 22,
+       "0": 3,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 104,
+      "unmatched_with_same_pair_overlap": 101
+     },
+     "reading_b": {
+      "EV-M1": 0.6532258064516129,
+      "EV-M2": 0.43783783783783786,
+      "assessable_references": 124,
+      "matched_events": 81,
+      "matched_references": 81,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 54,
+      "splits": 75,
+      "splits_by_mechanism": {
+       "i": 1,
+       "ii": 30,
+       "iii": 44
+      },
+      "system_events_g1": 185,
+      "unmatched_by_band": {
+       "(0, 0.1]": 39,
+       "(0.1, 0.2]": 32,
+       "(0.2, 0.3)": 22,
+       "0": 3,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 104,
+      "unmatched_with_same_pair_overlap": 101
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 185,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 185,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 185,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "C-v2+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.6,
+      "EV-M2": 0.41116751269035534,
+      "assessable_references": 135,
+      "matched_events": 81,
+      "matched_references": 81,
+      "references_with_1_event": 61,
+      "references_with_2plus_events": 54,
+      "splits": 80,
+      "splits_by_mechanism": {
+       "i": 11,
+       "ii": 53,
+       "iii": 16
+      },
+      "system_events_g1": 197,
+      "unmatched_by_band": {
+       "(0, 0.1]": 38,
+       "(0.1, 0.2]": 43,
+       "(0.2, 0.3)": 27,
+       "0": 7,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 116,
+      "unmatched_with_same_pair_overlap": 109
+     },
+     "reading_b": {
+      "EV-M1": 0.6,
+      "EV-M2": 0.41116751269035534,
+      "assessable_references": 135,
+      "matched_events": 81,
+      "matched_references": 81,
+      "references_with_1_event": 61,
+      "references_with_2plus_events": 54,
+      "splits": 80,
+      "splits_by_mechanism": {
+       "i": 11,
+       "ii": 53,
+       "iii": 16
+      },
+      "system_events_g1": 197,
+      "unmatched_by_band": {
+       "(0, 0.1]": 38,
+       "(0.1, 0.2]": 43,
+       "(0.2, 0.3)": 27,
+       "0": 7,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 116,
+      "unmatched_with_same_pair_overlap": 109
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 197,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 197,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 197,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.6774193548387096,
+      "EV-M2": 0.525,
+      "assessable_references": 124,
+      "matched_events": 84,
+      "matched_references": 84,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 40,
+      "splits": 52,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 36,
+       "iii": 16
+      },
+      "system_events_g1": 160,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 26,
+       "(0.2, 0.3)": 16,
+       "0": 2,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 76,
+      "unmatched_with_same_pair_overlap": 74
+     },
+     "reading_b": {
+      "EV-M1": 0.6774193548387096,
+      "EV-M2": 0.525,
+      "assessable_references": 124,
+      "matched_events": 84,
+      "matched_references": 84,
+      "references_with_1_event": 67,
+      "references_with_2plus_events": 40,
+      "splits": 52,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 36,
+       "iii": 16
+      },
+      "system_events_g1": 160,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 26,
+       "(0.2, 0.3)": 16,
+       "0": 2,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 76,
+      "unmatched_with_same_pair_overlap": 74
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 139,
+       "2": 20,
+       "3": 1,
+       "4": 0
+      },
+      "joined_events": 21,
+      "member_episodes": 182,
+      "members_per_event": 1.1375,
+      "pair_readings_differ": 0,
+      "system_events": 160,
+      "unobserved_gap_s": 15.56666666666667
+     }
+    }
+   },
+   "cameras": 116,
+   "references": {
+    "alpha": {
+     "assessable_g1": 135,
+     "references": 137
+    },
+    "beta": {
+     "assessable_g1": 124,
+     "references": 125
+    }
+   }
+  },
+  "ceiling": {
+   "A": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 64,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 64,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 64,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 64,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 64,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 64,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 64,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 64,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 64,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 59,
+      "matched_events": 59,
+      "matched_references": 59,
+      "references_with_1_event": 59,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 59,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 59,
+      "matched_events": 59,
+      "matched_references": 59,
+      "references_with_1_event": 59,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 59,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 59,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 59,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 59,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "A+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 64,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 64,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 64,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 64,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 64,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 64,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 64,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 64,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 64,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 59,
+      "matched_events": 59,
+      "matched_references": 59,
+      "references_with_1_event": 59,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 59,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 1.0,
+      "assessable_references": 59,
+      "matched_events": 59,
+      "matched_references": 59,
+      "references_with_1_event": 59,
+      "references_with_2plus_events": 0,
+      "splits": 0,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 59,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 0,
+      "unmatched_with_same_pair_overlap": 0
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 59,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 59,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 59,
+      "unobserved_gap_s": 0
+     }
+    }
+   },
+   "B-both": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.953125,
+      "EV-M2": 0.5865384615384616,
+      "assessable_references": 64,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 30,
+      "references_with_2plus_events": 33,
+      "splits": 40,
+      "splits_by_mechanism": {
+       "i": 40,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 104,
+      "unmatched_by_band": {
+       "(0, 0.1]": 20,
+       "(0.1, 0.2]": 9,
+       "(0.2, 0.3)": 9,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 43,
+      "unmatched_with_same_pair_overlap": 39
+     },
+     "reading_b": {
+      "EV-M1": 0.953125,
+      "EV-M2": 0.5865384615384616,
+      "assessable_references": 64,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 30,
+      "references_with_2plus_events": 33,
+      "splits": 40,
+      "splits_by_mechanism": {
+       "i": 40,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 104,
+      "unmatched_by_band": {
+       "(0, 0.1]": 20,
+       "(0.1, 0.2]": 9,
+       "(0.2, 0.3)": 9,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 43,
+      "unmatched_with_same_pair_overlap": 39
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 104,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 104,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 104,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9322033898305084,
+      "EV-M2": 0.8870967741935484,
+      "assessable_references": 59,
+      "matched_events": 55,
+      "matched_references": 55,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 4,
+      "splits": 4,
+      "splits_by_mechanism": {
+       "i": 4,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 62,
+      "unmatched_by_band": {
+       "(0, 0.1]": 2,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 2,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 7,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "reading_b": {
+      "EV-M1": 0.9322033898305084,
+      "EV-M2": 0.8870967741935484,
+      "assessable_references": 59,
+      "matched_events": 55,
+      "matched_references": 55,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 4,
+      "splits": 4,
+      "splits_by_mechanism": {
+       "i": 4,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 62,
+      "unmatched_by_band": {
+       "(0, 0.1]": 2,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 2,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 7,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 62,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 62,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 62,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "B-both+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.953125,
+      "EV-M2": 0.5865384615384616,
+      "assessable_references": 64,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 30,
+      "references_with_2plus_events": 33,
+      "splits": 40,
+      "splits_by_mechanism": {
+       "i": 40,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 104,
+      "unmatched_by_band": {
+       "(0, 0.1]": 20,
+       "(0.1, 0.2]": 9,
+       "(0.2, 0.3)": 9,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 43,
+      "unmatched_with_same_pair_overlap": 39
+     },
+     "reading_b": {
+      "EV-M1": 0.953125,
+      "EV-M2": 0.5865384615384616,
+      "assessable_references": 64,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 30,
+      "references_with_2plus_events": 33,
+      "splits": 40,
+      "splits_by_mechanism": {
+       "i": 40,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 104,
+      "unmatched_by_band": {
+       "(0, 0.1]": 20,
+       "(0.1, 0.2]": 9,
+       "(0.2, 0.3)": 9,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 43,
+      "unmatched_with_same_pair_overlap": 39
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 104,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 104,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 104,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9322033898305084,
+      "EV-M2": 0.8870967741935484,
+      "assessable_references": 59,
+      "matched_events": 55,
+      "matched_references": 55,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 4,
+      "splits": 4,
+      "splits_by_mechanism": {
+       "i": 4,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 62,
+      "unmatched_by_band": {
+       "(0, 0.1]": 2,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 2,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 7,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "reading_b": {
+      "EV-M1": 0.9322033898305084,
+      "EV-M2": 0.8870967741935484,
+      "assessable_references": 59,
+      "matched_events": 55,
+      "matched_references": 55,
+      "references_with_1_event": 54,
+      "references_with_2plus_events": 4,
+      "splits": 4,
+      "splits_by_mechanism": {
+       "i": 4,
+       "ii": 0,
+       "iii": 0
+      },
+      "system_events_g1": 62,
+      "unmatched_by_band": {
+       "(0, 0.1]": 2,
+       "(0.1, 0.2]": 0,
+       "(0.2, 0.3)": 2,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 7,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 62,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 62,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 62,
+      "unobserved_gap_s": 0
+     }
+    }
+   },
+   "C-v2": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.78125,
+      "EV-M2": 0.36764705882352944,
+      "assessable_references": 64,
+      "matched_events": 50,
+      "matched_references": 50,
+      "references_with_1_event": 18,
+      "references_with_2plus_events": 42,
+      "splits": 73,
+      "splits_by_mechanism": {
+       "i": 31,
+       "ii": 18,
+       "iii": 24
+      },
+      "system_events_g1": 136,
+      "unmatched_by_band": {
+       "(0, 0.1]": 32,
+       "(0.1, 0.2]": 33,
+       "(0.2, 0.3)": 13,
+       "0": 6,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 86,
+      "unmatched_with_same_pair_overlap": 80
+     },
+     "reading_b": {
+      "EV-M1": 0.78125,
+      "EV-M2": 0.36764705882352944,
+      "assessable_references": 64,
+      "matched_events": 50,
+      "matched_references": 50,
+      "references_with_1_event": 18,
+      "references_with_2plus_events": 42,
+      "splits": 73,
+      "splits_by_mechanism": {
+       "i": 31,
+       "ii": 18,
+       "iii": 24
+      },
+      "system_events_g1": 136,
+      "unmatched_by_band": {
+       "(0, 0.1]": 32,
+       "(0.1, 0.2]": 33,
+       "(0.2, 0.3)": 13,
+       "0": 6,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 86,
+      "unmatched_with_same_pair_overlap": 80
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 136,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 136,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 136,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.847457627118644,
+      "EV-M2": 0.5050505050505051,
+      "assessable_references": 59,
+      "matched_events": 50,
+      "matched_references": 50,
+      "references_with_1_event": 26,
+      "references_with_2plus_events": 30,
+      "splits": 43,
+      "splits_by_mechanism": {
+       "i": 1,
+       "ii": 18,
+       "iii": 24
+      },
+      "system_events_g1": 99,
+      "unmatched_by_band": {
+       "(0, 0.1]": 14,
+       "(0.1, 0.2]": 22,
+       "(0.2, 0.3)": 5,
+       "0": 1,
+       ">= 0.3": 7
+      },
+      "unmatched_events": 49,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "reading_b": {
+      "EV-M1": 0.847457627118644,
+      "EV-M2": 0.5050505050505051,
+      "assessable_references": 59,
+      "matched_events": 50,
+      "matched_references": 50,
+      "references_with_1_event": 26,
+      "references_with_2plus_events": 30,
+      "splits": 43,
+      "splits_by_mechanism": {
+       "i": 1,
+       "ii": 18,
+       "iii": 24
+      },
+      "system_events_g1": 99,
+      "unmatched_by_band": {
+       "(0, 0.1]": 14,
+       "(0.1, 0.2]": 22,
+       "(0.2, 0.3)": 5,
+       "0": 1,
+       ">= 0.3": 7
+      },
+      "unmatched_events": 49,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 99,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 99,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 99,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "C-v2+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.796875,
+      "EV-M2": 0.46788990825688076,
+      "assessable_references": 64,
+      "matched_events": 51,
+      "matched_references": 51,
+      "references_with_1_event": 29,
+      "references_with_2plus_events": 31,
+      "splits": 49,
+      "splits_by_mechanism": {
+       "i": 8,
+       "ii": 33,
+       "iii": 8
+      },
+      "system_events_g1": 109,
+      "unmatched_by_band": {
+       "(0, 0.1]": 16,
+       "(0.1, 0.2]": 30,
+       "(0.2, 0.3)": 7,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 58,
+      "unmatched_with_same_pair_overlap": 54
+     },
+     "reading_b": {
+      "EV-M1": 0.796875,
+      "EV-M2": 0.46788990825688076,
+      "assessable_references": 64,
+      "matched_events": 51,
+      "matched_references": 51,
+      "references_with_1_event": 29,
+      "references_with_2plus_events": 31,
+      "splits": 49,
+      "splits_by_mechanism": {
+       "i": 8,
+       "ii": 33,
+       "iii": 8
+      },
+      "system_events_g1": 109,
+      "unmatched_by_band": {
+       "(0, 0.1]": 16,
+       "(0.1, 0.2]": 30,
+       "(0.2, 0.3)": 7,
+       "0": 4,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 58,
+      "unmatched_with_same_pair_overlap": 54
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 109,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 109,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 109,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.864406779661017,
+      "EV-M2": 0.5930232558139535,
+      "assessable_references": 59,
+      "matched_events": 51,
+      "matched_references": 51,
+      "references_with_1_event": 32,
+      "references_with_2plus_events": 24,
+      "splits": 30,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 22,
+       "iii": 8
+      },
+      "system_events_g1": 86,
+      "unmatched_by_band": {
+       "(0, 0.1]": 10,
+       "(0.1, 0.2]": 14,
+       "(0.2, 0.3)": 2,
+       "0": 1,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 35,
+      "unmatched_with_same_pair_overlap": 34
+     },
+     "reading_b": {
+      "EV-M1": 0.864406779661017,
+      "EV-M2": 0.5930232558139535,
+      "assessable_references": 59,
+      "matched_events": 51,
+      "matched_references": 51,
+      "references_with_1_event": 32,
+      "references_with_2plus_events": 24,
+      "splits": 30,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 22,
+       "iii": 8
+      },
+      "system_events_g1": 86,
+      "unmatched_by_band": {
+       "(0, 0.1]": 10,
+       "(0.1, 0.2]": 14,
+       "(0.2, 0.3)": 2,
+       "0": 1,
+       ">= 0.3": 8
+      },
+      "unmatched_events": 35,
+      "unmatched_with_same_pair_overlap": 34
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 74,
+       "2": 12,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 12,
+      "member_episodes": 98,
+      "members_per_event": 1.1395348837209303,
+      "pair_readings_differ": 0,
+      "system_events": 86,
+      "unobserved_gap_s": 8.800000000000002
+     }
+    }
+   },
+   "cameras": 54,
+   "references": {
+    "alpha": {
+     "assessable_g1": 64,
+     "references": 64
+    },
+    "beta": {
+     "assessable_g1": 59,
+     "references": 59
+    }
+   }
+  },
+  "eye_level": {
+   "A": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8987341772151899,
+      "assessable_references": 71,
+      "matched_events": 71,
+      "matched_references": 71,
+      "references_with_1_event": 63,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 79,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8987341772151899,
+      "assessable_references": 71,
+      "matched_events": 71,
+      "matched_references": 71,
+      "references_with_1_event": 63,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 79,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 79,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 79,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 79,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8783783783783784,
+      "assessable_references": 65,
+      "matched_events": 65,
+      "matched_references": 65,
+      "references_with_1_event": 56,
+      "references_with_2plus_events": 9,
+      "splits": 9,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 9,
+       "iii": 0
+      },
+      "system_events_g1": 74,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 9,
+      "unmatched_with_same_pair_overlap": 9
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8783783783783784,
+      "assessable_references": 65,
+      "matched_events": 65,
+      "matched_references": 65,
+      "references_with_1_event": 56,
+      "references_with_2plus_events": 9,
+      "splits": 9,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 9,
+       "iii": 0
+      },
+      "system_events_g1": 74,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 9,
+      "unmatched_with_same_pair_overlap": 9
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 74,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 74,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 74,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "A+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8987341772151899,
+      "assessable_references": 71,
+      "matched_events": 71,
+      "matched_references": 71,
+      "references_with_1_event": 63,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 79,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.8987341772151899,
+      "assessable_references": 71,
+      "matched_events": 71,
+      "matched_references": 71,
+      "references_with_1_event": 63,
+      "references_with_2plus_events": 8,
+      "splits": 8,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 8,
+       "iii": 0
+      },
+      "system_events_g1": 79,
+      "unmatched_by_band": {
+       "(0, 0.1]": 0,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 2,
+       "0": 0,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 8,
+      "unmatched_with_same_pair_overlap": 8
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 79,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 79,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 79,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9285714285714286,
+      "assessable_references": 65,
+      "matched_events": 65,
+      "matched_references": 65,
+      "references_with_1_event": 60,
+      "references_with_2plus_events": 5,
+      "splits": 5,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 5,
+       "iii": 0
+      },
+      "system_events_g1": 70,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 2,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 5,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "reading_b": {
+      "EV-M1": 1.0,
+      "EV-M2": 0.9285714285714286,
+      "assessable_references": 65,
+      "matched_events": 65,
+      "matched_references": 65,
+      "references_with_1_event": 60,
+      "references_with_2plus_events": 5,
+      "splits": 5,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 5,
+       "iii": 0
+      },
+      "system_events_g1": 70,
+      "unmatched_by_band": {
+       "(0, 0.1]": 1,
+       "(0.1, 0.2]": 2,
+       "(0.2, 0.3)": 0,
+       "0": 0,
+       ">= 0.3": 2
+      },
+      "unmatched_events": 5,
+      "unmatched_with_same_pair_overlap": 5
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 66,
+       "2": 4,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 4,
+      "member_episodes": 74,
+      "members_per_event": 1.0571428571428572,
+      "pair_readings_differ": 0,
+      "system_events": 70,
+      "unobserved_gap_s": 3.066666666666667
+     }
+    }
+   },
+   "B-both": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.9014084507042254,
+      "EV-M2": 0.5565217391304348,
+      "assessable_references": 71,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 37,
+      "references_with_2plus_events": 31,
+      "splits": 47,
+      "splits_by_mechanism": {
+       "i": 41,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 115,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 8,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 51,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "reading_b": {
+      "EV-M1": 0.9014084507042254,
+      "EV-M2": 0.5565217391304348,
+      "assessable_references": 71,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 37,
+      "references_with_2plus_events": 31,
+      "splits": 47,
+      "splits_by_mechanism": {
+       "i": 41,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 115,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 8,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 51,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 115,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 115,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 115,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9384615384615385,
+      "EV-M2": 0.8026315789473685,
+      "assessable_references": 65,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 51,
+      "references_with_2plus_events": 12,
+      "splits": 13,
+      "splits_by_mechanism": {
+       "i": 6,
+       "ii": 7,
+       "iii": 0
+      },
+      "system_events_g1": 76,
+      "unmatched_by_band": {
+       "(0, 0.1]": 4,
+       "(0.1, 0.2]": 4,
+       "(0.2, 0.3)": 3,
+       "0": 1,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 15,
+      "unmatched_with_same_pair_overlap": 14
+     },
+     "reading_b": {
+      "EV-M1": 0.9384615384615385,
+      "EV-M2": 0.8026315789473685,
+      "assessable_references": 65,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 51,
+      "references_with_2plus_events": 12,
+      "splits": 13,
+      "splits_by_mechanism": {
+       "i": 6,
+       "ii": 7,
+       "iii": 0
+      },
+      "system_events_g1": 76,
+      "unmatched_by_band": {
+       "(0, 0.1]": 4,
+       "(0.1, 0.2]": 4,
+       "(0.2, 0.3)": 3,
+       "0": 1,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 15,
+      "unmatched_with_same_pair_overlap": 14
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 76,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 76,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 76,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "B-both+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.9014084507042254,
+      "EV-M2": 0.5565217391304348,
+      "assessable_references": 71,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 37,
+      "references_with_2plus_events": 31,
+      "splits": 47,
+      "splits_by_mechanism": {
+       "i": 41,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 115,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 8,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 51,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "reading_b": {
+      "EV-M1": 0.9014084507042254,
+      "EV-M2": 0.5565217391304348,
+      "assessable_references": 71,
+      "matched_events": 64,
+      "matched_references": 64,
+      "references_with_1_event": 37,
+      "references_with_2plus_events": 31,
+      "splits": 47,
+      "splits_by_mechanism": {
+       "i": 41,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 115,
+      "unmatched_by_band": {
+       "(0, 0.1]": 24,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 8,
+       "0": 3,
+       ">= 0.3": 4
+      },
+      "unmatched_events": 51,
+      "unmatched_with_same_pair_overlap": 48
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 115,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 115,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 115,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.9384615384615385,
+      "EV-M2": 0.8133333333333334,
+      "assessable_references": 65,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 51,
+      "references_with_2plus_events": 12,
+      "splits": 12,
+      "splits_by_mechanism": {
+       "i": 6,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 75,
+      "unmatched_by_band": {
+       "(0, 0.1]": 4,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 3,
+       "0": 1,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 14,
+      "unmatched_with_same_pair_overlap": 13
+     },
+     "reading_b": {
+      "EV-M1": 0.9384615384615385,
+      "EV-M2": 0.8133333333333334,
+      "assessable_references": 65,
+      "matched_events": 61,
+      "matched_references": 61,
+      "references_with_1_event": 51,
+      "references_with_2plus_events": 12,
+      "splits": 12,
+      "splits_by_mechanism": {
+       "i": 6,
+       "ii": 6,
+       "iii": 0
+      },
+      "system_events_g1": 75,
+      "unmatched_by_band": {
+       "(0, 0.1]": 4,
+       "(0.1, 0.2]": 3,
+       "(0.2, 0.3)": 3,
+       "0": 1,
+       ">= 0.3": 3
+      },
+      "unmatched_events": 14,
+      "unmatched_with_same_pair_overlap": 13
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 74,
+       "2": 1,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 1,
+      "member_episodes": 76,
+      "members_per_event": 1.0133333333333334,
+      "pair_readings_differ": 0,
+      "system_events": 75,
+      "unobserved_gap_s": 0.8999999999999995
+     }
+    }
+   },
+   "C-v2": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.39436619718309857,
+      "EV-M2": 0.27722772277227725,
+      "assessable_references": 71,
+      "matched_events": 28,
+      "matched_references": 28,
+      "references_with_1_event": 29,
+      "references_with_2plus_events": 27,
+      "splits": 42,
+      "splits_by_mechanism": {
+       "i": 12,
+       "ii": 12,
+       "iii": 18
+      },
+      "system_events_g1": 101,
+      "unmatched_by_band": {
+       "(0, 0.1]": 34,
+       "(0.1, 0.2]": 14,
+       "(0.2, 0.3)": 21,
+       "0": 4,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 73,
+      "unmatched_with_same_pair_overlap": 69
+     },
+     "reading_b": {
+      "EV-M1": 0.39436619718309857,
+      "EV-M2": 0.27722772277227725,
+      "assessable_references": 71,
+      "matched_events": 28,
+      "matched_references": 28,
+      "references_with_1_event": 29,
+      "references_with_2plus_events": 27,
+      "splits": 42,
+      "splits_by_mechanism": {
+       "i": 12,
+       "ii": 12,
+       "iii": 18
+      },
+      "system_events_g1": 101,
+      "unmatched_by_band": {
+       "(0, 0.1]": 34,
+       "(0.1, 0.2]": 14,
+       "(0.2, 0.3)": 21,
+       "0": 4,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 73,
+      "unmatched_with_same_pair_overlap": 69
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 101,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 101,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 101,
+      "unobserved_gap_s": 0.0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.47692307692307695,
+      "EV-M2": 0.36046511627906974,
+      "assessable_references": 65,
+      "matched_events": 31,
+      "matched_references": 31,
+      "references_with_1_event": 28,
+      "references_with_2plus_events": 24,
+      "splits": 32,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 12,
+       "iii": 20
+      },
+      "system_events_g1": 86,
+      "unmatched_by_band": {
+       "(0, 0.1]": 25,
+       "(0.1, 0.2]": 10,
+       "(0.2, 0.3)": 17,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 55,
+      "unmatched_with_same_pair_overlap": 53
+     },
+     "reading_b": {
+      "EV-M1": 0.47692307692307695,
+      "EV-M2": 0.36046511627906974,
+      "assessable_references": 65,
+      "matched_events": 31,
+      "matched_references": 31,
+      "references_with_1_event": 28,
+      "references_with_2plus_events": 24,
+      "splits": 32,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 12,
+       "iii": 20
+      },
+      "system_events_g1": 86,
+      "unmatched_by_band": {
+       "(0, 0.1]": 25,
+       "(0.1, 0.2]": 10,
+       "(0.2, 0.3)": 17,
+       "0": 2,
+       ">= 0.3": 1
+      },
+      "unmatched_events": 55,
+      "unmatched_with_same_pair_overlap": 53
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 86,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 86,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 86,
+      "unobserved_gap_s": 0.0
+     }
+    }
+   },
+   "C-v2+T25": {
+    "alpha": {
+     "reading_a": {
+      "EV-M1": 0.4225352112676056,
+      "EV-M2": 0.3409090909090909,
+      "assessable_references": 71,
+      "matched_events": 30,
+      "matched_references": 30,
+      "references_with_1_event": 32,
+      "references_with_2plus_events": 23,
+      "splits": 31,
+      "splits_by_mechanism": {
+       "i": 3,
+       "ii": 20,
+       "iii": 8
+      },
+      "system_events_g1": 88,
+      "unmatched_by_band": {
+       "(0, 0.1]": 22,
+       "(0.1, 0.2]": 13,
+       "(0.2, 0.3)": 20,
+       "0": 3,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 58,
+      "unmatched_with_same_pair_overlap": 55
+     },
+     "reading_b": {
+      "EV-M1": 0.4225352112676056,
+      "EV-M2": 0.3409090909090909,
+      "assessable_references": 71,
+      "matched_events": 30,
+      "matched_references": 30,
+      "references_with_1_event": 32,
+      "references_with_2plus_events": 23,
+      "splits": 31,
+      "splits_by_mechanism": {
+       "i": 3,
+       "ii": 20,
+       "iii": 8
+      },
+      "system_events_g1": 88,
+      "unmatched_by_band": {
+       "(0, 0.1]": 22,
+       "(0.1, 0.2]": 13,
+       "(0.2, 0.3)": 20,
+       "0": 3,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 58,
+      "unmatched_with_same_pair_overlap": 55
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 88,
+       "2": 0,
+       "3": 0,
+       "4": 0
+      },
+      "joined_events": 0,
+      "member_episodes": 88,
+      "members_per_event": 1.0,
+      "pair_readings_differ": 0,
+      "system_events": 88,
+      "unobserved_gap_s": 0
+     }
+    },
+    "beta": {
+     "reading_a": {
+      "EV-M1": 0.5076923076923077,
+      "EV-M2": 0.44594594594594594,
+      "assessable_references": 65,
+      "matched_events": 33,
+      "matched_references": 33,
+      "references_with_1_event": 35,
+      "references_with_2plus_events": 16,
+      "splits": 22,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 14,
+       "iii": 8
+      },
+      "system_events_g1": 74,
+      "unmatched_by_band": {
+       "(0, 0.1]": 14,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 14,
+       "0": 1,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 41,
+      "unmatched_with_same_pair_overlap": 40
+     },
+     "reading_b": {
+      "EV-M1": 0.5076923076923077,
+      "EV-M2": 0.44594594594594594,
+      "assessable_references": 65,
+      "matched_events": 33,
+      "matched_references": 33,
+      "references_with_1_event": 35,
+      "references_with_2plus_events": 16,
+      "splits": 22,
+      "splits_by_mechanism": {
+       "i": 0,
+       "ii": 14,
+       "iii": 8
+      },
+      "system_events_g1": 74,
+      "unmatched_by_band": {
+       "(0, 0.1]": 14,
+       "(0.1, 0.2]": 12,
+       "(0.2, 0.3)": 14,
+       "0": 1,
+       ">= 0.3": 0
+      },
+      "unmatched_events": 41,
+      "unmatched_with_same_pair_overlap": 40
+     },
+     "summary": {
+      "events_by_members": {
+       "1": 65,
+       "2": 8,
+       "3": 1,
+       "4": 0
+      },
+      "joined_events": 9,
+      "member_episodes": 84,
+      "members_per_event": 1.135135135135135,
+      "pair_readings_differ": 0,
+      "system_events": 74,
+      "unobserved_gap_s": 6.7666666666666675
+     }
+    }
+   },
+   "cameras": 62,
+   "references": {
+    "alpha": {
+     "assessable_g1": 71,
+     "references": 73
+    },
+    "beta": {
+     "assessable_g1": 65,
+     "references": 66
+    }
+   }
+  }
+ }
+}

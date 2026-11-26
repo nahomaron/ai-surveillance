@@ -804,3 +804,23 @@ Points to decide:
 5. Whether to qualify a further source within the 8.05 GB of headroom (report §7).
 Agent's recommendation: report §6 (a proposal; the Architect and the Owner decide).
 Owner decision: ______
+
+## D-61 (2026-11-25) — STOP after the D-58 T25 check: stitching selection and event-level results        status: OPEN
+Task: T-27 (D-58 STEPS 2–5)   Blocking: the v2 freeze (T25 values; m_gap_s from item C7); any run on the reporting cameras; the demo build; no other task (independent of D-60)
+Question: the results are in `research/m1b/d58_report.md` (diagnostic, tuning subset, not a reported result). Results only:
+- **T25 implemented opt-in (E-1.2.26).** Every T25.4 check is a test. With the parameters absent, the stored D-54 S4 / S5 and D-57 m_gap 5 S5 of C-v2, B-both and A are byte-identical on 116 of 116 tuning cameras, and the 12 M0 IDs are reproduced (W-02, AR-69 item 11).
+- **Stitching (T25.1), tracking measures only:** the pre-declared rule selects **T_s 5 s, r_g 0.5 m (selected, not frozen)**. That is the largest T_s of the grid.
+  - Person IDF1 0.846 → 0.919; forklift 0.774 → 0.780.
+  - Fragments per identity: person 1.72 → 1.17; forklift 1.06 → 1.02.
+  - Point precision unchanged (0.979 / 0.995). 77 links: 71 person, 6 forklift.
+- **Event check, EV-M1 / EV-M2 (G1, N4 unchanged):**
+  - α (m_gap 5 frames): C-v2 0.578 / 0.329; C-v2+T25 0.600 / 0.411; B-both+T25 0.926 / 0.571; A+T25 1.000 / 0.944.
+  - Under α, T25.2 joins nothing on any path. The join limit (5 frames) is below the shortest POW-break gap (g_max + 1 = 16 frames). The α gain comes from stitching alone.
+  - β (m_gap_s 1.0 s for the system and a diagnostic reference set rebuilt with 1.0 s): C-v2 0.653 / 0.438; C-v2+T25 0.677 / 0.525; B-both 0.935 / 0.841; B-both+T25 0.935 / 0.847; A 1.000 / 0.932; A+T25 1.000 / 0.961.
+  - Joined events under β: C-v2+T25 21 (15.6 s unobserved); B-both+T25 1; A+T25 4.
+  - The oracle check is clean under β: A keeps EV-M1 1.000; B-both 0.935, against 0.926 under α.
+- **Splits remaining** (D-57 mechanisms (i) / (ii) / (iii), on events): C-v2 under α 43 / 30 / 42; C-v2+T25 under α 11 / 53 / 16; under β 0 / 36 / 16. A+T25 under β 0 / 5 / 0.
+- **Open for review:** CR-037 (contact state, IE and A5.2 pair of a joined event; primary readings applied). The two pair readings agree on every event here. AR-69 proposed (representation of T25).
+Agent's recommendation: none; the Owner decides.
+Owner decision: ______
+
