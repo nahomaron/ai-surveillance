@@ -67,6 +67,15 @@ class Params:
     bands: tuple  # the configuration's band scheme: ((lower or None, upper or None), ...) in band order
 
 
+def m_gap_frames(m_gap_s: float, delta_nom_s: float) -> int:
+    """T25.3: m_gap_frames for a POW = floor(m_gap_s / delta_nom + 1e-9), delta_nom from S1."""
+    from rq1.schema.errors import ContractError
+    if not m_gap_s > 0 or not delta_nom_s > 0:
+        raise ContractError("ERR-SPEC", f"T25.3: m_gap_s > 0 and delta_nom > 0 required (got {m_gap_s}, {delta_nom_s})")
+    import math
+    return int(math.floor(m_gap_s / delta_nom_s + 1e-9))
+
+
 def expand(run_lengths: str) -> list[int]:
     out: list[int] = []
     for part in run_lengths.split(","):

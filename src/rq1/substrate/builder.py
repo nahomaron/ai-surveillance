@@ -87,10 +87,11 @@ class SubstrateBuilder:
             states_rows.update({(track["trk_id"], r["frame_index"]): r for r in rows})
         _TRACK_IDS_PENDING = {local: t["trk_id"] for local, t in tracks.items()}
         pow_rows, pair_rows, profiles = [], [], []
-        persons = [t for t in tracks.values() if t["class"] == "person"]
-        forklifts = [t for t in tracks.values() if t["class"] in cfg.pair_classes]
-        for person in sorted(persons, key=lambda t: t["track_local_id"]):
-            for fork in sorted(forklifts, key=lambda t: t["track_local_id"]):
+        units, points = stitched_units(tracks, points, state_by_track, states_rows)  # T25.1 (e); unchanged without stitch_id
+        persons = [t for t in units.values() if t["class"] == "person"]
+        forklifts = [t for t in units.values() if t["class"] in cfg.pair_classes]
+        for person in sorted(persons, key=lambda t: t["_order"]):
+            for fork in sorted(forklifts, key=lambda t: t["_order"]):
                 pstate = dict(state_by_track.get(person["track_local_id"], {}))
                 fstate = dict(state_by_track.get(fork["track_local_id"], {}))
                 for window in pows.build(pstate, fstate, frames, coverage, cfg.g_max):
@@ -332,6 +333,49 @@ class SubstrateBuilder:
             tier = "calibrated_unvalidated" if positions else "uncalibrated"
         sigma = "uncalibrated_model" if any(r["sigma_status"] == "uncalibrated_model" for r in series) else "not_estimated"
         return {"subject_type": "pow", "subject_nk": key, "band_scheme_id": scheme_id, **out, "sigma_status": sigma, "calibration_tier": tier}
+
+
+def stitched_units(tracks: dict[int, Row], points: dict, state_by_track: dict, states_rows: dict) -> tuple[dict, dict]:
+    """T25.1 (e): S4 forms pairs from stitched identities. Without `stitch_id` on the track points the units are the tracks
+    (E-1.2.25 behaviour, same order). With it, every point carries one, each track has exactly one, and a unit is a chain:
+    its point on a frame is the member track's point there (members never overlap in time), its object state is the
+    member's, and `trk_id` holds the stitch_id (AR-69 item 3). Object states stay per original track. Frames between
+    members have no point, so T8.1 bridges them or breaks the POW; nothing is created or imputed.
+    `state_by_track` and `states_rows` gain the units' entries in place; the returned points map adds them."""
+    carried = [p for p in points.values() if "stitch_id" in p]
+    if not carried:
+        return {local: {**t, "_order": local} for local, t in tracks.items()}, points
+    if len(carried) != len(points):
+        raise ContractError("ERR-SPEC", "T25.1 (e): every track point carries stitch_id, or none does")
+    members: dict[str, list[int]] = {}
+    for (local, _), p in sorted(points.items()):
+        sid = p["stitch_id"]
+        if local not in members.setdefault(sid, []):
+            members[sid].append(local)
+    of_track = {}
+    for sid, locals_ in members.items():
+        for local in locals_:
+            if of_track.setdefault(local, sid) != sid:
+                raise ContractError("ERR-SPEC", f"T25.1 (e): track {local} carries two stitched identities")
+        if len({tracks[l]["class"] for l in locals_}) != 1:
+            raise ContractError("ERR-SPEC", f"T25.1: stitched identity {sid} mixes classes")
+    merged = dict(points)
+    units = {}
+    for sid, locals_ in members.items():
+        locals_ = sorted(locals_, key=lambda l: (tracks[l]["start_frame"], l))
+        frames_of: dict[int, str] = {}
+        for local in locals_:
+            for i, state in state_by_track.get(local, {}).items():
+                if i in frames_of:
+                    raise ContractError("ERR-SPEC", f"T25.1: members of {sid} overlap on frame {i}")
+                frames_of[i] = state
+                merged[(sid, i)] = points[(local, i)]
+                row = states_rows.get((tracks[local]["trk_id"], i))
+                if row is not None:
+                    states_rows[(sid, i)] = row
+        state_by_track[sid] = frames_of
+        units[sid] = {"trk_id": sid, "track_local_id": sid, "class": tracks[locals_[0]]["class"], "_order": (locals_[0],)}
+    return {k: {**u, "_order": u["_order"][0]} for k, u in units.items()}, merged
 
 
 def crosses_break(frames: dict[int, Row], coverage: list[Row], a: int, b: int) -> bool:

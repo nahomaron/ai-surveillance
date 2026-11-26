@@ -2,6 +2,7 @@
 (E-1.2.1 sections 5.6, 6, 7; Appendix T T9 and T10). S5 reads S1 and S4 and never writes them (CT-E-12)."""
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import dataclass
 from typing import Any
 
@@ -22,6 +23,8 @@ class S5Config:
     substrate_config: Row  # the section 5.2 substrate_config record the S4 artifact was built with
     band_scheme_id: str
     version_label: str | None = None
+    m_gap_s: float | None = None  # T25.3: lifecycle.m_gap_s; None = absent (m_gap_frames applies, E-1.2.25)
+    join_across_pow: bool | None = None  # T25.2 (a): None = absent; absent or False = off
 
 
 def substrate_config_id(record: Row) -> str:
@@ -40,13 +43,25 @@ def rule_configuration(cfg: S5Config) -> Row:
                       {"provider_id": "R4", "enabled": "R4" in r.conflict, "params": {"pet_max": r.pet_max, "ttc_max": r.ttc_max}},
                       {"provider_id": "R5", "enabled": r.r5, "params": {"e_turn": r.e_turn, "e_acc": r.e_acc, "e_dec": r.e_dec}}]
     row = {"experiment": "E1", "providers": providers_list,
-           "lifecycle": {"m_gap_frames": p.m_gap, "t_min_s": p.t_min, "w_post_s": p.w_post},
+           "lifecycle": lifecycle(cfg),
            "classification": {"d_nm_m": p.d_nm, "k_sigma": p.k_sigma, "k_c": p.k_c, "k_c_turn": p.k_c_turn, "o_max_frac": p.o_max, "w_e_s": p.w_e},
            "motion_models": ["constant_velocity"], "substrate_config_id": substrate_config_id(cfg.substrate_config), "band_scheme_id": cfg.band_scheme_id,
            "preregistration_ref": None, "preregistration_ref_null_reason": "not_applicable"}
     row["version_label"] = cfg.version_label
     row["version_label_null_reason"] = None if cfg.version_label is not None else "not_applicable"
     return row
+
+
+def lifecycle(cfg: S5Config) -> Row:
+    """Section 5.2 lifecycle block. T25.0: `m_gap_s` (T25.3) and `join_across_pow` (T25.2) enter only when present, so a
+    configuration without them has its E-1.2.25 record and ID (AR-69 item 7)."""
+    p = cfg.params
+    out: Row = {"m_gap_frames": p.m_gap, "t_min_s": p.t_min, "w_post_s": p.w_post}
+    if cfg.m_gap_s is not None:
+        out["m_gap_s"] = cfg.m_gap_s
+    if cfg.join_across_pow is not None:
+        out["join_across_pow"] = cfg.join_across_pow
+    return out
 
 
 def config_id(cfg: S5Config) -> str:
@@ -80,6 +95,11 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> 
     if substrate_config_id(cfg.substrate_config) not in (s4.spec or {}).get("config_ids", []):
         raise ContractError("ERR-SPEC", "the S4 artifact was not built with this substrate_config (T12.1 single source)")
     pows = sorted(s4.tables["pow"], key=lambda p: canonical_json(_pow_nk(p)))
+    params, delta_nom = cfg.params, None
+    if cfg.m_gap_s is not None or cfg.join_across_pow:
+        delta_nom = next(d for d in s1["decode_summary"] if d["recording_id"] == recording)["delta_nom_s"]
+    if cfg.m_gap_s is not None:  # T25.3: m_gap_frames for a POW from m_gap_s and the recording's delta_nom (S1)
+        params = dataclasses.replace(params, m_gap=engine.m_gap_frames(cfg.m_gap_s, delta_nom))
     flag_rows: list[Row] = []
     episodes: list[Row] = []
     discarded: list[Row] = []
@@ -88,7 +108,7 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> 
     index = providers.S4Index(s4.tables, frames, s1["coverage_segment"])  # AR-58 item 5: lookups built once
     for pw in pows:
         flags = providers.flag_frames(s4.tables, rules, frames, s1["coverage_segment"], pow_nk=_pow_nk(pw), index=index)
-        eps, disc = engine.run_pow(flags, cfg.params)
+        eps, disc = engine.run_pow(flags, params)
         flag_rows += engine.flag_series_rows(pw["pow_id"], flags)
         discarded += [{"pow_id": pw["pow_id"], **d} for d in disc]
         for ep in eps:
@@ -103,7 +123,19 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> 
             if ep["end_frame_excl"] == pw["end_frame_excl"]:
                 last_episode[pw["pow_id"]] = row
             episodes.append(row)
-    events = candidates.candidate_events(episodes)
+    extra: dict[str, list[Row]] = {}
+    if cfg.join_across_pow:  # T25.2: episodes are unchanged; events are chains of them
+        max_gap = cfg.m_gap_s if cfg.m_gap_s is not None else cfg.params.m_gap * delta_nom
+        t_by_pow: dict[str, dict[int, int]] = {}
+        for r in flag_rows:
+            t_by_pow.setdefault(r["pow_id"], {})[r["frame_index"]] = r["T"]
+        camera = own[0]["camera_id"]
+        coverage = [c for c in s1["coverage_segment"] if c["timeline_id"] == timeline_id and c["camera_id"] == camera]
+        chains = candidates.join_chains(episodes, by_pow_id, t_by_pow, coverage, max_gap)
+        events = candidates.joined_events(chains, params.d_nm)
+        extra["event_link"] = candidates.continuity_links(chains)
+    else:
+        events = candidates.candidate_events(episodes)
     counts = candidates.count_summaries(events, episodes, [("recording", recording), ("timeline", timeline_id)])
     return build_artifact(spec, {"flag_series": flag_rows, "episode": episodes, "discarded_episode": discarded,
-                                 "candidate_event": events, "event_count_summary": counts})
+                                 "candidate_event": events, "event_count_summary": counts, **extra})

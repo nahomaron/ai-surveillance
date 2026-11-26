@@ -11,7 +11,8 @@ module never imports Ultralytics.
     (`trc_id` hashes the whole configuration); D-55 step 2 then says to leave the field out for that case (CR-033).
   - Every other case: the library, assignment and step from `base`, and per class the tracker_id, the tracker class
     name and the full parameter dict.
-- `trc_id(config, g_max)`: the S3 tracker configuration ID, the exact dict `research/m1b/run_pilot.py` hashes.
+- `trc_id(config, g_max, stitch=None)`: the S3 tracker configuration ID, the exact dict `research/m1b/run_pilot.py` hashes;
+  with T25.1 stitching parameters they are added under `stitch` (T25.0: absent, the ID is unchanged).
 """
 from __future__ import annotations
 
@@ -42,5 +43,10 @@ def run_config(base: dict, per_class: Dict[str, dict]) -> dict:
                             "params": {k: per_class[c]["params"][k] for k in sorted(per_class[c]["params"])}} for c in base["per_class"]}}
 
 
-def trc_id(config: dict, g_max: int) -> str:
-    return core.make_id("trc", {"tracker": config, "g_max": g_max, "bridging": BRIDGING, "tracked_box": TRACKED_BOX})
+def trc_id(config: dict, g_max: int, stitch=None) -> str:
+    """`stitch`: T25.1 parameters (`rq1.tracking.stitching.StitchParams`) or None. Absent, the dict hashed is the E-1.2.25
+    one, so the ID is unchanged (T25.0); present, they enter under the key `stitch` (AR-69 item 2)."""
+    record = {"tracker": config, "g_max": g_max, "bridging": BRIDGING, "tracked_box": TRACKED_BOX}
+    if stitch is not None:
+        record["stitch"] = stitch.as_record()
+    return core.make_id("trc", record)
