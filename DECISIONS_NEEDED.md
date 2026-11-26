@@ -858,3 +858,26 @@ Question: the results are in `research/m1b/d58_report.md` (diagnostic, tuning su
 Agent's recommendation: none; the Owner decides.
 Owner decision: ______
 
+## D-62 (2026-11-25) — STOP after D-60 STEP 4: the Owner runs the Colab equivalence check        status: OPEN
+Task: T-26c (D-60 STEPS 0–4)   Blocking: T-26g (STEP 5) and every use of tier-1 detections; nothing else (independent of D-61)
+Question: the Colab package is ready. Please run it as described in **`research/colab/HOWTO.md`**.
+- **Upload size:** **5.94 GB** in total.
+  - Equivalence check: 2 tuning videos, 34,708,143 bytes (0.03 GB), list in `research/colab/equivalence_manifest.json`.
+  - Tier 1: 45 videos, 5,908,702,565 bytes (5.91 GB), list in `research/colab/tier1_manifest.json`.
+  - The notebook also downloads the two weight files (0.38 GB) once into Drive.
+- **Order:**
+  1. Run the 2-camera equivalence check first, and send back `out/colab/equivalence/`.
+  2. The agent compares it with the stored CPU S2 against C1–C3 (D-60 STEP 4 (c), not loosened) and reports pass or fail.
+  3. Only after a pass, run tier 1 and send back `out/colab/tier1/`.
+- **Done so far:**
+  - S0/S1 of the 11 D-59 scenes: 118 recordings, all calibrated, every frame eligible.
+  - X0b-A1 frozen: art_xu3yvoyvpsukx257kmo5p37zxs, test_layout_holdout 45 recordings / 6 groups, reserve 73 / 1; X0b unchanged.
+  - X0c: 0 violations.
+- **For review:** AR-70 (D-60 representation). In particular:
+  - item 3: the per-layout grouping, stricter than T14.1;
+  - item 5: an R-2 gate for `test_layout_holdout` is needed before T-26e;
+  - item 6: the equivalence readings.
+- **One order deviation:** STEP 3 was frozen before the S1 decode of STEP 2 finished. The freeze reads S0 only.
+Agent's recommendation: none; the Owner runs the check.
+Owner decision: ______
+

@@ -1,0 +1,860 @@
+{
+ "format": "rq1-colab-job-1",
+ "decision": "D-60",
+ "job": "tier1",
+ "purpose": "D-60 rulings 1 and 5: S2 on the 45 tier-1 cameras (partition test_layout_holdout of X0b-A1)",
+ "detector": {
+  "model": "yolov8s-worldv2.pt",
+  "classes": [
+   "person",
+   "forklift"
+  ],
+  "score_floor": 0.05,
+  "predict": {
+   "imgsz": 640,
+   "iou": 0.7,
+   "max_det": 300
+  },
+  "thresholds_applied_on_the_laptop": {
+   "person": 0.2,
+   "forklift": 0.05
+  },
+  "decision": "D-45 items 0 and 2 (frozen detector)",
+  "weights": {
+   "yolov8s-worldv2.pt": {
+    "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s-worldv2.pt",
+    "bytes": 25923032,
+    "sha256": "9b2c17ab6124a913e9b3a5c170617920d91b0f01111a8479da69f00e2cf27792"
+   },
+   "clip/ViT-B-32.pt": {
+    "url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt",
+    "bytes": 353976522,
+    "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+   }
+  },
+  "pinned": {
+   "ultralytics": "8.4.215",
+   "av": "19.0.2"
+  }
+ },
+ "drive_layout": "<Drive>/rq1_colab/data/<uri>; outputs to <Drive>/rq1_colab/out/<job>/",
+ "split": {
+  "artifact_id": "art_xu3yvoyvpsukx257kmo5p37zxs",
+  "spm_id": "spm_dsvquawt4nzul2bmrifqk7e4ye"
+ },
+ "videos": 45,
+ "total_bytes": 5908702565,
+ "total_gb": 5.91,
+ "cameras": [
+  {
+   "rec_id": "rec_psgmf3f4kgdbhalyebi7i6qkr7",
+   "label": "Warehouse_010.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0000.mp4",
+   "size_bytes": 118099047,
+   "sha256": "13df913e2059274ba3be68e48e5c0a3b19e08591716edb57f9943fe1a27d75cd",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_iumpetgju34wo47samyr3pihvv",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_okegypa34bez7i4ohpjhh2gkzb",
+   "label": "Warehouse_010.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0001.mp4",
+   "size_bytes": 132322757,
+   "sha256": "e00771b6cc6ea6091185984fbaab0e8738a1dac9679de85889d6ea6f528da7d2",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_yjbyizgdpn722oirbiewmqfvcn",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_x2xhvbjnpcuvjgxdnwlaemerac",
+   "label": "Warehouse_010.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0002.mp4",
+   "size_bytes": 179304426,
+   "sha256": "09ff1e8e5dc5db38707bef9cdc44e2fe5ed0135e038775ad7daecbe59077c2c9",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_62bkjhuhxmbfqsvnrxn2psqhsu",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_qgig44jj7o6h6kyz65f46c3rnc",
+   "label": "Warehouse_010.Camera_0003",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0003.mp4",
+   "size_bytes": 122816092,
+   "sha256": "47997fcc86e535163d0e13f2b0c2b201ea480848ba9c2d90c724213110393e05",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_kc7ujhh6m5duex65ojjtzpwfyg",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_56fnnh5vwxyktkxmu4c4p5iumc",
+   "label": "Warehouse_010.Camera_0004",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0004.mp4",
+   "size_bytes": 136265072,
+   "sha256": "09059d5e52315669738833e5769c0daca804d98bc28c6695ed65184731d25055",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_mmo3povlqrwjvitpitnbkqhv23",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_xkgrkbmzn6tfu2xznmjijfdl6p",
+   "label": "Warehouse_010.Camera_0005",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0005.mp4",
+   "size_bytes": 190951606,
+   "sha256": "d0fc20a96e2b4b929104c16138b070247e4727204a27dacc4f1b16f3f050e465",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_vcblz7ifmrcb3jmvvmvhkvkhav",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_gizv65jdvuicsmga3dpz2sh7c5",
+   "label": "Warehouse_010.Camera_0006",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0006.mp4",
+   "size_bytes": 102906763,
+   "sha256": "2c4690e4e2fe24efb701f86db77b77af8685150537e33deaeb357bd87d2e139b",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_fxjth63f4ycq24a3zbvmbintuo",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_oko4jashifiwhxry5xip6mmstb",
+   "label": "Warehouse_010.Camera_0007",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0007.mp4",
+   "size_bytes": 158585615,
+   "sha256": "f11517433bc5bc0033c4ac469e7d05ed9d9e9d213e71983f8b0d1b91cb7b3a28",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_4pmmclyfbgrpzua4kxkrmks4o7",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_qniyf7j4cjl4aelpf5nprszkug",
+   "label": "Warehouse_010.Camera_0008",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0008.mp4",
+   "size_bytes": 139595560,
+   "sha256": "5f436c5d636d634703e51e6f3457784a9383e34649027d90dc9ec6272e029947",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_3ifo3ub26vqytwwnohgfbiwru5",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_zr3podeddradpdly2vb3j6rziv",
+   "label": "Warehouse_010.Camera_0009",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0009.mp4",
+   "size_bytes": 109422686,
+   "sha256": "9b71476cd4775521421a3095e9b2634562a3248e4348ae76987c5a9e9a88f9aa",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_uharxyd4kqyxdzvalcaezevm5h",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_sjzzhvilw6prq34ns4hr64u2dq",
+   "label": "Warehouse_010.Camera_0010",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_010/videos/Camera_0010.mp4",
+   "size_bytes": 138967702,
+   "sha256": "2fbc6479f57e0bd25418c721daadbde13eacac037b01aa5325adc69b4b37413b",
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "s1": "art_4sgghiqgoed22ickt664oehp7a",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_7bn7mypbyqet4lqj7rnbwom5vr",
+   "label": "Warehouse_011.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0000.mp4",
+   "size_bytes": 113462928,
+   "sha256": "c87dc9e108ab35fc52f2a421a4ff02df1be6071f74f5e6c7d61485e704b335b4",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_faeyg2dan2ejzs6vrcr3tbdnwi",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_a7mn2t2ybrjjrfzxp7conwh4pv",
+   "label": "Warehouse_011.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0001.mp4",
+   "size_bytes": 127457796,
+   "sha256": "5e713c2de8507dd797be320cb28d2f5884e2bfa509a218a007b9c0a9fadec68c",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_25m75zvjlnc44tir4iv27o2ebr",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_ufcxgugkqtqv6wkw3kjev5s7qa",
+   "label": "Warehouse_011.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0002.mp4",
+   "size_bytes": 173136508,
+   "sha256": "b81cc83f215cbe2c002ac0f3253bf1e2c6b0681a07af35bf082511821a33900b",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_xg44e7w3nqye4kadlbjnxf7xq4",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_ouoywwesy2d5kxxwnkszmcr7br",
+   "label": "Warehouse_011.Camera_0003",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0003.mp4",
+   "size_bytes": 141059940,
+   "sha256": "805b16ce5ee961f6de7dea683cf90a3a2d5750ce7991f20396a435367175a27c",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_u7uoblh5gyjom3kcpdcdhb36zt",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_km7jnyrteguuv2otczphzc3uso",
+   "label": "Warehouse_011.Camera_0004",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0004.mp4",
+   "size_bytes": 177630046,
+   "sha256": "885222d27b29152f131648e50817570e7d8ad837ff267020f32a7f932cd2f8f5",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_m7dokcm7mrfymluzoezh5phglo",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_ho37j4snurcoxrkr6dohsnm65x",
+   "label": "Warehouse_011.Camera_0005",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0005.mp4",
+   "size_bytes": 151877996,
+   "sha256": "1a665ad38927aadfdb3c24ea78bf9bf4d65c788fd31814a89ec38c11a5ffff89",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_ttjxnidinedwhzeogqnxc4u5jm",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_oiqccnibg7gzw3fcikxxe56hrs",
+   "label": "Warehouse_011.Camera_0006",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0006.mp4",
+   "size_bytes": 155336161,
+   "sha256": "41ef234452365f97e29c5cf8d71c959b25cce775a6740610a58c249e4f856acd",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_c5ehtdeldz2zl66nbjcfrvye3k",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_kjvtm6nfn6r7ggf4jqd5hk32lv",
+   "label": "Warehouse_011.Camera_0007",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0007.mp4",
+   "size_bytes": 149941187,
+   "sha256": "1500ef393f53ef8b711b098227ea2099fbc387339651764b20ec2912bffb7b65",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_kuf655tsjmvjphyuarun277nix",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_h6jefl72lh5rjo3t7ix23yyaf3",
+   "label": "Warehouse_011.Camera_0008",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0008.mp4",
+   "size_bytes": 193722564,
+   "sha256": "e04887bfc9b6539099040b96598423ff8c6faeb56e6e881dcf12215c0870feea",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_r3ffmu6edjropm3wapne3ptjgs",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_bkb6g67ybf24rqxq7mzuenolkv",
+   "label": "Warehouse_011.Camera_0009",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_011/videos/Camera_0009.mp4",
+   "size_bytes": 120892449,
+   "sha256": "8e5fdc851459e78cd03a33cb2bb3fc64105b6ec4d60bacbbdd3ba2c630c1f55f",
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "s1": "art_zsbofo453gomumpyo27jly66bz",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_zt5m7yj7isyelcnvqtyx3cyxtt",
+   "label": "Warehouse_016.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0000.mp4",
+   "size_bytes": 111358779,
+   "sha256": "912988f95f84faaa663ce1e1c63a2ac717ce1c021ed7d63d311378ee289ab768",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_dsugyrgkbnkrvnkoi6b5keyzqj",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_sgrrg477nghdya6jbp4wjxrvxl",
+   "label": "Warehouse_016.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0001.mp4",
+   "size_bytes": 184236627,
+   "sha256": "7ab644d91a135cde49fc0e889e84f8750903a79c8e82407c0a05e8497a979183",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_rz4sivcyapxib53iyxea2alxkq",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_kmprpcstwgq3exi3degfhxd7mt",
+   "label": "Warehouse_016.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0002.mp4",
+   "size_bytes": 128733652,
+   "sha256": "ceb63fe7f96b24b051becaeffd8c501af56ddd7a71a0f1ed62f64368d2d10eda",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_umkesoahrrpldzcmghkoyd3gqo",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_vfg63le4xzdym7hpabyrearzzo",
+   "label": "Warehouse_016.Camera_0003",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0003.mp4",
+   "size_bytes": 82260623,
+   "sha256": "036948a2ac71341a876ad5a84a7d6e7fbf68d6e1666c4d51e6692b7168f74561",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_szrrcswccwk4cdplhf3in474te",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_htupk2xrqz2zqoqy6eyg33txqt",
+   "label": "Warehouse_016.Camera_0004",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0004.mp4",
+   "size_bytes": 115973402,
+   "sha256": "33800393f0e5b625f74c49f8ec28f5b0b8ac76ba88ca8af6e3e3b15ece8946bb",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_omb5mtuydkgw77u4mfg2bwsj4y",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_cbclfg5s7xks632l74l6kbzxzj",
+   "label": "Warehouse_016.Camera_0005",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0005.mp4",
+   "size_bytes": 131544328,
+   "sha256": "07face035b57dfc20548e18c611d561088b91ea3e03a2f4f6da458ac993a9eaa",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_lumrv4unopczykn2xh2bam6prx",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_x4a6eonnin3wycfule6w2koais",
+   "label": "Warehouse_016.Camera_0006",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0006.mp4",
+   "size_bytes": 155979805,
+   "sha256": "6d5469f3a28cbd6085322008d1bc4e8da06be84d84aa6f30b3e17eac4ec018a9",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_ldhyzuylf2fpjsz7lqpvtbpnnm",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_3j4t4kc2y5kaszvuc427pszseq",
+   "label": "Warehouse_016.Camera_0007",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0007.mp4",
+   "size_bytes": 86663940,
+   "sha256": "610e0bb5449e43834359d484c4cc5b51889e7836a80d97d203545849397a2b1e",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_mtgaxyapiqi5oinhpg5woipkp5",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_chwqmpldqmedsgrzqdgnmjt6qs",
+   "label": "Warehouse_016.Camera_0008",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0008.mp4",
+   "size_bytes": 116086117,
+   "sha256": "dfdcca35e7b7fc0c535c8fa58ef2ca7f60bb2728384a08c9b0b01d6b9ca6fcb8",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_ag44r3sp2gsnpyabg76eyy2uqx",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_cv65s2cwzcgk4i3nzecevvesfg",
+   "label": "Warehouse_016.Camera_0009",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0009.mp4",
+   "size_bytes": 131877838,
+   "sha256": "6a17e9da787d11b18f582232c70b82b2565e397fbd237b85d6c3403369d10870",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_rwooc7crzvtizhoo2d4ef4ii4h",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_a5ketsrwdiclncfdtshkxptn6x",
+   "label": "Warehouse_016.Camera_0010",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_016/videos/Camera_0010.mp4",
+   "size_bytes": 188139878,
+   "sha256": "18f118b87cdb0073c8a8819741c4ba701c7e94dd12d941cb30af62fc954a07bd",
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "s1": "art_mkun57du7oa6b3rifsjsbmzoug",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_mjl2nhmpnup7xefyerrzesmvuv",
+   "label": "Warehouse_017.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0000.mp4",
+   "size_bytes": 145590032,
+   "sha256": "32a027a0e2212607d9437641e966e00c077ff42e62ace57adbaf8d18961102ca",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_36lsv5fi4vncsmge5uiidf5hub",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_4xhlogcp7gtawjzidkf3pad4g3",
+   "label": "Warehouse_017.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0001.mp4",
+   "size_bytes": 123557599,
+   "sha256": "372fa9f866bfbe8de07246a1fb9b8335725a383491b31cff4e10bc9c5041ecfc",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_6zn5db5nxdm2cd43co72flpnet",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_b3cdwh57yl2g32wh4okpeu4gr6",
+   "label": "Warehouse_017.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_017/videos/Camera_0002.mp4",
+   "size_bytes": 131433275,
+   "sha256": "516c5b9b9b5099ffe3a66b73dd547b053d85d600ee38a62f0a8999ed3c481635",
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "s1": "art_fwm6bedfwiq7wq2qvb2cm6plky",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_i4fknpfwx7zh2bflo6b52rg25h",
+   "label": "Warehouse_018.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0000.mp4",
+   "size_bytes": 126936882,
+   "sha256": "819c1e1adc6397c1d605a601550f992ce29053a9ad62caef1a5a1a06e31ef390",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_zyhlpm723dccvkcg6ma4h4dtih",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_cuqrkcwfxtos7e3wrpnxnxgi23",
+   "label": "Warehouse_018.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0001.mp4",
+   "size_bytes": 107462688,
+   "sha256": "ceb3452b102aba7e20c9831220e985366df7a235275691aaf0369f5b5eb816e5",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_5jc66ti6rdyw2unfl4rxbprnnr",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_togf75hc6wbvvfb337ambz3kth",
+   "label": "Warehouse_018.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_018/videos/Camera_0002.mp4",
+   "size_bytes": 120946769,
+   "sha256": "a47011e6945f55afceeec166606603a823adf14af772edd266e01451db11b2b1",
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "s1": "art_ziiuzfusrk53ctymf7r5neyugs",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_6cnpan6l562s4wrk2tyoq4cvnp",
+   "label": "Warehouse_019.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0000.mp4",
+   "size_bytes": 101839158,
+   "sha256": "8278d6c95eed569d3946d638efd940e79b1ca9d0f0fc2d808c702798779a6583",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_kyl3p23so5ieayehmwlytecqrk",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_qrhsyp74urd2pp6uepbwvmdbwk",
+   "label": "Warehouse_019.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0001.mp4",
+   "size_bytes": 90883314,
+   "sha256": "16f41d22f737828bb595288658af6de7a954b9b6b9f936c719382e05bb482f29",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_zbr3wskc3647uiptp7j67i2guk",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_uokpvuyfklla2enel7egm52ass",
+   "label": "Warehouse_019.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/train/Warehouse_019/videos/Camera_0002.mp4",
+   "size_bytes": 109576468,
+   "sha256": "1422112c8ade96c81caced7c39ebe651afae97e84b95acb8e2bd33d4b0d940fc",
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "s1": "art_tiqnjeb4nzrvkziybntx64yl45",
+   "n_decoded": 9000,
+   "n_eligible": 9000,
+   "eligible_runs": [
+    [
+     0,
+     9000,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_ihmbfm2saw5frf7vv2o7tyjlru",
+   "label": "Warehouse_022.Camera_0000",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0000.mp4",
+   "size_bytes": 98724142,
+   "sha256": "a13449db511f27080c1e450c7a6a10aaadc6f075cd4044aac64d84f6406732ad",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_iv7qq5pt5hlfycawadg4fvyebr",
+   "n_decoded": 9270,
+   "n_eligible": 9270,
+   "eligible_runs": [
+    [
+     0,
+     9270,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_22dedfgfu3lapymzzqugfkgawj",
+   "label": "Warehouse_022.Camera_0001",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0001.mp4",
+   "size_bytes": 87866300,
+   "sha256": "a000effd596b191a1a7e066b1cce376d2360a9dd7f6da7ea5262111674b1b25d",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_zq5srvnmvyicg46ohphzntq3xf",
+   "n_decoded": 9270,
+   "n_eligible": 9270,
+   "eligible_runs": [
+    [
+     0,
+     9270,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_j3xr74eohfgyfnplqkjsglplkc",
+   "label": "Warehouse_022.Camera_0002",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0002.mp4",
+   "size_bytes": 100359743,
+   "sha256": "a660d8e0f5177b42911732554ce12330edb1380fcc2c294b4eeb055b7da3a71d",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_ftxb4d6dqvk5nyawe5qa7frtbr",
+   "n_decoded": 9270,
+   "n_eligible": 9270,
+   "eligible_runs": [
+    [
+     0,
+     9270,
+     0
+    ]
+   ]
+  },
+  {
+   "rec_id": "rec_glvipw7msgwcrsnr7sultuhi3p",
+   "label": "Warehouse_022.Camera_0003",
+   "uri": "raw/smartspaces/MTMC_Tracking_2026/val/Warehouse_022/videos/Camera_0003.mp4",
+   "size_bytes": 96916305,
+   "sha256": "724e4331d64379bcab61a02e515f65c08a17a068d07be151e40c36bf097fb564",
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "s1": "art_ozpnsgdw77ntxijyvyodmnodct",
+   "n_decoded": 9270,
+   "n_eligible": 9270,
+   "eligible_runs": [
+    [
+     0,
+     9270,
+     0
+    ]
+   ]
+  }
+ ]
+}
