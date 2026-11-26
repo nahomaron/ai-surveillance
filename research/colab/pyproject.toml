@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rq1-colab"
+version = "1.0.0"
+description = "D-60: S2 detection (YOLO-World v2-s, D-45) on Colab GPU for the tier-1 D-59 videos; raw output in the s2raw format"
+requires-python = ">=3.9"
+# Pinned in the notebook, not here, so that the runner never upgrades Colab's torch: ultralytics==8.4.215, av==19.0.2,
+# clip @ git+https://github.com/ultralytics/CLIP.git@7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40
+dependencies = []
+
+[tool.setuptools]
+packages = ["rq1_colab"]

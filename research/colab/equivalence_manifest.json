@@ -1,0 +1,94 @@
+{
+ "format": "rq1-colab-job-1",
+ "decision": "D-60",
+ "job": "equivalence",
+ "purpose": "D-60 STEP 4 (c): 2 tuning cameras with stored CPU S2 (synthetic tuning data)",
+ "detector": {
+  "model": "yolov8s-worldv2.pt",
+  "classes": [
+   "person",
+   "forklift"
+  ],
+  "score_floor": 0.05,
+  "predict": {
+   "imgsz": 640,
+   "iou": 0.7,
+   "max_det": 300
+  },
+  "thresholds_applied_on_the_laptop": {
+   "person": 0.2,
+   "forklift": 0.05
+  },
+  "decision": "D-45 items 0 and 2 (frozen detector)",
+  "weights": {
+   "yolov8s-worldv2.pt": {
+    "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8s-worldv2.pt",
+    "bytes": 25923032,
+    "sha256": "9b2c17ab6124a913e9b3a5c170617920d91b0f01111a8479da69f00e2cf27792"
+   },
+   "clip/ViT-B-32.pt": {
+    "url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt",
+    "bytes": 353976522,
+    "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+   }
+  },
+  "pinned": {
+   "ultralytics": "8.4.215",
+   "av": "19.0.2"
+  }
+ },
+ "drive_layout": "<Drive>/rq1_colab/data/<uri>; outputs to <Drive>/rq1_colab/out/<job>/",
+ "videos": 2,
+ "total_bytes": 34708143,
+ "total_gb": 0.03,
+ "cameras": [
+  {
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "label": "a76048e81ce9380bc9e9_run_1_seed_1504589676.ceiling_04 (ceiling, tuning)",
+   "uri": "raw/sdg/members/nearmiss-artifacts-00357.tar/c3435ef108cacb8e901c_a76048e81ce9380bc9e9_run_1_seed_1504589676.ceiling_04.rgb.mp4",
+   "size_bytes": 17902111,
+   "sha256": "c90893fa3c41ce0ece71ab3a927b2f33dfeda0f2af80e7dd2fe7a0a491968451",
+   "s0": "art_xwrldyhquvmorjhpjxb573tbxk",
+   "s1": "art_ggilosrpaki5eztdy3gwf2tfge",
+   "n_decoded": 300,
+   "n_eligible": 300,
+   "eligible_runs": [
+    [
+     0,
+     300,
+     0
+    ]
+   ],
+   "cpu_s2raw": {
+    "file": "out/m1b/pilot/s2raw/rec_67do32mc4zwrtblayv5nixp4c2.json.gz",
+    "sha256": "da01740424326ae192b50cf5073c5a8572f353031d242f34db1f61074f46bc90",
+    "code_commit": "7123f5e0b8eca7c75aa6ee60db765f2888c330ad",
+    "device": "cpu"
+   }
+  },
+  {
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "label": "4b43e53a255570bbc38c_run_4_seed_896766254.eye_03 (eye_level, tuning)",
+   "uri": "raw/sdg/members/nearmiss-artifacts-00152.tar/19e61aee2e2685ad9479_4b43e53a255570bbc38c_run_4_seed_896766254.eye_03.rgb.mp4",
+   "size_bytes": 16806032,
+   "sha256": "28ad7478934bccee185522c69943f87d2f5b3e04fb6c058444b9316fd45ef2c9",
+   "s0": "art_xwrldyhquvmorjhpjxb573tbxk",
+   "s1": "art_mjgg6d7pjxnukh7unwjgqo622q",
+   "n_decoded": 300,
+   "n_eligible": 300,
+   "eligible_runs": [
+    [
+     0,
+     300,
+     0
+    ]
+   ],
+   "cpu_s2raw": {
+    "file": "out/m1b/pilot/s2raw/rec_4vmkmof7sgq7fbjqm6zb64xpko.json.gz",
+    "sha256": "b67f2b02f391227733d578395de930669a436f4fc96aab7f20457865d2dcd1e6",
+    "code_commit": "7123f5e0b8eca7c75aa6ee60db765f2888c330ad",
+    "device": "cpu"
+   }
+  }
+ ]
+}
