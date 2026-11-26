@@ -101,7 +101,9 @@ def s3(ctx: Context, rec_id: str, data: Loaded, g_max: int, commit: str):
     return art, positions, tracks
 
 
-def substrate_config(ctx: Context, p: dict) -> tuple[dict, builder.SubstrateConfig, str, list]:
+def substrate_config(ctx: Context, p: dict, edges: list | None = None, label: str = "preregistration-v1") -> tuple[dict, builder.SubstrateConfig, str, list]:
+    """`edges` (clearance band edges, default v1 `BAND_EDGES_M`) and `label` (version_label) default to v1, so v1 IDs are unchanged."""
+    edges = BAND_EDGES_M if edges is None else list(edges)
     length, width = FORK_PRIOR_M[ctx.ds]
     length, width = length * p["fork_length_scale"], width * p["fork_width_scale"]
     fork = {"class": "forklift", "shape": "oriented_rect", "length_m": length, "width_m": width, "sigma_length_m": 0.0, "sigma_width_m": 0.0, "anchor": "centre"}
@@ -110,17 +112,18 @@ def substrate_config(ctx: Context, p: dict) -> tuple[dict, builder.SubstrateConf
     if ctx.ds == "smartspaces":
         priors["pallet_truck"] = dict(fork, **{"class": "pallet_truck"})
     pid = {k: core.make_id("fpp", v) for k, v in priors.items()}
-    bands = [(None, 0.0), *zip(BAND_EDGES_M, BAND_EDGES_M[1:]), (BAND_EDGES_M[-1], None)]
-    bsc = core.make_id("bsc", {"edges_m": BAND_EDGES_M})
+    bands = [(None, 0.0), *zip(edges, edges[1:]), (edges[-1], None)]
+    bsc = core.make_id("bsc", {"edges_m": edges})
     record = {"g_max": p["g_max"], "pair_classes": ["forklift"], "v_min": p["v_min"], "k_sup": 1.5, "motion_models": ["constant_velocity"],
-              "prediction_horizon_s": p["tau"], "version_label": "preregistration-v1", "version_label_null_reason": None}
+              "prediction_horizon_s": p["tau"], "version_label": label, "version_label_null_reason": None}
     cfg = builder.SubstrateConfig(p["g_max"], p["v_min"], p["w_v"], p["tau"], {"forklift"}, priors, pid, {bsc: bands}, V_PART)
     return record, cfg, bsc, bands
 
 
-def s4(ctx: Context, data: Loaded, s3_art, positions: dict, geometry: str, p: dict, commit: str):
+def s4(ctx: Context, data: Loaded, s3_art, positions: dict, geometry: str, p: dict, commit: str, edges: list | None = None,
+       label: str = "preregistration-v1"):
     """geometry 'simulator_truth' (oracle positions) or 'full_camera' (foot point through the calibration)."""
-    record, cfg, _, _ = substrate_config(ctx, p)
+    record, cfg, _, _ = substrate_config(ctx, p, edges, label)
     if geometry == "simulator_truth":
         pos, cal = positions, None
     elif geometry == "full_camera":
@@ -133,8 +136,10 @@ def s4(ctx: Context, data: Loaded, s3_art, positions: dict, geometry: str, p: di
     return builder.SubstrateBuilder().build(data.s1, s3_art, pos, cal, cfg, spec("S4", commit, (s5.substrate_config_id(record), gcf), (s3_art.artifact_id,)))
 
 
-def s5_config(ctx: Context, bl: str, p4: dict, p5: dict) -> s5.S5Config:
-    record, _, bsc, bands = substrate_config(ctx, p4)
+def s5_config(ctx: Context, bl: str, p4: dict, p5: dict, edges: list | None = None, label: str = "preregistration-v1",
+              m_gap_s: float | None = None, join_across_pow: bool | None = None) -> s5.S5Config:
+    """Defaults are v1 (IDs unchanged). `m_gap_s` (T25.3) and `join_across_pow` (T25.2) are absent unless given."""
+    record, _, bsc, bands = substrate_config(ctx, p4, edges, label)
     rules = providers.RuleParams(p_provider="R2", k_img=p5["k_img"], d_p=p5["d_p"], v_min=p4["v_min"], d_pc=p5["d_pc"], ttc_max=p5["ttc_max"],
                                  pet_max=p5["pet_max"], tau=p4["tau"], conflict=("R3",), r5=True, w_e=p5["w_e"], e_turn=p5["e_turn"],
                                  e_acc=p5["e_acc"], e_dec=p5["e_dec"], k_sigma=p5["k_sigma"])
@@ -142,7 +147,7 @@ def s5_config(ctx: Context, bl: str, p4: dict, p5: dict) -> s5.S5Config:
                            g_max=p4["g_max"], w_e=p5["w_e"], k_c=p5["k_c"], k_c_turn=p5["k_c_turn"], r5_enabled=True, e_turn=p5["e_turn"],
                            e_acc=p5["e_acc"], e_dec=p5["e_dec"], bands=tuple(bands))
     r, pr = baselines.configure(bl, rules, params)
-    return s5.S5Config(r, pr, record, bsc, version_label="preregistration-v1")
+    return s5.S5Config(r, pr, record, bsc, version_label=label, m_gap_s=m_gap_s, join_across_pow=join_across_pow)
 
 
 def s5_build(ctx: Context, data: Loaded, s4_art, bl: str, p4: dict, p5: dict, commit: str):
