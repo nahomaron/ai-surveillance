@@ -23,8 +23,9 @@ How to use this file:
 | **D-42 budget (Owner answer, 19 Nov 2026):** model weights count toward the download cap; the cap is raised from 30 GB to **31.5 GB** in total for this task | [-] |
 | **D-59 (24 Nov 2026, Owner instruction):** download cap raised to **60 GB in total** (60 × 10⁹ bytes, weights and everything held counted), outside git. Purpose: data that does **not** duplicate what is held. Scope: synthetic `PhysicalAI-SmartSpaces` `MTMC_Tracking_2026` scenes with ground truth that are not re-renders of a scene selected or held, without depth maps, at the pinned revision `d38193b` (CC BY 4.0, licence row unchanged), selected and hashed in `qualification.md` Part 5 **before** download. No real footage, no new source, no training use, no partition or split change: how the new data enters tuning or testing is proposed to the Architect, not decided by the agent | [-] |
 | **D-60 (25 Nov 2026, Owner decision):** cloud upload of the 45 tier-1 D-59 videos to the Owner's Google Drive; Colab GPU for S2 on those videos only. Also covered (D-60 STEP 4 c): the videos of the 2 tuning cameras of the equivalence check (synthetic tuning data). The Owner uploads; the agent sends nothing off this computer. Nothing downstream of S2 runs on Colab | [-] |
+| **D-63 (26 Nov 2026, Owner decision, rulings 7–8 and STEP 4):** cloud upload of the 110 v2 reporting-camera videos and the 471 X0b test-camera videos (SDG, synthetic) to the Owner's Google Drive; Colab GPU for S2 (detection only) on those videos, after the D-62 equivalence check passes. The Owner uploads; the agent sends nothing off this computer. Nothing downstream of S2 runs on Colab. Test S2 output is hashed on arrival and otherwise not opened before D-63 STEP 7 | [-] |
 
-Never pre-approved: paid services, cloud upload of data (except the D-60 row above), real worker footage (except the D-21 testing-only exception above), fine-tuning compute purchases, any contract change.
+Never pre-approved: paid services, cloud upload of data (except the D-60 and D-63 rows above), real worker footage (except the D-21 testing-only exception above), fine-tuning compute purchases, any contract change.
 
 **Owner setup before the first session:**
 1. Update Claude Code (installed via MacPorts) and check `claude --version`.
@@ -102,7 +103,14 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 row abo
 | [x] | T-28e | **D-61 STEP 4:** one diagnostic event check on the 116 tuning cameras, C-v2+T25 and A+T25 at the v2 base values (§1.3) with the D-58 stitching selection, scored against a separately stored diagnostic v2 tuning reference set; EV-M1, EV-M2, n_members, unobserved_gap_s, IE share caused by g_max 45. Selects nothing. Estimate on 2 cameras; STOP above 3 h | T-28r | `research/m1b/d61_events_tune.json` | M |
 | [x] | T-28f | **D-61 STEP 5:** `docs/preregistration_v2_FROZEN.md` (v1 structure, §4 = D-61 §1.3–1.5, §1.6–1.7 text); v2 freeze record built twice, identical; v2 reference sets (tuning, reporting, test) from simulator truth (T21.1), IDs and hashes in the record | T-28e | freeze record; v2 references | M |
 | [x] | T-28t | **D-61 STEP 6:** test readiness, prepare only: X0c audit (R-2); reference-window lock prepared (`locked_utc`, `lock_sha256`) for the Architect; pass/fail table; full suite twice; next D; STOP | T-28f | readiness table; next D opened | S |
-| [S] | G-D63 | **STOP — Owner and Architect review the v2 freeze and test readiness (D-63):** window-lock definition (AR-71 item 11), CR-038, CR-039, AR-71; go-ahead for the reporting-camera run (D-61 §1.7 order 1). Nothing on the reporting cameras or test until decided | T-28t | D-63 decided | — |
+| [x] | G-D63 | **STOP — Owner and Architect review the v2 freeze and test readiness (D-63):** window-lock definition (AR-71 item 11), CR-038, CR-039, AR-71; go-ahead for the reporting-camera run (D-61 §1.7 order 1). Nothing on the reporting cameras or test until decided | T-28t | D-63 decided | — |
+| [x] | T-29r | **D-63 STEPS 0–1 (Owner, 26 Nov 2026):** state check; D-63 DECIDED (§1 verbatim); CR-038 DECIDED (b, deferred), CR-039 DEFERRED, AR-71 ACCEPTED; T25.2 inert and T_s grid-edge limitations in the Progress log and `research/v2/reporting_plan.md` | G-D63 | records pushed | S |
+| [ ] | T-29a | **D-63 STEP 2:** rationale addendum `docs/preregistration/v2_rationale_addendum_D63.md` (§3 verbatim) and `v2_addendum_record.json` (SHA-256, commit time, before any reporting or test S3 output). Frozen files unchanged | T-29r | addendum and record pushed | S |
+| [ ] | T-29l | **D-63 STEP 3:** window lock (AR-71 item 11) on every window of V0 `m1a-sdg-test`, as a new lock artifact referencing V0 (V0 not rewritten); built twice, identical | T-29a | lock artifact; lock record | S |
+| [ ] | T-29q | **D-63 STEP 4:** D-62 equivalence (C1–C3, D-60 STEP 4 c, not loosened); D-62 DECIDED pass/fail; on pass the Colab job `reporting_test` (110 + 471 videos, manifest, HOWTO with upload size, Drive space, runtime, tier-1 skip note); STOP (next D) | T-29l | job pushed; D opened | S |
+| [ ] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | T-29q; Owner returns S2 | report pushed | M |
+| [ ] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest and recorded; outputs not opened | T-29q; Owner returns S2 | hashes recorded | S |
+| [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1134,3 +1142,18 @@ _(the agent appends entries here)_
   - The T25.1 selection was made at g_max 15 (D-58 STEP 3 as written) and runs at g_max 45 in v2.
   - The `test_readiness` module was renamed to `readiness_v2.py` before its first commit, so that pytest does not collect it.
 - Next: **STOP (D-63).** D-62 (Colab) is still open and independent.
+
+### 2026-11-26 — D-63 decided; STEPS 0–2 (T-29r, T-29a): state check, records, rationale addendum
+- Did (no system stage run; nothing on reporting or test; frozen files unchanged: `preregistration_v2_FROZEN.md` SHA-256 906aea9a…, `freeze_record_v2.json` 6f7ca439…):
+  - **STEP 0 (report only):** HEAD 309408d on m0-implementation, tree clean. D-62 OPEN. `out/colab/equivalence/` present (placed by the Owner): `colab_manifest.json` complete, 2 of 2 cameras, 600 frames, Tesla T4, CUDA 13.0, torch 2.14.1+cu130, ultralytics 8.4.215, av 19.0.2, runner commit 713448e, wall time 27.9 s.
+  - **STEP 1:** D-63 DECIDED with §1 verbatim; CR-038 DECIDED (reading (b), implementation deferred); CR-039 DEFERRED; AR-71 ACCEPTED (items 1–10; item 11 as the lock definition). WORKPLAN §0 row for the D-63 cloud upload (reporting and test videos; rulings 7–8, STEP 4). Plan rows T-29*. `research/v2/reporting_plan.md`: order, tables, limitations (no separate v2 reporting-plan file existed; the tables and order were in the frozen §8 / §9a, which is not edited).
+  - **STEP 2:** `docs/preregistration/v2_rationale_addendum_D63.md` (§3 verbatim); its SHA-256 and commit time in `docs/preregistration/v2_addendum_record.json` (next commit).
+- **Limitations (v2), added under D-63** (beside the 15 in `preregistration_v2_FROZEN.md` §10):
+  16. **T25.2 is inert under v2** (ruling 2): with g_max = m_gap_s = 1.5 s a POW break needs a gap above 1.5 s and a join one ≤ 1.5 s, so no join can occur. T25.1 stitching handles a changed ID; every gap ≤ 1.5 s is bridged; every longer gap separates two encounters by definition. The code stays; `join_across_pow` stays true. Stated in the methods text.
+  17. **T_s = 5 s is the top of the stitching grid** (ruling 3): longer gaps were not tried. The selection (IDF1 on S3 points) does not depend on g_max.
+  18. g_max means 1.5 s (CR-038 (b)); 45 frames on every v2 recording.
+  19. SmartSpaces event-level results are excluded from this submission (CR-039 deferred).
+- Tests: see the STEP 2 commit (documents only).
+- Commit: this entry's commit (pushed)
+- Problems / CRs: none.
+- Next: T-29a record, T-29l (window lock).

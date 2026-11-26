@@ -974,7 +974,7 @@ Agent's recommendation: none; the Owner runs the check.
 Owner decision: ______
 
 
-## D-63 (2026-11-26) — STOP after D-61 STEPS 4–6: pre-registration v2 frozen; test readiness prepared        status: OPEN
+## D-63 (2026-11-26) — STOP after D-61 STEPS 4–6: pre-registration v2 frozen; test readiness prepared        status: DECIDED (26 Nov 2026)
 Task: T-28e, T-28f, T-28t (D-61 STEPS 4–6)   Blocking: the reporting-camera run (D-61 §1.7 order 1), the X0b test run (order 2, before 1 Dec 2026), the window lock; nothing else (independent of D-62)
 Question: pre-registration v2 is frozen (`docs/preregistration_v2_FROZEN.md`, `docs/preregistration/freeze_record_v2.json`, frozen_utc 2026-11-26T14:29:25Z, analysis commit 226ea7b). Results only. Status: candidate, experimental, synthetic-data evaluation; tuning results are diagnostic, not reported results.
 - **STEP 0 findings (details in the Progress log, 26 Nov):**
@@ -1000,4 +1000,57 @@ Question: pre-registration v2 is frozen (`docs/preregistration_v2_FROZEN.md`, `d
   4. CR-038, CR-039, AR-71.
   5. Go-ahead for the reporting-camera run. It needs S2 on the 110 reporting cameras: about 3.6 h CPU (33,000 frames × 0.388 s), or Colab after D-62.
 Agent's recommendation: none; the Owner and the Architect decide.
-Owner decision: ______
+Owner decision (D-63, 26 Nov 2026): rulings on the v2 freeze stop; rationale addendum; window lock; reporting run; test detections. Source: the Owner and Architect review of the D-63 stop (commit 309408d), 26 Nov 2026, and the literature report `reports/v2_parameter_rationale_2026-11-26.md` (project document). Pasting it = Owner approval of the rulings and the steps. Nothing in this decision changes a frozen number; `docs/preregistration_v2_FROZEN.md` and `freeze_record_v2.json` stay byte-identical. §1 verbatim (headings demoted to sit inside this entry); the §3 addendum text is in `docs/preregistration/v2_rationale_addendum_D63.md`:
+
+#### 1. Rulings
+
+1. **Window lock: AR-71 item 11 is accepted as the definition of `lock_sha256`.** For each window of V0 `m1a-sdg-test`, the hash is the SHA-256 of the JCS form of:
+   - the window's natural key and bounds;
+   - the reference-set label;
+   - the camera's v2 reference S5 (ID and payload hash);
+   - the reference entries overlapping [t_start, t_guard_end).
+
+   The lock is applied in STEP 3, before any S3 or later stage on test.
+
+2. **T25.2 is inert by design under v2.**
+   - With g_max = m_gap_s = 1.5 s, a POW break needs a gap above 1.5 s, while a join needs one ≤ 1.5 s, so no join can occur.
+   - A track that changes ID after a gap is handled by T25.1 stitching, after which the gap is bridged. Every gap ≤ 1.5 s is bridged; every longer gap separates two encounters by definition (D-61 §1.3).
+   - Values are unchanged. The code stays; `join_across_pow` stays true in the configuration. Record T25.2 as "inert under v2" in the limitations and the methods text.
+
+3. **The T25.1 stitching selection stands.** It was selected by IDF1 on S3 points (`d58_stitch_grid.json`: "IDF1 at iou_cm 0.5 over every S3 point"). g_max acts only after tracking, so the selection does not depend on it.
+   - Limitation to state: the selected T_s = 5 s is the top of the grid, so longer gaps were not tried.
+
+4. **CR-038: reading (b).** g_max means 1.5 s and is converted per recording as ⌊1.5 / δ_nom + 1e-9⌋, as m_gap_s is.
+   - At 30 fps this equals 45 frames. Every v2 recording is 30 fps, so no v2 configuration ID, artifact or result changes.
+   - The seconds-valued representation is implemented only before the first S4 on a recording that is not 30 fps, under its own CR. **Do not change any v2 configuration now.**
+   - CR-038 status: DECIDED (reading b; implementation deferred).
+
+5. **CR-039: tier 1 is deferred past 1 Dec 2026.**
+   - The T21 jointly-visible amendment for SmartSpaces is not written for this submission.
+   - SmartSpaces event-level results are explicitly excluded from the submission, with the reason stated (register D6).
+   - The tier-1 Colab run (D-62 order 3) is not needed before 1 Dec; skip it.
+   - CR-039 status: DEFERRED.
+   - The D-60 tier-1 manifest, X0b-A1 and the reserve stay frozen and untouched.
+
+6. **AR-71 items 1–10 are accepted.** Item 11 is accepted under ruling 1.
+
+7. **Reporting cameras: go-ahead.** Run once, on the frozen v2 configuration (D-61 §1.7, order 1), after the D-62 equivalence check passes.
+
+8. **Test detections may run early.** S2 (detection only) on the 471 test cameras may run on Colab in the same session as the reporting S2.
+   - The test S2 output is hashed on arrival and otherwise left untouched: not opened, counted, plotted or summarised.
+   - No S3 or later stage runs on test before:
+     - the reporting run has finished (STEP 5);
+     - the window lock is applied (STEP 3).
+   - This reorders compute only; the order in which results are produced and seen stays reporting → test.
+
+9. **The rationale addendum** (STEP 2) corrects the stated *reasons* for twelve v2 values, using the literature report. It changes no value, grid, rule or criterion. It is recorded before any reporting or test result exists. The frozen file is not edited.
+
+##### Six-question check (master instruction §10)
+
+1. **Research objective:** no change.
+2. **Meaning of measurements:** no change. Rulings 2–4 change no value. CR-038 keeps the meaning "1.5 s". Ruling 5 removes a result set from the submission, and that is stated, not hidden.
+3. **Validation independence:** strengthened. The lock is applied before test S3. Test S2 output is sealed until after the reporting run. Every result is produced once.
+4. **Permitted claims:** wording becomes more cautious (addendum). No SmartSpaces event-level claim.
+5. **Scope:** reduced (tier 1 deferred).
+6. **Type of decision:** scientific (rulings 1, 2, 4, 5, 8, 9) and representation (rulings 3, 6). **E2 is not affected.**
+
