@@ -3,7 +3,9 @@
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py equivalence   -> research/colab/equivalence_manifest.json
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py tier1         -> research/colab/tier1_manifest.json
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py reporting_test -> research/colab/reporting_test_manifest.json
+  PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py test          -> research/colab/test_manifest.json
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py stage <job>   -> out/colab_upload/rq1_colab/data/<uri> (hard links)
+                                                                                     (job test: out/colab_upload_test/rq1_colab/data/<uri>)
 
 Per camera: rec_id, the video path relative to the data root (kept as the Drive layout), size, SHA-256 (from the S0
 `source_file` row, checked against the file on disk), and the eligible frames of its stored S1 `frame` table as runs.
@@ -14,6 +16,8 @@ Per camera: rec_id, the video path relative to the data root (kept as the Drive 
 - reporting_test (D-63 rulings 7-8, STEP 4): the 110 v2 reporting cameras and the 471 X0b test cameras (the v2 reference
   sets of `research/preregistration/v2_references.py`), S1 from `out/t17_sdg` as in the T-17 counts. Reads S0, S1 and the
   camera sets only: no reporting or test system output is read. Each camera carries `set` (reporting | test).
+- test (D-64 option a): the 471 test cameras only, the reporting S2 being the stored CPU S2. Same cameras and entries as the
+  test set of reporting_test, same format; a separate staging folder, so the upload holds the test videos only.
 """
 import gzip
 import hashlib
@@ -106,8 +110,16 @@ def reporting_test():
             "sets": {n: sum(c["set"] == n for c in cams) for n in ("reporting", "test")}, "cameras": cams}
 
 
+def test():
+    body = reporting_test()
+    cams = [c for c in body["cameras"] if c["set"] == "test"]
+    return {"job": "test", "decision": "D-64",
+            "purpose": "D-64 option (a), D-63 ruling 8: S2 on the 471 X0b test cameras only (frozen v2 detector); the reporting run uses the stored CPU S2; test output sealed until D-63 STEP 7",
+            "sets": {"test": len(cams)}, "cameras": cams}
+
+
 def manifest(job):
-    body = {"equivalence": equivalence, "tier1": tier1, "reporting_test": reporting_test}[job]()
+    body = {"equivalence": equivalence, "tier1": tier1, "reporting_test": reporting_test, "test": test}[job]()
     total = sum(c["size_bytes"] for c in body["cameras"])
     out = {"format": "rq1-colab-job-1", "decision": body.get("decision", "D-60"), "job": body["job"], "purpose": body["purpose"], "detector": DETECTOR,
            "drive_layout": "<Drive>/rq1_colab/data/<uri>; outputs to <Drive>/rq1_colab/out/<job>/", **({"split": body["split"]} if "split" in body else {}),
@@ -121,7 +133,7 @@ def manifest(job):
 def stage(job):
     """Hard links (no extra disk space) of the job's videos under out/colab_upload/rq1_colab/data/<uri>, for one folder upload."""
     m = json.load(open(ROOT / f"research/colab/{job}_manifest.json"))
-    base = ROOT / "out/colab_upload/rq1_colab/data"
+    base = ROOT / ("out/colab_upload_test" if job == "test" else "out/colab_upload") / "rq1_colab/data"
     for c in m["cameras"]:
         dst = base / c["uri"]
         dst.parent.mkdir(parents=True, exist_ok=True)

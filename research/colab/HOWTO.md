@@ -61,6 +61,8 @@ After that, the videos in Drive can be deleted, if you wish. The laptop keeps it
 
 # D-63: the `reporting_test` job (110 reporting + 471 test cameras)
 
+**Replaced by the `test` job (D-64 option a, next section). Do not run `reporting_test`.** It is kept as the record of the D-63 STEP 4 job.
+
 **Status (26 Nov 2026).** The 2-camera equivalence check **passed** (D-62; result in `research/colab/equivalence_result.json`). D-63 rulings 7–8 allow S2 on the reporting and test cameras on Colab, in one session.
 
 **Tier 1 is skipped.** D-63 ruling 5 defers tier 1 past 1 Dec 2026 (CR-039). **Do not run `JOB = "tier1"`**, and you do not need to upload the tier-1 videos. If they are already in Drive, they may stay there or be removed. The laptop keeps its own copies, and the tier-1 manifest stays frozen.
@@ -99,3 +101,40 @@ After that, the videos in Drive can be deleted, if you wish. The laptop keeps it
    - It runs the reporting cameras (D-63 STEP 5).
    - It records the test hashes without opening the test files (STEP 6).
    - Only after that does it run test (STEP 7).
+
+---
+
+# D-64: the `test` job (471 test cameras only) — run this one
+
+**Status (26 Nov 2026).** D-64 option (a): the reporting run uses the stored CPU S2 of the 110 reporting cameras (frozen v2 S2 IDs), so **Colab runs the test cameras only**. Manifest: `research/colab/test_manifest.json`. Its 471 cameras are exactly the test cameras of `reporting_test_manifest.json`, entry for entry, with the same detector settings.
+
+**Rules (D-63, unchanged).** Upload only the files listed in `test_manifest.json`. They are synthetic SDG videos, not real footage. **Do not open, plot or count the output files**: the test outputs are sealed until the reporting run is finished (D-63 ruling 8). Send the folder back as it is. Tier 1 stays skipped (do not run `JOB = "tier1"`).
+
+**Sizes and time.**
+- Upload: **471 videos, 7,703,586,524 bytes (7.70 GB), 141,190 frames.**
+- **Drive space needed:** about **8.1 GB**: 7.70 GB of videos, 0.38 GB of weights (already in Drive from the equivalence run), the 0.03 GB equivalence videos, and outputs of about 10 MB.
+  - If the 5.91 GB of tier-1 videos are also in Drive, the total is about 14.0 GB. That fits a free 15 GB plan only just; removing the tier-1 videos (`data/raw/smartspaces/...`) first is safer.
+- **Expected runtime on a T4:** about **1.8 hours** (141,190 frames at 0.047 s per frame, the equivalence timing). Reading from Drive can add time; after a disconnect, re-run as in step 4: finished cameras are skipped.
+
+## Steps
+
+1. The upload folder is built (hard links, no extra disk space; the agent ran this on 26 Nov 2026):
+   ```
+   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py stage test
+   ```
+   It is a **new folder, `out/colab_upload_test/rq1_colab/data/`**, holding the test videos only:
+   - `raw/sdg/...` (441 videos);
+   - `derived/sdg_rgb_sample/...` (30 videos: extracted copies of 3 SDG runs, registered in S0 under this path).
+
+   Do not upload from the older `out/colab_upload/` folder: it also holds the 110 reporting videos, which are not needed.
+2. Upload these two folders, keeping the layout:
+   - `out/colab_upload_test/rq1_colab/data/raw/sdg` to `My Drive/rq1_colab/data/raw/sdg`;
+   - `out/colab_upload_test/rq1_colab/data/derived` to `My Drive/rq1_colab/data/derived`.
+
+   Files already in Drive (the two equivalence videos) can be skipped. The notebook checks the SHA-256 of every one of the 471 files.
+3. Open the notebook as in step 2 at the top of this file, with a GPU runtime. In cell 1 set **`JOB = "test"`**, then *Runtime → Run all*.
+4. Cell 6 should end with `test complete - 471 of 471 cameras`. If not, run again (finished cameras are skipped).
+5. Download `My Drive/rq1_colab/out/test`. Unzip it so that the files are in **`out/colab/test/`** in the repository folder: `colab_manifest.json`, 471 `.json.gz` files, 471 `.done.json` files and the `pip_freeze_….txt` file(s).
+6. Tell the agent: "Colab test outputs are in out/colab/test".
+   - The agent checks every hash and records them without opening the test files (D-63 STEP 6).
+   - It runs test (STEP 7) only after the reporting run (STEP 5, from the stored CPU S2) is finished.

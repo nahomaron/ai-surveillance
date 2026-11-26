@@ -1063,7 +1063,7 @@ Owner decision (D-63, 26 Nov 2026): rulings on the v2 freeze stop; rationale add
 6. **Type of decision:** scientific (rulings 1, 2, 4, 5, 8, 9) and representation (rulings 3, 6). **E2 is not affected.**
 
 
-## D-64 (2026-11-26) — STOP after D-63 STEP 4: the Owner runs the Colab job `reporting_test`; reporting S2 already exists        status: OPEN
+## D-64 (2026-11-26) — STOP after D-63 STEP 4: the Owner runs the Colab job `reporting_test`; reporting S2 already exists        status: DECIDED (26 Nov 2026): option (a)
 Task: T-29q (D-63 STEPS 0–4)   Blocking: T-29p (STEP 5, reporting run), T-29h (STEP 6), T-29t (STEP 7)
 Question: D-63 STEPS 0–4 are done. The Colab job is ready (**`research/colab/HOWTO.md`, section "D-63"**). **But first, a correction to my D-63 stop report.**
 
@@ -1091,5 +1091,7 @@ Question: D-63 STEPS 0–4 are done. The Colab job is ready (**`research/colab/H
 - (A CPU re-run of the reporting S2 is not needed under either option.)
 
 Agent's recommendation: (a). The frozen v2 package was specified on this S2 lineage. A second S2 adds no independence, because detection does not depend on anything seen. It also leaves two S2 sets for the same cameras. You decide.
-Owner decision: ______
-
+Owner decision (D-64, 26 Nov 2026): "D-64: option (a), add the test-only manifest".
+- The reporting run (D-63 STEP 5) uses the stored CPU S2 of the 110 reporting cameras (T-25p pilot; frozen v2 S2 IDs `inf_cetfxtbdg72cqgfm6teibcxsyd` / `mdl_ty3jrnwz5jjdv56nwtkcos4yqs`). No Colab S2 is made for the reporting cameras.
+- Colab runs the 471 test cameras only: job `test`, `research/colab/test_manifest.json` (471 videos, 7,703,586,524 bytes, 141,190 frames; entry for entry the test set of `reporting_test_manifest.json`, same detector block). Staged in the new folder `out/colab_upload_test/rq1_colab/data/` (441 `raw/sdg`, 30 `derived/sdg_rgb_sample`). HOWTO section "D-64": Drive space about 8.1 GB, about 1.8 h on a T4.
+- `reporting_test` is kept as the D-63 STEP 4 record and marked "do not run". The D-63 upload approval (WORKPLAN §0) covers the test videos, a subset of it.

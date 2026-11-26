@@ -108,9 +108,10 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-29a | **D-63 STEP 2:** rationale addendum `docs/preregistration/v2_rationale_addendum_D63.md` (§3 verbatim) and `v2_addendum_record.json` (SHA-256, commit time, before any reporting or test S3 output). Frozen files unchanged | T-29r | addendum and record pushed | S |
 | [x] | T-29l | **D-63 STEP 3:** window lock (AR-71 item 11) on every window of V0 `m1a-sdg-test`, as a new lock artifact referencing V0 (V0 not rewritten); built twice, identical | T-29a | lock artifact; lock record | S |
 | [x] | T-29q | **D-63 STEP 4:** D-62 equivalence (C1–C3, D-60 STEP 4 c, not loosened); D-62 DECIDED pass/fail; on pass the Colab job `reporting_test` (110 + 471 videos, manifest, HOWTO with upload size, Drive space, runtime, tier-1 skip note); STOP (next D) | T-29l | job pushed; D opened | S |
-| [S] | G-D64 | **STOP — the Owner runs the Colab job `reporting_test` (D-64), or chooses option (a): the reporting run from the stored CPU S2, with Colab for test only** | T-29q | D-64 decided; outputs returned | — |
-| [ ] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | T-29q; Owner returns S2 | report pushed | M |
-| [ ] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest and recorded; outputs not opened | T-29q; Owner returns S2 | hashes recorded | S |
+| [x] | G-D64 | **STOP — the Owner runs the Colab job `reporting_test` (D-64), or chooses option (a): the reporting run from the stored CPU S2, with Colab for test only** (decided 26 Nov 2026: option (a)) | T-29q | D-64 decided; outputs returned | — |
+| [x] | T-29m | **D-64 (a):** test-only Colab job `test` (`research/colab/test_manifest.json`, 471 test cameras, the test set of `reporting_test` entry for entry), own staging folder, notebook accepts it, HOWTO section "D-64" | G-D64 | manifest pushed | S |
+| [ ] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
+| [ ] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
 | [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
 
 | ✓ | ID | Gate | Needs | Done when |
@@ -1174,3 +1175,12 @@ _(the agent appends entries here)_
 - Commit: 39fe80f, a079afb, 37052b6, this entry's commit (pushed)
 - Problems / CRs: AR-72 proposed (lock representation). T-26g deferred (D-63 ruling 5).
 - Next: **STOP (D-64).** The Owner chooses (a) or (b) and runs Colab.
+
+### 2026-11-26 — D-64 decided (option a); T-29m: test-only Colab manifest
+- Did (no S2 or later stage run; no reporting or test output opened; frozen files unchanged):
+  - D-64 DECIDED, option (a): the reporting run (STEP 5) uses the stored CPU S2 of the 110 reporting cameras; Colab runs test only.
+  - `make_manifests.py test` → `research/colab/test_manifest.json`: 471 videos, 7,703,586,524 bytes (7.70 GB), 141,190 eligible frames, decision D-64; the cameras are the test set of `reporting_test_manifest.json` entry for entry (videos re-hashed against S0). `reporting_test_manifest.json` unchanged.
+  - `stage test` builds hard links in a new folder `out/colab_upload_test/rq1_colab/data/` (441 + 30), so the upload holds test videos only. Notebook accepts `JOB = "test"`. HOWTO section "D-64": about 8.1 GB Drive space, about 1.8 h on a T4; `reporting_test` marked "do not run".
+- Tests: 2747 passed, 17 skipped (full suite twice, identical). New: `tests/colab/test_package.py` + 1 (`test`).
+- Problems / CRs: none. Engineering only (job name, folder), set by the Owner's decision; no AR.
+- Next: T-29p (STEP 5, reporting run from the stored CPU S2), independent of the Owner's Colab test run. T-29h waits for `out/colab/test/`.
