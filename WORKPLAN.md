@@ -94,8 +94,8 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-26r | **D-60 STEP 2:** S0 registration of the 11 D-59 scenes (`synthetic_rendered`; `layout_id` = SHA-256 of `map.png`; `generation_batch` per ruling 4; calibration) and S1 coverage | G-D60 | S0 and S1 artifacts; summary JSON | S |
 | [x] | T-26s | **D-60 STEP 3:** split addendum `X0b-A1` (one leakage group per layout; tier 1 `test_layout_holdout`, tier 2 `reserve`; X0b unchanged), frozen before any system output; X0c audit | T-26r | split artifact; freeze record | S |
 | [x] | T-26c | **D-60 STEP 4:** Colab S2 package (`research/colab/`: notebook, runner, `tier1_manifest.json`, `HOWTO.md`); equivalence-check comparator for 2 tuning cameras | T-26s | package pushed; D-62 opened | S |
-| [S] | G-D62 | **STOP — the Owner runs the 2-camera equivalence check on Colab (D-62)** and, on a pass, tier 1 | T-26c | outputs returned | — |
-| [ ] | T-26g | **D-60 STEP 5:** verify the Colab outputs; equivalence result; S2 artifacts for the 45 tier-1 cameras; integrity checks (totals only); next D; STOP | G-D62 | S2 artifacts; integrity totals | S |
+| [x] | G-D62 | **STOP — the Owner runs the 2-camera equivalence check on Colab (D-62)** and, on a pass, tier 1 | T-26c | outputs returned | — |
+| [B] | T-26g | **Deferred past 1 Dec 2026 (D-63 ruling 5; the equivalence part was done in T-29q, D-62 PASS).** **D-60 STEP 5:** verify the Colab outputs; equivalence result; S2 artifacts for the 45 tier-1 cameras; integrity checks (totals only); next D; STOP | G-D62 | S2 artifacts; integrity totals | S |
 | [B] | T-26e | Evaluation on the D-59 scenes in the roles D-60 sets: tier 1 once, with the frozen v2 package, after the v2 reporting run, per scene and per layout, descriptive; tier 2 nothing until a later Owner decision | T-26g; v2 freeze | results per D-60 | L |
 | [x] | T-27 | **D-58 (Owner, 24 Nov 2026): T25 (E-1.2.26) opt-in** — T25.1 track stitching, T25.2 episode continuity across POW breaks, T25.3 m_gap in seconds; T25.4 tests; regression (stored D-54 / D-57 artifacts, M0 IDs); stitching grid on the 116 tuning cameras (tracking measures only); event-level check α / β (diagnostic) | D-58 | `research/m1b/d58_report.md` | M |
 | [x] | G-D61 | **STOP — Owner and Architect review the D-58 results (D-61):** stitching values (selected, not frozen), CR-037, AR-69. Blocks the v2 freeze, the reporting-camera run and the demo build; independent of D-60 | T-27 | D-61 decided | — |
@@ -105,9 +105,10 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-28t | **D-61 STEP 6:** test readiness, prepare only: X0c audit (R-2); reference-window lock prepared (`locked_utc`, `lock_sha256`) for the Architect; pass/fail table; full suite twice; next D; STOP | T-28f | readiness table; next D opened | S |
 | [x] | G-D63 | **STOP — Owner and Architect review the v2 freeze and test readiness (D-63):** window-lock definition (AR-71 item 11), CR-038, CR-039, AR-71; go-ahead for the reporting-camera run (D-61 §1.7 order 1). Nothing on the reporting cameras or test until decided | T-28t | D-63 decided | — |
 | [x] | T-29r | **D-63 STEPS 0–1 (Owner, 26 Nov 2026):** state check; D-63 DECIDED (§1 verbatim); CR-038 DECIDED (b, deferred), CR-039 DEFERRED, AR-71 ACCEPTED; T25.2 inert and T_s grid-edge limitations in the Progress log and `research/v2/reporting_plan.md` | G-D63 | records pushed | S |
-| [ ] | T-29a | **D-63 STEP 2:** rationale addendum `docs/preregistration/v2_rationale_addendum_D63.md` (§3 verbatim) and `v2_addendum_record.json` (SHA-256, commit time, before any reporting or test S3 output). Frozen files unchanged | T-29r | addendum and record pushed | S |
-| [ ] | T-29l | **D-63 STEP 3:** window lock (AR-71 item 11) on every window of V0 `m1a-sdg-test`, as a new lock artifact referencing V0 (V0 not rewritten); built twice, identical | T-29a | lock artifact; lock record | S |
-| [ ] | T-29q | **D-63 STEP 4:** D-62 equivalence (C1–C3, D-60 STEP 4 c, not loosened); D-62 DECIDED pass/fail; on pass the Colab job `reporting_test` (110 + 471 videos, manifest, HOWTO with upload size, Drive space, runtime, tier-1 skip note); STOP (next D) | T-29l | job pushed; D opened | S |
+| [x] | T-29a | **D-63 STEP 2:** rationale addendum `docs/preregistration/v2_rationale_addendum_D63.md` (§3 verbatim) and `v2_addendum_record.json` (SHA-256, commit time, before any reporting or test S3 output). Frozen files unchanged | T-29r | addendum and record pushed | S |
+| [x] | T-29l | **D-63 STEP 3:** window lock (AR-71 item 11) on every window of V0 `m1a-sdg-test`, as a new lock artifact referencing V0 (V0 not rewritten); built twice, identical | T-29a | lock artifact; lock record | S |
+| [x] | T-29q | **D-63 STEP 4:** D-62 equivalence (C1–C3, D-60 STEP 4 c, not loosened); D-62 DECIDED pass/fail; on pass the Colab job `reporting_test` (110 + 471 videos, manifest, HOWTO with upload size, Drive space, runtime, tier-1 skip note); STOP (next D) | T-29l | job pushed; D opened | S |
+| [S] | G-D64 | **STOP — the Owner runs the Colab job `reporting_test` (D-64), or chooses option (a): the reporting run from the stored CPU S2, with Colab for test only** | T-29q | D-64 decided; outputs returned | — |
 | [ ] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | T-29q; Owner returns S2 | report pushed | M |
 | [ ] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest and recorded; outputs not opened | T-29q; Owner returns S2 | hashes recorded | S |
 | [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
@@ -1157,3 +1158,19 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: none.
 - Next: T-29a record, T-29l (window lock).
+
+### 2026-11-26 — D-63 STEPS 2–4 (T-29a, T-29l, T-29q): addendum record, window lock, D-62 PASS, Colab job `reporting_test`; STOP at D-64
+- Did (no S2 or later system stage run; nothing opened on reporting or test outputs, none exist from v2; frozen files unchanged):
+  - **STEP 2 (39fe80f):** `docs/preregistration/v2_addendum_record.json`: addendum SHA-256 43e937e5…, commit e70f28b, 2026-11-26T15:43:35Z, after the v2 freeze (14:29:25Z), before any v2 reporting or test S3 output. It discloses the stored pilot S2 and v1 S3–S5 on the reporting cameras (below).
+  - **STEP 3 (a079afb code, 37052b6 record):** `research/preregistration/lock_v2.py`. The new V0-stage lock artifact **art_venollyxzeuqvumbo7jow2vtjt** (payload c1b7a2d8…) holds V0's plan row and the 471 windows of `m1a-sdg-test`: `annotation_status = locked`, `locked_utc` 2026-11-26T15:47:13Z, `lock_sha256` per AR-71 item 11. Inputs: V0 and the 471 v2 test reference S5.
+    - Built twice: ID, payload and file hashes identical. 471 of 471 hashes equal the D-61 proposal.
+    - V0 is unchanged (manifest bytes and reconstruction). VR-E-054 passes on the locked rows.
+    - Record: `docs/preregistration/window_lock_v2.json`. AR-72 proposed.
+  - **STEP 4:** D-62 DECIDED, **PASS** (`research/colab/equivalence_result.json`). Hashes all equal. C1: 0 unmatched. C2: P99 ≤ 1.43e-5. C3: counts equal. Frames equal.
+    - Colab job `reporting_test`: `make_manifests.py reporting_test` → `research/colab/reporting_test_manifest.json` (581 videos, 9.51 GB, 174,140 eligible frames; every video re-hashed against its S0 row).
+    - The notebook accepts the job (3-line change). HOWTO section "D-63": upload size, Drive space, about 2.3 h on a T4, the tier-1 skip note. Upload links staged.
+  - **Finding: the D-63 stop item 5 was wrong.** Stored CPU S2 exists for all 110 reporting cameras (T-25p pilot), with the frozen v2 S2 IDs (110 of 110) and frame lists equal to S1 (110 of 110). Raised at D-64 as option (a); the reporting run is not started.
+- Tests: 2746 passed, 17 skipped (full suite twice, identical). New: `tests/m1a/test_window_lock_v2.py` 5; `tests/colab/test_package.py` + 1 (`reporting_test`).
+- Commit: 39fe80f, a079afb, 37052b6, this entry's commit (pushed)
+- Problems / CRs: AR-72 proposed (lock representation). T-26g deferred (D-63 ruling 5).
+- Next: **STOP (D-64).** The Owner chooses (a) or (b) and runs Colab.

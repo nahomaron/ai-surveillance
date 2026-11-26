@@ -35,19 +35,28 @@ def test_weights_and_detector_settings_equal_d45():
     assert "img[:, :, ::-1]" in src and "img[:, :, ::-1]" in Path(R.__file__).read_text()  # RGB -> BGR in both
 
 
-@pytest.mark.parametrize("job", ["equivalence", "tier1"])
+@pytest.mark.parametrize("job", ["equivalence", "tier1", "reporting_test"])
 def test_manifest_consistent(job):
     p = ROOT / f"research/colab/{job}_manifest.json"
     if not p.exists():
         pytest.skip("manifest not built")
     m = json.loads(p.read_text())
-    assert m["format"] == "rq1-colab-job-1" and m["job"] == job and m["decision"] == "D-60"
+    assert m["format"] == "rq1-colab-job-1" and m["job"] == job and m["decision"] == ("D-63" if job == "reporting_test" else "D-60")
     assert m["videos"] == len(m["cameras"]) and m["total_bytes"] == sum(c["size_bytes"] for c in m["cameras"])
     assert len({c["rec_id"] for c in m["cameras"]}) == len(m["cameras"]) and len({c["uri"] for c in m["cameras"]}) == len(m["cameras"])
     for c in m["cameras"]:
         assert len(R.expand(c["eligible_runs"])) == c["n_eligible"] <= c["n_decoded"] and len(c["sha256"]) == 64
     if job == "equivalence":
         assert [c["rec_id"] for c in m["cameras"]] == ["rec_67do32mc4zwrtblayv5nixp4c2", "rec_4vmkmof7sgq7fbjqm6zb64xpko"]  # AR-70 item 7
+    elif job == "reporting_test":
+        # D-63 STEP 4: the 110 reporting and 471 test cameras, the v2 reference sets, SDG only, every frame of each
+        sys.path.insert(0, str(ROOT / "research/preregistration"))
+        import v2_references as vr
+        assert m["sets"] == {"reporting": 110, "test": 471} and m["videos"] == 581
+        for name in ("reporting", "test"):
+            assert sorted(c["rec_id"] for c in m["cameras"] if c["set"] == name) == sorted(vr.cameras(name))
+        # SDG files as registered in S0: the dataset members, or the extracted copies of 3 runs (qualification.md, 30 test cameras)
+        assert all(c["uri"].startswith(("raw/sdg/", "derived/sdg_rgb_sample/")) for c in m["cameras"])
     else:
         assert m["videos"] == 45 and all("smartspaces" in c["uri"] for c in m["cameras"])
         rec = json.loads((ROOT / "docs/preregistration/freeze_record_X0b-A1.json").read_text())

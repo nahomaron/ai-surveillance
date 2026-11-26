@@ -2,6 +2,7 @@
 
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py equivalence   -> research/colab/equivalence_manifest.json
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py tier1         -> research/colab/tier1_manifest.json
+  PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py reporting_test -> research/colab/reporting_test_manifest.json
   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py stage <job>   -> out/colab_upload/rq1_colab/data/<uri> (hard links)
 
 Per camera: rec_id, the video path relative to the data root (kept as the Drive layout), size, SHA-256 (from the S0
@@ -10,6 +11,9 @@ Per camera: rec_id, the video path relative to the data root (kept as the Drive 
   stored CPU raw file must list exactly these frames.
 - tier1: the 45 tier-1 cameras of X0b-A1 partition `test_layout_holdout` (S1 from `out/s1_d59`). Reads S0, S1 and the
   split only: no tier-1 output exists or is read.
+- reporting_test (D-63 rulings 7-8, STEP 4): the 110 v2 reporting cameras and the 471 X0b test cameras (the v2 reference
+  sets of `research/preregistration/v2_references.py`), S1 from `out/t17_sdg` as in the T-17 counts. Reads S0, S1 and the
+  camera sets only: no reporting or test system output is read. Each camera carries `set` (reporting | test).
 """
 import gzip
 import hashlib
@@ -85,11 +89,29 @@ def tier1():
             "split": {"artifact_id": rec["artifact_id"], "spm_id": rec["spm_id"]}, "cameras": cams}
 
 
+def reporting_test():
+    sys.path.insert(0, str(ROOT / "research/preregistration"))
+    import v2_references as vr
+    index = {e["rec_id"]: e for e in json.load(open(ROOT / "out/s0_sdg/index.json"))}
+    s1_of = {c["rec_id"]: c["s1"] for c in json.load(open(ROOT / "research/datasets/part3/t17_counts_sdg.json"))["cameras"]}
+    cams = []
+    for name in ("reporting", "test"):
+        recs = vr.cameras(name)
+        assert len(recs) == vr.EXPECTED[name], (name, len(recs))
+        for r in sorted(recs, key=lambda r: (index[r]["run"], index[r]["camera"])):
+            e = index[r]
+            cams.append({**camera(r, ROOT / "out/s0_sdg" / e["s0"], ROOT / "out/t17_sdg" / s1_of[r], f"{e['run']}.{e['camera']}"), "set": name})
+    return {"job": "reporting_test", "decision": "D-63",
+            "purpose": "D-63 rulings 7-8: S2 on the 110 v2 reporting cameras and the 471 X0b test cameras (frozen v2 detector); test output sealed until D-63 STEP 7",
+            "sets": {n: sum(c["set"] == n for c in cams) for n in ("reporting", "test")}, "cameras": cams}
+
+
 def manifest(job):
-    body = {"equivalence": equivalence, "tier1": tier1}[job]()
+    body = {"equivalence": equivalence, "tier1": tier1, "reporting_test": reporting_test}[job]()
     total = sum(c["size_bytes"] for c in body["cameras"])
-    out = {"format": "rq1-colab-job-1", "decision": "D-60", "job": body["job"], "purpose": body["purpose"], "detector": DETECTOR,
+    out = {"format": "rq1-colab-job-1", "decision": body.get("decision", "D-60"), "job": body["job"], "purpose": body["purpose"], "detector": DETECTOR,
            "drive_layout": "<Drive>/rq1_colab/data/<uri>; outputs to <Drive>/rq1_colab/out/<job>/", **({"split": body["split"]} if "split" in body else {}),
+           **({"sets": body["sets"]} if "sets" in body else {}),
            "videos": len(body["cameras"]), "total_bytes": total, "total_gb": round(total / 1e9, 2), "cameras": body["cameras"]}
     path = ROOT / f"research/colab/{job}_manifest.json"
     path.write_text(json.dumps(out, indent=1) + "\n")

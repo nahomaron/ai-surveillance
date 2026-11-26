@@ -950,7 +950,7 @@ Owner decision (D-61, 26 Nov 2026): pre-registration v2 values, T25 selection, f
 9. No NM, UD or CT references exist on synthetic data, so those labels are demo-workflow output, not measured accuracy.
 10. NM, UD and CT labels can only be checked by managers, and that check has not been validated (G1–G3 deferred).
 
-## D-62 (2026-11-25) — STOP after D-60 STEP 4: the Owner runs the Colab equivalence check        status: OPEN
+## D-62 (2026-11-25) — STOP after D-60 STEP 4: the Owner runs the Colab equivalence check        status: DECIDED (26 Nov 2026): equivalence PASS; tier-1 run skipped (D-63 ruling 5)
 Task: T-26c (D-60 STEPS 0–4)   Blocking: T-26g (STEP 5) and every use of tier-1 detections; nothing else (independent of D-61)
 Question: the Colab package is ready. Please run it as described in **`research/colab/HOWTO.md`**.
 - **Upload size:** **5.94 GB** in total.
@@ -971,7 +971,15 @@ Question: the Colab package is ready. Please run it as described in **`research/
   - item 6: the equivalence readings.
 - **One order deviation:** STEP 3 was frozen before the S1 decode of STEP 2 finished. The freeze reads S0 only.
 Agent's recommendation: none; the Owner runs the check.
-Owner decision: ______
+Owner decision (26 Nov 2026): the Owner ran the 2-camera equivalence job on Colab and placed `out/colab/equivalence/` on the laptop. The tier-1 run (order 3) is skipped before 1 Dec 2026 (D-63 ruling 5, CR-039 DEFERRED).
+**Result (D-63 STEP 4): PASS** on every reading of C1–C3 (D-60 STEP 4 (c), AR-70 item 6, not loosened); `research/colab/equivalence_result.json`.
+- Integrity: the job-manifest SHA-256 equals the one the Colab manifest records. Both output files equal their manifest and `.done.json` SHA-256, and both input-video SHA-256 equal the job manifest. Tesla T4, CUDA 13.0, torch 2.14.1+cu130, ultralytics 8.4.215, av 19.0.2, runner commit 713448e.
+- Frames: the CPU and Colab files list the same 300 eligible frames on each camera.
+- C1: every CPU box with score ≥ threshold + 0.02 has a one-to-one Colab partner of the same class with IoU ≥ 0.95. There are 0 unmatched boxes, per camera and class.
+- C2: the largest P99 of |Δscore| over the matched pairs is 1.43 × 10⁻⁵ (forklift, both cameras, ≥ threshold + 0.02); for person it is 3.0 × 10⁻⁶. The limit is 0.02.
+- C3: counts ≥ threshold are equal on every camera and class. Person: 243 / 243 (ceiling) and 302 / 302 (eye level). Forklift: 225 / 225 and 92 / 92. Both cameras together: 545 / 545 and 317 / 317.
+- Timing: 27.9 s for 600 frames, so 0.047 s per frame including decoding.
+
 
 
 ## D-63 (2026-11-26) — STOP after D-61 STEPS 4–6: pre-registration v2 frozen; test readiness prepared        status: DECIDED (26 Nov 2026)
@@ -1053,4 +1061,35 @@ Owner decision (D-63, 26 Nov 2026): rulings on the v2 freeze stop; rationale add
 4. **Permitted claims:** wording becomes more cautious (addendum). No SmartSpaces event-level claim.
 5. **Scope:** reduced (tier 1 deferred).
 6. **Type of decision:** scientific (rulings 1, 2, 4, 5, 8, 9) and representation (rulings 3, 6). **E2 is not affected.**
+
+
+## D-64 (2026-11-26) — STOP after D-63 STEP 4: the Owner runs the Colab job `reporting_test`; reporting S2 already exists        status: OPEN
+Task: T-29q (D-63 STEPS 0–4)   Blocking: T-29p (STEP 5, reporting run), T-29h (STEP 6), T-29t (STEP 7)
+Question: D-63 STEPS 0–4 are done. The Colab job is ready (**`research/colab/HOWTO.md`, section "D-63"**). **But first, a correction to my D-63 stop report.**
+
+**Correction (item 5 of the D-63 stop was wrong).** I wrote that the reporting run "needs S2 on the 110 reporting cameras: about 3.6 h CPU". In fact, **stored CPU S2 already exists for all 110 reporting cameras.** It comes from the T-25p pilot of 19 Nov, which covered the 206 SDG validation cameras outside the probe, so every reporting camera.
+- Its S2 configuration IDs are exactly the frozen v2 detector IDs, `inf_cetfxtbdg72cqgfm6teibcxsyd` and `mdl_ty3jrnwz5jjdv56nwtkcos4yqs` (110 of 110), the IDs `freeze_record_v2.json` lists.
+- Its frame lists equal the S1 eligible frames (110 of 110).
+- The 116 tuning cameras use the same pilot S2 lineage.
+- The v1 pilot also ran S3–S5 on these cameras before the D-53 tuning/reporting split. Those pilot numbers were reported over all pilot cameras, and that is already disclosed (register I1–I4).
+- Ruling 7 and STEP 4 rest on my wrong figure, so I have not started the reporting run. The choice is yours.
+
+**Done in this session (D-63 STEPS 0–4):**
+- STEP 1: records (D-63 DECIDED; CR-038 DECIDED (b), deferred; CR-039 DEFERRED; AR-71 ACCEPTED). Limitations 16–19 are in the Progress log and in `research/v2/reporting_plan.md`.
+- STEP 2: addendum `docs/preregistration/v2_rationale_addendum_D63.md` (SHA-256 43e937e5…, commit e70f28b, 2026-11-26T15:43:35Z); record `v2_addendum_record.json`. The frozen files are byte-identical.
+- STEP 3: window lock. 471 of 471 windows of V0 `m1a-sdg-test` are locked in the new artifact **art_venollyxzeuqvumbo7jow2vtjt** (locked_utc 2026-11-26T15:47:13Z). It was built twice, and the ID, payload and files are identical. Every lock_sha256 equals the D-61 proposal. V0 is unchanged, and VR-E-054 now passes. Record: `docs/preregistration/window_lock_v2.json`. Representation: AR-72 (proposed).
+- STEP 4: D-62 DECIDED, **PASS** (details there). Colab job `reporting_test`, `research/colab/reporting_test_manifest.json`:
+  - **581 videos, 9.51 GB upload**: reporting 110 (1.81 GB), test 471 (7.70 GB, of which 30 are under `data/derived/sdg_rgb_sample/`, as S0 registers them);
+  - **Drive space about 9.9 GB** (15.8 GB if the tier-1 videos are also in Drive: remove them first on a 15 GB plan);
+  - **runtime about 2.3 h on a T4** (0.4 h reporting, 1.8 h test), from the equivalence timing.
+  - The upload links are already staged under `out/colab_upload/rq1_colab/data/` (upload `raw/sdg` and `derived` only).
+  - The tier-1 skip note is in the HOWTO.
+
+**Options for the reporting S2:**
+- **(a) Use the stored CPU S2 for the reporting run.** It has the frozen v2 S2 IDs and the same lineage as the tuning results. STEP 5 can start at once on your word, with no upload for it. Colab then runs **test only**: 471 videos, 7.70 GB, about 1.8 h. I would add a test-only manifest (`test_manifest.json`, same cameras and format) before you upload.
+- **(b) As ordered.** Colab S2 for all 581. The reporting run uses the new GPU S2, which is equivalent under D-62 but not byte-identical to the stored S2. The stored reporting S2 stays unused.
+- (A CPU re-run of the reporting S2 is not needed under either option.)
+
+Agent's recommendation: (a). The frozen v2 package was specified on this S2 lineage. A second S2 adds no independence, because detection does not depend on anything seen. It also leaves two S2 sets for the same cameras. You decide.
+Owner decision: ______
 

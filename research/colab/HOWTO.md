@@ -56,3 +56,46 @@ What this does: runs the frozen D-45 detector on Google Colab's GPU for the 45 t
 3. Tell the agent: "Colab tier-1 outputs are in out/colab/tier1". The agent checks every file hash, builds the S2 artifacts and runs the integrity checks (totals only, D-60 STEP 5).
 
 After that, the videos in Drive can be deleted, if you wish. The laptop keeps its own copies.
+
+---
+
+# D-63: the `reporting_test` job (110 reporting + 471 test cameras)
+
+**Status (26 Nov 2026).** The 2-camera equivalence check **passed** (D-62; result in `research/colab/equivalence_result.json`). D-63 rulings 7–8 allow S2 on the reporting and test cameras on Colab, in one session.
+
+**Tier 1 is skipped.** D-63 ruling 5 defers tier 1 past 1 Dec 2026 (CR-039). **Do not run `JOB = "tier1"`**, and you do not need to upload the tier-1 videos. If they are already in Drive, they may stay there or be removed. The laptop keeps its own copies, and the tier-1 manifest stays frozen.
+
+**Rules (D-63).** Upload only the files listed in `research/colab/reporting_test_manifest.json`. They are synthetic SDG videos, not real footage. **Do not open, plot or count the output files**, test cameras especially: the test outputs are sealed until the reporting run is finished (D-63 ruling 8). Send the folder back as it is.
+
+**Sizes and time.**
+- Upload: **581 videos, 9,509,264,335 bytes (9.51 GB)**:
+  - reporting: 110 videos, 1.81 GB, 32,950 frames;
+  - test: 471 videos, 7.70 GB, 141,190 frames.
+- **Drive space needed:** about **9.9 GB**, which is 9.51 GB of videos, 0.38 GB of weights (already in Drive from the equivalence run), the 0.03 GB equivalence videos, and outputs of about 10 MB.
+  - If the 5.91 GB of tier-1 videos are also in Drive, the total is about 15.8 GB. That is more than the free 15 GB Drive plan. In that case, remove the tier-1 videos from Drive first (step 1 above, `data/raw/smartspaces/...`).
+- **Expected runtime on a T4:** about **2.3 hours** for the 174,140 frames. This is based on the equivalence timing (27.9 s for 600 frames = 0.047 s per frame, including decoding): about 0.4 h for reporting and 1.8 h for test.
+  - Reading the videos from Drive can add time.
+  - A free Colab session may disconnect before it finishes. Re-run as in step 4 above: finished cameras are skipped.
+
+## Steps
+
+1. On the laptop, build the upload folder (hard links, no extra disk space):
+   ```
+   PYTHONPATH=src .venv/bin/python research/colab/make_manifests.py stage reporting_test
+   ```
+   The agent has already run this (26 Nov 2026), so the links are in place. The videos are in two folders:
+   - `out/colab_upload/rq1_colab/data/raw/sdg/...` (551 videos);
+   - `out/colab_upload/rq1_colab/data/derived/sdg_rgb_sample/...` (30 test videos: extracted copies of 3 SDG runs, registered in S0 under this path).
+2. Upload **only these two folders**, keeping the layout:
+   - `data/raw/sdg` to `My Drive/rq1_colab/data/raw/sdg`;
+   - `data/derived` to `My Drive/rq1_colab/data/derived`.
+
+   **Do not upload `data/raw/smartspaces`**: that is tier 1, which is skipped. The two equivalence videos are already in Drive; files already there can be skipped. The notebook checks the SHA-256 of every one of the 581 files.
+3. Open the notebook as in step 2 above, with a GPU runtime. In cell 1 set **`JOB = "reporting_test"`**, then *Runtime → Run all*.
+4. Cell 6 should end with `reporting_test complete - 581 of 581 cameras`. If not, run again (finished cameras are skipped).
+5. Download `My Drive/rq1_colab/out/reporting_test`. Unzip it so that the files are in **`out/colab/reporting_test/`** in the repository folder: `colab_manifest.json`, 581 `.json.gz` files, 581 `.done.json` files and the `pip_freeze_….txt` file(s).
+6. Tell the agent: "Colab reporting_test outputs are in out/colab/reporting_test".
+   - The agent checks every hash.
+   - It runs the reporting cameras (D-63 STEP 5).
+   - It records the test hashes without opening the test files (STEP 6).
+   - Only after that does it run test (STEP 7).

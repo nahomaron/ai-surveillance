@@ -1,0 +1,267 @@
+{
+ "pass": true,
+ "failed": [],
+ "checks": [
+  {
+   "check": "frames_equal",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "pass": true
+  },
+  {
+   "check": "C1",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "person",
+   "value": 0,
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "person",
+   "value": 2.5799999999631514e-06,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "person",
+   "value": 2.5799999999631514e-06,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "person",
+   "value": [
+    243,
+    243
+   ],
+   "pass": true
+  },
+  {
+   "check": "C1",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "forklift",
+   "value": 0,
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "forklift",
+   "value": 1.2999999999999123e-05,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "forklift",
+   "value": 1.3219999999997788e-05,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "class": "forklift",
+   "value": [
+    225,
+    225
+   ],
+   "pass": true
+  },
+  {
+   "check": "frames_equal",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "pass": true
+  },
+  {
+   "check": "C1",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "person",
+   "value": 0,
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "person",
+   "value": 3.0000000000857118e-06,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "person",
+   "value": 3.0000000000857118e-06,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "person",
+   "value": [
+    302,
+    302
+   ],
+   "pass": true
+  },
+  {
+   "check": "C1",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "forklift",
+   "value": 0,
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "forklift",
+   "value": 1.3180000000013187e-05,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "forklift",
+   "value": 1.408000000001408e-05,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "class": "forklift",
+   "value": [
+    92,
+    92
+   ],
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "both",
+   "class": "person",
+   "value": 3.000000000006331e-06,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "both",
+   "class": "person",
+   "value": 3.000000000006331e-06,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "both",
+   "class": "person",
+   "value": [
+    545,
+    545
+   ],
+   "pass": true
+  },
+  {
+   "check": "C2_all_kept",
+   "rec_id": "both",
+   "class": "forklift",
+   "value": 1.300000000001078e-05,
+   "pass": true
+  },
+  {
+   "check": "C2_plus_margin",
+   "rec_id": "both",
+   "class": "forklift",
+   "value": 1.427999999999649e-05,
+   "pass": true
+  },
+  {
+   "check": "C3",
+   "rec_id": "both",
+   "class": "forklift",
+   "value": [
+    317,
+    317
+   ],
+   "pass": true
+  }
+ ],
+ "cameras": [
+  {
+   "rec_id": "rec_67do32mc4zwrtblayv5nixp4c2",
+   "frames_cpu": 300,
+   "frames_colab": 300,
+   "frames_equal": true,
+   "classes": {
+    "person": {
+     "threshold": 0.2,
+     "n_cpu": 243,
+     "n_colab": 243,
+     "cpu_at_or_above_threshold_plus_margin": 243,
+     "matched_at_or_above_threshold_plus_margin": 243,
+     "unmatched_examples": [],
+     "unmatched": 0,
+     "matched_pairs": 243,
+     "score_diff_p99_all_kept": 2.5799999999631514e-06,
+     "score_diff_p99_plus_margin": 2.5799999999631514e-06,
+     "score_diff_max_all_kept": 4.000000000004e-06
+    },
+    "forklift": {
+     "threshold": 0.05,
+     "n_cpu": 225,
+     "n_colab": 225,
+     "cpu_at_or_above_threshold_plus_margin": 190,
+     "matched_at_or_above_threshold_plus_margin": 190,
+     "unmatched_examples": [],
+     "unmatched": 0,
+     "matched_pairs": 225,
+     "score_diff_p99_all_kept": 1.2999999999999123e-05,
+     "score_diff_p99_plus_margin": 1.3219999999997788e-05,
+     "score_diff_max_all_kept": 1.4999999999987246e-05
+    }
+   }
+  },
+  {
+   "rec_id": "rec_4vmkmof7sgq7fbjqm6zb64xpko",
+   "frames_cpu": 300,
+   "frames_colab": 300,
+   "frames_equal": true,
+   "classes": {
+    "person": {
+     "threshold": 0.2,
+     "n_cpu": 302,
+     "n_colab": 302,
+     "cpu_at_or_above_threshold_plus_margin": 302,
+     "matched_at_or_above_threshold_plus_margin": 302,
+     "unmatched_examples": [],
+     "unmatched": 0,
+     "matched_pairs": 302,
+     "score_diff_p99_all_kept": 3.0000000000857118e-06,
+     "score_diff_p99_plus_margin": 3.0000000000857118e-06,
+     "score_diff_max_all_kept": 4.000000000004e-06
+    },
+    "forklift": {
+     "threshold": 0.05,
+     "n_cpu": 92,
+     "n_colab": 92,
+     "cpu_at_or_above_threshold_plus_margin": 47,
+     "matched_at_or_above_threshold_plus_margin": 47,
+     "unmatched_examples": [],
+     "unmatched": 0,
+     "matched_pairs": 92,
+     "score_diff_p99_all_kept": 1.3180000000013187e-05,
+     "score_diff_p99_plus_margin": 1.408000000001408e-05,
+     "score_diff_max_all_kept": 1.5000000000015001e-05
+    }
+   }
+  }
+ ],
+ "criteria": {
+  "C1": "CPU score >= threshold + 0.02 -> Colab box, same class, IoU >= 0.95 (one-to-one)",
+  "C2": "P99 |score diff| of matched pairs <= 0.02",
+  "C3": "per-class counts (score >= threshold) differ by <= 2 %",
+  "thresholds": {
+   "person": 0.2,
+   "forklift": 0.05
+  }
+ }
+}
