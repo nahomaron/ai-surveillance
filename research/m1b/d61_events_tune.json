@@ -1,0 +1,634 @@
+{
+ "baseline": "BL-6",
+ "checks": {
+  "cameras": 116,
+  "detector_s3_g_max_15_equals_d54": 116,
+  "reference_s3_equals_t21": 116,
+  "tracker_reproduces_d55_forklift": 116,
+  "tracker_reproduces_d55_person": 116
+ },
+ "contract": "E-1.2.26",
+ "decision": "D-61 STEP 4 (replaces D-58 STEP 4)",
+ "ie_share": "S_VIEW events carrying lbl_IE / all S_VIEW events; 'caused by the new g_max' = share at g_max 45 minus the share at g_max 15 with every other value v2 (AR-71 item 5)",
+ "label_group": "G1",
+ "matching": "N4 (unchanged), iou_m 0.3",
+ "pair_readings": {
+  "a": "CR-037 item 3 (a): at the closest-approach member's CA frame (applied in the code)",
+  "b": "CR-037 item 3 (b): every member at its own CA frame; unknown unless all agree"
+ },
+ "reference_set": "D-61 diagnostic v2 tuning reference set: diagnostic, not the v2 reference (STEP 5); out/m1b/d61/reference_diag/, apart from the STEP 5 references",
+ "runtime_s": 1942.9,
+ "selects": "nothing",
+ "status": "diagnostic, tuning subset, not a reported result; synthetic-data evaluation; experimental",
+ "stitch_note": "the D-58 STEP 3 selection was made on detector S3 bridged at g_max 15 (v1); D-61 STEP 3 = D-58 STEP 3 as written",
+ "stitching_links_g_max_45": 77,
+ "tuning_116": {
+  "all": {
+   "A+T25": {
+    "ie_by_g_max": {
+     "difference": 0.0,
+     "g_max_15": {
+      "events": 119,
+      "ie_events": 92,
+      "ie_share": 0.773109243697479
+     },
+     "g_max_45": {
+      "events": 119,
+      "ie_events": 92,
+      "ie_share": 0.773109243697479
+     },
+     "ie_events_difference": 0
+    },
+    "reading_a": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.9747899159663865,
+     "assessable_references": 116,
+     "matched_events": 116,
+     "matched_references": 116,
+     "references_with_1_event": 113,
+     "references_with_2plus_events": 3,
+     "splits": 3,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 3,
+      "iii": 0
+     },
+     "system_events_g1": 119,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 1,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 3,
+     "unmatched_with_same_pair_overlap": 3
+    },
+    "reading_b": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.9747899159663865,
+     "assessable_references": 116,
+     "matched_events": 116,
+     "matched_references": 116,
+     "references_with_1_event": 113,
+     "references_with_2plus_events": 3,
+     "splits": 3,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 3,
+      "iii": 0
+     },
+     "system_events_g1": 119,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 1,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 3,
+     "unmatched_with_same_pair_overlap": 3
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 119,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 119,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 119,
+     "unobserved_gap_s": 0
+    }
+   },
+   "C-v2+T25": {
+    "ie_by_g_max": {
+     "difference": 0.06491691256406273,
+     "g_max_15": {
+      "events": 141,
+      "ie_events": 102,
+      "ie_share": 0.723404255319149
+     },
+     "g_max_45": {
+      "events": 137,
+      "ie_events": 108,
+      "ie_share": 0.7883211678832117
+     },
+     "ie_events_difference": 6
+    },
+    "reading_a": {
+     "EV-M1": 0.7327586206896551,
+     "EV-M2": 0.6204379562043796,
+     "assessable_references": 116,
+     "matched_events": 85,
+     "matched_references": 85,
+     "references_with_1_event": 77,
+     "references_with_2plus_events": 27,
+     "splits": 31,
+     "splits_by_mechanism": {
+      "i": 1,
+      "ii": 12,
+      "iii": 18
+     },
+     "system_events_g1": 137,
+     "unmatched_by_band": {
+      "(0, 0.1]": 14,
+      "(0.1, 0.2]": 15,
+      "(0.2, 0.3)": 14,
+      "0": 2,
+      ">= 0.3": 7
+     },
+     "unmatched_events": 52,
+     "unmatched_with_same_pair_overlap": 50
+    },
+    "reading_b": {
+     "EV-M1": 0.7327586206896551,
+     "EV-M2": 0.6204379562043796,
+     "assessable_references": 116,
+     "matched_events": 85,
+     "matched_references": 85,
+     "references_with_1_event": 77,
+     "references_with_2plus_events": 27,
+     "splits": 31,
+     "splits_by_mechanism": {
+      "i": 1,
+      "ii": 12,
+      "iii": 18
+     },
+     "system_events_g1": 137,
+     "unmatched_by_band": {
+      "(0, 0.1]": 14,
+      "(0.1, 0.2]": 15,
+      "(0.2, 0.3)": 14,
+      "0": 2,
+      ">= 0.3": 7
+     },
+     "unmatched_events": 52,
+     "unmatched_with_same_pair_overlap": 50
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 137,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 137,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 137,
+     "unobserved_gap_s": 0
+    }
+   },
+   "cameras": 116,
+   "references": {
+    "assessable_g1": 116,
+    "references": 116
+   }
+  },
+  "ceiling": {
+   "A+T25": {
+    "ie_by_g_max": {
+     "difference": 0.0,
+     "g_max_15": {
+      "events": 54,
+      "ie_events": 28,
+      "ie_share": 0.5185185185185185
+     },
+     "g_max_45": {
+      "events": 54,
+      "ie_events": 28,
+      "ie_share": 0.5185185185185185
+     },
+     "ie_events_difference": 0
+    },
+    "reading_a": {
+     "EV-M1": 1.0,
+     "EV-M2": 1.0,
+     "assessable_references": 54,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_1_event": 54,
+     "references_with_2plus_events": 0,
+     "splits": 0,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 0,
+      "iii": 0
+     },
+     "system_events_g1": 54,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "reading_b": {
+     "EV-M1": 1.0,
+     "EV-M2": 1.0,
+     "assessable_references": 54,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_1_event": 54,
+     "references_with_2plus_events": 0,
+     "splits": 0,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 0,
+      "iii": 0
+     },
+     "system_events_g1": 54,
+     "unmatched_by_band": {
+      "(0, 0.1]": 0,
+      "(0.1, 0.2]": 0,
+      "(0.2, 0.3)": 0,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 0,
+     "unmatched_with_same_pair_overlap": 0
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 54,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 54,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 54,
+     "unobserved_gap_s": 0
+    }
+   },
+   "C-v2+T25": {
+    "ie_by_g_max": {
+     "difference": 0.061003861003861015,
+     "g_max_15": {
+      "events": 74,
+      "ie_events": 42,
+      "ie_share": 0.5675675675675675
+     },
+     "g_max_45": {
+      "events": 70,
+      "ie_events": 44,
+      "ie_share": 0.6285714285714286
+     },
+     "ie_events_difference": 2
+    },
+    "reading_a": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.7714285714285715,
+     "assessable_references": 54,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_1_event": 41,
+     "references_with_2plus_events": 13,
+     "splits": 16,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 6,
+      "iii": 10
+     },
+     "system_events_g1": 70,
+     "unmatched_by_band": {
+      "(0, 0.1]": 5,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 7
+     },
+     "unmatched_events": 16,
+     "unmatched_with_same_pair_overlap": 16
+    },
+    "reading_b": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.7714285714285715,
+     "assessable_references": 54,
+     "matched_events": 54,
+     "matched_references": 54,
+     "references_with_1_event": 41,
+     "references_with_2plus_events": 13,
+     "splits": 16,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 6,
+      "iii": 10
+     },
+     "system_events_g1": 70,
+     "unmatched_by_band": {
+      "(0, 0.1]": 5,
+      "(0.1, 0.2]": 3,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 7
+     },
+     "unmatched_events": 16,
+     "unmatched_with_same_pair_overlap": 16
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 70,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 70,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 70,
+     "unobserved_gap_s": 0
+    }
+   },
+   "cameras": 54,
+   "references": {
+    "assessable_g1": 54,
+    "references": 54
+   }
+  },
+  "eye_level": {
+   "A+T25": {
+    "ie_by_g_max": {
+     "difference": 0.0,
+     "g_max_15": {
+      "events": 65,
+      "ie_events": 64,
+      "ie_share": 0.9846153846153847
+     },
+     "g_max_45": {
+      "events": 65,
+      "ie_events": 64,
+      "ie_share": 0.9846153846153847
+     },
+     "ie_events_difference": 0
+    },
+    "reading_a": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.9538461538461539,
+     "assessable_references": 62,
+     "matched_events": 62,
+     "matched_references": 62,
+     "references_with_1_event": 59,
+     "references_with_2plus_events": 3,
+     "splits": 3,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 3,
+      "iii": 0
+     },
+     "system_events_g1": 65,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 1,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 3,
+     "unmatched_with_same_pair_overlap": 3
+    },
+    "reading_b": {
+     "EV-M1": 1.0,
+     "EV-M2": 0.9538461538461539,
+     "assessable_references": 62,
+     "matched_events": 62,
+     "matched_references": 62,
+     "references_with_1_event": 59,
+     "references_with_2plus_events": 3,
+     "splits": 3,
+     "splits_by_mechanism": {
+      "i": 0,
+      "ii": 3,
+      "iii": 0
+     },
+     "system_events_g1": 65,
+     "unmatched_by_band": {
+      "(0, 0.1]": 1,
+      "(0.1, 0.2]": 1,
+      "(0.2, 0.3)": 1,
+      "0": 0,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 3,
+     "unmatched_with_same_pair_overlap": 3
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 65,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 65,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 65,
+     "unobserved_gap_s": 0
+    }
+   },
+   "C-v2+T25": {
+    "ie_by_g_max": {
+     "difference": 0.05970149253731338,
+     "g_max_15": {
+      "events": 67,
+      "ie_events": 60,
+      "ie_share": 0.8955223880597015
+     },
+     "g_max_45": {
+      "events": 67,
+      "ie_events": 64,
+      "ie_share": 0.9552238805970149
+     },
+     "ie_events_difference": 4
+    },
+    "reading_a": {
+     "EV-M1": 0.5,
+     "EV-M2": 0.4626865671641791,
+     "assessable_references": 62,
+     "matched_events": 31,
+     "matched_references": 31,
+     "references_with_1_event": 36,
+     "references_with_2plus_events": 14,
+     "splits": 15,
+     "splits_by_mechanism": {
+      "i": 1,
+      "ii": 6,
+      "iii": 8
+     },
+     "system_events_g1": 67,
+     "unmatched_by_band": {
+      "(0, 0.1]": 9,
+      "(0.1, 0.2]": 12,
+      "(0.2, 0.3)": 13,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 36,
+     "unmatched_with_same_pair_overlap": 34
+    },
+    "reading_b": {
+     "EV-M1": 0.5,
+     "EV-M2": 0.4626865671641791,
+     "assessable_references": 62,
+     "matched_events": 31,
+     "matched_references": 31,
+     "references_with_1_event": 36,
+     "references_with_2plus_events": 14,
+     "splits": 15,
+     "splits_by_mechanism": {
+      "i": 1,
+      "ii": 6,
+      "iii": 8
+     },
+     "system_events_g1": 67,
+     "unmatched_by_band": {
+      "(0, 0.1]": 9,
+      "(0.1, 0.2]": 12,
+      "(0.2, 0.3)": 13,
+      "0": 2,
+      ">= 0.3": 0
+     },
+     "unmatched_events": 36,
+     "unmatched_with_same_pair_overlap": 34
+    },
+    "summary": {
+     "events_by_members": {
+      "1": 67,
+      "2": 0,
+      "3": 0,
+      "4": 0
+     },
+     "joined_events": 0,
+     "member_episodes": 67,
+     "members_per_event": 1.0,
+     "pair_readings_differ": 0,
+     "system_events": 67,
+     "unobserved_gap_s": 0
+    }
+   },
+   "cameras": 62,
+   "references": {
+    "assessable_g1": 62,
+    "references": 62
+   }
+  }
+ },
+ "values": {
+  "S4": {
+   "fork_length_scale": 1.0,
+   "fork_width_scale": 1.0,
+   "g_max": 45,
+   "person_radius_m": 0.3,
+   "tau": 2.0,
+   "v_min": 0.3,
+   "w_v": 0.5
+  },
+  "S5": {
+   "d_nm": 0.5,
+   "d_p": 3.0,
+   "d_pc": 1.0,
+   "e_acc": 1.0,
+   "e_dec": 1.0,
+   "e_turn": 1.5,
+   "k_c": 1.5,
+   "k_c_turn": 3.0,
+   "k_img": 0.05,
+   "k_sigma": 2.0,
+   "m_gap": 45,
+   "o_max": 0.5,
+   "pet_max": 1.5,
+   "t_min": 0.2,
+   "ttc_max": 1.5,
+   "w_e": 1.0,
+   "w_post": 1.5
+  },
+  "T24": {
+   "anchor": "box_bottom_centre",
+   "anchor_offset_m": 1.0,
+   "anchor_taper_m": 2.0,
+   "s_max_m_per_px": 0.1,
+   "smartspaces_offset_scale": 0.923
+  },
+  "band_edges_m": [
+   0.0,
+   0.5,
+   1.0,
+   2.0,
+   3.0,
+   4.0
+  ],
+  "changed_from_v1": {
+   "band_edges_m": [
+    [
+     0.0,
+     0.5,
+     1.0,
+     2.0,
+     4.0
+    ],
+    [
+     0.0,
+     0.5,
+     1.0,
+     2.0,
+     3.0,
+     4.0
+    ]
+   ],
+   "d_p": [
+    2.0,
+    3.0
+   ],
+   "e_dec": [
+    2.0,
+    1.0
+   ],
+   "g_max": [
+    15,
+    45
+   ],
+   "k_c": [
+    3.0,
+    1.5
+   ],
+   "m_gap": [
+    5,
+    45
+   ],
+   "pet_max": [
+    1.0,
+    1.5
+   ],
+   "w_post": [
+    1.0,
+    1.5
+   ]
+  },
+  "join_across_pow": true,
+  "m_gap_s": 1.5,
+  "stitch": {
+   "chosen": "Ts5_rg0.5",
+   "params": {
+    "stitch_img_gate": 1.0,
+    "stitch_max_gap_s": 5.0,
+    "stitch_r_gate_m": 0.5,
+    "stitch_v_max_mps": {
+     "forklift": 4.0,
+     "person": 2.5
+    }
+   }
+  }
+ }
+}

@@ -38,6 +38,15 @@ JOIN_ACROSS_POW = True
 IOU_M = 0.3
 IOU_M_REPORTED = (0.3, 0.5, 0.7)
 
+# Section 1.4: sensitivity grids, validation only, one parameter at a time from the v2 base, scored against the v2 base
+# references (T21.4). For definition numbers a sweep measures disagreement with the frozen definition, not accuracy.
+# "x" entries are multipliers of the base value; footprint "+-10%" scales length and width.
+GRIDS = {"tau": [2.0, 3.0, 4.0], "ttc_max": [1.0, 1.5, 2.0], "pet_max": [1.0, 1.5, 2.0], "d_p": [2.0, 3.0, 4.0], "d_pc": [0.5, 1.0, 1.5],
+         "v_min": [0.2, 0.3, 0.4], "w_v": [0.33, 0.5, 1.0], "m_gap_s": [1.0, 1.5, 2.0], "t_min": [0.1, 0.2, 0.5], "w_post": [1.0, 1.5, 2.0],
+         "w_e": [0.5, 1.0], "e_turn": ["x0.5", "x1", "x2"], "e_acc": ["x0.5", "x1", "x2"], "e_dec": ["x0.5", "x1", "x2"], "d_nm": [0.3, 0.5, 1.0],
+         "g_max": [15, 30, 45, 60], "person_radius_m": [0.25, 0.30, 0.35], "forklift_footprint": ["-10%", "+10%"],
+         "iou_m_report_columns": [0.3, 0.5, 0.7], "e_fturn_deg_s": [2.0, 5.0, 10.0]}
+
 # Section 1.5, engineering selections (tuning-subset selections, not literature values).
 DETECTOR = {"model": "YOLO-World v2-s", "mode": "zero-shot", "thresholds": {"person": 0.20, "forklift": 0.05}, "decision": "D-45"}
 TRACKER_PACKAGE = "trc_7flfpx52d2siiljxkqwcorr7nz"  # D-55 / D-56; its ID hashes g_max 15 (AR-71 item 3)
@@ -71,6 +80,21 @@ def s4_values(g_max: int | None = None) -> dict:
 def substrate_config(ctx, label: str, g_max: int | None = None):
     """(record, SubstrateConfig, band scheme ID, bands) at the v2 base values; `g_max` overrides (counterfactual only)."""
     return m.substrate_config(ctx, s4_values(g_max), BAND_EDGES_V2, label)
+
+
+def t24_config(cfg, ds: str):
+    """The full_camera S4 configuration with T24 on (D-54 / D-57 ruling 1 values): forklift prior anchor box_bottom_centre,
+    d = 1.00 m (SmartSpaces d x 0.923, scaled, not fitted), r_taper 2.0 m; gate s_max 0.1 m/px. Returns (SubstrateConfig,
+    gcf ID, gcf record). For SDG it equals `d54_b_v2.run_config(cfg, gate=True, shift=True)` (AR-71 item 4)."""
+    from rq1.ids import core
+    from rq1.substrate import builder
+    d = T24["anchor_offset_m"] * (T24["smartspaces_offset_scale"] if ds == "smartspaces" else 1.0)
+    priors = dict(cfg.priors)
+    priors["forklift"] = dict(priors["forklift"], anchor=T24["anchor"], anchor_offset_m=d, anchor_taper_m=T24["anchor_taper_m"])
+    prior_ids = {k: core.make_id("fpp", v) for k, v in priors.items()}
+    new = builder.SubstrateConfig(**{**cfg.__dict__, "priors": priors, "prior_ids": prior_ids, "s_max": T24["s_max_m_per_px"]})
+    record = {"geometry": "full_camera", "footprint_prior_ids": sorted(prior_ids.values()), "s_max_m_per_px": T24["s_max_m_per_px"]}
+    return new, core.make_id("gcf", record), record
 
 
 def s5_config(ctx, bl: str, label: str, join: bool, g_max: int | None = None):

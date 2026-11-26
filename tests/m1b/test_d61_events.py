@@ -91,3 +91,27 @@ def test_ie_share_and_attribution():
 def test_labels_are_diagnostic():
     assert "not the v2 reference" in de.LABEL_REF and "not frozen" in de.LABEL_SYS and "not frozen" in de.LABEL_CF
     assert "diagnostic" in de.STATUS and "not a reported result" in de.STATUS
+
+
+def test_sensitivity_grids_equal_d61_section_1_4():
+    g = v2.GRIDS
+    assert g["tau"] == [2.0, 3.0, 4.0] and g["ttc_max"] == [1.0, 1.5, 2.0] and g["pet_max"] == [1.0, 1.5, 2.0]
+    assert g["d_p"] == [2.0, 3.0, 4.0] and g["d_pc"] == [0.5, 1.0, 1.5] and g["v_min"] == [0.2, 0.3, 0.4] and g["w_v"] == [0.33, 0.5, 1.0]
+    assert g["m_gap_s"] == [1.0, 1.5, 2.0] and g["t_min"] == [0.1, 0.2, 0.5] and g["w_post"] == [1.0, 1.5, 2.0] and g["w_e"] == [0.5, 1.0]
+    assert g["e_turn"] == g["e_acc"] == g["e_dec"] == ["x0.5", "x1", "x2"] and g["d_nm"] == [0.3, 0.5, 1.0] and g["g_max"] == [15, 30, 45, 60]
+    assert g["person_radius_m"] == [0.25, 0.30, 0.35] and g["forklift_footprint"] == ["-10%", "+10%"]
+    assert g["iou_m_report_columns"] == [0.3, 0.5, 0.7] and g["e_fturn_deg_s"] == [2.0, 5.0, 10.0]
+    # T15.5: every one-at-a-time grid value keeps ttc_max and pet_max <= tau (base tau 2.0; the tau grid only grows)
+    assert max(g["ttc_max"]) <= v2.S4_V2["tau"] and max(g["pet_max"]) <= v2.S4_V2["tau"] and min(g["tau"]) >= max(v2.S5_V2["ttc_max"], v2.S5_V2["pet_max"])
+
+
+def test_t24_config_equals_d54_for_sdg_and_scales_smartspaces():
+    import d54_b_v2 as b
+    ctx = pc.m.Context("sdg")
+    _, cfg, _, _ = v2.substrate_config(ctx, "x")
+    mine, gcf, rec = v2.t24_config(cfg, "sdg")
+    theirs, gcf_b, rec_b = b.run_config(cfg, gate=True, shift=True)
+    assert (gcf, rec) == (gcf_b, rec_b) and mine == theirs  # AR-71 item 4: one T24 configuration for SDG
+    ss, gcf_ss, _ = v2.t24_config(cfg, "smartspaces")
+    assert ss.priors["forklift"]["anchor_offset_m"] == pytest.approx(0.923) and gcf_ss != gcf  # d x 0.923 (D-54)
+    assert ss.s_max == 0.1 and ss.priors["forklift"]["anchor_taper_m"] == 2.0

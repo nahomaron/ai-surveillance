@@ -58,6 +58,16 @@ class Context:
             raise ContractError("ERR-LEAKAGE", f"{rec_id} is not in the validation partition of X0b (D-37)")
         return cam
 
+    def reference_camera(self, rec_id: str) -> dict:
+        """D-61 STEP 5 (section 1.7): a camera whose v2 references may be built from simulator truth, in the validation
+        **or test** partition of X0b (SDG only). Only `load_for_reference` calls this; no system stage may (D-37)."""
+        if self.ds != "sdg":
+            raise ContractError("ERR-LEAKAGE", f"{rec_id}: v2 reference building on test is SDG only (D-61 STEP 5)")
+        cam = next(c for c in self.counts["cameras"] if c["rec_id"] == rec_id)
+        if cam["run"] not in self.freeze["split"]["sdg_validation_runs"] and cam["run"] not in self.freeze["split"]["sdg_test_runs"]:
+            raise ContractError("ERR-LEAKAGE", f"{rec_id} is in no X0b partition")
+        return cam
+
     def validation_cameras(self) -> list[dict]:
         """Validation cameras with an ORACLE-S3 (T17.4 usable truth), in canonical rec_id order."""
         return sorted((c for c in self.counts["cameras"] if self.is_validation(c) and c.get("s3")), key=lambda c: c["rec_id"])
@@ -73,7 +83,16 @@ class Loaded:
 
 
 def load(ctx: Context, rec_id: str) -> Loaded:
-    cam = ctx.camera(rec_id)
+    return _load(ctx, rec_id, ctx.camera(rec_id))  # ERR-LEAKAGE unless validation (D-37)
+
+
+def load_for_reference(ctx: Context, rec_id: str) -> Loaded:
+    """D-61 STEP 5: truth and S1 of a validation or test camera, for T21.1 reference building from simulator truth only
+    (the D-61 hard limits allow it on test; no S2 or later system stage runs there)."""
+    return _load(ctx, rec_id, ctx.reference_camera(rec_id))
+
+
+def _load(ctx: Context, rec_id: str, cam: dict) -> Loaded:
     entry = ctx.index[rec_id]
     s1dir = ROOT / f"out/t17_{ctx.ds}/{cam['s1']}"
     s1 = {t: files.read_table(str(s1dir / f"{t}.parquet"), t, A.SCHEMA_VERSION) for t in ("frame", "coverage_segment", "decode_summary")}
