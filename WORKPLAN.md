@@ -99,9 +99,10 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 row abo
 | [x] | T-27 | **D-58 (Owner, 24 Nov 2026): T25 (E-1.2.26) opt-in** — T25.1 track stitching, T25.2 episode continuity across POW breaks, T25.3 m_gap in seconds; T25.4 tests; regression (stored D-54 / D-57 artifacts, M0 IDs); stitching grid on the 116 tuning cameras (tracking measures only); event-level check α / β (diagnostic) | D-58 | `research/m1b/d58_report.md` | M |
 | [x] | G-D61 | **STOP — Owner and Architect review the D-58 results (D-61):** stitching values (selected, not frozen), CR-037, AR-69. Blocks the v2 freeze, the reporting-camera run and the demo build; independent of D-60 | T-27 | D-61 decided | — |
 | [x] | T-28r | **D-61 STEPS 0–1 (Owner, 26 Nov 2026):** state check (report only); D-61 DECIDED; §1 verbatim in `v2_notes.md`. STEPS 2–3 were already done under D-58 (T-27: 2f4ad7e, 66809cd) | G-D61 | records pushed | S |
-| [ ] | T-28e | **D-61 STEP 4:** one diagnostic event check on the 116 tuning cameras, C-v2+T25 and A+T25 at the v2 base values (§1.3) with the D-58 stitching selection, scored against a separately stored diagnostic v2 tuning reference set; EV-M1, EV-M2, n_members, unobserved_gap_s, IE share caused by g_max 45. Selects nothing. Estimate on 2 cameras; STOP above 3 h | T-28r | `research/m1b/d61_events_tune.json` | M |
-| [ ] | T-28f | **D-61 STEP 5:** `docs/preregistration_v2_FROZEN.md` (v1 structure, §4 = D-61 §1.3–1.5, §1.6–1.7 text); v2 freeze record built twice, identical; v2 reference sets (tuning, reporting, test) from simulator truth (T21.1), IDs and hashes in the record | T-28e | freeze record; v2 references | M |
-| [ ] | T-28t | **D-61 STEP 6:** test readiness, prepare only: X0c audit (R-2); reference-window lock prepared (`locked_utc`, `lock_sha256`) for the Architect; pass/fail table; full suite twice; next D; STOP | T-28f | readiness table; next D opened | S |
+| [x] | T-28e | **D-61 STEP 4:** one diagnostic event check on the 116 tuning cameras, C-v2+T25 and A+T25 at the v2 base values (§1.3) with the D-58 stitching selection, scored against a separately stored diagnostic v2 tuning reference set; EV-M1, EV-M2, n_members, unobserved_gap_s, IE share caused by g_max 45. Selects nothing. Estimate on 2 cameras; STOP above 3 h | T-28r | `research/m1b/d61_events_tune.json` | M |
+| [x] | T-28f | **D-61 STEP 5:** `docs/preregistration_v2_FROZEN.md` (v1 structure, §4 = D-61 §1.3–1.5, §1.6–1.7 text); v2 freeze record built twice, identical; v2 reference sets (tuning, reporting, test) from simulator truth (T21.1), IDs and hashes in the record | T-28e | freeze record; v2 references | M |
+| [x] | T-28t | **D-61 STEP 6:** test readiness, prepare only: X0c audit (R-2); reference-window lock prepared (`locked_utc`, `lock_sha256`) for the Architect; pass/fail table; full suite twice; next D; STOP | T-28f | readiness table; next D opened | S |
+| [S] | G-D63 | **STOP — Owner and Architect review the v2 freeze and test readiness (D-63):** window-lock definition (AR-71 item 11), CR-038, CR-039, AR-71; go-ahead for the reporting-camera run (D-61 §1.7 order 1). Nothing on the reporting cameras or test until decided | T-28t | D-63 decided | — |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1093,3 +1094,43 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed)
 - Problems / CRs: CR-038 opened (g_max off 30 fps; no effect on any D-61 step).
 - Next: T-28e (D-61 STEP 4): runtime estimate on 2 cameras, then the diagnostic event check.
+
+### 2026-11-26 — D-61 STEPS 4–6 (T-28e, T-28f, T-28t): diagnostic event check, pre-registration v2 frozen, test readiness prepared; STOP at D-63
+- Did (nothing on the 110 reporting cameras or the test partition beyond reference building from simulator truth and the X0c audit, both allowed by D-61; no S2 anywhere; N4, label rules, EV definitions, v1 records and stored artifacts unchanged; on battery power; one agent):
+  - **Step 4 (5e95a2b driver, 226ea7b results):** `research/m1b/d61_events.py` → `research/m1b/d61_events_tune.json`. Values come from `research/preregistration/v2_values.py` (§1.3–1.5).
+    - Estimate: 9.65 s per camera, 0.31 h serial (limit 3 h). The run took 32 min of camera time with 3 workers.
+    - Checks, 116 of 116 each: the tracker re-run reproduces D-55 (both classes); the detector S3 at g_max 15 equals the stored D-54 S3; the rebuilt reference S3 equals T-21.
+    - The diagnostic v2 tuning reference set is in `out/m1b/d61/reference_diag/`, apart from STEP 5. It holds 116 references, all assessable G1.
+  - **Results (diagnostic, tuning subset, not a reported result; synthetic-data evaluation):**
+    - C-v2+T25: EV-M1 / EV-M2 **0.733 / 0.620** (85 of 116 references; 85 of 137 events). Ceiling 1.000 / 0.771; eye level 0.500 / 0.463.
+    - A+T25: **1.000 / 0.975** (116 of 116; 116 of 119 events).
+    - CR-037 readings (a) and (b) agree on every event.
+    - **n_members 1 on every event; joined events 0; unobserved_gap_s 0.** T25.2 cannot join under v2: a POW break needs a gap of more than g_max = 45 frames, so at least 46 frames (1.53 s), while the join limit is m_gap_s 1.5 s.
+    - Remaining splits are mechanisms (i) / (ii) / (iii): C-v2+T25 1 / 12 / 18; A+T25 0 / 3 / 0. The (ii) splits (same units, other POW) are the ones T25.2 was meant to join.
+    - **IE share** (IE events / all S_VIEW events): C-v2+T25 0.788 (108 / 137) at g_max 45 against 0.723 (102 / 141) at g_max 15, every other value v2, so **+0.065** comes from g_max. A+T25 0.773 at both g_max values (+0.000).
+    - Stitching: 77 links at g_max 45.
+  - **Step 5:**
+    - Freeze time taken once: **frozen_utc 2026-11-26T14:29:25Z** (`rq1.pipeline.prereg_v2`). Analysis commit **226ea7b**.
+    - v2 references (`research/preregistration/v2_references.py`) for SDG, built from simulator truth at the v2 values with T25.2 off: tuning 116 cameras / 116 references; reporting 110 / 110; test 471 / 473 (471 assessable G1). A second independent build gave identical IDs and payload hashes on 697 of 697 cameras.
+    - `docs/preregistration/freeze_record_v2.json` (`freeze_v2.py`): built twice, byte-identical (SHA-256 6f7ca439…). It holds the configuration IDs:
+      - detector: inf_/mdl_ IDs and weight hashes;
+      - tracker: package trc_7flfpx52; g_max 45 trc_osh5tvmg; with T25.1 trc_y7gue6tdq;
+      - substrate sbc_5h5zcuzay…, geometry, rules (system BL-6 rcf_2bvkpre4…, reference rcf_rtzb7byu…), and evaluation configurations per set and iou_m;
+      - the v2 criteria (new acc IDs, targets unchanged) and the reference sets.
+    - `docs/preregistration_v2_FROZEN.md`: v1 structure; §4 = D-61 §1.1–1.5; §8 / §9a = §1.6 / §1.7 verbatim; limitations with the STEP 0 findings.
+  - **Step 6 (`readiness_v2.py` → `docs/preregistration/test_readiness_v2.json`):**
+    - X0c of X0b v1: art_2wiixxn5g34mcsiqvmurotacuz, 3,411 same_session edges, 0 violations, audit_complete — **pass**.
+    - Windows lockable: 471 windows, with a proposed lock_sha256 per window in `window_lock_proposal_v2.json`; nothing locked — **pass** (definition pending, AR-71 item 11).
+    - Freeze record reproducible — **pass**.
+    - Test run IDs and hashes equal X0b v1 (48 runs, 471 cameras = V0 m1a-sdg-test = the v2 test reference set) — **pass**.
+    - Weights hashed (YOLO-World, CLIP equal published; ByteTrack loads no weights) — **pass**.
+    - Licence rows (SDG dataset, YOLO-World, CLIP verified; software libraries have no rows, listed) — **pass**.
+    - Colab estimate — **open**: CPU 0.388 s per frame × 141,300 frames ≈ 15.2 h; Colab GPU time not measured (D-62 pending).
+- Tests: 2740 passed, 17 skipped (`.venv-det` only), full suite twice: identical. New: `test_d61_events.py` 10, `test_v2_references.py` 6, `test_prereg_v2.py` 2.
+- Commit: 5e95a2b, 226ea7b, this entry's commit (pushed)
+- Problems / CRs:
+  - CR-039 opened: no SmartSpaces v2 references; the T21 amendment promised in D-40 item 3 does not exist; tier 1 is blocked.
+  - AR-71 proposed (11 items).
+  - The T25.1 selection was made at g_max 15 (D-58 STEP 3 as written) and runs at g_max 45 in v2.
+  - The `test_readiness` module was renamed to `readiness_v2.py` before its first commit, so that pytest does not collect it.
+- Next: **STOP (D-63).** D-62 (Colab) is still open and independent.

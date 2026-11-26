@@ -1,0 +1,121 @@
+{
+ "code_commit": "226ea7b0c07f105c0f64881a9e6019633193121f",
+ "contract": "E-1.2.26",
+ "items": [
+  {
+   "evidence": {
+    "audit_complete": true,
+    "discovery_basis": "metadata",
+    "edges": 3411,
+    "edges_by_type": {
+     "same_session": 3411
+    },
+    "lka_id": "lka_tgk3g7crgrj77gmjwxhfpzxtl6",
+    "payload_sha256": "fd919ada437c36331c071e0972e31f1ae5a61b74259180e0ec15f7291645c2e2",
+    "split": "art_w5v3ldr43xdsqc6l4zifmjkuuj",
+    "violations": 0,
+    "x0c_artifact_id": "art_2wiixxn5g34mcsiqvmurotacuz"
+   },
+   "item": "X0c complete (R-2)",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "same_recordings": true,
+    "test_runs": 48,
+    "v0_payload": "19474bd33e156b7c73b77d1fa3c956ecca69393b30a1313c0472a8d97ed357d2",
+    "v0_test": "art_hfchmhd3zbgjl24gnqaxifaoo3",
+    "v2_test_reference_cameras": 471,
+    "window_recordings": 471,
+    "windows": 471,
+    "x0b": "art_w5v3ldr43xdsqc6l4zifmjkuuj",
+    "x0b_payload": "c01ad60be4ae42a9e986ab1ec8461dae55b7c3d0d0b57c2a5b342fb056465382"
+   },
+   "item": "test run IDs and hashes match X0b v1 (48 runs, 471 cameras)",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "locked": 0,
+    "proposal": "docs/preregistration/window_lock_proposal_v2.json",
+    "proposal_sha256": "d531670f56e90eb60a2b4a3a73327bcbd60afcaa22de0e679b655129ad698d8d",
+    "windows": 471
+   },
+   "item": "windows lockable",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "record": "docs/preregistration/freeze_record_v2.json",
+    "second_build_identical": true,
+    "sha256": "6f7ca439dc616f986cd53ed721a4d75b9a22485558a3dbff5f322503777a6535"
+   },
+   "item": "freeze record reproducible",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "detector": {
+     "ViT-B-32.pt (CLIP text encoder)": {
+      "on_disk_equal": true,
+      "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+     },
+     "yolov8s-worldv2.pt": {
+      "on_disk_equal": true,
+      "sha256": "9b2c17ab6124a913e9b3a5c170617920d91b0f01111a8479da69f00e2cf27792"
+     }
+    },
+    "tracker": "ByteTrack (Ultralytics 8.4.215), ReID off: no weights loaded"
+   },
+   "item": "detector and tracker weights hashed",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "components": {
+     "CLIP text encoder": {
+      "component": "ViT-B-32.pt",
+      "row": [
+       "MIT",
+       "verified"
+      ]
+     },
+     "SDG dataset": {
+      "component": "nvidia/PhysicalAI-WorldModel-Synthetic-Warehouse-Operations-Scenes",
+      "row": [
+       "OpenMDW-1.1",
+       "verified"
+      ]
+     },
+     "detector weights": {
+      "component": "yolov8s-worldv2.pt",
+      "row": [
+       "AGPL-3.0",
+       "verified"
+      ]
+     }
+    },
+    "note": "software libraries carry no license_component row in any artifact; listed for the Owner",
+    "software_without_row": [
+     "ultralytics 8.4.215 (AGPL-3.0; ByteTrack and the YOLO-World runtime)",
+     "PyAV",
+     "PyTorch"
+    ]
+   },
+   "item": "licence row present for every component used",
+   "result": "pass"
+  },
+  {
+   "evidence": {
+    "colab_gpu": "not measured: the D-62 equivalence run has not returned; its Colab manifest records wall time per camera, from which the 471-camera estimate follows (frames x measured s per frame)",
+    "cpu_hours_upper_bound": 15.2,
+    "cpu_reference": "research/m1b/pilot_runtime_estimate.md (61,749 frames x 0.388 s, this laptop)",
+    "cpu_s_per_frame": 0.388,
+    "frames_upper_bound": 141300
+   },
+   "item": "Colab runtime estimate for S2 on 471 cameras",
+   "result": "open"
+  }
+ ],
+ "status": "D-61 STEP 6: prepared; no test run; nothing on test beyond reference building from truth and this audit"
+}

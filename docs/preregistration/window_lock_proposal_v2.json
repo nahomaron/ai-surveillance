@@ -1,0 +1,6133 @@
+{
+ "definition": "Proposed lock_sha256 (AR-71 item 11): SHA-256 of the JCS form of the window's natural key and bounds, the reference\nset label, the camera's reference S5 (ID and payload hash) and the reference entries that overlap [t_start, t_guard_end).",
+ "locked_utc": "to be supplied as the event time of the lock (AR-7: event-time column, outside the payload hash), after review",
+ "plan": "m1a-sdg-test",
+ "reference_set": "preregistration-v2",
+ "status": "PROPOSAL for the Architect (D-61 STEP 6); nothing is locked; the V0 artifact is unchanged",
+ "v0_artifact": "art_hfchmhd3zbgjl24gnqaxifaoo3",
+ "windows": [
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_23rqbt5j5xqv3mvfbjnwtgvfuk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1f10a2c63c3c0de0b056640929a33208075e689bedc8c7dc337b7eddf1d5a4d0",
+   "rec_id": "rec_5hxsg36uwgw7544ylgavc4qvdh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_24ydnqyrwybnzvgdnclbgzvllm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "696997b04cffec0e508bf2166949f2a4f96b1874e2101a4d0570d22980fdf099",
+   "rec_id": "rec_d7wn2haraf6mo3zvt3nd5qkfeo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2554w656pi2laiottzqlstxxxj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "98303f293ca2e0a14d02c224f41ec674802d7b4d6a90e8c697e49fcbd630420a",
+   "rec_id": "rec_4rwsdngiseaw66j5gcacv742mt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_26xrqyr3az2fgfqj2lgf5mrywy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "338cbaff523d07b7b0e7509b057c0c1158623914a6d465c84787d68ff76d598b",
+   "rec_id": "rec_vigmz7xlfxhgfvf335brl2a737",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2gvwloqfkd4xq626o66w4umxhf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "04ca9141fa29d8aa5596125b021592d879dbcde2743611805d1af7b6a4717d51",
+   "rec_id": "rec_ycekwygcoe4vpib4iu7ibnddrw",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2j6z5mr27pndflsp2hn4bhogdd",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "eb249b260e0410fddc9ad61b09468b5e6e22a26ede3c5d2dc1d4f7be0bc622f1",
+   "rec_id": "rec_nsalx2bljzf7t5n3nv46eru3xl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2p5jcohnblvjdeszahoyrgupkr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "de701b91c2b2f358d38bbb378f51245bfa00df7603348beb6bd61f7ec7194a54",
+   "rec_id": "rec_7wnqdye3yupb4gzdl32362vly7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2sjbtsmku65lxwn7vldrriwdrk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3c8a62f4ab635104d92b50399836f0afb308c9dc17f4e9324df9753775587d8c",
+   "rec_id": "rec_yjp27cpvfrk5bozg5q2g7sg2gx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_2wepl2dz5rugd6ksivehjymxjf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b7fedb3e69c983b252bf26704e1e461ccd0c66bc700c788d8c21b4642cdfc7b2",
+   "rec_id": "rec_7w4y7qeney32365oxkcedp22oz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3avxnkd4xjiowpcn2qpa4ertwv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "67ce025311dd416ccd60d16df0919aa1f5cf1e3834187565e588c8ddf53136d5",
+   "rec_id": "rec_pzxd7yuxyyksefrg7tx52totzc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3glsqmp6g6mydvhh5qbwrvnyra",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d77917f75015629623295e71fe866724764b9faf769ca12fe4f2541a78da165f",
+   "rec_id": "rec_lsokoec2oelj7fgoxl4upj3l54",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3k7xcrs6rh7c2iln3ld24ce4oq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bbd436bad322b0818ad4b3c6b2af1e915c12f8370ab646b388d95177a66ccfbf",
+   "rec_id": "rec_a6v7gei6aacpsnevt6l3nd3yyn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3lc2jlyb22hxdfvmg4heccvfy5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bdf8ff667a39abcf9c2e3886981162e112fbc9839be6a34b3ccdacd990ff1944",
+   "rec_id": "rec_moe3tpxdogii57bai4mnx47svt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3lchbgyyiaz7dejjdawcmgncfv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ace64cd6fadce454777af2db10834ef838e634681e7e397f78544df90f592ae3",
+   "rec_id": "rec_udbn7c5wez3itesrekomin62kq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3nnmlklewbbk5ud3zv6kkpsyyn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "34f92f9a39a889748beb80005e5a23abe96dac211c93f7e1e88635907ad162fa",
+   "rec_id": "rec_iw5bdyoanu2rvpt3m6caaugmjq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3sk46m4kwp6jrxuwx7nwfcisnp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e1001cb6b9c5767829e24891ca2475bd929e2c5f105b2ff7633b736abdea2ad9",
+   "rec_id": "rec_lckvydv6zvlr77vctolzdmrjop",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3x44zxbcl7getpkotwnvmofaub",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9fae8da4d3800c0aefd745e015b9862a0d2914ca46437e2d7acd80bd54628e74",
+   "rec_id": "rec_fqc23m4q7cu4pftdhhargwrkaz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3yipczohfa733lvga3uh4ld7dj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "af752f4c12483476f049aa751805c32bd1bbbd78436b0689c79037db19be6e57",
+   "rec_id": "rec_vmy3xa677jl7tzgshljn2jhbbi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_3znedx7okdslkaxb5licr3p7fa",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e481616cbb5a27da59c6186a0c77bb0dd3be6de4b00f96f7b678d65bf86dedde",
+   "rec_id": "rec_i6yacajawp6mznkax3ijnwoq3c",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4226gzpypydar3zllean4o3gil",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2fbbced8e2b5195bc8daa62249be5abf3ba2d18fa3151ac2d71f41253f176389",
+   "rec_id": "rec_3hpsvmka7ojklkyyyacv6hxqua",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_42fuwe24yvogbrbnr4obzhw5hb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "10e896226a27582c9da9e2e0409ccbaa76d68add2616a7e538588b95bcf53793",
+   "rec_id": "rec_jjtc6cfoscu56xoqiowm2opj2a",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_46ulltl7i4fsnqyzdyklpfvhqi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a887359e4c039f6d362129361728fbd146deda34225ea175fc32a98140d5d855",
+   "rec_id": "rec_2zjnwm7jachcvwzr74panzxi3l",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_46ux6cmulrz6bczt6tv2shfgu2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3df87d3f082fffbf849cebc0d12e56e842e0661c4863bf8860b7cafcb196eda6",
+   "rec_id": "rec_adi2l65lgfl2uucxdcfmvi5pzp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4a7xgtm7xxvcdpenqgbwi7cinm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "89aed76acdadc604f27f56d2e0cc08683ca27dffea9282b1d05e3f4be06b63d8",
+   "rec_id": "rec_s2cbm45zcjtdomo75oucld6ydn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4bkhk3qxqejj5gcnb4njfutllu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "092264dfa8df4f7c5bb28f0a18d483c8b861da298d51be4ffb997df8a2fff5eb",
+   "rec_id": "rec_wxkogsexo57dj7tevbzefrwamx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4c5vzcxr5qlztx4q75rcxk7cfe",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45a4c7c898adc354ebe4b9b0d29560c2b6b5ec859714f4702b2253e58efe473d",
+   "rec_id": "rec_vonjr3lojva4o3lfkzt7qhmc74",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4cnoqoznzainbzksaqu5wxmfol",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6daf6dfb73f3eb3066f83f7c494d22bcc2bc29cb098b27fa5e39faaf8cffe208",
+   "rec_id": "rec_ctaiy6l7le72fyypaj5obyr6dp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4hcls7scg6rne77w6eewfesoeh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f8de6dc3af60e1ea63c6d8eab2132f97a38804cab5071e5e78fa2d6ef22b3728",
+   "rec_id": "rec_2fgoqjajyxmlxufzu5zlfnsdp7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4lmz5e7xrrl6ruwstnpojvuszx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1c69a437259dcde0cf7648f509d563a7a8a682a1a767ccc29632033ad5569d24",
+   "rec_id": "rec_fyfheocgcuybwahtq233funpli",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4lnnfnotycos2f4ldaomvj65zr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ae12d7dead575b5fd2a8a458192b330557e81cefbcacc5dac39d0cd751ab344b",
+   "rec_id": "rec_q3eyt4mppvo3wldlbcsfvv7xhi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4lsrxu2a22vmrrkvxxxztv5vjf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b9ed2b9dd61e5966151cfbcb4881cac1d9e60899f24d28835e9f36453172b6c5",
+   "rec_id": "rec_i6dfdxl44fzhbtpqzxr32ompzg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4nq45ljwqkqambxwvkutrp6xjn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8f91aae8a7bece33f05f99e15d9c432c2f654542453350881ec22214676a19b9",
+   "rec_id": "rec_wqfb4gafempidokk2u4xhv3vnj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4r5ih6bbugw6n7k7ookiqhl26a",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "32c57fcfd90c67518edafaaa1e144be9e54ce703f55ac63c49406cf495eb8266",
+   "rec_id": "rec_iwbsu6dkbemgg54ja6663kvbtr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4rw57h42vwp4dlg3jyr6oec2ev",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "39705420236bd009a3e80ed47df309ac50c7f6c3419256a49532f796476b5520",
+   "rec_id": "rec_fxeyixhmlwn6zxpj2bo54qggmt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4sg2tdl4oij2ojgamctlukkfwo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4472600388d8e476bf1b862b424e0a0b2f971429affb86b9b672e0ea27adc1da",
+   "rec_id": "rec_ms5ezscxqqejtxt6hxpiyt7zrz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4sthsjze3rjilqjbckr5i5av2z",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1e18e6ea4b7b85093e4b73b0d245f527ae7e2998bb1877c1327525b779579b01",
+   "rec_id": "rec_wyf5cmu66tshnbgujwihqnqo5e",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_4zgwrszkqknlgiax42gq7tymmg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c8b8fc6184f3ea2bb3be103434815042aff0e9fc47bd7d9ceadb174174d4503e",
+   "rec_id": "rec_2rqxtfkxgtqc2rxzovepv57nlf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_54jdhipacvukbboqjsi5bbuvvn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2f164467571e8e888bbfcc8b1c5d68328d01066f5c08bb06c55aa7f76527b0de",
+   "rec_id": "rec_y6tsctzjb5l4qaqkjruqa22ygl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_56mzhkmb2d253e2psxvbz543ut",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "213588c83456c704f051dc6908f510d97e3fb38064b02003775c41de139949a0",
+   "rec_id": "rec_qve4zlyqs4ywhkxdmmxx7vwuml",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5dtt6swq6mlr7ioddzhhyjizxb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "394ddd1252af9b4f0fd66aaa2e430897ed35f20b52e9db4e031e8a4b7e19677e",
+   "rec_id": "rec_beaseo5mmrzplkmy6e3gqqaqjc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5ev6kckmkpzexstcgxxtehgs3q",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a77e0506b350b662835c1949296951c768e007663886ef331f9da0ea2461a487",
+   "rec_id": "rec_osscriphk6mjzq36s35dtok3ct",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5hf345nykc4trtp35u5awgwovj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "df4b33e6f7dca94bca1392b4eed31add97c57f355b8a6cba4ccb888ad14539a0",
+   "rec_id": "rec_srvfh4wgkes5emb4qv3qhwzjk5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5i5p2si4dh5sdbcpc3xhbrtnlo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "db652473eab1c14ac7cb327c41ebf4feda8c57e239b28b9245233ee61683ea02",
+   "rec_id": "rec_pjmqbqhiwg7xzclm5plvx4d37s",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5iscz7xbi6mqh52a62apspr4ft",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "59fe8d2306c8074ead03a90b01ece5159c61237916c50a6fa7bee329556c6cc4",
+   "rec_id": "rec_jr5btpdctud6i7tv6a7hcc7ujp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5isxu5xr6cmgp7dvqkkda753h5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4dd574e1985754d20b7e4e3b5a710d15b4c69ef856998910e6a68028d7dbfa85",
+   "rec_id": "rec_e6xnentozdkig45kw3dnxglicf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5jmsfdsttkgxligr63xaanrrzj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "dc1c87b9312f4c2231fd05f5fd258f000081c5b706735f757a1155a7b7969420",
+   "rec_id": "rec_poyjahntyelflxnfrmyvvwizda",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5oi5kbkiu2zttazrx3253o5gvb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "422ce8c37a347584fa211623dca99a06f9bdde975d7006105bf12d20d64ed092",
+   "rec_id": "rec_hsdbay4dq65znp7orza4xe3icb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5oix2wxtmelonkit7xd5qorqhf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "882226707920fdfe3c778eed8c0b520403781e7aaa3f97f1a6e981e58561902d",
+   "rec_id": "rec_p3d54wnrwpyotlvnmycyphdewh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5ovaajwujrjjxfv2nhc2tkl7nb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0fcb5ee5467a0772703af83ed82a0822720d18a4d45c5c8fac72e56229948a9d",
+   "rec_id": "rec_xmkdnwnxrnfcot6cpyyyrurtia",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5ovb7gpmtqbdceonx23f6f6h7k",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "68f0590e8348a1032c9982859f9b93966141e1b5b223a2709def210d125d153a",
+   "rec_id": "rec_d6lb3e4r7nia3o573y4qz33txr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5prgitqrnzjmik2kvxfvlrszky",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "dc15d9e8574453a06d79e7e9f33c91258fdff3a188b87bc26f85a8a596eee739",
+   "rec_id": "rec_yokhllujw7qupupuylzxtykor6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5sr67hsksgyknnyxcw2s7mnclb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "35b816f79713cb288aaa0e8947273ace6edf64db951b2ec0d93239139f9eb0b8",
+   "rec_id": "rec_kht7fxs3lbfxo267jfzjr3qihl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5uvhtfxbukxvd2hcr7u3nky2uf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "49a41888fab204ac3b1c4927b1be2333b9c19676bb834260c7167541f17c224d",
+   "rec_id": "rec_vuuyttrqqkdkx5aejdzrqfrxnr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_5uvpn4emurxheys5odtx53hzjv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1eb9e74163e919069267c9f02e52a51ad7abb2eebf52e2983df45a0b6de805bd",
+   "rec_id": "rec_ri44gcxupllw3melftutaufstj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_643ipdffiomhmr7xz3jdqb2cve",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45aeb30dccdee54fb300f33703efecae72ef8c6caf9a0c8a727b5372d94404d9",
+   "rec_id": "rec_ugbnqmno5ksngksvmwl3xybzva",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_64fiqc4auofyzvp25osc77xzoq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "125a00be543911b0b682f6d2cb5c91e299801326e5fb6e7b91abd3aa49e98ca6",
+   "rec_id": "rec_d7z4aljqed6pg2mk6zxgl47pvx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_64po5ilgbt374bynijr5j4khil",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "60f2616613b51db252eaa8894cad35bed48d181efa383a604df2e6bd678fc6bf",
+   "rec_id": "rec_eshvcqhj77ypfcqyrfzfjuxibh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_655bvklhtok76bwkvxlmtrsmyu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6c4b688ad90bbf7a21fd4c4eacad5c17950aa6930e262e2699e7dce728cd5745",
+   "rec_id": "rec_75wcljwovr2up4zjnom2ezmop7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6adnqwkfpjkcjtdowilad5xzok",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "83153ddc9e546b1f12ae44f5f7b31e1179f78305b2917bc836b1528ed9bbed51",
+   "rec_id": "rec_f25y2lowjwz2kazxas25vnmwuz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6ainiacr63fk67x3jmbjazsewf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a5b0f89f6f845521e26f7d89d069ce28be5644b667dcfff8773631992070d7fa",
+   "rec_id": "rec_5q46wzf4kqttpggjdegiwqsg7i",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6cni4xclsalmuigpkxrcppgrne",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "02e918669a8027785d3e5d4bde53255221a9471c7c36144cbef372f5b52129b0",
+   "rec_id": "rec_gykcd4ddgw3ijzehz23krkeyph",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6dnikjkld2syb2mwllixu45d3c",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6726a75245d43d616f2f088a8a68799d553e760a955c6b36364505d75c22234d",
+   "rec_id": "rec_rmqjlaghszhm42wzlghvgvik2o",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6ecv5q3uwfetlddgi2n6odo4rb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f11e2073cd01385993567743b50bb58c465bbc7bb86faa3a9b28110b9e6bfaf8",
+   "rec_id": "rec_leem6qnwf7vy424scahjwjrx3t",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6ftxizwkoqls62skrkifmxczyj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1497a0e943647f476edab9ce1ec8e9a24370de4cb42814b7a6d2d883bc660b34",
+   "rec_id": "rec_oi3qks4sovemha5mujn3txxzoa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6oiqa67qzcnardulr2qqnguwqt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3cc4e4b81677e3a8ae716d1b50706a442d9b9dd77c2479f38523625edae1175f",
+   "rec_id": "rec_gelvhrndtk756fdukisp5ljttw",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6qys4n2ekakm5tkh4dcwe4doem",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f9968490acfa340c847991313c15f8740fd093483abc0ce2d0ce8f0243e7c155",
+   "rec_id": "rec_2jjotlwfezsn5n4j7td3ys4fvq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6scqzdtv3j3tgrmhds24uhsdsg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "df54c4b44e9d170d9b4343a50ddaae26604d72a1869b39da1986b2f754911a9e",
+   "rec_id": "rec_da74arcsvjpenlq4cy2cpxqyri",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6snb7b7qtocuy7k4m6q4nzioa4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "aa1b23df23cea65fe5a14d02b024d533b14dc0494c189a904f9ae8a5e4fae612",
+   "rec_id": "rec_jfekom4saccle2dakpvgwcyhbb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6trzhkrjlkbat7nejag3tpundi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f41e258e8aac74ad6f35ee31b002d0e4a67dc2e5bb45c85bb1f02fab23595283",
+   "rec_id": "rec_dgts5buvovvonffc5kv6krv6ed",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6wqu755x3kdzqp5ug7jlghcvmw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1d6a7bd67028653436206c20c2bbecc32f8945804b29e48738fb0a30ee71b4e0",
+   "rec_id": "rec_sdk6ce3mb4mblspyucxlctltrx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6xwutlmnlvkz2kdfjl5lqcan3q",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7ae115f96bd29f6ae3735fd37ffa3a4f5b637d0e318bc16a5d0053496449d999",
+   "rec_id": "rec_hnswpwffktya6klskhnknjqslb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6yfq7dowtbkgq6wtcmo7n52e42",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "19a38e440352915e8722067e34a54b9a7e3decbc925e4b51c0c6a2d0f948cb25",
+   "rec_id": "rec_jztbgjnhnf3tgbmfuai7qlf3vh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6yymkcihho3zb32zjkrztzfakx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9d747467cc23af0412bec6c1b35d4112ffba70c3ac2b34878a0c269db430ec7c",
+   "rec_id": "rec_ictqxs52u4gikks5nmseiha5rv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_6zbpzzl2fbyktjarisczg5755i",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d2c5070314137c8351b6c95b6df67b0d94f8349be25c8eb2fc6c12f325883efd",
+   "rec_id": "rec_gbjssvag5lucjkihcrvdcanxam",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_732nhtmicttwfves6isu2dm6ym",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b8f67f3761abeb5a780a35ddba6783d129a6200d32052080942d29419c85f22f",
+   "rec_id": "rec_tedkgl35qtjac3nesfhsbm77rh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_73q6c5kk2dwfpuabrku2da2xni",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9a86ebbdc342ce6c73f1e1e562401179fa5b8527a98a337a68ae0c6885f183ee",
+   "rec_id": "rec_5wjte27i557aydk6hg7y5wdx5u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7544mvldktwqjuitga7m65stv4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6e5fd2c9f1570dfd31a50a8770ded4986baad5a9649c334d096637931751fc55",
+   "rec_id": "rec_li2azv7rphdsdcxdbi4l2muue7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_76pvhcbgb7c26gil35rng6lvyx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b0acaee782de65dc96212dc6651f97009946a24376da895e7be0b5596862a7e3",
+   "rec_id": "rec_sszhk3w2ibttgsddu4q2cwa4hk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7hzgai3hyb7d3zh5chsfpqiajl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b2203819983a0c478e3ab8440544119dfd7d9aff291a69420b8e1ab969515d1e",
+   "rec_id": "rec_gbgewkaewow2gy6mgo2jeze6zm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7jgfkikc7dvylv5oolqurga4br",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1376b18a48fb9fad4bb8e1b87fb0f985330885de2f478d13b74e1fea763bfb70",
+   "rec_id": "rec_yqqwxwaefhuycmqnjl6prfdoeq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7jomq3ylf2u2pevc5zamdcfh2x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7a6e8fb86e0f1c39914e68fea5fd5734f72f4c05926a3550facd4dec0316de0a",
+   "rec_id": "rec_zmeauuiqldlbrou2cwhjrdvoot",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7k3jju4pqeynbgbeal3jgk4vhg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "393b52270d9d9689f10f433b68688362743977e67f729e913f5d2207a9c10549",
+   "rec_id": "rec_7qurmwd56vdbkrkccvrnv7k54d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7nezpowmllnh6zcwj37232kmci",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ed8ff5b4397a5c1b63cd00f58005e47feafa6b7f69f77f4e11e6c9f484b7ab67",
+   "rec_id": "rec_qvcxjegajvpyfsbcprjrppclhs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7nqhm6uzhzqdi3uivxtxiein2n",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e45b9cb055ed9c794414d54b33332332175c4a07ba963994384177b97f36ba2c",
+   "rec_id": "rec_3o5e346ksskcvzqvietkkphd5b",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7p2jlknrly7h4cfjpyrgmwrhoz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "791c4d36eed7c8a94c1e4ca980343e0102f6aafaa95c83e0886fcc488e305996",
+   "rec_id": "rec_aandqocn4s2bed2x5p7yzdf7hg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7picj5ooo5rpx3rcpxzvazwxyw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "40ea2caf1bb920291040c3ad98c6ecce9eafbeef689dfc4bf19841d9c284f15a",
+   "rec_id": "rec_yscnlucirl2ne7ig3dzeyuwyvp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7tou67mqc4lapiancztwdz2wpx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0b435425e0203a41b1697f98142d264716d7fbc8c7247c61704d98f2a103349e",
+   "rec_id": "rec_vpgbsl3rcvp73io2pgbiugat3f",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7wb6mrro5jpm2ulaoxvfznrism",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ad69b98f1155475d97a7177fe2cfe78f4020ef51089e95cafbe5d524fd2b1598",
+   "rec_id": "rec_qj7rh6lh57lmhuqk444b55p2jj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7wr2ck4yfudrx7pwnm2555tyq6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7ed7645c7ac834130f7be585207b034db685b5c807f41297c3c4a8a26153233e",
+   "rec_id": "rec_ticbwuwapepkweit7ggk4vt3o7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_7zxpia3jd2ztyrz4gpdp5px5um",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7a706a3205a3334ad9e03019ad08d0e3c274c2f1fe47a7b62c246d8ddc3be284",
+   "rec_id": "rec_d4niz6f37ojbkm3bthdeimmd7u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_a3ghzzjum4xw2kodnfzp5aovqb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3af5bf593a3b425b9271527b38655021d0756dab47089e137a983a220af80fba",
+   "rec_id": "rec_mfvkged6hjje5jpdfdf5lpqrzz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ab2v4aidbg75ddkllbywgclw66",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9adfbd766106ae0ad5ee267f770c9a703f10205b12cdc434e18a3fd26b670b02",
+   "rec_id": "rec_zfj7sda7ezr3zxgzislnh7hwug",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_agp754xns2sepu6blvyvr4qfor",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b78986a25f872a58bd5933c141a7434df7ecf0616111ea62f0edf359cc42fa1c",
+   "rec_id": "rec_3y62ybigpjekbrzpv2zgdwca43",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ah34gnly3r5kbmg4zshkbbncbw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5323f7ad339d4dcb718385f0849ebe1b49d563f14b25e75652c589c7950de242",
+   "rec_id": "rec_n2b32yevwrh7lw6zrbbzkzg35f",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_aiexteyogtruznoeymoi3gblqw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c66b9c5a088d89c0348fe3120506c01c9630834cabd0456067b90aba455a0e9f",
+   "rec_id": "rec_l2d6cibrfihlwlma4i5aboqkg6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ajbp5k7a57d4kv2ott4ir2twbl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1f3458100833d58da8560ee97f339ac2a2b3fbda77afda3073d51ba537d918fe",
+   "rec_id": "rec_kxwcnqt356f4jpdwkvxbyw4luv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_akaxgf2xet3gdifdidg4lyyulg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "158ec16b79266d9fd435d3c0cec450f0cbca9854efb6182abd6b92f385ac1a76",
+   "rec_id": "rec_kbmk2s67jsdumcknjv3q2rctqj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_amgmcjnfv5bjtuqehli4e2vulk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "591ca66099c48e225f3dbf903921de5b23b30e9239e22fde82da57a9c7cd7a44",
+   "rec_id": "rec_ybnt46arp625univvpm7c66cyk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_amo4zpcud6d7ziq55k6pgldcxp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a328a18c48adb95b231c7a9a970b9626308832d3edb87cf4549f63c8b8edd851",
+   "rec_id": "rec_a4nf5mn2236puply77eo7odcnh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_an5b6lq2gqhy62dudtlpjjggtz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ae26d8befbe60225ffb5f771c18bedd2366ef794674fc6a58b14ec8907ada077",
+   "rec_id": "rec_addsriiyqek4pu6rrdohcmqel5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_aodovknkfca7rtxvxpsysj65ie",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fcb11fae3f44170dc056cc5e5362cd645a192d797880da099b2a345f7ec2fad9",
+   "rec_id": "rec_75k2chlzub4r6qkpbdlpqpyxwc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_apjlo6ba27crzhnycvynvrtdwp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4c8c0282798d46b0c61af07bb9216394ef111c503935d6b3fa3661a6731768dd",
+   "rec_id": "rec_lkgd7bo3y22hszdtufzvwdnqiw",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_aszskotjopnbn65jolo6q6chr7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "55a8dde794630f1af8823f7ba384d83ddd93f9480d60960fd8bb11c7d6498da1",
+   "rec_id": "rec_fkeow2pwmkyg6mzx73ogbhkkoj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_azshgclzu4us6je46l3ydtjxja",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a58f02a8228c1287b7c7a6934993328db6bbcb009b81d71ab3b980b624cf85b6",
+   "rec_id": "rec_p2m6er2ngc3ujdznkek7c5g3tp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_b2sbtev5zcopkijiov74nik6k5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "09c350d0451d2e4c5bd38b8c09d583400a877eaba979539cae6d5f56672a5ce1",
+   "rec_id": "rec_b2ae22udoo6phn3van4j2ux5hh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_b2u36em2fk75adcvtxptfk6pgi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "96122674615675e9cdae47daab39d98b8d78bb08f56345715ebfb4c19c7c9607",
+   "rec_id": "rec_ltykjlmt6lruhkotthfq5mc4f4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_b5e7xem3f46hzgnn6pr3sxvagj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8cbb5817da9a206e65c85b3244b68a0f54954460b86be880c1baf2846ed758ba",
+   "rec_id": "rec_77yu2h4wooe2rxcuj6b77bm4nl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bbmgfc6pfueqfgkhsnuimfapwq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "377331c73ca79441744368f0052da4672befa06859c199f98311ea92424399db",
+   "rec_id": "rec_zvkd4z23ijmn42a3vlqvi7zqj5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bbrc7oqd34nfdgb4mizo3qrqlq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5f57f58875a32465d35a79cb278c402442f39acddecfb4437063b4717fcb7060",
+   "rec_id": "rec_iwmgyr2oyaxu6cwzhlrae62old",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bhzv4qpsv7bd7jo2frxtgbywdq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "36472bf22c2f035698996e672bb3eb9fb59e7879125509ea285cf329a480ce87",
+   "rec_id": "rec_2at3q42zoufwhldlekygioiwer",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_biloaofbrrpx5fyraiwdlvvxlb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "dbacd731f1b2e0fcc9872fcf7e30dade65aa3820a8849d22f1e26aa27c289a3d",
+   "rec_id": "rec_7rj72zuqtk5xd3xex6l5mc7zpa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_biuujbncmw46cewe7iazq7r5ge",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9716cf18f39a863cd4e4ff45f83d29b2d8a7c1888eba78bbb81c1c4bb557ec09",
+   "rec_id": "rec_4q5g7oihn2dw4mmfcpctgewy5p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bm3dq5rupfoih6vx45c72rkzyr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "dfb758c18726c67a74dbaba2c18e6e405959d6bce7ded414997e1a26659d52ea",
+   "rec_id": "rec_ny3twqfchkzm5y6tdvdtzeg4mi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bm3g4msbwpmdsfrheibgybpbar",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e84057a60a3d70de23a9d00715498a098861c6de15cd359e9c78683f5c272075",
+   "rec_id": "rec_x5xcydaqmtu3hq2pnwifuhlhsr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bmali35xuvvi75olnv4fvf3xeg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2474cab92a2fd92176794755ce37c9786f0a8fe5ab55cfa5a6cac93503a49678",
+   "rec_id": "rec_anvuclfhah7zu2pe6re4ckdejh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bppspahwjpp6jlqgtumetfiznl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5c339c0ff7e2a990fe5330de1da2646defdd4f593cb7a1fd8203c89490a64ad2",
+   "rec_id": "rec_5yhy2cbzeguaea5kuvcfztgehp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bt4wewabmlwcpggluezum67a24",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bfd0c52ba70a8acfb2af011ab706cb750b6960bb16fc7adac858b0fb23bc9f4b",
+   "rec_id": "rec_4tor2qs2ca4uu34iz2qq7k6xoq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_btv6ipfasoh22gzgt2tucz4lwv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "805447933caeeb964e00799839f3dcaf86da317577544be2284343021a9b360c",
+   "rec_id": "rec_2djfbvhuzb6mdjshkpicz5aqmn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_buqvichkam44xhmekookoyojpg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ce35e1eab57efbe513daaf149204a84a1956445fe8aff51c33c1e6d6e1e73ceb",
+   "rec_id": "rec_ffgvdd4agljuznq6nd4ku2gxep",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_bwxes3e2qxnkzjoujucemj3obw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6947af382fa464316a48f2a27ff8ef07ab56a18c59f504bbce99658ff332c74e",
+   "rec_id": "rec_npqhfaspcqq4quy2i3rqwdo2iz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_c7erh2tyisl6h3gk734wutwxmm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "451b9d24fb7171a08d7101b206967d8dccf6450a1fa40318e700d70ca8850cbe",
+   "rec_id": "rec_cowf2evn7wdq57fc2tjaye5pwq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_cacs47ygc7tmdqdyjtkutw3k4s",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "85784bd0a4579bfa4eaba23e1a7a9e6d3dbddef6632d15f2059db849d9058419",
+   "rec_id": "rec_how6iqtykxwugzdrwigmuwrsqd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_cfjmxx6dbfhnqtluh23zpful7v",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d2149e1540c202f65b7dd862373909d785b37b09ed4f2294bced016d5637e90e",
+   "rec_id": "rec_6gvyolrs23tzem62wswwosp64r",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_chrzqotgjuvs2njtcsog3wnky5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "511f5d97099aba04b42eafcac9ea6e98ff82c80bf38bfaf4c93e9b51a0392f64",
+   "rec_id": "rec_eruavvakqlh67umqijcfqyouqg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ciq5xqvcvczpgt6iedrjhylodt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "74158cf59d0b2dc065220fad83bc0d4489fa166252b102edddff8a11b2ce61b9",
+   "rec_id": "rec_iitmvfonrcbmhxkr3hqxxzwio4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ckmxtor2z37pcc7qvawao3w3l5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2da200725ba1ad7b031809059b321abed9435a487c4397e3ba70f3f2b66b027a",
+   "rec_id": "rec_cqc6vzyhpt6q6z4kgvek3en2ji",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_cpo3shqublpkr45isxfufp6i24",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "346656403e9ee05f4727290b5723dca34eac9ad65ade43c8a09c4f0df02bf1c0",
+   "rec_id": "rec_arvp4utnid43ewv4kmz4y5r4n7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_czmsjkco4fg7kq52hy6ontlzdg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "556529b1f645e07df3c40e75fb62ed2b1fcba103e3bca20b0e0d328c5663c529",
+   "rec_id": "rec_wpshajabtg32cyakaya4rwupfd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_d6u6tztringnskv2nocqxwrxay",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fb9db51d4abebd8222b08f01f67faa08ee8772a7a1a81e0272a9dfd9c2c1c19a",
+   "rec_id": "rec_mcqaafiux7ykn6hrq5qypijru7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_df5begdqra6ljvxjanj5zqselr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "461430c0c8f27639a2755822cf8263c825d93edd0d8d15e48d8b35c94460e459",
+   "rec_id": "rec_gwj4bsuqtfv7b4c6ygs6f3e4td",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dk6f53n7m4gwgv4nfxksrunzhy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "18302fd6611880462f6414b8cad8e4b6ddee9e11827a0f9d4f5833bcc44888a1",
+   "rec_id": "rec_dy7hfys52zdzmgcsjcsf5thohu",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dkmrkr636ewognoosakpj2wp5b",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5537b30bc389c29b01e8809f0ae6c5f878bd76e9897f15d06e684ce4bb37fa1c",
+   "rec_id": "rec_qchwhjuii2sxk5noroyglgtp2o",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dlgtxybvwcmzmherxlnduy63jl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6c61380b0d8ac0bffeebbf312433547419724a00036235f197fae687ccbed6f4",
+   "rec_id": "rec_2a7i5y76kokjgstqc26e7knbur",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dm4qpc3rr4k7icgb6cnml5hyqx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5230dc4c824aa67431eed40a772b927603f4241a53fd202888354f1cee4c77f7",
+   "rec_id": "rec_ksphbrbipzt6ggguyex7yq6upp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dmcunwt3jeem4dvdvq7fenpjgy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a7ee40d7974a8a8e867a622b6a168562b34b8cfcc0b6b7ed1e4b0b058cb18990",
+   "rec_id": "rec_i246cdbmx3e6fpokurala23f2e",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dmj6mudiqzhddqenxjwwhmpvtb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "68c4530fb33f78fbe071b7a20bcf7510e1520a091e391a531edf21917c114f28",
+   "rec_id": "rec_2qpqe2742yrfoeqkphdzf3phnn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dmnyssvj7fvhepwe242qk5mnfu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "edfb2de78c5ce12fd09f15da337303a73b66e6bd31ca2ddc7a5eb408ca253b08",
+   "rec_id": "rec_aadwr5kwrj6sbhsq54gzzdokfd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_do56qeo3na635plscpv5fntwgu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "15cded35700e61626ce5fb4e6ad3024468115598b4395d4ce7f4283aa9167778",
+   "rec_id": "rec_hku3j4ahy63qrm3bdihpgt6qff",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dsmwukfm24lwzg4x3ngcjuntv6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "30e3a95f070101162fe8abf357d0567309a5bebd2ec3dee929550192da0809ec",
+   "rec_id": "rec_y4ljk7yltl2r6b46awv3rxfhdk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dw3p6nmmsfs6nmsvegjidhewuv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0ee15ca3717dab38df7dc0cf6592136d543431e8f4ee4fa8170847070aae6333",
+   "rec_id": "rec_4szjcz534gchtby4pcyvua5i4p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dwpvpronfayj5stxa6ut6d3pvn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "98cc94b2d5b9c9a34847d26be890111f99a31e61fb5756f0e722a4f4af4b58da",
+   "rec_id": "rec_7cwrsa4kbafyymuez3u7eweza7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_dyofi6zdsx72afbkyxtwxjmsbz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c0ea60fe0dd8dc4ee2e48fa8c0a61c07eb393f961b86c7f893db54c9530fe0e6",
+   "rec_id": "rec_hawqmxkkj55fxe7ejllmpnqcze",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e2usphfj7v7tf5rdvltagslvrs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "50f7989904aed5701d6949fcc5aef501d2572b5eed3c9113d636c234dd37dfe9",
+   "rec_id": "rec_jr5athczkdibjrsbumh27tj6gh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e536xvvu7jnipsckl4wsfne5pb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "37302296f6884df82b8b8c1a363d8a4be1485b088eaa14af39c3b66ed219b627",
+   "rec_id": "rec_cqfhbfraunvw6ry6jxekpbouy5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e5xxdkhiezei46lnyhhsy6in7h",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0bc32df9313b6dd1b77a633b8d1b20f79da016597dce218eab57512911def2bb",
+   "rec_id": "rec_as5qrfloymnb2bbgiqyfrbnl2x",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e6dm7cm3ll74hw6w6h2wfrilfq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "153afecda8dbb42857742194d4a16b716157ed205ec0ddfcc9984f8b0ec816aa",
+   "rec_id": "rec_stazp6y5oviuvexrlkqgo7manq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e7rmbruvjmsarecyz6bgyey4sm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9f6fc0c198ed65e42c84428df8270d1be05ebd22613180ab931bbd75af5d480d",
+   "rec_id": "rec_4niot2etxlkckrc4lhbiqrotko",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_e7youu4xz4bnqu4ioa3baxgspl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "933ad9fa75802553ada3673f3e9278b28ac11fa3e23dffba48cc0251d4428c94",
+   "rec_id": "rec_wgla6vdrzxoa2kshe4sgkdcr2m",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_edgral3leey377hktgccpgacpg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "562d81cdd247b9114f1c473208cee7190e0aa18c8c4689d9a35185d5506b80d8",
+   "rec_id": "rec_q52uxwbqlwtkzsxgnaaoynrfat",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_edv7m6q4gbvl2ykthfiakrfajd",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "af18978afbebcfdcdf4583018274db2908e2baaf708f96e91acecf30d56bf0d1",
+   "rec_id": "rec_xwuaqrfoom77idxkllvvu2dvwc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_eillcciw3yavgoe2r7vxzelg4z",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3af2c5752eff5e04e28fb860898236ff8e353a6e94dc982a80ad88d06f78c09e",
+   "rec_id": "rec_fruhawzcamsvscfcl2ns4ydchm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ejfvqopmppfrbbwlpfbqxm3ekl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c7456da56c81109c9a158c168183f027c9a26f91f9e37759710040f9faf706c4",
+   "rec_id": "rec_egqn3lwqcty3ny3ehdgqejqdtb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_erm64nq23xzv4iuwybdzpnzdyg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fc26b7acdaa2dec9f06871097c62fac5e5513bedfac643f3f7d31bb835d9b823",
+   "rec_id": "rec_s5lyyya2nkr4xellj6pe5wfxyo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ert7n6g4aptfq7kdc4k6j3mlqr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fc2f0b20684f26667af37c9a03f4304ebef52cf4f68d44d91f9a81a301985e79",
+   "rec_id": "rec_bkxrdm2pskuhea4udma3r2rmsn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_eurj34zx5pcvj65wmfghzotrk6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4017140cb39e8015cfeeadc2be9644b17f424791b2f75798b94861481869b072",
+   "rec_id": "rec_2mftmfrrlixxvdecw24fo5e5pm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_exmsof6y6ozrobz2xl2g6qpgvg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c3200a1d7db77d482c37ee6b32a72a9f99d4fb2def287ce8dbcbcebcc2615503",
+   "rec_id": "rec_lpguaax5mp4x4yhc6bk3akhl5x",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_eymib7nbyrbc75psmpbhwie6zt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a9e916def0e4572ce25cbe90710b8be5ac4f79e7d5f26c359a50daee29e6844e",
+   "rec_id": "rec_7upxqa3vxscpfkpzddljhnotyc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ezpvlqkxsfsusvruqtmz2uyhb4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c461f9c09f964a9942901abe6d442aafd8d936da12cc4e8f8ddecac391ef95ff",
+   "rec_id": "rec_ubd2fgpyivulv5axbqa524skr2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_f2tzqswsy6j3torikw236bkouo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ba806fea984d24bce898eb77fdca894d2eb3a53e7068c940410b3978f002e580",
+   "rec_id": "rec_kglg5vgyoaozojaulp35uqhmfi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_f6h3zzogjbt34xwincnc63hj65",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "25d7cf09f702f41c9e7eaa2b79b0859d92b979f35f3aa895f00a6438f16c1d9d",
+   "rec_id": "rec_euq4g3mx76w7sieni3wfvmmgkz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_f7ksdnptkru36lv3lglw3pz4hs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3bcc85323f5330d34d2dc4706dfdc02675a07f3893ac16ba2ecf3854f4617bf1",
+   "rec_id": "rec_5te4phnvjpv45x4jmwmjb55i37",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fagieum4bo6x6tvy37jnf2k7ve",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "82107db7bcbdf42912d71c0c591cdc3ad585a0c358601b22d4b9c1f73c7c16a0",
+   "rec_id": "rec_m4hzvhy5ub7wbpcexp3drtsug4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fbkod2w2c4fpsaq2hsufxnjebj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7f20e9f5df5f9df59283730fe9b2beccfd57e8d39032acf3267c96c509a48ac4",
+   "rec_id": "rec_57ywvuazim5t4zscuvk67gwl2z",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fbn34qjfmvyuwknzxz6axp2icr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c5a4ef93efa6a5d1c5468a86280c03d9dacae7a8fc0bca71bf42aa3fc674fb1b",
+   "rec_id": "rec_2rdkakcaw2jvgfyb5bv7cnt6qp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fg2i45jfsph73rdqcfzlzk3nqv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0597a95905a3ffa465e777a8a9e287e6ffac0374cce44fc43a2b122388109e7c",
+   "rec_id": "rec_noudzowdj7agg3gdg4avvc5cuj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fhxp444cib6e4gsxrnsx7iicl2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6d10d0fa2d99b7d07002fe619bfd77f3e94a3694dd4bf44c4597c6786a126f44",
+   "rec_id": "rec_vh7u5pz3xr3jmhhatora2jtfa3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fi7mkbzxqiixnlqjazxwpnv2ll",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "08e2d294c2cc7bc3e02f989826dfa65f325293547a37285bba864996de997b79",
+   "rec_id": "rec_jh5axk6zyrhnywdcjqm6dei3kh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fjkxoln7i3xlxe6tonwlql25nf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "094f965fd86b9f1a8b1e6a8418eaf5815159133ae327621e3c8f82fc8c97124a",
+   "rec_id": "rec_irio6dvsh7b4lwriynutvlp4ky",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fmqon4xjjz2dskcild7w2n2gau",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f5992b935d2028f7ede1008d249695fe027ef57f45c9f075f16ef6e70fc56c4a",
+   "rec_id": "rec_2h5u64dosnoynwgh7vdqoq2fkr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fnpr5rid6z2qiwpwvqlrgom23j",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a1b6b1ab08224c366f79d0ea1ec8f3ffcd778d39925727086406ba481431a035",
+   "rec_id": "rec_gtlqbtuhwi5bkc2x4fpf2r2sfp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fq33kwfdv5gr6dkt3stpmabgcm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c5a679a330f966a1628ce11ceff11ecc6c45eae7ca83eca8b0b96cf2dd0f0cd7",
+   "rec_id": "rec_dzmokkdlwzhih2aceejnril5tq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fqd2hjbfwwf3oxggp6ukmy62ww",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f3911dea3ad4039d68e81eba803cad2f1aaefde52b9526e6aebd91f80610bafd",
+   "rec_id": "rec_etoyzhexmos7ljfjzeli3u4gsp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fuj3nq3fszppmesx5vp5oznam4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f85202b516465600e509c36b96c0361614f9f01a8e47500e0a215aed5e489a57",
+   "rec_id": "rec_tojy55bjdxsrgp4pg2ioeky4ii",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fuvoyri7mnov676ifk6spav6d3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1be8aacbf17f95fb33c974448d0de102f0b31a56865ce3854ba76e116a6f74b1",
+   "rec_id": "rec_6lrdbf4vbdy2lk2pgf42ecod4z",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fv22pr3mpfrkc74y6cmftxzr65",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9a5b3c92102a39764de8bee4752be121859e2ecf450b7e76c53d642405bd27be",
+   "rec_id": "rec_zyihc3ae3rf6umcmmivmpal4pg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fwojvwsfdt3pkanfblv5rscvot",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a90acac89944bdefe5d1a9c602c05fd1b700910f943c25e146abec32783dd578",
+   "rec_id": "rec_usisald6mbl55xrtpczim6a6ws",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_fxmgovkqb3lymgemalecxyk5pa",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0ca0d8c950a66ccf8c5511f8126234f3a4892dc59a39e4e985c0b76867b673cb",
+   "rec_id": "rec_qabc6it6dhl32luy7xybdmq3qx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_g4hqtrj53cgwdihly5hupsnnms",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "890946ecc7193cb6e06ae909cbb359d6c02c0b906cf3e65c1cc11bb7924f8828",
+   "rec_id": "rec_l36zgnmlfuukcmpqyviwzn4oac",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_g6gwffundveurv45wnlpwpjvgk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "93b42af508a06c8ff438c4c3713d5d0c530c486bb14cc1cb0f4537d1e582f9aa",
+   "rec_id": "rec_2krzjxdyblpxnz3qnmbgp3lsi2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_g6ykv4kpdyzglc5a3hp4hfje6v",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cc5e13e0e0ec16f04236b54321a01f26998216e3dc324fd304c7c3f48f2ea18e",
+   "rec_id": "rec_fqok6fgfo4vu3vtmsfjffe6jkm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gdplisr4darys6utwttk5hv2pf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45b13d5a48f8faaae7b1036908d35f10b44a31bc9bc2db45db77842aaabb5767",
+   "rec_id": "rec_y3cy6hq2r7xiozh7pqgzcx3gw4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ggeigymqh4qqif3z4m4scukumr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f42e0e93f34bbbcdb9a732f1096cda0955ff1cf4dfbc6a7ea5fc7ccfc2afc02a",
+   "rec_id": "rec_p3blgtxongsp2ax3iwxcn3e3bl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gi2d73jn2u7ixb5yln2d5c65n6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4bee8591f28267199834025dfb6e8fbafc5f35d55629a458305b374a39bf5951",
+   "rec_id": "rec_tvzcquku34geu5w4eiggmmg7m4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gjh5dlkeu5glktdcq54zo3lhd7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7e95eb27aefc9c92f9319fc6b07581703d7aca30d9e6aadbe061e4bc29296bdd",
+   "rec_id": "rec_jumcytu7g6zutlmykprrvyc5x5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gn4bma3hddum3nool4vhx7qkw7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5fd6719d34946590f12b08fe0d7a8c07f1cccf3fbaa72f8c4b2029dae27f0e3c",
+   "rec_id": "rec_nfop25klvwfvvp5opwyzsd352q",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gqkzjitmiytjg63ua6jhfdjqj3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f4898397e2a5f6edc414efcfeac3a0cc549c4e913244201fc578e6efdd6d71d5",
+   "rec_id": "rec_vsxyvohan2hsqa7jmqe6ugcxix",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gthe5fyj5wgd2x3xayzbqczx7k",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6223a01350cfb6f0ef39139c500546e3b761b53ebb30dcc72e8fa39692d406af",
+   "rec_id": "rec_74crsig2yua7ztyhicapf6z3g3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gtojtsw32jpy734wdywyfwvo7a",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "08b0d1aa6f89a070328020716fcf43da356f68242436ec12ca2ed9979be8d03d",
+   "rec_id": "rec_y3wlwbgs2snviz5tqalavzsord",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gtpydr4sul6agwt5fr7sz4axgu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b72f31e12b852a28c239a34446664892b6d77bee60c5c865daf6694d923d95ed",
+   "rec_id": "rec_prfusmsbynbnvnyulzxhei5mum",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gvl2666auscsjni5ekrub24u5v",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "64a969a8c8adecd215e02cea73dbde78bc869f5646f5512dad0538461958390e",
+   "rec_id": "rec_prxz4v6ayk7krygws2hue5rz4h",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_gz2kvakvyag3ekqhkcebjd34rm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cc10bd7af5bec7e20ac43538bd2b734e4a1f59f4750892129d3d2fbac9c50590",
+   "rec_id": "rec_4nbsepjf2epf7bwrffgrak4iec",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_h5w2arax5qket3lobpnc5v4r2m",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "12b3c7bc8876c7a3f9c9504e0a05ee837de1e6621de8983df0cb879f5cdb0446",
+   "rec_id": "rec_tmtzw7uokhtehqsjtm5a46yvko",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_h7earovaqyt2vrfyiqyexuvldy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "28b7eef756ef450df0eca0030b1db7e7e8c3f4e69ed94b6990ff26e5fa24af17",
+   "rec_id": "rec_tqfeib6y2hudhpnbnjyqfrgzfn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_havcmkop6nrjjpgls4vh2a5hdx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "34ce183fbf33e716d27d1c70f81ab8a40b4e7588373f1a0eb39c99d6bcce7d8e",
+   "rec_id": "rec_qpdyag5hnk7dczcggccjs3uorc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hcumtfxi4ustioeqyhxb5rwq7y",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "aabbba0fe69f9585f7cb4913cc25857cb224c1c3f1f42e44dadfceecd9fdf005",
+   "rec_id": "rec_yucvqojknvaank2fn4hmqzety7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hfwoqgm355m6n4xa52646ij337",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "14d4e54e22a01f87bc87935fc6d909406582617ba426d73eccc2ef4388a214d7",
+   "rec_id": "rec_j64gspyerhel3sjpsk3ph6jkgk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hg3fyrpakxsevgyztuyvxwayep",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fdea37483656a239da6d5276bfa5c2ed0e2d8277b6d2c12e9a4dadb21a48df4b",
+   "rec_id": "rec_sfd6npcds5sdwzustbwvbfwuvt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hgdgntgf3v62rogisy3i46s24y",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fecfb801a9e5a2e7e8e47c9faf3ce50d21bac88ab07751009f8dfe9d6eea27f5",
+   "rec_id": "rec_qvm64v5miaf5lw2b6hfd5ohmjd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hhyelvfwsujxwgynbo35ugufqn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7e7b720ea65e7f7370b677aa3efe67e60ed6f13bd6ed180cb30c490d4af7f50f",
+   "rec_id": "rec_qbuhc2z7bw4nbpixpizv4j2ieo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hklkj7w2kstawz4x7fhg6ca3zm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "913990f2eaecc20f64818df994b1766029fce513b5c097b86723b5dcb13a946d",
+   "rec_id": "rec_acd5fdfp3xyrq6ws2dwv4hpl2v",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hl7bqwz36uosf44bcmb4zkwpcx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1302ac46bbd9d8b2367a2bed6d5b1b18630d3207ca0051ffca6877f58768f77c",
+   "rec_id": "rec_3q325hi2d25disxzzjrhwvochw",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hquiolh6jr6f4vogh26usos62m",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f6f3b12f4a094af545fff261e03d2f4970c67472152d4d9fdd4989b7abc12536",
+   "rec_id": "rec_ja6vn3vfa4u6p4qgnffoidxujj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_htsrzi4ph4hmqx3zahe5pyhoan",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5ab1df7a24b6b0f4af88eeb86583626ff3b491199b9d98603ae120120899810c",
+   "rec_id": "rec_tagvjjzvf6ano2wqde7ypn6xl7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hucdr7ifh44u72znwmiq2iesd6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "24fcfa3c740c9171623b6000b685cfdbf86913fb80f29fe3e76dc7d258a63457",
+   "rec_id": "rec_r4sd5nykosqjmmrlpcdd62hysx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hw3ayngmj7oyixbcjfjrixnxjj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0995789d90c3febc5cbc9a7d8f65229fc8cbada5169df25dff0e4b4f7c1e1681",
+   "rec_id": "rec_u44o67wrhuzf7bbrq5zfgf4mtj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_hyj74pon6nudzpvdaiqyfhnmds",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9f2aa93ae1af1d56e438af7dd094bee9ba6c73eb84f470e23c836859dba377e5",
+   "rec_id": "rec_4ytxf3kyscpl7hr4ublxtpkqb6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_i2j43ljxahbaisu2kcvw3d4lvy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b83844252febbadd68afc0f7600bbacee0a1106dc8599c917303bec3ef8d3ede",
+   "rec_id": "rec_ffzd7wnr5luapccbbcy2n5q3mo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_i3uibaeq4vk6mw3qkrza4vvgmw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "eac7781ce4d0d13c47e43e9f620dabe79f459e9ff4a35d4b15f464595d176718",
+   "rec_id": "rec_as5njgukgnauomwvak2owwptyy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ibz4zkb67yxs3uogmxofzjgepr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "547ef1cbfe95ac190c3f2e38b1eb980a85219ad3e06d84c379bf24587e29825a",
+   "rec_id": "rec_iztyu3g3byi6qhqmghpfmdw2qp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ic6pf5hqhx3c4v4nvuqi33tlef",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cf0aa53fe79b8516bcd318e9014e54709a4eb6baa411c563307b8279bd47dc82",
+   "rec_id": "rec_j2wto3gxjxadocsjp5uk7ffjev",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_icm5y62b547qm3egcj6fr6mmvf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "81ec5849398eb149762cfdfac918dfde12f0adcac144d324139c4acaf9603bea",
+   "rec_id": "rec_bzvree3xqpnskut6osum52jud7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_igpqnvvcceavun4d3msf43zeyt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0d68ff9ae44ab8da7874cbce46710a061d1e9d285327f3485227bebf3d5fee31",
+   "rec_id": "rec_zeuopdkk42llvcfloy2j2mbrqy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ikatnbfxcmfumhsyoxjndp3np2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "21b6cfeb93a0d8584787380ce43edbc3062f210c4948a1208d49a9cacc37265b",
+   "rec_id": "rec_7n3h3bt3wvc5zlp3jhv4qx4tnn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_imnoqhondvhm3q5w3x5recki6b",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c7158da0dd1b9bec81ec95b50987eb05ed1a5a47c72b311e6c930a79ef97a12d",
+   "rec_id": "rec_urcz7xk7gomtokv4md3ovfyc6g",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_iotkgiubqyrtcb7s5nuazw7xqv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2185a4f8aaaf86f7938c8f0c959c4515e30f951ac1613e9de6e5bb97506d4399",
+   "rec_id": "rec_hajtd4j47ewxdpdpc2ljhpnkmd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ivgd2egxnzrbbepaauntndqgiw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5989cb49b918c404fe65f3c888c088a534735a33b136b3a67f4c515b9a0ca105",
+   "rec_id": "rec_5jle5daj5fh7hfcdccolsfmdzp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_izh7bicw3tq7einyvg6vygwa4s",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f237fd22dba7c6b94a8331b896244d46afdddb7ac04efd33ef2ed34c56e34df1",
+   "rec_id": "rec_q4uzjdg2zlutweka3um7rzrglz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_j3re45cxugnmy2nreydln4sjgz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d371d1283b37cb48c11735f6c151fb1809049f7d03107bfaa96a56ca1ca37d45",
+   "rec_id": "rec_fagybru4cx7lyavjplbegi6lly",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_j6ug2yhjkcxz6mfxvob3etl7db",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "74e77626c3c85aa9233828ccd871708bed99e6461a3588544f882f1de1ccc53e",
+   "rec_id": "rec_fu7uhxglr55y3nnv53qqaxqsoa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_j76l453qzirxprkt3q7xvngtvm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "640959253c46603498feb24012361be29cb5236fa8467953364e90c8e35cdc9a",
+   "rec_id": "rec_cxyetdt6nirz632rfdrwwa5izs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jcxrchuitokcfac46tvjl6vcid",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8ba5f266709795d98b67a9764cf224f806fc1e4546f368b30c134e40af932b04",
+   "rec_id": "rec_cgiewklytagd52fl3v6cwgfe2f",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jeeml6jghmkcbvjokokskebp7p",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "dbcdddf0a5bcf15ee5d5a574af01ab2fd209addf3e87519679c66d2dc9e114ce",
+   "rec_id": "rec_xyae6plp22nb2l4dlv5yp565gv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jeyndw6sxubem524kh4wfgi4xa",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "287ef26562e153dc51943fd46ad3a4362f276f39b8cad2626677fd4d17e2ae0c",
+   "rec_id": "rec_jinmpdcwkv5nm7jbav7lycd2i3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jh3oan6qo6tzre34pdcidssruo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8ab26d32e3b8c8878d73e56c627f5e647f6d31d20676a2a4e9941b7d3426a2ea",
+   "rec_id": "rec_ncc3zylfvqtychlqwktxjsht34",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jhh2e4jgiogn3wkpylhnlel37b",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e5a7f7c190689f48508918096e9a427906ec4f0ff20c1d9c07c8c83b39017521",
+   "rec_id": "rec_73it2t7ub6cydp7eugfal4jl67",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ji4krhhsst3pebwkuumle2qm2z",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "548d1c2d877bae29390d2a914febf9646a5aec4091560f44a668bedfb84fad06",
+   "rec_id": "rec_mjt6pxe7f3qlom5iumcy2oeb5n",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jjjw7hey5mx7hdjn4osdoggsva",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c65e29abc818d8ce0adfaee80a0b5be7eb7266b865ed929f5afc645ba95d1939",
+   "rec_id": "rec_75u7psygouncs4nu6jozwt2lyd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jndof42nxiti22uw743owmnxuz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ebf19d580e0edf7d5a780fa1fdbf17898db18bee4e3f8b84562fd00c4fb19917",
+   "rec_id": "rec_yz4ny3qzt55vhafjiasn6jolrs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jp3myb2d7cnaug73yomcdrngq5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "20c5c210e00a82a6f784bb1ba44cfc12d9fcef6b8445d845ba50ade7f2a04103",
+   "rec_id": "rec_nhosax6wxhq2yu6yt3dmqc6a4m",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jpihsiw4y2f2tisewsangpzkua",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6091f6f6b8eaf7e99ba26bbfd3c91ba6158ca790a756cd8eef3b6d0a4d204a7a",
+   "rec_id": "rec_hwh4ghv72aes7zgy62k4n4gz6f",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jrdzo6cu3hvv2nd3nk6hylimso",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e625e9a8af855428d0f5ada12051dd7120726441137f1daca3f66172fec3550d",
+   "rec_id": "rec_k56dvfedigw2lye5g26lc5bhfb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ju3ie7fempereb2ox35xzyb4vy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "26556eff7a938f099e52ea4a281603c5a9abc23b460418d57ef14d2fd03a7a37",
+   "rec_id": "rec_dzewbqlo7hmq4j66qof65pinw4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_jw3ex3jx4weuihdcsiqradgup5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b5335282670b6c4fd70461714c93d8e6068a09e58d902c7c83caccc83fcd9d74",
+   "rec_id": "rec_fi552gzffuenyfmpvjfqxyy6xg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kh24wer5bab65wvjlq5vfgu3fr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c6a39d6025fd31bfd8ce3acb2a499fbb560bffd7df7f9820aae2ca177d9615cf",
+   "rec_id": "rec_ugvvi4lwhnxixhkynoytzokhx7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kh2hiwepgtjtigkm776f4dyiwm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3adf4adafce08e8d072aeea127829e4149c082a77d8d37a507ed0aeb7d9ae0ca",
+   "rec_id": "rec_2ze3lykajnovypaqp5qq7kmpih",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_khlajonualwj7rpfzmf5scolbs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cb07651a6aa32071eb03d453ddf65cc3c8ab8e7ee30a64fcdc2421902ce920d8",
+   "rec_id": "rec_ivecanfyichomsfa7zmi5qc4ma",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kl5ummrfvabckmcltuifow37pl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a014e96771acf1139ab8480bc075e6dcce54d4b89255d3e0ea3dc2594dc9f900",
+   "rec_id": "rec_bvguy6msaai2nxbmnhl6vsrxza",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_klbg6ivaskbdvone62mjeq6p7t",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "beb9e3f1ddd2ca51fd1fca503b314a9c64566b4eb0a61e4b48ea445486c6551f",
+   "rec_id": "rec_ou26ulietq67mylcdrn6hqlw4t",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kqqd7rs4ru5zq6upt7tnjsy7gz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f1b00ece83ec774991bccb27de8d651e0212f9da98576477b9405124875e72e6",
+   "rec_id": "rec_kfjjxxqyd55oetvdfcybjabi6u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kt6hgxq6jyied554czn3ng5tdi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4486d8c94464e17f016122dbcc3c5328b787369d09439f6c0b1d8a82714dd5b6",
+   "rec_id": "rec_th2xibchmgevpd75n2bqnwhe5i",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kt7d2hc6vg4ts4lwfcjujtoqfe",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9030082dc0eeb9b0460523de73fe209589ec3ba20846db16d399a0be2f9014be",
+   "rec_id": "rec_mfxwj4memz4bbupijwi2rrh56m",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ktskp6h6xc5exvphnut7ymccnd",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7d419ff7938527ac13e366386c0e14ab0ce45ede32e3ac51e89ee8130aa710ed",
+   "rec_id": "rec_sczy6hn7lmpaz44ruvmhvel3d2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kvqap2tl2qqp6sghpgsnohsdbf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cc94c584f55215fd994114152a2e925463362c732ddf94e79db187d217fe5f5d",
+   "rec_id": "rec_t26ukkfc6howil7tfxbmsoqsp6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kxbiszxtqesm4jxavagej7uqlf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e58f2ec189601ff21c5e58c337ab99e4b963f6904c4cf0f074f7091f74eaaf5d",
+   "rec_id": "rec_t232pdz5cpw3jiolk673yczxry",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_kxzstuf2mmkglqovlxvimrtzpx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fbe63d50b134a50c846f6704f7a22ecc5b70db40ed57b512d855393721d2d42b",
+   "rec_id": "rec_4b76lhhymrxdevi37ganvtyagr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_l3esgj2pxtwir3hgttrgfn3wal",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f4ba235ab631e443cafe44e1551a37772eb17e18cb3d0d791cc0527db3bed391",
+   "rec_id": "rec_xnoa3vcx2lozxfjlf6kmxjankd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_l5lykwcnewd5px2wgb5fhb23ol",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8d6db3df713cf1be287d2c44f59b431013e28bc444ec7f48693da339d309e8e9",
+   "rec_id": "rec_v4io4ekdlc5lvnl35urdqykrnd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_laq2wkm77tjkxdkiid7kerwh6x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "628964b71b6aca18091a7f9aa404b7dbcd972c938704d06492d47ba5fca0f285",
+   "rec_id": "rec_suc7k4lbryrsgtyxjth4764hwm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ld6p4rtadtf7dlhpmzrazpnlvn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a7d0464fdd41a2eabc06f47f6d549f28e94310e3d0cddb5e9ea5a6900f70d6fd",
+   "rec_id": "rec_gogtavfage4pbcgcehqh2uue6l",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ldwdodacbich5vk5fjqkino44d",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b66c0f616d6b3b97c38d37e2cbe35ca47322c23949cca2ac7884e67a1cf4ef8c",
+   "rec_id": "rec_tkmyfatwzhkvji52vyjrcpqono",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ldwtas4ird5ogjyu4sfd52uzl7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b5dd1ab792a7e58412e8d47ad85212d0217d15c4c87e42c5bc7ec194917556e4",
+   "rec_id": "rec_5prkmjaukt5qbea4uqfzkfzyhb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lgtqzyuzwtfqfkdnwvkkk3inrp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fd1cc9cb2b15eb5ad394b3b86d69614123802fe64fbb537dd276cf1a1fdd1255",
+   "rec_id": "rec_26b6xerbtvqnosmjg6phmmh3bo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lgutsnhwcgx4zgkjren3ec2uli",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b4aec54b5c5c72f3e6c926d55b48497a7e1462ded3b5d7117ef96ff579cd903e",
+   "rec_id": "rec_cxe7ukprgebz6pzz2y5fawmysj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lki6iiiqbmlals2orqqn63lb3c",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "335cea56e05e01975959a6fbed6ff8ad45925a7b11774d25d3cec7b0d6377d92",
+   "rec_id": "rec_7pzowunrm7awbugmg63si5t7ey",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lltmzmoxdixjgbi5ctfqcooil7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7569d7c84e9994cd0b3e9bd40dbe08831bf1f3c9c1e00b648bc67c8327b26146",
+   "rec_id": "rec_piftc365w6v3gyov7yfz5afp4n",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lmqheuj7vse2q4zxcar3yljm6h",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a4ff8d24d61665e22105e3924c6fa2157aa2e31c3bb30dca85b44bed7d7c793d",
+   "rec_id": "rec_jr6xrgou7imm3jv7oe5rh3ynse",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ln27i6pjmvrzkinsxrom7bol2n",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fc48f2ac29b06bdd42447bd54d3ae79f14819bc132cc076e25acabaa6a58a508",
+   "rec_id": "rec_adowmpa37d5aip7olygas7jokn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lq6fwut6phmnmeaefhulinpltc",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "562ec510d4ab9d76562b2818fa25bd7911ff654f4bee3224d2ba4cf53d1d7b50",
+   "rec_id": "rec_a2s2g7rjxd7ihjrgsvhobowiza",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lw3urthdu5fa4y5vb3h7v4yodt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f42db4c58ce1bd662e4af947a2db06ac6992d232023a3923db0ef2c3fe009ae2",
+   "rec_id": "rec_q3t5gwp65dwsopn5wyj7dd6kol",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_lz7rbqbkhofrta2ldkbjho6vur",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "480ec2cf8071b578d94aa1dc6e756856e20dcfc3c6b343d500f8a59865453dce",
+   "rec_id": "rec_g5meprixdyb4hg6jenjx4zltx6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m244mxnhewtik63mz7q5otjzuv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cc9d54e1fd4f70e9342eddfe364f560e7ccffc63a25b581606a33778a99c29b8",
+   "rec_id": "rec_scnusya33jvdke2rbem4q2435v",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m2ma6bvemsb5vc4ejhbnl3xygr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3d0bd0b6d816c87bf6717e5d0aebd2f959b1e889b68d2ca8943d5d69ad9a2673",
+   "rec_id": "rec_hevpu3w2cxhzjlketvqnisef6k",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m2n5jztgosswjsiiv4v5fjurbk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6438183f9c5896811204b59a1a2886ecaf80738208b8bf16651bb265a7d99fc3",
+   "rec_id": "rec_bo27chqw635myq6fkebneg7x4x",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m3regxkypmf5p56lwjpxgf2fbl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "30ba55c60916a8d91ffe81104955804bb0a9c530120716b44265e6e9a90bf633",
+   "rec_id": "rec_zu5nfkyyzkd5fjr2kc27phu773",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m4ky37o2xybz7atbslmbsg3nwn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "584480d7eb05e8083ca2eea8ec89ae6a15444bda3ac10c795b165c80d0495c8a",
+   "rec_id": "rec_tdcg54rwjcxmgprdcftpchgcej",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_m56a6l5j4kb23jl4ff5zepky6t",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4b78b20829d90f4c4482ca1ee8685a91efeebb249fe5aa6ff2f28422625168dd",
+   "rec_id": "rec_kmsiwjya3xdlp5hof7g7yfklju",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mde6imhk4dacgtowb2ciaqcgil",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "376a42827e432735bb8905cc76addc1da3fdd1747fda91a74a0e3a5cb69a55b8",
+   "rec_id": "rec_s42rlgrouswxrpptkkqhdpdn2r",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mdhudly57kji76qljlu7qrrvyr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c978e3bbb2c932e55f10d2bb487402857396bea5f3cdb686212614f25a86495d",
+   "rec_id": "rec_pxdoviwb26phz2axqlodgwgspq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mgma345ad4exix7ytox5njfkxy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b112b40f1f42d39705d12e9535d316a262bc7b77f851101badd2c7ed873c8a98",
+   "rec_id": "rec_ou7o7r7jr7ukfimvyxogt6tcbn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mhmsiux3cxi7xucxzkczenlsit",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "eb8022b70bfd698e63963b07b2283c14cc19a8c0499d28f54bf349facde2a4ae",
+   "rec_id": "rec_cwut2xxgejvmhmfjwg3m6jn6po",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mhxkahoqphbaypznrtxastllug",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3b2d9fd9e703476e7adb142223f7d89c3bc1c7e5039411452fe68b85a9487916",
+   "rec_id": "rec_qcvyxj4apkfctnag34eenjg57e",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mmiuspqgo77hh2t6pk55yz3q7x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "aaad7f5d58734c0cd9eb2975d050d19a07dda52df8c40e7c9dc02abba0feabae",
+   "rec_id": "rec_np5vl5mwvcqhw3d2e4bn36flum",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mqfd2gfxvyaujphyd5sqv35xkk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "200bf8b67d1a458f9512169bed392a44f5f6b02abb964153d74d2038d5bdfdfe",
+   "rec_id": "rec_by5dbgpcnpdoxf3ghujqck4auy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_muwsc7eet2kpa26zrs2su6i7nk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b7b41624e4f18cbdb00f6e5ff357c54d3852b5a66dbc899d2d719c72c530aaa2",
+   "rec_id": "rec_4ugnk6b5eb34y6eum47ahfaiuq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_mwb6cssmqv76hf365akxqivuxm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "84f67331462af0a581980a4afd12e0d17f30db3d0c5c3c42a72726eb22b0cefe",
+   "rec_id": "rec_5slsboz55ytjpclkxkvffuqk2u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_myazemcfuzkuigewiogecosgoj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e26036800500633890e80bb32f073849c776b6fe8504a063dc4458ca3e0a90c4",
+   "rec_id": "rec_5whdzoipmtlmrmahurqwm6ens6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_myb5fbgigv7vfxmuiqro2y3jyh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "00731573c207d3184e8b35bc66ee91399e9fc72fc33538db418957c502d51f0b",
+   "rec_id": "rec_lnxn35sqpcobyzgtt7empp4dmh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_n5alv67biw2bov2ns24oryrxdz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e1e7b9164c4212e4c28ee260d4cf17c593c0de0d2238d2c7a8a59ce2de363bd5",
+   "rec_id": "rec_qlz7zpp2nes7ppeja5kmlbxvli",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_n6c57k6665jidb75hq6ni6j7ky",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "23ad4f11084b5dc889c2d6ab6d2a504608e77be4b85044060b8bf1ccafbddf1e",
+   "rec_id": "rec_7f22qmd46bbasqbcv7ytg7fo3s",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nbcnog77pfgas2bn7n2hebz7d7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "306039402511529d2882a284d5b3d3d58b05b81f64237e099d2e65d4a84011a1",
+   "rec_id": "rec_jvbkxsdncm6cm3ogajw5sljysj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nefvmgoe6dm2zxcyvgmkccpvmw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c9190db1f78bdcdf481a0b2b974e64e0b11c5522be42407dee13ffbadb9b1ccc",
+   "rec_id": "rec_ys3n2llmnkpxtozhotlej7cqmr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nft3iuu4zuxccavsm4p55gxfq6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "95a3fc0ecd8034ebc57e09d0cece66f493a4e46fed26c357a2cdb7ebdf0dd286",
+   "rec_id": "rec_zewyjweq3gnzeu3uswer4jwxvi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ng436fu56pgzlt37plpwjzqlgw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ba8e9829de90c5a2efa04b1cdaca888553bf0d53920a7e324ddb5236d3fca59a",
+   "rec_id": "rec_hcx6ksxpc7raiqtk34atjn7ikp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ngnpf5zni6cqp5ksrtvjebtzgt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "06c13671875abc7702ef3184ce46d8f9e67b2be681b9fdfc7e999b8cb32e276a",
+   "rec_id": "rec_edvy6awz3rg3j3v2qpw4nv4mfb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nlczlao5bje5fkjlfpjkld3ddg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a92cc74776bdc75b0f287fcc6b6453082f9f0fa04e70228c4ab8526b6af95144",
+   "rec_id": "rec_elyzxgd6kcgqkazbgavb3sjuoe",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nnux3xyol762r46ahqjzgbye4v",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0f356e7c4e9a90c69a8a0c77afa6cb5a9b5ba7880fef42a458aafb083a59acd0",
+   "rec_id": "rec_kkisqnvnzexwrz2apwem5xnxvk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nozbuf6rd3pz2df7g3mpd6avki",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "56399b3231e5046168044245b798709f3d1f2d3c13df33be4237890350145121",
+   "rec_id": "rec_ohqrmdfq5ymt2f7kl6aibcztr3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_np3omevxywo7gso6oukooxgv6r",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "77012f4d9b0a8ed1cfa0f7d4cfdb7089788a549c73631b7f7893949cae58b2d3",
+   "rec_id": "rec_h6k2hdcol3spn3mnmlyedwrwyq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_npz24jkwamyqdcewd3wevhjmzs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9e079ee8f93780edf2a1f2b0a6c3f40646637a5e05ce1bb6ab11026cc8eb5be3",
+   "rec_id": "rec_gwpenhej4g2rergqf5ruuohsrt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nqmecbwwl2agvhlugit5lliaik",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e17c0e73bd436707e0ae9cc555bcd80f2563a0fe8d4742e1b204097fda5b28c3",
+   "rec_id": "rec_tohtestfemjtgclsa5gnoglbgn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_nv5gohrzxlveonm6u7mf33k5mu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8e89eb3e80ee2b6d5fd4a4f7d9d444ad13add7325391950cf1ae6eb69a9d9d66",
+   "rec_id": "rec_6op3jkqwnqxxzlomacds2s645g",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_o3iwnujefltzb7k2reociwrekg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f14442989dc6ed0d27b60af5589edc6895e3cc8129ca7f8bd9399cce45d59239",
+   "rec_id": "rec_vdy5nssqw2fdsq2aviumesqxj6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_o3o4c5vxwubbmk2zrujrwhfkys",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8c6584b0d37f66460cf7cd38483ea982143557e638ce36ccb08fe393c98053cd",
+   "rec_id": "rec_3wsz3emxarjirhzub5cvzaszjd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_obfkb34zq3ojhnbfk35lc2kgyh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "42964a6f96141b0c8fb82851d9d9ba39342666b9557d4681bc96d54ef0963fe8",
+   "rec_id": "rec_anrvnnexwewnfi5jxlh2ti4zzf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_oey44az5exgi5nwifwzka7i652",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "92aa0a222f7bd18a4cc75a7125651684656f9bc788d2eb76a6745c51c425e60d",
+   "rec_id": "rec_jopxccyw7ia5dlngvhpxtmzw4i",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_onjmrflpacbzf5ejdf72e2pwp3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45cd40a43a079e341a7289a0f8e7f797743b39773b7abed153a53be0c8d6295b",
+   "rec_id": "rec_cs5no6cmhvmdjocif5sfusb35a",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_onqet3njwk3akbs7sakm3skgr5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e611cf4ca541c880131e220d49979415d6527cef6a3481324a9696033275b254",
+   "rec_id": "rec_hwexxdjfog4lljsxwyj2zdo7q5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ooo7crtyspdtguez7dz7exjz26",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e3779924935ea6b253296d389ed2ab275091ba63ce5a738ce336fae32e86fd33",
+   "rec_id": "rec_ckjhqy4nfvfygfqynijpmrzr7t",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_op3jc33tdtipsmmimzsw4n35zh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "de6895f0af0c2f109c824c8aed6e3471e953ae07154f81f5c636d837a32a5073",
+   "rec_id": "rec_y6ueiunyppkauv7n4lnrqjylto",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_orcwsoc5v4y3sycoyryjuaxo3o",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9b60416558b18f1ee7ea79b5af7c250532b69699f32adc5c96fd468269a6961a",
+   "rec_id": "rec_sepitk4tiayplanraohu2wqv2c",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_orgqkre6z2gmg6bmkbyewtnjhi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5b2b49867d0992783f253ed99bb9ff68abe104fe9d3d6de07fa502a70c944d9a",
+   "rec_id": "rec_atrm7ht3e5d6dezpbox4rbcqoz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_oroe3iv7gzitaqeqpzfyhzfrce",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "48dec4dea1c5c7894ed640101f7e0fe81bc904c869af5537b5d56fb1df034a04",
+   "rec_id": "rec_3lzsqpqubithvrqihb37ueyov4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_otnuoqzlpq4rioo4fuxn7buk4g",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2268bfb1648842ca020e5ecdca3312b6f81ba00f0e5ffe0764b7b01f8adad918",
+   "rec_id": "rec_4prdnovzrt3sv6colwcwws3nd6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ovv45iijtuykwjqfgxyzjqz3jt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "80cd0cd3b30df026eb04098dbd808c0482534d454dab5a61ba18f258fc8a76e4",
+   "rec_id": "rec_2jzq36ntinhdmve6mcyy4o44t5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_p2upeloms4zu6qr5q6at2lzh4j",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4c356fc3e4ec5d48376e57506106cae6de02ab9644d87b57280cebce8412b9e4",
+   "rec_id": "rec_zhemhb2qrjq4aufcm6fwaruvkp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_p5ppsjumvxhxi2c2npkjwfddsm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "382971b91114ef851ac753d6f58bb0adbc045b28b2029efe339ac269aecb2afe",
+   "rec_id": "rec_7awveyugf7ltg5jdrucit2dwr6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_p75nqxbl6lzyxp5t65asf273g5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "457fa583f19ba7390b5ef8f12dc949a86f0ee3c5c07e58391924d020e05ce1a2",
+   "rec_id": "rec_y4s6pqp6ypnjrdqotgcttfzlgg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pdkewnciumw224haeryhywhts3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8acf415ad27f2c81a7547f0c71ac54947fa1fd2d182882d120da3a361708ee0c",
+   "rec_id": "rec_7fun6qbhlrhlzheir4lvzjw2dx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pedlxnouomo4oakp2a4nudb6kc",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "add01089ae70b9777799741aca013c6b1463a779fea48dadfbf450dc7b8dd7a7",
+   "rec_id": "rec_qixsfnr6an7ildcdt22izqb7ql",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pepruachebryiiuikgea3kk6sl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5e9ab062c695e9a2a1fcbf9bb762fa16492084d856208df7ba180ea1e52a08aa",
+   "rec_id": "rec_vh6otqmvxyma7x33n5zdzgvrhs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_piip4jed5b3c6k6tnk67jkckuy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b33bca41203dbd67fb66f2f6bf3a8be792692f210525c44c4916395299df2d8b",
+   "rec_id": "rec_iznuatx5t6jlapiith64boyl4p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pk3yrkjlcjfsf5hyswsorbucxv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fda643cf90e3a5ab02fa4e5c63a6f308520e8b3286ce35f773d9588c951e45cd",
+   "rec_id": "rec_ot5ldcovz52equzszgkqnxa4ky",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pmwsptqil6iqaeip4b4rpebben",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a4547fa2a2d7b742e911e23a95089700eef3477511ce75f22985a1c6af2d770c",
+   "rec_id": "rec_a7y7ohy2doenajgx7p3rqz6pad",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pnk2xiystuaixacickyyczkwj2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cc6eb07bcd23f2cbb66dc772579eaea0838bcfb1ea5c6a0c997bb40bc64641b0",
+   "rec_id": "rec_gphu6xqvz5isgts5jvnq54zwfb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pqgknuf4n423sjeem5c6f5ojng",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d871e80907c8ceb13a1b103be2f56ca97822a98c55b67b603b571fe23fd21a22",
+   "rec_id": "rec_fys5ayfl5eojj37eimjbbo2n7d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pt6pazy5avf4om7k4eowwosuku",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "904daba3194b697c20a6c204c373b460c9a854c80426cbee3e5efc8a4bda7f78",
+   "rec_id": "rec_2ecp2zqttndxz6v7nvvern6jq7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pviu4kvfxr4ko5ix2poyszcjvt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7654241226fad2776bd0a01b35108f6d0818668bfd4200e4ebe71f6b9292fd0b",
+   "rec_id": "rec_a6rxkmxef3laigrtfbcsg74knl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_px4umxn65bgdpaizr56zrrdl5z",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a37b971c17677e85658ef08f1dd2f368e90718b88a6170c235ff6a2a59e46137",
+   "rec_id": "rec_mw42ccghocjzkzw53663ol3q3q",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pxvung3qpewlef77mls6mubj2t",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "89dd94402e890ab58ec75eb1073e0efa8d6f3d908c91783b6508735cd13cd259",
+   "rec_id": "rec_tomj6pdc3pt24wcg4vrbehrtbg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_pzi6srozbdoh4ppgksaixyptvk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a99126356081fd0b68f3a404cfe58754920875b38c6cc9339b9608ed52726daf",
+   "rec_id": "rec_rw6hkx2d4wi3adqjxsh374ijpi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_q3hgfkybeodds73c262j23manb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e379afd97ecfe552493bcc7ff1f8098ba9f118ba68ca0615a7945c515bec6f6a",
+   "rec_id": "rec_6mbimlja5555jfj4wqpgmf5lhb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_q6abdzsbikcwralxomybztdpbr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d597663cf720bbeb08aab847f285ebb25ba6adb0adbf456fc3b4a26129980ca0",
+   "rec_id": "rec_7wb73bgqppiizjqielfofwbgby",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_q6xymldsc3anqmzixlbjtjdfjf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7fd65205c46fc3a848e6ba143af597c832a9dbfc892bc08a3483851d0e2bb404",
+   "rec_id": "rec_qwoub3omzj4kx7sekaeqz3y36w",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qbg54iajkoyfwxwe7h2miip2zx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5a06cda1da4f7561b9e381cb709e31c9325448d6a11e0284b5042b19ba2c7360",
+   "rec_id": "rec_x45cpbjhr5bgnri4ymzsu6yvri",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qeda2mpeavl2qinfdwala72s4w",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d0e287088ae8f8c1f26c648241f98c5778b189a123b376cf6c86f6cd36a34c82",
+   "rec_id": "rec_3u7k4lmoyzmyly45gubxqvmj75",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qfezrpcll5fugdjoonhx4fchvx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fbe9babfc43442a88ade58c77b08399992c431fce8806295a72625c79fc0d035",
+   "rec_id": "rec_stshkkij3kynxk4icinzmu7qiv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qhhp7jw7s77lwxopho4teibywp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6cffe0468c76417b9f7e99371f6f22338bbf202ae4c50fc5e89bb8d4082a5e82",
+   "rec_id": "rec_srfl4c3xizngrhj6pn4qqaea5a",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qhqhcvoq4ntev4m4obywpn6uke",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9502ee69dd6148789a695ae19e8e99043c13dcaffd1d20c7cbab7eb51fb4aee4",
+   "rec_id": "rec_gdsrqwazyvbkmlpgumyybbfeq2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qixhxtngnwqdzdesv4ocdumuvb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f28904830025fea60e0f9030bfdf96deff9ca2c1ced4e107b74fcb4e3d160665",
+   "rec_id": "rec_whbluy76bpmjtawinriuhx275m",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qkykcko62pwelb4kruvf4thvs3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4c1fe32eacd035b098b0acef2a1d4db07e73bfb87c151ce8e539a665d6ac3fcb",
+   "rec_id": "rec_grahodrerw4wca7uys4foicnnt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qojxeboembl626cjssytkdv7cx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7b2278c1d696e91ab7a28cc504606eee79bf7c4e95b4a760be5f385199b0e21e",
+   "rec_id": "rec_xdy2alh3ops46yv3w73uaj2zcf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qqgsl3sgowfhtgvfklpg5wb3qb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "639fb8d9b507e737ce61a81890322bcc7b8b0763d6710d664f9deefcbdce0e17",
+   "rec_id": "rec_wxhe7pxjyzxtmdk7hcddlogdcf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qvurrqluggrqmen63xeykg6srp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8015ba71ad5055c483be802b924b9096039dc74bd4c2a2035a47ff03ee98871a",
+   "rec_id": "rec_l56indfanu62i2qwf5phejb5d5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qwofx4xiiuxls4u3xg3fpmt2p6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "05dc20f361ea16180a1f16ff2c916a6ccf7adeee1857c163ae185258e82588be",
+   "rec_id": "rec_qoaivz24zvwyl5tcquzd5zx3qx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qxwnqy4wi2eeslpfmsxpkagbqs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "805b8c61fac548d0b23608c7e1c8e4245e6c7317ee137d6d53fceed72363954e",
+   "rec_id": "rec_uddihtgd3pnecpycfwgkezcw7u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_qysnyuvp2vkifuvzamb6fkuo3g",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "44e1a5147d18a8cc55b4e7cb757387f7d643460b916f4feb59d7db0a105b7f84",
+   "rec_id": "rec_jymok7hnywkwt5uh47ztnokni7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_r2q2eitxv33ee5kyu52ndrzky5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ee80a7e6b76b0340c30fe6844aeec7165b619f7f4310e9809851a5daa94d83c3",
+   "rec_id": "rec_4coh267hbjuogmmov54bn2muap",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_r4aa3dqwmokmc6di76id5is4o6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2e9827a5e374a5009045f107b0db09e2e9c0b336d9bf66fd1da6add7da5a3032",
+   "rec_id": "rec_dqdydevfawaqmd7nmdrzrvk2to",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ra52hdfsoj7nk4zawznb75gfk5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "32f706e3d4f5aab1d53e737f70d5f733562a85fae05ca7519bc1fb4e199ba774",
+   "rec_id": "rec_neyzvoj424kmnjzmcqhwwk2ntb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rc7qj3sgjne2rpqut2eveu72xy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cac7e7ced0e5fc32d057fe64689759a8e9d0931f8d2d743d681205565a817cdf",
+   "rec_id": "rec_j6mrvzy7tn7ykpwb6roeifdfcu",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rcoyxc3gqbkohbvpzamvoawulq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c39e48dbfe21466c253890727d2212a21a4e97f204fd666346e6965c14e93082",
+   "rec_id": "rec_qenilmtru6lpr6tplq3gj77bue",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rczl3ylffyhsqhzesbr7uxtzn4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ff865c8bf2d6e60480216d61b5d8e3762b6e90eaf1ccc5ccdb724eed111b96db",
+   "rec_id": "rec_2t3itgzrr7y6emjaq43fbnf44d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rgyhc3zbd76dobgi3iqaeixb2z",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b8c9ba4553486edec8174ad27ab22bbe00b4886bfeab58582aa8d5bc0c2562be",
+   "rec_id": "rec_6qmcatrfhetcuhzsqkg4ldwbrp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rjkczxmphqo5q754qjekserr6x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "535f6b32f266256bc9cc3dd2fe450259b7031fb0b016cdb48ab931751669c2b5",
+   "rec_id": "rec_pp3t4shq6gv44xpel5pe63ue7d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ro3dvpmvztivlziqdtmw2ib4bp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3488386a665094711ff4ea525bb0bef936083e2517e85eb010b1e4ce284d899f",
+   "rec_id": "rec_j7rkb4ckh7yncp5b6djpaa3noz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rozij33lpd4v66jdudqpv76dqg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e1e541650a8df1db01c13a20e1d723e0d3a276375d8dbd9df4970572d8e89a79",
+   "rec_id": "rec_4h7dhub3klw3bakj5w7mke7a6d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rq43dxz2tcwstmim4b4v3sjdx3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "731f36f58e983403f6e376a05f176fef975a2e620e29744846b02ee42db16259",
+   "rec_id": "rec_kdv3fzwihceixdn2kh5mb3u4i5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rqgqpbnjrqsqighf3e3lkizevi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45f8195a7592772ea722de195318afc1cd56f771250ca40af209d1d8769b9add",
+   "rec_id": "rec_q5mcf5h6kj5z6fof7m6pvtsosy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rro3zwoq4ual32mq7gci7m32ia",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "22f8cff78dc14935fa7345129cd826cb4d3336762dfb7a93dd1affcacecdedae",
+   "rec_id": "rec_kw55z7f4sumvi2goh454kdpgon",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rtuylcrgyvw4ildhvsnnf7e3lt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bc369b0e6dda14349ad8b7cbf16b64e3bd6e4d8ea37a73b50cb0e2211fc4c832",
+   "rec_id": "rec_jj5qzgrpnotzgaefqki3d6hxja",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ruzzsjsh4yvia52qkrttqjuq5s",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c93b7be420c17e0913d1b35e213251290e6a23c5b3d0d58c54f493efd8c2d2b5",
+   "rec_id": "rec_grqk3oyjx4hajf3bvnkrrhibbn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_rwa5qajpqqi2y6ueg2n3unpna3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1e7fce271572dc3390f0c62e4ed10de9cced1e53878fdbd86377d864b7f4c4c3",
+   "rec_id": "rec_xc3ik5wngr3jivm6ruxtdgm6lq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_s2gmngdp2xskrmfqt3i45dpzxo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8ebc1474793cc05062f36999708fbb222ee341201278094dcbc5986dc9f1209e",
+   "rec_id": "rec_az3bh7ux7rovwz54hoebastx4a",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_s54lzihvnu5r3sgcuruekxal3x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c3902016cc0677de87d530943076a36ef93f2cfdf974f30259fee6c4e0be9aca",
+   "rec_id": "rec_vlo74sgmasli757jfdstxbzsio",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_s5wfnxiis3gbmoiygmevn435jv",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ec83b04fdb2d9db1176ed4e3aa6862366f84291bae1b0b35119c4b91dd6ea2c7",
+   "rec_id": "rec_b5alha6irscfs5he73pfolcdoa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sch4idd4dfiqnq7npvhj2dsaki",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f3bb757b0c6bccae8f93bd131a407086eb4c6d9d34ddc48f67557e0122c9ba97",
+   "rec_id": "rec_23oqhoagvez2wynfij6qvgvnpe",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_setdcl3t4fhjbs24fsfbgw462k",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1e7502f742e36d4395b6ef5d69720c39a39edeb6cee4554ca168999a5d4a9e13",
+   "rec_id": "rec_n4owbbilt6igjy5stzxuuozozq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sgrrvgahuftpseqfjzuo5upgkr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "76c50fc88eb3e5090cdc1edb0801980ef393e1f9d0fb88438523efd74e87f428",
+   "rec_id": "rec_xdvkkbjblkhumqpqtrzv3pjqfy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sgyhkycczt4gfqpwyv26fi457x",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b17bca43a5a673ad69d2e891161d35710b1e26ac3abb0ed810ace74c1f7c030b",
+   "rec_id": "rec_yuripr7raqxhatsyejbw7ov2nl",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sihtggwgqhrhxlmiuaneaejdn4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2c494f0d763e07f8ab3bb9b1f8685078eee23b5c9e63d1b9788d928f5ace9727",
+   "rec_id": "rec_4lfsmkfrvad2kd4ivicjvbze7p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sleh52hb25k3hthbzm524wrc57",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "860937a711eb15f9490d6523de9466f176d0c74283cd0f4c725adbf533fe9bd6",
+   "rec_id": "rec_u3olz2rnaa4srbub45azjcmom5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_smbyt3vfki6n6a3sn4cnp3d2ta",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4f4e89c562d0645114f4705e87c7c52c8bea5c406b3aa340795f43be03991312",
+   "rec_id": "rec_v5o6rxzafvcdcrihln5yfan2ag",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_smefbumlecajx6x4rbijkhqcvw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "50469a3f2d2f18b851db78337d034ba2e967942fbb705ff05dce3fcaa1a8b7ae",
+   "rec_id": "rec_rlrvt4mbrnjdmu66zjvllvkvm4",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_smeknrsdtbybzzoectxxqkunvs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "817f5e7691bf748a2fa1dcef99b8ae73798f1138f32f01fef10a12c972ce93e7",
+   "rec_id": "rec_3jv6iq7vnllpgfeywhqx3z2k4u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_smvocdapcxa7rgpygaulsais3t",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5d1d59b7c30cf3f06a7f64e3db2fbd25456dc57ff4cbf811c2d66af63a4dbe77",
+   "rec_id": "rec_6zm7idoddhjjsv63wnv4qimtqg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_sohoak4ac6c26mh55hlmijndjt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "69a06826ff9235ace42f550b15b233d675fb4184b734b5d244eb24333759a37d",
+   "rec_id": "rec_xvfj6qxv74vkubvyjlptbmceuq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_std6ruol4lhpapicdt66rjncsi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8c1504751cf752890970e86948c2d32e63eaf4dad21a7d8e9e3ecb30f4e3befd",
+   "rec_id": "rec_yp3nzip6rql7urwdjrs6qdy4sd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_t5gbl4pvx4dm4yihuwld4xb7yy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "56b624198997059d927f62febf822c039f43c79f343dfb88a7cb45cd2dae3f4e",
+   "rec_id": "rec_434epiqpn5jdw4hzffqmddenvn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_t7zbasbqz3qezbhieipgk3pldi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bc7f78f231d69cd81dfbcaf5d5ad21dfe8159b4e9d38d1df755ae1419b7c7f77",
+   "rec_id": "rec_f4oqhqvuowuptqfwg4iyai2vhw",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tccs642vj7lror2haae6gvdind",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9fc27a097534c575be4a7d8acf996bea40d0c2978a9f15e799d2e61ee1a659ca",
+   "rec_id": "rec_vywwlxiib7sjjygrnen7cblncb",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tchnlh3xsbnzgvraqcdg2bcf72",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8273e1f4820fffd0c031366fed76916d533b02cbf986ac5e81cc1692d67d33c7",
+   "rec_id": "rec_65jsmke4o7eouzmyeijk3eaylf",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tcipgdakmgud5qgfvkwcz3xwvb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4f22231d9287e99645f0d349522a6f15f5ca30794c6040a04dc36bb3137742fc",
+   "rec_id": "rec_y66vjsk5nj4hfzd3emzfimylzq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_thhedot5so26udnawabzrccich",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3cae140a905dc1fd184d14a0eee76c9483f976b99651bce1f1c03af8d1c5ca8a",
+   "rec_id": "rec_34tigehili55arjyc3m5lttb2p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tih5cbcqroabe5rdvootgtyrah",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "144d6466d85b31377dc5dd62b0b5080f2be2a77d714c0479e0530167c022dfea",
+   "rec_id": "rec_q4qp5n3vevs5tbfshgrese2idr",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tiippijr6uqmcwvdribmjkr7wq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d45a56779ed7c53c0d9a2db85292cd54a493bc8c4e56e140b5f6ae014f140e5f",
+   "rec_id": "rec_dsvuq3mkvgkyextj4n4js5ztoq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tn6tkldthq4khvjmdhwakkjkgg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "87046916d9dbaf7ce357a4887cd0287b7c11bcf84bf1d9aa5944b761827b2c24",
+   "rec_id": "rec_mjz3wf626al6mxmtqm4qu43rcp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tp3t7skmlkntrjsk3pp7i7fwe7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d8c07d8bbbfb4669a82b409655db654eeea06b145e40243ad7d17b246e86d5df",
+   "rec_id": "rec_l4blcpqu2yblw4rqjexbf55s7t",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tqj2gb2hqmm57oqbzkec2fqhep",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "52f2af6833fb57d944cab7c6752c03730ea2c871ba43af2fb34ae149562cabf6",
+   "rec_id": "rec_ih55jcriluyjotcb2o4fr7ajp7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_twigqu33s22f4ntaa3vtxb2vza",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b13bf69dab48909c097321a2ebace87651edeee4da14fd8af178cdb2bd89873d",
+   "rec_id": "rec_3vrad7oylz3lguhh5b5jcvzahh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_tylfn54l52myv67s6aghvoy7cf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e60142255f5386be92c11e75fd00159de8fd8f4301590fd55136c1c881d50c3a",
+   "rec_id": "rec_yialxiz2kgjc75jbcxmjkcupk2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_u64v56njjvxxxg3mgjijxihiut",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "72594862377367a5a71bb7bc52f01717b9dba9998862b610a14c558b8f867851",
+   "rec_id": "rec_vf3l3qhrcigrwfdjq3c7l7yey2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ueiwwy5gjwqieknvju6hz4dkom",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "02bce67775ac2bfebec5a9462703a86110d6f62f7c7da00000ab0a124021a67f",
+   "rec_id": "rec_zi7puwupon6cb77wl3qovpzn3l",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uh5ieio4pfvdsdl2u2a2t53dyl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e7c660a7b893f4e86ca74c06d63fe15612293519a5d0bb613e151873340023cb",
+   "rec_id": "rec_rhfolshf22ilww4dqmsqvriha5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uienrm64abflwqnbuxbmjgrtdb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ecce6327839efa625b9820534b77d93cfc6cf863903b263da35a96a617f8e16d",
+   "rec_id": "rec_tz7haptfnyr424g235ujyx2vlp",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ullusrhpt2cy2irpj6dclgi6a4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "611808e5859cacd0a4d23a58c6e5d3c0aa08869dcf66cb8ace3a6e02cde7482f",
+   "rec_id": "rec_vzeu7hx7lp2yvzor3heupxbf32",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_unpusd3y4jgd3lirme44gnt64y",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4a31ef4596c8f6895b10305826e9ce60e9e416491b6c044833b66caf2feda809",
+   "rec_id": "rec_h6lafigvrxebdgzalr6r6k2wrv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uq3sjp6rqwucj33man4ayvbygt",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4f8ed45682a98db101c4ec296823658a2c34cebeb1fb872adeef8e21e25328af",
+   "rec_id": "rec_hwt4my6ce454ytbtty3kqa5x72",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uqpo42sjepxbpu5wwrbaox4z54",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3c3771a568c5c02df1b3b89b4881932e2e5db75e203e4164b35d1a4a0f1a8171",
+   "rec_id": "rec_ub53xkleg3q4agmjnxoh65y7ts",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uqv3qg63xoeiwqw5omwkgtzr7n",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f8869cc49524ddb6a650aa1698621ff491fb8f3011d393dd8fce9f52bb9a8385",
+   "rec_id": "rec_2tn42nwxxfxsdbfmruzvakilwx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uvqwfzzxxgd2m3bqlcqguyuq3v",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d3ac9252d3f6090d9fc6bd9aabdc9e9d8f299a65b7025bd74c6fb52522424f3f",
+   "rec_id": "rec_2aexyu5ovgrgesbgydpvvj7gpg",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_uz3tvmlmskg7gshqvopeqni2gp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d46fcd769d6f30a4fe910ef7bd6b2efb186af52cd64b882b0f1119db40b1fec1",
+   "rec_id": "rec_zk37fmo5a3f6ptasdq65cvrq7d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v2banpok4vjwdwyvtjuvzlbpbz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "740849dc8b6d637bf652248d10417319c4d823e2e5b49b46cea2d7e19b2afe36",
+   "rec_id": "rec_omruxsmhe46exkk5px5kneknkq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v33fmfr55yahhyw4zptlhasayq",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7263a669d09122db995e5cbb337ea5e86a05472f92396bb4c26e0737ef8bcf94",
+   "rec_id": "rec_jnerfgyucz5y4gwwollta6p7d6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v36p5lvhcgvasi5thyi6bx5bfl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8192b0608bf0e0177dc1892f0093c041b9f475049861a824d549e2c8473631c3",
+   "rec_id": "rec_obd5xbuyah7t2hsoejgcp3zssc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v3ea36uouwdesz6jni7olamjrc",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1e663dd1c49dc34fbcedce5535e25df4084612631af154a56783805eb620315e",
+   "rec_id": "rec_z7z7h62bzmrblj6wacpi7kh4nc",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v3nzm26f5v2rimfzyv4i5c6dbo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "554d7c6c3e503d001a2c4f93ba6452258d596aa59923fb686100dc6b10802f6f",
+   "rec_id": "rec_zdulhtq3rmntmqtnghiro7bfxd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v3uzftamif5brg6lqiygo65ceo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c6e494ad323a992720fabf017fd6ec2ceb379ca543ab3f49209f8988df583e33",
+   "rec_id": "rec_fcfb4kklmdqwt6huaqcrtopggt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v5mijavfx3ojqpv7dlofkmykk7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "03d37fb738820b6551157bed498ceb26c506b44165cd7f60a76517b7d35db142",
+   "rec_id": "rec_xexdwdwtrbwn5rzeukxdoqs3ya",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_v6vwbifac5d7qq5v3r3r3qqk2t",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "464b153b7f963b00d692fd0fafa554937e09b027723fc65a1acac3ac6f6908ca",
+   "rec_id": "rec_gtwwrkj5vbfzdaevswllwyn7ao",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vezegvtiek6infatphfu63svis",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "51f76f73dcbfa5aaa3941455e16b62f30c7bd13a45fda14556167e5374b00bad",
+   "rec_id": "rec_ib2hy4hmlnm4iih5mk6dlluieo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vfexkwygdzw53quyicm6b2qhx7",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "be891ad2b1bee008e286a7112b58e4eda1408db4b58bd6e0ab3519c8a65264e8",
+   "rec_id": "rec_kwyu2yvspsedckddd37nt7f66y",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vfhnmscr6rs45xt2qkgsbhqcqo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9d0c4c40b9fc1c7b02fe9e5701d1192b4e611766839225dac3790a809d16463b",
+   "rec_id": "rec_k24dlei3rfjms4qotqeogg47gt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vfs2o7sirtbkugdcavnbyfltub",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6d391c263f4d8d4029587ce49ded99425a4c6da7399690cb3601fd513fb37362",
+   "rec_id": "rec_7cwk4kujnhqbdx3byma5yxmliv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vhut4o3donsiekvc2c7ee3u7m5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4838883239cbda889db057e9461e6bcdd8bb5b9df83dcbaac74c7af1369bb5dc",
+   "rec_id": "rec_l6rrxkjbh4bpclsz4ni2annb3s",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vmogb3e7owzfgoolmgp3a6hfte",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c13fdfde325ad1b965bebca24b6b93dacbea6dceb0bbecae07e5dee526bff399",
+   "rec_id": "rec_6rxze4l7uspcg3p6jhdqylwu3p",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vn5tckjvsckgcuqzelpvhvpzoz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8092c43e0d282fc07f88ffa103c0394ceff87618f5cf73bee62229602baaa9c9",
+   "rec_id": "rec_fwiicshtegykkgisnwflfyex2a",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vpmeqihry5pqyavxd54ue6flwb",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9488a56116124e5d0c42a205844d95350e167e422bfdc81416e245aff43a001c",
+   "rec_id": "rec_3q7h2urksc7hsbxcsits6hxaqs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vpwltwnsiztpkthre23hnckbyi",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e047f8d869113e116ca7cf3246cc7f2b75dc3db62299be6708a8bfa540bbf681",
+   "rec_id": "rec_oerb6r2lpbnntyws72nvzepn63",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vvr6idkp6h7ev5kgu2bgrkrml5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0b150fb8d5e8d87e8e523d99ff8f52c957593eb1182807dd591566509da5e391",
+   "rec_id": "rec_z36aikefojwziqv4sfemafx334",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vwvdxfucp47jtet5n3jopdwtl6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d15efd1afdd8fbe078ca674e24a49f13ac18e94761a3524e83df070d8920c1ab",
+   "rec_id": "rec_zrcm6pfui5cmksjckbgrinat52",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_vyihyduzcffjf7bmgrt7pchteo",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "334a4eda4ae07cd563ffbace7ce4f8b40e09087e7d6c44b72f71c9364df1a42e",
+   "rec_id": "rec_6rx5wqopnsv7zm4a2aux6zl5hv",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_w2kapckwcf326ajahe5gedbo52",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3ab053a1968cc75c1df35e64e3b1400748ead817385aca733d336cfee1e51a89",
+   "rec_id": "rec_w4hgstgquegwl4cpmiox4vol4q",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_w37tfck56nd4lkbfzj7x7uewbn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b277ed36783c0458bfbe3f6231b4d8a2262dc85d8538c8b4597b9a54e75bb9c9",
+   "rec_id": "rec_i77iaiao3ol7ehhlofjhwuewst",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_w5pm5cxnmqo2ewyeabkchiinsr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "baf86c0b32150993e20dd3c3a6c6ace3de36faf78e1cd4033f0a7a032576618c",
+   "rec_id": "rec_cef7lwhkwvikqm4tytndisxqj2",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_w75bybae4yjvhhcleqa27v2dub",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "008c8147e29e8f39a964247b0dbe69ff82714a922c12a9771b7dd01320557396",
+   "rec_id": "rec_xe7vikhrqfraonefxddpnl52qu",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_w7lba3ozqmpc627kusfykzmrzu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fb60375060106bf8234555ce3827e50422b1b21f5dbca320c22e8df82478e6ec",
+   "rec_id": "rec_vodkq2t7cqyge6bbno246qz5lz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wgrlo7rnvi6od4gsrz5anlav2m",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "efa11dd1422ada666ab7d2a6a18c803870b59fd53f2b3a0903adecf7f05e56d3",
+   "rec_id": "rec_h5kxt2n47ijjnt3khoys7bvijy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wh5dgltof5dk2ydx7azjizz65n",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f8a45fef1170bd71bb2db56330a3ef642b7e9ce2f3c16255882f32d74eaf1a2b",
+   "rec_id": "rec_yiflgacq7fcwicraexlw7k26vu",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wiuzx5cthbzx7vsqqzjc344btk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "7cb558c6a0751d37fb39cd54b83c7ae0cd4ab02b4de95eb71b85970e8ca08e66",
+   "rec_id": "rec_ep7hfl3x6z4kquhwqw4otchnbs",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wlby34fnphury7ofmdidsmn2io",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "5097136d432ae3b70770467b61ee8f0c6c02333a4e65125eebf0d15f304ce5f0",
+   "rec_id": "rec_4iqffcpxbels3uwhrqa52vyj7i",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wm2rauudlkji6lv2f3l5t5u74j",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c97d5e3e1a61a17bcb476e213fef3723271a1ffcd63cf076aa0e10460f3fb08d",
+   "rec_id": "rec_wubt7lpnrmw635kjls2rcwgr74",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wqt6s2dioufcctk6y46nioei7a",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "adbc62a827574919a6ca586156547ccaaa56ef69c9b0a252c01f754134b24b50",
+   "rec_id": "rec_bg5ivpydfwjtyzop6w44eigzmd",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_wzxcsylvramz3artyldexcclro",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "adb03a3bcf69b7d6f9355f76d7bf0ceefefdb215f2cbed540b39b27e920c2e14",
+   "rec_id": "rec_g5c52vtxgfmzmxhnzdmud6wuo3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_x4ptuwugvjwct3mdsgdqxmczi3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "19528f103a78ec571160c876078752668e78c3685c6cf6ca8fcf3e555862e4c7",
+   "rec_id": "rec_wcitsqr6vrcmuncmloyu3exj7x",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_x65fsjjebfe7vrpqotpayedbja",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "58362c5a45158c9ed21f976e53b16a835c8f5758e3617e86512088037ddb478a",
+   "rec_id": "rec_vtcq2jo4dcfuzmwgmbzj3i6ufn",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_x6g4m2dcndglufxjpm642a23ep",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "f14435ec12c5caba6958c04ab839618d8914adb3a4ee030e524cdf065fde192d",
+   "rec_id": "rec_ew55ywnv6l7lqgxby6oo52zyaa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_x7rvhzme4tu4dtug7vexktg5z2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "32b6cffac9f0d480d7ccecb8c57efca0e9e1a598c7c5e8b67fe6a33216d7e46f",
+   "rec_id": "rec_s2ufs5dldjnotdztpqztrxyurx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xep7sexpdzreu22wlbdpp6onmj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a0cecb5281ffec3bb5f772831dc29e9ec55cdca9df4bbc6792322c880b990e7e",
+   "rec_id": "rec_pkwhrvog2vlzyn2chn47jqf2t5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xgyc6r5k55q2hrmyxm4ajtkuik",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d327414dedf8e8446f6ed11bd7db8a08fb94c4f439a0c2135fca16e8d3bd1019",
+   "rec_id": "rec_lue3m2ythdhwrnlfukjh3hulzh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xijol5f5fqmoivpkckqjuhtrdl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "a7ef7010b4723c6e09f0555a82e1ab3852eae5bba2d9066f1bcf470cacc611f4",
+   "rec_id": "rec_vcpiklmylo5qwcqaokws7zww27",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xlpf2bbywftmyabyoobn4nmreu",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "6265ec218e573ea1961312c71346cc3d29bf88c4166c2a824233774aa8d17bcb",
+   "rec_id": "rec_t4ki6wtns4z245vsfsmudulqqx",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xp3jwyc523tsh52qdnp2i5ivnm",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "413577d1fbaa1de43c7d3a8ee7f0723048fe0a23eb2cb414acdf77d57109a9fd",
+   "rec_id": "rec_gh4eb7u45pfxbexsyjfqdxsx3w",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xpkjfmqahhx3lgsg5k3rcbstgh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "12ea91e2d953c4acee2c957bd6f1bbe18ef2aeb13caf02ce7fc5842e150c76c0",
+   "rec_id": "rec_cnyfj27qdi6z7r6jea6cufrkfa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xs4xxigcej5ebwsz77q4pmanub",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d9c49c3d612a920b39bc09c49791564222f456a96901a3202d95e7f9554afc1b",
+   "rec_id": "rec_ftojyifqlx4g7spvdnjaef3tf3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xud6xvxsmg2nvp6e5i4vcj2xwy",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "51ba75ec8a07274f43ea499375274ff93eb79a7f28d0a83e4276c6602382f7a3",
+   "rec_id": "rec_nrndjwhgkwitx5vikbnvfmml4u",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xz67cc7gnazdcccgjx5eitnpzg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ecf3dc4c82de16cac03e1cc14281391c507ab75a2306694f22fbca8dcecc81ae",
+   "rec_id": "rec_ebd7b4qvc56fm6saz6q4fxmo4d",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_xzypiym2svffpfcwq5atbdi7x3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3f37e66fc462b3dd678af98a881b1304854a640a624d20a985020d24bea487db",
+   "rec_id": "rec_3fceh6dnpyalvjar3siyx7bmjk",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_y4g7lkq32xyedwt6o6gfrypyrn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "930728c8dc269c1d844774b01dea72a6500cd132166d29c15b7e17a34bf3e90c",
+   "rec_id": "rec_wbhikobykvi7bjty3un6navcwq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_y5yy7mub7vmngnl2klmdrapwmn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "841e92a43f61d277422e0756a2b74e5e7ef384494828b93ef7eb95fc7709b22d",
+   "rec_id": "rec_ieuevl35ppxdl5fb45bhlftzmi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ya6puq27ahmxuoii67yplpa3gs",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cbfd6a248d509a7c7a6d0148ab8249a8b68d8540a69032e8f2c6e127a64d98bf",
+   "rec_id": "rec_of3er5fiisk2q66tjowfino4p7",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ycy5lk5lz44bj5fz6lumxurgcf",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "68f87d2422394b3814ed4d971495682385bbe9e04738053e47fdfd594de805e2",
+   "rec_id": "rec_atezgfpuwtm5rqwjf4ta7pbo3b",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yd7xmkoeygeftpwuhdjc6injbh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3c5b6bc481f0e8eedeba801841ea321170514328428a3adc99387975afce91af",
+   "rec_id": "rec_ysqqgghowizwt6e6etnsk6vi5s",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yfhumi5fgq3t2tuhtim23fpe5f",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "fa5306217e93d3b3510f6822ffe1d31a009fd64a896f4ef51fcc3c112725f441",
+   "rec_id": "rec_727jh4ubxf76mbto32zlrez5sh",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yj33gu56adxko4z6slwv2wpnjn",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "c5d130a87714dfc2d1633baca7e8175e353773721dfc268fb1a1c9f4d1994f05",
+   "rec_id": "rec_ulpzj7lffovvozdsif7pxisa3s",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ykkyw62desb2bkisaijcaebdrh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "4247d54b9fcae5b1bee34468d44c73615d363e99b509d51ba76beff4bb273185",
+   "rec_id": "rec_xgssb2laddqxg2dkqtqb6ptnqj",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ykp3z7kwhugnvzrdxdrwr54hj4",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "0cad31e5d11d54e27574e1279909fb5dd31d228c0e51e6ab8ab4564cd4e3abd2",
+   "rec_id": "rec_7apgiq46i5vm3h7cnf54fhob6f",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yks2b5kc5enpjphnio5ppt3ahh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2ff52b6c1f4d1dae74041e8b54b9d8acebf3a36983263b0d4fb2227cdc04518e",
+   "rec_id": "rec_2bf2gji3q4ga6ge6u7xkvfmjlm",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yn2ar7cyz53b5wahtx6s3qugaw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "64587d3a664a7194dc702656970166ca1d5c6de1d84858391c4634a1de1dcbe6",
+   "rec_id": "rec_4n2l5xluoklxwpbzsu3twdbgnq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ynyrha4p3zyylodrf3bxmc4ofl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "9b78717a58d9a4f8be20a9703d25b9e2d6090bb6af7c4df70940a144153ce2ae",
+   "rec_id": "rec_5xi7bx45hlwvzu2drvibwah2ep",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ytsiuazjpjawkvzcwkmgqhgod5",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "83b87feb20664f29af01ee2efd7cfbe062c6674538f8a84e7e9915cf9e107367",
+   "rec_id": "rec_llxapudokazjyo3nhayd2ldsot",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yw74wpneujw3rcn5uhmw7xisy6",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bc887918b3f5b226755825c0e9d4cc2f60d7a8e5d786d80dad305a8f551f67bf",
+   "rec_id": "rec_6r4zzvwfsg22dtl76wxxfrg2ym",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yxct7d2clapsd47627emo35swz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "e55f0839f77d4f67f698ef0e4a2630e568da3eefe70a609e6fd42b662d428318",
+   "rec_id": "rec_zrlgasbs46jnl4ra4ei63r2qq5",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yxfsyuqseoi6bp6v4x3jwoooyg",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "45c68b2c184f3c06420e43d3ddbef3b6242fcbcd0873d4fc1cfda8747263b938",
+   "rec_id": "rec_pbhpgqxxois2ot5pifqkhbpfxq",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_yzgizv4k3jjlcsoeverywr2vhx",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3cd4c347bf002d2b4993be26192d4b4e6de03526ecd8d2727fa66e87ff0d8de8",
+   "rec_id": "rec_oxpbhd4jqvqy63ahjhhj7cfw3q",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_z43isi44n7shrtl4uay3q2akoz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "18a0acc28998c5163b516fa23d8ba94332e48f12684cebe48c37fc47e4f4dbc5",
+   "rec_id": "rec_74grjhw3z4z5jct6x5idkbelvz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_z4s5ikyh4juiv5b5scmtywbazh",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "1a73ab43509ede65e72ac7226be88d070f5d3488e1d36273ab772f76959184ab",
+   "rec_id": "rec_7akleiutxwluudtiea3vwugxea",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_z7dv3tyv72r3g2x56ojdajqtcp",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "028081390b3922eceddf8c9bbce9c4805d5baff46e934b43eef8aab232cd20aa",
+   "rec_id": "rec_2lai2tmiqjs7xug4ya776owkjy",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zawaqbr7p4uh6jp7tp2s5a3n2u",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "3e0b12dcb96576c756b3170817dcfae39b2b8ec047245f87ae1e6c76ca4ebe64",
+   "rec_id": "rec_dziji5ffl7a2gzcv5fcp2uvj3y",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zc3p563e3lybpozkamcsmrgcok",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "ee9ea7dd053f3b8e41327a73644a8e5e564ac8b7e507f0cecd2d80de2ed6017f",
+   "rec_id": "rec_e6wdos3ps6affu4hexgn5gyhg6",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zgk75z3pumuamehrszstb4w5u2",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "632d559cc4f0a042adfeec6a9a5c63705d81bd687c7bd48cb7cd80040b5eced7",
+   "rec_id": "rec_gc74gh3fdzlumnhmemc3odwe37",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zivvyfma6nfj2snfllcixhwy2j",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "8a3b24639d4228aef6a6803df1c8d03558d06ca585b200341b927c5ba3aef4f1",
+   "rec_id": "rec_jcuxuxh2b4riydpzajpq2iug7z",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zjpn3q23wgarzze226sk6he4q3",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cfac9d3be56923cec32fb73deddc842825eddc9dfa54627edb6b44e05a46860e",
+   "rec_id": "rec_vwfyu3i4w4pc6a6tq42dxzlrnz",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zminpjcbuohzxf5zclup677ams",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "cf2820fc8cb7e4b9eeff3548974a4ca24983acb380a653a743018a3e8bf357df",
+   "rec_id": "rec_yyxflujkstmfkghyvhmlv6456r",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zrchlokmkakjp6sb4dlcqjvcpr",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "bd04d2266b996d56c775a9d33541ba6871bb28921650e377eb33e2e270c96409",
+   "rec_id": "rec_5cz2bp7uyx3buyn3kvqgds2ok3",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zspnarv2lnukfne7smuxrv5cdl",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "99561c8233babac3dc302a7431332b5d3bf48f701ac896985c99fa1a010c1bde",
+   "rec_id": "rec_b7k7qhkhocrszysj4jrmml6ixi",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zt3aagj62ueyan6jxrin2wyvrw",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "d7943ca9431c525f864d1bbd0decf71530c6a2c1b84c9242b40e01b28ce1bbd2",
+   "rec_id": "rec_ruo5sascpvniacyd2hydezgrto",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zth3j7gzw3ztjxb45zrexvyt5f",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "b9ef07c4c4aa7384fad5a8f763c49a8137a5a9609fa7a00eb5bec89552f5b74a",
+   "rec_id": "rec_5tjwr4g2ydux46h3gwdr3asjdo",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_ztvl4bdmtzwraqsi4dyzdjrx5y",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "600f86af008cf39e7f42d30039357e82b3cd0ae991176b1b6ee29e1a14aa8d33",
+   "rec_id": "rec_7blivommbffd322mqh4qpxj2ar",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zxedldr54hhngc6imthchep7rk",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "2b645e73a801177ae96afc3622e63e1a19feec0014d01bc1ea5f8da54dcd2843",
+   "rec_id": "rec_ogwdzxrmpspdjggsvq47xdziaa",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zxfivf4vhtpzayayheux36bydj",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "515d05c9cdc9ce888bbe54949f4bb1cc69f1c12496b52775ef3994cbfc6d098e",
+   "rec_id": "rec_5iiqgloijild2e7j6g7ls3wmyt",
+   "window_index": 0
+  },
+  {
+   "annotation_status_now": "planned",
+   "camera_group_id": "cgp_zz5yvuo3p3hr2iuzq5t76ybrxz",
+   "locked_utc": null,
+   "locked_utc_null_reason": "pending_review",
+   "plan_nk": [
+    "m1a-sdg-test",
+    "1"
+   ],
+   "proposed_lock_sha256": "eb9d32d69ffcb855fc7493c7c6bf1ee4fb469e55e6b1d41e05303b84c50ebbd5",
+   "rec_id": "rec_6p3v4nqw6ya3a5w4ug3yar77mc",
+   "window_index": 0
+  }
+ ]
+}

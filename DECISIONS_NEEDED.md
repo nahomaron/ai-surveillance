@@ -973,3 +973,31 @@ Question: the Colab package is ready. Please run it as described in **`research/
 Agent's recommendation: none; the Owner runs the check.
 Owner decision: ______
 
+
+## D-63 (2026-11-26) — STOP after D-61 STEPS 4–6: pre-registration v2 frozen; test readiness prepared        status: OPEN
+Task: T-28e, T-28f, T-28t (D-61 STEPS 4–6)   Blocking: the reporting-camera run (D-61 §1.7 order 1), the X0b test run (order 2, before 1 Dec 2026), the window lock; nothing else (independent of D-62)
+Question: pre-registration v2 is frozen (`docs/preregistration_v2_FROZEN.md`, `docs/preregistration/freeze_record_v2.json`, frozen_utc 2026-11-26T14:29:25Z, analysis commit 226ea7b). Results only. Status: candidate, experimental, synthetic-data evaluation; tuning results are diagnostic, not reported results.
+- **STEP 0 findings (details in the Progress log, 26 Nov):**
+  1. Not all held data is 30 fps. The Mendeley clips run at about 25 fps. Every v2 recording is 30 fps, but g_max in frames is ambiguous off 30 fps: **CR-038**.
+  2. `speed_sigma_mps` is non-null on the detector path, so `speed_near_v_min` fires (313 of 450 C-v2 episodes). σ_c and minclr σ are null, so `clearance_within_k_sigma` never fires. Limitation 5 is corrected in the pre-registration.
+  3. Under `review_route`, an O episode is routed in the OI-1 case **and whenever it carries IE**. In T23, O episodes never reach a manager.
+- **STEP 4 (116 tuning cameras; diagnostic v2 references; selects nothing):**
+  - C-v2+T25: EV-M1 / EV-M2 **0.733 / 0.620** (ceiling 1.000 / 0.771, eye level 0.500 / 0.463).
+  - A+T25: **1.000 / 0.975**.
+  - **No event was joined** (n_members 1 everywhere, unobserved_gap_s 0). With g_max 45 a POW break needs a gap of at least 46 frames (1.53 s), which exceeds m_gap_s 1.5 s, so **T25.2 can never join under v2**. Same-unit splits across POWs remain: 12 on the detector path, 3 on A.
+  - IE share caused by g_max 45: detector path +0.065 (0.788 against 0.723 at g_max 15); A +0.000.
+- **STEP 5:**
+  - v2 references from simulator truth: tuning 116, reporting 110, test 471 cameras (473 references). Built twice, identical on 697 of 697.
+  - The freeze record was built twice and is byte-identical.
+  - **SmartSpaces references are not built (CR-039).** The T21 amendment promised for v2 (D-40 item 3) does not exist, so the tier-1 evaluation is blocked.
+- **STEP 6 readiness** (`docs/preregistration/test_readiness_v2.json`):
+  - pass: X0c (art_2wiixxn5…, 0 violations); windows lockable; freeze record reproducible; test run IDs and hashes equal X0b v1 (48 runs, 471 cameras); weights hashed; licence rows present;
+  - **open:** Colab estimate for S2 on 471 cameras. CPU ≈ 15.2 h; GPU time unknown until D-62 returns.
+- **For decision or review:**
+  1. The definition of `lock_sha256`, proposed in AR-71 item 11 (`window_lock_proposal_v2.json`). Then the lock time.
+  2. Whether T25.2 being structurally inert under v2 is intended (both values are the Owner's; the agent changed nothing).
+  3. The T25.1 values were selected at g_max 15 (D-58 STEP 3 as written).
+  4. CR-038, CR-039, AR-71.
+  5. Go-ahead for the reporting-camera run. It needs S2 on the 110 reporting cameras: about 3.6 h CPU (33,000 frames × 0.388 s), or Colab after D-62.
+Agent's recommendation: none; the Owner and the Architect decide.
+Owner decision: ______
