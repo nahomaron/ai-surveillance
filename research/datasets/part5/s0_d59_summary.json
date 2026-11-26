@@ -1,0 +1,1005 @@
+{
+ "decision": "D-60",
+ "contract": "E-1.2.26",
+ "code_commit": "658dbdbdbf7635c75a841d0298301b0d66303ad4",
+ "retrieved_utc": "2026-11-25T03:28:56+00:00",
+ "scenes": [
+  {
+   "scene": "Warehouse_002",
+   "tier": 2,
+   "folder": "train",
+   "artifact_id": "art_s2uzf3lxqorws72amenwhlluv5",
+   "payload_sha256": "476f223ee9b1091fa6f1089b20a1e7e1b7e77a5ace8837285528c9eed0d721ea",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 20,
+    "camera": 20,
+    "camera_group": 20,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 20,
+    "session": 1,
+    "site": 1,
+    "source_file": 20,
+    "timeline": 20,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_002",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_002",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 20,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_2y7ur2uiylpnhta5n35xcgh3wl",
+     "Warehouse_002.Camera_0013"
+    ],
+    [
+     "rec_5gyanycppm7lzdojgvtm6dsqhz",
+     "Warehouse_002.Camera_0002"
+    ],
+    [
+     "rec_6uqbfagaof7zrzbldeeaselydx",
+     "Warehouse_002.Camera_0003"
+    ],
+    [
+     "rec_7huhnas5uxl4hu64mqy2loeour",
+     "Warehouse_002.Camera_0006"
+    ],
+    [
+     "rec_adg2kckp4yilj3r7l4knljhy7n",
+     "Warehouse_002.Camera_0012"
+    ],
+    [
+     "rec_cz6hgoxbl45mxvli4vgbvaxi7k",
+     "Warehouse_002.Camera_0011"
+    ],
+    [
+     "rec_d47qvuefloewahruqbhodtpwoa",
+     "Warehouse_002.Camera_0009"
+    ],
+    [
+     "rec_d5e7yos4xntmdeczj2hzscyqvt",
+     "Warehouse_002.Camera_0010"
+    ],
+    [
+     "rec_epwn2lwxzdnl4vvdxguikg2sp5",
+     "Warehouse_002.Camera_0004"
+    ],
+    [
+     "rec_ercfexbcsmu43jpbexciy2f5zp",
+     "Warehouse_002.Camera_0016"
+    ],
+    [
+     "rec_geabzh4w56qgvehvtxz263phvs",
+     "Warehouse_002.Camera_0000"
+    ],
+    [
+     "rec_ktebg5rshj42oa4h6k27nlv752",
+     "Warehouse_002.Camera_0019"
+    ],
+    [
+     "rec_mhqi7zk62ikcmrtpypi33m3bic",
+     "Warehouse_002.Camera_0015"
+    ],
+    [
+     "rec_mwac6jie3jewtahz6iuyg4ds5w",
+     "Warehouse_002.Camera_0001"
+    ],
+    [
+     "rec_pbtssz2tn5m3cma27zrasod2qa",
+     "Warehouse_002.Camera_0008"
+    ],
+    [
+     "rec_r2y462t7ccagchpxcbac2top6h",
+     "Warehouse_002.Camera_0007"
+    ],
+    [
+     "rec_sj4phm47tj24w4nx6rna7e3idk",
+     "Warehouse_002.Camera_0017"
+    ],
+    [
+     "rec_uq7ilpkmebk2g4orof544f3vgo",
+     "Warehouse_002.Camera_0005"
+    ],
+    [
+     "rec_yvhldfztdm7epowl2tqbxsw2dm",
+     "Warehouse_002.Camera_0018"
+    ],
+    [
+     "rec_zmsmtnkhopt5urswb2k27yevc3",
+     "Warehouse_002.Camera_0014"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_004",
+   "tier": 2,
+   "folder": "train",
+   "artifact_id": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "payload_sha256": "096f7f295fe6576a20bab07cdef0419d971fe75f5e2ece2a188de57e5cffb0da",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 19,
+    "camera": 19,
+    "camera_group": 19,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 19,
+    "session": 1,
+    "site": 1,
+    "source_file": 19,
+    "timeline": 19,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_004",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_004",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 19,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_3frygvqn7opt3xgjeajd7arokl",
+     "Warehouse_004.Camera_0017"
+    ],
+    [
+     "rec_3jkyyc2cmiff5duh7sahoalhoy",
+     "Warehouse_004.Camera_0002"
+    ],
+    [
+     "rec_3r7a6e7ytv65co6urywwan52u2",
+     "Warehouse_004.Camera_0004"
+    ],
+    [
+     "rec_ctnyewhwfn63zgv45c6i5r2m5j",
+     "Warehouse_004.Camera_0018"
+    ],
+    [
+     "rec_dxqrhwr47zu3g52eaohi27thyg",
+     "Warehouse_004.Camera_0019"
+    ],
+    [
+     "rec_fnjtacbgzccotrrgfhzztczcox",
+     "Warehouse_004.Camera_0012"
+    ],
+    [
+     "rec_hch6xxsao7il23oy3hfhdsrtqa",
+     "Warehouse_004.Camera_0001"
+    ],
+    [
+     "rec_hwbwxfalb4ivyp24pc3pii3sqq",
+     "Warehouse_004.Camera_0013"
+    ],
+    [
+     "rec_ic5f4xjglllcm6timiqqxervi5",
+     "Warehouse_004.Camera_0007"
+    ],
+    [
+     "rec_kkgjjxjl2bjz4bqvqs2o2jkwbg",
+     "Warehouse_004.Camera_0000"
+    ],
+    [
+     "rec_lwisgp6fs4y7a3a24so7o4knqz",
+     "Warehouse_004.Camera_0009"
+    ],
+    [
+     "rec_mg44b5iwy2rorqe2jxpuhajzt5",
+     "Warehouse_004.Camera_0011"
+    ],
+    [
+     "rec_mipg5spf4w3vi6jlkcboqwjlbj",
+     "Warehouse_004.Camera_0008"
+    ],
+    [
+     "rec_mm656xeynuo3h2onhkhxklhmh4",
+     "Warehouse_004.Camera_0014"
+    ],
+    [
+     "rec_ov5mu4sc5pdbrujkpusqiqawj2",
+     "Warehouse_004.Camera_0015"
+    ],
+    [
+     "rec_rdt2v35cg4kmkqodbhdwjedoek",
+     "Warehouse_004.Camera_0003"
+    ],
+    [
+     "rec_ta75ocv3nlieismfhzx3sdcln5",
+     "Warehouse_004.Camera_0016"
+    ],
+    [
+     "rec_vk5lx2mckrbe2va67vn6sfdsb7",
+     "Warehouse_004.Camera_0005"
+    ],
+    [
+     "rec_xmvvl3guufpxq6eiibabiijwwb",
+     "Warehouse_004.Camera_0010"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_006",
+   "tier": 2,
+   "folder": "train",
+   "artifact_id": "art_7vdkyhdvyax2okb3npka5abavy",
+   "payload_sha256": "d3d38d9a2ab243707728e0ae2710f8824a7a518847c0ee7f9c5263e470d302fa",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 18,
+    "camera": 18,
+    "camera_group": 18,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 18,
+    "session": 1,
+    "site": 1,
+    "source_file": 18,
+    "timeline": 18,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_006",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_006",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 18,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_6r3euqpjokurdqq462gdep2jip",
+     "Warehouse_006.Camera_0014"
+    ],
+    [
+     "rec_acwnfrwwjabanumtvjh7k2p5gv",
+     "Warehouse_006.Camera_0003"
+    ],
+    [
+     "rec_ar45c5aeqwqmmmwubjqxvd7zeu",
+     "Warehouse_006.Camera_0018"
+    ],
+    [
+     "rec_bhjuvklooylhxum4buxskhteev",
+     "Warehouse_006.Camera_0001"
+    ],
+    [
+     "rec_cvxmuqxasbehshdhcopjd2iktn",
+     "Warehouse_006.Camera_0015"
+    ],
+    [
+     "rec_g4bnlmevp4vga4qbz5xwur4izy",
+     "Warehouse_006.Camera_0017"
+    ],
+    [
+     "rec_k32rpgrm2ja3dlcoj7z7vtrjaz",
+     "Warehouse_006.Camera_0012"
+    ],
+    [
+     "rec_k4r3cexoce2tj5tgevryjtq3lj",
+     "Warehouse_006.Camera_0009"
+    ],
+    [
+     "rec_kkliwb2ajcwol47p3abr4yulj3",
+     "Warehouse_006.Camera_0016"
+    ],
+    [
+     "rec_lnymdslu4vpivtwco5tr64pavp",
+     "Warehouse_006.Camera_0006"
+    ],
+    [
+     "rec_q5znsbdiw577iacdig3f57oug2",
+     "Warehouse_006.Camera_0002"
+    ],
+    [
+     "rec_qttwhwblrjbobgvloudvhh6zwl",
+     "Warehouse_006.Camera_0019"
+    ],
+    [
+     "rec_srrcxbhzvyj7dft644aswaht3s",
+     "Warehouse_006.Camera_0000"
+    ],
+    [
+     "rec_t5tt6c5wjhz6kfn2qcrz5h6fbk",
+     "Warehouse_006.Camera_0013"
+    ],
+    [
+     "rec_tc6e2rwhlma3rfwoxssaubarl4",
+     "Warehouse_006.Camera_0010"
+    ],
+    [
+     "rec_u4ktwpfpdv7f34jildbajfmprd",
+     "Warehouse_006.Camera_0004"
+    ],
+    [
+     "rec_wg274sjgzbfig66n34h6dgj5pw",
+     "Warehouse_006.Camera_0005"
+    ],
+    [
+     "rec_zzclevg7i5wv7lbyydgabsjhcb",
+     "Warehouse_006.Camera_0007"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_010",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "payload_sha256": "f85281b5ab247cfe2794d5ab7cfcb066d418c81ba497b8755766246883bd7897",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 11,
+    "camera": 11,
+    "camera_group": 11,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 11,
+    "session": 1,
+    "site": 1,
+    "source_file": 11,
+    "timeline": 11,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_010",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_010",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "1851ebb213d8132548a9c7bb501fbe456079a2ae38f28d431c0f0a9774f0a471",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 11,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_56fnnh5vwxyktkxmu4c4p5iumc",
+     "Warehouse_010.Camera_0004"
+    ],
+    [
+     "rec_gizv65jdvuicsmga3dpz2sh7c5",
+     "Warehouse_010.Camera_0006"
+    ],
+    [
+     "rec_okegypa34bez7i4ohpjhh2gkzb",
+     "Warehouse_010.Camera_0001"
+    ],
+    [
+     "rec_oko4jashifiwhxry5xip6mmstb",
+     "Warehouse_010.Camera_0007"
+    ],
+    [
+     "rec_psgmf3f4kgdbhalyebi7i6qkr7",
+     "Warehouse_010.Camera_0000"
+    ],
+    [
+     "rec_qgig44jj7o6h6kyz65f46c3rnc",
+     "Warehouse_010.Camera_0003"
+    ],
+    [
+     "rec_qniyf7j4cjl4aelpf5nprszkug",
+     "Warehouse_010.Camera_0008"
+    ],
+    [
+     "rec_sjzzhvilw6prq34ns4hr64u2dq",
+     "Warehouse_010.Camera_0010"
+    ],
+    [
+     "rec_x2xhvbjnpcuvjgxdnwlaemerac",
+     "Warehouse_010.Camera_0002"
+    ],
+    [
+     "rec_xkgrkbmzn6tfu2xznmjijfdl6p",
+     "Warehouse_010.Camera_0005"
+    ],
+    [
+     "rec_zr3podeddradpdly2vb3j6rziv",
+     "Warehouse_010.Camera_0009"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_011",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "payload_sha256": "17d1bcabad2e7f7636ffb0869790362e92cfdc9b77715dc102a8028e474ebfe0",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 10,
+    "camera": 10,
+    "camera_group": 10,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 10,
+    "session": 1,
+    "site": 1,
+    "source_file": 10,
+    "timeline": 10,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_011",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_011",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "6c38df3bf5c3887e4ffec617575b3380cf1b89115a762dd3812c1e8f90cbeda1",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 10,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_7bn7mypbyqet4lqj7rnbwom5vr",
+     "Warehouse_011.Camera_0000"
+    ],
+    [
+     "rec_a7mn2t2ybrjjrfzxp7conwh4pv",
+     "Warehouse_011.Camera_0001"
+    ],
+    [
+     "rec_bkb6g67ybf24rqxq7mzuenolkv",
+     "Warehouse_011.Camera_0009"
+    ],
+    [
+     "rec_h6jefl72lh5rjo3t7ix23yyaf3",
+     "Warehouse_011.Camera_0008"
+    ],
+    [
+     "rec_ho37j4snurcoxrkr6dohsnm65x",
+     "Warehouse_011.Camera_0005"
+    ],
+    [
+     "rec_kjvtm6nfn6r7ggf4jqd5hk32lv",
+     "Warehouse_011.Camera_0007"
+    ],
+    [
+     "rec_km7jnyrteguuv2otczphzc3uso",
+     "Warehouse_011.Camera_0004"
+    ],
+    [
+     "rec_oiqccnibg7gzw3fcikxxe56hrs",
+     "Warehouse_011.Camera_0006"
+    ],
+    [
+     "rec_ouoywwesy2d5kxxwnkszmcr7br",
+     "Warehouse_011.Camera_0003"
+    ],
+    [
+     "rec_ufcxgugkqtqv6wkw3kjev5s7qa",
+     "Warehouse_011.Camera_0002"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_016",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_bzxessxav3bxtx44agtm3cys6w",
+   "payload_sha256": "1de5c9f8529448b0617104ebbb9479e18578278b14ee96a6341123695625ace6",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 11,
+    "camera": 11,
+    "camera_group": 11,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 11,
+    "session": 1,
+    "site": 1,
+    "source_file": 11,
+    "timeline": 11,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_016",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_016",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "23ad2d61943a2bff9bf6ded10f422e651170e7551603b17a6cecb388b04a65ab",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 11,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_3j4t4kc2y5kaszvuc427pszseq",
+     "Warehouse_016.Camera_0007"
+    ],
+    [
+     "rec_a5ketsrwdiclncfdtshkxptn6x",
+     "Warehouse_016.Camera_0010"
+    ],
+    [
+     "rec_cbclfg5s7xks632l74l6kbzxzj",
+     "Warehouse_016.Camera_0005"
+    ],
+    [
+     "rec_chwqmpldqmedsgrzqdgnmjt6qs",
+     "Warehouse_016.Camera_0008"
+    ],
+    [
+     "rec_cv65s2cwzcgk4i3nzecevvesfg",
+     "Warehouse_016.Camera_0009"
+    ],
+    [
+     "rec_htupk2xrqz2zqoqy6eyg33txqt",
+     "Warehouse_016.Camera_0004"
+    ],
+    [
+     "rec_kmprpcstwgq3exi3degfhxd7mt",
+     "Warehouse_016.Camera_0002"
+    ],
+    [
+     "rec_sgrrg477nghdya6jbp4wjxrvxl",
+     "Warehouse_016.Camera_0001"
+    ],
+    [
+     "rec_vfg63le4xzdym7hpabyrearzzo",
+     "Warehouse_016.Camera_0003"
+    ],
+    [
+     "rec_x4a6eonnin3wycfule6w2koais",
+     "Warehouse_016.Camera_0006"
+    ],
+    [
+     "rec_zt5m7yj7isyelcnvqtyx3cyxtt",
+     "Warehouse_016.Camera_0000"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_017",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "payload_sha256": "775a9cfba5fcfcae9db9e43ce441d07b045ea2bbdc427cec9f2893851348ed1c",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 3,
+    "camera": 3,
+    "camera_group": 3,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 3,
+    "session": 1,
+    "site": 1,
+    "source_file": 3,
+    "timeline": 3,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_017",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_017",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 3,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_4xhlogcp7gtawjzidkf3pad4g3",
+     "Warehouse_017.Camera_0001"
+    ],
+    [
+     "rec_b3cdwh57yl2g32wh4okpeu4gr6",
+     "Warehouse_017.Camera_0002"
+    ],
+    [
+     "rec_mjl2nhmpnup7xefyerrzesmvuv",
+     "Warehouse_017.Camera_0000"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_018",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "payload_sha256": "2f7208ed6ddb030b37a269ddb3afd142b7f05a15730d7773abf98d59acde2baa",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 3,
+    "camera": 3,
+    "camera_group": 3,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 3,
+    "session": 1,
+    "site": 1,
+    "source_file": 3,
+    "timeline": 3,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_018",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_018",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 3,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_cuqrkcwfxtos7e3wrpnxnxgi23",
+     "Warehouse_018.Camera_0001"
+    ],
+    [
+     "rec_i4fknpfwx7zh2bflo6b52rg25h",
+     "Warehouse_018.Camera_0000"
+    ],
+    [
+     "rec_togf75hc6wbvvfb337ambz3kth",
+     "Warehouse_018.Camera_0002"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_019",
+   "tier": 1,
+   "folder": "train",
+   "artifact_id": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "payload_sha256": "a2bdd811f608ea004179cc50987b56de243a47fd95d7db52a5e3587f8759e6a5",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 3,
+    "camera": 3,
+    "camera_group": 3,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 3,
+    "session": 1,
+    "site": 1,
+    "source_file": 3,
+    "timeline": 3,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_019",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_019",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/train@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "ebb25e1792f1043314f43e6994396cf49fb3a3271b7142c9db40d153c81bb0a3",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 3,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_6cnpan6l562s4wrk2tyoq4cvnp",
+     "Warehouse_019.Camera_0000"
+    ],
+    [
+     "rec_qrhsyp74urd2pp6uepbwvmdbwk",
+     "Warehouse_019.Camera_0001"
+    ],
+    [
+     "rec_uokpvuyfklla2enel7egm52ass",
+     "Warehouse_019.Camera_0002"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_020",
+   "tier": 2,
+   "folder": "val",
+   "artifact_id": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "payload_sha256": "92b77cf17c4c89bdad7f30373885193848206005b0f95da001a494ca97cef922",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 16,
+    "camera": 16,
+    "camera_group": 16,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 16,
+    "session": 1,
+    "site": 1,
+    "source_file": 16,
+    "timeline": 16,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_020",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_020",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/val@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 16,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_2hkfko3uicl3m5wl2qdg2uv4t4",
+     "Warehouse_020.Camera_0002"
+    ],
+    [
+     "rec_3eaam73rcgn7pmxum5eisbmtno",
+     "Warehouse_020.Camera_0011"
+    ],
+    [
+     "rec_3fvdyixif5ft6m6e3yz2xvirza",
+     "Warehouse_020.Camera_0016"
+    ],
+    [
+     "rec_bqzfblv6p437aghl2w62nzcc2k",
+     "Warehouse_020.Camera_0018"
+    ],
+    [
+     "rec_bwnbuuckjktf5bjf5z2zs457g6",
+     "Warehouse_020.Camera_0012"
+    ],
+    [
+     "rec_c6xk5gek67h7oxrvdpd6z7cfr5",
+     "Warehouse_020.Camera_0000"
+    ],
+    [
+     "rec_hkriit7rvsg3zpsc4awfeam2of",
+     "Warehouse_020.Camera_0015"
+    ],
+    [
+     "rec_inkq2sdy23vmzwlwra2jdlpwey",
+     "Warehouse_020.Camera_0003"
+    ],
+    [
+     "rec_jqwhaqeu5sj6o7thxlsx5oug6q",
+     "Warehouse_020.Camera_0013"
+    ],
+    [
+     "rec_kqoover22mo4sovohsjusiv6fm",
+     "Warehouse_020.Camera_0010"
+    ],
+    [
+     "rec_oif43f6gaoyxzrgpnm64vvva5r",
+     "Warehouse_020.Camera_0004"
+    ],
+    [
+     "rec_q5a7bznphsiakf4gri2cvp2zgr",
+     "Warehouse_020.Camera_0009"
+    ],
+    [
+     "rec_qt5tl3bckvxb4bhxrchtvhzwu3",
+     "Warehouse_020.Camera_0001"
+    ],
+    [
+     "rec_s53npinmjnigf4d3bdrrmja2bx",
+     "Warehouse_020.Camera_0019"
+    ],
+    [
+     "rec_yyot2r7jkhvur4ca3vmhrv745l",
+     "Warehouse_020.Camera_0005"
+    ],
+    [
+     "rec_zttaqtegbs75uld65iii6txlb2",
+     "Warehouse_020.Camera_0017"
+    ]
+   ]
+  },
+  {
+   "scene": "Warehouse_022",
+   "tier": 1,
+   "folder": "val",
+   "artifact_id": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "payload_sha256": "79c59f5809b530f23e3db7dfa447bb99c1e243827a469c4c3a1295dcbd8ce194",
+   "data_origin": "synthetic_rendered",
+   "dataset_version": "MTMC_Tracking_2026@d38193be60906679124732a4be9a6516821e2bed/synthetic_rendered",
+   "dsr_id": "dsr_5nr5cqt45xkvpfsajtjncmfpf7",
+   "rows": {
+    "calibration": 4,
+    "camera": 4,
+    "camera_group": 4,
+    "dataset_source": 1,
+    "license_component": 1,
+    "recording": 4,
+    "session": 1,
+    "site": 1,
+    "source_file": 4,
+    "timeline": 4,
+    "world_frame": 1
+   },
+   "lineage": {
+    "ext_run_id": "Warehouse_022",
+    "ext_run_id_null_reason": null,
+    "scene_id": "Warehouse_022",
+    "scene_id_null_reason": null,
+    "render_parent": null,
+    "render_parent_null_reason": "not_applicable",
+    "seed": null,
+    "seed_null_reason": "not_supplied",
+    "generation_batch": "MTMC_Tracking_2026/val@d38193b",
+    "generation_batch_null_reason": null,
+    "actor_roster_ref": null,
+    "actor_roster_ref_null_reason": "not_supplied",
+    "layout_id": "9ef6d8ae7d95d1d991ff972653e74aa3adb3ec83b1138bca69b362299f30ed8e",
+    "layout_id_null_reason": null,
+    "script_id": null,
+    "script_id_null_reason": "not_supplied",
+    "collection_day": null,
+    "collection_day_null_reason": "not_supplied"
+   },
+   "cameras": 4,
+   "cameras_without_calibration": [],
+   "recordings": [
+    [
+     "rec_22dedfgfu3lapymzzqugfkgawj",
+     "Warehouse_022.Camera_0001"
+    ],
+    [
+     "rec_glvipw7msgwcrsnr7sultuhi3p",
+     "Warehouse_022.Camera_0003"
+    ],
+    [
+     "rec_ihmbfm2saw5frf7vv2o7tyjlru",
+     "Warehouse_022.Camera_0000"
+    ],
+    [
+     "rec_j3xr74eohfgyfnplqkjsglplkc",
+     "Warehouse_022.Camera_0002"
+    ]
+   ]
+  }
+ ],
+ "cameras_by_tier": {
+  "1": 45,
+  "2": 73
+ },
+ "layouts": {
+  "1": 6,
+  "2": 1
+ }
+}
