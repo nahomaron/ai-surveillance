@@ -14,6 +14,12 @@ ORDER = {"train": 0, "validation": 1, "test": 2}  # PR-01: train is the least ev
 VALIDATION_STAGES = {"V0", "V1", "V2", "V3", "V4", "CV-SIM", "X0c"}
 
 
+def _order(p: str) -> tuple[int, str]:
+    """Sort key for partitions: PR-01 order first; partitions outside it (the D-60 addendum's `test_layout_holdout` and
+    `reserve`) after it, by name. Used for listing only; PR-01 itself refuses them (`revise`)."""
+    return (ORDER.get(p, len(ORDER)), p)
+
+
 def _assignment(split: Row) -> dict[str, str]:
     return {a["leakage_group_id"]: a["partition"] for a in split["assignments"]}
 
@@ -28,18 +34,22 @@ def _group_of(split: Row) -> dict[str, str]:
 
 
 def freeze(recordings: list[Row], split_label: str, version: str, tier: str, frozen_utc: datetime, t2b_shared_sessions: list[str] | None = None,
-           shared_scene_content: bool = False, training_recordings: tuple[str, ...] = (), training_manifest_hashes: tuple[str, ...] = ()) -> Row:
-    """`SplitBuilder.freeze`. Partitions are declared per recording (AR-32); conflicts within a group raise ERR-LEAKAGE."""
+           shared_scene_content: bool = False, training_recordings: tuple[str, ...] = (), training_manifest_hashes: tuple[str, ...] = (),
+           extra_edges: tuple[tuple[str, str, str], ...] = ()) -> Row:
+    """`SplitBuilder.freeze`. Partitions are declared per recording (AR-32); conflicts within a group raise ERR-LEAKAGE.
+    `extra_edges` (recording_a, recording_b, edge type) are grouping edges a decision adds to the metadata edges (D-60 STEP 3:
+    one group per layout); absent, the groups are the metadata ones."""
     if tier == "T2b" and not shared_scene_content:
         raise ContractError("ERR-LEAKAGE", "T2b requires shared_scene_content = true")
     shared = set(t2b_shared_sessions or []) if tier == "T2b" else set()
     edges = leakage.metadata_edges(recordings, shared)
     trained = sorted(training_recordings)
     edges += [(a, b, "training_use") for a, b in zip(trained, trained[1:])]
+    edges += list(extra_edges)
     declared = {r["recording_id"]: r["partition"] for r in recordings}
     groups, assignments = [], []
     for members, kinds in leakage.components(sorted(declared), edges):
-        partitions = sorted({declared[m] for m in members}, key=ORDER.get)
+        partitions = sorted({declared[m] for m in members}, key=_order)
         if len(partitions) > 1:
             raise ContractError("ERR-LEAKAGE", f"VR-E-060: group {members} spans {partitions}")
         if set(members) & set(trained) and partitions != ["train"]:
@@ -83,7 +93,7 @@ def audit(split: Row, split_id: str, identities: list[Row], discovery_basis: str
     assigned = _assignment(split)
     violations = []
     for members, _ in _merged(split, [e for e in identities if not expected(e)]):
-        partitions = sorted({assigned[m] for m in members}, key=ORDER.get)
+        partitions = sorted({assigned[m] for m in members}, key=_order)
         if len(partitions) > 1:
             violations.append({"leakage_group_id": leakage.group_id(members), "partitions": partitions})
     return {"split_version_id": split_id, "audit_seq": audit_seq, "tier": split["tier"], "edges_added": [dict(e) for e in identities],
@@ -95,6 +105,9 @@ def revise(split: Row, split_id: str, audit: Row, audit_id: str, frozen_utc: dat
     if not audit["violations"]:
         raise ContractError("ERR-INVARIANT", "SP-03: a revision needs a triggering audit with at least one violation")
     assigned = _assignment(split)
+    outside = sorted(set(assigned.values()) - set(ORDER))
+    if outside:
+        raise ContractError("ERR-SPEC", f"PR-01 orders train > validation > test only; no order is defined for {outside} (a CR is needed before a revision)")
     members_of = {g["leakage_group_id"]: g for g in split["leakage_groups"]}
     groups, assignments, moved = [], [], []
     expected = _expected_share(split, recordings)
