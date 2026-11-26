@@ -791,7 +791,7 @@ Hard limits: nothing on the 110 reporting cameras or the test partition (D-37); 
 Owner instruction (24 Nov 2026, in session): "raise the cap up 60GB and download whatever unique data set you can get … update the plan for testing and maybe tuning with that extra data set … give me [a] report so that i could show it to the architect".
 Applied as: WORKPLAN §0 row D-59 (60 GB in total, synthetic `MTMC_Tracking_2026` scenes with ground truth, no re-render, no depth maps, pinned revision `d38193b`); selection, screen and draw in `research/datasets/qualification.md` Part 5, written before download; CR-036 opened for how the new scenes join the frozen split. The testing and tuning plan is a proposal for the Architect (D-60), not applied.
 
-## D-60 (2026-11-24) — STOP after the D-59 download: how the new SmartSpaces scenes are used        status: OPEN
+## D-60 (2026-11-24) — STOP after the D-59 download: how the new SmartSpaces scenes are used        status: DECIDED (25 Nov 2026)
 Task: T-26d   Blocking: T-26r, T-26s, T-26e (anything on the D-59 scenes beyond the checks already done); not D-58, not the v2 work
 Question: the results and the proposal are in `research/datasets/part5/d59_report.md` (implemented: downloaded, hash-checked, screened; no system output). Results only:
 - 11 scenes, 118 cameras, 300 s each (022: 309 s), SHA-256 equal for every file. Tier 1: 010, 011, 016, 017, 018, 019, 022 (45 cameras, 6 layouts not held before). Tier 2: 002, 004, 006, 020 (73 cameras, the layout of `Warehouse_000`).
@@ -803,7 +803,41 @@ Points to decide:
 4. Compute for the detector path (about 100 h in full; options in report §6).
 5. Whether to qualify a further source within the 8.05 GB of headroom (report §7).
 Agent's recommendation: report §6 (a proposal; the Architect and the Owner decide).
-Owner decision: ______
+Owner decision (D-60, 25 Nov 2026): roles of the D-59 scenes (CR-036), their registration and split addendum, and a Colab GPU detection job for the held-out-layout scenes. Source: `research/datasets/part5/d59_report.md`, reviewed by the Architect on 25 Nov 2026 and approved by the Owner. Pasting it = Owner approval of the rulings and of the steps below. Recorded verbatim:
+
+**When:** after the D-58 task has reached its STOP. One agent at a time on the laptop. Run on mains power.
+**Where:** main folder, branch m0-implementation.
+
+Rulings:
+1. **Tier 1 is a held-out-layout test, and nothing else.** Tier 1 = scenes 010, 011, 016, 017, 018, 019 and 022 (45 cameras, 6 layouts never held before).
+   - It is never used for tuning, threshold choice, diagnostics or demo material.
+   - It is evaluated **once**, with the frozen v2 package, after the v2 reporting run.
+   - It is reported per scene and per layout, descriptively, beside the X0b test result.
+   - The claim it permits: "held-out synthetic warehouse layouts". Real-world generalisation is not claimed.
+2. **Tier 2 is reserve.** Tier 2 = scenes 002, 004, 006 and 020 (73 cameras, `Warehouse_000` layout).
+   - These scenes are registered, but assigned to no partition and used for nothing until a later Owner decision (planned: v3 tuning after 1 Dec).
+   - Options T2-a, T2-b and T2-c stay open.
+3. **CR-036 is resolved as a split addendum.** A new split version, `X0b-A1`, records the D-59 scenes **without changing any X0b assignment**: tier 1 → partition `test_layout_holdout`; tier 2 → `reserve`. It is frozen, like X0b (hash, freeze time), before any system output exists on these scenes (R-4: metadata only). Warehouse_001 still joins X0b later as planned (AR-57 note); it is not part of this task.
+4. **CR-036 items 1 and 2:** `layout_id` = the SHA-256 of the scene's `map.png` (Git-LFS hash, as in Part 5). `generation_batch` = the dataset's `val` folder name and revision, `MTMC_Tracking_2026@d38193b`. Both are metadata, recorded in S0. They are leakage-group keys: every camera of a layout is in the same group.
+5. **Colab GPU detection is approved** for the tier-1 videos only (S2 detection; nothing downstream of S2 runs on Colab).
+   - **Cloud upload approved:** the Owner uploads the 45 tier-1 videos to the Owner's own Google Drive (synthetic, CC BY 4.0; no real footage, no worker data). This is the one exception to WORKPLAN §0 "never pre-approved: cloud upload", and it covers these files only.
+   - The detector is the frozen D-45 detector: YOLO-World v2-s, the same weights, prompts and thresholds (person 0.20, forklift 0.05).
+   - **Before** any tier-1 detection is used, an equivalence check (STEP 4) must pass.
+   - Detection on tier 1 may run before the v2 freeze, because it produces no evaluation. **Before the single post-freeze evaluation, no one looks at tier-1 outputs beyond the integrity checks below**: no metrics, no images with boxes, no per-camera counts beyond the totals needed for integrity.
+6. **Compute for tier 2:** not now.
+
+Six-question check: (1) the objective is unchanged; (2) no measurement definition changes; (3) strengthens independence: a new held-out layout, assigned before any output exists; (4) adds one permitted claim, "held-out synthetic layout", with its limit stated; (5) adds a GPU job, but it saves CPU time; E2 is not affected; (6) scientific (partition roles), so this is an Owner decision.
+
+Steps:
+- **STEP 0: state check.** D-58 is at its STOP. The tree is clean and level with origin. Mains power is connected.
+- **STEP 1: records.** Mark D-60 DECIDED with this text. Resolve CR-036 per rulings 3–4. Add to WORKPLAN §0: "D-60: cloud upload of the 45 tier-1 D-59 videos to the Owner's Google Drive; Colab GPU for S2 on those videos only." Commit and push.
+- **STEP 2: registration (S0) of all 11 D-59 scenes.** Metadata only: `synthetic_rendered`, with `layout_id` and `generation_batch` per ruling 4, the calibration, and coverage. Same S0 procedure as the earlier SmartSpaces scenes. No decoding of frames beyond what S0/S1 already require. Commit and push.
+- **STEP 3: split addendum `X0b-A1`.** Leakage groups use `layout_id` (one group per layout). Tier 1 → `test_layout_holdout`; tier 2 → `reserve`. X0b assignments stay unchanged (a test checks this). Freeze with the event time stored as in X0b (`frozen_utc`, outside the hashes, AR-7). The X0c audit passes. Commit and push.
+- **STEP 4: Colab detection package and equivalence check.** (a) `research/colab/s2_detect.ipynb` and a small installable runner: installs pinned versions (the same Ultralytics version as `.venv-det`, 8.4.215; torch and CUDA as Colab provides, recorded); checks the SHA-256 of the model weights and of every input video against a manifest; decodes frames with the same PyAV path and frame eligibility as S1, using the same prompts and thresholds; writes per-camera raw detection files in the same format as `out/m1b/pilot/s2raw/`, plus a manifest with SHA-256 per file, device name, versions, wall time and frame counts; is resumable per camera (skips cameras already finished in Drive). (b) `research/colab/tier1_manifest.json`: the 45 video files with paths, sizes, SHA-256, and the total size the Owner must upload. (c) Equivalence check, before tier 1: the Owner runs the notebook on 2 tuning cameras that already have CPU S2 (one ceiling and one eye-level camera, the lowest camera ID in each; their videos are uploaded too; they are synthetic tuning data). The agent compares the Colab output with the stored CPU S2. Pass criteria: every CPU detection with score ≥ threshold + 0.02 has a Colab detection of the same class with IoU ≥ 0.95; the score difference of matched pairs has P99 ≤ 0.02; detection counts per class differ by ≤ 2 %. Report the result. If it fails: STOP and report. Do not loosen the criteria. (d) `research/colab/HOWTO.md` for the Owner, in plain steps (upload; open the notebook from GitHub in Colab, GPU runtime, mount Drive; run the 2-camera check and send the output folder back; run tier 1 and re-run after any disconnect; download the output folder to the stated path). Commit and push. Then STOP for the Owner to run the 2-camera check. Open the next free D number with the HOWTO path and the upload size.
+- **STEP 5: after the Owner returns the outputs (next session, on the Owner's word).** Verify every file against the Colab manifest, and every input hash. If the equivalence check passed and the tier-1 run is complete: build S2 artifacts for the 45 tier-1 cameras. The execution record carries the device, the versions and the Colab manifest hash. The S2 configuration is the D-45 one; if the device must enter the configuration ID, record it under an AR and say so. Integrity checks only: every eligible frame has a detection record (possibly empty), there is no missing camera, and there are no duplicate frames. Report totals only. Commit and push. Open the next free D number. STOP.
+
+Hard limits: tier-1 data: no tuning, no metric, no diagnostic, no image or clip with system output, and no demo use before the single post-freeze evaluation. Tier-2 data: registration and split assignment only. Nothing on the 110 reporting cameras or the X0b test partition (D-37). No change to the frozen detector, the tracker package or any contract value. Never delete, rewrite or reorder a stored record. No force-push. If something is undefined that changes a count, a state, a partition or a statistic: open the next free CR, skip that item, continue.
+
 
 ## D-61 (2026-11-25) — STOP after the D-58 T25 check: stitching selection and event-level results        status: OPEN
 Task: T-27 (D-58 STEPS 2–5)   Blocking: the v2 freeze (T25 values; m_gap_s from item C7); any run on the reporting cameras; the demo build; no other task (independent of D-60)

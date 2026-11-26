@@ -1311,7 +1311,7 @@ Representation and engineering only. No measured value, label, matching rule or 
 **Pinned by:** `tests/m1b/test_d57.py`.
 **Reverse:** delete `research/m1b/d57_split.py`, `research/m1b/d57_mgap.py`, their outputs and `out/m1b/d57/`; nothing else depends on them.
 
-## CR-036 (2026-11-24) — How recordings downloaded after the split freeze join (or stay outside) the frozen split   status: OPEN
+## CR-036 (2026-11-24) — How recordings downloaded after the split freeze join (or stay outside) the frozen split   status: CLOSED (Owner decision D-60 rulings 3–4, 25 Nov 2026: reading (a), a separate frozen addendum `X0b-A1`)
 **Raised by:** implementation agent, as the Owner asked at AR-57 item 9 ("at M1b raise a CR on how new recordings join a frozen split"). **Task:** D-59. **Sections:** E-1.2.1 §8 (split freeze, leakage), Appendix T T14 (E-1.2.12), D-20, D-37; the frozen split X0b `art_w5v3ldr43xdsqc6l4zifmjkuuj`.
 **Meaning-affecting:** yes. It decides populations and denominators of tuning and reported results, and whether held-out-layout claims become possible.
 **Gap.** D-59 adds up to 16 SmartSpaces 2026 scenes (qualification Part 5) after the split was frozen. The contract defines the freeze and the leakage groups, but not how scenes registered after the freeze are assigned. The agent must not assign them. Readings the Architect may choose between (none drafted as contract text):
@@ -1324,6 +1324,7 @@ Representation and engineering only. No measured value, label, matching rule or 
 2. `generation_batch` is fixed to `MTMC_Tracking_2026/train`; 020 and 022 are in the published `val` split. Readings: published split folder, or one batch for the edition.
 **What proceeds meanwhile:** download, hash checks, ground-truth screen, and the frame-interval and frame-count checks only. **S0 registration waits** for items 1 and 2. No detector, tracker or S4+ run on the new scenes; nothing touches X0b, the 116 tuning or 110 reporting cameras, or the test partition.
 **Agent's recommendation:** none; the Owner and the Architect decide (D-60).
+**Resolution (D-60, 25 Nov 2026).** Main question: reading (a). A new split version `X0b-A1` records the 11 D-59 scenes without changing any X0b assignment: tier 1 (010, 011, 016, 017, 018, 019, 022) → partition `test_layout_holdout`; tier 2 (002, 004, 006, 020) → `reserve` (no role until a later Owner decision). Frozen like X0b (hash, freeze time) before any system output exists on these scenes (R-4). Leakage groups of the addendum use `layout_id` (one group per layout). Item 1: `layout_id` = the SHA-256 of the scene's `map.png` (Git-LFS hash, as in Part 5), reading (ii). Item 2: `generation_batch` = the `val` folder name and the revision, `MTMC_Tracking_2026@d38193b` (representation of the folder in the string: AR at STEP 2). Warehouse_001 still joins X0b later as planned (AR-57 note); not part of D-60.
 
 ## CR-037 (2026-11-25) — Event-level contact state, IE and pair resolution of a T25.2 joined event   status: OPEN
 **Raised by:** implementation agent. **Task:** D-58 STEP 2 (T25.2) and STEP 4. **Sections:** Appendix T T25.2 (c) (E-1.2.26), E-1.2.1 §5.6 (candidate_event: "lbl_* (recomputed with §6 rules, never unioned)"), §6, T10.1, F.1 A5.2 ("Use downstream": a track's identity at the CA frame).
