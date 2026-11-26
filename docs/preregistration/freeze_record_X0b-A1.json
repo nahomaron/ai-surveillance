@@ -1,0 +1,241 @@
+{
+ "decision": "D-60",
+ "contract": "E-1.2.26",
+ "code_commit": "dbe74a02ff96ef215d6bc63e27574a1bff55bb11",
+ "requirements_lock_sha256": "228ef036e3d741429ce8683b6035900a83aca0cd28d34661ba0233779c6e971d",
+ "frozen_utc": "2026-11-26T02:00:46+00:00",
+ "artifact_id": "art_xu3yvoyvpsukx257kmo5p37zxs",
+ "payload_sha256": "f0c1b545656a4441d1b8d2bb87888cdc0b3f0d1601bfdbb429efdca4949ef2a9",
+ "spm_id": "spm_dsvquawt4nzul2bmrifqk7e4ye",
+ "split_label": "X0b-A1",
+ "version": "1",
+ "tier": "T1",
+ "basis": "metadata_only",
+ "shared_scene_content": false,
+ "addendum_config_id": "sdr_qdh2mnnrhpt2jrhyuk4cblg3ht",
+ "addendum_record": {
+  "rule": "D-60 rulings 1-3 and STEP 3",
+  "parent_split": "spm_uvjw4v4mygzvtvwqrbjjhambh5",
+  "x0b_assignments": "unchanged",
+  "grouping": "metadata edges (E-1.2.1 section 8, T14, T16.2) plus one edge chain per layout_id (D-60 STEP 3: one group per layout)",
+  "partitions": {
+   "tier 1": "test_layout_holdout",
+   "tier 2": "reserve"
+  },
+  "tier": "T1",
+  "basis": "metadata_only",
+  "layout_id": "SHA-256 of map.png (ruling 4)"
+ },
+ "s0_inputs": [
+  "art_4wwcobntopzvwkhbxi6okdxqla",
+  "art_7vdkyhdvyax2okb3npka5abavy",
+  "art_bzxessxav3bxtx44agtm3cys6w",
+  "art_hlbbjay6a4pisanachl2gi4qj7",
+  "art_hy4j2ax753gpksqrw3lbb4a5q5",
+  "art_k5jsytlcogdqaqbjqtbwsipocp",
+  "art_odmp6e5g6vw7ipgammidq7tlxd",
+  "art_odrolzn4tnuggyut7vf77nvxx5",
+  "art_s2uzf3lxqorws72amenwhlluv5",
+  "art_w3pta3mquro6gljwv3uufzvbsj",
+  "art_xvm7wrboxvjgv4jc4ig2vmgaln"
+ ],
+ "x0b_reference_input": {
+  "artifact_id": "art_w5v3ldr43xdsqc6l4zifmjkuuj",
+  "payload_sha256": "c01ad60be4ae42a9e986ab1ec8461dae55b7c3d0d0b57c2a5b342fb056465382",
+  "spm_id": "spm_uvjw4v4mygzvtvwqrbjjhambh5"
+ },
+ "recordings": 118,
+ "recordings_by_partition": {
+  "reserve": 73,
+  "test_layout_holdout": 45
+ },
+ "leakage_groups": 7,
+ "leakage_groups_by_partition": {
+  "reserve": 1,
+  "test_layout_holdout": 6
+ },
+ "scenes": [
+  {
+   "scene": "Warehouse_002",
+   "tier": 2,
+   "s0": "art_s2uzf3lxqorws72amenwhlluv5",
+   "cameras": 20,
+   "partition": [
+    "reserve"
+   ],
+   "leakage_group_id": [
+    "lkg_walezmz2pofjbzxy4kg5ynapch"
+   ],
+   "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "layout_is_warehouse_000_map": true
+  },
+  {
+   "scene": "Warehouse_004",
+   "tier": 2,
+   "s0": "art_hy4j2ax753gpksqrw3lbb4a5q5",
+   "cameras": 19,
+   "partition": [
+    "reserve"
+   ],
+   "leakage_group_id": [
+    "lkg_walezmz2pofjbzxy4kg5ynapch"
+   ],
+   "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "layout_is_warehouse_000_map": true
+  },
+  {
+   "scene": "Warehouse_006",
+   "tier": 2,
+   "s0": "art_7vdkyhdvyax2okb3npka5abavy",
+   "cameras": 18,
+   "partition": [
+    "reserve"
+   ],
+   "leakage_group_id": [
+    "lkg_walezmz2pofjbzxy4kg5ynapch"
+   ],
+   "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "layout_is_warehouse_000_map": true
+  },
+  {
+   "scene": "Warehouse_010",
+   "tier": 1,
+   "s0": "art_xvm7wrboxvjgv4jc4ig2vmgaln",
+   "cameras": 11,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_kxrn4diulacrqmrchfuzf2m73l"
+   ],
+   "layout_id": "1851ebb213d8132548a9c7bb501fbe456079a2ae38f28d431c0f0a9774f0a471",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_011",
+   "tier": 1,
+   "s0": "art_k5jsytlcogdqaqbjqtbwsipocp",
+   "cameras": 10,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_3qg6wdjrcj57rk5r6po7coined"
+   ],
+   "layout_id": "6c38df3bf5c3887e4ffec617575b3380cf1b89115a762dd3812c1e8f90cbeda1",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_016",
+   "tier": 1,
+   "s0": "art_bzxessxav3bxtx44agtm3cys6w",
+   "cameras": 11,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_p6ujkyk7bmjd3frjlv7zvmlnhu"
+   ],
+   "layout_id": "23ad2d61943a2bff9bf6ded10f422e651170e7551603b17a6cecb388b04a65ab",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_017",
+   "tier": 1,
+   "s0": "art_w3pta3mquro6gljwv3uufzvbsj",
+   "cameras": 3,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_667kxeybc57eqjfo4u7qe6agig"
+   ],
+   "layout_id": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_018",
+   "tier": 1,
+   "s0": "art_hlbbjay6a4pisanachl2gi4qj7",
+   "cameras": 3,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_667kxeybc57eqjfo4u7qe6agig"
+   ],
+   "layout_id": "44005f70076b58668e189747f1956724c49cfb187fdfb318ac09ee3c47b62107",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_019",
+   "tier": 1,
+   "s0": "art_odrolzn4tnuggyut7vf77nvxx5",
+   "cameras": 3,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_bp6pib2x7oi5vywuii5wkopobv"
+   ],
+   "layout_id": "ebb25e1792f1043314f43e6994396cf49fb3a3271b7142c9db40d153c81bb0a3",
+   "layout_is_warehouse_000_map": false
+  },
+  {
+   "scene": "Warehouse_020",
+   "tier": 2,
+   "s0": "art_odmp6e5g6vw7ipgammidq7tlxd",
+   "cameras": 16,
+   "partition": [
+    "reserve"
+   ],
+   "leakage_group_id": [
+    "lkg_walezmz2pofjbzxy4kg5ynapch"
+   ],
+   "layout_id": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+   "layout_is_warehouse_000_map": true
+  },
+  {
+   "scene": "Warehouse_022",
+   "tier": 1,
+   "s0": "art_4wwcobntopzvwkhbxi6okdxqla",
+   "cameras": 4,
+   "partition": [
+    "test_layout_holdout"
+   ],
+   "leakage_group_id": [
+    "lkg_uqzts4wht7gytlic23vwczuhoq"
+   ],
+   "layout_id": "9ef6d8ae7d95d1d991ff972653e74aa3adb3ec83b1138bca69b362299f30ed8e",
+   "layout_is_warehouse_000_map": false
+  }
+ ],
+ "x0c_audit": {
+  "artifact_id": "art_xi2kr6kyjwy44xvgi6l5t56fyn",
+  "payload_sha256": "363d4ffe137535dc16153587713123a3f4b056a2d50b4f2638e9b02b7174deb8",
+  "lka_id": "lka_zix22q7hnmxhqbjzltqqcxunqu",
+  "discovery_basis": "metadata",
+  "edges": 915,
+  "edges_by_type": {
+   "same_layout": 111,
+   "same_session": 804
+  },
+  "violations": 0,
+  "audit_complete": true
+ },
+ "x0b_checks": {
+  "recordings_in_both": [],
+  "source_files_in_both": [],
+  "addendum_recordings": 118,
+  "x0b_recordings": 739,
+  "warehouse_000_map_sha256": "0bb7fd5915654b6fa4a1e984d9ed4d83eec41a7ebab8a045badf16a40348890a",
+  "tier1_layouts_held_before": [],
+  "tier2_scenes_in_warehouse_000_layout": [
+   "Warehouse_002",
+   "Warehouse_004",
+   "Warehouse_006",
+   "Warehouse_020"
+  ]
+ },
+ "system_outputs_on_these_scenes_at_freeze": "none (S0 and S1 only)"
+}
