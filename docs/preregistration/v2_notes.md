@@ -40,3 +40,7 @@ Pre-registration v1 (`docs/preregistration_FROZEN.md`) and its frozen criteria a
 - Iteration is allowed on the 116 tuning cameras only. The 110 reporting cameras are evaluated once, after v2 is frozen; the test partition stays reserved (D-37).
 - **D-57 ruling 1 (24 Nov 2026).** The T24 values are kept as selected: s_max 0.1 m/px; forklift prior `anchor = box_bottom_centre`, d 1.00 m, r_taper 2.0 m; SmartSpaces d × 0.923. They are frozen together with pre-registration v2, not now. CR-034 reading (a) confirmed (the gate applies to `tracked` and `predicted` points; `lost` points carry `floor_resolution_m_per_px` null, `not_applicable`).
 - **No person rule (D-57).** The person error has no systematic offset (median along-sight error −0.13 m, against a box half-depth of 0.38 m); the large person errors are at r ≥ 20 m, which T24.2 addresses.
+
+## Event definition: m_gap and T25 (D-58, 24 Nov 2026; contract E-1.2.26)
+- **m_gap: event definition in seconds, value from literature item C7, applied to system and references; D-57 sweep value not a candidate (D-58).** The D-57 sweep is kept as a sensitivity study only. At the v2 freeze, references are rebuilt once with the frozen `m_gap_s` (T21.4 then applies to the new reference set).
+- **T25 adopted; values selected below are not frozen.** T25.1 (track stitching, S3, non-oracle tracks) and T25.2 (episode continuity across POW breaks, S5) are opt-in. Joined events are reported as joined, with their unobserved time (`unobserved_gap_s`).

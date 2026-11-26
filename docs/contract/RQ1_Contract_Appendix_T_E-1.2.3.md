@@ -1892,3 +1892,64 @@ approved by the Owner (Owner approval by pasting it). Items 1, 2, 3, 5, 6, 7 and
 - *Regression.* With the T24 parameters absent, every M0 fixture and the stored M1a and pilot S4 artifacts reproduce byte-identical.
 
 Source: Owner decision D-54 (23 Nov 2026), the Architect's draft part 1 (`v2_architect_package_part1_CR007_CR026_DRAFT.md`) as corrected after the Architect checked it against E-1.2.24 on 23 Nov 2026, approved by the Owner (Owner approval by pasting it). Text as stated.
+
+## T25. Event continuity across track fragments and POW breaks; m_gap in seconds (E-1.2.26; D-58)
+
+**T25.0 Switching.** Each rule below is off unless its parameter is present. A configuration with the parameters absent is identical to its E-1.2.25 form (same fields, same IDs), and every E-1.2.25 artifact reproduces unchanged.
+
+**T25.1 Track stitching (S3, detector and other non-oracle track sources only).**
+(a) *Parameters* (tracker package, optional): `stitch_max_gap_s` T_s > 0; `stitch_v_max_mps` per class (person, forklift); `stitch_r_gate_m` r_g ≥ 0; `stitch_img_gate` k_img > 0. Either all are present, or none is.
+(b) *Candidates.* For two tracks A and B of the same class in the same camera timeline:
+- let t_A be A's last point in state `tracked`, and t_B be B's first point in state `tracked`;
+- (A, B) is a candidate iff 0 < t_B − t_A ≤ T_s, no point of A lies after t_A in state `tracked` or `predicted`, and no coverage segment of state not_recorded, gap_unobserved or unusable lies between t_A and t_B.
+
+Tracks that overlap in time are never stitched.
+
+(c) *Gate.*
+- When both endpoint points have floor positions (after T24), the gate is ‖P_B − P_A‖ ≤ v_max(class)·(t_B − t_A) + r_g, with cost = ‖P_B − P_A‖ / (v_max·(t_B − t_A) + r_g).
+- Otherwise the gate is image-based: centre distance ≤ k_img · max(diagonal of A's last box, diagonal of B's first box), with cost = distance / (k_img · max diagonal).
+
+(d) *Assignment.* Candidates passing the gate are taken in ascending cost, then ascending t_B − t_A, then track IDs by JCS order. A link is accepted iff A has no accepted successor and B has no accepted predecessor. Accepted links form chains.
+
+(e) *Output.* Each chain gets a stitched identity `stitch_id` (identity class, F.1 A1.2, from its member track IDs). Track points keep their original track IDs, and each point carries `stitch_id`. S4 forms pairs from stitched identities. Frames between members are gaps under T8.1 (the gap bridging rule is unchanged); no point is created or imputed.
+
+(f) *Off for oracle tracks:* simulator identities are already continuous.
+
+**T25.2 Episode continuity across POW breaks (S5).**
+(a) *Parameter* (rule_configuration.lifecycle, optional): `join_across_pow` (bool). Absent or false: off.
+(b) *Rule.* Episodes e₁ and e₂ of the same pair (stitched identities under T25.1, otherwise track identities) in the same camera timeline, in different POWs, with e₂ starting after e₁ ends, are joined iff:
+- gap = start(e₂) − end(e₁) ≤ m_gap_s (T25.3), or m_gap frames × δ_nom when m_gap_s is absent;
+- every frame of the gap is outside both episodes' POWs, or inside them with T ≠ 1 (the gap holds no other episode of the pair);
+- no coverage segment of state not_recorded, gap_unobserved or unusable lies in the gap.
+
+Joins chain (e₁–e₂–e₃ …).
+
+(c) *Output.*
+- Each chain is one candidate_event per scenario (single-camera: S_VIEW = S_LINK = S_POSS), whose members are the episodes, in time order (`join_sequence`).
+- Episodes are unchanged.
+- Event fields follow the existing candidate_event rules (labels recomputed with §6 over the members, never unioned).
+- New candidate_event fields: `n_members` (i64) and `unobserved_gap_s` (f64, the summed gap time between members, which is never counted as exposure or as clearance-measured time).
+- The join is recorded as an event_link between consecutive members (representation per the agent's AR; meaning: same camera, same pair, continuity across a POW break).
+
+(d) *References.* T21 references are unaffected. They are already continuous over visibility.
+
+**T25.3 m_gap in seconds.**
+- `lifecycle.m_gap_s` (optional, > 0). When present, m_gap_frames for a POW = ⌊m_gap_s / δ_nom + 1e-9⌋, with δ_nom from S1.
+- When absent, `m_gap_frames` applies as in E-1.2.25.
+- The same rule applies to the T21 reference build.
+
+**T25.4 Tests.** Each of the following becomes a test.
+- *T25.1:* two forklift tracks 1.0 s apart, floor distance 2.0 m, v_max 3 m/s, r_g 1.0 m → stitched (cost 0.5).
+- *T25.1:* the same tracks 3.0 m apart and 0.5 s apart → not stitched (gate 2.5 m).
+- *T25.1:* two candidates for one B → the lower cost wins.
+- *T25.1:* overlapping tracks → not stitched.
+- *T25.1:* a coverage break between the tracks → not stitched.
+- *T25.1:* no floor positions → the image gate applies, with a hand value.
+- *T25.2:* two episodes of one pair in consecutive POWs, gap 0.6 s, m_gap_s 1.0 → one candidate_event, n_members 2, unobserved_gap_s 0.6.
+- *T25.2:* gap 1.4 s → two events.
+- *T25.2:* the gap contains a T = 1 frame of the pair → not joined.
+- *T25.2:* a coverage break in the gap → not joined.
+- *T25.3:* m_gap_s 1.0 at δ_nom 1/30 s → 30 frames; at 0.1 s → 10 frames.
+- *Regression:* with the T25 parameters absent, the M0 IDs, and the stored D-54 and D-57 artifacts at m_gap 5, reproduce byte-identical.
+
+Source: Owner decision D-58 (24 Nov 2026), on the D-57 diagnostics (`research/m1b/d57_report.md`), reviewed by the Architect on 24 Nov 2026 and approved by the Owner (Owner approval by pasting it). Text as stated.
