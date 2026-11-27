@@ -1202,3 +1202,14 @@ _(the agent appends entries here)_
 - Problems / CRs: CR-040 DECIDED.
 - Next: T-29p (D-63 STEP 5, reporting run), then T-29t (STEP 7, test run).
 
+### 2026-11-27 — T-29p part 1 (D-63 STEP 5): v2 partition runner, aggregation and report; verified on the 116 tuning cameras; CR-041
+- Did (nothing run on the reporting or test cameras):
+  - `research/v2/run_v2.py`: per camera, column A (ORACLE-S3 g_max 45 → S4 simulator_truth → S5 BL-2..BL-6, T25.2 on), B (same S3 → S4 full_camera T24 → S5 BL-2, BL-3, BL-6), C (stored S2 → D-56 tracker package re-run → bridged g_max 45 → T24 floor → T25.1 stitched S3 → S4 full_camera T24 → S5 BL-2, BL-3, BL-6). Label "preregistration-v2". It stops on a camera unless every configuration ID equals the freeze record, the stored v2 reference (S5 ID, payload and list hash) equals the freeze record, the person tracker re-run reproduces the stored pilot log (where one exists), and every event has one member with equal CR-037 readings (limitation 16). Scored against the frozen v2 references, N4, G1, iou_m 0.3 / 0.5 / 0.7. GV-01 and GV-07 on B and C (availability by null reason), GV-04 as revised by D-40 item 4 (simulator positions), IE share, borderline-flag counts, exact-class artifact IDs and hashes (MR-01). `test` refused (T-29t).
+  - `research/v2/aggregate_v2.py` (Target A / B intervals, B 2,000, seed 2026111402; T11.2 paired comparisons; registered criteria through `fitness.decide_criterion`) and `research/v2/report_v2.py` (the D-61 §1.6 tables).
+  - **Verification on the 116 tuning cameras** (development output `out/v2/dev/`, diagnostic, not a reported result): BL-6 EV counts at iou_m 0.3, IE share and stitch links equal the D-61 STEP 4 results on 116 of 116 cameras for both the detector path (C-v2+T25) and the oracle path (A+T25); configuration IDs equal the freeze record 116 of 116; references equal 116 of 116; person tracker log reproduced 96 of 96 (the 20 probe cameras have no stored pilot log); GV-04 recomputed prior clearance equals the stored clearance on 30,548 of 30,548 pair-frames; MR-01 repeat 1.0 (116 of 116 digests equal). Runtime about 15 s per camera.
+  - Found and fixed during development (before any reporting output): GV-04 first used the pre-D-40 definition (full_camera positions); now the D-40 item 4 definition.
+- Tests: new `tests/m1b/test_run_v2.py` 9, `tests/m1b/test_aggregate_v2.py` 6 (hand values). Full suite twice: 2781 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: **CR-041** (open): registered-criterion slice is test (reporting prints "not the registered decision"); no paired-comparison decision rule exists (differences and intervals only); no GV-07 outlier cut (median and P95 only). Presentation only; no number depends on it.
+- Next: T-29p part 2: the reporting run, once, from this commit.
+
