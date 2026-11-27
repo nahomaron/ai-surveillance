@@ -1125,3 +1125,35 @@ Owner decision (D-65) and Architect ruling (CR-042), 27 Nov 2026 (pasting = Owne
 - Then T-29t (the test run) under D-63, on the fixed commit. Test outputs stay sealed until then.
 - Six-question check: objective, measurement meaning, partitions and permitted claims unchanged (the fix restores the contract's meaning; no rule changes). Validation: the re-run is a disclosed defect correction, not tuning. Scientific decision: Owner. E2 not affected.
 
+## D-66 (2026-11-27) — STOP after D-63 STEP 7: the test run ran once; results recorded as produced        status: OPEN
+Task: T-29t (D-63 STEP 7)   Blocking: everything after STEP 7 (write-up, submission text, any further run)   Independent: nothing open on this branch
+Question: the test partition ran once (471 cameras, 48 leakage groups, commit f5e7d28, frozen v2 configuration, through the D-63 STEP 7 gate). The results are in `research/v2/test_results.json` and `research/v2/test_report.md` and are recorded as produced. What comes next?
+
+**What the run gives** (synthetic-data evaluation; experimental; automated outputs are candidate events):
+- Checks: configuration IDs equal the freeze record 471 / 471; references equal 471 / 471; M-input guard 0 missing on every column; MR-01 = 1.0 (471 / 471 repeats identical); aggregation byte-identical on two runs.
+- Headline (BL-6, detector path, N4, G1, iou_m 0.3): EV-M1 0.752, Target B [0.689, 0.806]; EV-M2 0.619 [0.577, 0.660]. Ceiling 0.932 / 0.725; eye_level 0.572 / 0.500. At iou_m 0.5: 0.571 / 0.470; at 0.7: 0.414 / 0.341. Descriptive only; no threshold is set (C12).
+- Decomposition: A|BL-6 (oracle path) 0.989 / 0.957; B|BL-6 (oracle boxes, full_camera) 0.983 / 0.935.
+- Registered criteria (registered slice test; 48 groups ≥ n_min 20, so all are decisions):
+
+  | Criterion | Target | Value | Target B | Decision |
+  |---|---|---|---|---|
+  | C1-MR-01 | 1.0 | 1.000 | — | met |
+  | C2-GV-01 ceiling | ≤ 0.25 m | 0.434 m | [0.407, 0.463] | not_met |
+  | C2-GV-01 eye_level | ≤ 0.25 m | 0.775 m | [0.685, 0.862] | not_met |
+  | C3-GV-07 | ≤ 0.15 m/s | 0.939 m/s | [0.826, 1.041] | not_met |
+  | C4-GV-04 | abs bias ≤ 0.10 m | 0.000 | [0.000, 0.000] | met (circular, never evidence) |
+
+  The three geometry criteria fail and are reported as failed; no target is moved.
+- Paired comparisons (no decision rule, CR-041 item 2), iou_m 0.3: BL-2 − BL-3 EV-M1 −0.246 (oracle), −0.410 (detector); BL-3 − BL-6 0.000 on both paths.
+
+**Still open for review:** CR-041 (three report-presentation items; the report already follows the agent's reading), AR-73 (S5 reads the stitch membership from the S3), AR-74 (the inference ID names the device; the test S2 ran on Colab T4).
+
+**Options:**
+- **(a) Accept the test result as produced** and move to the write-up (the claims section states the three not_met criteria and the synthetic-data scope), with CR-041 and the two ARs ruled first.
+- **(b) As (a), and also order a diagnostic analysis** of the GV-01 / GV-07 failures (for example by class and viewpoint, already in the report tables), labelled post hoc and selecting nothing.
+- The test partition is not run again in either option (D-63: every result once).
+
+Agent's recommendation: (a). The tables already break GV-01 and GV-07 down by viewpoint and class (person speed error at eye level is the largest component, 1.81 m/s); anything further is post hoc and should be scoped by you.
+
+Six-question check: 1 objective: no change. 2 meaning: no change. 3 independence: test was opened once, through the gate, after the reporting run and the window lock. 4 claims: the failed criteria bound what may be claimed. 5 scope: no change. 6 type: scientific (what follows the once-only test), so this is your decision.
+

@@ -112,7 +112,7 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-29m | **D-64 (a):** test-only Colab job `test` (`research/colab/test_manifest.json`, 471 test cameras, the test set of `reporting_test` entry for entry), own staging folder, notebook accepts it, HOWTO section "D-64" | G-D64 | manifest pushed | S |
 | [x] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
 | [x] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
-| [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
+| [x] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1254,4 +1254,13 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed). The test run runs from it.
 - Problems / CRs: AR-73, AR-74 proposed; CR-041 open.
 - Next: T-29t part 2: the test run, once, from this commit; MR-01 repeat; tables; STOP (next D).
+
+### 2026-11-27 — T-29t part 2 (D-63 STEP 7): test run once, 471 cameras, from f5e7d28; MR-01 1.0; STOP at D-66
+- Did: the test partition ran once through the D-63 STEP 7 gate (all four items held), S3–S8 with the frozen v2 configuration, from commit f5e7d28 (the CR-042 fix commit line; nothing changed between that commit and the run). The first camera was run alone as a smoke check (its numbers were not looked at) and was skipped by the full run, which did the other 470. MR-01 repeat: 471 / 471 re-run, 0 differing. `aggregate_v2.py test` run twice: byte-identical `research/v2/test_results.json`; `research/v2/test_report.md` rendered from it.
+- Checks: configuration IDs equal the freeze record 471 / 471; references equal 471 / 471; M-input guard 0 missing on every column (A, B 124,741 pair-frames with both states; C 83,524); GV-04 prior mismatches 0; 288 stitch links.
+- Results (synthetic-data evaluation; experimental; candidate events): headline C|BL-6, iou_m 0.3: EV-M1 0.752 (Target B [0.689, 0.806]), EV-M2 0.619 ([0.577, 0.660]); ceiling 0.932 / 0.725, eye_level 0.572 / 0.500. A|BL-6 0.989 / 0.957; B|BL-6 0.983 / 0.935. Registered criteria (48 leakage groups ≥ 20): C1-MR-01 met; C2-GV-01 ceiling 0.434 m [0.407, 0.463] not_met; C2-GV-01 eye_level 0.775 m [0.685, 0.862] not_met; C3-GV-07 0.939 m/s [0.826, 1.041] not_met; C4-GV-04 met (circular, not evidence).
+- Tests: no code change. Full suite twice: 2790 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed).
+- Problems / CRs: AR-73, AR-74 proposed; CR-041 open.
+- Next: STOP at D-66 (nothing on this branch is independent of it).
 
