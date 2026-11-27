@@ -1095,3 +1095,26 @@ Owner decision (D-64, 26 Nov 2026): "D-64: option (a), add the test-only manifes
 - The reporting run (D-63 STEP 5) uses the stored CPU S2 of the 110 reporting cameras (T-25p pilot; frozen v2 S2 IDs `inf_cetfxtbdg72cqgfm6teibcxsyd` / `mdl_ty3jrnwz5jjdv56nwtkcos4yqs`). No Colab S2 is made for the reporting cameras.
 - Colab runs the 471 test cameras only: job `test`, `research/colab/test_manifest.json` (471 videos, 7,703,586,524 bytes, 141,190 frames; entry for entry the test set of `reporting_test_manifest.json`, same detector block). Staged in the new folder `out/colab_upload_test/rq1_colab/data/` (441 `raw/sdg`, 30 `derived/sdg_rgb_sample`). HOWTO section "D-64": Drive space about 8.1 GB, about 1.8 h on a T4.
 - `reporting_test` is kept as the D-63 STEP 4 record and marked "do not run". The D-63 upload approval (WORKPLAN §0) covers the test videos, a subset of it.
+
+## D-65 (2026-11-27) — STOP in D-63 STEP 5: the reporting run ran once, but its detector-path numbers are defective (CR-042)        status: OPEN
+Task: T-29p (D-63 STEP 5)   Blocking: T-29p (a usable reporting result for column C), T-29t (STEP 7: the test run comes after the reporting run; deadline 1 Dec 2026)   Independent: nothing else open on this branch
+Question: the reporting run (110 cameras, commit d20fb82, frozen v2 configuration) ran once and is recorded as produced (`research/v2/reporting_results.json`, `research/v2/reporting_report.md` with a defect banner). While checking an unexpected flag count I found a code defect that makes **every detector-path number** (column C, the headline) unusable. How should STEP 5 proceed?
+
+**The defect (CR-042).** With T25.1 on, S4 pairs carry stitched identities (`sti_…`) but object states keep track IDs (`trk_…`). The S5 providers look up object states by the pair's ID, so on the detector path they find none: 0 of 19,750 reporting pair-frames. On column C, M is unknown on every frame, R4 has no speeds, and R5 and the contact cue have no input. P and R3 work. Columns A (oracle) and B (oracle boxes, full_camera) do not stitch and are correct. The D-58 and D-61 tuning diagnostics had the same defect; the tuning verification agreed with them because it shares the code. The pre-registration values and configuration IDs are unchanged; this is code, not a definition.
+
+**What the run gives that is not affected:**
+- Checks: configuration IDs equal the freeze record 110 / 110; references equal 110 / 110; person tracker log reproduced 110 / 110; MR-01 = 1.0 (110 / 110 repeats identical): **C1-MR-01 met**.
+- Columns A and B (BL-6, iou_m 0.3): A EV-M1 0.991, EV-M2 0.991; B EV-M1 0.982, EV-M2 0.973.
+- GV-01 (B, full_camera): RMSE ceiling 0.468 m [0.407, 0.524], eye_level 0.573 m [0.518, 0.631]; GV-07 (B) 0.817 m/s [0.656, 0.968]; GV-04 bias 0.000 (circular). All criteria rows are "not the registered decision" here (registered slice: test; CR-041) and not_assessable (11 leakage groups < 20).
+- The GV on detector boxes (C) uses S4 object states directly and is not affected by the S5 lookup.
+
+**Options:**
+- **(a) Fix and re-run the reporting partition once.** Fix per CR-042 option (a) (S5 reads a stitched identity's states from its member tracks; S4 unchanged), with a contract test and a new run check that every detector-path pair-frame finds both objects' states. Verify on the 116 tuning cameras (diagnostic), then run the 110 reporting cameras once from the fix commit. The defective run stays recorded and is disclosed: its column C numbers were seen, with M, R4 and R5 inert.
+- **(b) As (a), but re-run column C only** and keep A and B of this run. Fewer moving parts in the comparison; the two parts then carry different code commits.
+- **(c) Report this run as produced,** with column C marked defective, and fix only for the test run. The headline (BL-6, detector path) would then have no reporting-partition value.
+- In every option the test run (STEP 7) uses the fixed code, because it has not run.
+
+Agent's recommendation: **(a)**. The fix is code only and changes no frozen value. A clean re-run keeps one code commit for the whole reporting result, and the defect and the seen numbers are disclosed. Time: the fix, the tuning check and the re-run take about 1 h of compute here, so the test run can still finish before 1 Dec. CR-042 also needs your reading (or the Architect's): (a) union of member-track states, or (b) per-identity states in S4. These differ only near stitch links (72 links on the reporting cameras).
+
+Six-question check: 1 objective: no change. 2 meaning: no definition changes; the fix makes the detector path compute the defined flags. 3 independence: the reporting cameras would be scored twice on column C; the first was defective and is disclosed (option c avoids this but leaves no headline). 4 claims: no change. 5 scope: no change. 6 type: scientific (re-running a once-only partition), so this is your decision.
+
