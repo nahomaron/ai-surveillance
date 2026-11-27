@@ -1195,3 +1195,10 @@ _(the agent appends entries here)_
 - Problems / CRs: **CR-040.** The M0 fixture IDs include the HEAD commit. At 610ff29 the derived ID `exp_ppb4v7enmipxsy2zp7jjoshaf5` contains the substring `osha`, so the VR-E-041 value scan (`obx.check_content`) rejects the fixture export (6 errors). The failure depends on the commit, so the T-29m run (made before its commit) did not see it. This is a latent defect: a substring scan over random base32 IDs. Not fixed: exempting IDs from VR-E-041 changes how a contract rule applies.
 - Next: T-29p (STEP 5, reporting run from the stored CPU S2). T-29t then waits only on T-29p.
 
+### 2026-11-27 — CR-040 DECIDED and implemented (VR-E-041 skips generated-ID hash bodies)
+- Did: Architect ruling, Owner-approved (27 Nov 2026), reading (a) narrowly. `src/rq1/export/obx.py`: `GENERATED_ID` (`^([a-z0-9]{2,4})_[a-z2-7]{26}$`); `_strings` yields only the prefix of a whole value in that format, so its base32 hash body is not scanned. Field names, free text, labels, notes and all other values are scanned as before. No other rule changes; no frozen v2 value or result touched.
+- Tests: `tests/export/test_obx.py` + 9 (`test_cr_040_*`: the 610ff29 ID `exp_ppb4v7enmipxsy2zp7jjoshaf5` passes; "osha" in `summary_label`, in a `*_null_reason` free-text field, in non-ID-format values (wrong body length, non-base32 character, ID plus text, fragment in the prefix) and in an ID-shaped field name each still fails). Full suite twice: 2766 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-040 DECIDED.
+- Next: T-29p (D-63 STEP 5, reporting run), then T-29t (STEP 7, test run).
+

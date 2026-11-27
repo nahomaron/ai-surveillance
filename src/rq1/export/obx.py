@@ -6,6 +6,7 @@ dictionary holds the JSON Schema of every exported table (the OBX schemas). Fixt
 from __future__ import annotations
 
 import hashlib
+import re
 import json
 from pathlib import Path
 from typing import Any
@@ -61,9 +62,16 @@ def check_class(export_class: str, configurations: list[Row], datasets: list[Row
         raise ContractError("ERR-UNKNOWN-ENUM", f"export_class {export_class}")
 
 
+# CR-040 (Architect ruling, 27 Nov 2026): a value in the generated-ID format, prefix + "_" + 26-character lowercase
+# base32 hash body (ids.core.b32), is not scanned for VR-E-041 fragments in its hash body; the prefix still is.
+# Field names and every other value (free text, labels, notes) are scanned as before.
+GENERATED_ID = re.compile(r"^([a-z0-9]{2,4})_[a-z2-7]{26}$")
+
+
 def _strings(value: Any):
     if isinstance(value, str):
-        yield value
+        m = GENERATED_ID.match(value)
+        yield m.group(1) if m else value
     elif isinstance(value, dict):
         for k, v in value.items():
             yield str(k)

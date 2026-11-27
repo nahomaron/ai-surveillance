@@ -117,6 +117,43 @@ def test_ct_e_27_content_scan():
     assert any(i.rule == "VR-E-041" and i.code == "ERR-FORBIDDEN-FIELD" for i in issues)
 
 
+def _vr_e_041(tables):
+    return [i for i in obx.check_content(tables) if i.rule == "VR-E-041"]
+
+
+def test_cr_040_generated_id_containing_a_fragment_passes():
+    # CR-040 (Architect ruling, 27 Nov 2026): values in the generated-ID format (prefix, underscore, 26-character
+    # base32 body) are not scanned. The ID that tripped the M0 fixture at commit 610ff29, by hand:
+    tripped = "exp_ppb4v7enmipxsy2zp7jjoshaf5"
+    assert len(tripped.split("_")[1]) == 26 and "osha" in tripped
+    tables, _, _ = fixture_inputs()
+    prof = {**tables["exposure_profile"][0], "exp_id": tripped}
+    ep = {**tables["episode"][0], "continuation_of_id": "art_osha" + "a" * 22, "ep_id": "rin_" + "a" * 22 + "osha"}
+    assert len(ep["continuation_of_id"]) == len(ep["ep_id"]) == 4 + 26
+    assert _vr_e_041({**tables, "exposure_profile": [prof], "episode": [ep]}) == []
+
+
+@pytest.mark.parametrize("field, value", [
+    ("summary_label", "osha_recordable"),            # label field
+    ("minclr_m_null_reason", "see OSHA 300 log"),     # free text
+    ("recording_id", "osha_300_log"),                 # not the ID format (body not 26 base32 characters)
+    ("recording_id", "art_ppb4v7enmipxsy2zp7jjosha"),  # 25-character body: not the ID format
+    ("recording_id", "art_ppb4v7enmipxsy2zp7jjoshaf1"),  # '1' is not base32: not the ID format
+    ("recording_id", "art_ppb4v7enmipxsy2zp7jjoshaf5 note"),  # ID plus text: not a whole-value ID
+    ("recording_id", "osha_" + "a" * 26),  # ID format, but the fragment is in the prefix
+])
+def test_cr_040_fragment_outside_generated_ids_still_fails(field, value):
+    tables, _, _ = fixture_inputs()
+    ep = {**tables["episode"][0], field: value}
+    assert any(i.code == "ERR-FORBIDDEN-FIELD" for i in _vr_e_041({**tables, "episode": [ep]}))
+
+
+def test_cr_040_field_names_still_scanned_even_if_id_shaped():
+    tables, _, _ = fixture_inputs()
+    ep = {**tables["episode"][0], "art_ppb4v7enmipxsy2zp7jjoshaf5": 1}
+    assert any(i.code == "ERR-FORBIDDEN-FIELD" for i in _vr_e_041({**tables, "episode": [ep]}))
+
+
 @pytest.mark.parametrize("state", ["observed_no_detection", "not_evaluated"])
 def test_vr_e_040_in_exports(state):
     # VR-E-040; the zero-exposure clause covers observed_no_detection and, by the Architect's ruling on AR-46 item 7,
