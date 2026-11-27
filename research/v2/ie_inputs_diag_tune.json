@@ -1,0 +1,614 @@
+{
+ "cameras": 116,
+ "code_commit": "8ad6c6193531f7939a54bb2812bc2cc2acb797ad",
+ "method": "For each camera and each S5 baseline of A (BL-2..BL-6) and C (BL-2, BL-3, BL-6), the stored S4 (and, on C, the\nstitched S3 for the CR-042 member map) of the dev run is read and its artifact ID verified; the per-frame inputs are\nrecomputed exactly as `s5.build` does (`providers.flag_frames`, `engine.run_pow`, the frozen v2 rule configuration,\nwhose ID must equal the freeze record). The recomputed episodes must equal the stored S5 episodes (bounds, K, contact\nstate, IE); otherwise STOP. Then, per stored IE event of scenario S_VIEW (the events the run's IE share counts,\n`d58_events.event_rows`; one member episode under v2, limitation 16):\n- clauses: which part of the IE rule held (engine._episode): coverage_at_ca (Q at the closest-approach frame not 1, or\n  no CA frame), coverage_share (time with Q not 1 > o_max x span), contact_not_assessable, k_undetermined (K = 2 with H\n  or PC; k_parts: E_ep unknown (R5) and / or no measured clearance);\n- undetermined inputs (2 = unknown, Kleene) anywhere in the episode: M (frames of the episode), R4 (the R4 provider's\n  C value), R5 (E over the attribution frames), contact_cue (T9.3 at the CA frame; unknown without a CA frame),\n  coverage (Q not 1 on a frame of the episode). None = the input is not in that baseline's configuration.\nThe clauses are what made the event IE; the inputs say what else was unknown in it. Both are non-exclusive counts.",
+ "results": {
+  "A|BL-2": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 87,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 5,
+     "coverage_share": 8
+    },
+    "clauses": {
+     "contact_not_assessable": 87,
+     "coverage_at_ca": 94,
+     "coverage_share": 100,
+     "k_undetermined": 0
+    },
+    "events": 130,
+    "ie_events": 102,
+    "ie_share": 0.7846153846153846,
+    "undetermined": {
+     "M": 102,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 102
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 18,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 5,
+     "coverage_share": 8
+    },
+    "clauses": {
+     "contact_not_assessable": 18,
+     "coverage_at_ca": 25,
+     "coverage_share": 31,
+     "k_undetermined": 0
+    },
+    "events": 60,
+    "ie_events": 33,
+    "ie_share": 0.55,
+    "undetermined": {
+     "M": 33,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 33
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 69
+    },
+    "clauses": {
+     "contact_not_assessable": 69,
+     "coverage_at_ca": 69,
+     "coverage_share": 69,
+     "k_undetermined": 0
+    },
+    "events": 70,
+    "ie_events": 69,
+    "ie_share": 0.9857142857142858,
+    "undetermined": {
+     "M": 69,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 69
+    }
+   }
+  },
+  "A|BL-3": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 79,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 80,
+     "coverage_at_ca": 86,
+     "coverage_share": 89,
+     "k_undetermined": 0
+    },
+    "events": 119,
+    "ie_events": 92,
+    "ie_share": 0.773109243697479,
+    "undetermined": {
+     "M": 1,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 92
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 15,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 16,
+     "coverage_at_ca": 22,
+     "coverage_share": 25,
+     "k_undetermined": 0
+    },
+    "events": 54,
+    "ie_events": 28,
+    "ie_share": 0.5185185185185185,
+    "undetermined": {
+     "M": 0,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 28
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 64
+    },
+    "clauses": {
+     "contact_not_assessable": 64,
+     "coverage_at_ca": 64,
+     "coverage_share": 64,
+     "k_undetermined": 0
+    },
+    "events": 65,
+    "ie_events": 64,
+    "ie_share": 0.9846153846153847,
+    "undetermined": {
+     "M": 1,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 64
+    }
+   }
+  },
+  "A|BL-4": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 79,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 80,
+     "coverage_at_ca": 86,
+     "coverage_share": 89,
+     "k_undetermined": 0
+    },
+    "events": 119,
+    "ie_events": 92,
+    "ie_share": 0.773109243697479,
+    "undetermined": {
+     "M": 1,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 92
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 15,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 16,
+     "coverage_at_ca": 22,
+     "coverage_share": 25,
+     "k_undetermined": 0
+    },
+    "events": 54,
+    "ie_events": 28,
+    "ie_share": 0.5185185185185185,
+    "undetermined": {
+     "M": 0,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 28
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 64
+    },
+    "clauses": {
+     "contact_not_assessable": 64,
+     "coverage_at_ca": 64,
+     "coverage_share": 64,
+     "k_undetermined": 0
+    },
+    "events": 65,
+    "ie_events": 64,
+    "ie_share": 0.9846153846153847,
+    "undetermined": {
+     "M": 1,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 64
+    }
+   }
+  },
+  "A|BL-5": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 79,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 80,
+     "coverage_at_ca": 86,
+     "coverage_share": 89,
+     "k_undetermined": 0
+    },
+    "events": 119,
+    "ie_events": 92,
+    "ie_share": 0.773109243697479,
+    "undetermined": {
+     "M": 1,
+     "R4": 1,
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 92
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 15,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 16,
+     "coverage_at_ca": 22,
+     "coverage_share": 25,
+     "k_undetermined": 0
+    },
+    "events": 54,
+    "ie_events": 28,
+    "ie_share": 0.5185185185185185,
+    "undetermined": {
+     "M": 0,
+     "R4": 0,
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 28
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 64
+    },
+    "clauses": {
+     "contact_not_assessable": 64,
+     "coverage_at_ca": 64,
+     "coverage_share": 64,
+     "k_undetermined": 0
+    },
+    "events": 65,
+    "ie_events": 64,
+    "ie_share": 0.9846153846153847,
+    "undetermined": {
+     "M": 1,
+     "R4": 1,
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 64
+    }
+   }
+  },
+  "A|BL-6": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 79,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 80,
+     "coverage_at_ca": 86,
+     "coverage_share": 89,
+     "k_undetermined": 0
+    },
+    "events": 119,
+    "ie_events": 92,
+    "ie_share": 0.773109243697479,
+    "undetermined": {
+     "M": 1,
+     "R4": 1,
+     "R5": 1,
+     "contact_cue": 0,
+     "coverage": 92
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 15,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 4,
+     "coverage_share": 6
+    },
+    "clauses": {
+     "contact_not_assessable": 16,
+     "coverage_at_ca": 22,
+     "coverage_share": 25,
+     "k_undetermined": 0
+    },
+    "events": 54,
+    "ie_events": 28,
+    "ie_share": 0.5185185185185185,
+    "undetermined": {
+     "M": 0,
+     "R4": 0,
+     "R5": 0,
+     "contact_cue": 0,
+     "coverage": 28
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 64
+    },
+    "clauses": {
+     "contact_not_assessable": 64,
+     "coverage_at_ca": 64,
+     "coverage_share": 64,
+     "k_undetermined": 0
+    },
+    "events": 65,
+    "ie_events": 64,
+    "ie_share": 0.9846153846153847,
+    "undetermined": {
+     "M": 1,
+     "R4": 1,
+     "R5": 1,
+     "contact_cue": 0,
+     "coverage": 64
+    }
+   }
+  },
+  "C|BL-2": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 32,
+     "coverage_at_ca": 8,
+     "coverage_at_ca + coverage_share": 36,
+     "coverage_share": 22
+    },
+    "clauses": {
+     "contact_not_assessable": 32,
+     "coverage_at_ca": 76,
+     "coverage_share": 90,
+     "k_undetermined": 0
+    },
+    "events": 141,
+    "ie_events": 98,
+    "ie_share": 0.6950354609929078,
+    "undetermined": {
+     "M": 98,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 5,
+     "coverage": 98
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 8,
+     "coverage_at_ca": 5,
+     "coverage_at_ca + coverage_share": 13,
+     "coverage_share": 10
+    },
+    "clauses": {
+     "contact_not_assessable": 8,
+     "coverage_at_ca": 26,
+     "coverage_share": 31,
+     "k_undetermined": 0
+    },
+    "events": 72,
+    "ie_events": 36,
+    "ie_share": 0.5,
+    "undetermined": {
+     "M": 36,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 36
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 24,
+     "coverage_at_ca": 3,
+     "coverage_at_ca + coverage_share": 23,
+     "coverage_share": 12
+    },
+    "clauses": {
+     "contact_not_assessable": 24,
+     "coverage_at_ca": 50,
+     "coverage_share": 59,
+     "k_undetermined": 0
+    },
+    "events": 69,
+    "ie_events": 62,
+    "ie_share": 0.8985507246376812,
+    "undetermined": {
+     "M": 62,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 5,
+     "coverage": 62
+    }
+   }
+  },
+  "C|BL-3": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 31,
+     "coverage_at_ca": 12,
+     "coverage_at_ca + coverage_share": 32,
+     "coverage_share": 26
+    },
+    "clauses": {
+     "contact_not_assessable": 32,
+     "coverage_at_ca": 76,
+     "coverage_share": 89,
+     "k_undetermined": 0
+    },
+    "events": 137,
+    "ie_events": 102,
+    "ie_share": 0.7445255474452555,
+    "undetermined": {
+     "M": 3,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 5,
+     "coverage": 102
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 6,
+     "coverage_at_ca": 10,
+     "coverage_at_ca + coverage_share": 8,
+     "coverage_share": 14
+    },
+    "clauses": {
+     "contact_not_assessable": 7,
+     "coverage_at_ca": 25,
+     "coverage_share": 28,
+     "k_undetermined": 0
+    },
+    "events": 70,
+    "ie_events": 39,
+    "ie_share": 0.5571428571428572,
+    "undetermined": {
+     "M": 1,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 0,
+     "coverage": 39
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 25,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 24,
+     "coverage_share": 12
+    },
+    "clauses": {
+     "contact_not_assessable": 25,
+     "coverage_at_ca": 51,
+     "coverage_share": 61,
+     "k_undetermined": 0
+    },
+    "events": 67,
+    "ie_events": 63,
+    "ie_share": 0.9402985074626866,
+    "undetermined": {
+     "M": 2,
+     "R4": "not enabled",
+     "R5": "not enabled",
+     "contact_cue": 5,
+     "coverage": 63
+    }
+   }
+  },
+  "C|BL-6": {
+   "all": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 28,
+     "contact_not_assessable + coverage_at_ca + coverage_share + k_undetermined": 3,
+     "coverage_at_ca": 12,
+     "coverage_at_ca + coverage_share": 32,
+     "coverage_share": 26,
+     "k_undetermined": 2
+    },
+    "clauses": {
+     "contact_not_assessable": 32,
+     "coverage_at_ca": 76,
+     "coverage_share": 89,
+     "k_undetermined": 5
+    },
+    "events": 137,
+    "ie_events": 104,
+    "ie_share": 0.7591240875912408,
+    "k_undetermined_parts": {
+     "clearance_unknown": 0,
+     "r5_unknown": 5
+    },
+    "undetermined": {
+     "M": 3,
+     "R4": 26,
+     "R5": 36,
+     "contact_cue": 7,
+     "coverage": 103
+    }
+   },
+   "ceiling": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca": 1,
+     "contact_not_assessable + coverage_at_ca + coverage_share": 6,
+     "coverage_at_ca": 10,
+     "coverage_at_ca + coverage_share": 8,
+     "coverage_share": 14,
+     "k_undetermined": 2
+    },
+    "clauses": {
+     "contact_not_assessable": 7,
+     "coverage_at_ca": 25,
+     "coverage_share": 28,
+     "k_undetermined": 2
+    },
+    "events": 70,
+    "ie_events": 41,
+    "ie_share": 0.5857142857142857,
+    "k_undetermined_parts": {
+     "clearance_unknown": 0,
+     "r5_unknown": 2
+    },
+    "undetermined": {
+     "M": 1,
+     "R4": 7,
+     "R5": 9,
+     "contact_cue": 2,
+     "coverage": 40
+    }
+   },
+   "eye_level": {
+    "clause_combinations": {
+     "contact_not_assessable + coverage_at_ca + coverage_share": 22,
+     "contact_not_assessable + coverage_at_ca + coverage_share + k_undetermined": 3,
+     "coverage_at_ca": 2,
+     "coverage_at_ca + coverage_share": 24,
+     "coverage_share": 12
+    },
+    "clauses": {
+     "contact_not_assessable": 25,
+     "coverage_at_ca": 51,
+     "coverage_share": 61,
+     "k_undetermined": 3
+    },
+    "events": 67,
+    "ie_events": 63,
+    "ie_share": 0.9402985074626866,
+    "k_undetermined_parts": {
+     "clearance_unknown": 0,
+     "r5_unknown": 3
+    },
+    "undetermined": {
+     "M": 2,
+     "R4": 19,
+     "R5": 27,
+     "contact_cue": 5,
+     "coverage": 63
+    }
+   }
+  }
+ },
+ "source": "out/v2/dev (v2 dev run; S4 / S5 artifact IDs verified)",
+ "status": "diagnostic, post hoc (D-66); tuning cameras only; selects nothing; synthetic-data evaluation; experimental"
+}

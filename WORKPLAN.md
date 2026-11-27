@@ -113,8 +113,8 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
 | [x] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
 | [x] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
-| [ ] | T-29u | **D-66 diagnostic (post hoc):** IE events on A and C, 116 tuning cameras: which rule input was undetermined (M, R4, R5, contact cue, coverage); `research/v2/ie_inputs_diag_tune.json`; selects nothing, no test data | D-66 | result pushed | S |
-| [ ] | T-29w | **D-66 write-up claims:** `research/v2/writeup_v2.md` from the test values (three failed criteria, false alerts per hour), scope statements as D-66 orders | D-66, T-29u | write-up pushed | S |
+| [x] | T-29u | **D-66 diagnostic (post hoc):** IE events on A and C, 116 tuning cameras: which rule input was undetermined (M, R4, R5, contact cue, coverage); `research/v2/ie_inputs_diag_tune.json`; selects nothing, no test data | D-66 | result pushed | S |
+| [x] | T-29w | **D-66 write-up claims:** `research/v2/writeup_v2.md` from the test values (three failed criteria, false alerts per hour), scope statements as D-66 orders | D-66, T-29u | write-up pushed | S |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1272,3 +1272,12 @@ _(the agent appends entries here)_
 - Tests: new `tests/m1b/test_ie_inputs_diag.py` (5, hand-calculated). Full suite twice: 2795 passed, 17 skipped, identical.
 - Commit: this entry's commit (pushed). The diagnostic runs from it.
 - Next: T-29u part 2 (run, 116 cameras), then T-29w.
+
+### 2026-11-27 — T-29u part 2 and T-29w (D-66): IE-input diagnostic run on 116 tuning cameras; write-up
+- Did: `ie_inputs_diag.py run` from 8ad6c61 on the 116 tuning cameras (no test data read): recomputed S5 inputs equal the stored S5 on 116 / 116 (no STOP), rule configuration IDs equal the freeze record; `aggregate` twice, byte-identical: `research/v2/ie_inputs_diag_tune.json` (diagnostic, post hoc, selects nothing). IE shares equal the dev run (A|BL-6 0.773, C|BL-6 0.759). BL-6: every IE event on A (92) and 102 of 104 on C fail a coverage clause (Q not sufficient at the closest approach and / or above o_max of the span); 2 on C are IE only through K undetermined (R5 unknown); M undetermined in 1 (A) and 3 (C) IE events.
+  - `research/v2/writeup_v2.md`: claims from the test values (three failed criteria, false alerts per hour), scope as D-66 orders (synthetic data only; BL-3 = BL-6 on SDG, with the test detector-path EV-M2 difference of 0.004 stated; the defective first reporting run disclosed; reporting set "held out from v2 tuning"); the diagnostic in §4.
+- Tests: no code change since 8ad6c61. Full suite twice: 2795 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed).
+- Problems / CRs: none open from D-66.
+- Next: nothing ordered after D-66 on this branch; waiting for the Owner.
+
