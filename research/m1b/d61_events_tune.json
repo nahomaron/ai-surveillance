@@ -22,6 +22,11 @@
  "status": "diagnostic, tuning subset, not a reported result; synthetic-data evaluation; experimental",
  "stitch_note": "the D-58 STEP 3 selection was made on detector S3 bridged at g_max 15 (v1); D-61 STEP 3 = D-58 STEP 3 as written",
  "stitching_links_g_max_45": 77,
+ "superseded": {
+  "defect": "detector-path S5 found no object state on stitched identities: M unknown everywhere, no R4 speeds, no R5 or contact-cue input; oracle-path configurations (A, A+T25) were not affected",
+  "replaced_by": "research/m1b/d61_events_tune_cr042.json (D-61 STEP 4 re-produced with the fix; diagnostic, selects nothing)",
+  "status": "superseded as defective (CR-042; Owner decision D-65, 27 Nov 2026); file kept"
+ },
  "tuning_116": {
   "all": {
    "A+T25": {

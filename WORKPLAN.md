@@ -1244,3 +1244,14 @@ _(the agent appends entries here)_
 - Problems / CRs: CR-041 open (presentation); AR-73 proposed.
 - Next: D-61 STEP 4 re-production (running), mark d58 / d61 superseded; then T-29t (test run).
 
+### 2026-11-27 — D-65 follow-ups done; T-29t part 1 (D-63 STEP 7): gated test path, test S2 builder, verified on validation; AR-74
+- Did (nothing opened, built or run on the test partition in this entry):
+  - **D-61 STEP 4 re-produced with the CR-042 fix** (diagnostic, selects nothing), from 107f14b: `research/m1b/d61_events_tune_cr042.json`, artifacts `out/m1b/d61_cr042/`. Checks 116 / 116 (reference S3 equals T-21; tracker reproduces D-55 for both classes; detector S3 at g_max 15 equals D-54). C-v2+T25 EV-M1 0.733, EV-M2 0.620 (unchanged); IE share at g_max 45 0.788 → 0.759; A+T25 unchanged. Disclosure: while it ran, `research/m1a/m1a_common.py` gained `load_for_test_run` (an added function only; nothing the run calls changed).
+  - `d58_events_tune.json` and `d61_events_tune.json` marked superseded as defective (CR-042) with a `superseded` field; files kept, no other byte changed.
+  - **Test path** (D-63 STEP 7): `research/v2/test_access.py`: `gate()` reads the committed records (X0c pass with 0 violations; lock artifact verifies and equals `window_lock_v2.json`, 471 / 471 locked; reporting re-run 110 cameras with MR-01 1.0; test S2 arrival pass, 471) and refuses otherwise; `CameraView` builds the camera fields from truth with the locked windows. `m1a_common.load_for_test_run(ctx, rec, gate)` is the only test loader for system stages (refused without a full gate; refused for non-test cameras). `run_v2.py`: partition `test` opens only through the gate; S2 built from the sealed Colab file (hash equal to the arrival record; weights, eligible frames and size checked) by `s2_from_raw`; **AR-74**: the inference record names the device that ran it (`cuda (Tesla T4, Colab)`), model ID unchanged.
+  - **Verified on validation data only:** `s2_from_raw` reproduces the stored pilot S2 artifact ID from its raw output on 5 / 5 cameras; the truth-built `CameraView` (V2RUN_VIEW=fresh) gives results identical in every field to the stored-view dev run on 116 / 116 tuning cameras (`out/v2/dev_freshview/`).
+- Tests: new `tests/m1b/test_test_access.py` 2; `test_run_v2.py`: `test_partition_guard_refuses_test` replaced by `test_partition_guard` (D-63 STEP 7 opens `test` through the gate; the refusal is now the gate's, tested in `test_test_access.py`) and `test_test_inference_differs_only_by_device` added. Full suite twice: 2790 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed). The test run runs from it.
+- Problems / CRs: AR-73, AR-74 proposed; CR-041 open.
+- Next: T-29t part 2: the test run, once, from this commit; MR-01 repeat; tables; STOP (next D).
+

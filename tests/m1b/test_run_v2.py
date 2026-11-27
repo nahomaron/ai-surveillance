@@ -29,11 +29,25 @@ def test_config_mismatches():
     assert rv.config_mismatches({**same, "rcf": {"BL-6": "rcf_x"}}, w) == ["rcf BL-6"]
 
 
-def test_partition_guard_refuses_test():
-    with pytest.raises(SystemExit, match="test waits for D-63 STEP 7"):
-        rv.partition_dir("test")
+def test_partition_guard():
+    # D-63 STEP 7 (T-29t): `test` is no longer refused outright; it opens only through test_access.gate (tested in
+    # test_test_access.py). Unknown partitions are refused.
+    with pytest.raises(SystemExit, match="is not run here"):
+        rv.partition_dir("tier1")
     assert rv.partition_dir("reporting") == rv.OUT / "run" / "reporting"
+    assert rv.partition_dir("reporting_rerun") == rv.OUT / "run" / "reporting_rerun"
     assert rv.partition_dir("dev") == rv.OUT / "dev"
+    assert rv.REFERENCE_SET == {"dev": "tuning", "reporting": "reporting", "reporting_rerun": "reporting", "test": "test"}
+
+
+def test_test_inference_differs_only_by_device():
+    import run_pilot as rp
+    ti = rv.test_inference()
+    assert ti["device"] == "cuda (Tesla T4, Colab)" and rp.INFERENCE["device"] == "cpu"
+    assert {k: v for k, v in ti.items() if k != "device"} == {k: v for k, v in rp.INFERENCE.items() if k != "device"}
+    mdl, inf = rv.expected_test_s2()
+    assert mdl == "mdl_ty3jrnwz5jjdv56nwtkcos4yqs"  # the frozen model ID (freeze record, detector s2_config_ids)
+    assert inf != "inf_cetfxtbdg72cqgfm6teibcxsyd"  # the device enters the inference ID (AR-74)
 
 
 def ev(i, labels, n=1, a=("p", "f"), b=("p", "f")):

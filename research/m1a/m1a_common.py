@@ -92,6 +92,17 @@ def load_for_reference(ctx: Context, rec_id: str) -> Loaded:
     return _load(ctx, rec_id, ctx.reference_camera(rec_id))
 
 
+def load_for_test_run(ctx: Context, rec_id: str, gate: dict) -> Loaded:
+    """D-63 STEP 7: truth and S1 of an X0b test camera for the single v2 test run (S3 and later). `gate` is the evidence
+    of `research/v2/test_access.gate()`; every item must hold. Validation cameras are refused here (use `load`)."""
+    if not gate or not all(gate.get("items", {}).values()) or len(gate.get("items", {})) != 4:
+        raise ContractError("ERR-LEAKAGE", f"{rec_id}: the D-63 STEP 7 gate does not hold")
+    cam = ctx.reference_camera(rec_id)
+    if cam["run"] not in ctx.freeze["split"]["sdg_test_runs"]:
+        raise ContractError("ERR-LEAKAGE", f"{rec_id} is not an X0b test camera")
+    return _load(ctx, rec_id, cam)
+
+
 def _load(ctx: Context, rec_id: str, cam: dict) -> Loaded:
     entry = ctx.index[rec_id]
     s1dir = ROOT / f"out/t17_{ctx.ds}/{cam['s1']}"

@@ -46,6 +46,11 @@
    "person": 71
   }
  },
+ "superseded": {
+  "defect": "detector-path S5 found no object state on stitched identities: M unknown everywhere, no R4 speeds, no R5 or contact-cue input; oracle-path configurations (A, A+T25) were not affected",
+  "replaced_by": "research/m1b/d61_events_tune_cr042.json (D-61 STEP 4 re-produced with the fix; diagnostic, selects nothing)",
+  "status": "superseded as defective (CR-042; Owner decision D-65, 27 Nov 2026); file kept"
+ },
  "tuning_116": {
   "all": {
    "A": {
