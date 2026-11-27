@@ -111,7 +111,7 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | G-D64 | **STOP — the Owner runs the Colab job `reporting_test` (D-64), or chooses option (a): the reporting run from the stored CPU S2, with Colab for test only** (decided 26 Nov 2026: option (a)) | T-29q | D-64 decided; outputs returned | — |
 | [x] | T-29m | **D-64 (a):** test-only Colab job `test` (`research/colab/test_manifest.json`, 471 test cameras, the test set of `reporting_test` entry for entry), own staging folder, notebook accepts it, HOWTO section "D-64" | G-D64 | manifest pushed | S |
 | [ ] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
-| [ ] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
+| [x] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
 | [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
 
 | ✓ | ID | Gate | Needs | Done when |
@@ -1184,3 +1184,14 @@ _(the agent appends entries here)_
 - Tests: 2747 passed, 17 skipped (full suite twice, identical). New: `tests/colab/test_package.py` + 1 (`test`).
 - Problems / CRs: none. Engineering only (job name, folder), set by the Owner's decision; no AR.
 - Next: T-29p (STEP 5, reporting run from the stored CPU S2), independent of the Owner's Colab test run. T-29h waits for `out/colab/test/`.
+
+### 2026-11-27 — T-29h (D-63 STEP 6): test S2 arrival verified by hashes; outputs not opened
+- Did (no S3 or later stage run; no test output decompressed, parsed, counted or summarised, D-63 ruling 8):
+  - The Owner returned the Colab job `test` in `out/colab/test/`: 471 `.json.gz`, 471 `.done.json`, `colab_manifest.json`, `pip_freeze_610ff296df3f.txt`.
+  - New `research/colab/arrival.py`. It reads only the runner's bookkeeping (sidecars and manifest: hashes, sizes, frame counts, environment) and the raw bytes of each output for SHA-256. Checks: job name; `job_manifest_sha256` equals SHA-256 of `research/colab/test_manifest.json` (f9fc3a4b…); manifest complete (471 of 471); weights SHA-256 equal to the job's detector block; output, sidecar and manifest sets equal the job's 471 cameras, no extras; per file, the hash and size in the sidecar and the manifest equal the file, frame count equals the job's `n_eligible`, input video hash equals the job.
+  - Result: **PASS, 471 of 471, no problems.** Runner commit 610ff29, Tesla T4. Record: `docs/preregistration/test_s2_arrival_v2.json` (colab_manifest SHA-256 807d46b9…, 471 output hashes).
+- Tests: new `tests/colab/test_arrival.py` 10 (clean pass; a guard that fails if any gzip read happens; 8 defects each fail). Full suite at 610ff29 plus these files: 2751 passed, 17 skipped, 6 errors in `tests/pipeline/test_m0.py` (see Problems). Re-run twice at this entry's commit before the push: result in the commit's push note below.
+- Commit: this entry's commit
+- Problems / CRs: **CR-040.** The M0 fixture IDs include the HEAD commit. At 610ff29 the derived ID `exp_ppb4v7enmipxsy2zp7jjoshaf5` contains the substring `osha`, so the VR-E-041 value scan (`obx.check_content`) rejects the fixture export (6 errors). The failure depends on the commit, so the T-29m run (made before its commit) did not see it. This is a latent defect: a substring scan over random base32 IDs. Not fixed: exempting IDs from VR-E-041 changes how a contract rule applies.
+- Next: T-29p (STEP 5, reporting run from the stored CPU S2). T-29t then waits only on T-29p.
+

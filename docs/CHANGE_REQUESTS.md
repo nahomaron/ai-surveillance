@@ -1413,3 +1413,11 @@ Representation and engineering only. The hash content is AR-71 item 11, accepted
 4. **locked_utc** = 2026-11-26T15:47:13Z, one constant taken once at the lock (AR-57 item 6), an event column outside the payload hash (AR-7). Both builds use it, so the payload and files are identical.
 5. **Check against the proposal.** Every lock hash is checked equal to the D-61 STEP 6 proposal (`window_lock_proposal_v2.json`), and the count of differences is recorded (`docs/preregistration/window_lock_v2.json`).
 **Reverse:** delete the lock artifact folder (git-ignored) and the record; V0 is unaffected. Any S8 on test then fails VR-E-054 again.
+
+## CR-040 (2026-11-27) — VR-E-041 value scan hits random content-hashed IDs (`osha` inside an `exp_` ID)   status: OPEN
+- Found at T-29h. `rq1.export.obx.check_content` scans every string value of every exported row for the VR-E-041 / section 11 forbidden fragments (CT-E-27), including artifact and row IDs. IDs are base32 content hashes and include `code_commit`, so any commit can produce an ID containing a forbidden fragment by chance. At commit 610ff29 the M0 fixture produced `exp_ppb4v7enmipxsy2zp7jjoshaf5`, and `tests/pipeline/test_m0.py` errors (6) with ERR-FORBIDDEN-FIELD.
+- Readings: (a) VR-E-041 applies to names and human-readable values, not to opaque ID values; exempt fields of ID type (prefix `xxx_` + base32) from the value scan. (b) The scan covers every value as written; ID generation must then avoid the fragments (for example re-encode or salt), which changes ID derivation. (c) Leave as is; a commit that trips it is re-committed.
+- Why a CR and not an AR: (a) narrows the scope of a contract validation rule; (b) changes artifact-ID derivation. Neither changes a measured value, but the scope of VR-E-041 is the contract's.
+- Agent's recommendation: (a), with a test that a forbidden word in a non-ID value is still rejected.
+- Affected: `src/rq1/export/obx.py` (`check_content`, `_strings`), `tests/pipeline/test_m0.py`, `tests/export/*`.
+
