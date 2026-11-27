@@ -1125,7 +1125,7 @@ Owner decision (D-65) and Architect ruling (CR-042), 27 Nov 2026 (pasting = Owne
 - Then T-29t (the test run) under D-63, on the fixed commit. Test outputs stay sealed until then.
 - Six-question check: objective, measurement meaning, partitions and permitted claims unchanged (the fix restores the contract's meaning; no rule changes). Validation: the re-run is a disclosed defect correction, not tuning. Scientific decision: Owner. E2 not affected.
 
-## D-66 (2026-11-27) — STOP after D-63 STEP 7: the test run ran once; results recorded as produced        status: OPEN
+## D-66 (2026-11-27) — STOP after D-63 STEP 7: the test run ran once; results recorded as produced        status: DECIDED (27 Nov 2026): option (a)
 Task: T-29t (D-63 STEP 7)   Blocking: everything after STEP 7 (write-up, submission text, any further run)   Independent: nothing open on this branch
 Question: the test partition ran once (471 cameras, 48 leakage groups, commit f5e7d28, frozen v2 configuration, through the D-63 STEP 7 gate). The results are in `research/v2/test_results.json` and `research/v2/test_report.md` and are recorded as produced. What comes next?
 
@@ -1156,4 +1156,9 @@ Question: the test partition ran once (471 cameras, 48 leakage groups, commit f5
 Agent's recommendation: (a). The tables already break GV-01 and GV-07 down by viewpoint and class (person speed error at eye level is the largest component, 1.81 m/s); anything further is post hoc and should be scoped by you.
 
 Six-question check: 1 objective: no change. 2 meaning: no change. 3 independence: test was opened once, through the gate, after the reporting run and the window lock. 4 claims: the failed criteria bound what may be claimed. 5 scope: no change. 6 type: scientific (what follows the once-only test), so this is your decision.
-
+Owner decision (D-66, 27 Nov 2026; pasting = Owner approval):
+- Option (a): the test result is accepted as produced. The test partition is never run or re-opened again.
+- CR-041: readings (a), (a), (a), as applied. No speed outlier cut is chosen after seeing the data. AR-73 and AR-74: accepted.
+- One post-hoc diagnostic, on the 116 tuning cameras only: for every IE event on the oracle path (A) and the detector path (C), report which rule input was undetermined (M, R4, R5, contact cue, coverage). Labelled diagnostic and post hoc; it selects nothing. No test data is used.
+- Write-up claims: use the test values above, including the three failed criteria and false alerts per hour. State the scope: synthetic data only, BL-3 = BL-6 on SDG, the defective first reporting run disclosed, and the reporting set described as "held out from v2 tuning". Use the wording "candidate", "experimental" and "synthetic-data evaluation".
+- Six-question check: objective, measurement meaning, independence unchanged (the test is closed; the diagnostic uses tuning data only). Claims bounded by the failed criteria. Scope: one small diagnostic. Decision type: scientific (Owner). E2 not affected.

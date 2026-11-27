@@ -113,6 +113,8 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
 | [x] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
 | [x] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
+| [ ] | T-29u | **D-66 diagnostic (post hoc):** IE events on A and C, 116 tuning cameras: which rule input was undetermined (M, R4, R5, contact cue, coverage); `research/v2/ie_inputs_diag_tune.json`; selects nothing, no test data | D-66 | result pushed | S |
+| [ ] | T-29w | **D-66 write-up claims:** `research/v2/writeup_v2.md` from the test values (three failed criteria, false alerts per hour), scope statements as D-66 orders | D-66, T-29u | write-up pushed | S |
 
 | ✓ | ID | Gate | Needs | Done when |
 |---|---|---|---|---|
@@ -1264,3 +1266,9 @@ _(the agent appends entries here)_
 - Problems / CRs: AR-73, AR-74 proposed; CR-041 open.
 - Next: STOP at D-66 (nothing on this branch is independent of it).
 
+
+### 2026-11-27 — D-66 recorded; T-29u part 1: IE-input diagnostic code (post hoc, tuning only)
+- Did: D-66 recorded (option a; the test partition is closed). CR-041 DECIDED (readings a, a, a as applied); AR-73, AR-74 ACCEPTED. Tasks T-29u (diagnostic) and T-29w (write-up) added. `research/v2/ie_inputs_diag.py`: per tuning camera, reads the stored dev-run S4 (and, on C, the stitched S3) with verified IDs, recomputes the S5 per-frame inputs as `s5.build` does (frozen rule configuration IDs checked), STOPs unless the recomputed episodes equal the stored S5, then attributes each S_VIEW IE event to the IE clauses that held and the inputs that were undetermined. No test data is read.
+- Tests: new `tests/m1b/test_ie_inputs_diag.py` (5, hand-calculated). Full suite twice: 2795 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed). The diagnostic runs from it.
+- Next: T-29u part 2 (run, 116 cameras), then T-29w.
