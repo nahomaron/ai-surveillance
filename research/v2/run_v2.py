@@ -7,6 +7,7 @@ Synthetic-data evaluation; experimental. Results are "candidate" outputs; nothin
   PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev-repeat [workers]          MR-01 repeat of dev-all (IDs and hashes only)
   PYTHONPATH=src .venv/bin/python research/v2/run_v2.py run reporting [workers]      once: out/v2/run/reporting/
   PYTHONPATH=src .venv/bin/python research/v2/run_v2.py repeat reporting [workers]   MR-01 repeat (IDs and hashes only)
+  (D-65: `reporting_rerun` in place of `reporting` re-runs the 110 cameras into out/v2/run/reporting_rerun/)
 
 Per camera (all values from `research/preregistration/v2_values.py`, label "preregistration-v2"; every configuration ID
 is checked against `docs/preregistration/freeze_record_v2.json` before anything is scored):
@@ -19,6 +20,8 @@ References: the frozen v2 reference set of the partition (`out/v2/references/<pa
 payload hash must equal the freeze record. Matching N4, label group G1, at iou_m 0.3 (decides), 0.5 and 0.7.
 Pair resolution: A5.2 at the CA frame. Under v2 every event has one member (limitation 16: T25.2 is inert), so the two
 CR-037 readings coincide; the run checks this on every event and stops otherwise.
+Run guard (CR-042, D-65): STOP if, on any column and R2 baseline, M is unknown on more than 5 % of the pair-frames where
+both objects have a stored state and the forklift speed is known. S5 on column C reads the stitch membership of its S3.
 Measures per camera: EV counts (EV-M1, EV-M2, EV-M7 inputs) per column x baseline x iou_m; IE share; speed_near_v_min
 episode counts; GV-01 (dx, dy), GV-07 (speed minus simulator_truth speed, w_v 0.5) and position availability by null
 reason on B and C; GV-04 at the simulator positions (D-40 item 4); the exact-class artifact IDs and payload hashes (MR-01).
@@ -53,7 +56,10 @@ A_BL = ("BL-2", "BL-3", "BL-4", "BL-5", "BL-6")
 BC_BL = ("BL-2", "BL-3", "BL-6")
 COLUMNS = {"A": A_BL, "B": BC_BL, "C": BC_BL}
 IOUS = tuple(v2.IOU_M_REPORTED)
-PARTITIONS = ("dev", "reporting")  # test: D-63 STEP 7 (T-29t)
+PARTITIONS = ("dev", "reporting", "reporting_rerun")  # test: D-63 STEP 7 (T-29t)
+# reporting: the first reporting run (d20fb82), defective on column C (CR-042), kept on record. reporting_rerun: the D-65
+# re-run of the same 110 cameras and references after the CR-042 fix.
+REFERENCE_SET = {"dev": "tuning", "reporting": "reporting", "reporting_rerun": "reporting"}
 
 
 # ------------------------------------------------------------------------------------------------ pure functions
@@ -156,6 +162,28 @@ def speed_rows(object_states, identity_of, truth_speed, classes) -> list:
     return out
 
 
+M_MISSING_MAX = 0.05  # D-65 / CR-042 ruling: STOP above 5 %
+
+
+def m_input_check(s4_tables: dict, s5_tables: dict, member_track) -> dict:
+    """CR-042 run guard. Pair-frames where both objects have a stored S4 state (found independently of S5: the member
+    track of each unit on that frame, `member_track(unit, frame)`, then its object_state row) and the forklift speed is
+    known; of those, the frames whose stored M is unknown (2), i.e. S5 did not get the M input."""
+    states = {(r["track_id"], r["frame_index"]): r for r in s4_tables["object_state"]}
+    pow_id = {(p["person_track_id"], p["forklift_track_id"], p["start_frame"]): p["pow_id"] for p in s4_tables["pow"]}
+    m_of = {(r["pow_id"], r["frame_index"]): r["M"] for r in s5_tables.get("flag_series", [])}
+    both = missing = 0
+    for r in s4_tables["pair_series"]:
+        i = r["frame_index"]
+        pu, fu, start = r["pow_nk"]
+        ps, fs = states.get((member_track(pu, i), i)), states.get((member_track(fu, i), i))
+        if ps is None or fs is None or fs["speed_mps"] is None:
+            continue
+        both += 1
+        missing += m_of.get((pow_id[(pu, fu, start)], i)) == 2
+    return {"pair_frames_with_both_states": both, "m_missing": missing, "share_missing": (missing / both) if both else None}
+
+
 def artifact_digest(arts: dict) -> str:
     """SHA-256 over the sorted (name, artifact ID, payload hash) of a camera's exact-class artifacts (MR-01)."""
     rows = sorted((k, a["id"], a["payload"]) for k, a in arts.items())
@@ -218,7 +246,7 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
                 m.A.write_artifact(art, target, origin, register=out / "register.jsonl")
 
     # --- references: the frozen v2 set of the partition
-    ref_set = "tuning" if partition == "dev" else partition
+    ref_set = REFERENCE_SET[partition]
     ref_row = json.loads((REFS / ref_set / f"{rec}.json").read_text())
     frozen = {r["rec_id"]: r for r in freeze["references"][ref_set]["per_camera"]}[rec]
     if (ref_row["s5"], ref_row["s5_payload_sha256"], ref_row["references_sha256"]) != (frozen["s5"], frozen["s5_payload_sha256"], frozen["references_sha256"]):
@@ -230,12 +258,17 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     gcf_truth = core.make_id("gcf", {"geometry": "simulator_truth"})
     got["gcf_t24"], got["gcf_truth"] = gcf_t24, gcf_truth
 
-    def s5_all(s4a, bls):
+    def s5_all(s4a, bls, s3_stitched=None):
+        """S5 per baseline. With a stitched S3 (column C), S5 reads its stitch membership (CR-042) and lists that S3 as an
+        input artifact beside the S4 (AR-73)."""
+        from rq1.events import providers
+        members = providers.stitch_members(s3_stitched.tables) if s3_stitched is not None else None
+        inputs = (s4a.artifact_id,) + ((s3_stitched.artifact_id,) if s3_stitched is not None else ())
         res = {}
         for bl in bls:
             c5 = v2.s5_config(ctx, bl, LABEL, True)
             got["rcf"][bl] = s5.config_id(c5)
-            res[bl] = s5.build(s1, s4a, c5, _spec("S5", prov, (s5.config_id(c5),), (s4a.artifact_id,)))
+            res[bl] = s5.build(s1, s4a, c5, _spec("S5", prov, (s5.config_id(c5),), inputs), members=members)
         return res
 
     # --- A and B: ORACLE-S3 at g_max 45
@@ -275,7 +308,7 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     got["trc_stitched"] = sc.trc_id(pkg["run_config"], g, stitch=params)
     s3s = stitching.apply(SimpleNamespace(tables=s3c.tables), sid, _spec("S3", prov, (got["trc_stitched"],), (s2_id,)))
     s4c = builder.SubstrateBuilder().build(s1, s3s, {}, cal, t24_cfg, _spec("S4", prov, (got["sbc"], gcf_t24), (s3s.artifact_id,)))
-    s5c = s5_all(s4c, BC_BL)
+    s5c = s5_all(s4c, BC_BL, s3s)
     keep("C.S3", s3c), keep("C.S3.stitched", s3s), keep("C.S4", s4c)
     for bl, a in s5c.items():
         keep(f"C.S5.{bl}", a)
@@ -293,12 +326,21 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     summ_c, _ = assoc.summarize(rows_c, sup_all(rows_c))
     cols = {"A": (s4a, s5a, rows_o, summ_o, lambda u, f: u), "B": (s4b, s5b, rows_o, summ_o, lambda u, f: u),
             "C": (s4c, s5c, rows_c, summ_c, lambda u, f, ma=member_at: ma.get((u, f)))}
+    m_check = {}
+    for col, (s4t, s5s, _, _, member_track) in cols.items():
+        for bl, s5x in s5s.items():
+            if bl == "BL-2":
+                continue  # R1 only: M is unknown by definition (section 6.0)
+            m_check[f"{col}|{bl}"] = m_input_check(s4t.tables, s5x.tables, member_track)
+    bad_m = {k: v for k, v in m_check.items() if v["share_missing"] is not None and v["share_missing"] > M_MISSING_MAX}
+    if bad_m:
+        raise SystemExit(f"STOP: {rec}: M inputs missing on more than {M_MISSING_MAX:.0%} of pair-frames with both states (CR-042 guard): {bad_m}")
     res = {"rec_id": rec, "partition": partition, "status": STATUS, "code_commit": prov[0], "environment_digest": prov[1], "contract": v2.CONTRACT,
            "viewpoint": ep.pc.viewpoint(cam.camera_name), "camera": cam.camera_name, "run": cam.run, "stratum": cam.window["stratum_id"],
            "leakage_group": cam.window["leakage_group_id"], "usable_s": usable, "reference_s5": ref_row["s5"],
            "references": {"n": len(refs), "assessable": sum(r.assessable for r in refs), "g1": sum(1 for r in refs if "G1" in groups[r.ref_event_id])},
            "checks": {"configs_equal_freeze": True, "reference_equals_freeze": True, "person_log_reproduces_pilot": person_log_reproduced,
-                      "stitch_links": len(accepted)},
+                      "stitch_links": len(accepted), "m_inputs": m_check},
            "ev": {}, "ie": {}, "flags": {}, "runs": {}}
     for col, (s4t, s5s, rows, summ, member_track) in cols.items():
         resolver = d58.pair_resolver(s4t.tables, rows, summ, member_track)
@@ -368,7 +410,7 @@ def m_write_json(path: Path, obj) -> None:
 
 def cameras(partition: str) -> list[str]:  # pragma: no cover
     import v2_sets
-    return v2_sets.tuning() if partition == "dev" else v2_sets.reporting()
+    return v2_sets.tuning() if REFERENCE_SET[partition] == "tuning" else v2_sets.reporting()
 
 
 def main():  # pragma: no cover

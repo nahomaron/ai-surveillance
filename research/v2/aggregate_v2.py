@@ -29,6 +29,18 @@ VIEWS = ("all", "ceiling", "eye_level")
 PAIRS = (("BL-2", "BL-3"), ("BL-3", "BL-6"))
 METRICS = {"EV-M1": ("a", "m"), "EV-M2": ("s", "m_s"), "EV-M7": ("u", "f")}
 POS_CUTS_M = (1.0, 2.0, 5.0)  # D-41 position outlier shares (as the T-25p pilot tables)
+RERUN_DISCLOSURE = [
+    "This is the second reporting run (Owner decision D-65, 27 Nov 2026). The first run (commit d20fb82; "
+    "research/v2/reporting_results.json and reporting_report.md, kept on record with a defect warning) was defective on the "
+    "detector path: S5 looked up object states by the stitched identity's ID (sti_), while S4 object states keep their track "
+    "IDs (trk_), so on 0 of 19,750 detector-path pair-frames did it find either object's state; M was unknown on every "
+    "frame, R4 had no speeds, and R5 and the contact cue had no input (CR-042).",
+    "The fix (CR-042 reading 1): on stitched identities M, R4, R5 and the contact cue read each member track's stored S4 "
+    "state for its own frames; nothing is combined or recomputed across a stitch gap. S4 and every frozen v2 value and "
+    "configuration are unchanged.",
+    "The oracle-path (column A) and full_camera (column B) numbers of the first run, which the defect did not affect, were "
+    "seen before this re-run, as were the defective detector-path numbers.",
+]
 WORDING = "Automated outputs are candidate events; no output is a near miss, collision or contact. Nothing here is validated."
 
 
@@ -146,6 +158,19 @@ def gv04_summary(cams: list[dict]) -> dict:
             "leakage_groups": len({p[1] for p in per}), "note": "GV-04 is circular (the prior is the dataset box): reported, never cited as evidence"}
 
 
+def m_inputs_total(cams: list[dict]) -> dict | None:
+    """CR-042 guard totals per column|baseline: pair-frames with both states, M unknown among them, share (None before D-65)."""
+    if not all("m_inputs" in c["checks"] for c in cams):
+        return None
+    keys = sorted({k for c in cams for k in c["checks"]["m_inputs"]})
+    out = {}
+    for k in keys:
+        both = sum(c["checks"]["m_inputs"][k]["pair_frames_with_both_states"] for c in cams)
+        miss = sum(c["checks"]["m_inputs"][k]["m_missing"] for c in cams)
+        out[k] = {"pair_frames_with_both_states": both, "m_missing": miss, "share_missing": (miss / both) if both else None}
+    return out
+
+
 def mr01(run: list[dict], repeat: list[dict]) -> dict:
     """MR-01: 1.0 when every exact-class artifact ID and payload hash of the repeat equals the run (AR-57 item 5), else 0.0."""
     a = {c["rec_id"]: c["artifact_digest"] for c in run}
@@ -201,7 +226,8 @@ def aggregate(partition: str) -> dict:  # pragma: no cover
                       "reference_equals_freeze": sum(1 for c in cams if c["checks"]["reference_equals_freeze"]),
                       "person_log_reproduces_pilot": sum(1 for c in cams if c["checks"]["person_log_reproduces_pilot"]),
                       "gv04_pair_frames_and_prior_mismatches": [sum(c["checks"]["gv04_prior_clearance_differs_from_stored"][i] for c in cams) for i in (0, 1)],
-                      "stitch_links": sum(c["checks"]["stitch_links"] for c in cams)},
+                      "stitch_links": sum(c["checks"]["stitch_links"] for c in cams),
+                      "m_inputs": m_inputs_total(cams)},
            "runtime_s": round(sum(c["seconds"] for c in cams), 1)}
     # 1-2. headline (C|BL-6) and decomposition (A|BL-6, B|BL-6); 5. every column x baseline x iou_m
     res["ev"] = {k: {iou: ev_table(cams, k, iou) for iou in (str(x) for x in rv.IOUS)} for k in keys}
@@ -226,7 +252,9 @@ def aggregate(partition: str) -> dict:  # pragma: no cover
             "C2-GV-01-eye_level": {"value": b["GV-01"]["eye_level|all"]["rmse_m"], "ci": b["GV-01"]["eye_level|all"]["rmse_ci_target_b"]},
             "C3-GV-07": {"value": b["GV-07"]["all|all"]["rmse_mps"], "ci": b["GV-07"]["all|all"]["rmse_ci_target_b"]},
             "C4-GV-04": {"value": res["gv"]["GV-04"]["bias_m"], "ci": res["gv"]["GV-04"]["bias_ci_target_b"]}}
-    res["criteria"] = criterion_rows(freeze, vals, res["leakage_groups"], "dev" if partition == "dev" else partition)
+    res["criteria"] = criterion_rows(freeze, vals, res["leakage_groups"], rv.REFERENCE_SET[partition])
+    if partition == "reporting_rerun":
+        res["disclosure"] = RERUN_DISCLOSURE
     return res
 
 

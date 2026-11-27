@@ -147,13 +147,21 @@ class S4Index:
     """Lookups over one S4 artifact's tables and one S1 frame list, built once per S5 build (AR-58 item 5, speed only).
     Each lookup returns the rows the unindexed scans of `flag_frames` returned, in the same order."""
 
-    def __init__(self, s4: dict[str, list[Row]], frames: list[Row], coverage: list[Row]):
+    def __init__(self, s4: dict[str, list[Row]], frames: list[Row], coverage: list[Row], members: dict[str, list[str]] | None = None):
+        self.members = dict(members or {})  # CR-042: stitched identity -> member track IDs (T25.1 e), from the S3 artifact
         self.pow = {}
         for p in s4["pow"]:
             self.pow.setdefault((p["person_track_id"], p["forklift_track_id"], p["start_frame"]), p)
         self.objects: dict[str, list[Row]] = {}
         for r in s4["object_state"]:
             self.objects.setdefault(r["track_id"], []).append(r)
+        for unit, tracks in sorted(self.members.items()):
+            # CR-042 reading 1: a stitched identity's state on a frame is its member track's stored S4 state there
+            # (members never overlap in time, T25.1 b); nothing is combined or recomputed across a stitch gap.
+            rows = sorted((r for trk in tracks for r in self.objects.get(trk, [])), key=lambda r: r["frame_index"])
+            if len({r["frame_index"] for r in rows}) != len(rows):
+                raise ContractError("ERR-SPEC", f"T25.1: members of {unit} overlap in time")
+            self.objects[unit] = rows
         self.pairs: dict[tuple, list[Row]] = {}
         for r in s4["pair_series"]:
             self.pairs.setdefault(tuple(r["pow_nk"]), []).append(r)
@@ -165,8 +173,31 @@ class S4Index:
 
     def prepared(self, track_id: str) -> tuple:
         if track_id not in self._prepared:
-            self._prepared[track_id] = prepare_rates(self.objects.get(track_id, []), self.eligible, self.cov)
+            if track_id in self.members:  # CR-042: T9.1 runs per member track, so no rate window spans a stitch
+                by, runs = {}, {}
+                for trk in self.members[track_id]:
+                    b_, r_ = prepare_rates(self.objects.get(trk, []), self.eligible, self.cov)
+                    by.update(b_)
+                    runs.update(r_)
+                self._prepared[track_id] = (by, runs)
+            else:
+                self._prepared[track_id] = prepare_rates(self.objects.get(track_id, []), self.eligible, self.cov)
         return self._prepared[track_id]
+
+
+def stitch_members(s3_tables: dict[str, list[Row]]) -> dict[str, list[str]]:
+    """CR-042: stitched identity -> its member track IDs in chain order (by first frame), from an S3 artifact whose track
+    points carry `stitch_id` (T25.1 e). Empty when no point carries one (oracle and unstitched S3)."""
+    trk_of = {t["track_local_id"]: t["trk_id"] for t in s3_tables["track"]}
+    first: dict[str, dict[str, int]] = {}
+    for p in s3_tables["track_point"]:
+        sid = p.get("stitch_id")
+        if sid is None:
+            continue
+        trk = trk_of[p["track_nk"][1]]
+        first.setdefault(sid, {})
+        first[sid][trk] = min(first[sid].get(trk, p["frame_index"]), p["frame_index"])
+    return {sid: [trk for trk, _ in sorted(m.items(), key=lambda kv: (kv[1], kv[0]))] for sid, m in sorted(first.items())}
 
 
 def flag_frames(s4: dict[str, list[Row]], rules: RuleParams, frames: list[Row], coverage: list[Row], pow_nk: list | None = None,

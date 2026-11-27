@@ -1222,3 +1222,15 @@ _(the agent appends entries here)_
 - Problems / CRs: CR-042 (open), D-65 (open). T-29p BLOCKED; T-29t blocked by it.
 - Next: **STOP (D-65).** Nothing else on this branch is independent of it.
 
+### 2026-11-27 — D-65 decided (a); CR-042 fix (reading 1), guard, tuning verification; AR-73
+- Did (nothing run on the reporting or test cameras in this entry):
+  - D-65 DECIDED (a) and CR-042 DECIDED (reading 1) recorded. **AR-73** proposed: S5 gets the stitch membership from the stitched S3 (`providers.stitch_members`; `s5.build(..., members=)`; `S4Index(..., members=)`), and the S5 spec lists that S3 as an input. Rate runs are prepared per member track, so no window spans a stitch. S4 unchanged.
+  - Run guard in `research/v2/run_v2.py` (`m_input_check`, `M_MISSING_MAX` 0.05): STOP if, on any column and R2 baseline, M is unknown on more than 5 % of pair-frames where both objects have a stored state (found from the S3 points, independently of S5) and the forklift speed is known.
+  - `research/m1b/d61_events.py` passes the membership (output now `out/m1b/d61_cr042/`, `research/m1b/d61_events_tune_cr042.json`; the defective `out/m1b/d61/` and `d61_events_tune.json` are kept).
+  - The re-run is the partition `reporting_rerun` (same 110 cameras and references; `out/v2/run/reporting_rerun/`, `research/v2/reporting_rerun_*`), with the D-65 disclosure in the results and the report.
+  - **Tuning verification** (116 cameras, `out/v2/dev/`, diagnostic; the defective dev run is kept in `out/v2/dev_defective_cr042/`): the guard passes, M unknown on 0 of 30,548 (A, B) and 0 of 20,272 (C) pair-frames with both states. Against the defective dev run: every A and B artifact payload identical (812, 464), C S3 and S4 identical (348), C S5 changed on 313 of 348. C|BL-6: EV-M1 0.733 and EV-M2 0.620 unchanged; IE share 0.788 → 0.759; `speed_near_v_min` 0 → 117 episodes.
+- Tests: new `tests/substrate/test_cr042_stitched_states.py` 4 (membership; a stitched pair-frame with member state gets an M input, and the defect gives none; every object-state input equals the member's own frame by frame, `closing_rate` being the S4 pair-series value; no rate run spans the stitch on adjacent members); `test_run_v2.py` + 1 (guard), `test_aggregate_v2.py` + 1. Full suite twice: 2787 passed, 17 skipped, identical.
+- Commit: this entry's commit (pushed). The reporting re-run and the D-61 re-production run from it.
+- Problems / CRs: AR-73 proposed.
+- Next: reporting re-run (all 110, once, this commit), MR-01 repeat; D-61 STEP 4 re-production; mark d58/d61 superseded; then T-29t.
+

@@ -60,6 +60,7 @@ def render(r: dict) -> str:
          f"references {r['references']['n']} (assessable {r['references']['assessable']}, G1 {r['references']['g1']}). Code commit(s): {', '.join(r['code_commits'])}. "
          f"Contract {r['contract']}. Configuration: {r['preregistration']}.", "",
          "Checks: " + "; ".join(f"{k} {v}" for k, v in r["checks"].items()) + ".", "",
+         *([("**Disclosure (D-65).** " + " ".join(r["disclosure"])), ""] if r.get("disclosure") else []),
          "## 1. Headline: BL-6, detector path", "", f"N4 matching, label group G1, iou_m {iou0}. EV-M1 and EV-M2 are descriptive; no success threshold is set (register C12).", "",
          *ev_rows(r["headline"]["table"]), "",
          "## 2. Decomposition (BL-6)", "", "Oracle results are never substituted for detector-path capability.", ""]

@@ -3,7 +3,10 @@ Diagnostic, tuning subset, not a reported result. Synthetic-data evaluation; exp
 
   PYTHONPATH=src .venv/bin/python research/m1b/d61_events.py estimate                (2 cameras; STOP above 3 h)
   PYTHONPATH=src .venv/bin/python research/m1b/d61_events.py run [workers] [rec ...]  -> out/m1b/d61/events/<rec>.json
-  PYTHONPATH=src .venv/bin/python research/m1b/d61_events.py aggregate               -> research/m1b/d61_events_tune.json
+  PYTHONPATH=src .venv/bin/python research/m1b/d61_events.py aggregate               -> research/m1b/d61_events_tune_cr042.json
+
+D-65 / CR-042: S5 on the stitched detector path reads each member track's stored S4 state (members from the stitched S3).
+The first run (out/m1b/d61/, research/m1b/d61_events_tune.json) lacked this and is superseded as defective; kept.
 
 Values: `research/preregistration/v2_values.py` (D-61 section 1.3-1.5): S4 g_max 45; S5 pet_max 1.5, d_p 3.0, w_post 1.5,
 e_dec 1.0, k_c 1.5, m_gap_s 1.5 (T25.3); band edges 0, 0.5, 1, 2, 3, 4 m; T24 on (d 1.00 m, r_taper 2.0 m, s_max 0.1);
@@ -42,8 +45,8 @@ ROOT = pc.ROOT
 C_OUT = ROOT / "out/m1b/v2t24/c"
 M1A = ROOT / "out/m1a/run1/sdg"
 M1A_ART = M1A / "artifacts"
-OUT = __import__("pathlib").Path(os.environ.get("D61_OUT", str(ROOT / "out/m1b/d61")))  # D61_OUT: runtime estimate only
-STATUS = "diagnostic, tuning subset, not a reported result; synthetic-data evaluation; experimental"
+OUT = __import__("pathlib").Path(os.environ.get("D61_OUT", str(ROOT / "out/m1b/d61_cr042")))  # CR-042 re-production (D-65); the defective run is out/m1b/d61
+STATUS = "diagnostic, tuning subset, not a reported result; synthetic-data evaluation; experimental; re-produced with the CR-042 fix (D-65), selects nothing"
 CONTRACT = v2.CONTRACT
 BL = "BL-6"
 CONFIGS = ("C-v2+T25", "A+T25")
@@ -121,7 +124,9 @@ def detector_chain(ctx, rec, s1, cal, out_logs, dets, s2_id, pkg, cam, g_max, la
     s3s = stitching.apply(SimpleNamespace(tables=s3_art.tables), sid, _spec("S3", prov, (trc_s,), (s2_id,)))
     s4s = builder.SubstrateBuilder().build(s1, s3s, {}, cal, cfg, _spec("S4", prov, s4_ids, (s3s.artifact_id,)))
     c5 = v2.s5_config(ctx, BL, label, True, g_max)
-    s5a = s5.build(s1, s4s, c5, _spec("S5", prov, (s5.config_id(c5),), (s4s.artifact_id,)))
+    from rq1.events import providers
+    s5a = s5.build(s1, s4s, c5, _spec("S5", prov, (s5.config_id(c5),), (s4s.artifact_id, s3s.artifact_id)),
+                   members=providers.stitch_members(s3s.tables))  # CR-042 fix (D-65), AR-73
     ids = {"s3": s3_art.artifact_id, "s3_payload": s3_art.payload_sha256, "s3_config": trc, "s3_stitched": s3s.artifact_id, "s3_stitched_config": trc_s,
            "s4": s4s.artifact_id, "s5": s5a.artifact_id, "s5_config": s5.config_id(c5), "gcf": gcf,
            "links": len(accepted), "links_by_class": dict(Counter(next(t["class"] for t in s3_art.tables["track"] if t["trk_id"] == a["a"]) for a in accepted))}
@@ -270,7 +275,7 @@ def aggregate() -> dict:  # pragma: no cover
     checks = {k: sum(1 for c in cams if c["checks"].get(k)) for k in sorted({k for c in cams for k in c["checks"]})}
     checks["cameras"] = len(cams)
     sel = v2.stitch_selection()
-    return {"status": STATUS, "decision": "D-61 STEP 4 (replaces D-58 STEP 4)", "contract": CONTRACT, "selects": "nothing",
+    return {"status": STATUS, "decision": "D-61 STEP 4 (replaces D-58 STEP 4), re-produced under D-65 with the CR-042 fix; supersedes d61_events_tune.json (defective)", "contract": CONTRACT, "selects": "nothing",
             "values": {"S4": v2.S4_V2, "S5": v2.S5_V2, "m_gap_s": v2.M_GAP_S, "band_edges_m": v2.BAND_EDGES_V2, "T24": v2.T24,
                        "stitch": sel, "join_across_pow": v2.JOIN_ACROSS_POW, "changed_from_v1": v2.changed_from_v1()},
             "baseline": BL, "label_group": "G1", "matching": "N4 (unchanged), iou_m 0.3",
@@ -310,7 +315,7 @@ def main():  # pragma: no cover
         estimate()
         return
     if what == "aggregate":
-        p = ROOT / "research/m1b/d61_events_tune.json"
+        p = ROOT / "research/m1b/d61_events_tune_cr042.json"
         pc.write_json(p, aggregate())
         print("wrote", p)
         return

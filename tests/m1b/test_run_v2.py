@@ -101,3 +101,17 @@ def test_gv04_at_simulator_positions_by_hand():
     rows, check = rv.gv04_rows(series, truth, trk, 0.30, (3.03, 1.13))
     assert len(rows) == 1 and rows[0][:2] == ("2.00x1.00", "detected") and rows[0][2] == pytest.approx(-0.498892, abs=1e-6)
     assert check == [1, 1]  # the stored 3.0830584 differs from the recomputed 3.083074 by more than 1e-9
+
+
+def test_m_input_check_counts_missing_m_where_both_states_exist():
+    # unit "sP" = track tp on frames 0-3; unit "sF" = track ta on frames 0-1, tb on frames 2-3 (stitched)
+    member = {("sP", i): "tp" for i in range(4)} | {("sF", 0): "ta", ("sF", 1): "ta", ("sF", 2): "tb", ("sF", 3): "tb"}
+    st = lambda trk, i, sp=1.0: {"track_id": trk, "frame_index": i, "speed_mps": sp}
+    s4 = {"object_state": [st("tp", i) for i in range(4)] + [st("ta", 0), st("ta", 1), st("tb", 2), st("tb", 3, None)],
+          "pow": [{"person_track_id": "sP", "forklift_track_id": "sF", "start_frame": 0, "pow_id": "pow_1"}],
+          "pair_series": [{"pow_nk": ["sP", "sF", 0], "frame_index": i} for i in range(4)]}
+    s5 = {"flag_series": [{"pow_id": "pow_1", "frame_index": i, "M": m} for i, m in enumerate((1, 2, 0, 2))]}
+    got = rv.m_input_check(s4, s5, lambda u, f: member.get((u, f)))
+    # frame 3: forklift speed null -> not counted; frames 0-2 counted; frame 1 has M unknown -> 1 of 3 missing
+    assert got == {"pair_frames_with_both_states": 3, "m_missing": 1, "share_missing": pytest.approx(1 / 3)}
+    assert rv.M_MISSING_MAX == 0.05

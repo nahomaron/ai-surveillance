@@ -83,7 +83,9 @@ def _pow_nk(p: Row) -> list:
     return [p["person_track_id"], p["forklift_track_id"], p["start_frame"]]
 
 
-def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> Artifact:
+def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec, members: dict[str, list[str]] | None = None) -> Artifact:
+    """`members`: stitched identity -> member track IDs (`providers.stitch_members` of the S4 input's S3), so that M, R4, R5
+    and the contact cue read each member's stored S4 state on its own frames (CR-042, reading 1). Omit it for unstitched S4."""
     # Ineligible frames have no frame_index; they sort after the eligible ones (by decode_seq). Only eligibility and the
     # recording are read from this list, so the order of ineligible frames changes nothing (AR-58 item 6, crash fix).
     frames = sorted((f for f in s1["frame"] if f["recording_id"] == s1["frame"][0]["recording_id"]),
@@ -105,7 +107,7 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec) -> 
     discarded: list[Row] = []
     last_episode: dict[str, Row] = {}  # pow_id -> episode that ends at the POW end
     by_pow_id = {p["pow_id"]: p for p in pows}
-    index = providers.S4Index(s4.tables, frames, s1["coverage_segment"])  # AR-58 item 5: lookups built once
+    index = providers.S4Index(s4.tables, frames, s1["coverage_segment"], members=members)  # AR-58 item 5; CR-042 members
     for pw in pows:
         flags = providers.flag_frames(s4.tables, rules, frames, s1["coverage_segment"], pow_nk=_pow_nk(pw), index=index)
         eps, disc = engine.run_pow(flags, params)

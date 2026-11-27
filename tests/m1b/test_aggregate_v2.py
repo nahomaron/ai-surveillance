@@ -82,3 +82,9 @@ def test_criteria_off_the_test_partition_are_not_registered_decisions():
     few = {r["criterion_label"]: r for r in ag.criterion_rows(FREEZE, vals, 11, "test")}
     assert few["C2-GV-01-ceiling"]["decision"] == "not_assessable"  # 11 leakage groups < n_min_units 20
     assert few["C2-GV-01-ceiling"]["status"] == "registered decision"
+
+
+def test_m_inputs_total():
+    mk = lambda b, m: {"checks": {"m_inputs": {"C|BL-6": {"pair_frames_with_both_states": b, "m_missing": m}}}}
+    assert ag.m_inputs_total([mk(100, 0), mk(50, 3)]) == {"C|BL-6": {"pair_frames_with_both_states": 150, "m_missing": 3, "share_missing": 0.02}}
+    assert ag.m_inputs_total([{"checks": {}}]) is None
