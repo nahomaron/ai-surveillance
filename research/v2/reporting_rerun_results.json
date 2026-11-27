@@ -1,0 +1,7498 @@
+{
+ "MR-01": {
+  "cameras": 110,
+  "differing": [],
+  "repeated": 110,
+  "value": 1.0
+ },
+ "cameras": 110,
+ "checks": {
+  "configs_equal_freeze": 110,
+  "gv04_pair_frames_and_prior_mismatches": [
+   29173,
+   0
+  ],
+  "m_inputs": {
+   "A|BL-3": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "A|BL-4": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "A|BL-5": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "A|BL-6": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "B|BL-3": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "B|BL-6": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 29159,
+    "share_missing": 0.0
+   },
+   "C|BL-3": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 19211,
+    "share_missing": 0.0
+   },
+   "C|BL-6": {
+    "m_missing": 0,
+    "pair_frames_with_both_states": 19211,
+    "share_missing": 0.0
+   }
+  },
+  "person_log_reproduces_pilot": 110,
+  "reference_equals_freeze": 110,
+  "stitch_links": 72
+ },
+ "code_commits": [
+  "107f14ba6fcb3ce18031290db9c8f0fd37a765b1"
+ ],
+ "contract": "E-1.2.26",
+ "criteria": [
+  {
+   "acc_id": "acc_rxxug4rzkc4nsmsjl6xzbwnvuz",
+   "ci_target_b": null,
+   "criterion_label": "C1-MR-01",
+   "decision": "met",
+   "metric_id": "MR-01",
+   "n_min_units": 1,
+   "n_units": 1,
+   "registered_slice_partition": "any",
+   "rule": "exact_equal",
+   "status": "registered decision",
+   "target": 1.0,
+   "value": 1.0
+  },
+  {
+   "acc_id": "acc_l6g2wirorbntuaa7lbkvpm2f5i",
+   "ci_target_b": [
+    0.40650874819448696,
+    0.5236039193712109
+   ],
+   "criterion_label": "C2-GV-01-ceiling",
+   "decision": "not_assessable",
+   "metric_id": "GV-01",
+   "n_min_units": 20,
+   "n_units": 11,
+   "registered_slice_partition": "test",
+   "rule": "ci_upper_le",
+   "status": "not the registered decision (registered slice: test; CR-041 item 1)",
+   "target": 0.25,
+   "value": 0.4681617290356041
+  },
+  {
+   "acc_id": "acc_o3biw66r6oqdyu6jqy3yb44y6b",
+   "ci_target_b": [
+    0.5178984254149677,
+    0.6308740442844765
+   ],
+   "criterion_label": "C2-GV-01-eye_level",
+   "decision": "not_assessable",
+   "metric_id": "GV-01",
+   "n_min_units": 20,
+   "n_units": 11,
+   "registered_slice_partition": "test",
+   "rule": "ci_upper_le",
+   "status": "not the registered decision (registered slice: test; CR-041 item 1)",
+   "target": 0.25,
+   "value": 0.5734432984020833
+  },
+  {
+   "acc_id": "acc_vfdi27q4w33r4zktddowteokzv",
+   "ci_target_b": [
+    0.6561184233921435,
+    0.9677671215431369
+   ],
+   "criterion_label": "C3-GV-07",
+   "decision": "not_assessable",
+   "metric_id": "GV-07",
+   "n_min_units": 20,
+   "n_units": 11,
+   "registered_slice_partition": "test",
+   "rule": "ci_upper_le",
+   "status": "not the registered decision (registered slice: test; CR-041 item 1)",
+   "target": 0.15,
+   "value": 0.8168373419899186
+  },
+  {
+   "acc_id": "acc_6ezopessdb56i3rlbeszmzploq",
+   "ci_target_b": [
+    0.0003017117258321727,
+    0.0004138409316491992
+   ],
+   "criterion_label": "C4-GV-04",
+   "decision": "not_assessable",
+   "metric_id": "GV-04",
+   "n_min_units": 20,
+   "n_units": 11,
+   "registered_slice_partition": "test",
+   "rule": "abs_bias_ci_within",
+   "status": "not the registered decision (registered slice: test; CR-041 item 1)",
+   "target": 0.1,
+   "value": 0.0003552020347870183
+  }
+ ],
+ "decomposition": {
+  "A|BL-6": {
+   "all": {
+    "EV-M1": {
+     "denominator": 110,
+     "numerator": 109,
+     "target_a": [
+      0.9727272727272728,
+      1.0
+     ],
+     "target_b": [
+      0.9727272727272728,
+      1.0
+     ],
+     "value": 0.990909090909091
+    },
+    "EV-M2": {
+     "denominator": 110,
+     "numerator": 109,
+     "target_a": [
+      0.972972972972973,
+      1.0
+     ],
+     "target_b": [
+      0.9732142857142857,
+      1.0
+     ],
+     "value": 0.990909090909091
+    },
+    "EV-M7": {
+     "denominator": 0.30509259259259186,
+     "numerator": 1,
+     "target_a": [
+      0.0,
+      9.84712640184788
+     ],
+     "target_b": [
+      0.0,
+      9.834871296746016
+     ],
+     "value": 3.2776934749620716
+    },
+    "cameras": 110,
+    "counts": {
+     "a": 110,
+     "f": 1,
+     "m": 109,
+     "m_s": 109,
+     "s": 110,
+     "u": 0.30509259259259186
+    },
+    "leakage_groups": 11
+   },
+   "ceiling": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 55,
+     "target_a": [
+      1.0,
+      1.0
+     ],
+     "target_b": [
+      1.0,
+      1.0
+     ],
+     "value": 1.0
+    },
+    "EV-M2": {
+     "denominator": 55,
+     "numerator": 55,
+     "target_a": [
+      1.0,
+      1.0
+     ],
+     "target_b": [
+      1.0,
+      1.0
+     ],
+     "value": 1.0
+    },
+    "EV-M7": {
+     "denominator": 0.1527777777777774,
+     "numerator": 0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value": 0.0
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 0,
+     "m": 55,
+     "m_s": 55,
+     "s": 55,
+     "u": 0.1527777777777774
+    },
+    "leakage_groups": 11
+   },
+   "eye_level": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 54,
+     "target_a": [
+      0.9454545454545454,
+      1.0
+     ],
+     "target_b": [
+      0.9454545454545454,
+      1.0
+     ],
+     "value": 0.9818181818181818
+    },
+    "EV-M2": {
+     "denominator": 55,
+     "numerator": 54,
+     "target_a": [
+      0.9464285714285714,
+      1.0
+     ],
+     "target_b": [
+      0.9473684210526315,
+      1.0
+     ],
+     "value": 0.9818181818181818
+    },
+    "EV-M7": {
+     "denominator": 0.15231481481481443,
+     "numerator": 1,
+     "target_a": [
+      0.0,
+      19.752484301652185
+     ],
+     "target_b": [
+      0.0,
+      19.70323522257363
+     ],
+     "value": 6.565349544072965
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 1,
+     "m": 54,
+     "m_s": 54,
+     "s": 55,
+     "u": 0.15231481481481443
+    },
+    "leakage_groups": 11
+   }
+  },
+  "B|BL-6": {
+   "all": {
+    "EV-M1": {
+     "denominator": 110,
+     "numerator": 108,
+     "target_a": [
+      0.9545454545454546,
+      1.0
+     ],
+     "target_b": [
+      0.9545454545454546,
+      1.0
+     ],
+     "value": 0.9818181818181818
+    },
+    "EV-M2": {
+     "denominator": 111,
+     "numerator": 108,
+     "target_a": [
+      0.9292035398230089,
+      1.0
+     ],
+     "target_b": [
+      0.9310344827586207,
+      1.0
+     ],
+     "value": 0.972972972972973
+    },
+    "EV-M7": {
+     "denominator": 0.30509259259259186,
+     "numerator": 3,
+     "target_a": [
+      0.0,
+      26.254216171867945
+     ],
+     "target_b": [
+      0.0,
+      26.191342306293258
+     ],
+     "value": 9.833080424886214
+    },
+    "cameras": 110,
+    "counts": {
+     "a": 110,
+     "f": 3,
+     "m": 108,
+     "m_s": 108,
+     "s": 111,
+     "u": 0.30509259259259186
+    },
+    "leakage_groups": 11
+   },
+   "ceiling": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 55,
+     "target_a": [
+      1.0,
+      1.0
+     ],
+     "target_b": [
+      1.0,
+      1.0
+     ],
+     "value": 1.0
+    },
+    "EV-M2": {
+     "denominator": 55,
+     "numerator": 55,
+     "target_a": [
+      1.0,
+      1.0
+     ],
+     "target_b": [
+      1.0,
+      1.0
+     ],
+     "value": 1.0
+    },
+    "EV-M7": {
+     "denominator": 0.1527777777777774,
+     "numerator": 0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value": 0.0
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 0,
+     "m": 55,
+     "m_s": 55,
+     "s": 55,
+     "u": 0.1527777777777774
+    },
+    "leakage_groups": 11
+   },
+   "eye_level": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 53,
+     "target_a": [
+      0.9090909090909091,
+      1.0
+     ],
+     "target_b": [
+      0.9090909090909091,
+      1.0
+     ],
+     "value": 0.9636363636363636
+    },
+    "EV-M2": {
+     "denominator": 56,
+     "numerator": 53,
+     "target_a": [
+      0.8620689655172413,
+      1.0
+     ],
+     "target_b": [
+      0.8688524590163934,
+      1.0
+     ],
+     "value": 0.9464285714285714
+    },
+    "EV-M7": {
+     "denominator": 0.15231481481481443,
+     "numerator": 3,
+     "target_a": [
+      0.0,
+      52.5720940490532
+     ],
+     "target_b": [
+      0.0,
+      52.40174672489095
+     ],
+     "value": 19.696048632218893
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 3,
+     "m": 53,
+     "m_s": 53,
+     "s": 56,
+     "u": 0.15231481481481443
+    },
+    "leakage_groups": 11
+   }
+  },
+  "C|BL-6": {
+   "all": {
+    "EV-M1": {
+     "denominator": 110,
+     "numerator": 81,
+     "target_a": [
+      0.6636363636363637,
+      0.8090909090909091
+     ],
+     "target_b": [
+      0.6363636363636364,
+      0.8272727272727273
+     ],
+     "value": 0.7363636363636363
+    },
+    "EV-M2": {
+     "denominator": 142,
+     "numerator": 81,
+     "target_a": [
+      0.5033101761675973,
+      0.6434240662438336
+     ],
+     "target_b": [
+      0.4795070498331719,
+      0.6716446393984278
+     ],
+     "value": 0.5704225352112676
+    },
+    "EV-M7": {
+     "denominator": 0.30509259259259186,
+     "numerator": 61,
+     "target_a": [
+      153.83181694203648,
+      249.20037965290274
+     ],
+     "target_b": [
+      140.76566336273564,
+      268.8204274927855
+     ],
+     "value": 199.93930197268637
+    },
+    "cameras": 110,
+    "counts": {
+     "a": 110,
+     "f": 61,
+     "m": 81,
+     "m_s": 81,
+     "s": 142,
+     "u": 0.30509259259259186
+    },
+    "leakage_groups": 11
+   },
+   "ceiling": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 53,
+     "target_a": [
+      0.9090909090909091,
+      1.0
+     ],
+     "target_b": [
+      0.9090909090909091,
+      1.0
+     ],
+     "value": 0.9636363636363636
+    },
+    "EV-M2": {
+     "denominator": 78,
+     "numerator": 53,
+     "target_a": [
+      0.5862068965517241,
+      0.7857142857142857
+     ],
+     "target_b": [
+      0.5681439393939395,
+      0.8088235294117647
+     ],
+     "value": 0.6794871794871795
+    },
+    "EV-M7": {
+     "denominator": 0.1527777777777774,
+     "numerator": 25,
+     "target_a": [
+      98.18181818181844,
+      235.63636363636425
+     ],
+     "target_b": [
+      85.09090909090928,
+      255.27272727272785
+     ],
+     "value": 163.63636363636405
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 25,
+     "m": 53,
+     "m_s": 53,
+     "s": 78,
+     "u": 0.1527777777777774
+    },
+    "leakage_groups": 11
+   },
+   "eye_level": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 28,
+     "target_a": [
+      0.38181818181818183,
+      0.6363636363636364
+     ],
+     "target_b": [
+      0.34545454545454546,
+      0.6727272727272727
+     ],
+     "value": 0.509090909090909
+    },
+    "EV-M2": {
+     "denominator": 64,
+     "numerator": 28,
+     "target_a": [
+      0.3333333333333333,
+      0.5423728813559322
+     ],
+     "target_b": [
+      0.3181818181818182,
+      0.562528409090909
+     ],
+     "value": 0.4375
+    },
+    "EV-M7": {
+     "denominator": 0.15231481481481443,
+     "numerator": 36,
+     "target_a": [
+      176.59559026794832,
+      308.45892075838685
+     ],
+     "target_b": [
+      164.51377041189414,
+      314.41048034934573
+     ],
+     "value": 236.35258358662674
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 36,
+     "m": 28,
+     "m_s": 28,
+     "s": 64,
+     "u": 0.15231481481481443
+    },
+    "leakage_groups": 11
+   }
+  }
+ },
+ "disclosure": [
+  "This is the second reporting run (Owner decision D-65, 27 Nov 2026). The first run (commit d20fb82; research/v2/reporting_results.json and reporting_report.md, kept on record with a defect warning) was defective on the detector path: S5 looked up object states by the stitched identity's ID (sti_), while S4 object states keep their track IDs (trk_), so on 0 of 19,750 detector-path pair-frames did it find either object's state; M was unknown on every frame, R4 had no speeds, and R5 and the contact cue had no input (CR-042).",
+  "The fix (CR-042 reading 1): on stitched identities M, R4, R5 and the contact cue read each member track's stored S4 state for its own frames; nothing is combined or recomputed across a stitch gap. S4 and every frozen v2 value and configuration are unchanged.",
+  "The oracle-path (column A) and full_camera (column B) numbers of the first run, which the defect did not affect, were seen before this re-run, as were the defective detector-path numbers."
+ ],
+ "ev": {
+  "A|BL-2": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 81,
+      "target_a": [
+       0.6454545454545455,
+       0.8181818181818182
+      ],
+      "target_b": [
+       0.6090909090909091,
+       0.854772727272726
+      ],
+      "value": 0.7363636363636363
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 81,
+      "target_a": [
+       0.604800386563583,
+       0.7894736842105263
+      ],
+      "target_b": [
+       0.559322033898305,
+       0.8333333333333334
+      ],
+      "value": 0.6982758620689655
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 35,
+      "target_a": [
+       78.55973813420643,
+       157.33000314692336
+      ],
+      "target_b": [
+       59.21215204488317,
+       176.74334030366438
+      ],
+      "value": 114.71927162367251
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 35,
+      "m": 81,
+      "m_s": 81,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 39,
+      "target_a": [
+       0.5818181818181818,
+       0.8181818181818182
+      ],
+      "target_b": [
+       0.5636363636363636,
+       0.8363636363636363
+      ],
+      "value": 0.7090909090909091
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 39,
+      "target_a": [
+       0.532258064516129,
+       0.7857142857142857
+      ],
+      "target_b": [
+       0.5161290322580645,
+       0.8035714285714286
+      ],
+      "value": 0.6610169491525424
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 20,
+      "target_a": [
+       78.54545454545476,
+       189.81818181818232
+      ],
+      "target_b": [
+       72.00000000000017,
+       196.3636363636368
+      ],
+      "value": 130.90909090909122
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 20,
+      "m": 39,
+      "m_s": 39,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 42,
+      "target_a": [
+       0.6545454545454545,
+       0.8727272727272727
+      ],
+      "target_b": [
+       0.6363636363636364,
+       0.8909090909090909
+      ],
+      "value": 0.7636363636363637
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 42,
+      "target_a": [
+       0.6,
+       0.8704292929292926
+      ],
+      "target_b": [
+       0.5666129032258065,
+       0.9074074074074074
+      ],
+      "value": 0.7368421052631579
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 15,
+      "target_a": [
+       45.868219876228736,
+       163.63710757327823
+      ],
+      "target_b": [
+       32.8087976183244,
+       177.33073516641554
+      ],
+      "value": 98.48024316109448
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 15,
+      "m": 42,
+      "m_s": 42,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 50,
+      "target_a": [
+       0.36363636363636365,
+       0.5454545454545454
+      ],
+      "target_b": [
+       0.3090909090909091,
+       0.6
+      ],
+      "value": 0.45454545454545453
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 50,
+      "target_a": [
+       0.3418803418803419,
+       0.5258620689655172
+      ],
+      "target_b": [
+       0.30577938475665745,
+       0.5663716814159292
+      ],
+      "value": 0.43103448275862066
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 66,
+      "target_a": [
+       176.83980715000502,
+       258.6687189848573
+      ],
+      "target_b": [
+       163.66574911065453,
+       266.2337011325541
+      ],
+      "value": 216.3277693474967
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 66,
+      "m": 50,
+      "m_s": 50,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 20,
+      "target_a": [
+       0.23636363636363636,
+       0.4909090909090909
+      ],
+      "target_b": [
+       0.21818181818181817,
+       0.5272727272727272
+      ],
+      "value": 0.36363636363636365
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 20,
+      "target_a": [
+       0.22413793103448276,
+       0.46299603174603154
+      ],
+      "target_b": [
+       0.20330508474576273,
+       0.4745762711864407
+      ],
+      "value": 0.3389830508474576
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 39,
+      "target_a": [
+       202.90909090909145,
+       307.6363636363644
+      ],
+      "target_b": [
+       202.90909090909136,
+       301.0909090909098
+      ],
+      "value": 255.2727272727279
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 39,
+      "m": 20,
+      "m_s": 20,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 30,
+      "target_a": [
+       0.41818181818181815,
+       0.6727272727272727
+      ],
+      "target_b": [
+       0.4,
+       0.6909090909090909
+      ],
+      "value": 0.5454545454545454
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 30,
+      "target_a": [
+       0.3888440860215054,
+       0.6727272727272727
+      ],
+      "target_b": [
+       0.3888888888888889,
+       0.6779661016949152
+      ],
+      "value": 0.5263157894736842
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 27,
+      "target_a": [
+       117.94685111030246,
+       242.82936315021942
+      ],
+      "target_b": [
+       117.88194532908716,
+       243.391399683275
+      ],
+      "value": 177.26443768997004
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 27,
+      "m": 30,
+      "m_s": 30,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 20,
+      "target_a": [
+       0.11795454545454546,
+       0.2545454545454545
+      ],
+      "target_b": [
+       0.09090909090909091,
+       0.2818181818181818
+      ],
+      "value": 0.18181818181818182
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 20,
+      "target_a": [
+       0.10618209943161379,
+       0.24347826086956523
+      ],
+      "target_b": [
+       0.09174311926605505,
+       0.26316985645933005
+      ],
+      "value": 0.1724137931034483
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 96,
+      "target_a": [
+       278.86991187080076,
+       351.15094164701674
+      ],
+      "target_b": [
+       271.6857610474638,
+       353.58312113495896
+      ],
+      "value": 314.65857359635885
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 96,
+      "m": 20,
+      "m_s": 20,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 8,
+      "target_a": [
+       0.05454545454545454,
+       0.23681818181817935
+      ],
+      "target_b": [
+       0.07272727272727272,
+       0.23636363636363636
+      ],
+      "value": 0.14545454545454545
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 8,
+      "target_a": [
+       0.05172413793103448,
+       0.2321726190476189
+      ],
+      "target_b": [
+       0.0634672619047619,
+       0.22413793103448276
+      ],
+      "value": 0.13559322033898305
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 51,
+      "target_a": [
+       288.00000000000074,
+       379.63636363636465
+      ],
+      "target_b": [
+       288.0000000000007,
+       373.0909090909099
+      ],
+      "value": 333.81818181818267
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 51,
+      "m": 8,
+      "m_s": 8,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 12,
+      "target_a": [
+       0.10909090909090909,
+       0.32727272727272727
+      ],
+      "target_b": [
+       0.12727272727272726,
+       0.32727272727272727
+      ],
+      "value": 0.21818181818181817
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 12,
+      "target_a": [
+       0.10904220779220779,
+       0.32142857142857145
+      ],
+      "target_b": [
+       0.11998507462686567,
+       0.32142857142857145
+      ],
+      "value": 0.21052631578947367
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 45,
+      "target_a": [
+       242.5323885077841,
+       353.4545454545464
+      ],
+      "target_b": [
+       243.56831254619618,
+       348.64492114624215
+      ],
+      "value": 295.4407294832834
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 45,
+      "m": 12,
+      "m_s": 12,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "A|BL-3": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.9727272727272728,
+       1.0
+      ],
+      "target_b": [
+       0.9727272727272728,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.972972972972973,
+       1.0
+      ],
+      "target_b": [
+       0.9732142857142857,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       9.84712640184788
+      ],
+      "target_b": [
+       0.0,
+       9.834871296746016
+      ],
+      "value": 3.2776934749620716
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 1,
+      "m": 109,
+      "m_s": 109,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9464285714285714,
+       1.0
+      ],
+      "target_b": [
+       0.9473684210526315,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.752484301652185
+      ],
+      "target_b": [
+       0.0,
+       19.70323522257363
+      ],
+      "value": 6.565349544072965
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.954954954954955,
+       1.0
+      ],
+      "target_b": [
+       0.9553571428571429,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       16.387012688831202
+      ],
+      "target_b": [
+       0.0,
+       16.366649318286072
+      ],
+      "value": 6.555386949924143
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 2,
+      "m": 108,
+      "m_s": 108,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9107142857142857,
+       1.0
+      ],
+      "target_b": [
+       0.9122807017543859,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       32.820762171032726
+      ],
+      "target_b": [
+       0.0,
+       32.739326778527314
+      ],
+      "value": 13.13069908814593
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 2,
+      "m": 53,
+      "m_s": 53,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.9,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.9,
+       0.990909090909091
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.8928571428571429,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.8990825688073395,
+       0.9908256880733946
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277395077838142,
+       39.385004380293076
+      ],
+      "target_b": [
+       3.2776934749620716,
+       36.14466079745738
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 104,
+      "m_s": 104,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.8,
+       0.9636363636363636
+      ],
+      "target_b": [
+       0.8,
+       0.9818181818181818
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.7894736842105263,
+       0.9811320754716981
+      ],
+      "target_b": [
+       0.7962962962962963,
+       0.9814814814814815
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 6,
+      "target_a": [
+       6.552573027801376,
+       78.9814080481268
+      ],
+      "target_b": [
+       6.565349544072965,
+       72.58097779486135
+      ],
+      "value": 39.39209726443779
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 6,
+      "m": 49,
+      "m_s": 49,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "A|BL-4": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.9727272727272728,
+       1.0
+      ],
+      "target_b": [
+       0.9727272727272728,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.972972972972973,
+       1.0
+      ],
+      "target_b": [
+       0.9732142857142857,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       9.84712640184788
+      ],
+      "target_b": [
+       0.0,
+       9.834871296746016
+      ],
+      "value": 3.2776934749620716
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 1,
+      "m": 109,
+      "m_s": 109,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9464285714285714,
+       1.0
+      ],
+      "target_b": [
+       0.9473684210526315,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.752484301652185
+      ],
+      "target_b": [
+       0.0,
+       19.70323522257363
+      ],
+      "value": 6.565349544072965
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.954954954954955,
+       1.0
+      ],
+      "target_b": [
+       0.9553571428571429,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       16.387012688831202
+      ],
+      "target_b": [
+       0.0,
+       16.366649318286072
+      ],
+      "value": 6.555386949924143
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 2,
+      "m": 108,
+      "m_s": 108,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9107142857142857,
+       1.0
+      ],
+      "target_b": [
+       0.9122807017543859,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       32.820762171032726
+      ],
+      "target_b": [
+       0.0,
+       32.739326778527314
+      ],
+      "value": 13.13069908814593
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 2,
+      "m": 53,
+      "m_s": 53,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.9,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.9,
+       0.990909090909091
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.8928571428571429,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.8990825688073395,
+       0.9908256880733946
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277395077838142,
+       39.385004380293076
+      ],
+      "target_b": [
+       3.2776934749620716,
+       36.14466079745738
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 104,
+      "m_s": 104,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.8,
+       0.9636363636363636
+      ],
+      "target_b": [
+       0.8,
+       0.9818181818181818
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.7894736842105263,
+       0.9811320754716981
+      ],
+      "target_b": [
+       0.7962962962962963,
+       0.9814814814814815
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 6,
+      "target_a": [
+       6.552573027801376,
+       78.9814080481268
+      ],
+      "target_b": [
+       6.565349544072965,
+       72.58097779486135
+      ],
+      "value": 39.39209726443779
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 6,
+      "m": 49,
+      "m_s": 49,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "A|BL-5": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.9727272727272728,
+       1.0
+      ],
+      "target_b": [
+       0.9727272727272728,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.972972972972973,
+       1.0
+      ],
+      "target_b": [
+       0.9732142857142857,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       9.84712640184788
+      ],
+      "target_b": [
+       0.0,
+       9.834871296746016
+      ],
+      "value": 3.2776934749620716
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 1,
+      "m": 109,
+      "m_s": 109,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9464285714285714,
+       1.0
+      ],
+      "target_b": [
+       0.9473684210526315,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.752484301652185
+      ],
+      "target_b": [
+       0.0,
+       19.70323522257363
+      ],
+      "value": 6.565349544072965
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.954954954954955,
+       1.0
+      ],
+      "target_b": [
+       0.9553571428571429,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       16.387012688831202
+      ],
+      "target_b": [
+       0.0,
+       16.366649318286072
+      ],
+      "value": 6.555386949924143
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 2,
+      "m": 108,
+      "m_s": 108,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9107142857142857,
+       1.0
+      ],
+      "target_b": [
+       0.9122807017543859,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       32.820762171032726
+      ],
+      "target_b": [
+       0.0,
+       32.739326778527314
+      ],
+      "value": 13.13069908814593
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 2,
+      "m": 53,
+      "m_s": 53,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.9,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.9,
+       0.990909090909091
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.8928571428571429,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.8990825688073395,
+       0.9908256880733946
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277395077838142,
+       39.385004380293076
+      ],
+      "target_b": [
+       3.2776934749620716,
+       36.14466079745738
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 104,
+      "m_s": 104,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.8,
+       0.9636363636363636
+      ],
+      "target_b": [
+       0.8,
+       0.9818181818181818
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.7894736842105263,
+       0.9811320754716981
+      ],
+      "target_b": [
+       0.7962962962962963,
+       0.9814814814814815
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 6,
+      "target_a": [
+       6.552573027801376,
+       78.9814080481268
+      ],
+      "target_b": [
+       6.565349544072965,
+       72.58097779486135
+      ],
+      "value": 39.39209726443779
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 6,
+      "m": 49,
+      "m_s": 49,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "A|BL-6": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.9727272727272728,
+       1.0
+      ],
+      "target_b": [
+       0.9727272727272728,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 109,
+      "target_a": [
+       0.972972972972973,
+       1.0
+      ],
+      "target_b": [
+       0.9732142857142857,
+       1.0
+      ],
+      "value": 0.990909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       9.84712640184788
+      ],
+      "target_b": [
+       0.0,
+       9.834871296746016
+      ],
+      "value": 3.2776934749620716
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 1,
+      "m": 109,
+      "m_s": 109,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9464285714285714,
+       1.0
+      ],
+      "target_b": [
+       0.9473684210526315,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.752484301652185
+      ],
+      "target_b": [
+       0.0,
+       19.70323522257363
+      ],
+      "value": 6.565349544072965
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.954954954954955,
+       1.0
+      ],
+      "target_b": [
+       0.9553571428571429,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       16.387012688831202
+      ],
+      "target_b": [
+       0.0,
+       16.366649318286072
+      ],
+      "value": 6.555386949924143
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 2,
+      "m": 108,
+      "m_s": 108,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9107142857142857,
+       1.0
+      ],
+      "target_b": [
+       0.9122807017543859,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       32.820762171032726
+      ],
+      "target_b": [
+       0.0,
+       32.739326778527314
+      ],
+      "value": 13.13069908814593
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 2,
+      "m": 53,
+      "m_s": 53,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.9,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.9,
+       0.990909090909091
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M2": {
+      "denominator": 110,
+      "numerator": 104,
+      "target_a": [
+       0.8928571428571429,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.8990825688073395,
+       0.9908256880733946
+      ],
+      "value": 0.9454545454545454
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277395077838142,
+       39.385004380293076
+      ],
+      "target_b": [
+       3.2776934749620716,
+       36.14466079745738
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 104,
+      "m_s": 104,
+      "s": 110,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.8,
+       0.9636363636363636
+      ],
+      "target_b": [
+       0.8,
+       0.9818181818181818
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 49,
+      "target_a": [
+       0.7894736842105263,
+       0.9811320754716981
+      ],
+      "target_b": [
+       0.7962962962962963,
+       0.9814814814814815
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 6,
+      "target_a": [
+       6.552573027801376,
+       78.9814080481268
+      ],
+      "target_b": [
+       6.565349544072965,
+       72.58097779486135
+      ],
+      "value": 39.39209726443779
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 6,
+      "m": 49,
+      "m_s": 49,
+      "s": 55,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "B|BL-2": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 81,
+      "target_a": [
+       0.6454545454545455,
+       0.8181818181818182
+      ],
+      "target_b": [
+       0.6090909090909091,
+       0.854772727272726
+      ],
+      "value": 0.7363636363636363
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 81,
+      "target_a": [
+       0.604800386563583,
+       0.7894736842105263
+      ],
+      "target_b": [
+       0.559322033898305,
+       0.8333333333333334
+      ],
+      "value": 0.6982758620689655
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 35,
+      "target_a": [
+       78.55973813420643,
+       157.33000314692336
+      ],
+      "target_b": [
+       59.21215204488317,
+       176.74334030366438
+      ],
+      "value": 114.71927162367251
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 35,
+      "m": 81,
+      "m_s": 81,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 39,
+      "target_a": [
+       0.5818181818181818,
+       0.8181818181818182
+      ],
+      "target_b": [
+       0.5636363636363636,
+       0.8363636363636363
+      ],
+      "value": 0.7090909090909091
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 39,
+      "target_a": [
+       0.532258064516129,
+       0.7857142857142857
+      ],
+      "target_b": [
+       0.5161290322580645,
+       0.8035714285714286
+      ],
+      "value": 0.6610169491525424
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 20,
+      "target_a": [
+       78.54545454545476,
+       189.81818181818232
+      ],
+      "target_b": [
+       72.00000000000017,
+       196.3636363636368
+      ],
+      "value": 130.90909090909122
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 20,
+      "m": 39,
+      "m_s": 39,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 42,
+      "target_a": [
+       0.6545454545454545,
+       0.8727272727272727
+      ],
+      "target_b": [
+       0.6363636363636364,
+       0.8909090909090909
+      ],
+      "value": 0.7636363636363637
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 42,
+      "target_a": [
+       0.6,
+       0.8704292929292926
+      ],
+      "target_b": [
+       0.5666129032258065,
+       0.9074074074074074
+      ],
+      "value": 0.7368421052631579
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 15,
+      "target_a": [
+       45.868219876228736,
+       163.63710757327823
+      ],
+      "target_b": [
+       32.8087976183244,
+       177.33073516641554
+      ],
+      "value": 98.48024316109448
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 15,
+      "m": 42,
+      "m_s": 42,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 50,
+      "target_a": [
+       0.36363636363636365,
+       0.5454545454545454
+      ],
+      "target_b": [
+       0.3090909090909091,
+       0.6
+      ],
+      "value": 0.45454545454545453
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 50,
+      "target_a": [
+       0.3418803418803419,
+       0.5258620689655172
+      ],
+      "target_b": [
+       0.30577938475665745,
+       0.5663716814159292
+      ],
+      "value": 0.43103448275862066
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 66,
+      "target_a": [
+       176.83980715000502,
+       258.6687189848573
+      ],
+      "target_b": [
+       163.66574911065453,
+       266.2337011325541
+      ],
+      "value": 216.3277693474967
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 66,
+      "m": 50,
+      "m_s": 50,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 20,
+      "target_a": [
+       0.23636363636363636,
+       0.4909090909090909
+      ],
+      "target_b": [
+       0.21818181818181817,
+       0.5272727272727272
+      ],
+      "value": 0.36363636363636365
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 20,
+      "target_a": [
+       0.22413793103448276,
+       0.46299603174603154
+      ],
+      "target_b": [
+       0.20330508474576273,
+       0.4745762711864407
+      ],
+      "value": 0.3389830508474576
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 39,
+      "target_a": [
+       202.90909090909145,
+       307.6363636363644
+      ],
+      "target_b": [
+       202.90909090909136,
+       301.0909090909098
+      ],
+      "value": 255.2727272727279
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 39,
+      "m": 20,
+      "m_s": 20,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 30,
+      "target_a": [
+       0.41818181818181815,
+       0.6727272727272727
+      ],
+      "target_b": [
+       0.4,
+       0.6909090909090909
+      ],
+      "value": 0.5454545454545454
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 30,
+      "target_a": [
+       0.3888440860215054,
+       0.6727272727272727
+      ],
+      "target_b": [
+       0.3888888888888889,
+       0.6779661016949152
+      ],
+      "value": 0.5263157894736842
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 27,
+      "target_a": [
+       117.94685111030246,
+       242.82936315021942
+      ],
+      "target_b": [
+       117.88194532908716,
+       243.391399683275
+      ],
+      "value": 177.26443768997004
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 27,
+      "m": 30,
+      "m_s": 30,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 20,
+      "target_a": [
+       0.11795454545454546,
+       0.2545454545454545
+      ],
+      "target_b": [
+       0.09090909090909091,
+       0.2818181818181818
+      ],
+      "value": 0.18181818181818182
+     },
+     "EV-M2": {
+      "denominator": 116,
+      "numerator": 20,
+      "target_a": [
+       0.10618209943161379,
+       0.24347826086956523
+      ],
+      "target_b": [
+       0.09174311926605505,
+       0.26316985645933005
+      ],
+      "value": 0.1724137931034483
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 96,
+      "target_a": [
+       278.86991187080076,
+       351.15094164701674
+      ],
+      "target_b": [
+       271.6857610474638,
+       353.58312113495896
+      ],
+      "value": 314.65857359635885
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 96,
+      "m": 20,
+      "m_s": 20,
+      "s": 116,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 8,
+      "target_a": [
+       0.05454545454545454,
+       0.23681818181817935
+      ],
+      "target_b": [
+       0.07272727272727272,
+       0.23636363636363636
+      ],
+      "value": 0.14545454545454545
+     },
+     "EV-M2": {
+      "denominator": 59,
+      "numerator": 8,
+      "target_a": [
+       0.05172413793103448,
+       0.2321726190476189
+      ],
+      "target_b": [
+       0.0634672619047619,
+       0.22413793103448276
+      ],
+      "value": 0.13559322033898305
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 51,
+      "target_a": [
+       288.00000000000074,
+       379.63636363636465
+      ],
+      "target_b": [
+       288.0000000000007,
+       373.0909090909099
+      ],
+      "value": 333.81818181818267
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 51,
+      "m": 8,
+      "m_s": 8,
+      "s": 59,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 12,
+      "target_a": [
+       0.10909090909090909,
+       0.32727272727272727
+      ],
+      "target_b": [
+       0.12727272727272726,
+       0.32727272727272727
+      ],
+      "value": 0.21818181818181817
+     },
+     "EV-M2": {
+      "denominator": 57,
+      "numerator": 12,
+      "target_a": [
+       0.10904220779220779,
+       0.32142857142857145
+      ],
+      "target_b": [
+       0.11998507462686567,
+       0.32142857142857145
+      ],
+      "value": 0.21052631578947367
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 45,
+      "target_a": [
+       242.5323885077841,
+       353.4545454545464
+      ],
+      "target_b": [
+       243.56831254619618,
+       348.64492114624215
+      ],
+      "value": 295.4407294832834
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 45,
+      "m": 12,
+      "m_s": 12,
+      "s": 57,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "B|BL-3": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 108,
+      "target_a": [
+       0.9292035398230089,
+       1.0
+      ],
+      "target_b": [
+       0.9310344827586207,
+       1.0
+      ],
+      "value": 0.972972972972973
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       26.254216171867945
+      ],
+      "target_b": [
+       0.0,
+       26.191342306293258
+      ],
+      "value": 9.833080424886214
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 3,
+      "m": 108,
+      "m_s": 108,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 53,
+      "target_a": [
+       0.8620689655172413,
+       1.0
+      ],
+      "target_b": [
+       0.8688524590163934,
+       1.0
+      ],
+      "value": 0.9464285714285714
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       52.5720940490532
+      ],
+      "target_b": [
+       0.0,
+       52.40174672489095
+      ],
+      "value": 19.696048632218893
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 3,
+      "m": 53,
+      "m_s": 53,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 105,
+      "target_a": [
+       0.9090909090909091,
+       0.990909090909091
+      ],
+      "target_b": [
+       0.9090909090909091,
+       0.990909090909091
+      ],
+      "value": 0.9545454545454546
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 105,
+      "target_a": [
+       0.893781605562579,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.909070058381985,
+       0.9818222768222767
+      ],
+      "value": 0.9459459459459459
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277061946327983,
+       39.3816833907708
+      ],
+      "target_b": [
+       6.5472252736090795,
+       32.86470695636305
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 105,
+      "m_s": 105,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.63636363636369
+      ],
+      "target_b": [
+       0.0,
+       19.636363636363683
+      ],
+      "value": 6.545454545454562
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 51,
+      "target_a": [
+       0.8545454545454545,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.8363636363636363,
+       1.0
+      ],
+      "value": 0.9272727272727272
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 51,
+      "target_a": [
+       0.8135593220338984,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.8333333333333334,
+       0.9818181818181818
+      ],
+      "value": 0.9107142857142857
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 5,
+      "target_a": [
+       6.546644844517202,
+       72.38605898123343
+      ],
+      "target_b": [
+       6.5478355765733145,
+       65.52632661975534
+      ],
+      "value": 32.82674772036482
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 5,
+      "m": 51,
+      "m_s": 51,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 98,
+      "target_a": [
+       0.8272727272727273,
+       0.9454545454545454
+      ],
+      "target_b": [
+       0.7727272727272727,
+       0.9727272727272728
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 98,
+      "target_a": [
+       0.8090810276679842,
+       0.944954128440367
+      ],
+      "target_b": [
+       0.7610619469026548,
+       0.963963963963964
+      ],
+      "value": 0.8828828828828829
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 13,
+      "target_a": [
+       19.641720469218928,
+       72.01996923134581
+      ],
+      "target_b": [
+       13.09090909090912,
+       88.54058625433359
+      ],
+      "value": 42.610015174506934
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 13,
+      "m": 98,
+      "m_s": 98,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 50,
+      "target_a": [
+       0.8181818181818182,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.7636363636363637,
+       1.0
+      ],
+      "value": 0.9090909090909091
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 50,
+      "target_a": [
+       0.8181818181818182,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.7636363636363637,
+       1.0
+      ],
+      "value": 0.9090909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 5,
+      "target_a": [
+       6.545454545454563,
+       65.45454545454562
+      ],
+      "target_b": [
+       0.0,
+       85.09090909090928
+      ],
+      "value": 32.727272727272805
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 5,
+      "m": 50,
+      "m_s": 50,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 48,
+      "target_a": [
+       0.7636363636363637,
+       0.9454545454545454
+      ],
+      "target_b": [
+       0.7818181818181819,
+       0.9636363636363636
+      ],
+      "value": 0.8727272727272727
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 48,
+      "target_a": [
+       0.7376833477135462,
+       0.9622641509433962
+      ],
+      "target_b": [
+       0.7498940677966102,
+       0.9622816212438853
+      ],
+      "value": 0.8571428571428571
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 8,
+      "target_a": [
+       13.128304868413089,
+       104.76536922517307
+      ],
+      "target_b": [
+       13.157996383691648,
+       98.32483612527335
+      ],
+      "value": 52.52279635258372
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 8,
+      "m": 48,
+      "m_s": 48,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "B|BL-6": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 108,
+      "target_a": [
+       0.9545454545454546,
+       1.0
+      ],
+      "target_b": [
+       0.9545454545454546,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 108,
+      "target_a": [
+       0.9292035398230089,
+       1.0
+      ],
+      "target_b": [
+       0.9310344827586207,
+       1.0
+      ],
+      "value": 0.972972972972973
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       26.254216171867945
+      ],
+      "target_b": [
+       0.0,
+       26.191342306293258
+      ],
+      "value": 9.833080424886214
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 3,
+      "m": 108,
+      "m_s": 108,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 55,
+      "target_a": [
+       1.0,
+       1.0
+      ],
+      "target_b": [
+       1.0,
+       1.0
+      ],
+      "value": 1.0
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 0,
+      "target_a": [
+       0.0,
+       0.0
+      ],
+      "target_b": [
+       0.0,
+       0.0
+      ],
+      "value": 0.0
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 0,
+      "m": 55,
+      "m_s": 55,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 53,
+      "target_a": [
+       0.8620689655172413,
+       1.0
+      ],
+      "target_b": [
+       0.8688524590163934,
+       1.0
+      ],
+      "value": 0.9464285714285714
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       52.5720940490532
+      ],
+      "target_b": [
+       0.0,
+       52.40174672489095
+      ],
+      "value": 19.696048632218893
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 3,
+      "m": 53,
+      "m_s": 53,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 105,
+      "target_a": [
+       0.9090909090909091,
+       0.990909090909091
+      ],
+      "target_b": [
+       0.9090909090909091,
+       0.990909090909091
+      ],
+      "value": 0.9545454545454546
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 105,
+      "target_a": [
+       0.893781605562579,
+       0.9907407407407407
+      ],
+      "target_b": [
+       0.909070058381985,
+       0.9818222768222767
+      ],
+      "value": 0.9459459459459459
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 6,
+      "target_a": [
+       3.277061946327983,
+       39.3816833907708
+      ],
+      "target_b": [
+       6.5472252736090795,
+       32.86470695636305
+      ],
+      "value": 19.666160849772428
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 6,
+      "m": 105,
+      "m_s": 105,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 54,
+      "target_a": [
+       0.9454545454545454,
+       1.0
+      ],
+      "target_b": [
+       0.9454545454545454,
+       1.0
+      ],
+      "value": 0.9818181818181818
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 1,
+      "target_a": [
+       0.0,
+       19.63636363636369
+      ],
+      "target_b": [
+       0.0,
+       19.636363636363683
+      ],
+      "value": 6.545454545454562
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 1,
+      "m": 54,
+      "m_s": 54,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 51,
+      "target_a": [
+       0.8545454545454545,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.8363636363636363,
+       1.0
+      ],
+      "value": 0.9272727272727272
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 51,
+      "target_a": [
+       0.8135593220338984,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.8333333333333334,
+       0.9818181818181818
+      ],
+      "value": 0.9107142857142857
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 5,
+      "target_a": [
+       6.546644844517202,
+       72.38605898123343
+      ],
+      "target_b": [
+       6.5478355765733145,
+       65.52632661975534
+      ],
+      "value": 32.82674772036482
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 5,
+      "m": 51,
+      "m_s": 51,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 98,
+      "target_a": [
+       0.8272727272727273,
+       0.9454545454545454
+      ],
+      "target_b": [
+       0.7727272727272727,
+       0.9727272727272728
+      ],
+      "value": 0.8909090909090909
+     },
+     "EV-M2": {
+      "denominator": 111,
+      "numerator": 98,
+      "target_a": [
+       0.8090810276679842,
+       0.944954128440367
+      ],
+      "target_b": [
+       0.7610619469026548,
+       0.963963963963964
+      ],
+      "value": 0.8828828828828829
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 13,
+      "target_a": [
+       19.641720469218928,
+       72.01996923134581
+      ],
+      "target_b": [
+       13.09090909090912,
+       88.54058625433359
+      ],
+      "value": 42.610015174506934
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 13,
+      "m": 98,
+      "m_s": 98,
+      "s": 111,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 50,
+      "target_a": [
+       0.8181818181818182,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.7636363636363637,
+       1.0
+      ],
+      "value": 0.9090909090909091
+     },
+     "EV-M2": {
+      "denominator": 55,
+      "numerator": 50,
+      "target_a": [
+       0.8181818181818182,
+       0.9818181818181818
+      ],
+      "target_b": [
+       0.7636363636363637,
+       1.0
+      ],
+      "value": 0.9090909090909091
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 5,
+      "target_a": [
+       6.545454545454563,
+       65.45454545454562
+      ],
+      "target_b": [
+       0.0,
+       85.09090909090928
+      ],
+      "value": 32.727272727272805
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 5,
+      "m": 50,
+      "m_s": 50,
+      "s": 55,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 48,
+      "target_a": [
+       0.7636363636363637,
+       0.9454545454545454
+      ],
+      "target_b": [
+       0.7818181818181819,
+       0.9636363636363636
+      ],
+      "value": 0.8727272727272727
+     },
+     "EV-M2": {
+      "denominator": 56,
+      "numerator": 48,
+      "target_a": [
+       0.7376833477135462,
+       0.9622641509433962
+      ],
+      "target_b": [
+       0.7498940677966102,
+       0.9622816212438853
+      ],
+      "value": 0.8571428571428571
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 8,
+      "target_a": [
+       13.128304868413089,
+       104.76536922517307
+      ],
+      "target_b": [
+       13.157996383691648,
+       98.32483612527335
+      ],
+      "value": 52.52279635258372
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 8,
+      "m": 48,
+      "m_s": 48,
+      "s": 56,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "C|BL-2": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 36,
+      "target_a": [
+       0.24545454545454545,
+       0.4090909090909091
+      ],
+      "target_b": [
+       0.23636363636363636,
+       0.4090909090909091
+      ],
+      "value": 0.32727272727272727
+     },
+     "EV-M2": {
+      "denominator": 126,
+      "numerator": 36,
+      "target_a": [
+       0.2083263422818792,
+       0.36885245901639346
+      ],
+      "target_b": [
+       0.19867044133259187,
+       0.3790392102335928
+      ],
+      "value": 0.2857142857142857
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 90,
+      "target_a": [
+       233.25016647140924,
+       357.649303541902
+      ],
+      "target_b": [
+       216.28264802890217,
+       386.7387844534865
+      ],
+      "value": 294.99241274658647
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 90,
+      "m": 36,
+      "m_s": 36,
+      "s": 126,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 26,
+      "target_a": [
+       0.34545454545454546,
+       0.6181818181818182
+      ],
+      "target_b": [
+       0.3090909090909091,
+       0.6363636363636364
+      ],
+      "value": 0.4727272727272727
+     },
+     "EV-M2": {
+      "denominator": 75,
+      "numerator": 26,
+      "target_a": [
+       0.2345679012345679,
+       0.47620879120879106
+      ],
+      "target_b": [
+       0.21051007147498374,
+       0.486597051597051
+      ],
+      "value": 0.3466666666666667
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 49,
+      "target_a": [
+       229.0909090909097,
+       425.4545454545466
+      ],
+      "target_b": [
+       216.00000000000048,
+       438.5454545454555
+      ],
+      "value": 320.72727272727354
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 49,
+      "m": 26,
+      "m_s": 26,
+      "s": 75,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 10,
+      "target_a": [
+       0.09090909090909091,
+       0.2909090909090909
+      ],
+      "target_b": [
+       0.10909090909090909,
+       0.2545454545454545
+      ],
+      "value": 0.18181818181818182
+     },
+     "EV-M2": {
+      "denominator": 51,
+      "numerator": 10,
+      "target_a": [
+       0.09433962264150944,
+       0.3137254901960784
+      ],
+      "target_b": [
+       0.11764705882352941,
+       0.28
+      ],
+      "value": 0.19607843137254902
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 41,
+      "target_a": [
+       196.54141716765193,
+       348.02699580470687
+      ],
+      "target_b": [
+       184.25542286132142,
+       353.5847292080949
+      ],
+      "value": 269.17933130699157
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 41,
+      "m": 10,
+      "m_s": 10,
+      "s": 51,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 14,
+      "target_a": [
+       0.07272727272727272,
+       0.19090909090909092
+      ],
+      "target_b": [
+       0.07272727272727272,
+       0.17272727272727273
+      ],
+      "value": 0.12727272727272726
+     },
+     "EV-M2": {
+      "denominator": 126,
+      "numerator": 14,
+      "target_a": [
+       0.05879922216820613,
+       0.1707369189076506
+      ],
+      "target_b": [
+       0.06546972049689441,
+       0.15789473684210525
+      ],
+      "value": 0.1111111111111111
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 112,
+      "target_a": [
+       308.04312257204543,
+       429.26548275182864
+      ],
+      "target_b": [
+       291.6609457267384,
+       454.99181669394545
+      ],
+      "value": 367.10166919575204
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 112,
+      "m": 14,
+      "m_s": 14,
+      "s": 126,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 8,
+      "target_a": [
+       0.05454545454545454,
+       0.23636363636363636
+      ],
+      "target_b": [
+       0.05454545454545454,
+       0.2545454545454545
+      ],
+      "value": 0.14545454545454545
+     },
+     "EV-M2": {
+      "denominator": 75,
+      "numerator": 8,
+      "target_a": [
+       0.04285714285714286,
+       0.1923507462686565
+      ],
+      "target_b": [
+       0.037488425925925925,
+       0.1866874999999999
+      ],
+      "value": 0.10666666666666667
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 67,
+      "target_a": [
+       353.4545454545464,
+       536.7272727272741
+      ],
+      "target_b": [
+       346.9090909090917,
+       543.2727272727285
+      ],
+      "value": 438.54545454545564
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 67,
+      "m": 8,
+      "m_s": 8,
+      "s": 75,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 6,
+      "target_a": [
+       0.03636363636363636,
+       0.2
+      ],
+      "target_b": [
+       0.05454545454545454,
+       0.16363636363636364
+      ],
+      "value": 0.10909090909090909
+     },
+     "EV-M2": {
+      "denominator": 51,
+      "numerator": 6,
+      "target_a": [
+       0.037020202020202016,
+       0.22448979591836735
+      ],
+      "target_b": [
+       0.057692307692307696,
+       0.19050151975683877
+      ],
+      "value": 0.11764705882352941
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 45,
+      "target_a": [
+       216.73558744831,
+       379.7105825513342
+      ],
+      "target_b": [
+       198.4060165189927,
+       386.32229901782557
+      ],
+      "value": 295.4407294832834
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 45,
+      "m": 6,
+      "m_s": 6,
+      "s": 51,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 5,
+      "target_a": [
+       0.00909090909090909,
+       0.09090909090909091
+      ],
+      "target_b": [
+       0.01818181818181818,
+       0.07272727272727272
+      ],
+      "value": 0.045454545454545456
+     },
+     "EV-M2": {
+      "denominator": 126,
+      "numerator": 5,
+      "target_a": [
+       0.008064516129032258,
+       0.0782608695652174
+      ],
+      "target_b": [
+       0.014285714285714285,
+       0.07079820221587345
+      ],
+      "value": 0.03968253968253968
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 121,
+      "target_a": [
+       340.8490880951668,
+       454.9918166939455
+      ],
+      "target_b": [
+       311.76739625033315,
+       485.2935176321548
+      ],
+      "value": 396.60091047041067
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 121,
+      "m": 5,
+      "m_s": 5,
+      "s": 126,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       0.09090909090909091
+      ],
+      "target_b": [
+       0.0,
+       0.09090909090909091
+      ],
+      "value": 0.03636363636363636
+     },
+     "EV-M2": {
+      "denominator": 75,
+      "numerator": 2,
+      "target_a": [
+       0.0,
+       0.07042253521126761
+      ],
+      "target_b": [
+       0.0,
+       0.0684931506849315
+      ],
+      "value": 0.02666666666666667
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 73,
+      "target_a": [
+       399.27272727272833,
+       569.454545454547
+      ],
+      "target_b": [
+       386.18181818181904,
+       582.5454545454559
+      ],
+      "value": 477.818181818183
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 73,
+      "m": 2,
+      "m_s": 2,
+      "s": 75,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       0.12727272727272726
+      ],
+      "target_b": [
+       0.0,
+       0.10909090909090909
+      ],
+      "value": 0.05454545454545454
+     },
+     "EV-M2": {
+      "denominator": 51,
+      "numerator": 3,
+      "target_a": [
+       0.0,
+       0.1346153846153846
+      ],
+      "target_b": [
+       0.0,
+       0.12
+      ],
+      "value": 0.058823529411764705
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 48,
+      "target_a": [
+       237.75236041699674,
+       394.0120270390684
+      ],
+      "target_b": [
+       223.73770549976894,
+       399.7263863391225
+      ],
+      "value": 315.1367781155023
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 48,
+      "m": 3,
+      "m_s": 3,
+      "s": 51,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "C|BL-3": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 81,
+      "target_a": [
+       0.6636363636363637,
+       0.8090909090909091
+      ],
+      "target_b": [
+       0.6363636363636364,
+       0.8272727272727273
+      ],
+      "value": 0.7363636363636363
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 81,
+      "target_a": [
+       0.5033101761675973,
+       0.6434240662438336
+      ],
+      "target_b": [
+       0.4795070498331719,
+       0.6716446393984278
+      ],
+      "value": 0.5704225352112676
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 61,
+      "target_a": [
+       153.83181694203648,
+       249.20037965290274
+      ],
+      "target_b": [
+       140.76566336273564,
+       268.8204274927855
+      ],
+      "value": 199.93930197268637
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 61,
+      "m": 81,
+      "m_s": 81,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 53,
+      "target_a": [
+       0.5862068965517241,
+       0.7857142857142857
+      ],
+      "target_b": [
+       0.5681439393939395,
+       0.8088235294117647
+      ],
+      "value": 0.6794871794871795
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 25,
+      "target_a": [
+       98.18181818181844,
+       235.63636363636425
+      ],
+      "target_b": [
+       85.09090909090928,
+       255.27272727272785
+      ],
+      "value": 163.63636363636405
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 25,
+      "m": 53,
+      "m_s": 53,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 28,
+      "target_a": [
+       0.38181818181818183,
+       0.6363636363636364
+      ],
+      "target_b": [
+       0.34545454545454546,
+       0.6727272727272727
+      ],
+      "value": 0.509090909090909
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 28,
+      "target_a": [
+       0.3333333333333333,
+       0.5423728813559322
+      ],
+      "target_b": [
+       0.3181818181818182,
+       0.562528409090909
+      ],
+      "value": 0.4375
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 36,
+      "target_a": [
+       176.59559026794832,
+       308.45892075838685
+      ],
+      "target_b": [
+       164.51377041189414,
+       314.41048034934573
+      ],
+      "value": 236.35258358662674
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 36,
+      "m": 28,
+      "m_s": 28,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 60,
+      "target_a": [
+       0.4636363636363636,
+       0.6272727272727273
+      ],
+      "target_b": [
+       0.43636363636363634,
+       0.6545454545454545
+      ],
+      "value": 0.5454545454545454
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 60,
+      "target_a": [
+       0.34177215189873417,
+       0.5116324848928767
+      ],
+      "target_b": [
+       0.31578064288237373,
+       0.549618320610687
+      ],
+      "value": 0.4225352112676056
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 82,
+      "target_a": [
+       209.47311243170924,
+       333.94189271608064
+      ],
+      "target_b": [
+       190.54528534328193,
+       356.79214402618743
+      ],
+      "value": 268.77086494688984
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 82,
+      "m": 60,
+      "m_s": 60,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 44,
+      "target_a": [
+       0.6909090909090909,
+       0.9090909090909091
+      ],
+      "target_b": [
+       0.7090909090909091,
+       0.8909090909090909
+      ],
+      "value": 0.8
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 44,
+      "target_a": [
+       0.44574966532797855,
+       0.7083333333333334
+      ],
+      "target_b": [
+       0.4444128787878788,
+       0.7121753246753244
+      ],
+      "value": 0.5641025641025641
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 34,
+      "target_a": [
+       130.90909090909125,
+       320.7272727272736
+      ],
+      "target_b": [
+       124.36363636363664,
+       327.272727272728
+      ],
+      "value": 222.5454545454551
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 34,
+      "m": 44,
+      "m_s": 44,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 16,
+      "target_a": [
+       0.18181818181818182,
+       0.41818181818181815
+      ],
+      "target_b": [
+       0.12727272727272726,
+       0.4727272727272727
+      ],
+      "value": 0.2909090909090909
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 16,
+      "target_a": [
+       0.14754098360655737,
+       0.3620689655172414
+      ],
+      "target_b": [
+       0.11475409836065574,
+       0.4
+      ],
+      "value": 0.25
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 48,
+      "target_a": [
+       236.35150618774702,
+       400.34395192928696
+      ],
+      "target_b": [
+       223.69681545707394,
+       419.0614769006921
+      ],
+      "value": 315.1367781155023
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 48,
+      "m": 16,
+      "m_s": 16,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 39,
+      "target_a": [
+       0.2727272727272727,
+       0.43636363636363634
+      ],
+      "target_b": [
+       0.24545454545454545,
+       0.4636363636363636
+      ],
+      "value": 0.35454545454545455
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 39,
+      "target_a": [
+       0.2012662337662338,
+       0.35660299003322254
+      ],
+      "target_b": [
+       0.1768697112991538,
+       0.3823685857321651
+      ],
+      "value": 0.2746478873239437
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 103,
+      "target_a": [
+       274.9584585058997,
+       402.6232360631824
+      ],
+      "target_b": [
+       261.8651985770473,
+       428.931673253371
+      ],
+      "value": 337.60242792109335
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 103,
+      "m": 39,
+      "m_s": 39,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 31,
+      "target_a": [
+       0.41818181818181815,
+       0.6909090909090909
+      ],
+      "target_b": [
+       0.4,
+       0.7090909090909091
+      ],
+      "value": 0.5636363636363636
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 31,
+      "target_a": [
+       0.27586206896551724,
+       0.535236783016942
+      ],
+      "target_b": [
+       0.25300858606841153,
+       0.5671641791044776
+      ],
+      "value": 0.3974358974358974
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 47,
+      "target_a": [
+       215.8363636363642,
+       405.8181818181829
+      ],
+      "target_b": [
+       189.81818181818224,
+       438.5454545454555
+      ],
+      "value": 307.6363636363644
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 47,
+      "m": 31,
+      "m_s": 31,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 8,
+      "target_a": [
+       0.05454545454545454,
+       0.23636363636363636
+      ],
+      "target_b": [
+       0.05454545454545454,
+       0.2545454545454545
+      ],
+      "value": 0.14545454545454545
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 8,
+      "target_a": [
+       0.046153846153846156,
+       0.21875
+      ],
+      "target_b": [
+       0.04,
+       0.2321726190476189
+      ],
+      "value": 0.125
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 56,
+      "target_a": [
+       283.01153979146005,
+       451.7184942716869
+      ],
+      "target_b": [
+       270.57745187901077,
+       464.89632593670535
+      ],
+      "value": 367.659574468086
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 56,
+      "m": 8,
+      "m_s": 8,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  },
+  "C|BL-6": {
+   "0.3": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 81,
+      "target_a": [
+       0.6636363636363637,
+       0.8090909090909091
+      ],
+      "target_b": [
+       0.6363636363636364,
+       0.8272727272727273
+      ],
+      "value": 0.7363636363636363
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 81,
+      "target_a": [
+       0.5033101761675973,
+       0.6434240662438336
+      ],
+      "target_b": [
+       0.4795070498331719,
+       0.6716446393984278
+      ],
+      "value": 0.5704225352112676
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 61,
+      "target_a": [
+       153.83181694203648,
+       249.20037965290274
+      ],
+      "target_b": [
+       140.76566336273564,
+       268.8204274927855
+      ],
+      "value": 199.93930197268637
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 61,
+      "m": 81,
+      "m_s": 81,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 53,
+      "target_a": [
+       0.9090909090909091,
+       1.0
+      ],
+      "target_b": [
+       0.9090909090909091,
+       1.0
+      ],
+      "value": 0.9636363636363636
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 53,
+      "target_a": [
+       0.5862068965517241,
+       0.7857142857142857
+      ],
+      "target_b": [
+       0.5681439393939395,
+       0.8088235294117647
+      ],
+      "value": 0.6794871794871795
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 25,
+      "target_a": [
+       98.18181818181844,
+       235.63636363636425
+      ],
+      "target_b": [
+       85.09090909090928,
+       255.27272727272785
+      ],
+      "value": 163.63636363636405
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 25,
+      "m": 53,
+      "m_s": 53,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 28,
+      "target_a": [
+       0.38181818181818183,
+       0.6363636363636364
+      ],
+      "target_b": [
+       0.34545454545454546,
+       0.6727272727272727
+      ],
+      "value": 0.509090909090909
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 28,
+      "target_a": [
+       0.3333333333333333,
+       0.5423728813559322
+      ],
+      "target_b": [
+       0.3181818181818182,
+       0.562528409090909
+      ],
+      "value": 0.4375
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 36,
+      "target_a": [
+       176.59559026794832,
+       308.45892075838685
+      ],
+      "target_b": [
+       164.51377041189414,
+       314.41048034934573
+      ],
+      "value": 236.35258358662674
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 36,
+      "m": 28,
+      "m_s": 28,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.5": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 60,
+      "target_a": [
+       0.4636363636363636,
+       0.6272727272727273
+      ],
+      "target_b": [
+       0.43636363636363634,
+       0.6545454545454545
+      ],
+      "value": 0.5454545454545454
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 60,
+      "target_a": [
+       0.34177215189873417,
+       0.5116324848928767
+      ],
+      "target_b": [
+       0.31578064288237373,
+       0.549618320610687
+      ],
+      "value": 0.4225352112676056
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 82,
+      "target_a": [
+       209.47311243170924,
+       333.94189271608064
+      ],
+      "target_b": [
+       190.54528534328193,
+       356.79214402618743
+      ],
+      "value": 268.77086494688984
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 82,
+      "m": 60,
+      "m_s": 60,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 44,
+      "target_a": [
+       0.6909090909090909,
+       0.9090909090909091
+      ],
+      "target_b": [
+       0.7090909090909091,
+       0.8909090909090909
+      ],
+      "value": 0.8
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 44,
+      "target_a": [
+       0.44574966532797855,
+       0.7083333333333334
+      ],
+      "target_b": [
+       0.4444128787878788,
+       0.7121753246753244
+      ],
+      "value": 0.5641025641025641
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 34,
+      "target_a": [
+       130.90909090909125,
+       320.7272727272736
+      ],
+      "target_b": [
+       124.36363636363664,
+       327.272727272728
+      ],
+      "value": 222.5454545454551
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 34,
+      "m": 44,
+      "m_s": 44,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 16,
+      "target_a": [
+       0.18181818181818182,
+       0.41818181818181815
+      ],
+      "target_b": [
+       0.12727272727272726,
+       0.4727272727272727
+      ],
+      "value": 0.2909090909090909
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 16,
+      "target_a": [
+       0.14754098360655737,
+       0.3620689655172414
+      ],
+      "target_b": [
+       0.11475409836065574,
+       0.4
+      ],
+      "value": 0.25
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 48,
+      "target_a": [
+       236.35150618774702,
+       400.34395192928696
+      ],
+      "target_b": [
+       223.69681545707394,
+       419.0614769006921
+      ],
+      "value": 315.1367781155023
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 48,
+      "m": 16,
+      "m_s": 16,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   },
+   "0.7": {
+    "all": {
+     "EV-M1": {
+      "denominator": 110,
+      "numerator": 39,
+      "target_a": [
+       0.2727272727272727,
+       0.43636363636363634
+      ],
+      "target_b": [
+       0.24545454545454545,
+       0.4636363636363636
+      ],
+      "value": 0.35454545454545455
+     },
+     "EV-M2": {
+      "denominator": 142,
+      "numerator": 39,
+      "target_a": [
+       0.2012662337662338,
+       0.35660299003322254
+      ],
+      "target_b": [
+       0.1768697112991538,
+       0.3823685857321651
+      ],
+      "value": 0.2746478873239437
+     },
+     "EV-M7": {
+      "denominator": 0.30509259259259186,
+      "numerator": 103,
+      "target_a": [
+       274.9584585058997,
+       402.6232360631824
+      ],
+      "target_b": [
+       261.8651985770473,
+       428.931673253371
+      ],
+      "value": 337.60242792109335
+     },
+     "cameras": 110,
+     "counts": {
+      "a": 110,
+      "f": 103,
+      "m": 39,
+      "m_s": 39,
+      "s": 142,
+      "u": 0.30509259259259186
+     },
+     "leakage_groups": 11
+    },
+    "ceiling": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 31,
+      "target_a": [
+       0.41818181818181815,
+       0.6909090909090909
+      ],
+      "target_b": [
+       0.4,
+       0.7090909090909091
+      ],
+      "value": 0.5636363636363636
+     },
+     "EV-M2": {
+      "denominator": 78,
+      "numerator": 31,
+      "target_a": [
+       0.27586206896551724,
+       0.535236783016942
+      ],
+      "target_b": [
+       0.25300858606841153,
+       0.5671641791044776
+      ],
+      "value": 0.3974358974358974
+     },
+     "EV-M7": {
+      "denominator": 0.1527777777777774,
+      "numerator": 47,
+      "target_a": [
+       215.8363636363642,
+       405.8181818181829
+      ],
+      "target_b": [
+       189.81818181818224,
+       438.5454545454555
+      ],
+      "value": 307.6363636363644
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 47,
+      "m": 31,
+      "m_s": 31,
+      "s": 78,
+      "u": 0.1527777777777774
+     },
+     "leakage_groups": 11
+    },
+    "eye_level": {
+     "EV-M1": {
+      "denominator": 55,
+      "numerator": 8,
+      "target_a": [
+       0.05454545454545454,
+       0.23636363636363636
+      ],
+      "target_b": [
+       0.05454545454545454,
+       0.2545454545454545
+      ],
+      "value": 0.14545454545454545
+     },
+     "EV-M2": {
+      "denominator": 64,
+      "numerator": 8,
+      "target_a": [
+       0.046153846153846156,
+       0.21875
+      ],
+      "target_b": [
+       0.04,
+       0.2321726190476189
+      ],
+      "value": 0.125
+     },
+     "EV-M7": {
+      "denominator": 0.15231481481481443,
+      "numerator": 56,
+      "target_a": [
+       283.01153979146005,
+       451.7184942716869
+      ],
+      "target_b": [
+       270.57745187901077,
+       464.89632593670535
+      ],
+      "value": 367.659574468086
+     },
+     "cameras": 55,
+     "counts": {
+      "a": 55,
+      "f": 56,
+      "m": 8,
+      "m_s": 8,
+      "s": 64,
+      "u": 0.15231481481481443
+     },
+     "leakage_groups": 11
+    }
+   }
+  }
+ },
+ "flags": {
+  "A|BL-2": {
+   "clearance_within_k_sigma": 1,
+   "episodes": 116,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 1,
+   "speed_near_v_min": 0
+  },
+  "A|BL-3": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 110,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 0,
+   "speed_near_v_min": 97
+  },
+  "A|BL-4": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 110,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 0,
+   "speed_near_v_min": 97
+  },
+  "A|BL-5": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 110,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 0,
+   "speed_near_v_min": 97
+  },
+  "A|BL-6": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 110,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 0,
+   "speed_near_v_min": 97
+  },
+  "B|BL-2": {
+   "clearance_within_k_sigma": 1,
+   "episodes": 116,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 1,
+   "speed_near_v_min": 0
+  },
+  "B|BL-3": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 111,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 11,
+   "speed_near_v_min": 106
+  },
+  "B|BL-6": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 111,
+   "footprint_orientation_unknown": 0,
+   "onset_sensitive": 11,
+   "speed_near_v_min": 106
+  },
+  "C|BL-2": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 126,
+   "footprint_orientation_unknown": 2,
+   "onset_sensitive": 0,
+   "speed_near_v_min": 0
+  },
+  "C|BL-3": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 142,
+   "footprint_orientation_unknown": 3,
+   "onset_sensitive": 29,
+   "speed_near_v_min": 116
+  },
+  "C|BL-6": {
+   "clearance_within_k_sigma": 0,
+   "episodes": 142,
+   "footprint_orientation_unknown": 3,
+   "onset_sensitive": 29,
+   "speed_near_v_min": 116
+  }
+ },
+ "gv": {
+  "B": {
+   "GV-01": {
+    "all|all": {
+     "availability": {
+      "null:not_observable": 553,
+      "position": 61551
+     },
+     "leakage_groups": 11,
+     "median_m": 0.26787612739802724,
+     "n": 61551,
+     "p95_m": 0.8931772821090143,
+     "rmse_ci_target_a": [
+      0.47261195769203895,
+      0.5667449926815192
+     ],
+     "rmse_ci_target_b": [
+      0.4686738654947501,
+      0.5705871900433318
+     ],
+     "rmse_m": 0.5201124549153077,
+     "share_gt_1m": 0.04191645952137252,
+     "share_gt_2m": 0.010804048675082452,
+     "share_gt_5m": 0.0006498675894786437
+    },
+    "all|forklift": {
+     "availability": {
+      "position": 31708
+     },
+     "leakage_groups": 11,
+     "median_m": 0.3864389069702252,
+     "n": 31708,
+     "p95_m": 1.0597577792617947,
+     "rmse_ci_target_a": [
+      0.4901487616978319,
+      0.6127915219696963
+     ],
+     "rmse_ci_target_b": [
+      0.484678151725412,
+      0.6086861384321006
+     ],
+     "rmse_m": 0.5475225701404268,
+     "share_gt_1m": 0.05468651444430428,
+     "share_gt_2m": 0.009997476977418948,
+     "share_gt_5m": 0.0
+    },
+    "all|person": {
+     "availability": {
+      "null:not_observable": 553,
+      "position": 29843
+     },
+     "leakage_groups": 11,
+     "median_m": 0.1890432946129975,
+     "n": 29843,
+     "p95_m": 0.5837815930529894,
+     "rmse_ci_target_a": [
+      0.4181858716121799,
+      0.5555797499675593
+     ],
+     "rmse_ci_target_b": [
+      0.4056396255442946,
+      0.5615191085894964
+     ],
+     "rmse_m": 0.48930987178283736,
+     "share_gt_1m": 0.028348356398485406,
+     "share_gt_2m": 0.011661026036256409,
+     "share_gt_5m": 0.0013403478202593574
+    },
+    "ceiling|all": {
+     "availability": {
+      "position": 32734
+     },
+     "leakage_groups": 11,
+     "median_m": 0.26059649994960726,
+     "n": 32734,
+     "p95_m": 0.6403859836918089,
+     "rmse_ci_target_a": [
+      0.40622594252043037,
+      0.5354608236257238
+     ],
+     "rmse_ci_target_b": [
+      0.40650874819448696,
+      0.5236039193712109
+     ],
+     "rmse_m": 0.4681617290356041,
+     "share_gt_1m": 0.035101118103500945,
+     "share_gt_2m": 0.01136433066536323,
+     "share_gt_5m": 0.0
+    },
+    "ceiling|forklift": {
+     "availability": {
+      "position": 16446
+     },
+     "leakage_groups": 11,
+     "median_m": 0.3540600742238511,
+     "n": 16446,
+     "p95_m": 0.6821237391795858,
+     "rmse_ci_target_a": [
+      0.41357691398457685,
+      0.6278917150529654
+     ],
+     "rmse_ci_target_b": [
+      0.4216365436126399,
+      0.6047299023979763
+     ],
+     "rmse_m": 0.5171440355067661,
+     "share_gt_1m": 0.03818557704000973,
+     "share_gt_2m": 0.013863553447646844,
+     "share_gt_5m": 0.0
+    },
+    "ceiling|person": {
+     "availability": {
+      "position": 16288
+     },
+     "leakage_groups": 11,
+     "median_m": 0.20498588042955748,
+     "n": 16288,
+     "p95_m": 0.6084680168764249,
+     "rmse_ci_target_a": [
+      0.3435520816096046,
+      0.48325320493074947
+     ],
+     "rmse_ci_target_b": [
+      0.33458364065301865,
+      0.4839633221648137
+     ],
+     "rmse_m": 0.4128494761032498,
+     "share_gt_1m": 0.03198673870333988,
+     "share_gt_2m": 0.008840864440078585,
+     "share_gt_5m": 0.0
+    },
+    "eye_level|all": {
+     "availability": {
+      "null:not_observable": 553,
+      "position": 28817
+     },
+     "leakage_groups": 11,
+     "median_m": 0.28261619993093834,
+     "n": 28817,
+     "p95_m": 0.9947755462989785,
+     "rmse_ci_target_a": [
+      0.5021848396422018,
+      0.6453817128461741
+     ],
+     "rmse_ci_target_b": [
+      0.5178984254149677,
+      0.6308740442844765
+     ],
+     "rmse_m": 0.5734432984020833,
+     "share_gt_1m": 0.04965818787521255,
+     "share_gt_2m": 0.010167609397230801,
+     "share_gt_5m": 0.0013880695422840684
+    },
+    "eye_level|forklift": {
+     "availability": {
+      "position": 15262
+     },
+     "leakage_groups": 11,
+     "median_m": 0.41084568274962363,
+     "n": 15262,
+     "p95_m": 1.1913658757744405,
+     "rmse_ci_target_a": [
+      0.5205291674637065,
+      0.6352286123087892
+     ],
+     "rmse_ci_target_b": [
+      0.5319272398442465,
+      0.6280960531368744
+     ],
+     "rmse_m": 0.5784747980446829,
+     "share_gt_1m": 0.07246756650504521,
+     "share_gt_2m": 0.005831476870659154,
+     "share_gt_5m": 0.0
+    },
+    "eye_level|person": {
+     "availability": {
+      "null:not_observable": 553,
+      "position": 13555
+     },
+     "leakage_groups": 11,
+     "median_m": 0.1676771701313379,
+     "n": 13555,
+     "p95_m": 0.5646960742894255,
+     "rmse_ci_target_a": [
+      0.44535666421626985,
+      0.6804548462680978
+     ],
+     "rmse_ci_target_b": [
+      0.47191506254426946,
+      0.6523282979781574
+     ],
+     "rmse_m": 0.56772480862759,
+     "share_gt_1m": 0.02397639247510144,
+     "share_gt_2m": 0.015049797122832904,
+     "share_gt_5m": 0.002950940612320177
+    }
+   },
+   "GV-07": {
+    "all|all": {
+     "bias_mps": 0.11568903726115444,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.07558967876272038,
+     "n": 61499,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9130933542411245,
+     "rmse_ci_target_a": [
+      0.6585031819203768,
+      0.9734502818696988
+     ],
+     "rmse_ci_target_b": [
+      0.6561184233921435,
+      0.9677671215431369
+     ],
+     "rmse_mps": 0.8168373419899186
+    },
+    "all|forklift": {
+     "bias_mps": 0.009620070941467579,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.0975242645281934,
+     "n": 31694,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.711406426262313,
+     "rmse_ci_target_a": [
+      0.31317849026479755,
+      0.355848907617542
+     ],
+     "rmse_ci_target_b": [
+      0.31254859441631083,
+      0.35711703318007026
+     ],
+     "rmse_mps": 0.33443752265549825
+    },
+    "all|person": {
+     "bias_mps": 0.2284805091127282,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.044791250877268096,
+     "n": 29805,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 1.3584638562627405,
+     "rmse_ci_target_a": [
+      0.8821099375789683,
+      1.3493294931004727
+     ],
+     "rmse_ci_target_b": [
+      0.8814855108978457,
+      1.335688653169403
+     ],
+     "rmse_mps": 1.1215154576934232
+    },
+    "ceiling|all": {
+     "bias_mps": 0.104131990937148,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.06442799744241307,
+     "n": 32728,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9086802304264642,
+     "rmse_ci_target_a": [
+      0.48726734076135764,
+      0.7164106769847414
+     ],
+     "rmse_ci_target_b": [
+      0.4740535897850781,
+      0.7119492683684999
+     ],
+     "rmse_mps": 0.5999181631525686
+    },
+    "ceiling|forklift": {
+     "bias_mps": 0.032989769175000815,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.08118677434517696,
+     "n": 16440,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.744693410500435,
+     "rmse_ci_target_a": [
+      0.30288383296787313,
+      0.34383436631397324
+     ],
+     "rmse_ci_target_b": [
+      0.29525029175598516,
+      0.35082020802530023
+     ],
+     "rmse_mps": 0.32404354679779557
+    },
+    "ceiling|person": {
+     "bias_mps": 0.17593811359000286,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.04074108622519765,
+     "n": 16288,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 1.2185756508659575,
+     "rmse_ci_target_a": [
+      0.612254584564578,
+      0.9601379190731025
+     ],
+     "rmse_ci_target_b": [
+      0.5887713557179817,
+      0.9531413303146331
+     ],
+     "rmse_mps": 0.7856068323190828
+    },
+    "eye_level|all": {
+     "bias_mps": 0.12883557412438765,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.09444897726271073,
+     "n": 28771,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9166143433248006,
+     "rmse_ci_target_a": [
+      0.7390487621029016,
+      1.2707410709553328
+     ],
+     "rmse_ci_target_b": [
+      0.7844523013450346,
+      1.2249749197006414
+     ],
+     "rmse_mps": 1.0083709289170861
+    },
+    "eye_level|forklift": {
+     "bias_mps": -0.015566623627778938,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.13566087173275515,
+     "n": 15254,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.6979506863493284,
+     "rmse_ci_target_a": [
+      0.3076818458292945,
+      0.3844059473215413
+     ],
+     "rmse_ci_target_b": [
+      0.3196391373706124,
+      0.37216496435329344
+     ],
+     "rmse_mps": 0.3452894915095968
+    },
+    "eye_level|person": {
+     "bias_mps": 0.291794154024628,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.051131269454264994,
+     "n": 13517,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 1.511136024971383,
+     "rmse_ci_target_a": [
+      1.017746461263012,
+      1.8013585471548614
+     ],
+     "rmse_ci_target_b": [
+      1.0888794155571277,
+      1.7315800056766866
+     ],
+     "rmse_mps": 1.4246906046976324
+    }
+   }
+  },
+  "C": {
+   "GV-01": {
+    "all|all": {
+     "availability": {
+      "null:not_observable": 518,
+      "position": 49679,
+      "position_without_matched_identity": 942
+     },
+     "leakage_groups": 11,
+     "median_m": 0.3201689570767268,
+     "n": 49679,
+     "p95_m": 0.6676624513646952,
+     "rmse_ci_target_a": [
+      0.4300834101311592,
+      0.5209023346171512
+     ],
+     "rmse_ci_target_b": [
+      0.4305387240480867,
+      0.5178195025674763
+     ],
+     "rmse_m": 0.4752947891229151,
+     "share_gt_1m": 0.02145775881157028,
+     "share_gt_2m": 0.005938122748042432,
+     "share_gt_5m": 0.00032206767447009804
+    },
+    "all|forklift": {
+     "availability": {
+      "null:not_observable": 177,
+      "position": 22776,
+      "position_without_matched_identity": 520
+     },
+     "leakage_groups": 11,
+     "median_m": 0.46401264416387256,
+     "n": 22776,
+     "p95_m": 0.7873008684213156,
+     "rmse_ci_target_a": [
+      0.49642196020598434,
+      0.5779493585319019
+     ],
+     "rmse_ci_target_b": [
+      0.4975750306792184,
+      0.5804070234857966
+     ],
+     "rmse_m": 0.5357544776940029,
+     "share_gt_1m": 0.030251141552511414,
+     "share_gt_2m": 0.004961362838075167,
+     "share_gt_5m": 0.0
+    },
+    "all|person": {
+     "availability": {
+      "null:not_observable": 341,
+      "position": 26903,
+      "position_without_matched_identity": 422
+     },
+     "leakage_groups": 11,
+     "median_m": 0.22998528812029082,
+     "n": 26903,
+     "p95_m": 0.49762913429162825,
+     "rmse_ci_target_a": [
+      0.33863832886591744,
+      0.4999467640897831
+     ],
+     "rmse_ci_target_b": [
+      0.33728589924332214,
+      0.4928774391308302
+     ],
+     "rmse_m": 0.41731832803580066,
+     "share_gt_1m": 0.014013307066126454,
+     "share_gt_2m": 0.006765044790543805,
+     "share_gt_5m": 0.0005947292123554994
+    },
+    "ceiling|all": {
+     "availability": {
+      "position": 29599,
+      "position_without_matched_identity": 129
+     },
+     "leakage_groups": 11,
+     "median_m": 0.31857331443309483,
+     "n": 29599,
+     "p95_m": 0.6218339956108245,
+     "rmse_ci_target_a": [
+      0.3989016892297495,
+      0.46370478055125175
+     ],
+     "rmse_ci_target_b": [
+      0.4073968965166932,
+      0.4511394926689768
+     ],
+     "rmse_m": 0.42925582850840305,
+     "share_gt_1m": 0.020338524950167237,
+     "share_gt_2m": 0.0023311598364809624,
+     "share_gt_5m": 0.0
+    },
+    "ceiling|forklift": {
+     "availability": {
+      "position": 14885,
+      "position_without_matched_identity": 28
+     },
+     "leakage_groups": 11,
+     "median_m": 0.4456132644253255,
+     "n": 14885,
+     "p95_m": 0.6667259946471286,
+     "rmse_ci_target_a": [
+      0.4670106979989041,
+      0.5711303991253598
+     ],
+     "rmse_ci_target_b": [
+      0.4767896245456337,
+      0.556581283479964
+     ],
+     "rmse_m": 0.516280591629616,
+     "share_gt_1m": 0.029089687604971447,
+     "share_gt_2m": 0.004165267047363117,
+     "share_gt_5m": 0.0
+    },
+    "ceiling|person": {
+     "availability": {
+      "position": 14714,
+      "position_without_matched_identity": 101
+     },
+     "leakage_groups": 11,
+     "median_m": 0.23232910841561272,
+     "n": 14714,
+     "p95_m": 0.47883405508382676,
+     "rmse_ci_target_a": [
+      0.29284964582776774,
+      0.34634976378516985
+     ],
+     "rmse_ci_target_b": [
+      0.28887332834450724,
+      0.3466288306381368
+     ],
+     "rmse_m": 0.3178351777993644,
+     "share_gt_1m": 0.01148565991572652,
+     "share_gt_2m": 0.0004757373929590866,
+     "share_gt_5m": 0.0
+    },
+    "eye_level|all": {
+     "availability": {
+      "null:not_observable": 518,
+      "position": 20080,
+      "position_without_matched_identity": 813
+     },
+     "leakage_groups": 11,
+     "median_m": 0.32432709566487006,
+     "n": 20080,
+     "p95_m": 0.7535214572144784,
+     "rmse_ci_target_a": [
+      0.44350536188582923,
+      0.6309723212683205
+     ],
+     "rmse_ci_target_b": [
+      0.4517649054829269,
+      0.617866093661792
+     ],
+     "rmse_m": 0.5359957770136896,
+     "share_gt_1m": 0.023107569721115537,
+     "share_gt_2m": 0.011254980079681275,
+     "share_gt_5m": 0.0007968127490039841
+    },
+    "eye_level|forklift": {
+     "availability": {
+      "null:not_observable": 177,
+      "position": 7891,
+      "position_without_matched_identity": 492
+     },
+     "leakage_groups": 11,
+     "median_m": 0.4855150158107534,
+     "n": 7891,
+     "p95_m": 0.8714003850046814,
+     "rmse_ci_target_a": [
+      0.51160946153507,
+      0.6385483241105891
+     ],
+     "rmse_ci_target_b": [
+      0.5158372905159523,
+      0.6412915522967266
+     ],
+     "rmse_m": 0.5706824189262633,
+     "share_gt_1m": 0.03244202255734381,
+     "share_gt_2m": 0.006463059181345837,
+     "share_gt_5m": 0.0
+    },
+    "eye_level|person": {
+     "availability": {
+      "null:not_observable": 341,
+      "position": 12189,
+      "position_without_matched_identity": 321
+     },
+     "leakage_groups": 11,
+     "median_m": 0.22851138001528873,
+     "n": 12189,
+     "p95_m": 0.525336941010056,
+     "rmse_ci_target_a": [
+      0.3629351560938245,
+      0.6620610972692642
+     ],
+     "rmse_ci_target_b": [
+      0.3738007239342949,
+      0.6365503626531551
+     ],
+     "rmse_m": 0.5122892355263937,
+     "share_gt_1m": 0.017064566412338993,
+     "share_gt_2m": 0.014357207318073674,
+     "share_gt_5m": 0.0013126589547953072
+    }
+   },
+   "GV-07": {
+    "all|all": {
+     "bias_mps": 0.08045858319423983,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.09981018139242598,
+     "n": 49577,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.8877340757549141,
+     "rmse_ci_target_a": [
+      0.5073816136260099,
+      0.7641937315349118
+     ],
+     "rmse_ci_target_b": [
+      0.4804450110752546,
+      0.7918929298621873
+     ],
+     "rmse_mps": 0.6357989584379575
+    },
+    "all|forklift": {
+     "bias_mps": 0.04874301283701108,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.16717518904144962,
+     "n": 22736,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9426562606567741,
+     "rmse_ci_target_a": [
+      0.4291623939967707,
+      0.59028519021134
+     ],
+     "rmse_ci_target_b": [
+      0.42034433082774963,
+      0.5935344971389405
+     ],
+     "rmse_mps": 0.49999004257366425
+    },
+    "all|person": {
+     "bias_mps": 0.10732364811886831,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.04392819607773293,
+     "n": 26841,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.8571542794898666,
+     "rmse_ci_target_a": [
+      0.5181734957777216,
+      0.9370233691400821
+     ],
+     "rmse_ci_target_b": [
+      0.5074031665657778,
+      0.9331752643849053
+     ],
+     "rmse_mps": 0.7313685193530329
+    },
+    "ceiling|all": {
+     "bias_mps": 0.065462626248886,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.0990884733910298,
+     "n": 29570,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.8590017640097403,
+     "rmse_ci_target_a": [
+      0.38664617563229986,
+      0.4846049636221799
+     ],
+     "rmse_ci_target_b": [
+      0.3910394092112191,
+      0.4712539021296668
+     ],
+     "rmse_mps": 0.43469156079452725
+    },
+    "ceiling|forklift": {
+     "bias_mps": 0.05962049258926917,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.15896336285410584,
+     "n": 14873,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9383645382728248,
+     "rmse_ci_target_a": [
+      0.4025821139391399,
+      0.48641193654197934
+     ],
+     "rmse_ci_target_b": [
+      0.39130558926195674,
+      0.4887112463708224
+     ],
+     "rmse_mps": 0.44413302472075195
+    },
+    "ceiling|person": {
+     "bias_mps": 0.071374720820532,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.038504867137589924,
+     "n": 14697,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.7827482706535097,
+     "rmse_ci_target_a": [
+      0.3465875684498376,
+      0.5063196869269051
+     ],
+     "rmse_ci_target_b": [
+      0.35817929489140615,
+      0.48195633164593416
+     ],
+     "rmse_mps": 0.4249235216106966
+    },
+    "eye_level|all": {
+     "bias_mps": 0.10262234822018639,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.10099284844424194,
+     "n": 20007,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.931066953913482,
+     "rmse_ci_target_a": [
+      0.5994355860945239,
+      1.087986617608153
+     ],
+     "rmse_ci_target_b": [
+      0.5590416528467785,
+      1.1205664132622313
+     ],
+     "rmse_mps": 0.8499562917350012
+    },
+    "eye_level|forklift": {
+     "bias_mps": 0.028168072438265742,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.18874912538566757,
+     "n": 7863,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9577966914802362,
+     "rmse_ci_target_a": [
+      0.42360030399965903,
+      0.7966122534565252
+     ],
+     "rmse_ci_target_b": [
+      0.42841393255179444,
+      0.8230984540947309
+     ],
+     "rmse_mps": 0.5913889620681958
+    },
+    "eye_level|person": {
+     "bias_mps": 0.1508300203606049,
+     "leakage_groups": 11,
+     "median_abs_mps": 0.05156591287971178,
+     "n": 12144,
+     "outlier_share": null,
+     "outlier_share_null_reason": "no stated speed cut (CR-041 item 3)",
+     "p95_abs_mps": 0.9209107655680133,
+     "rmse_ci_target_a": [
+      0.6113307568842271,
+      1.32304278573645
+     ],
+     "rmse_ci_target_b": [
+      0.6291765250073618,
+      1.2886974126039916
+     ],
+     "rmse_mps": 0.9816983937425806
+    }
+   }
+  },
+  "GV-04": {
+   "bias_ci_target_a": [
+    0.00033694757017668943,
+    0.00037436247519513876
+   ],
+   "bias_ci_target_b": [
+    0.0003017117258321727,
+    0.0004138409316491992
+   ],
+   "bias_m": 0.0003552020347870183,
+   "leakage_groups": 11,
+   "n": 29173,
+   "note": "GV-04 is circular (the prior is the dataset box): reported, never cited as evidence"
+  }
+ },
+ "headline": {
+  "iou_m": "0.3",
+  "key": "C|BL-6",
+  "table": {
+   "all": {
+    "EV-M1": {
+     "denominator": 110,
+     "numerator": 81,
+     "target_a": [
+      0.6636363636363637,
+      0.8090909090909091
+     ],
+     "target_b": [
+      0.6363636363636364,
+      0.8272727272727273
+     ],
+     "value": 0.7363636363636363
+    },
+    "EV-M2": {
+     "denominator": 142,
+     "numerator": 81,
+     "target_a": [
+      0.5033101761675973,
+      0.6434240662438336
+     ],
+     "target_b": [
+      0.4795070498331719,
+      0.6716446393984278
+     ],
+     "value": 0.5704225352112676
+    },
+    "EV-M7": {
+     "denominator": 0.30509259259259186,
+     "numerator": 61,
+     "target_a": [
+      153.83181694203648,
+      249.20037965290274
+     ],
+     "target_b": [
+      140.76566336273564,
+      268.8204274927855
+     ],
+     "value": 199.93930197268637
+    },
+    "cameras": 110,
+    "counts": {
+     "a": 110,
+     "f": 61,
+     "m": 81,
+     "m_s": 81,
+     "s": 142,
+     "u": 0.30509259259259186
+    },
+    "leakage_groups": 11
+   },
+   "ceiling": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 53,
+     "target_a": [
+      0.9090909090909091,
+      1.0
+     ],
+     "target_b": [
+      0.9090909090909091,
+      1.0
+     ],
+     "value": 0.9636363636363636
+    },
+    "EV-M2": {
+     "denominator": 78,
+     "numerator": 53,
+     "target_a": [
+      0.5862068965517241,
+      0.7857142857142857
+     ],
+     "target_b": [
+      0.5681439393939395,
+      0.8088235294117647
+     ],
+     "value": 0.6794871794871795
+    },
+    "EV-M7": {
+     "denominator": 0.1527777777777774,
+     "numerator": 25,
+     "target_a": [
+      98.18181818181844,
+      235.63636363636425
+     ],
+     "target_b": [
+      85.09090909090928,
+      255.27272727272785
+     ],
+     "value": 163.63636363636405
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 25,
+     "m": 53,
+     "m_s": 53,
+     "s": 78,
+     "u": 0.1527777777777774
+    },
+    "leakage_groups": 11
+   },
+   "eye_level": {
+    "EV-M1": {
+     "denominator": 55,
+     "numerator": 28,
+     "target_a": [
+      0.38181818181818183,
+      0.6363636363636364
+     ],
+     "target_b": [
+      0.34545454545454546,
+      0.6727272727272727
+     ],
+     "value": 0.509090909090909
+    },
+    "EV-M2": {
+     "denominator": 64,
+     "numerator": 28,
+     "target_a": [
+      0.3333333333333333,
+      0.5423728813559322
+     ],
+     "target_b": [
+      0.3181818181818182,
+      0.562528409090909
+     ],
+     "value": 0.4375
+    },
+    "EV-M7": {
+     "denominator": 0.15231481481481443,
+     "numerator": 36,
+     "target_a": [
+      176.59559026794832,
+      308.45892075838685
+     ],
+     "target_b": [
+      164.51377041189414,
+      314.41048034934573
+     ],
+     "value": 236.35258358662674
+    },
+    "cameras": 55,
+    "counts": {
+     "a": 55,
+     "f": 36,
+     "m": 28,
+     "m_s": 28,
+     "s": 64,
+     "u": 0.15231481481481443
+    },
+    "leakage_groups": 11
+   }
+  }
+ },
+ "ie": {
+  "A|BL-2": {
+   "all": {
+    "events": 116,
+    "ie_events": 92,
+    "ie_share": 0.7931034482758621
+   },
+   "ceiling": {
+    "events": 59,
+    "ie_events": 35,
+    "ie_share": 0.5932203389830508
+   },
+   "eye_level": {
+    "events": 57,
+    "ie_events": 57,
+    "ie_share": 1.0
+   }
+  },
+  "A|BL-3": {
+   "all": {
+    "events": 110,
+    "ie_events": 86,
+    "ie_share": 0.7818181818181819
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 31,
+    "ie_share": 0.5636363636363636
+   },
+   "eye_level": {
+    "events": 55,
+    "ie_events": 55,
+    "ie_share": 1.0
+   }
+  },
+  "A|BL-4": {
+   "all": {
+    "events": 110,
+    "ie_events": 86,
+    "ie_share": 0.7818181818181819
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 31,
+    "ie_share": 0.5636363636363636
+   },
+   "eye_level": {
+    "events": 55,
+    "ie_events": 55,
+    "ie_share": 1.0
+   }
+  },
+  "A|BL-5": {
+   "all": {
+    "events": 110,
+    "ie_events": 86,
+    "ie_share": 0.7818181818181819
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 31,
+    "ie_share": 0.5636363636363636
+   },
+   "eye_level": {
+    "events": 55,
+    "ie_events": 55,
+    "ie_share": 1.0
+   }
+  },
+  "A|BL-6": {
+   "all": {
+    "events": 110,
+    "ie_events": 86,
+    "ie_share": 0.7818181818181819
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 31,
+    "ie_share": 0.5636363636363636
+   },
+   "eye_level": {
+    "events": 55,
+    "ie_events": 55,
+    "ie_share": 1.0
+   }
+  },
+  "B|BL-2": {
+   "all": {
+    "events": 116,
+    "ie_events": 96,
+    "ie_share": 0.8275862068965517
+   },
+   "ceiling": {
+    "events": 59,
+    "ie_events": 39,
+    "ie_share": 0.6610169491525424
+   },
+   "eye_level": {
+    "events": 57,
+    "ie_events": 57,
+    "ie_share": 1.0
+   }
+  },
+  "B|BL-3": {
+   "all": {
+    "events": 111,
+    "ie_events": 92,
+    "ie_share": 0.8288288288288288
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 36,
+    "ie_share": 0.6545454545454545
+   },
+   "eye_level": {
+    "events": 56,
+    "ie_events": 56,
+    "ie_share": 1.0
+   }
+  },
+  "B|BL-6": {
+   "all": {
+    "events": 111,
+    "ie_events": 92,
+    "ie_share": 0.8288288288288288
+   },
+   "ceiling": {
+    "events": 55,
+    "ie_events": 36,
+    "ie_share": 0.6545454545454545
+   },
+   "eye_level": {
+    "events": 56,
+    "ie_events": 56,
+    "ie_share": 1.0
+   }
+  },
+  "C|BL-2": {
+   "all": {
+    "events": 126,
+    "ie_events": 83,
+    "ie_share": 0.6587301587301587
+   },
+   "ceiling": {
+    "events": 75,
+    "ie_events": 40,
+    "ie_share": 0.5333333333333333
+   },
+   "eye_level": {
+    "events": 51,
+    "ie_events": 43,
+    "ie_share": 0.8431372549019608
+   }
+  },
+  "C|BL-3": {
+   "all": {
+    "events": 142,
+    "ie_events": 98,
+    "ie_share": 0.6901408450704225
+   },
+   "ceiling": {
+    "events": 78,
+    "ie_events": 39,
+    "ie_share": 0.5
+   },
+   "eye_level": {
+    "events": 64,
+    "ie_events": 59,
+    "ie_share": 0.921875
+   }
+  },
+  "C|BL-6": {
+   "all": {
+    "events": 142,
+    "ie_events": 99,
+    "ie_share": 0.6971830985915493
+   },
+   "ceiling": {
+    "events": 78,
+    "ie_events": 40,
+    "ie_share": 0.5128205128205128
+   },
+   "eye_level": {
+    "events": 64,
+    "ie_events": 59,
+    "ie_share": 0.921875
+   }
+  }
+ },
+ "leakage_groups": 11,
+ "paired": {
+  "A BL-2 - BL-3": {
+   "0.3": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.25454545454545463,
+     "target_a": [
+      -0.34545454545454546,
+      -0.17272727272727273
+     ],
+     "target_b": [
+      -0.3727272727272728,
+      -0.13636363636363635
+     ],
+     "value_a": 0.7363636363636363,
+     "value_b": 0.990909090909091
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.29263322884012544,
+     "target_a": [
+      -0.3814957788285222,
+      -0.20533986940236953
+     ],
+     "target_b": [
+      -0.4210277171910376,
+      -0.1637523299161233
+     ],
+     "value_a": 0.6982758620689655,
+     "value_b": 0.990909090909091
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 111.44157814871043,
+     "target_a": [
+      75.3663642707609,
+      150.9479824987851
+     ],
+     "target_b": [
+      59.00895914969714,
+      167.19319270892754
+     ],
+     "value_a": 114.71927162367251,
+     "value_b": 3.2776934749620716
+    }
+   },
+   "0.5": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.5272727272727273,
+     "target_a": [
+      -0.6181818181818182,
+      -0.4363636363636364
+     ],
+     "target_b": [
+      -0.6636363636363637,
+      -0.38181818181818183
+     ],
+     "value_a": 0.45454545454545453,
+     "value_b": 0.9818181818181818
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.5507836990595611,
+     "target_a": [
+      -0.6366094106437787,
+      -0.46395160381398926
+     ],
+     "target_b": [
+      -0.6818288020390825,
+      -0.4179951496773577
+     ],
+     "value_a": 0.43103448275862066,
+     "value_b": 0.9818181818181818
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 209.77238239757256,
+     "target_a": [
+      173.45454545454604,
+      249.1052711549016
+     ],
+     "target_b": [
+      157.17628442253422,
+      259.0590604383793
+     ],
+     "value_a": 216.3277693474967,
+     "value_b": 6.555386949924143
+    }
+   },
+   "0.7": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.7636363636363637,
+     "target_a": [
+      -0.8454545454545455,
+      -0.6818181818181819
+     ],
+     "target_b": [
+      -0.8545454545454546,
+      -0.6634090909090921
+     ],
+     "value_a": 0.18181818181818182,
+     "value_b": 0.9454545454545454
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.7730407523510971,
+     "target_a": [
+      -0.8477481875665027,
+      -0.6934491459627329
+     ],
+     "target_b": [
+      -0.8662858296386051,
+      -0.6701923033004034
+     ],
+     "value_a": 0.1724137931034483,
+     "value_b": 0.9454545454545454
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 294.9924127465864,
+     "target_a": [
+      262.1625720750315,
+      330.5762583088579
+     ],
+     "target_b": [
+      252.45077768958964,
+      333.8804052537488
+     ],
+     "value_a": 314.65857359635885,
+     "value_b": 19.666160849772428
+    }
+   },
+   "path": "oracle",
+   "registered": true
+  },
+  "A BL-3 - BL-6": {
+   "0.3": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.990909090909091,
+     "value_b": 0.990909090909091
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.990909090909091,
+     "value_b": 0.990909090909091
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 3.2776934749620716,
+     "value_b": 3.2776934749620716
+    }
+   },
+   "0.5": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.9818181818181818,
+     "value_b": 0.9818181818181818
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.9818181818181818,
+     "value_b": 0.9818181818181818
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 6.555386949924143,
+     "value_b": 6.555386949924143
+    }
+   },
+   "0.7": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.9454545454545454,
+     "value_b": 0.9454545454545454
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.9454545454545454,
+     "value_b": 0.9454545454545454
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 19.666160849772428,
+     "value_b": 19.666160849772428
+    }
+   },
+   "path": "oracle",
+   "registered": true
+  },
+  "C BL-2 - BL-3": {
+   "0.3": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.40909090909090906,
+     "target_a": [
+      -0.5,
+      -0.3181818181818182
+     ],
+     "target_b": [
+      -0.5,
+      -0.3181818181818182
+     ],
+     "value_a": 0.32727272727272727,
+     "value_b": 0.7363636363636363
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.2847082494969819,
+     "target_a": [
+      -0.3594409613375131,
+      -0.2127623916120803
+     ],
+     "target_b": [
+      -0.3611663877030191,
+      -0.2123632621615672
+     ],
+     "value_a": 0.2857142857142857,
+     "value_b": 0.5704225352112676
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 95.0531107739001,
+     "target_a": [
+      52.49268231572137,
+      134.34873630874768
+     ],
+     "target_b": [
+      49.10865518301855,
+      140.7912687585269
+     ],
+     "value_a": 294.99241274658647,
+     "value_b": 199.93930197268637
+    }
+   },
+   "0.5": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.41818181818181815,
+     "target_a": [
+      -0.5090909090909091,
+      -0.32727272727272727
+     ],
+     "target_b": [
+      -0.5181818181818182,
+      -0.3181818181818182
+     ],
+     "value_a": 0.12727272727272726,
+     "value_b": 0.5454545454545454
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.3114241001564945,
+     "target_a": [
+      -0.3993874057755027,
+      -0.23191010648868918
+     ],
+     "target_b": [
+      -0.41632327811452824,
+      -0.22473863691294935
+     ],
+     "value_a": 0.1111111111111111,
+     "value_b": 0.4225352112676056
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 98.3308042488622,
+     "target_a": [
+      52.51309979540447,
+      141.12959902938357
+     ],
+     "target_b": [
+      49.28794887832471,
+      147.53650465984674
+     ],
+     "value_a": 367.10166919575204,
+     "value_b": 268.77086494688984
+    }
+   },
+   "0.7": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": -0.3090909090909091,
+     "target_a": [
+      -0.38181818181818183,
+      -0.23636363636363633
+     ],
+     "target_b": [
+      -0.4,
+      -0.21818181818181814
+     ],
+     "value_a": 0.045454545454545456,
+     "value_b": 0.35454545454545455
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": -0.234965347641404,
+     "target_a": [
+      -0.31050915154164666,
+      -0.16868688004712704
+     ],
+     "target_b": [
+      -0.3246598185182604,
+      -0.1530289292698509
+     ],
+     "value_a": 0.03968253968253968,
+     "value_b": 0.2746478873239437
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 58.998482549317316,
+     "target_a": [
+      16.283192524109154,
+      98.56335697922158
+     ],
+     "target_b": [
+      13.139885026006027,
+      98.22646657571647
+     ],
+     "value_a": 396.60091047041067,
+     "value_b": 337.60242792109335
+    }
+   },
+   "path": "detector",
+   "registered": false
+  },
+  "C BL-3 - BL-6": {
+   "0.3": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.7363636363636363,
+     "value_b": 0.7363636363636363
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.5704225352112676,
+     "value_b": 0.5704225352112676
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 199.93930197268637,
+     "value_b": 199.93930197268637
+    }
+   },
+   "0.5": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.5454545454545454,
+     "value_b": 0.5454545454545454
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.4225352112676056,
+     "value_b": 0.4225352112676056
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 268.77086494688984,
+     "value_b": 268.77086494688984
+    }
+   },
+   "0.7": {
+    "EV-M1": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.35454545454545455,
+     "value_b": 0.35454545454545455
+    },
+    "EV-M2": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 0.2746478873239437,
+     "value_b": 0.2746478873239437
+    },
+    "EV-M7": {
+     "decision_rule": null,
+     "difference": 0.0,
+     "target_a": [
+      0.0,
+      0.0
+     ],
+     "target_b": [
+      0.0,
+      0.0
+     ],
+     "value_a": 337.60242792109335,
+     "value_b": 337.60242792109335
+    }
+   },
+   "path": "detector",
+   "registered": false
+  }
+ },
+ "partition": "reporting_rerun",
+ "preregistration": "docs/preregistration_v2_FROZEN.md (freeze record SHA-256 in docs/preregistration/freeze_record_v2.json)",
+ "references": {
+  "assessable": 110,
+  "g1": 110,
+  "n": 110
+ },
+ "runtime_s": 1572.4,
+ "status": "pre-registration v2 run; synthetic-data evaluation; experimental",
+ "viewpoints": {
+  "all": 110,
+  "ceiling": 55,
+  "eye_level": 55
+ },
+ "wording": "Automated outputs are candidate events; no output is a near miss, collision or contact. Nothing here is validated."
+}

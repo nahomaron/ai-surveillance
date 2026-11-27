@@ -110,7 +110,7 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 | [x] | T-29q | **D-63 STEP 4:** D-62 equivalence (C1–C3, D-60 STEP 4 c, not loosened); D-62 DECIDED pass/fail; on pass the Colab job `reporting_test` (110 + 471 videos, manifest, HOWTO with upload size, Drive space, runtime, tier-1 skip note); STOP (next D) | T-29l | job pushed; D opened | S |
 | [x] | G-D64 | **STOP — the Owner runs the Colab job `reporting_test` (D-64), or chooses option (a): the reporting run from the stored CPU S2, with Colab for test only** (decided 26 Nov 2026: option (a)) | T-29q | D-64 decided; outputs returned | — |
 | [x] | T-29m | **D-64 (a):** test-only Colab job `test` (`research/colab/test_manifest.json`, 471 test cameras, the test set of `reporting_test` entry for entry), own staging folder, notebook accepts it, HOWTO section "D-64" | G-D64 | manifest pushed | S |
-| [ ] BLOCKED (D-65) | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
+| [x] | T-29p | **D-63 STEP 5:** reporting run once (S3–S8, frozen v2), D-61 §1.6 tables, `research/v2/reporting_results.json` / `reporting_report.md`; full suite twice | G-D64 (stored CPU S2 of the 110 reporting cameras, D-64 a) | report pushed | M |
 | [x] | T-29h | **D-63 STEP 6:** test S2 arrival: hashes verified against the Colab manifest (`test_manifest.json`, D-64) and recorded; outputs not opened | T-29m; Owner returns test S2 | hashes recorded | S |
 | [ ] | T-29t | **D-63 STEP 7:** test run once (S3–S8, frozen v2), same tables, `research/v2/test_results.json` / `test_report.md`; STOP (next D) | T-29l, T-29p, T-29h, R-2 | report pushed; D opened | M |
 
@@ -1233,4 +1233,14 @@ _(the agent appends entries here)_
 - Commit: this entry's commit (pushed). The reporting re-run and the D-61 re-production run from it.
 - Problems / CRs: AR-73 proposed.
 - Next: reporting re-run (all 110, once, this commit), MR-01 repeat; D-61 STEP 4 re-production; mark d58/d61 superseded; then T-29t.
+
+### 2026-11-27 — T-29p done (D-63 STEP 5, D-65 a): reporting re-run once at 107f14b
+- Did: `run_v2.py run reporting_rerun 3` (110 / 110, no STOP) and `repeat reporting_rerun 3`, both at 107f14b; `aggregate_v2.py reporting_rerun` (built twice, byte-identical); `report_v2.py reporting_rerun` → `research/v2/reporting_rerun_results.json`, `research/v2/reporting_rerun_report.md`, with the D-65 disclosure (first run defective and why; A and B numbers, and the defective C numbers, seen before the re-run). The first run stays on record (`reporting_results.json`, `reporting_report.md`, warning banner).
+- Checks: configs equal the freeze 110 / 110; references 110 / 110; person log 110 / 110; CR-042 guard: M unknown on 0 of 29,159 (A, B) and 0 of 19,211 (C) pair-frames with both states; GV-04 prior check 29,173, 0 mismatches; **MR-01 1.0 (C1-MR-01 met)**.
+- Results (synthetic-data evaluation, experimental; candidate events): headline C|BL-6 at iou_m 0.3: EV-M1 0.736 (Target B [0.636, 0.827]), EV-M2 0.570 ([0.480, 0.672]); ceiling EV-M1 0.964, eye_level 0.509. Decomposition: A EV-M1 0.991 / EV-M2 0.991; B 0.982 / 0.973. GV-01 (B) RMSE ceiling 0.468 m, eye_level 0.573 m; GV-07 (B) 0.817 m/s; GV-04 0.000 (circular). C2–C4: not the registered decision (slice test, CR-041), not_assessable (11 groups < 20).
+- Against the first run: A and B EV tables and all GV identical; C EV-M1 / EV-M2 unchanged; C|BL-6 IE share 0.768 → 0.697; `speed_near_v_min` on C|BL-3 / BL-6 0 → 116 episodes.
+- Tests: full suite at 107f14b twice (previous entry). This commit adds results and records only.
+- Commit: this entry's commit (pushed)
+- Problems / CRs: CR-041 open (presentation); AR-73 proposed.
+- Next: D-61 STEP 4 re-production (running), mark d58 / d61 superseded; then T-29t (test run).
 
