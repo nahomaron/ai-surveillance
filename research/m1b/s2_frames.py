@@ -24,6 +24,7 @@ def main(rec_id: str) -> None:
     ctx = pc.m.Context("sdg")
     cam = ctx.camera(rec_id)
     entry = ctx.index[rec_id]
+    pc.m.drv.refuse_closed(entry)
     frames = files.read_table(str(pc.ROOT / f"out/t17_sdg/{cam['s1']}/frame.parquet"), "frame", A.SCHEMA_VERSION)
     seq = {f["decode_seq"]: f["frame_index"] for f in frames if f["eligible"]}
     out = sys.stdout.buffer

@@ -54,19 +54,16 @@ class Context:
 
     def camera(self, rec_id: str) -> dict:
         cam = next(c for c in self.counts["cameras"] if c["rec_id"] == rec_id)
+        refuse_closed_camera(self, cam)
         if not self.is_validation(cam):
             raise ContractError("ERR-LEAKAGE", f"{rec_id} is not in the validation partition of X0b (D-37)")
         return cam
 
     def reference_camera(self, rec_id: str) -> dict:
-        """D-61 STEP 5 (section 1.7): a camera whose v2 references may be built from simulator truth, in the validation
-        **or test** partition of X0b (SDG only). Only `load_for_reference` calls this; no system stage may (D-37)."""
+        """T21 v2 simulator references on eligible development recordings."""
         if self.ds != "sdg":
-            raise ContractError("ERR-LEAKAGE", f"{rec_id}: v2 reference building on test is SDG only (D-61 STEP 5)")
-        cam = next(c for c in self.counts["cameras"] if c["rec_id"] == rec_id)
-        if cam["run"] not in self.freeze["split"]["sdg_validation_runs"] and cam["run"] not in self.freeze["split"]["sdg_test_runs"]:
-            raise ContractError("ERR-LEAKAGE", f"{rec_id} is in no X0b partition")
-        return cam
+            raise ContractError("ERR-LEAKAGE", f"{rec_id}: v2 reference building is SDG only")
+        return Context.camera(self, rec_id)
 
     def validation_cameras(self) -> list[dict]:
         """Validation cameras with an ORACLE-S3 (T17.4 usable truth), in canonical rec_id order."""
@@ -82,29 +79,32 @@ class Loaded:
     calibration: dict | None
 
 
+def refuse_closed_camera(ctx: Context, cam: dict) -> None:
+    if ctx.ds == "sdg" and cam["run"] in ctx.freeze["split"]["sdg_test_runs"]:
+        raise ContractError("ERR-LEAKAGE", "D-66 permanently closed the SDG final test")
+
+
 def load(ctx: Context, rec_id: str) -> Loaded:
-    return _load(ctx, rec_id, ctx.camera(rec_id))  # ERR-LEAKAGE unless validation (D-37)
+    return _load(ctx, rec_id, Context.camera(ctx, rec_id))
 
 
 def load_for_reference(ctx: Context, rec_id: str) -> Loaded:
-    """D-61 STEP 5: truth and S1 of a validation or test camera, for T21.1 reference building from simulator truth only
-    (the D-61 hard limits allow it on test; no S2 or later system stage runs there)."""
-    return _load(ctx, rec_id, ctx.reference_camera(rec_id))
+    return _load(ctx, rec_id, Context.reference_camera(ctx, rec_id))
 
 
 def load_for_test_run(ctx: Context, rec_id: str, gate: dict) -> Loaded:
-    """D-63 STEP 7: truth and S1 of an X0b test camera for the single v2 test run (S3 and later). `gate` is the evidence
-    of `research/v2/test_access.gate()`; every item must hold. Validation cameras are refused here (use `load`)."""
-    if not gate or not all(gate.get("items", {}).values()) or len(gate.get("items", {})) != 4:
-        raise ContractError("ERR-LEAKAGE", f"{rec_id}: the D-63 STEP 7 gate does not hold")
-    cam = ctx.reference_camera(rec_id)
-    if cam["run"] not in ctx.freeze["split"]["sdg_test_runs"]:
-        raise ContractError("ERR-LEAKAGE", f"{rec_id} is not an X0b test camera")
-    return _load(ctx, rec_id, cam)
+    """The D-63 once-only authorization is spent."""
+    raise ContractError("ERR-LEAKAGE", "D-66 permanently closed the SDG final test")
 
 
 def _load(ctx: Context, rec_id: str, cam: dict) -> Loaded:
+    declared = Context.camera(ctx, rec_id)
+    if cam != declared:
+        raise ContractError("ERR-LEAKAGE", f"{rec_id}: camera metadata does not match the registered recording")
     entry = ctx.index[rec_id]
+    refuse_closed_camera(ctx, entry)
+    if entry["run"] != cam["run"]:
+        raise ContractError("ERR-LEAKAGE", f"{rec_id}: S0 lineage does not match the registered recording")
     s1dir = ROOT / f"out/t17_{ctx.ds}/{cam['s1']}"
     s1 = {t: files.read_table(str(s1dir / f"{t}.parquet"), t, A.SCHEMA_VERSION) for t in ("frame", "coverage_segment", "decode_summary")}
     out = {"truth_defects": [], "unchecked_boxes": 0}

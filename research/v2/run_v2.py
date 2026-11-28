@@ -1,13 +1,10 @@
 """D-63 STEP 5 / STEP 7: the single pre-registration v2 run of a partition (S3-S8, frozen v2 configuration).
 Synthetic-data evaluation; experimental. Results are "candidate" outputs; nothing here is validated.
 
-  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev <rec> [<rec> ...]      tuning cameras only, out/v2/dev/ (development)
-  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py estimate                     2 tuning cameras into out/v2/dev/ (runtime)
-  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev-all [workers]             all 116 tuning cameras into out/v2/dev/
+  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev <rec> [<rec> ...]      tuning cameras only, out/v2/dev_m1c/ (development)
+  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py estimate                     2 tuning cameras into out/v2/dev_m1c/ (runtime)
+  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev-all [workers]             all 116 tuning cameras into out/v2/dev_m1c/
   PYTHONPATH=src .venv/bin/python research/v2/run_v2.py dev-repeat [workers]          MR-01 repeat of dev-all (IDs and hashes only)
-  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py run reporting [workers]      once: out/v2/run/reporting/
-  PYTHONPATH=src .venv/bin/python research/v2/run_v2.py repeat reporting [workers]   MR-01 repeat (IDs and hashes only)
-  (D-65: `reporting_rerun` in place of `reporting` re-runs the 110 cameras into out/v2/run/reporting_rerun/)
 
 Per camera (all values from `research/preregistration/v2_values.py`, label "preregistration-v2"; every configuration ID
 is checked against `docs/preregistration/freeze_record_v2.json` before anything is scored):
@@ -25,9 +22,7 @@ both objects have a stored state and the forklift speed is known. S5 on column C
 Measures per camera: EV counts (EV-M1, EV-M2, EV-M7 inputs) per column x baseline x iou_m; IE share; speed_near_v_min
 episode counts; GV-01 (dx, dy), GV-07 (speed minus simulator_truth speed, w_v 0.5) and position availability by null
 reason on B and C; GV-04 at the simulator positions (D-40 item 4); the exact-class artifact IDs and payload hashes (MR-01).
-Partition guard: `dev` (tuning), `reporting`, `reporting_rerun`, and `test` only through the D-63 STEP 7 gate
-(`research/v2/test_access.py`: X0c, window lock, reporting run finished, test S2 arrived); test S2 is built here from
-the sealed Colab output (AR-74).
+D-66 permanently closed the test. D-63 and D-65 reporting authorizations are spent. This runner is tuning-only.
 """
 from __future__ import annotations
 
@@ -36,6 +31,7 @@ import json
 import math
 import os
 import subprocess
+import tempfile
 import sys
 import time
 from collections import Counter, defaultdict
@@ -58,20 +54,21 @@ A_BL = ("BL-2", "BL-3", "BL-4", "BL-5", "BL-6")
 BC_BL = ("BL-2", "BL-3", "BL-6")
 COLUMNS = {"A": A_BL, "B": BC_BL, "C": BC_BL}
 IOUS = tuple(v2.IOU_M_REPORTED)
-PARTITIONS = ("dev", "reporting", "reporting_rerun", "test")  # test: only through the D-63 STEP 7 gate (test_access.gate)
-# reporting: the first reporting run (d20fb82), defective on column C (CR-042), kept on record. reporting_rerun: the D-65
-# re-run of the same 110 cameras and references after the CR-042 fix.
-REFERENCE_SET = {"dev": "tuning", "reporting": "reporting", "reporting_rerun": "reporting", "test": "test"}
+REFERENCE_SET = {"dev": "tuning"}
 
 
 # ------------------------------------------------------------------------------------------------ pure functions
 
-def partition_dir(partition: str, kind: str = "run") -> Path:
-    if partition not in PARTITIONS:
-        raise SystemExit(f"refused: partition {partition!r} is not run here")
-    if partition == "test":
-        test_gate()  # refuses unless every D-63 STEP 7 gate item holds
-    return OUT / "dev" if partition == "dev" else OUT / kind / partition
+def partition_dir(partition: str) -> Path:
+    if partition not in REFERENCE_SET:
+        raise SystemExit(f"refused: partition {partition!r} is not run here (D-66/D-67)")
+    return OUT / "dev_m1c"
+
+
+def require_camera(partition: str, rec: str) -> None:
+    partition_dir(partition)
+    if rec not in cameras(partition):
+        raise SystemExit(f"refused: {rec!r} is outside the v2 tuning allowlist")
 
 
 def expected_configs(freeze: dict) -> dict:
@@ -138,6 +135,17 @@ def references_of(row: dict, rec: str):
     return refs, groups
 
 
+def verified_references(row: dict, binding: dict, rec: str, ref_set: str):
+    """Check the reference list actually handed to N4 against the existing freeze representation."""
+    from v2_references import list_sha256
+    if (row.get("set") != ref_set or row.get("rec_id") != rec or binding.get("rec_id") != rec
+            or any(row.get(key) != binding[key] for key in ("s3", "s4", "s5", "s5_payload_sha256", "references_sha256"))
+            or not isinstance(row.get("references"), list)
+            or list_sha256(row["references"]) != binding["references_sha256"]):
+        raise SystemExit(f"STOP: {rec}: consumed reference content or lineage differs from the freeze record")
+    return references_of(row, rec)
+
+
 def position_rows(object_states, identity_of, truth, person_tracks) -> tuple[list, dict]:
     """GV-01 inputs (class, evidence class, dx, dy) and availability by null reason (D-41). identity_of(track, frame)."""
     rows, avail = [], defaultdict(int)
@@ -187,8 +195,66 @@ def m_input_check(s4_tables: dict, s5_tables: dict, member_track) -> dict:
         if ps is None or fs is None or fs["speed_mps"] is None:
             continue
         both += 1
-        missing += m_of.get((pow_id[(pu, fu, start)], i)) == 2
+        missing += m_of.get((pow_id[(pu, fu, start)], i), 2) == 2
     return {"pair_frames_with_both_states": both, "m_missing": missing, "share_missing": (missing / both) if both else None}
+
+
+def flag_input_audit(s1: dict, s4: dict, member_at: dict | None):
+    """Audit S5's actual inputs against raw S4 states indexed independently of S5."""
+    from rq1.events import engine, providers
+
+    recording = s1["frame"][0]["recording_id"]
+    frames = {row["frame_index"]: row for row in s1["frame"] if row["recording_id"] == recording and row["eligible"]}
+    coverage = s1["coverage_segment"]
+    own = next((c for c in coverage if c.get("recording_id") == recording), None)
+    coverage = [c for c in coverage if own and (c["timeline_id"], c["camera_id"]) == (own["timeline_id"], own["camera_id"])]
+    states = defaultdict(dict)
+    for row in s4["object_state"]:
+        states[row["track_id"]][row["frame_index"]] = row
+    pairs = defaultdict(dict)
+    for row in s4["pair_series"]:
+        pairs[tuple(row["pow_nk"])][row["frame_index"]] = row
+    counts = {name: Counter() for name in ("R4", "R5", "contact", "coverage")}
+
+    def check(pw, rules, flags):
+        p, f, start = pw["person_track_id"], pw["forklift_track_id"], pw["start_frame"]
+        series = pairs[(p, f, start)]
+        if len(series) != len(flags) or set(series) != {row.frame_index for row in flags}:
+            raise SystemExit(f"STOP: {pw['pow_id']} flag rows do not cover the S4 pair series")
+        by_member_pair = defaultdict(list)
+        for i in series:
+            by_member_pair[(p, f) if member_at is None else (member_at.get((p, i)), member_at.get((f, i)))].append(i)
+        expected_rates = {}
+        for (pt, ft), indices in by_member_pair.items():
+            expected_rates.update(providers.r5_rates(list(states.get(pt, {}).values()), list(states.get(ft, {}).values()),
+                                                     frames, coverage, rules.w_e, rules.v_min, only=indices))
+        for flag in flags:
+            i = flag.frame_index
+            row = series[i]
+            pt, ft = (p, f) if member_at is None else (member_at.get((p, i)), member_at.get((f, i)))
+            p_speed = states.get(pt, {}).get(i, {}).get("speed_mps")
+            f_speed = states.get(ft, {}).get(i, {}).get("speed_mps")
+            if set(flag.C_by) != set(rules.conflict):
+                raise SystemExit(f"STOP: {pw['pow_id']} frame {i}: wrong conflict provider set")
+            r4 = providers.r4_c(row, p_speed, f_speed, rules.ttc_max, rules.pet_max) if "R4" in rules.conflict else None
+            rates = expected_rates[i]
+            expected_e = 2 if row["evidence_class"] == "insufficient" else engine.evasive(rates, rules.e_turn, rules.e_acc, rules.e_dec)
+            # Contact and R5 share the raw Rates record. Compare it even when the R5 flag is disabled.
+            if (flag.rates or engine.Rates()) != rates:
+                raise SystemExit(f"STOP: {pw['pow_id']} frame {i}: R5/contact rate inputs differ from member states")
+            turn_known = rates.turn_false or rates.person_turn_rate is not None
+            complete = turn_known and rates.person_speed_change is not None and rates.forklift_decel is not None
+            counts["contact"]["evaluated" if complete else "unavailable"] += 1
+            for name, expected, actual, enabled in (
+                ("R4", r4, flag.C_by.get("R4"), "R4" in rules.conflict),
+                ("R5", expected_e if rules.r5 else 0, flag.E, rules.r5),
+                ("coverage", providers.q(row["q_state"]), flag.Q, True),
+            ):
+                if expected != actual:
+                    raise SystemExit(f"STOP: {pw['pow_id']} frame {i}: {name} differs from the S4 inputs")
+                counts[name]["inapplicable" if not enabled else "unavailable" if expected == 2 else "evaluated"] += 1
+
+    return check, counts
 
 
 def artifact_digest(arts: dict) -> str:
@@ -197,44 +263,147 @@ def artifact_digest(arts: dict) -> str:
     return hashlib.sha256(json.dumps(rows, separators=(",", ":")).encode()).hexdigest()
 
 
+def stable_digest(value) -> str:
+    from datetime import date, datetime
+
+    def encode(item):
+        if isinstance(item, (date, datetime)):
+            return item.isoformat()
+        if isinstance(item, (set, frozenset)):
+            return sorted(item)
+        raise TypeError(f"unsupported cache identity type: {type(item).__name__}")
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), default=encode).encode()).hexdigest()
+
+
+def development_output(path: Path) -> Path:
+    resolved = path.resolve()
+    if resolved.parent != OUT.resolve() or not resolved.name.startswith("dev_"):
+        raise SystemExit("refused: v2 output must be an isolated dev_* directory under out/v2")
+    return resolved
+
+
+def without_symlinks(path: Path) -> Path:
+    absolute = path.absolute()
+    if absolute.resolve() != absolute:
+        raise SystemExit(f"refused: unexpected path alias for {path}")
+    return path
+
+
+def verify_saved_artifact(directory: Path, art_id: str) -> str:
+    """Verify artifact files and their configuration's binding to the recorded artifact specification."""
+    from rq1.ids import core
+    if not art_id.startswith("art_") or Path(art_id).name != art_id:
+        raise SystemExit("STOP: invalid artifact identifier")
+    target = without_symlinks(directory / art_id)
+    manifest = json.loads(without_symlinks(target / "manifest.json").read_text())
+    for item in manifest["files"]:
+        name = item["path"]
+        if Path(name).name != name or not name.endswith(".parquet"):
+            raise SystemExit(f"STOP: {art_id}: invalid artifact member")
+        without_symlinks(target / name)
+    if manifest.get("spec") is not None and core.make_id("asp", manifest["spec"]) != manifest["artifact_spec_id"]:
+        raise SystemExit(f"STOP: {art_id}: artifact specification differs from its ID")
+    if m.A.verify(target) != art_id:
+        raise SystemExit(f"STOP: {art_id}: stored artifact does not match its ID")
+    return manifest["payload_sha256"]
+
+
+def cached_result(path: Path, cache_key: str, artifacts_dir: Path) -> bool:
+    if not path.exists():
+        return False
+    row = read_camera_record(path)
+    if row["cache_key"] != cache_key:
+        return False
+    arts = row["artifacts"]
+    if artifact_digest(arts) != row["artifact_digest"]:
+        raise SystemExit("STOP: inconsistent exact artifact index in camera cache")
+    for item in arts.values():
+        if verify_saved_artifact(artifacts_dir, item["id"]) != item["payload"]:
+            raise SystemExit("STOP: artifact payload differs from camera cache")
+    return True
+
+
+def read_camera_record(path: Path) -> dict:
+    row = json.loads(without_symlinks(path).read_text())
+    if row.pop("record_sha256", None) != stable_digest(row):
+        raise SystemExit(f"STOP: {path}: camera cache record hash does not verify")
+    return row
+
+
+def write_camera_record(path: Path, payload: dict) -> None:
+    m_write_json(path, {**payload, "record_sha256": stable_digest(payload)})
+
+
+def save_verified_artifact(art, root: Path, origin: str) -> None:
+    target = root / "artifacts" / art.artifact_id
+    target.parent.mkdir(parents=True, exist_ok=True)
+    published = False
+    if not target.exists():
+        with tempfile.TemporaryDirectory(dir=target.parent) as staging:
+            staged = Path(staging) / "artifact"
+            m.A.write_artifact(art, staged, origin)
+            try:
+                staged.rename(target)
+                published = True
+            except OSError:
+                if not target.is_dir():
+                    raise
+    if verify_saved_artifact(target.parent, art.artifact_id) != art.payload_sha256:
+        raise SystemExit(f"STOP: {art.artifact_id}: existing artifact payload differs")
+    # Register only a fully published artifact and only from the writer that published it.
+    if published:
+        m.A._append_register(root / "register.jsonl", json.loads((target / "execution.json").read_text()))
+
+
 # ------------------------------------------------------------------------------------------------ drivers
+
+def runtime_environment() -> dict:
+    import av
+    import platform
+    from importlib.metadata import version
+    import v2_tracker_grid as grid
+
+    code = (
+        "import json, platform, sys; from importlib.metadata import version; "
+        "packages = ('numpy', 'torch', 'ultralytics', 'opencv-python', 'transformers'); "
+        "print(json.dumps({'python': sys.version, 'platform': platform.platform(), "
+        "'packages': {p: version(p) for p in packages}}))"
+    )
+    detector = subprocess.run([str(grid.DET_PY), "-c", code], cwd=ROOT, env=grid.pc.DET_ENV,
+                              capture_output=True, text=True, check=True)
+    locks = ("requirements.lock", "research/m1b/requirements_detector.txt")
+    return {"python": sys.version, "platform": platform.platform(), "device": "cpu",
+            "packages": {p: version(p) for p in ("numpy", "scipy", "pyarrow", "av", "opencv-python-headless")},
+            "decoder": av.library_versions_as_strings if hasattr(av, "library_versions_as_strings") else av.library_versions,
+            "detector_tracker": json.loads(detector.stdout),
+            "locks": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest() for path in locks}}
+
 
 def provenance() -> tuple[str, str]:  # pragma: no cover
     dirty = subprocess.run(["git", "status", "--porcelain", "--", "src", "research"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
     if dirty and os.environ.get("V2RUN_DEV") != "1":
         raise SystemExit(f"refused: uncommitted changes in the source tree:\n{dirty}")
     commit = "uncommitted" if dirty else subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
-    return commit, hashlib.sha256((ROOT / "requirements.lock").read_bytes()).hexdigest()
+    environment = runtime_environment()
+    digest = stable_digest(environment)
+    directory = development_output(Path(os.environ.get("V2RUN_DEV_DIR", partition_dir("dev"))))
+    directory.mkdir(parents=True, exist_ok=True)
+    m_write_json(directory / f"environment_{digest}.json", environment)
+    return commit, digest
 
 
 def _spec(stage, prov, config_ids, inputs):
     return m.Spec(stage, v2.CONTRACT, prov[0], prov[1], tuple(config_ids), tuple(inputs), {})
 
 
-_GATE = None
-
-
-def test_gate() -> dict:  # pragma: no cover
-    global _GATE
-    if _GATE is None:
-        import test_access
-        _GATE = test_access.gate()
-    return _GATE
-
-
-def camera_inputs(partition: str, rec: str, ctx):  # pragma: no cover - reads stored data
-    """(camera view, S1 tables, calibration, truth) for one camera. Validation partitions: the stored M1a camera
-    (`evaluate_m1a.Camera`) and S1 as before, unless V2RUN_VIEW=fresh (dev only: the truth-built view, to check that it
-    equals the stored one). Test: the gated loader and the truth-built view with the locked windows (D-63 STEP 7)."""
+def camera_inputs(partition: str, rec: str, ctx):  # pragma: no cover - reads stored development data
+    """Camera view, S1, calibration and truth for a v2 tuning recording."""
+    require_camera(partition, rec)
     import evaluate_pilot as ep
     import run_pilot as rp
     import test_access as ta
-    if partition == "test":
-        data = m.load_for_test_run(ctx, rec, test_gate())
-        cam = ta.CameraView(ctx, rec, ctx.reference_camera(rec), data, ROOT / "out/prereg" / test_gate()["lock_artifact_id"])
-        return cam, data.s1, data.calibration, data
     data = m.load(ctx, rec)
-    if partition == "dev" and os.environ.get("V2RUN_VIEW") == "fresh":
+    if os.environ.get("V2RUN_VIEW") == "fresh":
         return ta.CameraView(ctx, rec, ctx.camera(rec), data, ta.V0_VALIDATION), data.s1, data.calibration, data
     _, s1, cal = rp.load_s1(ctx, rec)
     return ep.ev.Camera("sdg", ep.M1A_LABEL, rec), s1, cal, data
@@ -254,23 +423,7 @@ def expected_test_s2() -> list[str]:
 
 
 def test_s2(ctx, rec: str, s1: dict, prov):  # pragma: no cover - reads the sealed Colab output (D-63 STEP 7 only)
-    """S2 artifact of a test camera from `out/colab/test/<rec>.json.gz` (hash checked against the arrival record), as
-    `run_pilot.run_camera` builds S2 from raw output: frames must equal the S1 eligible frames, size must equal S1."""
-    import gzip
-    import run_pilot as rp
-    from rq1.ids import core
-    from rq1.perception import s2
-    test_gate()
-    arrival = {f["rec_id"]: f for f in json.loads((ROOT / "docs/preregistration/test_s2_arrival_v2.json").read_text())["files"]}[rec]
-    raw_path = ROOT / "out/colab/test" / arrival["file"]
-    if hashlib.sha256(raw_path.read_bytes()).hexdigest() != arrival["sha256"]:
-        raise SystemExit(f"STOP: {rec}: the Colab output differs from the arrival record")
-    with gzip.open(raw_path, "rt") as f:
-        raw = json.load(f)
-    if raw["weights_sha256"] != rp.MODEL["weights_sha256"]:
-        raise SystemExit(f"STOP: {rec}: weights differ from the frozen detector")
-    spec = _spec("S2", prov, (core.make_id("mdl", rp.MODEL), core.make_id("inf", test_inference())), (ctx.reference_camera(rec)["s1"],))
-    return s2_from_raw(rec, raw, s1, spec)
+    raise SystemExit("refused: D-66 permanently closed the SDG final test")
 
 
 def s2_from_raw(rec: str, raw: dict, s1: dict, spec):
@@ -288,6 +441,11 @@ def s2_from_raw(rec: str, raw: dict, s1: dict, spec):
 
 def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver over stored artifacts
     partition, rec, prov, out, write = args
+    require_camera(partition, rec)
+    out = development_output(out)
+    for name in ("cam", "repeat", "artifacts", "work"):
+        without_symlinks(out / name)
+    without_symlinks(out / "work" / rec)
     import d54_c_v2 as c
     import d58_events as d58
     import evaluate_pilot as ep
@@ -301,11 +459,10 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     from rq1.tracking import bridging, stitching
     from rq1.tracking import s3_config as sc
     from rq1.tracking.s3 import DetectorTrackSource
-    path = out / ("cam" if write else "repeat") / f"{rec}.json"
-    if path.exists():
-        return rec, "skipped", 0.0
+    path = without_symlinks(out / ("cam" if write else "repeat") / f"{rec}.json")
     t0 = time.time()
-    freeze = json.loads(FREEZE.read_text())
+    freeze_bytes = FREEZE.read_bytes()
+    freeze = json.loads(freeze_bytes)
     want = expected_configs(freeze)
     ev = ep.ev
     ctx = m.Context("sdg")
@@ -321,41 +478,56 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     def keep(name, art):
         arts[name] = {"id": art.artifact_id, "payload": art.payload_sha256}
         if write:
-            target = out / "artifacts" / art.artifact_id
-            if not (target / "manifest.json").exists():
-                m.A.write_artifact(art, target, origin, register=out / "register.jsonl")
+            save_verified_artifact(art, out, origin)
 
     # --- references: the frozen v2 set of the partition
     ref_set = REFERENCE_SET[partition]
-    ref_row = json.loads((REFS / ref_set / f"{rec}.json").read_text())
+    ref_row = json.loads(without_symlinks(REFS / ref_set / f"{rec}.json").read_text())
     frozen = {r["rec_id"]: r for r in freeze["references"][ref_set]["per_camera"]}[rec]
-    if (ref_row["s5"], ref_row["s5_payload_sha256"], ref_row["references_sha256"]) != (frozen["s5"], frozen["s5_payload_sha256"], frozen["references_sha256"]):
-        raise SystemExit(f"STOP: {rec}: the stored v2 reference differs from the freeze record")
-    refs, groups = references_of(ref_row, rec)
+    refs, groups = verified_references(ref_row, frozen, rec, ref_set)
+    s2_id, art_dir = grid.s2_of(rec)
+    s1_id = ctx.camera(rec)["s1"]
+    s1_payload = verify_saved_artifact(ROOT / "out/t17_sdg", s1_id)
+    s2_payload = verify_saved_artifact(art_dir, s2_id)
+    cache_key = stable_digest({"provenance": prov, "rec_id": rec, "freeze": hashlib.sha256(freeze_bytes).hexdigest(),
+                               "reference": frozen, "s1": [s1_id, s1_payload], "s2": [s2_id, s2_payload],
+                               "calibration": cal, "camera_view": os.environ.get("V2RUN_VIEW"),
+                               "truth": cam.truth_rows, "visible": cam.visible, "window": cam.window})
+    if write and prov[0] != "uncommitted" and cached_result(path, cache_key, out / "artifacts"):
+        return rec, "skipped", 0.0
     record, base_cfg, _, _ = v2.substrate_config(ctx, LABEL)
     got["sbc"] = s5.substrate_config_id(record)
     t24_cfg, gcf_t24, _ = v2.t24_config(base_cfg, "sdg")
     gcf_truth = core.make_id("gcf", {"geometry": "simulator_truth"})
     got["gcf_t24"], got["gcf_truth"] = gcf_t24, gcf_truth
 
-    def s5_all(s4a, bls, s3_stitched=None):
+    input_audits = {}
+
+    def s5_all(col, s4a, bls, s3_stitched=None):
         """S5 per baseline. With a stitched S3 (column C), S5 reads its stitch membership (CR-042) and lists that S3 as an
         input artifact beside the S4 (AR-73)."""
         from rq1.events import providers
         members = providers.stitch_members(s3_stitched.tables) if s3_stitched is not None else None
         inputs = (s4a.artifact_id,) + ((s3_stitched.artifact_id,) if s3_stitched is not None else ())
+        member_at = None
+        if s3_stitched is not None:
+            by_local = {t["track_local_id"]: t["trk_id"] for t in s3_stitched.tables["track"]}
+            member_at = {(r["stitch_id"], r["frame_index"]): by_local[r["track_nk"][1]]
+                         for r in s3_stitched.tables["track_point"]}
         res = {}
         for bl in bls:
             c5 = v2.s5_config(ctx, bl, LABEL, True)
             got["rcf"][bl] = s5.config_id(c5)
-            res[bl] = s5.build(s1, s4a, c5, _spec("S5", prov, (s5.config_id(c5),), inputs), members=members)
+            audit, counts = flag_input_audit(s1, s4a.tables, member_at)
+            res[bl] = s5.build(s1, s4a, c5, _spec("S5", prov, (got["rcf"][bl],), inputs), members=members, check_inputs=audit)
+            input_audits[f"{col}|{bl}"] = counts
         return res
 
     # --- A and B: ORACLE-S3 at g_max 45
     s3a, positions, _ = m.s3(ctx, rec, data, v2.S4_V2["g_max"], prov)
     s4a = builder.SubstrateBuilder().build(s1, s3a, positions, None, base_cfg, _spec("S4", prov, (got["sbc"], gcf_truth), (s3a.artifact_id,)))
     s4b = builder.SubstrateBuilder().build(s1, s3a, {}, cal, t24_cfg, _spec("S4", prov, (got["sbc"], gcf_t24), (s3a.artifact_id,)))
-    s5a, s5b = s5_all(s4a, A_BL), s5_all(s4b, BC_BL)
+    s5a, s5b = s5_all("A", s4a, A_BL), s5_all("B", s4b, BC_BL)
     keep("A.S3", s3a), keep("A.S4", s4a), keep("B.S4", s4b)
     for bl, a in s5a.items():
         keep(f"A.S5.{bl}", a)
@@ -363,16 +535,8 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
         keep(f"B.S5.{bl}", a)
     # --- C: detector path from the stored S2
     column_c, pkg = c.package()
-    if partition == "test":  # D-63 STEP 7: S2 artifacts from the sealed Colab output (AR-74: the device enters the inf ID)
-        s2_art = test_s2(ctx, rec, s1, prov)
-        keep("C.S2", s2_art)
-        s2_id, dets = s2_art.artifact_id, s2_art.tables["detection"]
-        got["s2"] = list(s2_art.spec.config_ids) if hasattr(s2_art.spec, "config_ids") else list(s2_art.spec["config_ids"])
-        want["s2"] = expected_test_s2()
-    else:
-        s2_id, art_dir = grid.s2_of(rec)
-        got["s2"] = list(json.loads((art_dir / s2_id / "manifest.json").read_text())["spec"]["config_ids"])
-        dets = grid.load_tables(art_dir, s2_id)["detection"]
+    got["s2"] = list(json.loads((art_dir / s2_id / "manifest.json").read_text())["spec"]["config_ids"])
+    dets = grid.load_tables(art_dir, s2_id)["detection"]
     frames = sorted(cam.eligible)
     tout, _ = grid.run_tracker(rec, frames, dets, c.jobs(column_c, pkg), out / "work" / rec)
     stored_log = ep.pc.OUT / "cam" / rec / "tracker_out.json"
@@ -395,7 +559,7 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     got["trc_stitched"] = sc.trc_id(pkg["run_config"], g, stitch=params)
     s3s = stitching.apply(SimpleNamespace(tables=s3c.tables), sid, _spec("S3", prov, (got["trc_stitched"],), (s2_id,)))
     s4c = builder.SubstrateBuilder().build(s1, s3s, {}, cal, t24_cfg, _spec("S4", prov, (got["sbc"], gcf_t24), (s3s.artifact_id,)))
-    s5c = s5_all(s4c, BC_BL, s3s)
+    s5c = s5_all("C", s4c, BC_BL, s3s)
     keep("C.S3", s3c), keep("C.S3.stitched", s3s), keep("C.S4", s4c)
     for bl, a in s5c.items():
         keep(f"C.S5.{bl}", a)
@@ -422,12 +586,12 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     bad_m = {k: v for k, v in m_check.items() if v["share_missing"] is not None and v["share_missing"] > M_MISSING_MAX}
     if bad_m:
         raise SystemExit(f"STOP: {rec}: M inputs missing on more than {M_MISSING_MAX:.0%} of pair-frames with both states (CR-042 guard): {bad_m}")
-    res = {"rec_id": rec, "partition": partition, "status": STATUS, "code_commit": prov[0], "environment_digest": prov[1], "contract": v2.CONTRACT,
+    res = {"rec_id": rec, "partition": partition, "status": STATUS, "cache_key": cache_key, "code_commit": prov[0], "environment_digest": prov[1], "contract": v2.CONTRACT,
            "viewpoint": ep.pc.viewpoint(cam.camera_name), "camera": cam.camera_name, "run": cam.run, "stratum": cam.window["stratum_id"],
            "leakage_group": cam.window["leakage_group_id"], "usable_s": usable, "reference_s5": ref_row["s5"],
            "references": {"n": len(refs), "assessable": sum(r.assessable for r in refs), "g1": sum(1 for r in refs if "G1" in groups[r.ref_event_id])},
            "checks": {"configs_equal_freeze": True, "reference_equals_freeze": True, "person_log_reproduces_pilot": person_log_reproduced,
-                      "stitch_links": len(accepted), "m_inputs": m_check},
+                      "stitch_links": len(accepted), "m_inputs": m_check, "flag_inputs": input_audits},
            "ev": {}, "ie": {}, "flags": {}, "runs": {}}
     for col, (s4t, s5s, rows, summ, member_track) in cols.items():
         resolver = d58.pair_resolver(s4t.tables, rows, summ, member_track)
@@ -452,14 +616,18 @@ def run_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver ove
     res["gv"] = {"B": {"gv01": gv01_b, "availability": avail_b, "gv07": speed_rows(s4b.tables["object_state"], id_b, truth_speed, cam.classes)},
                  "C": {"gv01": gv01_c, "availability": avail_c, "gv07": speed_rows(s4c.tables["object_state"], id_c, truth_speed, cam.classes)}}
     gv04, gv04_check = gv04_rows(s4a.tables["pair_series"], cam.truth, trk_key, v2.S4_V2["person_radius_m"], tuple(m.FORK_PRIOR_M["sdg"]))
+    res["gv"]["reference_support"] = {
+        "position": dict(Counter(row[1] for row in cam.truth.values())),
+        "speed": dict(Counter(cam.classes[key] for key, _ in truth_speed)),
+    }
     res["gv"]["gv04_simulator_positions"] = gv04
     res["checks"]["gv04_prior_clearance_differs_from_stored"] = gv04_check
     res["artifacts"] = arts
     res["artifact_digest"] = artifact_digest(arts)
     res["seconds"] = round(time.time() - t0, 1)
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = res if write else {k: res[k] for k in ("rec_id", "partition", "code_commit", "artifacts", "artifact_digest", "seconds")}
-    m_write_json(path, payload)
+    payload = res if write else {k: res[k] for k in ("rec_id", "partition", "code_commit", "environment_digest", "cache_key", "artifacts", "artifact_digest", "seconds")}
+    write_camera_record(path, payload)
     return rec, "done", res["seconds"]
 
 
@@ -490,17 +658,20 @@ def gv04_rows(pair_series, truth, trk_key, radius: float, prior_lw: tuple[float,
 
 
 def m_write_json(path: Path, obj) -> None:
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(obj, indent=1, sort_keys=True, default=list))
-    os.replace(tmp, path)
+    with tempfile.NamedTemporaryFile(mode="w", dir=path.parent, prefix=f".{path.name}.", delete=False) as handle:
+        tmp = Path(handle.name)
+        try:
+            json.dump(obj, handle, indent=1, sort_keys=True, default=list)
+            handle.close()
+            os.replace(tmp, path)
+        finally:
+            tmp.unlink(missing_ok=True)
 
 
 def cameras(partition: str) -> list[str]:  # pragma: no cover
+    partition_dir(partition)
     import v2_sets
-    if partition == "test":
-        import v2_references
-        return v2_references.cameras("test")
-    return v2_sets.tuning() if REFERENCE_SET[partition] == "tuning" else v2_sets.reporting()
+    return v2_sets.tuning()
 
 
 def main():  # pragma: no cover
@@ -508,26 +679,17 @@ def main():  # pragma: no cover
     if what in ("dev", "estimate", "dev-all", "dev-repeat"):
         workers = int(sys.argv[2]) if what in ("dev-all", "dev-repeat") and len(sys.argv) > 2 else 1
         recs = {"dev": sys.argv[2:], "estimate": [cameras("dev")[0], cameras("dev")[-1]]}.get(what, cameras("dev"))
-        assert set(recs) <= set(cameras("dev")), "dev: tuning cameras only"
+        for rec in recs:
+            require_camera("dev", rec)
         prov = provenance()
-        out = Path(os.environ["V2RUN_DEV_DIR"]) if os.environ.get("V2RUN_DEV_DIR") else partition_dir("dev")
+        out = development_output(Path(os.environ.get("V2RUN_DEV_DIR", partition_dir("dev"))))
         jobs = [("dev", r, prov, out, what != "dev-repeat") for r in recs]
         it = map(run_camera, jobs) if workers == 1 else Pool(workers, maxtasksperchild=2).imap_unordered(run_camera, jobs)
         for n, r in enumerate(it, 1):
             print(n, *r, flush=True)
         return
     if what in ("run", "repeat"):
-        partition = sys.argv[2]
-        workers = int(sys.argv[3]) if len(sys.argv) > 3 else 1
-        prov = provenance()
-        if prov[0] == "uncommitted":
-            raise SystemExit("refused: the reporting run needs a clean, committed source tree")
-        out = partition_dir(partition)
-        jobs = [(partition, r, prov, out, what == "run") for r in cameras(partition)]
-        it = map(run_camera, jobs) if workers == 1 else Pool(workers, maxtasksperchild=2).imap_unordered(run_camera, jobs)
-        for n, r in enumerate(it, 1):
-            print(n, *r, flush=True)
-        return
+        raise SystemExit("refused: D-66/D-67 retired the once-only run and repeat commands")
     raise SystemExit(what)
 
 

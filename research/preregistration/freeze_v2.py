@@ -106,19 +106,7 @@ def evaluation(sets: dict) -> dict:  # pragma: no cover - reads the stored v2 re
 
 
 def references() -> dict:  # pragma: no cover - reads and verifies the stored v2 references
-    from rq1.ids import artifact as A
-    sets = {}
-    for name in vr.SETS:
-        recs = vr.cameras(name)
-        rows = [json.loads((vr.OUT / name / f"{r}.json").read_text()) for r in recs]
-        for r in rows:
-            for stage in ("s3", "s4", "s5"):
-                if A.verify(str(vr.OUT / "artifacts" / r[stage])) != r[stage]:
-                    raise SystemExit(f"STOP: {name} {r['rec_id']} {stage} does not verify")
-            if vr.list_sha256(r["references"]) != r["references_sha256"]:
-                raise SystemExit(f"STOP: {name} {r['rec_id']} reference list hash")
-        sets[name] = {"rows": rows}
-    return sets
+    raise SystemExit("refused: D-66 permanently closed the SDG final test")
 
 
 def main():  # pragma: no cover

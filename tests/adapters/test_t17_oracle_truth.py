@@ -5,15 +5,11 @@ at world (0, 0, 10), looking straight down, image 1920 x 1080. Hand box: x 0.8..
 camera depth 9, bottom at 10: u from 960 + 800/10 = 1040 to 960 + 1200/9 = 1093.33; v from 540 - 2200/9 = 295.56 to
 540 - 1800/10 = 360. Its image-clipped reprojection is therefore (1040, 295.56, 1093.33, 360).
 Dataset boxes are inclusive pixel indices; in CF-IMG the tight box (1045, 300, 1090, 355) is (1045, 300, 1091, 356)."""
-import json
-import tarfile
-from pathlib import Path
-
 import numpy as np
 import pytest
 
 from rq1.adapters import oracle_truth as ot
-from rq1.adapters import sdg_camera, sdg_truth, smartspaces
+from rq1.adapters import sdg_truth, smartspaces
 from rq1.schema.errors import ContractError
 
 CAL = {"intrinsics_K": [1000.0, 0.0, 960.0, 0.0, 1000.0, 540.0, 0.0, 0.0, 1.0], "R_cam_from_world": [1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, -1.0],
@@ -22,7 +18,6 @@ REPRO = (1040.0, 540 - 2200 / 9, 960 + 1200 / 9, 360.0)
 TIGHT = (1045, 300, 1090, 355)  # dataset pixel indices
 TIGHT_IMG = (1045.0, 300.0, 1091.0, 356.0)  # CF-IMG: max edges + 1
 LOOSE = (1040, 296, 1093, 360)  # excess 0 against the reprojection
-ROOT = Path(__file__).resolve().parents[2]
 
 
 def sdg_obj(tight=TIGHT, loose=LOOSE, at=(1.0, 2.0, 0.0), prim=sdg_truth.FORKLIFT_PRIM):
@@ -295,26 +290,14 @@ def test_t18_run_length_summary_nearest_rank():
     assert ot.run_length_summary([]) == {"runs": 0, "frames": 0, "min": None, "median": None, "p90": None, "p99": None, "max": None}
 
 
-def test_the_eye_02_camera_of_run_22_seed_1886649344_has_an_oracle_track():
-    """T18 test on the held data (git-ignored); skipped where the run is absent. The 80.1 px excess (person, decode_seq 206;
-    CR-022) lies below the (90, 150] px guard band."""
-    found = sorted((ROOT / "data/raw/sdg/members").glob("*/*_run_22_seed_1886649344.eye_02.object_detection.jsonl"))
-    if not found:
-        pytest.skip("held SDG run_22_seed_1886649344 not present")
-    cal = sdg_camera.calibration(sdg_camera.static_params([json.loads(l) for l in Path(str(found[0]).replace("object_detection", "camera_params")).read_text().splitlines()]))
-    frames, excess = [], {}
-    for k, line in enumerate(found[0].read_text().splitlines()):
-        row = {}
-        for o in sdg_truth.parse_frame(line):
-            row[o.prim], note = ot.sdg_obs(cal, o)  # raises ERR-INVARIANT inside the guard band
-            assert note != "truth_defect"
-            if o.loose is not None and note is None:
-                excess[(k, o.cls)] = sdg_truth.hull_excess(cal, o)
-        frames.append(row)
-    worst = max(excess, key=excess.get)
-    assert worst == (206, "person") and round(excess[worst], 1) == 80.1
-    tracks, _ = camera_tracks(frames)
-    truth, _ = ot.s3_truth(tracks, {prim: o.cls for row in frames for prim, o in row.items()}, {k: k for k in range(len(frames))})
+def test_t18_below_guard_band_retains_visible_tracks():
+    """Independent geometry fixture for the ordinary-excess case. The original SDG clip is sealed."""
+    loose = (960, LOOSE[1], LOOSE[2], LOOSE[3])  # 1040 - 960 = 80 px, below the 90 px guard band
+    person, note = ot.sdg_obs(CAL, sdg_obj(loose=loose, prim="person"))
+    assert sdg_truth.hull_excess(CAL, sdg_obj(loose=loose)) == pytest.approx(80)
+    assert note is None and person.visible == TIGHT
+    tracks, _ = camera_tracks([{"p": person, "f": obs()}])
+    truth, _ = ot.s3_truth(tracks, {"p": "person", "f": "forklift"}, {0: 0})
     assert sorted(t["class"] for t in truth) == ["forklift", "person"]
 
 
@@ -345,30 +328,24 @@ def test_s3_truth_and_reference_objects_use_eligible_frames_only():
     assert ot.s3_truth(tracks, {"f": "forklift"}, {})[0] == []  # no eligible frame: no track
 
 
-def test_the_five_eye_01_frames_of_run_2_seed_516797828_are_truth_defects():
-    """T17 test on the held data (git-ignored); skipped where the shard is absent."""
-    tar = ROOT / "data/raw/sdg/artifacts/forklift_human_nearmiss/nearmiss-artifacts-00538.tar"
-    if not tar.exists():
-        pytest.skip("held SDG shard 00538 not present")
-    run = "f1d9f0ca9eb2cd77acc2_fb11684081300a3c4725_run_2_seed_516797828"
-    with tarfile.open(tar) as tf:
-        names = {m.name: m for m in tf.getmembers()}
-        read = lambda suffix: tf.extractfile(names[f"{run}.eye_01.{suffix}"]).read().decode().splitlines()
-        cal = sdg_camera.calibration(sdg_camera.static_params([json.loads(l) for l in read("camera_params.jsonl")]))
-        lines = read("object_detection.jsonl")
-    defects, frames = [], []
-    for k, line in enumerate(lines):
-        row = {}
-        for o in sdg_truth.parse_frame(line):
-            row[o.prim], note = ot.sdg_obs(cal, o)
-            if note == "truth_defect":
-                defects.append((k, o.cls))
-                assert row[o.prim].visible is None and o.tight is not None  # visible in the file, treated as not visible
-        frames.append(row)
-    assert defects == [(k, "forklift") for k in (136, 176, 199, 213, 226)]
-    tracks, _ = ot.camera_tracks(cal, frames, G, frozenset())
-    states = {p.decode_seq: p.state for p in tracks[sdg_truth.FORKLIFT_PRIM]}
-    assert all(states.get(k) in ("predicted", None) for k in (136, 176, 199, 213, 226))
+def test_t17_isolated_truth_defects_can_only_produce_predicted_points():
+    """Independent sequence tests the same failure mode without the sealed SDG clip."""
+    defect_frames = {1, 4, 7, 10, 13}
+    bad = (LOOSE[0] - 300, LOOSE[1], LOOSE[2], LOOSE[3])  # well above the 150 px guard band
+    frames = []
+    defects = set()
+    for i in range(15):
+        loose = bad if i in defect_frames else LOOSE
+        obj, note = ot.sdg_obs(CAL, sdg_obj(loose=loose))
+        if note == "truth_defect":
+            defects.add(i)
+            assert obj.visible is None
+        frames.append({"f": obj})
+    assert defects == defect_frames
+    tracks, _ = camera_tracks(frames)
+    states = {p.decode_seq: p.state for p in tracks["f"]}
+    assert set(states) == set(range(15))
+    assert {i for i, state in states.items() if state == "predicted"} == defect_frames
 
 
 def test_dataset_pixel_indices_to_cf_img():

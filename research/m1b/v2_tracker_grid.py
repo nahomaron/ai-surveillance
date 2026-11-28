@@ -98,6 +98,7 @@ def configurations() -> list[dict]:
 
 
 def s2_of(rec: str) -> tuple[str, "Path"]:
+    pc.m.drv.refuse_closed({"rec_id": rec})
     p = pc.OUT / "cam" / rec / "pipeline.json"
     if p.exists():
         return json.loads(p.read_text())["s2"], pc.OUT / "artifacts"

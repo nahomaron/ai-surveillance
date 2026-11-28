@@ -98,6 +98,8 @@ def _spec(stage, prov, config_ids, inputs):
 
 def build_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver
     name, rec, prov, out = args
+    if name != "tuning" or rec not in cameras("tuning"):
+        raise SystemExit("refused: D-66/D-67 restrict v2 reference building to tuning")
     from rq1.adapters import oracle_truth as ot
     from rq1.events import s5
     from rq1.ids import core
@@ -138,7 +140,7 @@ def build_camera(args) -> tuple[str, str, float]:  # pragma: no cover - driver
 
 def summary(out: Path = OUT) -> dict:  # pragma: no cover - driver
     sets = {}
-    for name in SETS:
+    for name in ("tuning",):
         recs = cameras(name)
         rows = [json.loads((out / name / f"{r}.json").read_text()) for r in recs]
         refs = [x for r in rows for x in r["references"]]
@@ -160,14 +162,15 @@ def main():  # pragma: no cover
     if what == "estimate":
         prov = provenance()
         out = Path(os.environ.get("V2REF_EST", str(OUT.parent / "references_estimate")))
-        rows = [build_camera(("test" if i else "tuning", rec, prov, out)) for i, rec in enumerate((cameras("tuning")[0], cameras("test")[-1]))]
+        rows = [build_camera(("tuning", rec, prov, out)) for rec in (cameras("tuning")[0], cameras("tuning")[-1])]
         per = sum(r[2] for r in rows) / len(rows)
-        print(json.dumps({"rows": rows, "per_camera_s": per, "total_697_h_serial": round(per * 697 / 3600, 3)}, indent=1))
+        print(json.dumps({"rows": rows, "per_camera_s": per, "total_tuning_h_serial": round(per * len(cameras("tuning")) / 3600, 3)}, indent=1))
         return
     if what in ("run", "verify"):
         workers = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-        names = sys.argv[3:] or list(SETS)
-        assert set(names) <= set(SETS)
+        names = sys.argv[3:] or ["tuning"]
+        if names != ["tuning"]:
+            raise SystemExit("refused: D-66/D-67 restrict v2 reference building to tuning")
         prov = provenance()
         out = OUT if what == "run" else OUT.parent / "references_verify"
         jobs = _jobs(names, prov, out)

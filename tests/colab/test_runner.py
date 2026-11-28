@@ -8,7 +8,8 @@ import av
 import numpy as np
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "research/colab"))
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "research/colab"))
 from rq1_colab import runner as R  # noqa: E402
 
 # research/m1b/s2_yolo_world.py writes these keys; the Colab file must carry every one of them (same format)
@@ -34,7 +35,7 @@ def job(tmp: Path, eligible: dict[int, int], n=8):
     clip(video, n)
     cam = {"rec_id": "rec_a", "uri": "raw/x/videos/Camera_0000.mp4", "sha256": R.sha256(video), "size_bytes": video.stat().st_size,
            "n_eligible": len(eligible), "eligible_runs": R.compress(eligible)}
-    j = {"format": "rq1-colab-job-1", "job": "test", "decision": "D-60", "cameras": [cam]}
+    j = {"format": "rq1-colab-job-1", "job": "fixture", "decision": "D-60", "cameras": [cam]}
     (tmp / "job.json").write_text(json.dumps(j))
     return j
 
@@ -88,6 +89,14 @@ def test_run_writes_the_s2raw_format_and_resumes(tmp_path, monkeypatch):
     calls = []
     R.main(args(tmp_path), detector=lambda img: calls.append(1) or [])
     assert calls == []  # finished camera skipped
+    revised = json.loads((tmp_path / "job.json").read_text())
+    revised["cameras"][0].update(eligible_runs=[[0, 2, 0]], n_eligible=2)
+    (tmp_path / "job.json").write_text(json.dumps(revised))
+    R.main(args(tmp_path), detector=lambda img: calls.append(1) or [])
+    assert len(calls) == 2  # changed input eligibility invalidates the old sidecar
+    job(tmp_path / "original", {k: k for k in range(8) if k != 3})
+    (tmp_path / "job.json").write_bytes((tmp_path / "original/job.json").read_bytes())
+    calls.clear()
     (tmp_path / "out/rec_a.json.gz").write_bytes(b"broken")  # an output that no longer matches its sidecar is redone
     R.main(args(tmp_path), detector=lambda img: calls.append(1) or [])
     assert len(calls) == 7
@@ -116,3 +125,21 @@ def test_missing_weights_are_downloaded_then_checked(tmp_path, monkeypatch):
     urls = []
     got = R.fetch_weights(tmp_path / "w2", download=lambda url, p: (urls.append(url), p.write_bytes(blobs[url[2:]])))
     assert sorted(urls) == sorted(f"u/{n}" for n in R.WEIGHTS) and got == {n: w["sha256"] for n, w in R.WEIGHTS.items()}
+
+
+def test_closed_job_and_alias_refused_before_video_and_cache(tmp_path, monkeypatch):
+    from importlib.resources import files
+
+    metadata = json.loads(files(R.access.__package__).joinpath("closed_sdg.json").read_text())
+    historical = json.loads((ROOT / "research/colab/test_manifest.json").read_text())
+    assert metadata == {c["rec_id"]: [c["uri"], c["sha256"]] for c in historical["cameras"]}
+    rec, (uri, digest) = next(iter(metadata.items()))
+    base = {"rec_id": "rec_fixture", "uri": "renamed.mp4", "sha256": "0" * 64}
+    monkeypatch.setattr(R, "sha256", lambda path: pytest.fail("opened a video or cache"))
+    for camera in (dict(base, rec_id=rec), dict(base, uri=uri), dict(base, sha256=digest), dict(base, set="test")):
+        with pytest.raises(ValueError, match="D-66"):
+            R.run_camera(camera, tmp_path, tmp_path, None, {}, {}, "fixture")
+    with pytest.raises(ValueError, match="D-66"):
+        R.verify_inputs({"job": "reporting_test", "cameras": [base]}, tmp_path)
+    with pytest.raises(ValueError, match="D-66"):
+        R.finished(tmp_path, rec, "fixture")

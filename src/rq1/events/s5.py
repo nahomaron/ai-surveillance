@@ -2,6 +2,8 @@
 (E-1.2.1 sections 5.6, 6, 7; Appendix T T9 and T10). S5 reads S1 and S4 and never writes them (CT-E-12)."""
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import dataclasses
 from dataclasses import dataclass
 from typing import Any
@@ -83,7 +85,8 @@ def _pow_nk(p: Row) -> list:
     return [p["person_track_id"], p["forklift_track_id"], p["start_frame"]]
 
 
-def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec, members: dict[str, list[str]] | None = None) -> Artifact:
+def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec, members: dict[str, list[str]] | None = None,
+          *, check_inputs: Callable[[Row, providers.RuleParams, list[engine.FrameFlags]], None] | None = None) -> Artifact:
     """`members`: stitched identity -> member track IDs (`providers.stitch_members` of the S4 input's S3), so that M, R4, R5
     and the contact cue read each member's stored S4 state on its own frames (CR-042, reading 1). Omit it for unstitched S4."""
     # Ineligible frames have no frame_index; they sort after the eligible ones (by decode_seq). Only eligibility and the
@@ -110,6 +113,8 @@ def build(s1: dict[str, list[Row]], s4: Artifact, cfg: S5Config, spec: Spec, mem
     index = providers.S4Index(s4.tables, frames, s1["coverage_segment"], members=members)  # AR-58 item 5; CR-042 members
     for pw in pows:
         flags = providers.flag_frames(s4.tables, rules, frames, s1["coverage_segment"], pow_nk=_pow_nk(pw), index=index)
+        if check_inputs is not None:
+            check_inputs(pw, rules, flags)
         eps, disc = engine.run_pow(flags, params)
         flag_rows += engine.flag_series_rows(pw["pow_id"], flags)
         discarded += [{"pow_id": pw["pow_id"], **d} for d in disc]

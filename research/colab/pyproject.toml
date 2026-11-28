@@ -13,3 +13,6 @@ dependencies = []
 
 [tool.setuptools]
 packages = ["rq1_colab"]
+
+[tool.setuptools.package-data]
+rq1_colab = ["closed_sdg.json"]

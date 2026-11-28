@@ -29,6 +29,8 @@ import urllib.request
 from pathlib import Path
 from typing import Callable, Iterator
 
+from . import access
+
 CLASSES = ("person", "forklift")
 SCORE_FLOOR = 0.05
 PREDICT = {"imgsz": 640, "iou": 0.7, "max_det": 300}
@@ -83,6 +85,7 @@ def expand(runs: list[list[int]]) -> dict[int, int]:
 
 def frames(video: Path, seq_to_index: dict[int, int]) -> Iterator[tuple[int, int, "object"]]:
     """(decode_seq, frame_index, RGB uint8 array) of the eligible frames, in decode order (`s2_frames.py`)."""
+    access.refuse_path(video)
     import av
     n = 0
     with av.open(str(video)) as container:
@@ -170,16 +173,18 @@ def _done_path(out: Path, rec: str) -> Path:
     return out / f"{rec}.done.json"
 
 
-def finished(out: Path, rec: str) -> dict | None:
+def finished(out: Path, rec: str, cache_key: str) -> dict | None:
     """The sidecar of a finished camera when its output file still has the recorded SHA-256, else None."""
+    access.refuse_camera({"rec_id": rec})
     gz, done = out / f"{rec}.json.gz", _done_path(out, rec)
     if not (gz.exists() and done.exists()):
         return None
     side = json.loads(done.read_text())
-    return side if side.get("sha256") == sha256(gz) else None
+    return side if side.get("cache_key") == cache_key and side.get("sha256") == sha256(gz) else None
 
 
-def run_camera(cam: dict, data_root: Path, out: Path, detect: Callable, env: dict, weights: dict[str, str]) -> dict:
+def run_camera(cam: dict, data_root: Path, out: Path, detect: Callable, env: dict, weights: dict[str, str], cache_key: str) -> dict:
+    access.refuse_camera(cam, data_root)
     video = data_root / cam["uri"]
     digest = sha256(video)
     if digest != cam["sha256"] or video.stat().st_size != cam["size_bytes"]:
@@ -206,16 +211,20 @@ def run_camera(cam: dict, data_root: Path, out: Path, detect: Callable, env: dic
     with gzip.open(tmp, "wt") as f:
         json.dump(rec, f)
     os.replace(tmp, gz)
-    side = {"rec_id": cam["rec_id"], "file": gz.name, "sha256": sha256(gz), "bytes": gz.stat().st_size, "frames": len(rows),
+    side = {"cache_key": cache_key, "rec_id": cam["rec_id"], "file": gz.name, "sha256": sha256(gz), "bytes": gz.stat().st_size, "frames": len(rows),
             "n_eligible": cam["n_eligible"], "wall_s": rec["wall_s"], "input_sha256": digest, "device_name": env.get("device_name")}
-    _done_path(out, cam["rec_id"]).write_text(json.dumps(side, indent=1))
+    done = _done_path(out, cam["rec_id"])
+    temporary = done.with_suffix(".tmp")
+    temporary.write_text(json.dumps(side, indent=1))
+    os.replace(temporary, done)
     return side
 
 
-def write_manifest(out: Path, job: dict, job_sha: str, env: dict, weights: dict[str, str]) -> dict:
+def write_manifest(out: Path, job: dict, job_sha: str, env: dict, weights: dict[str, str], cache_key: str) -> dict:
+    access.refuse_manifest(job)
     files = {}
     for cam in job["cameras"]:
-        side = finished(out, cam["rec_id"])
+        side = finished(out, cam["rec_id"], cache_key)
         if side is not None:
             files[cam["rec_id"]] = side
     m = {"job": job["job"], "job_manifest_sha256": job_sha, "decision": job.get("decision"), "environment": env, "pinned": PINNED,
@@ -229,6 +238,7 @@ def write_manifest(out: Path, job: dict, job_sha: str, env: dict, weights: dict[
 
 
 def verify_inputs(job: dict, data_root: Path) -> list[str]:
+    access.refuse_manifest(job, data_root)
     bad = []
     for cam in job["cameras"]:
         p = data_root / cam["uri"]
@@ -263,15 +273,17 @@ def main(argv: list[str] | None = None, detector: Callable | None = None) -> dic
         return {"verified": len(job["cameras"])}
     out.mkdir(parents=True, exist_ok=True)
     env = environment(a.device)
+    cache_key = hashlib.sha256(json.dumps({"job": job_sha, "environment": env, "weights": weights},
+                                        sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     detect = detector or yolo_world(wdir, a.device)
     for cam in job["cameras"]:
-        if finished(out, cam["rec_id"]) is not None:
+        if finished(out, cam["rec_id"], cache_key) is not None:
             print(cam["rec_id"], "already finished: skipped", flush=True)
             continue
-        side = run_camera(cam, data_root, out, detect, env, weights)
-        m = write_manifest(out, job, job_sha, env, weights)
+        side = run_camera(cam, data_root, out, detect, env, weights, cache_key)
+        m = write_manifest(out, job, job_sha, env, weights, cache_key)
         print(cam["rec_id"], "done", side["frames"], "frames", side["wall_s"], "s;", m["cameras_finished"], "of", m["cameras_in_job"], flush=True)
-    m = write_manifest(out, job, job_sha, env, weights)
+    m = write_manifest(out, job, job_sha, env, weights, cache_key)
     print("complete" if m["complete"] else "INCOMPLETE", m["cameras_finished"], "of", m["cameras_in_job"], "cameras", flush=True)
     return m
 
@@ -279,5 +291,5 @@ def main(argv: list[str] | None = None, detector: Callable | None = None) -> dic
 if __name__ == "__main__":
     try:
         main()
-    except RunnerError as e:
+    except (RunnerError, ValueError) as e:
         sys.exit(f"STOPPED: {e}")

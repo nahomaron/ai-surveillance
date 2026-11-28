@@ -23,10 +23,26 @@ def test_gate_holds_only_when_every_item_holds():
     assert not ta.gate_items(bad, LOCK, "art_lock", 471, REP, ARR)["x0c_complete"]
 
 
-def test_loader_refuses_without_gate():
+def test_terminal_gate_refuses_before_open(monkeypatch):
     import pytest
+    monkeypatch.setattr(Path, "read_text", lambda *a, **k: pytest.fail("opened historical readiness records"))
+    with pytest.raises(SystemExit, match="D-66"):
+        ta.gate()
+
+
+def test_loaders_refuse_closed_lineage_before_open(monkeypatch):
+    import pytest
+    from types import SimpleNamespace
     sys.path.insert(0, str(ROOT / "research/m1a"))
     import m1a_common as m
     from rq1.schema.errors import ContractError
-    with pytest.raises(ContractError, match="gate does not hold"):
-        m.load_for_test_run(None, "rec_x", {"items": {"x0c_complete": True}})
+
+    ctx = SimpleNamespace(ds="sdg", freeze={"split": {"sdg_test_runs": ["closed"], "sdg_validation_runs": ["development", "closed"]}},
+                          counts={"cameras": [{"rec_id": "rec_fixture", "run": "closed"}]})
+    monkeypatch.setattr(m.files, "read_table", lambda *a, **k: pytest.fail("opened a closed artifact"))
+    monkeypatch.setattr(m, "_load", lambda *a, **k: pytest.fail("entered the payload loader"))
+    for load in (m.load, m.load_for_reference):
+        with pytest.raises(ContractError, match="D-66"):
+            load(ctx, "rec_fixture")
+    with pytest.raises(ContractError, match="D-66"):
+        m.load_for_test_run(None, "rec_fixture", {"items": ta.gate_items(READY, LOCK, "art_lock", 471, REP, ARR)})

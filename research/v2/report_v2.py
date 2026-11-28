@@ -1,8 +1,7 @@
 """D-63 STEP 5 / STEP 7: `research/v2/<partition>_report.md` from `<partition>_results.json` (tables only; every number
 comes from the results file). Synthetic-data evaluation; experimental.
 
-  PYTHONPATH=src .venv/bin/python research/v2/report_v2.py reporting
-  PYTHONPATH=src .venv/bin/python research/v2/report_v2.py dev        (tuning; diagnostic, out/v2/dev/dev_report.md)
+  PYTHONPATH=src .venv/bin/python research/v2/report_v2.py dev        (tuning; diagnostic, out/v2/dev_m1c/dev_report.md)
 """
 from __future__ import annotations
 
@@ -27,28 +26,30 @@ def f(v, d=3):
 
 
 def ev_rows(table: dict) -> list[str]:
-    out = ["| Viewpoint | Cameras | Groups | a | m | s | EV-M1 | Target A | Target B | EV-M2 | Target A | Target B | EV-M7 (per h) |", "|" + "---|" * 13]
+    out = ["| Viewpoint | Cameras | Groups | a | m | s | EV-M1 | Target A | Target B | EV-M2 | Target A | Target B | False | Duplicate | Usable camera-hours | EV-M7 | Target A | Target B |", "|" + "---|" * 18]
     for view, t in table.items():
         e1, e2, e7 = t["EV-M1"], t["EV-M2"], t["EV-M7"]
         c = t["counts"]
         out.append(f"| {view} | {t['cameras']} | {t['leakage_groups']} | {c['a']} | {c['m']} | {c['s']} | {f(e1['value'])} | {f(e1['target_a'])} | {f(e1['target_b'])} | "
-                   f"{f(e2['value'])} | {f(e2['target_a'])} | {f(e2['target_b'])} | {f(e7['value'], 1)} |")
+                   f"{f(e2['value'])} | {f(e2['target_a'])} | {f(e2['target_b'])} | "
+                   f"{f(c.get('false'))} | {f(c.get('duplicate'))} | {f(c['u'])} | {f(e7['value'], 1)} | "
+                   f"{f(e7['target_a'], 1)} | {f(e7['target_b'], 1)} |")
     return out
 
 
 def gv01_rows(gv: dict, col: str) -> list[str]:
-    out = ["| Viewpoint, class | n | RMSE (m) | Target B | median | P95 | > 1 m | > 2 m | > 5 m | Availability |", "|" + "---|" * 10]
+    out = ["| Viewpoint, class | Scored | Reference n | RMSE (m) | Target B | median | P95 | > 1 m | > 2 m | > 5 m | Availability |", "|" + "---|" * 11]
     for key, s in gv[col]["GV-01"].items():
         av = ", ".join(f"{k} {v}" for k, v in s["availability"].items())
-        out.append(f"| {key} | {s['n']} | {f(s['rmse_m'])} | {f(s['rmse_ci_target_b'])} | {f(s['median_m'])} | {f(s['p95_m'])} | {f(s['share_gt_1m'])} | "
+        out.append(f"| {key} | {s['n']} | {f(s.get('reference_n'))} | {f(s['rmse_m'])} | {f(s['rmse_ci_target_b'])} | {f(s['median_m'])} | {f(s['p95_m'])} | {f(s['share_gt_1m'])} | "
                    f"{f(s['share_gt_2m'])} | {f(s['share_gt_5m'])} | {av} |")
     return out
 
 
 def gv07_rows(gv: dict, col: str) -> list[str]:
-    out = ["| Viewpoint, class | n | RMSE (m/s) | Target B | bias | median abs | P95 abs |", "|" + "---|" * 7]
+    out = ["| Viewpoint, class | Scored | Reference n | RMSE (m/s) | Target B | bias | median abs | P95 abs |", "|" + "---|" * 8]
     for key, s in gv[col]["GV-07"].items():
-        out.append(f"| {key} | {s['n']} | {f(s['rmse_mps'])} | {f(s['rmse_ci_target_b'])} | {f(s['bias_mps'])} | {f(s['median_abs_mps'])} | {f(s['p95_abs_mps'])} |")
+        out.append(f"| {key} | {s['n']} | {f(s.get('reference_n'))} | {f(s['rmse_mps'])} | {f(s['rmse_ci_target_b'])} | {f(s['bias_mps'])} | {f(s['median_abs_mps'])} | {f(s['p95_abs_mps'])} |")
     return out
 
 
@@ -61,7 +62,7 @@ def render(r: dict) -> str:
          f"Contract {r['contract']}. Configuration: {r['preregistration']}.", "",
          "Checks: " + "; ".join(f"{k} {v}" for k, v in r["checks"].items()) + ".", "",
          *([("**Disclosure (D-65).** " + " ".join(r["disclosure"])), ""] if r.get("disclosure") else []),
-         "## 1. Headline: BL-6, detector path", "", f"N4 matching, label group G1, iou_m {iou0}. EV-M1 and EV-M2 are descriptive; no success threshold is set (register C12).", "",
+         "## 1. Headline: BL-6, detector path", "", f"N4 matching, label group G1, iou_m {iou0}. EV-M1 and EV-M2 are descriptive under C12. EV-M7 is false and duplicate candidates per usable synthetic camera-hour.", "",
          *ev_rows(r["headline"]["table"]), "",
          "## 2. Decomposition (BL-6)", "", "Oracle results are never substituted for detector-path capability.", ""]
     for k, t in r["decomposition"].items():
@@ -100,7 +101,9 @@ def render(r: dict) -> str:
 def main():  # pragma: no cover
     part = sys.argv[1]
     src = (rv.partition_dir("dev") / "dev_results.json") if part == "dev" else ROOT / f"research/v2/{part}_results.json"
-    dst = (rv.partition_dir("dev") / "dev_report.md") if part == "dev" else ROOT / f"research/v2/{part}_report.md"
+    if part != "dev":
+        raise SystemExit("refused: historical v2 reports are archival")
+    dst = rv.partition_dir("dev") / "dev_report.md"
     dst.write_text(render(json.loads(src.read_text())))
     print("wrote", dst)
 

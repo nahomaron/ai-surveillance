@@ -1,5 +1,7 @@
 # Colab GPU detection: how to run it (Owner, D-60)
 
+**Current access (D-66 and D-69).** The SDG final test is permanently closed. The D-63/D-64 jobs, upload links, arrival hash command and reporting runs described below are archival. Tier 1 remains deferred. The active notebook exposes only the already approved equivalence job.
+
 What this does: runs the frozen D-45 detector on Google Colab's GPU for the 45 tier-1 videos, after a 2-camera check that the GPU output equals the laptop's CPU output. Only detection (S2) runs on Colab. The agent does everything after that on the laptop.
 
 **Rules (D-60).** Upload only the files listed below: synthetic CC BY 4.0 videos, no real footage. For tier 1, do not open, plot or count the output files. Send the folder back as it is.

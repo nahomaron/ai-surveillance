@@ -84,6 +84,7 @@ def tracker_config() -> dict:
 
 
 def run_camera(ctx, rec, prov, trk_cfg) -> dict:
+    ctx.camera(rec)
     d = pc.OUT / "cam" / rec
     d.mkdir(parents=True, exist_ok=True)
     if (d / "pipeline.json").exists():
@@ -168,6 +169,7 @@ def load_artifact_tables(art_id) -> dict:
 
 def run_camera_cprime(ctx, rec, prov, trk_cfg) -> dict:
     """S3 onward on column C's stored S2 artifact (no detection, no S2 rebuild); new S3/S4/S5 IDs."""
+    ctx.camera(rec)
     d = pc.OUT / CPRIME_DIR / rec
     d.mkdir(parents=True, exist_ok=True)
     if (d / "pipeline.json").exists():

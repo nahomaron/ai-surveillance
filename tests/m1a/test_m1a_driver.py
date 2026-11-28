@@ -13,7 +13,7 @@ from rq1.schema.errors import ContractError  # noqa: E402
 def _ctx(ds):
     ctx = m.Context.__new__(m.Context)
     ctx.ds = ds
-    ctx.freeze = {"split": {"sdg_validation_runs": ["run_val"]}}
+    ctx.freeze = {"split": {"sdg_validation_runs": ["run_val"], "sdg_test_runs": ["run_test"]}}
     ctx.counts = {"cameras": [{"rec_id": "rec_v", "run": "run_val", "s3": "art_a"}, {"rec_id": "rec_t", "run": "run_test", "s3": "art_b"},
                               {"rec_id": "rec_n", "run": "run_val", "s3": None}]}
     return ctx

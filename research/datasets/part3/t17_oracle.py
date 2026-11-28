@@ -13,6 +13,7 @@ and S0 input; otherwise the recording is decoded again. The S3 artifact names th
 Usage: PYTHONPATH=src python t17_oracle.py <data_root> <s0_out_dir> <out_dir> <counts.json> [<previous_counts.json> <previous_out_dir>]"""
 import collections
 import hashlib
+from functools import lru_cache
 import json
 import multiprocessing
 import os
@@ -49,8 +50,27 @@ def provenance():
     return commit, hashlib.sha256((ROOT / "requirements.lock").read_bytes()).hexdigest()
 
 
+@lru_cache(maxsize=1)
+def closed_runs() -> frozenset[str]:
+    with (ROOT / "docs/preregistration/freeze_record.json").open() as source:
+        return frozenset(json.load(source)["split"]["sdg_test_runs"])
+
+
+@lru_cache(maxsize=1)
+def closed_recordings() -> frozenset[str]:
+    with (ROOT / "docs/preregistration/freeze_record_v2.json").open() as source:
+        rows = json.load(source)["references"]["test"]["per_camera"]
+    return frozenset(row["rec_id"] for row in rows)
+
+
+def refuse_closed(entry: dict) -> None:
+    if entry.get("run") in closed_runs() or entry.get("rec_id") in closed_recordings():
+        raise ContractError("ERR-LEAKAGE", "D-66 permanently closed the SDG final test")
+
+
 def s1_worker(args):
     entry, data_root, commit, env = args
+    refuse_closed(entry)
     cfg = DecodeConfig(k_sup=V["k_sup"], f_untimed=V["f_untimed"], f_sub=V["f_sub"], rules_version=quality.RV2, declared={})
     item = stage.S1Input(recording_id=entry["rec_id"], camera_id=entry["camera_id"], path=Path(data_root) / entry["uri"])
     return entry, stage.run_s1(entry["timeline"], [item], cfg, Spec("S1", CONTRACT, commit, env, (DCF,), (entry["s0"],), {}))
@@ -58,6 +78,7 @@ def s1_worker(args):
 
 def reuse_s1(entry, previous, previous_dir):
     """The verified S1 artifact of the previous run for this recording: (artifact id, frame rows, manifest spec), or None."""
+    refuse_closed(entry)
     art = previous.get(entry["rec_id"])
     directory = os.path.join(previous_dir or "", art or "")
     if art is None or not os.path.exists(os.path.join(directory, "manifest.json")):
@@ -122,6 +143,7 @@ class Annotations:
         self.root, self.tars, self.scenes = data_root, {}, {}
 
     def lines(self, entry, suffix):
+        refuse_closed(entry)
         name = f"{entry['prefix']}.{suffix}"
         if "dir" in entry["annotation"]:
             path = os.path.join(self.root, entry["annotation"]["dir"], name)
@@ -184,6 +206,8 @@ def main():
     previous_path, previous_dir = (sys.argv[5], sys.argv[6]) if len(sys.argv) > 6 else (None, None)
     previous = {c["rec_id"]: c["s1"] for c in json.load(open(previous_path))["cameras"]} if previous_path else {}
     index = json.load(open(os.path.join(s0_dir, "index.json")))
+    for entry in index:
+        refuse_closed(entry)
     origin = {e["s0"]: json.load(open(os.path.join(s0_dir, e["s0"], "manifest.json")))["data_origin"] for e in index}
     commit, env = provenance()
     ann, cams = Annotations(data_root), []

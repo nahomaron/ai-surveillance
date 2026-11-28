@@ -88,3 +88,26 @@ def test_m_inputs_total():
     mk = lambda b, m: {"checks": {"m_inputs": {"C|BL-6": {"pair_frames_with_both_states": b, "m_missing": m}}}}
     assert ag.m_inputs_total([mk(100, 0), mk(50, 3)]) == {"C|BL-6": {"pair_frames_with_both_states": 150, "m_missing": 3, "share_missing": 0.02}}
     assert ag.m_inputs_total([{"checks": {}}]) is None
+
+
+def test_ev_m7_reports_false_duplicate_and_support_separately():
+    from report_v2 import ev_rows
+
+    v = counts(3, 2, 5, 3, u=0.5)
+    v["counts"]["duplicate"] = 1
+    t = ag.ev_table([cam("r", "ceiling", "g", {"C|BL-6": {"0.3": v}})], "C|BL-6", "0.3")
+    assert t["all"]["counts"]["false"] == 2 and t["all"]["counts"]["duplicate"] == 1
+    assert t["all"]["EV-M7"]["value"] == 6.0  # (2 false + 1 duplicate) / 0.5 usable camera-hour
+    assert "| False | Duplicate | Usable camera-hours |" in ev_rows(t)[0]
+    assert "| 2 | 1 | 0.500 | 6.0 |" in ev_rows(t)[2]
+
+
+def test_report_missing_baseline_is_refused():
+    keys = [f"{col}|{bl}" for col, baselines in ag.rv.COLUMNS.items() for bl in baselines]
+    c = {"rec_id": "fixture", "ev": {k: {str(i): {} for i in ag.rv.IOUS} for k in keys},
+         "ie": dict.fromkeys(keys), "flags": dict.fromkeys(keys), "runs": dict.fromkeys(keys), "gv": {"reference_support": {}},
+         "checks": {"flag_inputs": dict.fromkeys(keys)}}
+    assert ag.camera_result_keys([c]) == sorted(keys)
+    del c["ev"]["A|BL-2"]
+    with pytest.raises(SystemExit, match="incomplete evaluation record"):
+        ag.camera_result_keys([c])

@@ -30,14 +30,45 @@ def test_config_mismatches():
 
 
 def test_partition_guard():
-    # D-63 STEP 7 (T-29t): `test` is no longer refused outright; it opens only through test_access.gate (tested in
-    # test_test_access.py). Unknown partitions are refused.
-    with pytest.raises(SystemExit, match="is not run here"):
-        rv.partition_dir("tier1")
-    assert rv.partition_dir("reporting") == rv.OUT / "run" / "reporting"
-    assert rv.partition_dir("reporting_rerun") == rv.OUT / "run" / "reporting_rerun"
-    assert rv.partition_dir("dev") == rv.OUT / "dev"
-    assert rv.REFERENCE_SET == {"dev": "tuning", "reporting": "reporting", "reporting_rerun": "reporting", "test": "test"}
+    for partition in ("test", "reporting", "reporting_rerun", "tier1"):
+        with pytest.raises(SystemExit, match="is not run here"):
+            rv.partition_dir(partition)
+    assert rv.partition_dir("dev") == rv.OUT / "dev_m1c"
+
+
+def test_direct_run_denies_before_cache_and_input(monkeypatch, tmp_path):
+    monkeypatch.setattr(rv, "cameras", lambda partition: ["rec_dev"])
+    exists = Path.exists
+
+    def check(path):
+        if path.is_relative_to(tmp_path):
+            pytest.fail("checked a cache for a denied recording")
+        return exists(path)
+
+    monkeypatch.setattr(Path, "exists", check)
+    for partition, rec in (("test", "rec_dev"), ("reporting", "rec_dev"), ("dev", "rec_closed")):
+        with pytest.raises(SystemExit, match="refused"):
+            rv.run_camera((partition, rec, None, tmp_path, True))
+
+
+@pytest.mark.parametrize("field, value", [
+    ("lbl_H", False), ("t_end_tl_s", 0.75), ("assessable", False), ("person_key", "different"),
+])
+def test_consumed_reference_verification(field, value):
+    from copy import deepcopy
+    import v2_references as vr
+    event = {"person_key": "p", "forklift_key": "f", "start_frame": 3, "end_frame_excl": 9, "t_start_tl_s": 0.1,
+             "t_end_tl_s": 0.3, "assessable": True, "lbl_O": False, "lbl_H": True, "lbl_PC": False}
+    binding = {"rec_id": "rec_x", "s3": "art_3", "s4": "art_4", "s5": "art_5", "s5_payload_sha256": "payload",
+               "references_sha256": vr.list_sha256([event])}
+    row = dict(binding, set="tuning", references=[event])
+    assert len(rv.verified_references(row, binding, "rec_x", "tuning")[0]) == 1
+    tampered = deepcopy(row)
+    tampered["references"][0][field] = value
+    with pytest.raises(SystemExit, match="reference"):
+        rv.verified_references(tampered, binding, "rec_x", "tuning")
+    with pytest.raises(SystemExit, match="reference"):
+        rv.verified_references(dict(row, rec_id="rec_other"), binding, "rec_x", "tuning")
 
 
 def test_test_inference_differs_only_by_device():
@@ -129,3 +160,67 @@ def test_m_input_check_counts_missing_m_where_both_states_exist():
     # frame 3: forklift speed null -> not counted; frames 0-2 counted; frame 1 has M unknown -> 1 of 3 missing
     assert got == {"pair_frames_with_both_states": 3, "m_missing": 1, "share_missing": pytest.approx(1 / 3)}
     assert rv.M_MISSING_MAX == 0.05
+
+
+
+def test_missing_m_flag_row_counts_as_missing():
+    s4 = {"object_state": [{"track_id": t, "frame_index": 0, "speed_mps": 1.0} for t in ("p", "f")],
+          "pow": [{"person_track_id": "p", "forklift_track_id": "f", "start_frame": 0, "pow_id": "pow_1"}],
+          "pair_series": [{"pow_nk": ["p", "f", 0], "frame_index": 0}]}
+    assert rv.m_input_check(s4, {"flag_series": []}, lambda t, _: t)["m_missing"] == 1
+
+
+def test_flag_input_audit_rejects_silent_r4_and_coverage_loss():
+    from rq1.events.engine import FrameFlags
+    from rq1.events.providers import RuleParams
+
+    frames = [{"recording_id": "rec_fixture", "frame_index": 0, "eligible": True, "t_resolved_s": 0.0}]
+    pw = {"person_track_id": "sp", "forklift_track_id": "sf", "start_frame": 0, "pow_id": "pow_fixture"}
+    rows = [{"track_id": trk, "frame_index": 0, "speed_mps": 1.0, "x_m": 0.0, "evidence_class": "detected"}
+            for trk in ("p", "f")]
+    pair = {"pow_nk": ["sp", "sf", 0], "frame_index": 0, "clearance_state": "measured", "q_state": "sufficient",
+            "ttc_s": None, "ttc_s_null_reason": "not_applicable", "pet_pred_s": None, "pet_pred_s_null_reason": "not_applicable",
+            "evidence_class": "detected"}
+    rules = RuleParams("R2", 0.05, 2, 0.3, 1, 1, 1, 2, ("R4",), True, 1, 1, 1, 1, 2)
+    audit, counts = rv.flag_input_audit({"frame": frames, "coverage_segment": []}, {"object_state": rows, "pair_series": [pair]},
+                                        {("sp", 0): "p", ("sf", 0): "f"})
+    good = FrameFlags(0, 0, 0.1, 1, 1, {"R4": 0}, E=2, Q=1)
+    audit(pw, rules, [good])
+    assert counts == {"R4": {"evaluated": 1}, "R5": {"unavailable": 1}, "contact": {"unavailable": 1},
+                      "coverage": {"evaluated": 1}}
+    good.C_by["R4"] = 2
+    with pytest.raises(SystemExit, match="R4"):
+        audit(pw, rules, [good])
+    good.C_by["R4"], good.Q = 0, 0
+    with pytest.raises(SystemExit, match="coverage"):
+        audit(pw, rules, [good])
+
+
+def test_development_result_cache_binds_inputs_and_output(tmp_path, monkeypatch):
+    path = tmp_path / "rec_fixture.json"
+    arts = {"A.S3": {"id": "art_fixture", "payload": "payload"}}
+    record = {"artifacts": arts, "artifact_digest": rv.artifact_digest(arts), "cache_key": "input-A", "result": 3}
+    rv.write_camera_record(path, record)
+    monkeypatch.setattr(rv, "verify_saved_artifact", lambda directory, art_id: "payload")
+    assert rv.cached_result(path, "input-A", tmp_path / "artifacts") is True
+    assert rv.cached_result(path, "input-B", tmp_path / "artifacts") is False
+    monkeypatch.setattr(rv, "verify_saved_artifact", lambda directory, art_id: "other")
+    with pytest.raises(SystemExit, match="artifact payload"):
+        rv.cached_result(path, "input-A", tmp_path / "artifacts")
+    altered = json.loads(path.read_text())
+    altered["result"] = 4
+    path.write_text(json.dumps(altered))
+    with pytest.raises(SystemExit, match="camera cache"):
+        rv.cached_result(path, "input-A", tmp_path / "artifacts")
+
+
+def test_development_output_path_rejects_archive_and_symlinks(tmp_path, monkeypatch):
+    monkeypatch.setattr(rv, "OUT", tmp_path)
+    sealed = tmp_path / "run"
+    sealed.mkdir()
+    alias = tmp_path / "dev_alias"
+    alias.symlink_to(sealed, target_is_directory=True)
+    for bad in (sealed / "test", alias, tmp_path.parent / "dev"):
+        with pytest.raises(SystemExit, match="output"):
+            rv.development_output(bad)
+    assert rv.development_output(tmp_path / "dev_m1c") == tmp_path / "dev_m1c"

@@ -33,6 +33,9 @@ import numpy as np  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import zero_shot_probe as zp  # noqa: E402
 
+sys.path.insert(0, str(ROOT / "research/colab"))
+from rq1_colab.access import refuse_camera  # noqa: E402
+
 RAW = ROOT / "out/m1b/pilot/s2raw"
 MAIN_PY = ROOT / ".venv/bin/python"
 
@@ -68,6 +71,8 @@ def provenance() -> str:
 
 
 def main(recs: list[str]) -> None:
+    for rec in recs:
+        refuse_camera({"rec_id": rec})
     commit = provenance()
     import torch
     import ultralytics

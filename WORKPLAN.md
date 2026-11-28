@@ -128,14 +128,14 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 
 ## 3a. Milestone M1c — Measurement improvement and synthetic scientific evaluation
 
-Active under D-67. See the [measurement plan](docs/plan/Measurement_Improvement_and_Scientific_Validation_Plan.md) for exit evidence, resource estimates and priorities. E1 and E2 design and reference qualification start in parallel. Execute each experiment only after its integrity and data dependencies pass. D-66 is terminal for the original final test and supersedes old pre-approvals to process or upload it. Real-world work is deferred under D-67.
+Active under D-67 and D-69. See the [measurement plan](docs/plan/Measurement_Improvement_and_Scientific_Validation_Plan.md) for exit evidence, resource estimates and priorities. E1 and E2 design and reference qualification start in parallel. Execute each experiment only after its integrity and data dependencies pass. D-66 is terminal for the original final test and supersedes old pre-approvals to process or upload it. Real-world work is deferred under D-67.
 
 | Status | Task | Work and owner | Needs | Exit evidence |
 |---|---|---|---|---|
 | [x] | T-30 | Codex records approved scope, audit attribution, plan, work packages and change control. | D-67 | Plan, CRs, Appendix T26 and contribution register cross-checked. |
-| [ ] | T-31 | Claude Code coordinates WP-21 integrity fixes and development allocation. | D-67 / CR-043 | Six integrity checks documented, no closed-lineage opens, both environments verified, approved-only development manifests inspected for leakage. |
+| [~] | T-31 | WP-21 integrity corrections and development allocation. Codex implemented the first corrections under D-69. Claude Code coordinates integration, independent review and the detailed allocation. | D-67 / D-69 / CR-043 | Six integrity checks documented, no closed-lineage opens, both environments verified, approved-only development manifests inspected for leakage. |
 | [ ] | T-32 | WP-22 analytical references and paired component comparisons for both viewpoints. | Design may start now. Execution requires affected T-31 gates. | Reference fixture checks, accuracy and coverage tables, bounded comparison and reviewed architecture rationale. |
-| [ ] | T-33 | WP-23 E1 and WP-24 E2 comparative prototypes in parallel. | Design may start now. T-31/T-32 evidence governs execution and selection. | Reproducible E1/E2 outputs, independent E2 measurements, model/tracker/rule comparisons and failure cases. |
+| [ ] | T-33 | WP-23 E1 and WP-24 E2 comparative prototypes in parallel. | Design may start now. T-31/T-32 evidence governs execution and selection. | Uncached E1/E2 vision outputs with truth inaccessible, independent E2 measurements, paired detector × geometry comparisons and model, tracker and rule evidence. |
 | [ ] | T-34 | WP-25 blinded candidate construct review. | Protocol and reviewer feasibility, appropriate footage, relevant isolation gates. | Agreement and disagreement assessment or documented unassessed status. |
 | [S] | T-35 | WP-26 academic evidence package and separate confirmatory gate. Continue academic reporting meanwhile. | CR-044 / D-68 for any final confirmatory access and run. | Report with tested claims, failures, supporting comparison record, reproducibility instructions and real-world future work. |
 
@@ -1302,3 +1302,10 @@ _(the agent appends entries here)_
 - Reconciled the three registered oracle-box RMSE failures with the matched-subset detector RMSE and the oracle-position rule results using the published reports. Reviewed the current gate, reference comparison, state guard and recent history. This documentation change runs no experiments.
 - Verification: documentation links and Git diff checked. See the contribution register for attribution and independent review status.
 - Next: Claude Code coordinates WP-21 and the parallel development-only reference and experiment designs. T-35's confirmatory branch stays at D-68.
+
+### 2026-11-27 — T-31 part 1 (Codex, D-69)
+
+- Integrated the accepted plan with D-69 and T26.1, keeping original commit `0392e82` and the existing criteria. CR-043 records the active entry-point, reference, state, reporting and cache changes. AR-75 records the development cache and input-audit representation.
+- On one allowlisted ceiling tuning camera with 10 s usable support, B scored 600 of 600 object-frames against position and speed references, and C scored 562 of 600 for each. At BL-6 and temporal IoU 0.3, C matched 1 of 1 rule references and emitted 1 candidate with zero false and duplicate candidates. These are isolation and reporting smoke checks with stored S2. They provide no comparative, human-judgment or scientific acceptance evidence.
+- Main suite passed twice with 2,808 passed and 17 detector-only skips on each run. The separate detector suite passed all 32 tests. Seven direct command checks, including the CPU detector launcher, refused unavailable partitions or recordings. The main suite uses independent replacements for the two sealed SDG content regression cases. The detector suite uses temporary Python 3.9-compatible pytest outside the detector environment and excludes the unrelated main-suite conftest. The archived v2 result data and both frozen registrations retain their original bytes.
+- T-31 remains in progress. Archive custody and inspection of other entry points and aliases, Claude Code's independent review, and the detailed development allocation remain open. Approval gates for training allocations, spending, definition changes, reserved datasets and confirmatory work remain in D-69 and D-68.

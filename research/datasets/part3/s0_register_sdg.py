@@ -1,4 +1,4 @@
-"""T-18 part C: register every held SDG run as one S0 artifact (data_origin synthetic_rendered). Statistics and IDs only.
+"""T-18 part C: register held SDG runs outside the permanently closed lineage as one S0 artifact (data_origin synthetic_rendered). Statistics and IDs only.
 Sources: member directories (`data/raw/sdg/members/<shard>/`) and the held shard 00538, whose RGB videos were extracted to
 `data/derived/sdg_rgb_sample/` and whose camera parameters are read from the tar. Run lineage: `metadata/runs.parquet`.
 retrieved_utc = the arrival time of the last SDG file of the holding (AR-52 item 6).
@@ -22,6 +22,8 @@ from rq1.adapters import sdg_camera
 from rq1.ids.artifact import Spec, write_artifact
 from rq1.registry.registrar import Registrar
 
+from t17_oracle import closed_runs, refuse_closed
+
 RETRIEVED_UTC = datetime(2026, 11, 13, 1, 57, 47, tzinfo=timezone.utc)
 HELD_TAR = "raw/sdg/artifacts/forklift_human_nearmiss/nearmiss-artifacts-00538.tar"
 HELD_RGB = "derived/sdg_rgb_sample"
@@ -30,6 +32,8 @@ ROOT = Path(__file__).resolve().parents[3]
 
 def video(root, rel):
     path = os.path.join(root, rel)
+    for candidate in (Path(path), Path(path).resolve()):
+        refuse_closed({"run": reg.rgb_run_id(candidate.name.split(".")[0])})
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for block in iter(lambda: f.read(1 << 20), b""):
@@ -56,6 +60,8 @@ def main():
         for n in sorted(names):
             if n.endswith(".rgb.mp4"):
                 run, view = n.split(".")[:2]
+                if reg.rgb_run_id(run) in closed_runs():
+                    continue
                 cp = f"{run}.{view}.camera_params.jsonl"
                 cal = calibration(open(os.path.join(d, cp)).read().splitlines()) if cp in names else None
                 cams[run][view] = (video(root, f"raw/sdg/members/{shard}/{n}"), cal)
@@ -64,6 +70,8 @@ def main():
         for n in sorted(os.listdir(os.path.join(root, HELD_RGB))):
             if n.endswith(".rgb.mp4"):
                 run, view = n.split(".")[:2]
+                if reg.rgb_run_id(run) in closed_runs():
+                    continue
                 cp = f"{run}.{view}.camera_params.jsonl"
                 cal = calibration(tf.extractfile(tnames[cp]).read().decode().splitlines()) if cp in tnames else None
                 cams[run][view] = (video(root, f"{HELD_RGB}/{n}"), cal)

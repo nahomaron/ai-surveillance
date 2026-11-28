@@ -18,6 +18,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from rq1_colab import access
+
 MANIFEST = "colab_manifest.json"
 
 
@@ -33,6 +35,7 @@ def verify(job_path: Path, out: Path) -> dict:
     problems: list[str] = []
     job_sha = sha256(job_path)
     job = json.loads(job_path.read_text())
+    access.refuse_manifest(job)
     m = json.loads((out / MANIFEST).read_text())
     cams = {c["rec_id"]: c for c in job["cameras"]}
 

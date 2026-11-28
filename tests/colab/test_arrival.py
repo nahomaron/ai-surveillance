@@ -19,7 +19,7 @@ def sha(b: bytes) -> str:
 
 def make(tmp: Path, n=2):
     cams = [{"rec_id": f"rec_{k}", "sha256": f"{k}" * 64, "n_eligible": 3 + k} for k in range(n)]
-    job = {"format": "rq1-colab-job-1", "job": "test", "decision": "D-64", "cameras": cams,
+    job = {"format": "rq1-colab-job-1", "job": "fixture", "decision": "D-64", "cameras": cams,
            "detector": {"weights": W}}
     jp = tmp / "job.json"
     jp.write_text(json.dumps(job))
@@ -34,7 +34,7 @@ def make(tmp: Path, n=2):
                 "frames": c["n_eligible"], "n_eligible": c["n_eligible"], "input_sha256": c["sha256"]}
         (out / f"{c['rec_id']}.done.json").write_text(json.dumps(side))
         files.append(side)
-    m = {"job": "test", "job_manifest_sha256": sha(jp.read_bytes()), "complete": True, "cameras_in_job": n,
+    m = {"job": "fixture", "job_manifest_sha256": sha(jp.read_bytes()), "complete": True, "cameras_in_job": n,
          "cameras_finished": n, "weights_sha256": {k: v["sha256"] for k, v in W.items()},
          "environment": {"runner_commit": "c0ffee"}, "files": files}
     (out / "colab_manifest.json").write_text(json.dumps(m))

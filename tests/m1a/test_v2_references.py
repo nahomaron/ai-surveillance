@@ -1,5 +1,4 @@
-"""D-61 STEP 5: v2 reference building. The test-partition loader is reference-only; the ordinary loader still refuses
-test (D-37); reference entries follow T21.2-T21.3 (hand-made inputs, expected values by hand beside each assertion)."""
+"""D-66 closure and historical v2 reference math on hand-made inputs."""
 import json
 import os
 import sys
@@ -23,14 +22,15 @@ def _test_rec():
 
 
 @pytest.mark.skipif(not HAVE_DATA, reason="SDG S0 and T17 counts not present")
-def test_ordinary_loader_still_refuses_test_and_reference_loader_allows_it():
+def test_ordinary_and_reference_loaders_refuse_closed_recording():
     from rq1.schema.errors import ContractError
     ctx = m.Context("sdg")
     rec = _test_rec()
     with pytest.raises(ContractError) as e:
         ctx.camera(rec)
     assert e.value.code == "ERR-LEAKAGE"  # D-37 unchanged for every system path
-    assert ctx.reference_camera(rec)["rec_id"] == rec  # D-61 STEP 5: reference building only
+    with pytest.raises(ContractError, match="D-66"):
+        ctx.reference_camera(rec)
 
 
 @pytest.mark.skipif(not (ROOT / "out/s0_smartspaces").exists(), reason="SmartSpaces S0 not present")

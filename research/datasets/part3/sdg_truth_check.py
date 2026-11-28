@@ -13,17 +13,25 @@ import tarfile
 import av
 
 from rq1.adapters import sdg_camera, sdg_truth
+from rq1.adapters.registration import rgb_run_id
+
+from t17_oracle import closed_runs, refuse_closed
+
+
+def open_member(opener, name):
+    refuse_closed({"run": rgb_run_id(name.split(".")[0])})
+    return opener(name)
 
 
 def sources(members_root, tars):
     for shard in sorted(os.listdir(members_root)):
         d = os.path.join(members_root, shard)
         if os.path.isdir(d):
-            yield shard, (lambda name, d=d: open(os.path.join(d, name), "rb")), sorted(os.listdir(d))
+            yield shard, (lambda name, d=d: open_member(lambda member: open(os.path.join(d, member), "rb"), name)), sorted(os.listdir(d))
     for t in tars:
         tf = tarfile.open(t)
         names = {m.name: m for m in tf.getmembers()}
-        yield os.path.basename(t), (lambda name, tf=tf, names=names: tf.extractfile(names[name])), sorted(names)
+        yield os.path.basename(t), (lambda name, tf=tf, names=names: open_member(lambda member: tf.extractfile(names[member]), name)), sorted(names)
 
 
 def main():
@@ -32,6 +40,8 @@ def main():
     cams_out, runs_out, excess = [], [], []
     for shard, opener, names in sources(members_root, sys.argv[4:]):
         for run in sorted({n.split(".")[0] for n in names if n.endswith(".object_detection.jsonl")}):
+            if rgb_run_id(run) in closed_runs():
+                continue
             stale, paths = collections.defaultdict(set), collections.defaultdict(list)
             for cam in sorted({n.split(".")[1] for n in names if n.startswith(run + ".") and n.endswith(".object_detection.jsonl")}):
                 missing = [m for m in ("camera_params.jsonl", "rgb.mp4") if f"{run}.{cam}.{m}" not in names]

@@ -1,9 +1,14 @@
 """T21.6: describe the SDG Dodge task fields (truth annotation only; read-only). Output summarised in qualification.md Part 4."""
 import json, glob, collections
+from rq1.adapters.registration import rgb_run_id
+from m1a_common import drv
+
+
 by_run = {}
 for f in sorted(glob.glob("data/raw/sdg/members/*/*.object_detection.jsonl")):
     run = f.split("/")[-1].split(".")[0]
-    by_run.setdefault(run, f)
+    if rgb_run_id(run) not in drv.closed_runs():
+        by_run.setdefault(run, f)
 values, fields, onsets, n_dodge_runs, at0, durations = collections.Counter(), collections.Counter(), [], 0, 0, []
 for run, f in sorted(by_run.items()):
     seq = []

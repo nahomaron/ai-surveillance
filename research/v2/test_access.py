@@ -1,5 +1,6 @@
-"""D-63 STEP 7 (T-29t): the one gated way for system stages to read a test camera, and a camera view built from
-simulator truth that works for any SDG partition.
+"""Historical D-63 gate checks and the development-only SDG camera view.
+
+D-66 is terminal. The former D-63 readiness checks below are retained for fixture coverage.
 
 Gate (D-63 rulings 1, 7, 8; R-2): every item must hold, read from the committed records, before any test camera is
 loaded for S3 or later:
@@ -14,7 +15,6 @@ On validation cameras it must equal `evaluate_m1a.Camera` field for field (check
 """
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -37,20 +37,8 @@ def gate_items(readiness: dict, lock_record: dict, lock_id: str | None, locked: 
             "test_s2_arrived": bool(arrival and arrival.get("pass") is True and arrival.get("cameras_verified") == TEST_CAMERAS)}
 
 
-def gate() -> dict:  # pragma: no cover - reads the committed records and the lock artifact
-    from rq1.ids import artifact as A
-    from rq1.schema import files
-    lock_record = json.loads(LOCK_RECORD.read_text())
-    lock_dir = ROOT / "out/prereg" / lock_record["lock_artifact"]
-    lock_id = A.verify(str(lock_dir))
-    windows = files.read_table(str(lock_dir / "reference_window.parquet"), "reference_window", A.SCHEMA_VERSION)
-    locked = sum(1 for w in windows if w["annotation_status"] == "locked")
-    items = gate_items(json.loads(READINESS.read_text()), lock_record, lock_id, locked,
-                       json.loads(REPORTING.read_text()) if REPORTING.exists() else None,
-                       json.loads(ARRIVAL.read_text()) if ARRIVAL.exists() else None)
-    if not all(items.values()):
-        raise SystemExit(f"refused: the D-63 STEP 7 gate does not hold: {items}")
-    return {"items": items, "lock_artifact_id": lock_id}
+def gate() -> dict:
+    raise SystemExit("refused: D-66 permanently closed the SDG final test")
 
 
 class CameraView:
@@ -62,6 +50,10 @@ class CameraView:
         import m1a_common as m
         from rq1.ids import artifact as A
         from rq1.schema import files
+        if window_dir.absolute() != V0_VALIDATION or window_dir.resolve() != V0_VALIDATION:
+            raise SystemExit("refused: the v2 camera view only loads development windows after D-66")
+        if m.Context.camera(ctx, rec) != cam:
+            raise SystemExit("refused: the v2 development camera does not match its registration")
         self.ds, self.rec = "sdg", rec
         self.camera_name, self.run = cam["camera"], cam["run"]
         self.truth_rows, self.visible = m.truth_table(data), m.visible_frames(data)

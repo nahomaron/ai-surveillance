@@ -1,8 +1,7 @@
 """D-63 STEP 5 / STEP 7: aggregation of a v2 partition run into `research/v2/<partition>_results.json` (tables of
 D-61 section 1.6). Synthetic-data evaluation; experimental. Automated outputs are candidates; nothing is validated.
 
-  PYTHONPATH=src .venv/bin/python research/v2/aggregate_v2.py dev          -> out/v2/dev/dev_results.json (tuning; diagnostic)
-  PYTHONPATH=src .venv/bin/python research/v2/aggregate_v2.py reporting    -> research/v2/reporting_results.json
+  PYTHONPATH=src .venv/bin/python research/v2/aggregate_v2.py dev          -> out/v2/dev_m1c/dev_results.json (tuning; diagnostic)
 
 Intervals (pre-registration v1 section 4.4, unchanged in v2): Target A (frame_description, stratified window bootstrap,
 strata = V0 strata) and Target B (new_session_performance, cluster bootstrap over leakage groups within data origin);
@@ -73,7 +72,8 @@ def ev_table(cams: list[dict], key: str, iou: str) -> dict:
     out = {}
     for view in VIEWS:
         sub = [c for c in cams if in_view(c, view)]
-        tot = {k: sum(c["ev"][key][iou]["counts"][k] for c in sub) for k in ("a", "m", "s", "m_s", "f", "u")}
+        tot = {k: sum(c["ev"][key][iou]["counts"][k] for c in sub) for k in ("a", "m", "s", "m_s", "f", "u", "duplicate")}
+        tot["false"] = tot["f"] - tot["duplicate"]
         res = {"cameras": len(sub), "leakage_groups": len({c["leakage_group"] for c in sub}), "counts": tot}
         for name, (xk, yk) in METRICS.items():
             rows = [(c["stratum"], c["leakage_group"], c["ev"][key][iou]["counts"][xk], c["ev"][key][iou]["counts"][yk]) for c in sub]
@@ -103,6 +103,13 @@ def _q(values, q):
     return float(em.percentile(values, q)) if values else None
 
 
+def reference_support(cams: list[dict], view: str, cls: str, quantity: str) -> int | None:
+    sub = [c for c in cams if in_view(c, view)]
+    if any("reference_support" not in c["gv"] for c in sub):
+        return None
+    return sum(n for c in sub for kind, n in c["gv"]["reference_support"][quantity].items() if cls in ("all", kind))
+
+
 def gv01_summary(cams: list[dict], col: str, view: str, cls: str = "all") -> dict:
     """GV-01 RMSE with Target A / B intervals (from per-camera sums of squares, as aggregate_m1a.gv_aggregate), the D-41
     form (median, P95, share above 1, 2, 5 m) and position availability by null reason."""
@@ -119,7 +126,7 @@ def gv01_summary(cams: list[dict], col: str, view: str, cls: str = "all") -> dic
                 avail[k.split("|", 1)[1]] += v
     n = len(norms)
     mse = ci(per)
-    return {"n": n, "rmse_m": math.sqrt(sum(v * v for v in norms) / n) if n else None,
+    return {"n": n, "reference_n": reference_support(cams, view, cls, "position"), "rmse_m": math.sqrt(sum(v * v for v in norms) / n) if n else None,
             "rmse_ci_target_a": [math.sqrt(v) for v in mse["target_a"]] if mse["target_a"] else None,
             "rmse_ci_target_b": [math.sqrt(v) for v in mse["target_b"]] if mse["target_b"] else None,
             "median_m": _q(norms, 50), "p95_m": _q(norms, 95), **{f"share_gt_{int(x)}m": (sum(1 for v in norms if v > x) / n) if n else None for x in POS_CUTS_M},
@@ -139,7 +146,7 @@ def gv07_summary(cams: list[dict], col: str, view: str = "all", cls: str = "all"
     n = len(errs)
     mse = ci(per)
     absv = [abs(v) for v in errs]
-    return {"n": n, "rmse_mps": math.sqrt(sum(v * v for v in errs) / n) if n else None,
+    return {"n": n, "reference_n": reference_support(cams, view, cls, "speed"), "rmse_mps": math.sqrt(sum(v * v for v in errs) / n) if n else None,
             "rmse_ci_target_a": [math.sqrt(v) for v in mse["target_a"]] if mse["target_a"] else None,
             "rmse_ci_target_b": [math.sqrt(v) for v in mse["target_b"]] if mse["target_b"] else None,
             "bias_mps": sum(errs) / n if n else None, "median_abs_mps": _q(absv, 50), "p95_abs_mps": _q(absv, 95),
@@ -175,7 +182,9 @@ def mr01(run: list[dict], repeat: list[dict]) -> dict:
     """MR-01: 1.0 when every exact-class artifact ID and payload hash of the repeat equals the run (AR-57 item 5), else 0.0."""
     a = {c["rec_id"]: c["artifact_digest"] for c in run}
     b = {c["rec_id"]: c["artifact_digest"] for c in repeat}
-    differ = sorted(r for r in a if r in b and b[r] != a[r])
+    run_keys = {c["rec_id"]: c.get("cache_key") for c in run}
+    repeat_keys = {c["rec_id"]: c.get("cache_key") for c in repeat}
+    differ = sorted(r for r in a if r in b and (b[r] != a[r] or run_keys[r] != repeat_keys[r]))
     return {"cameras": len(a), "repeated": len(b), "differing": differ, "value": None if set(a) != set(b) else (0.0 if differ else 1.0)}
 
 
@@ -202,20 +211,38 @@ def criterion_rows(freeze: dict, values: dict, n_groups: int, partition: str) ->
 # ------------------------------------------------------------------------------------------------ driver
 
 def load(partition: str):  # pragma: no cover
-    base = rv.partition_dir(partition)
-    run = [json.loads(p.read_text()) for p in sorted((base / "cam").glob("*.json"))]
-    rep = [json.loads(p.read_text()) for p in sorted((base / "repeat").glob("*.json"))] if (base / "repeat").exists() else []
+    base = rv.development_output(rv.partition_dir(partition))
+    for name in ("cam", "repeat"):
+        rv.without_symlinks(base / name)
+    run = [rv.read_camera_record(p) for p in sorted((base / "cam").glob("*.json"))]
+    rep = [rv.read_camera_record(p) for p in sorted((base / "repeat").glob("*.json"))] if (base / "repeat").exists() else []
     return base, run, rep
 
 
+def camera_result_keys(cameras: list[dict]) -> list[str]:
+    """Require every planned baseline and matching threshold on every camera before pooling."""
+    keys = sorted(f"{col}|{bl}" for col, baselines in rv.COLUMNS.items() for bl in baselines)
+    ious = {str(x) for x in rv.IOUS}
+    for camera in cameras:
+        if (any(set(camera[section]) != set(keys) for section in ("ev", "ie", "flags", "runs"))
+                or any(set(camera["ev"][key]) != ious for key in keys)
+                or "reference_support" not in camera["gv"]
+                or set(camera.get("checks", {}).get("flag_inputs", {})) != set(keys)):
+            raise SystemExit(f"STOP: incomplete evaluation record for {camera['rec_id']}")
+    return keys
+
+
 def aggregate(partition: str) -> dict:  # pragma: no cover
-    freeze = json.loads(rv.FREEZE.read_text())
     _, cams, rep = load(partition)
+    freeze = json.loads(rv.FREEZE.read_text())
     expected = rv.cameras(partition)
     if sorted(c["rec_id"] for c in cams) != sorted(expected):
         raise SystemExit(f"STOP: {len(cams)} of {len(expected)} cameras present")
     commits = sorted({c["code_commit"] for c in cams})
-    keys = sorted(cams[0]["ev"])
+    environments = {c["environment_digest"] for c in cams}
+    if len(commits) != 1 or len(environments) != 1 or "uncommitted" in commits:
+        raise SystemExit("STOP: mixed or uncommitted provenance in development records")
+    keys = camera_result_keys(cams)
     iou0 = str(rv.v2.IOU_M)
     res = {"partition": partition, "status": rv.STATUS, "wording": WORDING, "contract": rv.v2.CONTRACT, "code_commits": commits,
            "preregistration": "docs/preregistration_v2_FROZEN.md (freeze record SHA-256 in docs/preregistration/freeze_record_v2.json)",
@@ -227,7 +254,10 @@ def aggregate(partition: str) -> dict:  # pragma: no cover
                       "person_log_reproduces_pilot": sum(1 for c in cams if c["checks"]["person_log_reproduces_pilot"]),
                       "gv04_pair_frames_and_prior_mismatches": [sum(c["checks"]["gv04_prior_clearance_differs_from_stored"][i] for c in cams) for i in (0, 1)],
                       "stitch_links": sum(c["checks"]["stitch_links"] for c in cams),
-                      "m_inputs": m_inputs_total(cams)},
+                      "m_inputs": m_inputs_total(cams),
+                      "flag_inputs": {key: {kind: dict(sum((rv.Counter(c["checks"]["flag_inputs"][key][kind]) for c in cams),
+                                                               rv.Counter()))
+                                             for kind in ("R4", "R5", "contact", "coverage")} for key in keys}},
            "runtime_s": round(sum(c["seconds"] for c in cams), 1)}
     # 1-2. headline (C|BL-6) and decomposition (A|BL-6, B|BL-6); 5. every column x baseline x iou_m
     res["ev"] = {k: {iou: ev_table(cams, k, iou) for iou in (str(x) for x in rv.IOUS)} for k in keys}

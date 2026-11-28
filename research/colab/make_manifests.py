@@ -51,8 +51,10 @@ def s0_files(s0_dir):
 
 
 def camera(rec_id, s0_dir, s1_dir, label):
+    R.access.refuse_camera({"rec_id": rec_id})
     srcs, recs = s0_files(s0_dir)
     src = srcs[recs[rec_id]["src_id"]]
+    R.access.refuse_camera({"rec_id": rec_id, **src}, DATA)
     path = DATA / src["uri"]
     if path.stat().st_size != src["size_bytes"] or R.sha256(path) != src["sha256"]:
         raise SystemExit(f"{rec_id}: the file on disk differs from its S0 source_file row")
@@ -94,28 +96,11 @@ def tier1():
 
 
 def reporting_test():
-    sys.path.insert(0, str(ROOT / "research/preregistration"))
-    import v2_references as vr
-    index = {e["rec_id"]: e for e in json.load(open(ROOT / "out/s0_sdg/index.json"))}
-    s1_of = {c["rec_id"]: c["s1"] for c in json.load(open(ROOT / "research/datasets/part3/t17_counts_sdg.json"))["cameras"]}
-    cams = []
-    for name in ("reporting", "test"):
-        recs = vr.cameras(name)
-        assert len(recs) == vr.EXPECTED[name], (name, len(recs))
-        for r in sorted(recs, key=lambda r: (index[r]["run"], index[r]["camera"])):
-            e = index[r]
-            cams.append({**camera(r, ROOT / "out/s0_sdg" / e["s0"], ROOT / "out/t17_sdg" / s1_of[r], f"{e['run']}.{e['camera']}"), "set": name})
-    return {"job": "reporting_test", "decision": "D-63",
-            "purpose": "D-63 rulings 7-8: S2 on the 110 v2 reporting cameras and the 471 X0b test cameras (frozen v2 detector); test output sealed until D-63 STEP 7",
-            "sets": {n: sum(c["set"] == n for c in cams) for n in ("reporting", "test")}, "cameras": cams}
+    R.access.refuse_job("reporting_test")
 
 
 def test():
-    body = reporting_test()
-    cams = [c for c in body["cameras"] if c["set"] == "test"]
-    return {"job": "test", "decision": "D-64",
-            "purpose": "D-64 option (a), D-63 ruling 8: S2 on the 471 X0b test cameras only (frozen v2 detector); the reporting run uses the stored CPU S2; test output sealed until D-63 STEP 7",
-            "sets": {"test": len(cams)}, "cameras": cams}
+    R.access.refuse_job("test")
 
 
 def manifest(job):
@@ -132,8 +117,10 @@ def manifest(job):
 
 def stage(job):
     """Hard links (no extra disk space) of the job's videos under out/colab_upload/rq1_colab/data/<uri>, for one folder upload."""
+    R.access.refuse_job(job)
     m = json.load(open(ROOT / f"research/colab/{job}_manifest.json"))
-    base = ROOT / ("out/colab_upload_test" if job == "test" else "out/colab_upload") / "rq1_colab/data"
+    R.access.refuse_manifest(m, DATA)
+    base = ROOT / "out/colab_upload/rq1_colab/data"
     for c in m["cameras"]:
         dst = base / c["uri"]
         dst.parent.mkdir(parents=True, exist_ok=True)

@@ -9,6 +9,8 @@
 
 Configuration: `docs/preregistration_v2_FROZEN.md`, contract E-1.2.26.
 
+**D-69 terminology correction.** EV-M7 counts false and duplicate candidate events per usable synthetic camera-hour. The published values and frozen rule are unchanged.
+
 ## 1. Scope
 
 - **Synthetic data only.** All cameras are simulated warehouse recordings (SDG). No result is evidence about real establishments, real workers or real footage. Monitored time is not hours worked.
@@ -22,7 +24,7 @@ Configuration: `docs/preregistration_v2_FROZEN.md`, contract E-1.2.26.
   - The first run stays on record with its warning.
   - **The oracle and full_camera numbers of the reporting set were seen before the re-run.** They came out identical in the re-run.
 - **BL-3 = BL-6 on SDG.** Adding R4, R5 and the contact cue to BL-3 changes nothing on the oracle path, on either partition. On the reporting detector path the difference is also 0.
-  - On the test detector path, EV-M1 is unchanged (0.752), and EV-M2 moves from 0.623 to 0.619. BL-6 gives four more system events (572 vs 568), and false alerts per hour go from 163.7 to 166.8.
+  - On the test detector path, EV-M1 is unchanged (0.752), and EV-M2 moves from 0.623 to 0.619. BL-6 gives four more system events (572 vs 568), and EV-M7 goes from 163.7 to 166.8.
   - Paired BL-3 − BL-6 on the test detector path: EV-M2 0.004, Target B [0.000, 0.009]; EV-M7 −3.06, Target B [−6.76, 0.00].
   - So, on these data, BL-6 adds no measurable value over BL-3.
 - **Matching and intervals:**
@@ -38,13 +40,13 @@ Configuration: `docs/preregistration_v2_FROZEN.md`, contract E-1.2.26.
 
 EV-M1 and EV-M2 are descriptive. No success threshold is set (register C12).
 
-| Slice | EV-M1 | Target B | EV-M2 | Target B | False alerts per hour (EV-M7) | Target B |
+| Slice | EV-M1 | Target B | EV-M2 | Target B | False and duplicate candidates per usable synthetic camera-hour (EV-M7) | Target B |
 |---|---|---|---|---|---|---|
 | All cameras (471) | 0.752 | [0.689, 0.806] | 0.619 | [0.577, 0.660] | 166.8 | [140.3, 192.8] |
 | Ceiling (235) | 0.932 | [0.864, 0.983] | 0.725 | [0.683, 0.768] | 127.1 | [101.1, 154.7] |
 | Eye level (236) | 0.572 | [0.496, 0.641] | 0.500 | [0.432, 0.567] | 206.3 | [165.3, 247.5] |
 
-- Counts on all 471 cameras: 471 assessable references, 354 of them matched, and 572 system candidate events, of which 218 are false alerts. These come over 1.31 h of usable time.
+- Counts on all 471 cameras: 471 assessable references, 354 of them matched, and 572 system candidate events, of which 218 are false or duplicate candidates under the rule reference. These come over 1.31 usable synthetic camera-hours.
 - At iou_m 0.5: EV-M1 0.571, EV-M2 0.470.
 - At iou_m 0.7: EV-M1 0.414, EV-M2 0.341.
 
@@ -52,13 +54,13 @@ EV-M1 and EV-M2 are descriptive. No success threshold is set (register C12).
 
 Oracle results are never substituted for detector-path capability.
 
-| Column | EV-M1 | Target B | EV-M2 | Target B | False alerts per hour | Target B |
+| Column | EV-M1 | Target B | EV-M2 | Target B | EV-M7 per usable synthetic camera-hour | Target B |
 |---|---|---|---|---|---|---|
 | A, oracle path (simulator positions) | 0.989 | [0.980, 0.998] | 0.957 | [0.938, 0.975] | 16.1 | [9.2, 23.4] |
 | B, oracle boxes, full_camera geometry | 0.983 | [0.972, 0.994] | 0.935 | [0.913, 0.957] | 24.5 | [15.8, 33.6] |
 | C, detector path | 0.752 | [0.689, 0.806] | 0.619 | [0.577, 0.660] | 166.8 | [140.3, 192.8] |
 
-The loss is almost entirely between B and C: detection and tracking. Geometry adds little, as the step from A to B shows. The detector path loses most at eye level.
+The observed rule-agreement loss is largest between B and C. That comparison combines detection, tracking and selection effects. The smaller A-to-B event difference does not establish physically accurate geometry, as shown by the separate registered B failures. The detector path loses most at eye level.
 
 ### 2.3 Registered criteria (registered slice: test; 48 leakage groups, at least the 20 required)
 
@@ -103,7 +105,7 @@ BL-2 is the image-only baseline, R1, in which M is always unknown. It falls well
 
 ## 3. Reporting partition (held out from v2 tuning; re-run once after the D-65 defect correction)
 
-| BL-6, iou_m 0.3 | EV-M1 | Target B | EV-M2 | Target B | False alerts per hour |
+| BL-6, iou_m 0.3 | EV-M1 | Target B | EV-M2 | Target B | EV-M7 per usable synthetic camera-hour |
 |---|---|---|---|---|---|
 | A, oracle path | 0.991 | [0.973, 1.000] | 0.991 | [0.973, 1.000] | 3.3 |
 | B, oracle boxes, full_camera | 0.982 | [0.955, 1.000] | 0.973 | [0.931, 1.000] | 9.8 |

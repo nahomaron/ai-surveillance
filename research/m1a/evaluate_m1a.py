@@ -73,6 +73,7 @@ def track_map(s3: dict, keys: dict[int, str], classes: dict[str, str]) -> dict[s
 class Camera:
     def __init__(self, ds, label, rec):
         self.ds, self.label, self.rec = ds, label, rec
+        cam = m.Context(ds).camera(rec)
         d = out_dir(label, ds) / rec
         self.units = {u: json.loads((d / f"{u}.json").read_text()) for u in ("base", "full_camera", "reference", "sweeps") if (d / f"{u}.json").exists()}
         with gzip.open(d / "truth.pkl.gz", "rb") as f:
@@ -80,8 +81,6 @@ class Camera:
         self.truth_rows, self.visible = t["truth_table"], t["visible_frames"]
         self.classes = {r[0]: r[1] for r in self.truth_rows}
         self.truth = {(r[0], r[2]): r for r in self.truth_rows}
-        ctx = m.Context(ds)
-        cam = ctx.camera(rec)
         self.camera_name, self.run = cam["camera"], cam["run"]
         s1dir = ROOT / f"out/t17_{ds}/{cam['s1']}"
         self.frames = files.read_table(str(s1dir / "frame.parquet"), "frame", m.A.SCHEMA_VERSION)
