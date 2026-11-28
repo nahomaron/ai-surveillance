@@ -1,11 +1,13 @@
-# WORKPLAN — RQ1 single-agent implementation schedule
+# WORKPLAN — RQ1 implementation schedule
 
-**Owner:** Research Owner · **Implementer:** one Claude Code agent on the Owner's MacBook Air · **Remote:** the Owner's GitHub repository
-**Contract:** E-1.2.2 (E-1.2.1 FROZEN + F.1 Part A + Appendix N) · **Plan details:** Package F
-**Mode change (9 Nov 2026, Owner decision):** a single agent replaces the multi-agent team. F.1 Parts B and C are superseded. Its safeguards are kept in simpler form: tests written first from the documents, no editing of expected values, determinism re-runs, a self-audit at each milestone, and Owner review at STOP points.
+**Owner:** Research Owner · **Engineering lead:** Claude Code · **Independent auditor and contributor:** Codex
+**Contract:** See `CLAUDE.md` for the normative E-1.2.26 documents and the D-67 prospective scope addendum · **Plan details:** Package F
+**Active mode (27 Nov 2026, D-67):** Claude Code and Codex may contribute under the D-67 roles and [agent contribution register](docs/AGENT_CONTRIBUTIONS.md).
+
+**Historical mode (9 Nov 2026, Owner decision):** a single agent replaces the multi-agent team. F.1 Parts B and C are superseded. Its safeguards are kept in simpler form: tests written first from the documents, no editing of expected values, determinism re-runs, a self-audit at each milestone, and Owner review at STOP points.
 
 How to use this file:
-- Work tasks **in order**. A task may start only when the tasks in its `needs` are ticked.
+- Follow task dependencies. In M1c, independent E1 and E2 design and qualification can proceed in parallel while integrity corrections are underway.
 - Status markers: `[ ]` open · `[~]` in progress · `[x]` done · `[B]` blocked (reason in the log) · `[S]` STOP — waiting for the Owner.
 - Size is a rough guide: S ≈ one session, M ≈ 2–3 sessions, L ≈ 4+ sessions.
 
@@ -120,9 +122,22 @@ Never pre-approved: paid services, cloud upload of data (except the D-60 and D-6
 |---|---|---|---|---|
 | [S] | G-FQ | **STOP before the first real-data task: frame-quality rules version.** The agent proposes a rules version (frozen, black, blur, exposure) for Architect review and Owner approval (AR-27 review). No real footage is decoded under `rv1` | Proposal in `DECISIONS_NEEDED.md` | Owner approves the rules version |
 
-**Later work, not scheduled until the Owner decides:** E2 measurement (E2-W1/W2 after M1a, using T-07's findings), multi-camera linkage (M2), real-data collection (requires ethics approval), the FM-X1 annotation-efficiency experiment.
+**Deferred tracks:** multi-camera linkage (M2), real-data collection and physical validation, and the FM-X1 annotation-efficiency experiment. Synthetic E2 measurement is scheduled in §3a.
 
 ---
+
+## 3a. Milestone M1c — Measurement improvement and synthetic scientific evaluation
+
+Active under D-67. See the [measurement plan](docs/plan/Measurement_Improvement_and_Scientific_Validation_Plan.md) for exit evidence, resource estimates and priorities. E1 and E2 design and reference qualification start in parallel. Execute each experiment only after its integrity and data dependencies pass. D-66 is terminal for the original final test and supersedes old pre-approvals to process or upload it. Real-world work is deferred under D-67.
+
+| Status | Task | Work and owner | Needs | Exit evidence |
+|---|---|---|---|---|
+| [x] | T-30 | Codex records approved scope, audit attribution, plan, work packages and change control. | D-67 | Plan, CRs, Appendix T26 and contribution register cross-checked. |
+| [ ] | T-31 | Claude Code coordinates WP-21 integrity fixes and development allocation. | D-67 / CR-043 | Six integrity checks documented, no closed-lineage opens, both environments verified, approved-only development manifests inspected for leakage. |
+| [ ] | T-32 | WP-22 analytical references and paired component comparisons for both viewpoints. | Design may start now. Execution requires affected T-31 gates. | Reference fixture checks, accuracy and coverage tables, bounded comparison and reviewed architecture rationale. |
+| [ ] | T-33 | WP-23 E1 and WP-24 E2 comparative prototypes in parallel. | Design may start now. T-31/T-32 evidence governs execution and selection. | Reproducible E1/E2 outputs, independent E2 measurements, model/tracker/rule comparisons and failure cases. |
+| [ ] | T-34 | WP-25 blinded candidate construct review. | Protocol and reviewer feasibility, appropriate footage, relevant isolation gates. | Agreement and disagreement assessment or documented unassessed status. |
+| [S] | T-35 | WP-26 academic evidence package and separate confirmatory gate. Continue academic reporting meanwhile. | CR-044 / D-68 for any final confirmatory access and run. | Report with tested claims, failures, supporting comparison record, reproducibility instructions and real-world future work. |
 
 ## 4. Rules at a glance
 
@@ -1281,3 +1296,9 @@ _(the agent appends entries here)_
 - Problems / CRs: none open from D-66.
 - Next: nothing ordered after D-66 on this branch; waiting for the Owner.
 
+### 2026-11-27 — T-30 done (Codex)
+
+- Recorded D-67, the post-audit roadmap, WP-21–WP-26, T26, CR-043/044 and decision gate D-68. Added the centralized agent contribution register.
+- Reconciled the three registered oracle-box RMSE failures with the matched-subset detector RMSE and the oracle-position rule results using the published reports. Reviewed the current gate, reference comparison, state guard and recent history. This documentation change runs no experiments.
+- Verification: documentation links and Git diff checked. See the contribution register for attribution and independent review status.
+- Next: Claude Code coordinates WP-21 and the parallel development-only reference and experiment designs. T-35's confirmatory branch stays at D-68.

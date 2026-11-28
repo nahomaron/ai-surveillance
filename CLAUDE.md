@@ -1,8 +1,8 @@
-# CLAUDE.md — Standing instructions for the RQ1 implementation agent
+# CLAUDE.md — Standing instructions for RQ1 engineering agents
 
-You are the single implementation agent for **RQ1**: a reproducible computer-vision instrument that observes and measures worker–forklift exposure (E1) in recorded warehouse video, and later elevated-load exposure (E2). Every output must be traceable, reproducible and independently evaluable. This is a **measurement instrument**, not a detection demo.
+Claude Code leads RQ1 engineering, architecture, integration and the detailed data strategy. Codex provides independent audit and review and may implement authorized corrections or assigned work. D-67 schedules E1 worker–forklift exposure and E2 elevated-load measurement in parallel, with candidate near-miss evaluation and independent human review where feasible. This phase targets a reproducible Master's engineering prototype using synthetic data.
 
-The Research Owner cannot watch you work. **`WORKPLAN.md` is your schedule.** Read it at the start of every session, work the next open task, and record progress in it before you stop.
+At session start, inspect Git state, recent contributions, `WORKPLAN.md`, decisions and open CRs. Coordinate concurrent edits through isolated branches. Record material work, audit findings and independent review in [the agent contribution register](docs/AGENT_CONTRIBUTIONS.md), and record progress in `WORKPLAN.md`.
 
 ## Documents and precedence
 
@@ -16,7 +16,7 @@ The Research Owner cannot watch you work. **`WORKPLAN.md` is your schedule.** Re
    T23 and its workflow tables are implemented on v02-review-ui only; on this branch only the adjudication namespace rule (T23.16, VR-E-056) and the reference accessor are implemented.
 
    Packages E, E.1, the E.1 Errata and the Clarification are **not** contract documents.
-2. `docs/plan/Package_F_Implementation_Agent_Handoff.md`: work-package details (goals, interfaces, tests). Ignore its team, role and orchestration sections, and F.1 Parts B and C; a single agent replaces them.
+2. D-67 and Appendix T26 govern prospective synthetic scope, terminal D-66 closure and agent roles. The [measurement plan](docs/plan/Measurement_Improvement_and_Scientific_Validation_Plan.md) and `docs/plan/Package_F_Implementation_Agent_Handoff.md` §14 give the new work packages. Earlier role and orchestration text in Package F and F.1 Parts B and C is historical.
 3. `WORKPLAN.md`: task order, stop points and progress.
 4. `docs/methodology/*`: background rationale only. **Never implement from it.**
 
@@ -71,7 +71,8 @@ Research Architect may reverse any of them.
 - Call an automated output a "near miss", "collision" or "contact". Use "candidate", "suspected", "undetermined".
 - Say "validated" for anything run on synthetic data or fixtures. Use the three statuses: implemented / verified / empirically validated (with scope).
 - Download datasets, install system software (Homebrew and the like), use paid services or send data off this computer **unless `WORKPLAN.md` §0 shows the Owner pre-approved it**.
-- Use real worker footage. Commit datasets, videos or large binaries to git. “Exception (D-21): approved public real-footage datasets may be used for testing only, under D-24 conditions. Never for training.”
+- Use real worker footage in the D-67 phase or commit datasets, videos or large binaries to Git. D-21 is historical for this phase.
+- Open or process the closed SDG final test or any of its derivatives. D-66 is permanent. Cite published aggregate reports. Maintain reservations on all other evaluation data unless a formal amendment is explicitly approved.
 - Force-push, rewrite history or delete branches.
 - Run code from before E-1.2.23 against `out/review/`.
 
@@ -90,5 +91,5 @@ Research Architect may reverse any of them.
 - Python, in the project virtual environment `.venv` (see WORKPLAN S-01). Pin dependencies in `requirements.lock`.
 - Package layout `src/rq1/<module>/`, tests in `tests/`, fixtures in `fixtures/`, generated outputs in `out/` (git-ignored).
 - Determinism: no wall-clock time or unseeded randomness in data payloads; seeds come from configuration; inputs are sorted canonically before solvers.
-- Commit message: `<task-id>: <summary>`. Push at least at the end of every task and every session. Tag milestones (`m0-verified`, `m1a-complete`, …).
+- Commit subjects use `[CLAUDE] Description` or `[CODEX] Description`. Include the task ID where useful. Use non-Owner Git authorship or commit metadata and record joint contributions accurately. Preserve previous history. Push at least at the end of every task and every session. Tag milestones (`m0-verified`, `m1a-complete`, …).
 - Keep sessions small: finish and push one task (or a clearly marked part of one) before starting the next, so an interrupted session loses little.

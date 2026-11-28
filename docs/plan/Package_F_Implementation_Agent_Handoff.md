@@ -497,3 +497,18 @@ graph LR
 2. **F-2:** Confirm the F1/F3 dataset downloads (RT-3) so that WP-12 can run after M0.
 3. **F-3:** Tell me who runs the coding agents and where, so WP-12 network and storage needs can be checked.
 4. **F-4 (when ready):** C2/C3/C4, to unblock WP-16.
+
+## 14. Post-audit measurement work packages (D-67)
+
+These prospective work packages implement the [Measurement Improvement and Scientific Validation Plan](Measurement_Improvement_and_Scientific_Validation_Plan.md) through WORKPLAN T-30–T-35. They take precedence over older scheduling assumptions that place E2 occupancy after physical collection. E2-W4 and the physical E2-G2 stay in future work. Earlier work package results and definition IDs retain their historical meaning. The existing M2 multi-camera association track remains separate from the limited two-view measurement comparison.
+
+| ID | Work package | Lead and evidence |
+|---|---|---|
+| WP-21 | Integrity remediation and data qualification | Claude Code coordinates; Codex may implement assigned corrections or review independently. Produce CR-043 evidence, both-environment verification, and a development-only manifest and dataset strategy. |
+| WP-22 | Shared calibration, references and uncertainty | Qualify truth exports against analytic fixtures. Compare original boxes, improved geometry, landmarks, masks, rigid pose and two-view localization within the bounded design. Deliver the paired component-isolation matrix. |
+| WP-23 | E1 measurement and rule conformance | Compare clearance, speed and exposure time at fixed coverage scope. Benchmark model/tracker challengers and BL-3/BL-6 on the same references. Prototype candidate output with provenance and unknowns. |
+| WP-24 | E2 measurement only | Compare load elevation, footprint, worker relative position and occupancy duration by viewpoint. Use separately checked synthetic geometric references and acceptance criteria. Demonstrate clear and degraded cases. |
+| WP-25 | Independent construct review | Prepare blind synthetic clips and reviewer protocol. Record independent judgments, agreement and uncertainty, or an explicit feasibility limitation. Preserve the distinction from rule conformance and physical measurement evidence. |
+| WP-26 | Scientific decision package and academic report | Package the methods and comparative results, including negative outcomes. Prepare the CR-044/D-68 submission if feasible and execute independent confirmatory evaluation only after approval. |
+
+Claude Code is responsible for planning, architecture and integration. Codex's contributions and independent reviews are recorded in the [agent contribution register](../AGENT_CONTRIBUTIONS.md). Use the existing CR, AR, verification and Owner gate process in §9.

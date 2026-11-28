@@ -1162,3 +1162,30 @@ Owner decision (D-66, 27 Nov 2026; pasting = Owner approval):
 - One post-hoc diagnostic, on the 116 tuning cameras only: for every IE event on the oracle path (A) and the detector path (C), report which rule input was undetermined (M, R4, R5, contact cue, coverage). Labelled diagnostic and post hoc; it selects nothing. No test data is used.
 - Write-up claims: use the test values above, including the three failed criteria and false alerts per hour. State the scope: synthetic data only, BL-3 = BL-6 on SDG, the defective first reporting run disclosed, and the reporting set described as "held out from v2 tuning". Use the wording "candidate", "experimental" and "synthetic-data evaluation".
 - Six-question check: objective, measurement meaning, independence unchanged (the test is closed; the diagnostic uses tuning data only). Claims bounded by the failed criteria. Scope: one small diagnostic. Decision type: scientific (Owner). E2 not affected.
+
+## D-67 (2026-11-27) — Post-audit measurement phase and agent governance
+
+**Status:** DECIDED by the Research Owner in the post-audit and supplementary directives. **Task:** T-30 through T-35. **Records:** [plan](docs/plan/Measurement_Improvement_and_Scientific_Validation_Plan.md), [CR-043 and CR-044](docs/CHANGE_REQUESTS.md#cr-043-2026-11-27--enforce-d-66-closure-and-correct-experimental-integrity), and [Appendix T26](docs/contract/RQ1_Contract_Appendix_T_E-1.2.3.md#t26-post-audit-scope-closure-and-governance-d-67).
+
+| Owner ruling | Approved direction |
+|---|---|
+| D1 C | Retain E1, E2 and automated candidate near-miss identification with independent human review where feasible. Record objective-specific scope and negative or inconclusive results. |
+| D2 C | Compare ceiling and eye-level views. Derive restrictions empirically from viewpoint, resolution, angle, distance, occlusion and calibration. |
+| D3 C | Compare existing and improved boxes, physical landmarks/keypoints, segmentation, rigid pose and multi-view methods. Start with manual or simulator landmarks. Make the quantitative comparison, unsuccessful approaches and selection rationale academic deliverables. |
+| D4 C | Retain YOLO-World and ByteTrack as baselines and benchmark a bounded set using downstream measurement, completeness, tracking, alert burden and computational cost. Record methodology and selection evidence. |
+| D5 A | Synthetic development and evaluation only. Real-world measurement validity, readiness and natural alert frequencies are outside the claim scope. Real-world validation is future work and real-world-dependent fitness remains ineligible. |
+| D6 C | Run E1 and E2 in parallel with shared measurement infrastructure. Evaluate E2 height, footprint, worker relationship and duration independently, using controlled synthetic reference data where needed. E2 remains measurement-only pending separate taxonomy approval. |
+| D7 C | Preserve historical criteria and outcomes. Justify future criteria independently, secure approval, and preregister before accessing any new confirmatory population. Preserve the rationale and consequences of both sets of criteria. |
+| D8 C | Make the audit corrections a prerequisite for affected experiments. Technical research, design and data qualification may proceed independently. Maintain both verification environments. |
+| D9 C | Claude Code owns the detailed data strategy. Existing reservations remain in force pending formal amendment and approval. No reporting reassignment was approved. The closed 48-run SDG test is permanently sealed. |
+| D10 C | Claude Code leads architecture, experiments, delegation, verification, integration and reporting within scope. Owner retains approval of expenditure, significant licensing, material scope changes, scientific definitions and criteria, reserved reallocation, and initiation of final confirmatory evaluation. |
+
+The deliverable is a technically credible Master's engineering prototype and academic report. Use proportionate experiments and documentation. Claude Code leads engineering and continuity. Codex contributes independent audit and review, and may implement assigned or authorized work. Attribute all new commits using `[CLAUDE]` or `[CODEX]` and suitable non-Owner metadata. Log material contributions and audit findings in the [agent contribution register](docs/AGENT_CONTRIBUTIONS.md), distinguish review from implementation, isolate concurrent branches and send material scientific or scope disputes to the Owner. Historical records and prior attribution remain intact.
+
+**Six-question check.** (1) E1/E2 and candidate review remain in scope. (2) Scientific measurands and thresholds require a separate amendment. (3) Historical closure and reservations remain binding and any new confirmatory population requires independent controls. (4) Claims are limited to evidence under tested synthetic conditions. (5) Phase execution excludes physical validation and adds controlled comparisons and a prototype. (6) The Owner approved the program direction and governance, with scientific and resource decisions reserved as above.
+
+## D-68 (2026-11-27) — Future criteria and confirmatory evaluation
+
+**Status:** OPEN for a future submission when exploratory evidence is ready. **Task:** T-35 / WP-26. **Blocks:** new confirmatory population access and execution, and adoption of revised scientific definitions or criteria.
+
+The Owner will receive an independently reviewed amendment and preregistration specifying measurands, error and completeness criteria, precision/group support, reference independence, data manifest and analysis version. Approve or return these for revision before new confirmatory access, then issue a separate authorization to start the run. Until then, exploration within approved allocations and the academic prototype may proceed. Submit separate requests if the team proposes reserved dataset reallocation, significant licensing, expenditure, substantial training-data allocation, E2 taxonomy or a material objective change. The closed SDG lineage is permanently excluded from this request.
